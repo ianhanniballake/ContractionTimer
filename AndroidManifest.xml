@@ -12,6 +12,13 @@
         android:theme="@style/Theme"
 		android:label="@string/app_name"
         android:debuggable="true">
+        <provider
+            android:name=".provider.ContractionProvider"
+            android:authorities="com.ianhanniballake.contractiontimer"
+            android:exported="false">
+            <grant-uri-permission
+                android:pathPattern=".*" />
+        </provider>
 		<activity
 			android:name=".ContractionTimerActivity"
 			android:label="@string/app_name">
