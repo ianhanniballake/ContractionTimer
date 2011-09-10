@@ -20,7 +20,7 @@
                 android:pathPattern=".*" />
         </provider>
 		<activity
-			android:name=".ContractionTimerActivity"
+			android:name=".ui.ContractionTimerActivity"
 			android:label="@string/app_name">
 			<intent-filter>
 				<action
