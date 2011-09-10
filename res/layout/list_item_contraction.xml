@@ -9,7 +9,7 @@
 		android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
-        android:paddingLeft="20dp"
+        android:paddingLeft="5dp"
         android:paddingRight="10dp"
 		android:textAppearance="?android:attr/textAppearanceSmall" />
     <TextView
@@ -18,7 +18,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_below="@id/start_time"
-        android:paddingLeft="20dp"
+        android:paddingLeft="5dp"
         android:paddingRight="10dp"
         android:textAppearance="?android:attr/textAppearanceSmall" />
 </RelativeLayout>

@@ -3,4 +3,6 @@
     <string name="app_name">Contraction Timer</string>
     <string name="contraction_start">Start Contraction</string>
     <string name="contraction_end">Stop Contraction</string>
+    <string name="list_loading">Loading contractions...</string>
+    <string name="list_empty"></string>
 </resources>
