@@ -13,7 +13,6 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.database.sqlite.SQLiteQueryBuilder;
 import android.net.Uri;
-import android.os.SystemClock;
 import android.provider.BaseColumns;
 import android.text.TextUtils;
 import android.util.Log;
@@ -80,6 +79,10 @@ public class ContractionProvider extends ContentProvider
 	 */
 	private static final int CONTRACTION_ID = 2;
 	/**
+	 * The incoming URI matches the Contraction Latest URI pattern
+	 */
+	private static final int CONTRACTION_LATEST = 3;
+	/**
 	 * The incoming URI matches the Contractions URI pattern
 	 */
 	private static final int CONTRACTIONS = 1;
@@ -110,6 +113,8 @@ public class ContractionProvider extends ContentProvider
 		final UriMatcher matcher = new UriMatcher(UriMatcher.NO_MATCH);
 		matcher.addURI(ContractionContract.AUTHORITY, "contractions",
 				CONTRACTIONS);
+		matcher.addURI(ContractionContract.AUTHORITY, "contractions/latest",
+				CONTRACTION_LATEST);
 		matcher.addURI(ContractionContract.AUTHORITY, "contractions/#",
 				CONTRACTION_ID);
 		return matcher;
@@ -196,7 +201,7 @@ public class ContractionProvider extends ContentProvider
 		if (!values
 				.containsKey(ContractionContract.Contractions.COLUMN_NAME_START_TIME))
 			values.put(ContractionContract.Contractions.COLUMN_NAME_START_TIME,
-					SystemClock.currentThreadTimeMillis());
+					System.currentTimeMillis());
 		final SQLiteDatabase db = databaseHelper.getWritableDatabase();
 		final long rowId = db
 				.insert(ContractionContract.Contractions.TABLE_NAME,
@@ -248,6 +253,7 @@ public class ContractionProvider extends ContentProvider
 				ContractionContract.Contractions.COLUMN_NAME_END_TIME,
 				ContractionContract.Contractions.COLUMN_NAME_END_TIME);
 		qb.setProjectionMap(allColumnProjectionMap);
+		String limit = null;
 		switch (uriMatcher.match(uri))
 		{
 			case CONTRACTIONS:
@@ -261,6 +267,11 @@ public class ContractionProvider extends ContentProvider
 						+ uri.getPathSegments()
 								.get(ContractionContract.Contractions.CONTRACTION_ID_PATH_POSITION));
 				break;
+			case CONTRACTION_LATEST:
+				// If the incoming URI is for the latest contraction, append a
+				// where clause to filter out all rows but the latest
+				limit = "1";
+				break;
 			default:
 				throw new IllegalArgumentException("Unknown URI " + uri);
 		}
@@ -271,7 +282,7 @@ public class ContractionProvider extends ContentProvider
 			orderBy = sortOrder;
 		final SQLiteDatabase db = databaseHelper.getReadableDatabase();
 		final Cursor c = qb.query(db, projection, selection, selectionArgs,
-				null, null, orderBy);
+				null, null, orderBy, limit);
 		c.setNotificationUri(getContext().getContentResolver(), uri);
 		return c;
 	}

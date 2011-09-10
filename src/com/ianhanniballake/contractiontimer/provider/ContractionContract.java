@@ -56,14 +56,18 @@ public final class ContractionContract
 		 */
 		private static final String PATH_CONTRACTION_ID = "/contractions/";
 		/**
+		 * Path part for the Contraction ID URI
+		 */
+		private static final String PATH_CONTRACTION_LATEST = "/contractions/latest";
+		/**
 		 * Path part for the Contractions URI
 		 */
 		private static final String PATH_CONTRACTIONS = "/contractions";
 		/**
-		 * The content:// style URL for this table
+		 * The content URI base for the latest contraction
 		 */
-		public static final Uri CONTENT_URI = Uri.parse(SCHEME + AUTHORITY
-				+ PATH_CONTRACTIONS);
+		public static final Uri CONTENT_ID_LATEST = Uri.parse(SCHEME
+				+ AUTHORITY + PATH_CONTRACTION_LATEST);
 		/**
 		 * The content URI base for a single contraction. Callers must append a
 		 * numeric contraction id to this Uri to retrieve a contraction
@@ -76,6 +80,11 @@ public final class ContractionContract
 		 */
 		public static final Uri CONTENT_ID_URI_PATTERN = Uri.parse(SCHEME
 				+ AUTHORITY + PATH_CONTRACTION_ID + "/#");
+		/**
+		 * The content:// style URL for this table
+		 */
+		public static final Uri CONTENT_URI = Uri.parse(SCHEME + AUTHORITY
+				+ PATH_CONTRACTIONS);
 		/**
 		 * The table name offered by this provider
 		 */
