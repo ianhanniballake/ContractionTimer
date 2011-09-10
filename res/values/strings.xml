@@ -5,4 +5,8 @@
     <string name="contraction_end">Stop Contraction</string>
     <string name="list_loading">Loading contractions...</string>
     <string name="list_empty"></string>
+    <string name="list_header_start_time">Start</string>
+    <string name="list_header_end_time">End</string>
+    <string name="list_header_duration">Duration</string>
+    <string name="list_header_frequency">Frequency</string>
 </resources>

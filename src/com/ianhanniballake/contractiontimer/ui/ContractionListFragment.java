@@ -9,6 +9,7 @@ import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
 import android.support.v4.widget.CursorAdapter;
 import android.text.format.DateFormat;
+import android.text.format.DateUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -58,25 +59,49 @@ public class ContractionListFragment extends ListFragment implements
 		public void bindView(final View view, final Context context,
 				final Cursor cursor)
 		{
+			final TextView startTimeView = (TextView) view
+					.findViewById(R.id.start_time);
+			final TextView endTimeView = (TextView) view
+					.findViewById(R.id.end_time);
+			final TextView durationView = (TextView) view
+					.findViewById(R.id.duration);
+			final TextView frequencyView = (TextView) view
+					.findViewById(R.id.frequency);
 			String timeFormat = "hh:mm:ssaa";
 			if (DateFormat.is24HourFormat(context))
 				timeFormat = "kk:mm:ss";
 			final int startTimeColumnIndex = cursor
 					.getColumnIndex(ContractionContract.Contractions.COLUMN_NAME_START_TIME);
 			final long startTime = cursor.getLong(startTimeColumnIndex);
-			final TextView startTimeView = (TextView) view
-					.findViewById(R.id.start_time);
 			startTimeView.setText(DateFormat.format(timeFormat, startTime));
 			final int endTimeColumnIndex = cursor
 					.getColumnIndex(ContractionContract.Contractions.COLUMN_NAME_END_TIME);
-			final TextView endTimeView = (TextView) view
-					.findViewById(R.id.end_time);
 			if (cursor.isNull(endTimeColumnIndex))
+			{
 				endTimeView.setText("");
+				durationView.setText("");
+			}
 			else
 			{
 				final long endTime = cursor.getLong(endTimeColumnIndex);
 				endTimeView.setText(DateFormat.format(timeFormat, endTime));
+				final long durationInSeconds = (endTime - startTime) / 1000;
+				durationView.setText(DateUtils
+						.formatElapsedTime(durationInSeconds));
+			}
+			// If we aren't the last entry, move to the next (previous in time)
+			// contraction to get its start time to compute the frequency
+			if (!cursor.isLast() && cursor.moveToNext())
+			{
+				final int prevContractionStartTimeColumnIndex = cursor
+						.getColumnIndex(ContractionContract.Contractions.COLUMN_NAME_START_TIME);
+				final long prevContractionStartTime = cursor
+						.getLong(prevContractionStartTimeColumnIndex);
+				final long frequencyInSeconds = (startTime - prevContractionStartTime) / 1000;
+				frequencyView.setText(DateUtils
+						.formatElapsedTime(frequencyInSeconds));
+				// Go back to the previous spot
+				cursor.moveToPrevious();
 			}
 		}
 
@@ -114,6 +139,14 @@ public class ContractionListFragment extends ListFragment implements
 	}
 
 	@Override
+	public View onCreateView(final LayoutInflater inflater,
+			final ViewGroup container, final Bundle savedInstanceState)
+	{
+		return inflater.inflate(R.layout.fragment_contraction_list, container,
+				false);
+	}
+
+	@Override
 	public void onLoaderReset(final Loader<Cursor> loader)
 	{
 		adapter.swapCursor(null);
@@ -128,5 +161,12 @@ public class ContractionListFragment extends ListFragment implements
 			setEmptyText(getText(R.string.list_empty));
 		else
 			getListView().setSelection(0);
+	}
+
+	@Override
+	public void setEmptyText(final CharSequence text)
+	{
+		final TextView emptyText = (TextView) getListView().getEmptyView();
+		emptyText.setText(text);
 	}
 }

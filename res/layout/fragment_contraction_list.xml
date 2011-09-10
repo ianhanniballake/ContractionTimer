@@ -1,17 +1,64 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
-    <ListView
-        android:id="@id/android:list"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />
-    <TextView
-        android:id="@id/android:empty"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:gravity="top|center_horizontal"
-        android:text="@string/list_loading" />
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	android:orientation="vertical"
+	android:layout_width="match_parent"
+	android:layout_height="match_parent">
+	<LinearLayout
+		android:orientation="horizontal"
+		android:layout_width="fill_parent"
+		android:layout_height="wrap_content">
+		<LinearLayout
+			android:orientation="vertical"
+			android:layout_width="0dp"
+			android:layout_height="wrap_content"
+			android:layout_weight="1">
+			<TextView
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:paddingLeft="10dp"
+				android:gravity="left"
+				android:textAppearance="?android:attr/textAppearanceSmall"
+				android:text="@string/list_header_start_time" />
+			<TextView
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:paddingLeft="10dp"
+				android:gravity="left"
+				android:textAppearance="?android:attr/textAppearanceSmall"
+				android:text="@string/list_header_end_time" />
+		</LinearLayout>
+		<TextView
+			android:layout_width="0dp"
+			android:layout_height="wrap_content"
+			android:paddingLeft="10dp"
+			android:gravity="left|center_vertical"
+			android:layout_weight="1"
+			android:textAppearance="?android:attr/textAppearanceMedium"
+			android:text="@string/list_header_duration" />
+		<TextView
+			android:layout_width="0dp"
+			android:layout_height="wrap_content"
+			android:paddingLeft="10dp"
+			android:gravity="left|center_vertical"
+			android:layout_weight="1"
+			android:textAppearance="?android:attr/textAppearanceMedium"
+			android:text="@string/list_header_frequency" />
+	</LinearLayout>
+	<LinearLayout
+		android:orientation="vertical"
+		android:layout_width="match_parent"
+		android:layout_height="0dp"
+		android:layout_weight="1">
+		<ListView
+			android:id="@id/android:list"
+			android:layout_width="match_parent"
+			android:layout_height="match_parent" />
+		<TextView
+			android:id="@id/android:empty"
+			android:layout_width="match_parent"
+			android:layout_height="match_parent"
+			android:gravity="top|center_horizontal"
+			android:text="@string/list_loading" />
+	</LinearLayout>
 </LinearLayout>
