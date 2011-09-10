@@ -150,7 +150,6 @@ public class ContractionListFragment extends ListFragment implements
 	public void onLoaderReset(final Loader<Cursor> loader)
 	{
 		adapter.swapCursor(null);
-		setEmptyText(getText(R.string.list_empty));
 	}
 
 	@Override
