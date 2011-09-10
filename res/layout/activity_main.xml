@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	android:orientation="vertical"
+	android:layout_width="match_parent"
+	android:layout_height="match_parent">
+	<fragment
+		android:name="com.ianhanniballake.contractiontimer.ui.ContractionControlsFragment"
+		android:id="@+id/controls"
+		android:layout_width="fill_parent"
+		android:layout_height="wrap_content">
+		<!-- Preview: layout=@layout/fragment_contraction_controls -->
+	</fragment>
+	<fragment
+		android:name="com.ianhanniballake.contractiontimer.ui.ContractionListFragment"
+		android:id="@+id/list"
+		android:layout_width="fill_parent"
+		android:layout_height="wrap_content"
+		android:layout_weight="1">
+		<!-- Preview: layout=@layout/fragment_contraction_list -->
+	</fragment>
+</LinearLayout>
