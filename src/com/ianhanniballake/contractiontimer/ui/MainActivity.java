@@ -8,7 +8,7 @@ import com.ianhanniballake.contractiontimer.R;
 /**
  * Main Activity for managing contractions
  */
-public class ContractionTimerActivity extends Activity
+public class MainActivity extends Activity
 {
 	@Override
 	public void onCreate(final Bundle savedInstanceState)
