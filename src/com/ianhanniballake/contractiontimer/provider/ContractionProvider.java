@@ -53,7 +53,9 @@ public class ContractionProvider extends ContentProvider
 					+ ContractionContract.Contractions.COLUMN_NAME_START_TIME
 					+ " INTEGER,"
 					+ ContractionContract.Contractions.COLUMN_NAME_END_TIME
-					+ " INTEGER" + ");");
+					+ " INTEGER,"
+					+ ContractionContract.Contractions.COLUMN_NAME_NOTE
+					+ " TEXT);");
 		}
 
 		/**
@@ -93,7 +95,7 @@ public class ContractionProvider extends ContentProvider
 	/**
 	 * The database version
 	 */
-	private static final int DATABASE_VERSION = 1;
+	private static final int DATABASE_VERSION = 2;
 	/**
 	 * Used for debugging and logging
 	 */
@@ -202,6 +204,9 @@ public class ContractionProvider extends ContentProvider
 				.containsKey(ContractionContract.Contractions.COLUMN_NAME_START_TIME))
 			values.put(ContractionContract.Contractions.COLUMN_NAME_START_TIME,
 					System.currentTimeMillis());
+		if (!values
+				.containsKey(ContractionContract.Contractions.COLUMN_NAME_NOTE))
+			values.put(ContractionContract.Contractions.COLUMN_NAME_NOTE, "");
 		final SQLiteDatabase db = databaseHelper.getWritableDatabase();
 		final long rowId = db
 				.insert(ContractionContract.Contractions.TABLE_NAME,

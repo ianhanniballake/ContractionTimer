@@ -25,6 +25,13 @@ public final class ContractionContract
 		 */
 		public static final String COLUMN_NAME_END_TIME = "end_time";
 		/**
+		 * Column name of a contraction's note
+		 * <P>
+		 * Type: TEXT
+		 * </P>
+		 */
+		public static final String COLUMN_NAME_NOTE = "note";
+		/**
 		 * Column name of the contraction's start time
 		 * <P>
 		 * Type: INTEGER (long representing milliseconds)
