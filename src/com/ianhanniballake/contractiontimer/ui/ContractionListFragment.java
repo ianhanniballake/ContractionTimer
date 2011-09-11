@@ -6,6 +6,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.app.ListFragment;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
@@ -88,6 +89,9 @@ public class ContractionListFragment extends ListFragment implements
 			{
 				endTimeView.setText("");
 				durationView.setText("");
+				liveDurationUpdate.setStartTime(startTime);
+				liveDurationUpdate.setDurationView(durationView);
+				liveDurationHandler.post(liveDurationUpdate);
 			}
 			else
 			{
@@ -125,6 +129,58 @@ public class ContractionListFragment extends ListFragment implements
 	}
 
 	/**
+	 * Updates the current contraction's duration every second, providing a real
+	 * time view of the duration
+	 */
+	private class LiveDurationUpdate implements Runnable
+	{
+		/**
+		 * Duration view to update
+		 */
+		private TextView durationView = null;
+		/**
+		 * Start time of the current contraction
+		 */
+		private long startTime = 0;
+
+		/**
+		 * Updates the appropriate duration view to the current elapsed time and
+		 * schedules this to rerun in 1 second
+		 */
+		@Override
+		public void run()
+		{
+			final long durationInSeconds = (System.currentTimeMillis() - startTime) / 1000;
+			durationView
+					.setText(DateUtils.formatElapsedTime(durationInSeconds));
+			liveDurationHandler.postDelayed(this, 1000);
+		}
+
+		/**
+		 * Setter for the current contraction's duration view
+		 * 
+		 * @param durationView
+		 *            Duration view to update
+		 */
+		public void setDurationView(final TextView durationView)
+		{
+			this.durationView = durationView;
+		}
+
+		/**
+		 * Setter for the current contraction's start time, used to calculate
+		 * the elapsed duration
+		 * 
+		 * @param startTime
+		 *            Start time of the current contraction
+		 */
+		public void setStartTime(final long startTime)
+		{
+			this.startTime = startTime;
+		}
+	}
+
+	/**
 	 * Adapter to display the list's data
 	 */
 	private CursorAdapter adapter;
@@ -132,6 +188,14 @@ public class ContractionListFragment extends ListFragment implements
 	 * Handler for asynchronous deletes of contractions
 	 */
 	private AsyncQueryHandler contractionQueryHandler;
+	/**
+	 * Handler of live duration updates
+	 */
+	private final Handler liveDurationHandler = new Handler();
+	/**
+	 * Reference to the Runnable live duration updater
+	 */
+	private final LiveDurationUpdate liveDurationUpdate = new LiveDurationUpdate();
 
 	@Override
 	public void onActivityCreated(final Bundle savedInstanceState)
@@ -208,12 +272,14 @@ public class ContractionListFragment extends ListFragment implements
 	@Override
 	public void onLoaderReset(final Loader<Cursor> loader)
 	{
+		liveDurationHandler.removeCallbacks(liveDurationUpdate);
 		adapter.swapCursor(null);
 	}
 
 	@Override
 	public void onLoadFinished(final Loader<Cursor> loader, final Cursor data)
 	{
+		liveDurationHandler.removeCallbacks(liveDurationUpdate);
 		adapter.swapCursor(data);
 		if (data.getCount() == 0)
 			setEmptyText(getText(R.string.list_empty));
