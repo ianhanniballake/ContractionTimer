@@ -70,8 +70,7 @@ public class ContractionControlsFragment extends Fragment implements
 					final Object cookie, final Uri uri)
 			{
 				super.onInsertComplete(token, cookie, uri);
-				getLoaderManager().restartLoader(0, null,
-						ContractionControlsFragment.this);
+				reload();
 			}
 
 			@Override
@@ -79,8 +78,7 @@ public class ContractionControlsFragment extends Fragment implements
 					final Object cookie, final int result)
 			{
 				super.onUpdateComplete(token, cookie, result);
-				getLoaderManager().restartLoader(0, null,
-						ContractionControlsFragment.this);
+				reload();
 			}
 		};
 	}
@@ -135,6 +133,9 @@ public class ContractionControlsFragment extends Fragment implements
 	public void onLoaderReset(final Loader<Cursor> loader)
 	{
 		adapter.swapCursor(null);
+		final ToggleButton toggleContraction = (ToggleButton) getActivity()
+				.findViewById(R.id.toggleContraction);
+		toggleContraction.setChecked(false);
 	}
 
 	@Override
@@ -148,5 +149,14 @@ public class ContractionControlsFragment extends Fragment implements
 				&& data.isNull(data
 						.getColumnIndex(ContractionContract.Contractions.COLUMN_NAME_END_TIME));
 		toggleContraction.setChecked(lastContractionIsEnded);
+	}
+
+	/**
+	 * Reloads the latest contraction, updating the control's status
+	 */
+	public void reload()
+	{
+		getLoaderManager().restartLoader(0, null,
+				ContractionControlsFragment.this);
 	}
 }

@@ -1,7 +1,10 @@
 package com.ianhanniballake.contractiontimer.ui;
 
+import android.content.AsyncQueryHandler;
+import android.content.ContentUris;
 import android.content.Context;
 import android.database.Cursor;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
 import android.support.v4.app.LoaderManager;
@@ -10,10 +13,15 @@ import android.support.v4.content.Loader;
 import android.support.v4.widget.CursorAdapter;
 import android.text.format.DateFormat;
 import android.text.format.DateUtils;
+import android.view.ContextMenu;
+import android.view.ContextMenu.ContextMenuInfo;
 import android.view.LayoutInflater;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
+import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.TextView;
 
 import com.ianhanniballake.contractiontimer.R;
@@ -120,6 +128,10 @@ public class ContractionListFragment extends ListFragment implements
 	 * Adapter to display the list's data
 	 */
 	private CursorAdapter adapter;
+	/**
+	 * Handler for asynchronous deletes of contractions
+	 */
+	private AsyncQueryHandler contractionQueryHandler;
 
 	@Override
 	public void onActivityCreated(final Bundle savedInstanceState)
@@ -129,7 +141,52 @@ public class ContractionListFragment extends ListFragment implements
 		adapter = new ContractionListCursorAdapter(getActivity(), null, 0);
 		setListAdapter(adapter);
 		getListView().setChoiceMode(AbsListView.CHOICE_MODE_NONE);
+		registerForContextMenu(getListView());
 		getLoaderManager().initLoader(0, null, this);
+	}
+
+	@Override
+	public boolean onContextItemSelected(final MenuItem item)
+	{
+		final AdapterContextMenuInfo info = (AdapterContextMenuInfo) item
+				.getMenuInfo();
+		switch (item.getItemId())
+		{
+			case R.id.menu_context_delete:
+				final Uri deleteUri = ContentUris.withAppendedId(
+						ContractionContract.Contractions.CONTENT_ID_URI_BASE,
+						info.id);
+				contractionQueryHandler
+						.startDelete(0, 0, deleteUri, null, null);
+				if (info.position == 0)
+				{
+					final ContractionControlsFragment controls = (ContractionControlsFragment) getFragmentManager()
+							.findFragmentById(R.id.controls);
+					controls.reload();
+				}
+				return true;
+			default:
+				return super.onContextItemSelected(item);
+		}
+	}
+
+	@Override
+	public void onCreate(final Bundle savedInstanceState)
+	{
+		super.onCreate(savedInstanceState);
+		contractionQueryHandler = new AsyncQueryHandler(getActivity()
+				.getContentResolver())
+		{
+		};
+	}
+
+	@Override
+	public void onCreateContextMenu(final ContextMenu menu, final View v,
+			final ContextMenuInfo menuInfo)
+	{
+		super.onCreateContextMenu(menu, v, menuInfo);
+		final MenuInflater inflater = getActivity().getMenuInflater();
+		inflater.inflate(R.menu.list_context, menu);
 	}
 
 	@Override
