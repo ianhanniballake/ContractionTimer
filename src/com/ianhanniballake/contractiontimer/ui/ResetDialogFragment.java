@@ -11,6 +11,9 @@ import android.support.v4.app.DialogFragment;
 import com.ianhanniballake.contractiontimer.R;
 import com.ianhanniballake.contractiontimer.provider.ContractionContract;
 
+/**
+ * Reset Confirmation Dialog box
+ */
 public class ResetDialogFragment extends DialogFragment
 {
 	@Override
