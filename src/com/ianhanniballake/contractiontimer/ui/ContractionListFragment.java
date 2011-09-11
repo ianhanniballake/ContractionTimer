@@ -103,6 +103,8 @@ public class ContractionListFragment extends ListFragment implements
 				// Go back to the previous spot
 				cursor.moveToPrevious();
 			}
+			else
+				frequencyView.setText("");
 		}
 
 		@Override
