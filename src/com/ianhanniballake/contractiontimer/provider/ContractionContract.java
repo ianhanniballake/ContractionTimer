@@ -20,14 +20,14 @@ public final class ContractionContract
 		/**
 		 * Column name for the contraction's end time
 		 * <P>
-		 * Type: TIMESTAMP
+		 * Type: INTEGER (long representing milliseconds)
 		 * </P>
 		 */
 		public static final String COLUMN_NAME_END_TIME = "end_time";
 		/**
 		 * Column name of the contraction's start time
 		 * <P>
-		 * Type: TIMESTAMP
+		 * Type: INTEGER (long representing milliseconds)
 		 * </P>
 		 */
 		public static final String COLUMN_NAME_START_TIME = "start_time";
