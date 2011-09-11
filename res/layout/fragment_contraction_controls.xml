@@ -1,16 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
+<FrameLayout
 	xmlns:android="http://schemas.android.com/apk/res/android"
 	android:layout_width="fill_parent"
-	android:layout_height="wrap_content">
+	android:layout_height="wrap_content"
+	android:padding="5dp">
 	<ToggleButton
-        android:id="@+id/toggleContraction"
+		android:id="@+id/toggleContraction"
 		android:layout_width="fill_parent"
 		android:layout_height="wrap_content"
-		android:layout_alignParentTop="true"
-		android:layout_centerHorizontal="true"
 		android:enabled="false"
-        android:textOn="@string/contraction_end"
-        android:textOff="@string/contraction_start"
-        android:textAppearance="?android:attr/textAppearanceLarge" />
-</RelativeLayout>
+		android:textOn="@string/contraction_end"
+		android:textOff="@string/contraction_start"
+		android:textAppearance="?android:attr/textAppearanceLarge" />
+</FrameLayout>

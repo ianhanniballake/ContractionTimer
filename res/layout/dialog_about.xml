@@ -44,13 +44,6 @@
 			android:paddingLeft="15dp"
 			android:text="@string/creator" />
 		<TextView
-			android:id="@+id/creator_separator"
-			android:layout_width="wrap_content"
-			android:layout_height="wrap_content"
-			android:layout_below="@id/created_by_label"
-			android:layout_toRightOf="@id/creator"
-			android:text="@string/separator" />
-		<TextView
 			android:id="@+id/creator_link"
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
@@ -72,13 +65,6 @@
 			android:layout_alignLeft="@id/graphics_and_testing_by_label"
 			android:paddingLeft="15dp"
 			android:text="@string/artist_and_tester" />
-		<TextView
-			android:id="@+id/artist_and_tester_separator"
-			android:layout_width="wrap_content"
-			android:layout_height="wrap_content"
-			android:layout_below="@id/graphics_and_testing_by_label"
-			android:layout_toRightOf="@id/artist_and_tester"
-			android:text="@string/separator" />
 		<TextView
 			android:id="@+id/artist_and_tester_link"
 			android:layout_width="wrap_content"

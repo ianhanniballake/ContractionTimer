@@ -3,44 +3,27 @@
 	xmlns:android="http://schemas.android.com/apk/res/android"
 	android:orientation="vertical"
 	android:layout_width="match_parent"
-	android:layout_height="match_parent">
+	android:layout_height="match_parent"
+	android:padding="5dp">
 	<LinearLayout
 		android:orientation="horizontal"
 		android:layout_width="fill_parent"
 		android:layout_height="wrap_content">
-		<LinearLayout
-			android:orientation="vertical"
-			android:layout_width="0dp"
-			android:layout_height="wrap_content"
-			android:layout_weight="1">
-			<TextView
-				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"
-				android:paddingLeft="10dp"
-				android:gravity="left"
-				android:textAppearance="?android:attr/textAppearanceSmall"
-				android:text="@string/list_header_end_time" />
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:paddingLeft="10dp"
-                android:gravity="left"
-                android:textAppearance="?android:attr/textAppearanceSmall"
-                android:text="@string/list_header_start_time" />
-		</LinearLayout>
 		<TextView
 			android:layout_width="0dp"
-			android:layout_height="wrap_content"
-			android:paddingLeft="10dp"
-			android:gravity="left|center_vertical"
+			android:layout_height="fill_parent"
+			android:layout_weight="1" />
+		<TextView
+			android:layout_width="0dp"
+			android:layout_height="fill_parent"
+			android:gravity="center_horizontal"
 			android:layout_weight="1"
 			android:textAppearance="?android:attr/textAppearanceMedium"
 			android:text="@string/list_header_duration" />
 		<TextView
 			android:layout_width="0dp"
-			android:layout_height="wrap_content"
-			android:paddingLeft="10dp"
-			android:gravity="left|center_vertical"
+			android:layout_height="fill_parent"
+			android:gravity="center_horizontal"
 			android:layout_weight="1"
 			android:textAppearance="?android:attr/textAppearanceMedium"
 			android:text="@string/list_header_frequency" />

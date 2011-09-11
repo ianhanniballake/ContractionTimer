@@ -1,43 +1,43 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="horizontal"
-    android:layout_width="fill_parent"
-    android:layout_height="wrap_content">
-    <LinearLayout
-        android:orientation="vertical"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_weight="1">
-        <TextView
-            android:id="@+id/end_time"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:paddingLeft="10dp"
-            android:gravity="left"
-            android:textAppearance="?android:attr/textAppearanceSmall" />
-        <TextView
-            android:id="@+id/start_time"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:paddingLeft="10dp"
-            android:gravity="left"
-            android:textAppearance="?android:attr/textAppearanceSmall" />
-    </LinearLayout>
-    <TextView
-        android:id="@+id/duration"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:paddingLeft="10dp"
-        android:gravity="left|center_vertical"
-        android:layout_weight="1"
-        android:textAppearance="?android:attr/textAppearanceMedium" />
-    <TextView
-        android:id="@+id/frequency"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:paddingLeft="10dp"
-        android:gravity="left|center_vertical"
-        android:layout_weight="1"
-        android:textAppearance="?android:attr/textAppearanceMedium" />
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	android:orientation="horizontal"
+	android:layout_width="fill_parent"
+	android:layout_height="wrap_content"
+	android:paddingTop="3dp"
+	android:paddingBottom="3dp">
+	<LinearLayout
+		android:orientation="vertical"
+		android:layout_width="0dp"
+		android:layout_height="wrap_content"
+		android:layout_weight="1">
+		<TextView
+			android:id="@+id/end_time"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:gravity="left"
+			android:paddingBottom="1dp"
+			android:textAppearance="?android:attr/textAppearanceSmall" />
+		<TextView
+			android:id="@+id/start_time"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:gravity="left"
+			android:paddingTop="1dp"
+			android:textAppearance="?android:attr/textAppearanceSmall" />
+	</LinearLayout>
+	<TextView
+		android:id="@+id/duration"
+		android:layout_width="0dp"
+		android:layout_height="fill_parent"
+		android:gravity="center_horizontal|center_vertical"
+		android:layout_weight="1"
+		android:textAppearance="?android:attr/textAppearanceLarge" />
+	<TextView
+		android:id="@+id/frequency"
+		android:layout_width="0dp"
+		android:layout_height="fill_parent"
+		android:gravity="center_horizontal|center_vertical"
+		android:layout_weight="1"
+		android:textAppearance="?android:attr/textAppearanceLarge" />
 </LinearLayout>
