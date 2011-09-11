@@ -1,6 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Contraction Timer</string>
+    <string name="menu_reset">Reset</string>
+    <string name="reset_dialog_title">Reset Confirmation</string>
+    <string name="reset_dialog_message">Are you sure you want to reset and remove all contractions?</string>
+    <string name="reset_dialog_confirm">Yes</string>
+    <string name="reset_dialog_cancel">Cancel</string>
     <string name="contraction_start">Start Contraction</string>
     <string name="contraction_end">Stop Contraction</string>
     <string name="list_loading">Loading contractions...</string>
