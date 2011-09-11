@@ -37,6 +37,10 @@ public class MainActivity extends FragmentActivity
 				final ResetDialogFragment resetDialogFragment = new ResetDialogFragment();
 				resetDialogFragment.show(getSupportFragmentManager(), "reset");
 				return true;
+			case R.id.menu_about:
+				final AboutDialogFragment aboutDialogFragment = new AboutDialogFragment();
+				aboutDialogFragment.show(getSupportFragmentManager(), "about");
+				return true;
 			default:
 				return super.onOptionsItemSelected(item);
 		}
