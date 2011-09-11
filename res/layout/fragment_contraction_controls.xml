@@ -9,7 +9,7 @@
 		android:layout_height="wrap_content"
 		android:layout_alignParentTop="true"
 		android:layout_centerHorizontal="true"
-		android:checked="false"
+		android:enabled="false"
         android:textOn="@string/contraction_end"
         android:textOff="@string/contraction_start"
         android:textAppearance="?android:attr/textAppearanceLarge" />

@@ -3,16 +3,19 @@ package com.ianhanniballake.contractiontimer.ui;
 import android.content.AsyncQueryHandler;
 import android.content.ContentUris;
 import android.content.ContentValues;
+import android.content.Context;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
-import android.provider.BaseColumns;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.LoaderManager;
+import android.support.v4.content.CursorLoader;
+import android.support.v4.content.Loader;
+import android.support.v4.widget.CursorAdapter;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.widget.Toast;
 import android.widget.ToggleButton;
 
 import com.ianhanniballake.contractiontimer.R;
@@ -21,12 +24,39 @@ import com.ianhanniballake.contractiontimer.provider.ContractionContract;
 /**
  * Fragment which controls starting and stopping the contraction timer
  */
-public class ContractionControlsFragment extends Fragment
+public class ContractionControlsFragment extends Fragment implements
+		LoaderManager.LoaderCallbacks<Cursor>
 {
+	/**
+	 * Cursor Adapter which holds the latest contraction
+	 */
+	private CursorAdapter adapter;
 	/**
 	 * Handler for asynchronous inserts/updates of contractions
 	 */
 	private AsyncQueryHandler contractionQueryHandler;
+
+	@Override
+	public void onActivityCreated(final Bundle savedInstanceState)
+	{
+		super.onActivityCreated(savedInstanceState);
+		adapter = new CursorAdapter(getActivity(), null, 0)
+		{
+			@Override
+			public void bindView(final View view, final Context context,
+					final Cursor cursor)
+			{
+			}
+
+			@Override
+			public View newView(final Context context, final Cursor cursor,
+					final ViewGroup parent)
+			{
+				return null;
+			}
+		};
+		getLoaderManager().initLoader(0, null, this);
+	}
 
 	@Override
 	public void onCreate(final Bundle savedInstanceState)
@@ -36,27 +66,31 @@ public class ContractionControlsFragment extends Fragment
 				.getContentResolver())
 		{
 			@Override
-			protected void onQueryComplete(final int token,
-					final Object cookie, final Cursor cursor)
+			protected void onInsertComplete(final int token,
+					final Object cookie, final Uri uri)
 			{
-				if (!cursor.moveToFirst())
-					return;
-				// There should be exactly one row in this cursor and that row
-				// represents the last contraction
-				final ContentValues newEndTime = new ContentValues();
-				newEndTime.put(
-						ContractionContract.Contractions.COLUMN_NAME_END_TIME,
-						System.currentTimeMillis());
-				final long contractionId = cursor.getLong(cursor
-						.getColumnIndex(BaseColumns._ID));
-				final Uri updateUri = ContentUris.withAppendedId(
-						ContractionContract.Contractions.CONTENT_ID_URI_BASE,
-						contractionId);
-				// Add the new end time to the last contraction
-				contractionQueryHandler.startUpdate(0, 0, updateUri,
-						newEndTime, null, null);
+				super.onInsertComplete(token, cookie, uri);
+				getLoaderManager().restartLoader(0, null,
+						ContractionControlsFragment.this);
+			}
+
+			@Override
+			protected void onUpdateComplete(final int token,
+					final Object cookie, final int result)
+			{
+				super.onUpdateComplete(token, cookie, result);
+				getLoaderManager().restartLoader(0, null,
+						ContractionControlsFragment.this);
 			}
 		};
+	}
+
+	@Override
+	public Loader<Cursor> onCreateLoader(final int id, final Bundle args)
+	{
+		return new CursorLoader(getActivity(),
+				ContractionContract.Contractions.CONTENT_ID_LATEST, null, null,
+				null, null);
 	}
 
 	@Override
@@ -78,16 +112,41 @@ public class ContractionControlsFragment extends Fragment
 							ContractionContract.Contractions.CONTENT_URI,
 							new ContentValues());
 				else
-					// Get the latest contraction so we know which contraction
-					// to update
-					contractionQueryHandler.startQuery(0, null,
-							ContractionContract.Contractions.CONTENT_ID_LATEST,
-							null, null, null, null);
-				Toast.makeText(getActivity(),
-						"Clicked: " + toggleContraction.isChecked(),
-						Toast.LENGTH_SHORT).show();
+				{
+					final ContentValues newEndTime = new ContentValues();
+					newEndTime
+							.put(ContractionContract.Contractions.COLUMN_NAME_END_TIME,
+									System.currentTimeMillis());
+					final long latestContractionId = adapter.getItemId(0);
+					final Uri updateUri = ContentUris
+							.withAppendedId(
+									ContractionContract.Contractions.CONTENT_ID_URI_BASE,
+									latestContractionId);
+					// Add the new end time to the last contraction
+					contractionQueryHandler.startUpdate(0, 0, updateUri,
+							newEndTime, null, null);
+				}
 			}
 		});
 		return view;
+	}
+
+	@Override
+	public void onLoaderReset(final Loader<Cursor> loader)
+	{
+		adapter.swapCursor(null);
+	}
+
+	@Override
+	public void onLoadFinished(final Loader<Cursor> loader, final Cursor data)
+	{
+		adapter.swapCursor(data);
+		final ToggleButton toggleContraction = (ToggleButton) getActivity()
+				.findViewById(R.id.toggleContraction);
+		toggleContraction.setEnabled(true);
+		final boolean lastContractionIsEnded = data.moveToFirst()
+				&& data.isNull(data
+						.getColumnIndex(ContractionContract.Contractions.COLUMN_NAME_END_TIME));
+		toggleContraction.setChecked(lastContractionIsEnded);
 	}
 }
