@@ -8,6 +8,7 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.content.UriMatcher;
 import android.database.Cursor;
+import android.database.DatabaseUtils;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
@@ -106,6 +107,27 @@ public class ContractionProvider extends ContentProvider
 	private static final UriMatcher uriMatcher = buildUriMatcher();
 
 	/**
+	 * Creates and initializes a column project for all columns
+	 * 
+	 * @return The all column projection map
+	 */
+	private static HashMap<String, String> buildAllColumnProjectionMap()
+	{
+		final HashMap<String, String> allColumnProjectionMap = new HashMap<String, String>();
+		allColumnProjectionMap.put(BaseColumns._ID, BaseColumns._ID);
+		allColumnProjectionMap.put(
+				ContractionContract.Contractions.COLUMN_NAME_START_TIME,
+				ContractionContract.Contractions.COLUMN_NAME_START_TIME);
+		allColumnProjectionMap.put(
+				ContractionContract.Contractions.COLUMN_NAME_END_TIME,
+				ContractionContract.Contractions.COLUMN_NAME_END_TIME);
+		allColumnProjectionMap.put(
+				ContractionContract.Contractions.COLUMN_NAME_NOTE,
+				ContractionContract.Contractions.COLUMN_NAME_NOTE);
+		return allColumnProjectionMap;
+	}
+
+	/**
 	 * Creates and initializes the URI matcher
 	 * 
 	 * @return the URI Matcher
@@ -113,15 +135,21 @@ public class ContractionProvider extends ContentProvider
 	private static UriMatcher buildUriMatcher()
 	{
 		final UriMatcher matcher = new UriMatcher(UriMatcher.NO_MATCH);
-		matcher.addURI(ContractionContract.AUTHORITY, "contractions",
-				CONTRACTIONS);
-		matcher.addURI(ContractionContract.AUTHORITY, "contractions/latest",
+		matcher.addURI(ContractionContract.AUTHORITY,
+				ContractionContract.Contractions.TABLE_NAME, CONTRACTIONS);
+		matcher.addURI(ContractionContract.AUTHORITY,
+				ContractionContract.Contractions.TABLE_NAME + "/latest",
 				CONTRACTION_LATEST);
-		matcher.addURI(ContractionContract.AUTHORITY, "contractions/#",
+		matcher.addURI(ContractionContract.AUTHORITY,
+				ContractionContract.Contractions.TABLE_NAME + "/#",
 				CONTRACTION_ID);
 		return matcher;
 	}
 
+	/**
+	 * An identity all column projection mapping
+	 */
+	final HashMap<String, String> allColumnProjectionMap = buildAllColumnProjectionMap();
 	/**
 	 * Handle to a new DatabaseHelper.
 	 */
@@ -133,7 +161,6 @@ public class ContractionProvider extends ContentProvider
 	{
 		// Opens the database object in "write" mode.
 		final SQLiteDatabase db = databaseHelper.getWritableDatabase();
-		String finalWhere;
 		int count;
 		// Does the delete based on the incoming URI pattern.
 		switch (uriMatcher.match(uri))
@@ -149,14 +176,9 @@ public class ContractionProvider extends ContentProvider
 				// If the incoming URI matches a single contraction ID, does the
 				// delete based on the incoming data, but modifies the where
 				// clause to restrict it to the particular contraction ID.
-				finalWhere = BaseColumns._ID
-						+ " = "
-						+ uri.getPathSegments()
-								.get(ContractionContract.Contractions.CONTRACTION_ID_PATH_POSITION);
-				// If there were additional selection criteria, append them to
-				// the final WHERE clause
-				if (where != null)
-					finalWhere = finalWhere + " AND " + where;
+				final String finalWhere = DatabaseUtils.concatenateWhere(
+						BaseColumns._ID + " = " + ContentUris.parseId(uri),
+						where);
 				count = db.delete(ContractionContract.Contractions.TABLE_NAME,
 						finalWhere, whereArgs);
 				break;
@@ -249,18 +271,11 @@ public class ContractionProvider extends ContentProvider
 		// Constructs a new query builder and sets its table name
 		final SQLiteQueryBuilder qb = new SQLiteQueryBuilder();
 		qb.setTables(ContractionContract.Contractions.TABLE_NAME);
-		final HashMap<String, String> allColumnProjectionMap = new HashMap<String, String>();
-		allColumnProjectionMap.put(BaseColumns._ID, BaseColumns._ID);
-		allColumnProjectionMap.put(
-				ContractionContract.Contractions.COLUMN_NAME_START_TIME,
-				ContractionContract.Contractions.COLUMN_NAME_START_TIME);
-		allColumnProjectionMap.put(
-				ContractionContract.Contractions.COLUMN_NAME_END_TIME,
-				ContractionContract.Contractions.COLUMN_NAME_END_TIME);
-		allColumnProjectionMap.put(
-				ContractionContract.Contractions.COLUMN_NAME_NOTE,
-				ContractionContract.Contractions.COLUMN_NAME_NOTE);
 		qb.setProjectionMap(allColumnProjectionMap);
+		String[] finalSelectionArgs = selectionArgs;
+		String finalSortOrder = sortOrder;
+		if (TextUtils.isEmpty(sortOrder))
+			finalSortOrder = ContractionContract.Contractions.DEFAULT_SORT_ORDER;
 		String limit = null;
 		switch (uriMatcher.match(uri))
 		{
@@ -270,27 +285,23 @@ public class ContractionProvider extends ContentProvider
 				// If the incoming URI is for a single contraction identified by
 				// its ID, appends "_ID = <contractionID>" to the where clause,
 				// so that it selects that single contraction
-				qb.appendWhere(BaseColumns._ID
-						+ "="
-						+ uri.getPathSegments()
-								.get(ContractionContract.Contractions.CONTRACTION_ID_PATH_POSITION));
+				qb.appendWhere(BaseColumns._ID + "=?");
+				finalSelectionArgs = DatabaseUtils.appendSelectionArgs(
+						selectionArgs,
+						new String[] { uri.getLastPathSegment() });
 				break;
 			case CONTRACTION_LATEST:
-				// If the incoming URI is for the latest contraction, append a
-				// where clause to filter out all rows but the latest
+				// If the incoming URI is for the latest contraction, limit only
+				// to the latest entry
 				limit = "1";
+				finalSortOrder = ContractionContract.Contractions.DEFAULT_SORT_ORDER;
 				break;
 			default:
 				throw new IllegalArgumentException("Unknown URI " + uri);
 		}
-		String orderBy;
-		if (TextUtils.isEmpty(sortOrder))
-			orderBy = ContractionContract.Contractions.DEFAULT_SORT_ORDER;
-		else
-			orderBy = sortOrder;
 		final SQLiteDatabase db = databaseHelper.getReadableDatabase();
-		final Cursor c = qb.query(db, projection, selection, selectionArgs,
-				null, null, orderBy, limit);
+		final Cursor c = qb.query(db, projection, selection,
+				finalSelectionArgs, null, null, finalSortOrder, limit);
 		c.setNotificationUri(getContext().getContentResolver(), uri);
 		return c;
 	}
@@ -313,16 +324,9 @@ public class ContractionProvider extends ContentProvider
 				// If the incoming URI matches a single contraction ID, does the
 				// update based on the incoming data, but modifies the where
 				// clause to restrict it to the particular contraction ID.
-				uri.getPathSegments()
-						.get(ContractionContract.Contractions.CONTRACTION_ID_PATH_POSITION);
-				String finalWhere = BaseColumns._ID
-						+ " = "
-						+ uri.getPathSegments()
-								.get(ContractionContract.Contractions.CONTRACTION_ID_PATH_POSITION);
-				// If there were additional selection criteria, append them to
-				// the final WHERE clause
-				if (selection != null)
-					finalWhere = finalWhere + " AND " + selection;
+				final String finalWhere = DatabaseUtils.concatenateWhere(
+						BaseColumns._ID + " = " + ContentUris.parseId(uri),
+						selection);
 				count = db.update(ContractionContract.Contractions.TABLE_NAME,
 						values, finalWhere, selectionArgs);
 				break;

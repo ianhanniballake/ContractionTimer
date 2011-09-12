@@ -3,7 +3,6 @@ package com.ianhanniballake.contractiontimer.ui;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 
 import com.ianhanniballake.contractiontimer.R;
@@ -24,7 +23,7 @@ public class MainActivity extends FragmentActivity
 	public boolean onCreateOptionsMenu(final Menu menu)
 	{
 		super.onCreateOptionsMenu(menu);
-		new MenuInflater(this).inflate(R.menu.activity_main, menu);
+		getMenuInflater().inflate(R.menu.activity_main, menu);
 		return true;
 	}
 

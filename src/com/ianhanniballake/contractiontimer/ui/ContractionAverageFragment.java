@@ -31,14 +31,17 @@ public class ContractionAverageFragment extends Fragment implements
 	@Override
 	public Loader<Cursor> onCreateLoader(final int id, final Bundle args)
 	{
+		final String[] projection = {
+				ContractionContract.Contractions.COLUMN_NAME_START_TIME,
+				ContractionContract.Contractions.COLUMN_NAME_END_TIME };
 		final String selection = ContractionContract.Contractions.COLUMN_NAME_START_TIME
 				+ ">?";
 		// In the last hour
 		final long timeCutoff = System.currentTimeMillis() - 1000 * 60 * 60;
 		final String[] selectionArgs = { Long.toString(timeCutoff) };
 		return new CursorLoader(getActivity(),
-				ContractionContract.Contractions.CONTENT_URI, null, selection,
-				selectionArgs, null);
+				ContractionContract.Contractions.CONTENT_URI, projection,
+				selection, selectionArgs, null);
 	}
 
 	@Override

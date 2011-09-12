@@ -7,6 +7,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
+import android.provider.BaseColumns;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
@@ -86,9 +87,12 @@ public class ContractionControlsFragment extends Fragment implements
 	@Override
 	public Loader<Cursor> onCreateLoader(final int id, final Bundle args)
 	{
+		final String[] projection = { BaseColumns._ID,
+				ContractionContract.Contractions.COLUMN_NAME_START_TIME,
+				ContractionContract.Contractions.COLUMN_NAME_END_TIME };
 		return new CursorLoader(getActivity(),
-				ContractionContract.Contractions.CONTENT_ID_LATEST, null, null,
-				null, null);
+				ContractionContract.Contractions.CONTENT_ID_LATEST, projection,
+				null, null, null);
 	}
 
 	@Override
