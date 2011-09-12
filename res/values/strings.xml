@@ -7,6 +7,10 @@
     <string name="reset_dialog_confirm">Yes</string>
     <string name="reset_dialog_cancel">Cancel</string>
     <string name="menu_about">About</string>
+    <string name="note_dialog_title_add">Add Note</string>
+    <string name="note_dialog_title_edit">Edit Note</string>
+    <string name="note_dialog_save">Save</string>
+    <string name="note_dialog_cancel">Cancel</string>
     <string name="menu_context_delete">Delete Contraction</string>
     <string name="contraction_start">Start Contraction</string>
     <string name="contraction_end">Stop Contraction</string>

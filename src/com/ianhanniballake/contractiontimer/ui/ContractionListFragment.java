@@ -76,6 +76,7 @@ public class ContractionListFragment extends ListFragment implements
 					.findViewById(R.id.duration);
 			final TextView frequencyView = (TextView) view
 					.findViewById(R.id.frequency);
+			final TextView noteView = (TextView) view.findViewById(R.id.note);
 			String timeFormat = "hh:mm:ssaa";
 			if (DateFormat.is24HourFormat(context))
 				timeFormat = "kk:mm:ss";
@@ -117,6 +118,14 @@ public class ContractionListFragment extends ListFragment implements
 			}
 			else
 				frequencyView.setText("");
+			final int noteColumnIndex = cursor
+					.getColumnIndex(ContractionContract.Contractions.COLUMN_NAME_NOTE);
+			final String note = cursor.getString(noteColumnIndex);
+			noteView.setText(note);
+			if (note.equals(""))
+				noteView.setVisibility(View.GONE);
+			else
+				noteView.setVisibility(View.VISIBLE);
 		}
 
 		@Override
@@ -216,6 +225,15 @@ public class ContractionListFragment extends ListFragment implements
 				.getMenuInfo();
 		switch (item.getItemId())
 		{
+			case R.id.menu_context_note:
+				final TextView noteView = (TextView) info.targetView
+						.findViewById(R.id.note);
+				final String existingNote = noteView.getText().toString();
+				final NoteDialogFragment noteDialogFragment = new NoteDialogFragment(
+						info.id, existingNote);
+				noteDialogFragment.show(getActivity()
+						.getSupportFragmentManager(), "reset");
+				return true;
 			case R.id.menu_context_delete:
 				final Uri deleteUri = ContentUris.withAppendedId(
 						ContractionContract.Contractions.CONTENT_ID_URI_BASE,
@@ -251,6 +269,15 @@ public class ContractionListFragment extends ListFragment implements
 		super.onCreateContextMenu(menu, v, menuInfo);
 		final MenuInflater inflater = getActivity().getMenuInflater();
 		inflater.inflate(R.menu.list_context, menu);
+		final AdapterContextMenuInfo info = (AdapterContextMenuInfo) menuInfo;
+		final TextView noteView = (TextView) info.targetView
+				.findViewById(R.id.note);
+		final CharSequence note = noteView.getText();
+		final MenuItem noteItem = menu.findItem(R.id.menu_context_note);
+		if (note.equals(""))
+			noteItem.setTitle(R.string.note_dialog_title_add);
+		else
+			noteItem.setTitle(R.string.note_dialog_title_edit);
 	}
 
 	@Override
