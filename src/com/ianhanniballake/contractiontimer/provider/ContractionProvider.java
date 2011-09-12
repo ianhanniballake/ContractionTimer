@@ -257,6 +257,9 @@ public class ContractionProvider extends ContentProvider
 		allColumnProjectionMap.put(
 				ContractionContract.Contractions.COLUMN_NAME_END_TIME,
 				ContractionContract.Contractions.COLUMN_NAME_END_TIME);
+		allColumnProjectionMap.put(
+				ContractionContract.Contractions.COLUMN_NAME_NOTE,
+				ContractionContract.Contractions.COLUMN_NAME_NOTE);
 		qb.setProjectionMap(allColumnProjectionMap);
 		String limit = null;
 		switch (uriMatcher.match(uri))
