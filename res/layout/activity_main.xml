@@ -19,4 +19,11 @@
 		android:layout_weight="1">
 		<!-- Preview: layout=@layout/fragment_contraction_list -->
 	</fragment>
+    <fragment
+        android:name="com.ianhanniballake.contractiontimer.ui.ContractionAverageFragment"
+        android:id="@+id/average"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content">
+        <!-- Preview: layout=@layout/fragment_contraction_average -->
+    </fragment>
 </LinearLayout>

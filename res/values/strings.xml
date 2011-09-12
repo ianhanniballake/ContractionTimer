@@ -20,4 +20,5 @@
     <string name="list_header_end_time">End</string>
     <string name="list_header_duration">Duration</string>
     <string name="list_header_frequency">Frequency</string>
+    <string name="contraction_average">Average</string>
 </resources>
