@@ -24,6 +24,10 @@ public class MainActivity extends FragmentActivity
 	{
 		super.onCreateOptionsMenu(menu);
 		getMenuInflater().inflate(R.menu.activity_main, menu);
+		final MenuItem resetMenuItem = menu.findItem(R.id.menu_reset);
+		resetMenuItem.setIcon(android.R.drawable.ic_menu_delete);
+		resetMenuItem.setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM
+				| MenuItem.SHOW_AS_ACTION_WITH_TEXT);
 		return true;
 	}
 
