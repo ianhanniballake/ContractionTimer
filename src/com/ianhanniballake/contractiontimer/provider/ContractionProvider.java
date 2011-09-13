@@ -272,7 +272,6 @@ public class ContractionProvider extends ContentProvider
 		final SQLiteQueryBuilder qb = new SQLiteQueryBuilder();
 		qb.setTables(ContractionContract.Contractions.TABLE_NAME);
 		qb.setProjectionMap(allColumnProjectionMap);
-		String[] finalSelectionArgs = selectionArgs;
 		String finalSortOrder = sortOrder;
 		if (TextUtils.isEmpty(sortOrder))
 			finalSortOrder = ContractionContract.Contractions.DEFAULT_SORT_ORDER;
@@ -285,10 +284,7 @@ public class ContractionProvider extends ContentProvider
 				// If the incoming URI is for a single contraction identified by
 				// its ID, appends "_ID = <contractionID>" to the where clause,
 				// so that it selects that single contraction
-				qb.appendWhere(BaseColumns._ID + "=?");
-				finalSelectionArgs = DatabaseUtils.appendSelectionArgs(
-						selectionArgs,
-						new String[] { uri.getLastPathSegment() });
+				qb.appendWhere(BaseColumns._ID + "=" + uri.getLastPathSegment());
 				break;
 			case CONTRACTION_LATEST:
 				// If the incoming URI is for the latest contraction, limit only
@@ -300,8 +296,8 @@ public class ContractionProvider extends ContentProvider
 				throw new IllegalArgumentException("Unknown URI " + uri);
 		}
 		final SQLiteDatabase db = databaseHelper.getReadableDatabase();
-		final Cursor c = qb.query(db, projection, selection,
-				finalSelectionArgs, null, null, finalSortOrder, limit);
+		final Cursor c = qb.query(db, projection, selection, selectionArgs,
+				null, null, finalSortOrder, limit);
 		c.setNotificationUri(getContext().getContentResolver(), uri);
 		return c;
 	}
