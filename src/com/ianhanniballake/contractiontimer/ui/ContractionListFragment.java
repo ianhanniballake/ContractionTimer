@@ -231,8 +231,7 @@ public class ContractionListFragment extends ListFragment implements
 				final String existingNote = noteView.getText().toString();
 				final NoteDialogFragment noteDialogFragment = new NoteDialogFragment(
 						info.id, existingNote);
-				noteDialogFragment.show(getActivity()
-						.getSupportFragmentManager(), "reset");
+				noteDialogFragment.show(getFragmentManager(), "reset");
 				return true;
 			case R.id.menu_context_delete:
 				final Uri deleteUri = ContentUris.withAppendedId(

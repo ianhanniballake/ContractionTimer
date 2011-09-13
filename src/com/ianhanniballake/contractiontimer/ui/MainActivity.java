@@ -2,8 +2,8 @@ package com.ianhanniballake.contractiontimer.ui;
 
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
-import android.view.Menu;
-import android.view.MenuItem;
+import android.support.v4.view.Menu;
+import android.support.v4.view.MenuItem;
 
 import com.ianhanniballake.contractiontimer.R;
 
