@@ -88,7 +88,7 @@ public class ContractionListFragment extends ListFragment implements
 					.getColumnIndex(ContractionContract.Contractions.COLUMN_NAME_END_TIME);
 			if (cursor.isNull(endTimeColumnIndex))
 			{
-				endTimeView.setText("");
+				endTimeView.setText(" ");
 				durationView.setText("");
 				liveDurationUpdate.setStartTime(startTime);
 				liveDurationUpdate.setDurationView(durationView);
