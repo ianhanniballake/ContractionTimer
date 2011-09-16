@@ -32,9 +32,9 @@
 	</natures>
 	<linkedResources>
 		<link>
-			<name>com_actionbarsherlock_src</name>
+			<name>ActionBarSherlock_src</name>
 			<type>2</type>
-			<locationURI>_android_com_actionbarsherlock_22abb7cc/src</locationURI>
+			<locationURI>_android_ActionBarSherlock_a2b296ea/src</locationURI>
 		</link>
 	</linkedResources>
 </projectDescription>
