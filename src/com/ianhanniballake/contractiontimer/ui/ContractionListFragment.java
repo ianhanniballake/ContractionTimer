@@ -99,6 +99,7 @@ public class ContractionListFragment extends ListFragment implements
 			{
 				final long endTime = cursor.getLong(endTimeColumnIndex);
 				endTimeView.setText(DateFormat.format(timeFormat, endTime));
+				durationView.setTag("");
 				final long durationInSeconds = (endTime - startTime) / 1000;
 				durationView.setText(DateUtils
 						.formatElapsedTime(durationInSeconds));
@@ -169,8 +170,9 @@ public class ContractionListFragment extends ListFragment implements
 			final long durationInSeconds = (System.currentTimeMillis() - currentContractionStartTime) / 1000;
 			final TextView currentContractionDurationView = (TextView) getView()
 					.findViewWithTag("durationView");
-			currentContractionDurationView.setText(DateUtils
-					.formatElapsedTime(durationInSeconds));
+			if (currentContractionDurationView != null)
+				currentContractionDurationView.setText(DateUtils
+						.formatElapsedTime(durationInSeconds));
 			liveDurationHandler.postDelayed(this, 1000);
 		}
 	};
