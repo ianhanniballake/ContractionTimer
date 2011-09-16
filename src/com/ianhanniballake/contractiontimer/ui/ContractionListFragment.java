@@ -90,8 +90,9 @@ public class ContractionListFragment extends ListFragment implements
 			{
 				endTimeView.setText(" ");
 				durationView.setText("");
-				liveDurationUpdate.setStartTime(startTime);
-				liveDurationUpdate.setDurationView(durationView);
+				currentContractionStartTime = startTime;
+				durationView.setTag("durationView");
+				liveDurationHandler.removeCallbacks(liveDurationUpdate);
 				liveDurationHandler.post(liveDurationUpdate);
 			}
 			else
@@ -138,58 +139,6 @@ public class ContractionListFragment extends ListFragment implements
 	}
 
 	/**
-	 * Updates the current contraction's duration every second, providing a real
-	 * time view of the duration
-	 */
-	private class LiveDurationUpdate implements Runnable
-	{
-		/**
-		 * Duration view to update
-		 */
-		private TextView durationView = null;
-		/**
-		 * Start time of the current contraction
-		 */
-		private long startTime = 0;
-
-		/**
-		 * Updates the appropriate duration view to the current elapsed time and
-		 * schedules this to rerun in 1 second
-		 */
-		@Override
-		public void run()
-		{
-			final long durationInSeconds = (System.currentTimeMillis() - startTime) / 1000;
-			durationView
-					.setText(DateUtils.formatElapsedTime(durationInSeconds));
-			liveDurationHandler.postDelayed(this, 1000);
-		}
-
-		/**
-		 * Setter for the current contraction's duration view
-		 * 
-		 * @param durationView
-		 *            Duration view to update
-		 */
-		public void setDurationView(final TextView durationView)
-		{
-			this.durationView = durationView;
-		}
-
-		/**
-		 * Setter for the current contraction's start time, used to calculate
-		 * the elapsed duration
-		 * 
-		 * @param startTime
-		 *            Start time of the current contraction
-		 */
-		public void setStartTime(final long startTime)
-		{
-			this.startTime = startTime;
-		}
-	}
-
-	/**
 	 * Adapter to display the list's data
 	 */
 	private CursorAdapter adapter;
@@ -198,13 +147,33 @@ public class ContractionListFragment extends ListFragment implements
 	 */
 	private AsyncQueryHandler contractionQueryHandler;
 	/**
+	 * Start time of the current contraction
+	 */
+	private long currentContractionStartTime = 0;
+	/**
 	 * Handler of live duration updates
 	 */
 	private final Handler liveDurationHandler = new Handler();
 	/**
 	 * Reference to the Runnable live duration updater
 	 */
-	private final LiveDurationUpdate liveDurationUpdate = new LiveDurationUpdate();
+	private final Runnable liveDurationUpdate = new Runnable()
+	{
+		/**
+		 * Updates the appropriate duration view to the current elapsed time and
+		 * schedules this to rerun in 1 second
+		 */
+		@Override
+		public void run()
+		{
+			final long durationInSeconds = (System.currentTimeMillis() - currentContractionStartTime) / 1000;
+			final TextView currentContractionDurationView = (TextView) getView()
+					.findViewWithTag("durationView");
+			currentContractionDurationView.setText(DateUtils
+					.formatElapsedTime(durationInSeconds));
+			liveDurationHandler.postDelayed(this, 1000);
+		}
+	};
 
 	@Override
 	public void onActivityCreated(final Bundle savedInstanceState)
