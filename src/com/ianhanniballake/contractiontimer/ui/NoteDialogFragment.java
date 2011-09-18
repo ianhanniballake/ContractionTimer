@@ -10,9 +10,12 @@ import android.content.DialogInterface.OnClickListener;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
+import android.support.v4.app.FragmentManager;
+import android.util.Log;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 
+import com.google.android.apps.analytics.GoogleAnalyticsTracker;
 import com.ianhanniballake.contractiontimer.R;
 import com.ianhanniballake.contractiontimer.provider.ContractionContract;
 
@@ -50,6 +53,15 @@ public class NoteDialogFragment extends DialogFragment
 	}
 
 	@Override
+	public void onCancel(final DialogInterface dialog)
+	{
+		Log.d(getClass().getSimpleName(), "Received cancelation event");
+		GoogleAnalyticsTracker.getInstance().trackEvent("Note", "Cancel",
+				existingNote.equals("") ? "Add Note" : "Edit Note", 0);
+		super.onCancel(dialog);
+	}
+
+	@Override
 	public Dialog onCreateDialog(final Bundle savedInstanceState)
 	{
 		final FrameLayout layout = new FrameLayout(getActivity());
@@ -76,6 +88,16 @@ public class NoteDialogFragment extends DialogFragment
 							public void onClick(final DialogInterface dialog,
 									final int which)
 							{
+								Log.d(NoteDialogFragment.this.getClass()
+										.getSimpleName(),
+										"Received positive event");
+								GoogleAnalyticsTracker
+										.getInstance()
+										.trackEvent(
+												"Note",
+												"Positive",
+												existingNote.equals("") ? "Add Note"
+														: "Edit Note", 0);
 								final Uri updateUri = ContentUris
 										.withAppendedId(
 												ContractionContract.Contractions.CONTENT_ID_URI_BASE,
@@ -90,7 +112,34 @@ public class NoteDialogFragment extends DialogFragment
 								}.startUpdate(0, 0, updateUri, values, null,
 										null);
 							}
-						}).setNegativeButton(R.string.note_dialog_cancel, null)
-				.create();
+						})
+				.setNegativeButton(R.string.note_dialog_cancel,
+						new OnClickListener()
+						{
+							@Override
+							public void onClick(final DialogInterface dialog,
+									final int which)
+							{
+								Log.d(NoteDialogFragment.this.getClass()
+										.getSimpleName(),
+										"Received negative event");
+								GoogleAnalyticsTracker
+										.getInstance()
+										.trackEvent(
+												"Note",
+												"Negative",
+												existingNote.equals("") ? "Add Note"
+														: "Edit Note", 0);
+							}
+						}).create();
+	}
+
+	@Override
+	public void show(final FragmentManager manager, final String tag)
+	{
+		Log.d(getClass().getSimpleName(), "Showing Dialog");
+		GoogleAnalyticsTracker.getInstance().trackPageView(
+				"/" + getClass().getSimpleName());
+		super.show(manager, tag);
 	}
 }

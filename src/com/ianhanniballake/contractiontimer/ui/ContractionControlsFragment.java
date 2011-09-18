@@ -13,12 +13,14 @@ import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
 import android.support.v4.widget.CursorAdapter;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.ToggleButton;
 
+import com.google.android.apps.analytics.GoogleAnalyticsTracker;
 import com.ianhanniballake.contractiontimer.R;
 import com.ianhanniballake.contractiontimer.provider.ContractionContract;
 
@@ -109,12 +111,22 @@ public class ContractionControlsFragment extends Fragment implements
 			public void onClick(final View v)
 			{
 				if (toggleContraction.isChecked())
+				{
+					Log.d(ContractionControlsFragment.this.getClass()
+							.getSimpleName(), "Starting contraction");
+					GoogleAnalyticsTracker.getInstance().trackEvent("Controls",
+							"Start", "", 0);
 					// Start a new contraction
 					contractionQueryHandler.startInsert(0, null,
 							ContractionContract.Contractions.CONTENT_URI,
 							new ContentValues());
+				}
 				else
 				{
+					Log.d(ContractionControlsFragment.this.getClass()
+							.getSimpleName(), "Stopping contraction");
+					GoogleAnalyticsTracker.getInstance().trackEvent("Controls",
+							"Stop", "", 0);
 					final ContentValues newEndTime = new ContentValues();
 					newEndTime
 							.put(ContractionContract.Contractions.COLUMN_NAME_END_TIME,
