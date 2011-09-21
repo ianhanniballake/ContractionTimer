@@ -189,10 +189,13 @@ public class MainActivity extends AnalyticTrackingActivity implements
 	public boolean onPrepareOptionsMenu(final Menu menu)
 	{
 		super.onPrepareOptionsMenu(menu);
+		// Set sharing buttons status
+		final int contractionCount = adapter.getCount();
+		final boolean enableShare = contractionCount > 0;
 		final MenuItem shareAverages = menu.findItem(R.id.menu_share_averages);
-		shareAverages.setEnabled(adapter.getCount() > 0);
+		shareAverages.setEnabled(enableShare);
 		final MenuItem shareAll = menu.findItem(R.id.menu_share_all);
-		shareAll.setEnabled(adapter.getCount() > 0);
+		shareAll.setEnabled(enableShare);
 		return true;
 	}
 
