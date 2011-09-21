@@ -300,6 +300,13 @@ public class ContractionListFragment extends ListFragment implements
 	}
 
 	@Override
+	public void onPause()
+	{
+		super.onPause();
+		liveDurationHandler.removeCallbacks(liveDurationUpdate);
+	}
+
+	@Override
 	public void setEmptyText(final CharSequence text)
 	{
 		final TextView emptyText = (TextView) getListView().getEmptyView();
