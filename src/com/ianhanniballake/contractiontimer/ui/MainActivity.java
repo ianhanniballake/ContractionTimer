@@ -2,6 +2,7 @@ package com.ianhanniballake.contractiontimer.ui;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.provider.BaseColumns;
@@ -17,6 +18,7 @@ import android.text.format.DateUtils;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.TextView;
 
 import com.google.android.apps.analytics.GoogleAnalyticsTracker;
@@ -173,6 +175,25 @@ public class MainActivity extends AnalyticTrackingActivity implements
 						"Share", "All", 0);
 				shareAll();
 				return true;
+			case R.id.menu_keep_screen_on:
+				final SharedPreferences preferences = getSharedPreferences(
+						getPackageName(), Context.MODE_PRIVATE);
+				final boolean newIsKeepScreenOn = !preferences.getBoolean(
+						"keepScreenOn", false);
+				Log.d(getClass().getSimpleName(),
+						"Menu selected Keep Screen On: " + newIsKeepScreenOn);
+				GoogleAnalyticsTracker.getInstance().trackEvent("Menu",
+						"Keep Screen On", Boolean.toString(newIsKeepScreenOn),
+						0);
+				preferences.edit()
+						.putBoolean("keepScreenOn", newIsKeepScreenOn).commit();
+				if (newIsKeepScreenOn)
+					getWindow().addFlags(
+							WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+				else
+					getWindow().clearFlags(
+							WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+				return true;
 			case R.id.menu_about:
 				Log.d(getClass().getSimpleName(), "Menu selected About");
 				GoogleAnalyticsTracker.getInstance().trackEvent("Menu",
@@ -196,6 +217,17 @@ public class MainActivity extends AnalyticTrackingActivity implements
 		shareAverages.setEnabled(enableShare);
 		final MenuItem shareAll = menu.findItem(R.id.menu_share_all);
 		shareAll.setEnabled(enableShare);
+		// Set checked status of keep screen on item
+		final MenuItem keepScreenOn = menu.findItem(R.id.menu_keep_screen_on);
+		final SharedPreferences preferences = getSharedPreferences(
+				getPackageName(), Context.MODE_PRIVATE);
+		final boolean isKeepScreenOn = preferences.getBoolean("keepScreenOn",
+				false);
+		keepScreenOn.setChecked(isKeepScreenOn);
+		if (isKeepScreenOn)
+			keepScreenOn.setIcon(android.R.drawable.checkbox_on_background);
+		else
+			keepScreenOn.setIcon(android.R.drawable.checkbox_off_background);
 		return true;
 	}
 

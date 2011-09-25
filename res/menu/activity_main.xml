@@ -14,6 +14,10 @@
         android:icon="@android:drawable/ic_menu_share"
         android:title="@string/menu_share_all" />
     <item
+        android:id="@+id/menu_keep_screen_on"
+        android:checkable="true"
+        android:title="@string/menu_keep_screen_on" />
+    <item
         android:id="@+id/menu_about"
         android:icon="@android:drawable/ic_menu_info_details"
         android:title="@string/menu_about" />
