@@ -3,9 +3,6 @@ package com.ianhanniballake.contractiontimer.service;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v4.app.FragmentActivity;
-import android.util.Log;
-
-import com.google.android.apps.analytics.GoogleAnalyticsTracker;
 
 /**
  * FragmentActivity that utilizes GoogleAnalyticsTracker to provide usage
@@ -24,14 +21,6 @@ public abstract class AnalyticTrackingActivity extends FragmentActivity
 	 * activity
 	 */
 	public abstract void onAnalyticsServiceConnected();
-
-	@Override
-	protected void onPause()
-	{
-		super.onPause();
-		Log.d(getClass().getSimpleName(), "Activity Paused");
-		GoogleAnalyticsTracker.getInstance().dispatch();
-	}
 
 	@Override
 	protected void onStart()
