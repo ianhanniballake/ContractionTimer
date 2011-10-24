@@ -1,29 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-	xmlns:android="http://schemas.android.com/apk/res/android"
-	android:orientation="vertical"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
 	android:layout_width="match_parent"
-	android:layout_height="match_parent">
+	android:layout_height="match_parent"
+	android:orientation="vertical" >
 	<fragment
-		android:name="com.ianhanniballake.contractiontimer.ui.ContractionControlsFragment"
 		android:id="@+id/controls"
 		android:layout_width="fill_parent"
-		android:layout_height="wrap_content">
+		android:layout_height="wrap_content"
+		android:name="com.ianhanniballake.contractiontimer.ui.ContractionControlsFragment" >
 		<!-- Preview: layout=@layout/fragment_contraction_controls -->
 	</fragment>
 	<fragment
-		android:name="com.ianhanniballake.contractiontimer.ui.ContractionListFragment"
 		android:id="@+id/list"
 		android:layout_width="fill_parent"
 		android:layout_height="wrap_content"
-		android:layout_weight="1">
+		android:layout_weight="1"
+		android:name="com.ianhanniballake.contractiontimer.ui.ContractionListFragment" >
 		<!-- Preview: layout=@layout/fragment_contraction_list -->
 	</fragment>
-    <fragment
-        android:name="com.ianhanniballake.contractiontimer.ui.ContractionAverageFragment"
-        android:id="@+id/average"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content">
-        <!-- Preview: layout=@layout/fragment_contraction_average -->
-    </fragment>
+	<fragment
+		android:id="@+id/average"
+		android:layout_width="fill_parent"
+		android:layout_height="wrap_content"
+		android:name="com.ianhanniballake.contractiontimer.ui.ContractionAverageFragment" >
+		<!-- Preview: layout=@layout/fragment_contraction_average -->
+	</fragment>
 </LinearLayout>

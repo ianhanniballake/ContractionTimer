@@ -1,15 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout
-	xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
 	android:layout_width="fill_parent"
 	android:layout_height="wrap_content"
-	android:padding="5dp">
+	android:padding="5dp" >
 	<ToggleButton
 		android:id="@+id/toggleContraction"
 		android:layout_width="fill_parent"
 		android:layout_height="wrap_content"
 		android:enabled="false"
-		android:textOn="@string/contraction_end"
+		android:textAppearance="?android:attr/textAppearanceLarge"
 		android:textOff="@string/contraction_start"
-		android:textAppearance="?android:attr/textAppearanceLarge" />
+		android:textOn="@string/contraction_end" />
 </FrameLayout>
