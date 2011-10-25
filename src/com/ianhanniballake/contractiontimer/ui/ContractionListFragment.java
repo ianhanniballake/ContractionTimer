@@ -222,12 +222,6 @@ public class ContractionListFragment extends ListFragment implements
 						info.id);
 				contractionQueryHandler
 						.startDelete(0, 0, deleteUri, null, null);
-				if (info.position == 0)
-				{
-					final ContractionControlsFragment controls = (ContractionControlsFragment) getFragmentManager()
-							.findFragmentById(R.id.controls);
-					controls.reload();
-				}
 				return true;
 			default:
 				return super.onContextItemSelected(item);
