@@ -41,7 +41,10 @@ public class AnalyticsService extends Service
 		Log.d(getClass().getSimpleName(), "Unbinding service");
 		final GoogleAnalyticsTracker tracker = GoogleAnalyticsTracker
 				.getInstance();
-		tracker.dispatch();
+		final ApplicationInfo appInfo = getApplicationContext()
+				.getApplicationInfo();
+		if ((appInfo.flags & ApplicationInfo.FLAG_DEBUGGABLE) == 0)
+			tracker.dispatch();
 		tracker.stopSession();
 		return false;
 	}
