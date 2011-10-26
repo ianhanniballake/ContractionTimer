@@ -2,11 +2,11 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
 	android:installLocation="auto"
 	package="com.ianhanniballake.contractiontimer"
-	android:versionCode="1314132"
-	android:versionName="1.3.2" >
+	android:versionCode="4141400"
+	android:versionName="1.4" >
 	<uses-sdk
 		android:minSdkVersion="4"
-		android:targetSdkVersion="13" />
+		android:targetSdkVersion="14" />
 	<uses-permission android:name="android.permission.INTERNET" />
 	<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 	<application
