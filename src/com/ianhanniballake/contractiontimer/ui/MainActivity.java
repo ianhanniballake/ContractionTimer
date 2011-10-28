@@ -233,11 +233,13 @@ public class MainActivity extends AnalyticTrackingActivity implements
 	 */
 	private void shareAll()
 	{
+		final Cursor data = adapter.getCursor();
+		if (data.getCount() == 0)
+			return;
 		final StringBuffer formattedData = getAverageData();
 		formattedData.append("<br /><br />");
 		formattedData.append(getText(R.string.share_my_contraction_details));
 		formattedData.append(":<br /><br />");
-		final Cursor data = adapter.getCursor();
 		data.moveToPosition(-1);
 		while (data.moveToNext())
 		{
@@ -308,6 +310,9 @@ public class MainActivity extends AnalyticTrackingActivity implements
 	 */
 	private void shareAverages()
 	{
+		final Cursor data = adapter.getCursor();
+		if (data.getCount() == 0)
+			return;
 		final StringBuffer formattedData = getAverageData();
 		final Intent shareIntent = new Intent(Intent.ACTION_SEND);
 		shareIntent.setType("text/plain");
