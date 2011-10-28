@@ -155,7 +155,7 @@ public class MainActivity extends AnalyticTrackingActivity implements
 			case R.id.menu_reset:
 				Log.d(getClass().getSimpleName(), "Menu selected Reset");
 				GoogleAnalyticsTracker.getInstance().trackEvent("Menu",
-						"Reset", "", 0);
+						"Reset", "", adapter.getCount());
 				final ResetDialogFragment resetDialogFragment = new ResetDialogFragment();
 				resetDialogFragment.show(getSupportFragmentManager(), "reset");
 				return true;
@@ -163,13 +163,13 @@ public class MainActivity extends AnalyticTrackingActivity implements
 				Log.d(getClass().getSimpleName(),
 						"Menu selected Share Averages");
 				GoogleAnalyticsTracker.getInstance().trackEvent("Menu",
-						"Share", "Averages", 0);
+						"Share", "Averages", adapter.getCount());
 				shareAverages();
 				return true;
 			case R.id.menu_share_all:
 				Log.d(getClass().getSimpleName(), "Menu selected Share All");
 				GoogleAnalyticsTracker.getInstance().trackEvent("Menu",
-						"Share", "All", 0);
+						"Share", "All", adapter.getCount());
 				shareAll();
 				return true;
 			case R.id.menu_keep_screen_on:
