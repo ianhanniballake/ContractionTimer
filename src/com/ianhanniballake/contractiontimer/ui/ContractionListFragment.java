@@ -192,7 +192,8 @@ public class ContractionListFragment extends ListFragment implements
 	}
 
 	@Override
-	public boolean onContextItemSelected(final MenuItem item)
+	public boolean onContextItemSelected(
+			final android.support.v4.view.MenuItem item)
 	{
 		final AdapterContextMenuInfo info = (AdapterContextMenuInfo) item
 				.getMenuInfo();
