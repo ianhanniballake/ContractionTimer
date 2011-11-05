@@ -170,11 +170,15 @@ public class ContractionListFragment extends ListFragment implements
 		public void run()
 		{
 			final long durationInSeconds = (System.currentTimeMillis() - currentContractionStartTime) / 1000;
-			final TextView currentContractionDurationView = (TextView) getView()
-					.findViewWithTag("durationView");
-			if (currentContractionDurationView != null)
-				currentContractionDurationView.setText(DateUtils
-						.formatElapsedTime(durationInSeconds));
+			final View rootView = getView();
+			if (rootView != null)
+			{
+				final TextView currentContractionDurationView = (TextView) rootView
+						.findViewWithTag("durationView");
+				if (currentContractionDurationView != null)
+					currentContractionDurationView.setText(DateUtils
+							.formatElapsedTime(durationInSeconds));
+			}
 			liveDurationHandler.postDelayed(this, 1000);
 		}
 	};
