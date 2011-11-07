@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<appwidget-provider xmlns:android="http://schemas.android.com/apk/res/android"
+	android:initialLayout="@layout/toggle_appwidget"
+	android:minHeight="60dp"
+	android:minWidth="60dp"
+	android:previewImage="@drawable/toggle_appwidget_preview"
+	android:updatePeriodMillis="0" >
+</appwidget-provider>

@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.provider.BaseColumns;
 import android.text.format.DateUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.RemoteViews;
 
@@ -31,6 +32,7 @@ public class ControlAppWidgetService extends IntentService
 	@Override
 	protected void onHandleIntent(final Intent intent)
 	{
+		Log.d(getClass().getSimpleName(), "Updating Control App Widgets");
 		final String[] projection = { BaseColumns._ID,
 				ContractionContract.Contractions.COLUMN_NAME_START_TIME,
 				ContractionContract.Contractions.COLUMN_NAME_END_TIME };
@@ -109,8 +111,11 @@ public class ControlAppWidgetService extends IntentService
 		// Set the status of the contraction toggle button
 		final Intent toggleContractionIntent = new Intent(this,
 				AppWidgetToggleService.class);
+		toggleContractionIntent.putExtra(
+				AppWidgetToggleService.WIDGET_NAME_EXTRA, "ControlWidget");
 		final PendingIntent toggleContractionPendingIntent = PendingIntent
-				.getService(this, 0, toggleContractionIntent, 0);
+				.getService(this, 0, toggleContractionIntent,
+						PendingIntent.FLAG_UPDATE_CURRENT);
 		if (contractionOngoing)
 		{
 			views.setViewVisibility(R.id.contraction_toggle_on, View.VISIBLE);

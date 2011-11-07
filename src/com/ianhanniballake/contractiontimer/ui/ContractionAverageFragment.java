@@ -15,6 +15,7 @@ import android.widget.TextView;
 
 import com.ianhanniballake.contractiontimer.R;
 import com.ianhanniballake.contractiontimer.appwidget.ControlAppWidgetService;
+import com.ianhanniballake.contractiontimer.appwidget.ToggleAppWidgetService;
 import com.ianhanniballake.contractiontimer.provider.ContractionContract;
 
 /**
@@ -68,6 +69,8 @@ public class ContractionAverageFragment extends Fragment implements
 	@Override
 	public void onLoadFinished(final Loader<Cursor> loader, final Cursor data)
 	{
+		getActivity().startService(
+				new Intent(getActivity(), ToggleAppWidgetService.class));
 		getActivity().startService(
 				new Intent(getActivity(), ControlAppWidgetService.class));
 		final TextView averageDurationView = (TextView) getActivity()

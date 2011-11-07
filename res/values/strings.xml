@@ -25,6 +25,7 @@
 	<string name="list_header_duration">Duration</string>
 	<string name="list_header_frequency">Frequency</string>
 	<string name="contraction_average">Average</string>
+	<string name="toggle_appwidget_label">Contraction Timer Toggle</string>
 	<string name="control_appwidget_label">Contraction Timer Controls</string>
 	<string name="average_duration_label">Average Duration:</string>
 	<string name="average_frequency_label">Average Frequency:</string>

@@ -21,6 +21,11 @@ import com.ianhanniballake.contractiontimer.service.AnalyticSessionManager;
 public class AppWidgetToggleService extends IntentService
 {
 	/**
+	 * Intent extra used to determine which widget called this service
+	 */
+	public final static String WIDGET_NAME_EXTRA = "com.ianhanniballake.contractiontimer.WidgetName";
+
+	/**
 	 * Creates a new AppWidgetToggleService
 	 */
 	public AppWidgetToggleService()
@@ -47,6 +52,7 @@ public class AppWidgetToggleService extends IntentService
 	@Override
 	protected void onHandleIntent(final Intent intent)
 	{
+		final String widgetName = intent.getStringExtra(WIDGET_NAME_EXTRA);
 		final ContentResolver contentResolver = getContentResolver();
 		final String[] projection = { BaseColumns._ID,
 				ContractionContract.Contractions.COLUMN_NAME_END_TIME };
@@ -60,7 +66,7 @@ public class AppWidgetToggleService extends IntentService
 		{
 			Log.d(AppWidgetToggleService.this.getClass().getSimpleName(),
 					"Stopping contraction");
-			GoogleAnalyticsTracker.getInstance().trackEvent("Widget", "Stop",
+			GoogleAnalyticsTracker.getInstance().trackEvent(widgetName, "Stop",
 					"", 0);
 			final ContentValues newEndTime = new ContentValues();
 			newEndTime.put(
@@ -78,8 +84,8 @@ public class AppWidgetToggleService extends IntentService
 		{
 			Log.d(AppWidgetToggleService.this.getClass().getSimpleName(),
 					"Starting contraction");
-			GoogleAnalyticsTracker.getInstance().trackEvent("Widget", "Start",
-					"", 0);
+			GoogleAnalyticsTracker.getInstance().trackEvent(widgetName,
+					"Start", "", 0);
 			// Start a new contraction
 			contentResolver.insert(
 					ContractionContract.Contractions.CONTENT_URI,
@@ -88,6 +94,7 @@ public class AppWidgetToggleService extends IntentService
 		// Close the cursor
 		data.close();
 		// Update all widgets
+		startService(new Intent(this, ToggleAppWidgetService.class));
 		startService(new Intent(this, ControlAppWidgetService.class));
 	}
 }
