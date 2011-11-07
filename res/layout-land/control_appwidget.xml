@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	android:layout_width="match_parent"
+	android:layout_height="match_parent"
+	android:layout_marginBottom="@dimen/appwidget_marginVertical"
+	android:layout_marginLeft="@dimen/appwidget_marginHorizontal"
+	android:layout_marginRight="@dimen/appwidget_marginHorizontal"
+	android:layout_marginTop="@dimen/appwidget_marginVertical"
+	android:background="@android:color/background_dark"
+	android:orientation="horizontal"
+	android:padding="@dimen/appwidget_padding" >
+	<ImageButton
+		android:id="@+id/application_launch"
+		android:layout_width="wrap_content"
+		android:layout_height="match_parent"
+		android:background="@android:color/background_dark"
+		android:src="@drawable/icon" />
+	<LinearLayout
+		android:layout_width="0dp"
+		android:layout_height="match_parent"
+		android:layout_weight="1"
+		android:orientation="horizontal"
+		android:padding="@dimen/appwidget_padding" >
+		<TextView
+			android:id="@+id/average_duration_label"
+			android:layout_width="wrap_content"
+			android:layout_height="match_parent"
+			android:gravity="center_vertical"
+			android:paddingRight="10dp"
+			android:text="@string/average_duration_label" />
+		<TextView
+			android:id="@+id/average_duration"
+			android:layout_width="wrap_content"
+			android:layout_height="match_parent"
+			android:layout_toRightOf="@id/average_duration_label"
+			android:gravity="center_vertical" />
+	</LinearLayout>
+	<LinearLayout
+		android:layout_width="0dp"
+		android:layout_height="match_parent"
+		android:layout_weight="1"
+		android:orientation="horizontal"
+		android:padding="@dimen/appwidget_padding" >
+		<TextView
+			android:id="@+id/average_frequency_label"
+			android:layout_width="wrap_content"
+			android:layout_height="match_parent"
+			android:gravity="center_vertical"
+			android:paddingRight="10dp"
+			android:text="@string/average_frequency_label" />
+		<TextView
+			android:id="@+id/average_frequency"
+			android:layout_width="wrap_content"
+			android:layout_height="match_parent"
+			android:layout_toRightOf="@id/average_frequency_label"
+			android:gravity="center_vertical" />
+	</LinearLayout>
+	<Button
+		android:id="@+id/contraction_toggle_off"
+		android:layout_width="wrap_content"
+		android:layout_height="match_parent"
+		android:background="@android:color/background_dark"
+		android:drawableBottom="@android:drawable/button_onoff_indicator_off"
+		android:text="@string/appwidget_contraction_start"
+		android:textColor="@android:color/primary_text_dark" />
+	<Button
+		android:id="@+id/contraction_toggle_on"
+		android:layout_width="wrap_content"
+		android:layout_height="match_parent"
+		android:background="@android:color/background_dark"
+		android:drawableBottom="@android:drawable/button_onoff_indicator_on"
+		android:text="@string/appwidget_contraction_stop"
+		android:textColor="@android:color/primary_text_dark"
+		android:visibility="gone" />
+</LinearLayout>

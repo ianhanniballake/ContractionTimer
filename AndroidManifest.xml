@@ -29,5 +29,17 @@
 			</intent-filter>
 		</activity>
 		<service android:name=".service.AnalyticsService" />
+		<service android:name=".appwidget.AppWidgetToggleService" />
+		<service android:name=".appwidget.ControlAppWidgetService" />
+		<receiver
+			android:label="@string/control_appwidget_label"
+			android:name=".appwidget.ControlAppWidgetProvider" >
+			<intent-filter >
+				<action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+			</intent-filter>
+			<meta-data
+				android:name="android.appwidget.provider"
+				android:resource="@xml/control_appwidget_info" />
+		</receiver>
 	</application>
 </manifest>

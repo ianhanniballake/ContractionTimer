@@ -33,6 +33,11 @@ public class MainActivity extends AnalyticTrackingActivity implements
 		LoaderManager.LoaderCallbacks<Cursor>
 {
 	/**
+	 * Intent extra used to signify that this activity was launched from a
+	 * widget
+	 */
+	public final static String LAUNCHED_FROM_WIDGET_EXTRA = "com.ianhanniballake.contractiontimer.LaunchedFromWidget";
+	/**
 	 * Adapter to store and manage the current cursor
 	 */
 	private CursorAdapter adapter;
@@ -82,6 +87,12 @@ public class MainActivity extends AnalyticTrackingActivity implements
 	@Override
 	public void onAnalyticsServiceConnected()
 	{
+		if (getIntent().hasExtra(LAUNCHED_FROM_WIDGET_EXTRA))
+		{
+			Log.d(getClass().getSimpleName(), "Launched from widget");
+			GoogleAnalyticsTracker.getInstance().trackEvent("Widget", "Launch",
+					"", 0);
+		}
 		Log.d(getClass().getSimpleName(), "Showing activity");
 		GoogleAnalyticsTracker.getInstance().trackPageView(
 				"/" + getClass().getSimpleName());

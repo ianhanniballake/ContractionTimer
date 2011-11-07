@@ -1,5 +1,6 @@
 package com.ianhanniballake.contractiontimer.ui;
 
+import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -13,6 +14,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.ianhanniballake.contractiontimer.R;
+import com.ianhanniballake.contractiontimer.appwidget.ControlAppWidgetService;
 import com.ianhanniballake.contractiontimer.provider.ContractionContract;
 
 /**
@@ -66,6 +68,8 @@ public class ContractionAverageFragment extends Fragment implements
 	@Override
 	public void onLoadFinished(final Loader<Cursor> loader, final Cursor data)
 	{
+		getActivity().startService(
+				new Intent(getActivity(), ControlAppWidgetService.class));
 		final TextView averageDurationView = (TextView) getActivity()
 				.findViewById(R.id.average_duration);
 		final TextView averageFrequencyView = (TextView) getActivity()
