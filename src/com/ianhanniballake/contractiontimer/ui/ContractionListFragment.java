@@ -213,8 +213,13 @@ public class ContractionListFragment extends ListFragment implements
 						"Note",
 						existingNote.equals("") ? "Add Note" : "Edit Note",
 						info.position);
-				final NoteDialogFragment noteDialogFragment = new NoteDialogFragment(
-						info.id, existingNote);
+				final NoteDialogFragment noteDialogFragment = new NoteDialogFragment();
+				final Bundle args = new Bundle();
+				args.putLong(NoteDialogFragment.CONTRACTION_ID_ARGUMENT,
+						info.id);
+				args.putString(NoteDialogFragment.EXISTING_NOTE_ARGUMENT,
+						existingNote);
+				noteDialogFragment.setArguments(args);
 				noteDialogFragment.show(getFragmentManager(), "note");
 				return true;
 			case R.id.menu_context_delete:

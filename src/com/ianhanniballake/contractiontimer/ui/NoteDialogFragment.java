@@ -25,37 +25,26 @@ import com.ianhanniballake.contractiontimer.provider.ContractionContract;
 public class NoteDialogFragment extends DialogFragment
 {
 	/**
+	 * Argument key for storing/retrieving the contraction id associated with
+	 * this dialog
+	 */
+	public final static String CONTRACTION_ID_ARGUMENT = "com.ianhanniballake.contractiontimer.ContractionId";
+	/**
+	 * Argument key for storing/retrieving the existing note associated with
+	 * this dialog
+	 */
+	public final static String EXISTING_NOTE_ARGUMENT = "com.ianhanniballake.contractiontimer.ExistingNote";
+	/**
 	 * Left and right margin to use for the EditText in the dialog
 	 */
 	private final static float LEFT_RIGHT_MARGIN_DP = 10.0f;
-	/**
-	 * ID of the contraction to update on save
-	 */
-	private final long contractionId;
-	/**
-	 * Existing note to pre-populate the dialog with
-	 */
-	private final String existingNote;
-
-	/**
-	 * Creates a NoteDialogFragment which will update the given contraction
-	 * 
-	 * @param contractionId
-	 *            Contraction to associate note with
-	 * @param existingNote
-	 *            Contraction's existing note to pre-populate the dialog with
-	 */
-	public NoteDialogFragment(final long contractionId,
-			final String existingNote)
-	{
-		this.contractionId = contractionId;
-		this.existingNote = existingNote;
-	}
 
 	@Override
 	public void onCancel(final DialogInterface dialog)
 	{
 		Log.d(getClass().getSimpleName(), "Received cancelation event");
+		final String existingNote = getArguments().getString(
+				EXISTING_NOTE_ARGUMENT);
 		GoogleAnalyticsTracker.getInstance().trackEvent("Note", "Cancel",
 				existingNote.equals("") ? "Add Note" : "Edit Note", 0);
 		super.onCancel(dialog);
@@ -64,6 +53,10 @@ public class NoteDialogFragment extends DialogFragment
 	@Override
 	public Dialog onCreateDialog(final Bundle savedInstanceState)
 	{
+		final long contractionId = getArguments().getLong(
+				CONTRACTION_ID_ARGUMENT);
+		final String existingNote = getArguments().getString(
+				EXISTING_NOTE_ARGUMENT);
 		final FrameLayout layout = new FrameLayout(getActivity());
 		// Get the screen's density scale
 		final float scale = getResources().getDisplayMetrics().density;
