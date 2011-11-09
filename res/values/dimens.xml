@@ -1,6 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-	<dimen name="appwidget_marginVertical">15dp</dimen>
-	<dimen name="appwidget_marginHorizontal">0dp</dimen>
 	<dimen name="appwidget_padding">5dp</dimen>
 </resources>

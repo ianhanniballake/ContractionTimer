@@ -20,6 +20,11 @@ import com.ianhanniballake.contractiontimer.provider.ContractionContract;
 public class ToggleAppWidgetService extends IntentService
 {
 	/**
+	 * Identifier for this widget to be used in Google Analytics
+	 */
+	private final static String WIDGET_IDENTIFIER = "ToggleWidget";
+
+	/**
 	 * Creates a new ToggleAppWidgetService
 	 */
 	public ToggleAppWidgetService()
@@ -51,7 +56,7 @@ public class ToggleAppWidgetService extends IntentService
 		final Intent toggleContractionIntent = new Intent(this,
 				AppWidgetToggleService.class);
 		toggleContractionIntent.putExtra(
-				AppWidgetToggleService.WIDGET_NAME_EXTRA, "ToggleWidget");
+				AppWidgetToggleService.WIDGET_NAME_EXTRA, WIDGET_IDENTIFIER);
 		final PendingIntent toggleContractionPendingIntent = PendingIntent
 				.getService(this, 0, toggleContractionIntent,
 						PendingIntent.FLAG_UPDATE_CURRENT);
