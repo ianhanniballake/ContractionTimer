@@ -89,9 +89,12 @@ public class MainActivity extends AnalyticTrackingActivity implements
 	{
 		if (getIntent().hasExtra(LAUNCHED_FROM_WIDGET_EXTRA))
 		{
-			Log.d(getClass().getSimpleName(), "Launched from widget");
-			GoogleAnalyticsTracker.getInstance().trackEvent("Widget", "Launch",
-					"", 0);
+			final String widgetIdentifier = getIntent().getExtras().getString(
+					LAUNCHED_FROM_WIDGET_EXTRA);
+			Log.d(getClass().getSimpleName(), "Launched from "
+					+ widgetIdentifier);
+			GoogleAnalyticsTracker.getInstance().trackEvent(widgetIdentifier,
+					"Launch", "", 0);
 		}
 		Log.d(getClass().getSimpleName(), "Showing activity");
 		GoogleAnalyticsTracker.getInstance().trackPageView(

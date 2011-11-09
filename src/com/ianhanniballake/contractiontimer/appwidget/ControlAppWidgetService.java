@@ -22,6 +22,11 @@ import com.ianhanniballake.contractiontimer.ui.MainActivity;
 public class ControlAppWidgetService extends IntentService
 {
 	/**
+	 * Identifier for this widget to be used in Google Analytics
+	 */
+	private final static String WIDGET_IDENTIFIER = "ControlWidget";
+
+	/**
 	 * Creates a new ControlAppWidgetService
 	 */
 	public ControlAppWidgetService()
@@ -54,9 +59,10 @@ public class ControlAppWidgetService extends IntentService
 		final Intent applicationLaunchIntent = new Intent(this,
 				MainActivity.class);
 		applicationLaunchIntent.putExtra(
-				MainActivity.LAUNCHED_FROM_WIDGET_EXTRA, true);
+				MainActivity.LAUNCHED_FROM_WIDGET_EXTRA, WIDGET_IDENTIFIER);
 		final PendingIntent applicationLaunchPendingIntent = PendingIntent
-				.getActivity(this, 0, applicationLaunchIntent, 0);
+				.getActivity(this, 0, applicationLaunchIntent,
+						PendingIntent.FLAG_UPDATE_CURRENT);
 		views.setOnClickPendingIntent(R.id.application_launch,
 				applicationLaunchPendingIntent);
 		// Set the average duration and frequency
@@ -112,7 +118,7 @@ public class ControlAppWidgetService extends IntentService
 		final Intent toggleContractionIntent = new Intent(this,
 				AppWidgetToggleService.class);
 		toggleContractionIntent.putExtra(
-				AppWidgetToggleService.WIDGET_NAME_EXTRA, "ControlWidget");
+				AppWidgetToggleService.WIDGET_NAME_EXTRA, WIDGET_IDENTIFIER);
 		final PendingIntent toggleContractionPendingIntent = PendingIntent
 				.getService(this, 0, toggleContractionIntent,
 						PendingIntent.FLAG_UPDATE_CURRENT);
