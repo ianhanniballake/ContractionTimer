@@ -106,6 +106,16 @@ public class MainActivity extends AnalyticTrackingActivity implements
 	{
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
+		final SharedPreferences preferences = getSharedPreferences(
+				getPackageName(), Context.MODE_PRIVATE);
+		final boolean isKeepScreenOn = preferences.getBoolean("keepScreenOn",
+				false);
+		if (isKeepScreenOn)
+			getWindow()
+					.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+		else
+			getWindow().clearFlags(
+					WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 		adapter = new CursorAdapter(this, null, 0)
 		{
 			@Override
