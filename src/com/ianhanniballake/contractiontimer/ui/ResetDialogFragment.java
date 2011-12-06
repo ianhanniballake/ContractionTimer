@@ -49,6 +49,7 @@ public class ResetDialogFragment extends DialogFragment
 								new AsyncQueryHandler(getActivity()
 										.getContentResolver())
 								{
+									// No call backs needed
 								}.startDelete(
 										0,
 										0,

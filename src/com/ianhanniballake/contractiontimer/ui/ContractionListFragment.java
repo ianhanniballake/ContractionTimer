@@ -245,6 +245,7 @@ public class ContractionListFragment extends ListFragment implements
 		contractionQueryHandler = new AsyncQueryHandler(getActivity()
 				.getContentResolver())
 		{
+			// No call backs needed
 		};
 	}
 

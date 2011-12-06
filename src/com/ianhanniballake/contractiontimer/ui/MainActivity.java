@@ -87,10 +87,10 @@ public class MainActivity extends AnalyticTrackingActivity implements
 	@Override
 	public void onAnalyticsServiceConnected()
 	{
-		if (getIntent().hasExtra(LAUNCHED_FROM_WIDGET_EXTRA))
+		if (getIntent().hasExtra(MainActivity.LAUNCHED_FROM_WIDGET_EXTRA))
 		{
 			final String widgetIdentifier = getIntent().getExtras().getString(
-					LAUNCHED_FROM_WIDGET_EXTRA);
+					MainActivity.LAUNCHED_FROM_WIDGET_EXTRA);
 			Log.d(getClass().getSimpleName(), "Launched from "
 					+ widgetIdentifier);
 			GoogleAnalyticsTracker.getInstance().trackEvent(widgetIdentifier,
@@ -122,6 +122,7 @@ public class MainActivity extends AnalyticTrackingActivity implements
 			public void bindView(final View view, final Context context,
 					final Cursor cursor)
 			{
+				// Nothing to do
 			}
 
 			@Override

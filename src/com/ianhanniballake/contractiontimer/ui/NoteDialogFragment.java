@@ -44,7 +44,7 @@ public class NoteDialogFragment extends DialogFragment
 	{
 		Log.d(getClass().getSimpleName(), "Received cancelation event");
 		final String existingNote = getArguments().getString(
-				EXISTING_NOTE_ARGUMENT);
+				NoteDialogFragment.EXISTING_NOTE_ARGUMENT);
 		GoogleAnalyticsTracker.getInstance().trackEvent("Note", "Cancel",
 				existingNote.equals("") ? "Add Note" : "Edit Note", 0);
 		super.onCancel(dialog);
@@ -54,14 +54,15 @@ public class NoteDialogFragment extends DialogFragment
 	public Dialog onCreateDialog(final Bundle savedInstanceState)
 	{
 		final long contractionId = getArguments().getLong(
-				CONTRACTION_ID_ARGUMENT);
+				NoteDialogFragment.CONTRACTION_ID_ARGUMENT);
 		final String existingNote = getArguments().getString(
-				EXISTING_NOTE_ARGUMENT);
+				NoteDialogFragment.EXISTING_NOTE_ARGUMENT);
 		final FrameLayout layout = new FrameLayout(getActivity());
 		// Get the screen's density scale
 		final float scale = getResources().getDisplayMetrics().density;
 		// Convert the dps to pixels, based on density scale
-		final int leftRightMarginPixels = (int) (LEFT_RIGHT_MARGIN_DP * scale + 0.5f);
+		final int leftRightMarginPixels = (int) (NoteDialogFragment.LEFT_RIGHT_MARGIN_DP
+				* scale + 0.5f);
 		layout.setPadding(leftRightMarginPixels, 0, leftRightMarginPixels, 0);
 		final EditText input = new EditText(getActivity());
 		input.setText(existingNote);
@@ -102,6 +103,7 @@ public class NoteDialogFragment extends DialogFragment
 								new AsyncQueryHandler(getActivity()
 										.getContentResolver())
 								{
+									// No call backs needed
 								}.startUpdate(0, 0, updateUri, values, null,
 										null);
 							}

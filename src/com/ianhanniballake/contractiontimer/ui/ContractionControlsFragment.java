@@ -49,6 +49,7 @@ public class ContractionControlsFragment extends Fragment implements
 			public void bindView(final View view, final Context context,
 					final Cursor cursor)
 			{
+				// Nothing to do
 			}
 
 			@Override
@@ -68,6 +69,7 @@ public class ContractionControlsFragment extends Fragment implements
 		contractionQueryHandler = new AsyncQueryHandler(getActivity()
 				.getContentResolver())
 		{
+			// No call backs needed
 		};
 	}
 
