@@ -77,7 +77,7 @@ public class ContractionAverageFragment extends Fragment implements
 				.findViewById(R.id.average_duration);
 		final TextView averageFrequencyView = (TextView) getActivity()
 				.findViewById(R.id.average_frequency);
-		if (!data.moveToNext())
+		if (!data.moveToFirst())
 		{
 			averageDurationView.setText("");
 			averageFrequencyView.setText("");
