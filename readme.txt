@@ -11,5 +11,5 @@ Virtual Device Setup:
 Target: Android 2.2 - API Level 8
 Skin: Default (WVGA800)
 
-Target: Android 3.2 - API Level 13
+Target: Android 4.0.3 - API Level 15
 Skin: Default (WXGA)
