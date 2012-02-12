@@ -1,15 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-	<string name="share_since">Since</string>
-	<string name="share_ive_had">I\'ve had</string>
-	<string name="share_contraction">contraction</string>
-	<string name="share_contractions">contractions</string>
-	<string name="share_with_an_average_duration_of">with an average duration of</string>
-	<string name="share_and_average_frequency_of">and average frequency of</string>
-	<string name="share_my_contraction_details">My contraction details</string>
-	<string name="share_and_still_going">and still going</string>
-	<string name="share_to">to</string>
-	<string name="share_lasted">lasted</string>
-	<string name="share_with_frequency_of">with frequency of</string>
+
+	<string name="share_average_single">Since %1$s, I\'ve had %2$d contraction, with an average duration of %3$s and average frequency of %4$s.</string>
+	<string name="share_average_multiple">Since %1$s, I\'ve had %2$d contractions, with an average duration of %3$s and average frequency of %4$s.</string>
+	<string name="share_details_header">My contraction details</string>
+	<string name="share_detail_time_ongoing">%1$s and still going</string>
+	<string name="share_detail_time_finished">%1$s to %2$s, lasted %3$s</string>
+	<string name="share_detail_frequency">with frequency of %1$s</string>
 	<string name="share_subject">My Contractions</string>
+
 </resources>

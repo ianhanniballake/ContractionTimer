@@ -48,9 +48,8 @@ public class MainActivity extends ActionBarActivity implements
 	 * 
 	 * @return The formatted average data
 	 */
-	private StringBuffer getAverageData()
+	private String getAverageData()
 	{
-		final StringBuffer formattedData = new StringBuffer();
 		final TextView averageDurationView = (TextView) findViewById(R.id.average_duration);
 		final TextView averageFrequencyView = (TextView) findViewById(R.id.average_frequency);
 		final Cursor data = adapter.getCursor();
@@ -58,30 +57,17 @@ public class MainActivity extends ActionBarActivity implements
 		final int startTimeColumnIndex = data
 				.getColumnIndex(ContractionContract.Contractions.COLUMN_NAME_START_TIME);
 		final long lastStartTime = data.getLong(startTimeColumnIndex);
-		formattedData.append(getText(R.string.share_since));
-		formattedData.append(" ");
-		formattedData.append(DateUtils.getRelativeTimeSpanString(lastStartTime,
-				System.currentTimeMillis(), 0));
-		formattedData.append(", ");
-		formattedData.append(getText(R.string.share_ive_had));
-		formattedData.append(" ");
-		formattedData.append(adapter.getCount());
-		formattedData.append(" ");
+		String averageDataFormat;
 		if (adapter.getCount() == 1)
-			formattedData.append(getText(R.string.share_contraction));
+			averageDataFormat = getString(R.string.share_average_single);
 		else
-			formattedData.append(getText(R.string.share_contractions));
-		formattedData.append(", ");
-		formattedData
-				.append(getText(R.string.share_with_an_average_duration_of));
-		formattedData.append(" ");
-		formattedData.append(averageDurationView.getText());
-		formattedData.append(" ");
-		formattedData.append(getText(R.string.share_and_average_frequency_of));
-		formattedData.append(" ");
-		formattedData.append(averageFrequencyView.getText());
-		formattedData.append(".");
-		return formattedData;
+			averageDataFormat = getString(R.string.share_average_multiple);
+		final CharSequence relativeTimeSpan = DateUtils
+				.getRelativeTimeSpanString(lastStartTime,
+						System.currentTimeMillis(), 0);
+		return String.format(averageDataFormat, relativeTimeSpan,
+				adapter.getCount(), averageDurationView.getText(),
+				averageFrequencyView.getText());
 	}
 
 	@Override
@@ -260,9 +246,9 @@ public class MainActivity extends ActionBarActivity implements
 		final Cursor data = adapter.getCursor();
 		if (data.getCount() == 0)
 			return;
-		final StringBuffer formattedData = getAverageData();
+		final StringBuffer formattedData = new StringBuffer(getAverageData());
 		formattedData.append("<br /><br />");
-		formattedData.append(getText(R.string.share_my_contraction_details));
+		formattedData.append(getText(R.string.share_details_header));
 		formattedData.append(":<br /><br />");
 		data.moveToPosition(-1);
 		while (data.moveToNext())
@@ -273,39 +259,44 @@ public class MainActivity extends ActionBarActivity implements
 			final int startTimeColumnIndex = data
 					.getColumnIndex(ContractionContract.Contractions.COLUMN_NAME_START_TIME);
 			final long startTime = data.getLong(startTimeColumnIndex);
-			formattedData.append(DateFormat.format(timeFormat, startTime));
+			final CharSequence formattedStartTime = DateFormat.format(
+					timeFormat, startTime);
 			final int endTimeColumnIndex = data
 					.getColumnIndex(ContractionContract.Contractions.COLUMN_NAME_END_TIME);
-			formattedData.append(" ");
 			if (data.isNull(endTimeColumnIndex))
-				formattedData.append(getText(R.string.share_and_still_going));
+			{
+				final String detailTimeOngoingFormat = getString(R.string.share_detail_time_ongoing);
+				formattedData.append(String.format(detailTimeOngoingFormat,
+						formattedStartTime));
+			}
 			else
 			{
+				final String detailTimeFormat = getString(R.string.share_detail_time_finished);
 				final long endTime = data.getLong(endTimeColumnIndex);
-				formattedData.append(getText(R.string.share_to));
-				formattedData.append(" ");
-				formattedData.append(DateFormat.format(timeFormat, endTime));
+				final CharSequence formattedEndTime = DateFormat.format(
+						timeFormat, endTime);
 				final long durationInSeconds = (endTime - startTime) / 1000;
-				formattedData.append(" ");
-				formattedData.append(getText(R.string.share_lasted));
-				formattedData.append(" ");
-				formattedData.append(DateUtils
-						.formatElapsedTime(durationInSeconds));
+				final CharSequence formattedDuration = DateUtils
+						.formatElapsedTime(durationInSeconds);
+				formattedData.append(String
+						.format(detailTimeFormat, formattedStartTime,
+								formattedEndTime, formattedDuration));
 			}
 			// If we aren't the last entry, move to the next (previous in time)
 			// contraction to get its start time to compute the frequency
 			if (!data.isLast() && data.moveToNext())
 			{
+				final String detailFrequencyFormat = getString(R.string.share_detail_frequency);
 				final int prevContractionStartTimeColumnIndex = data
 						.getColumnIndex(ContractionContract.Contractions.COLUMN_NAME_START_TIME);
 				final long prevContractionStartTime = data
 						.getLong(prevContractionStartTimeColumnIndex);
 				final long frequencyInSeconds = (startTime - prevContractionStartTime) / 1000;
+				final CharSequence formattedFrequency = DateUtils
+						.formatElapsedTime(frequencyInSeconds);
 				formattedData.append(" ");
-				formattedData.append(getText(R.string.share_with_frequency_of));
-				formattedData.append(" ");
-				formattedData.append(DateUtils
-						.formatElapsedTime(frequencyInSeconds));
+				formattedData.append(String.format(detailFrequencyFormat,
+						formattedFrequency));
 				// Go back to the previous spot
 				data.moveToPrevious();
 			}
@@ -337,11 +328,11 @@ public class MainActivity extends ActionBarActivity implements
 		final Cursor data = adapter.getCursor();
 		if (data.getCount() == 0)
 			return;
-		final StringBuffer formattedData = getAverageData();
+		final String formattedData = getAverageData();
 		final Intent shareIntent = new Intent(Intent.ACTION_SEND);
 		shareIntent.setType("text/plain");
 		shareIntent.putExtra(Intent.EXTRA_SUBJECT, "My Contractions");
-		shareIntent.putExtra(Intent.EXTRA_TEXT, formattedData.toString());
+		shareIntent.putExtra(Intent.EXTRA_TEXT, formattedData);
 		startActivity(Intent.createChooser(shareIntent,
 				getText(R.string.share_pick_application)));
 	}
