@@ -97,6 +97,9 @@ public class ContractionControlsFragment extends Fragment implements
 			@Override
 			public void onClick(final View v)
 			{
+				// Disable the button to ensure we give the database a chance to
+				// complete the insert/update
+				toggleContraction.setEnabled(false);
 				if (toggleContraction.isChecked())
 				{
 					Log.d(ContractionControlsFragment.this.getClass()
