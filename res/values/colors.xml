@@ -1,4 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
+	<color name="actionbar_title_color">#224894</color>
 	<color name="average_background">#D8F6CE</color>
+
 </resources>
