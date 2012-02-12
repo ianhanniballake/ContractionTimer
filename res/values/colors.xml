@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-	<color name="actionbar_compat_background">#eee</color>
-	<color name="actionbar_compat_title_color">#000000</color>
+	<color name="actionbar_compat_background">#EEE</color>
+	<color name="about_dialog_background">@android:color/white</color>
+	<color name="about_dialog_text_color">@android:color/black</color>
+	<color name="about_dialog_foreground">#F0F0</color>
 	<color name="average_background">#D8F6CE</color>
 
 </resources>
