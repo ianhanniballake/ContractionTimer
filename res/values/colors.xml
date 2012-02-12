@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-	<color name="actionbar_title_color">#224894</color>
+	<color name="actionbar_compat_background">#eee</color>
+	<color name="actionbar_compat_title_color">#000000</color>
 	<color name="average_background">#D8F6CE</color>
 
 </resources>

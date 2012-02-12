@@ -105,9 +105,10 @@ public class ActionBarHelperBase extends ActionBarHelper
 									.getAttributeIntValue(
 											WrappedMenuInflater.MENU_RES_NAMESPACE,
 											WrappedMenuInflater.MENU_ATTR_SHOW_AS_ACTION,
-											-1);
-							if (showAsAction == MenuItem.SHOW_AS_ACTION_ALWAYS
-									|| showAsAction == MenuItem.SHOW_AS_ACTION_IF_ROOM)
+											0);
+							final boolean containsAlways = (MenuItem.SHOW_AS_ACTION_ALWAYS & showAsAction) > 0;
+							final boolean containsIfRoom = (MenuItem.SHOW_AS_ACTION_IF_ROOM & showAsAction) > 0;
+							if (containsAlways || containsIfRoom)
 								mActionItemIds.add(itemId);
 							break;
 						case XmlPullParser.END_DOCUMENT:
@@ -158,31 +159,27 @@ public class ActionBarHelperBase extends ActionBarHelper
 		if (actionBar == null)
 			return;
 		// Create the button
-		final ImageButton actionButton = new ImageButton(
-				mActivity,
-				null,
-				itemId == android.R.id.home ? R.attr.actionbarCompatItemHomeStyle
-						: R.attr.actionbarCompatItemStyle);
-		actionButton
-				.setLayoutParams(new ViewGroup.LayoutParams(
-						(int) mActivity
-								.getResources()
-								.getDimension(
-										itemId == android.R.id.home ? R.dimen.actionbar_compat_button_home_width
-												: R.dimen.actionbar_compat_button_width),
-						ViewGroup.LayoutParams.FILL_PARENT));
+		final ImageButton actionButton = new ImageButton(mActivity, null,
+				R.attr.actionbarCompatItemStyle);
+		final int widthDimenId = itemId == android.R.id.home ? R.dimen.actionbar_compat_button_home_width
+				: R.dimen.actionbar_compat_button_width;
+		final int buttonWidth = (int) mActivity.getResources().getDimension(
+				widthDimenId);
+		actionButton.setLayoutParams(new ViewGroup.LayoutParams(buttonWidth,
+				ViewGroup.LayoutParams.FILL_PARENT));
 		actionButton.setImageDrawable(item.getIcon());
 		actionButton.setScaleType(ImageView.ScaleType.CENTER);
 		actionButton.setContentDescription(item.getTitle());
-		actionButton.setOnClickListener(new View.OnClickListener()
-		{
-			@Override
-			public void onClick(final View view)
+		if (itemId != android.R.id.home)
+			actionButton.setOnClickListener(new View.OnClickListener()
 			{
-				mActivity
-						.onMenuItemSelected(Window.FEATURE_OPTIONS_PANEL, item);
-			}
-		});
+				@Override
+				public void onClick(final View view)
+				{
+					mActivity.onMenuItemSelected(Window.FEATURE_OPTIONS_PANEL,
+							item);
+				}
+			});
 		actionBar.addView(actionButton);
 	}
 
