@@ -7,7 +7,7 @@
 
 	<uses-sdk
 		android:minSdkVersion="4"
-		android:targetSdkVersion="14" />
+		android:targetSdkVersion="15" />
 
 	<uses-permission android:name="android.permission.INTERNET" />
 	<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
@@ -16,18 +16,18 @@
 		android:debuggable="true"
 		android:icon="@drawable/icon"
 		android:label="@string/app_name"
-		android:theme="@style/Theme" >
+		android:theme="@style/AppTheme" >
 		<provider
+			android:name=".provider.ContractionProvider"
 			android:authorities="com.ianhanniballake.contractiontimer"
-			android:exported="false"
-			android:name=".provider.ContractionProvider" >
+			android:exported="false" >
 			<grant-uri-permission android:pathPattern=".*" />
 		</provider>
 
 		<activity
-			android:label="@string/app_name"
-			android:name=".ui.MainActivity" >
-			<intent-filter >
+			android:name=".ui.MainActivity"
+			android:label="@string/app_name" >
+			<intent-filter>
 				<action android:name="android.intent.action.MAIN" />
 
 				<category android:name="android.intent.category.LAUNCHER" />
@@ -40,9 +40,9 @@
 		<service android:name=".appwidget.ControlAppWidgetService" />
 
 		<receiver
-			android:label="@string/toggle_appwidget_label"
-			android:name=".appwidget.ToggleAppWidgetProvider" >
-			<intent-filter >
+			android:name=".appwidget.ToggleAppWidgetProvider"
+			android:label="@string/toggle_appwidget_label" >
+			<intent-filter>
 				<action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
 			</intent-filter>
 
@@ -51,9 +51,9 @@
 				android:resource="@xml/toggle_appwidget_info" />
 		</receiver>
 		<receiver
-			android:label="@string/control_appwidget_label"
-			android:name=".appwidget.ControlAppWidgetProvider" >
-			<intent-filter >
+			android:name=".appwidget.ControlAppWidgetProvider"
+			android:label="@string/control_appwidget_label" >
+			<intent-filter>
 				<action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
 			</intent-filter>
 
