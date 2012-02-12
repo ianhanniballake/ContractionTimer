@@ -23,13 +23,13 @@ import android.widget.TextView;
 
 import com.google.android.apps.analytics.GoogleAnalyticsTracker;
 import com.ianhanniballake.contractiontimer.R;
+import com.ianhanniballake.contractiontimer.actionbar.ActionBarActivity;
 import com.ianhanniballake.contractiontimer.provider.ContractionContract;
-import com.ianhanniballake.contractiontimer.service.AnalyticTrackingActivity;
 
 /**
  * Main Activity for managing contractions
  */
-public class MainActivity extends AnalyticTrackingActivity implements
+public class MainActivity extends ActionBarActivity implements
 		LoaderManager.LoaderCallbacks<Cursor>
 {
 	/**
