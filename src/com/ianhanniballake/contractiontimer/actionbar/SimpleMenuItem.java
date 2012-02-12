@@ -17,6 +17,14 @@ import android.view.View;
 public class SimpleMenuItem implements MenuItem
 {
 	/**
+	 * If this menu item is checkable
+	 */
+	private boolean mCheckable = false;
+	/**
+	 * If this menu item is checked
+	 */
+	private boolean mChecked = false;
+	/**
 	 * If this menu item is enabled
 	 */
 	private boolean mEnabled = true;
@@ -192,15 +200,13 @@ public class SimpleMenuItem implements MenuItem
 	@Override
 	public boolean isCheckable()
 	{
-		// Noop
-		return false;
+		return mCheckable;
 	}
 
 	@Override
 	public boolean isChecked()
 	{
-		// Noop
-		return false;
+		return mChecked;
 	}
 
 	@Override
@@ -245,16 +251,16 @@ public class SimpleMenuItem implements MenuItem
 	}
 
 	@Override
-	public MenuItem setCheckable(final boolean b)
+	public MenuItem setCheckable(final boolean checkable)
 	{
-		// Noop
+		mCheckable = checkable;
 		return this;
 	}
 
 	@Override
-	public MenuItem setChecked(final boolean b)
+	public MenuItem setChecked(final boolean checked)
 	{
-		// Noop
+		mChecked = checked;
 		return this;
 	}
 
