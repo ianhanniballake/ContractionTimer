@@ -311,6 +311,7 @@ public class MainActivity extends ActionBarActivity implements
 			formattedData.append("<br />");
 		}
 		final Intent shareIntent = new Intent(Intent.ACTION_SEND);
+		shareIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
 		shareIntent.setType("text/html");
 		shareIntent.putExtra(Intent.EXTRA_SUBJECT,
 				getText(R.string.share_subject));
@@ -330,6 +331,7 @@ public class MainActivity extends ActionBarActivity implements
 			return;
 		final String formattedData = getAverageData();
 		final Intent shareIntent = new Intent(Intent.ACTION_SEND);
+		shareIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
 		shareIntent.setType("text/plain");
 		shareIntent.putExtra(Intent.EXTRA_SUBJECT, "My Contractions");
 		shareIntent.putExtra(Intent.EXTRA_TEXT, formattedData);
