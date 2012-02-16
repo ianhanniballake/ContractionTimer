@@ -2,15 +2,12 @@ package com.ianhanniballake.contractiontimer.ui;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentManager;
 import android.util.Log;
-import android.view.ContextThemeWrapper;
 import android.view.LayoutInflater;
 import android.view.View;
 
@@ -34,25 +31,13 @@ public class AboutDialogFragment extends DialogFragment
 	@Override
 	public Dialog onCreateDialog(final Bundle savedInstanceState)
 	{
-		AlertDialog.Builder builder;
-		LayoutInflater inflater;
-		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB)
-		{
-			builder = new AlertDialog.Builder(getActivity());
-			inflater = getActivity().getLayoutInflater();
-		}
-		else
-		{
-			final ContextThemeWrapper wrapper = new ContextThemeWrapper(
-					getActivity(), R.style.DialogTheme);
-			builder = new AlertDialog.Builder(getActivity());
-			inflater = (LayoutInflater) wrapper
-					.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		}
+		final LayoutInflater inflater = getActivity().getLayoutInflater();
 		final View layout = inflater.inflate(R.layout.dialog_about, null);
-		builder.setTitle(R.string.app_name)
+		return new AlertDialog.Builder(getActivity())
+				.setTitle(R.string.app_name)
 				.setIcon(R.drawable.icon)
 				.setView(layout)
+				.setInverseBackgroundForced(true)
 				.setNeutralButton(getText(R.string.close),
 						new OnClickListener()
 						{
@@ -66,8 +51,7 @@ public class AboutDialogFragment extends DialogFragment
 								GoogleAnalyticsTracker.getInstance()
 										.trackEvent("About", "Neutral", "", 0);
 							}
-						});
-		return builder.create();
+						}).create();
 	}
 
 	@Override

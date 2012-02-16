@@ -12,8 +12,9 @@ import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentManager;
 import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
 import android.widget.EditText;
-import android.widget.FrameLayout;
 
 import com.google.android.apps.analytics.GoogleAnalyticsTracker;
 import com.ianhanniballake.contractiontimer.R;
@@ -34,10 +35,6 @@ public class NoteDialogFragment extends DialogFragment
 	 * this dialog
 	 */
 	public final static String EXISTING_NOTE_ARGUMENT = "com.ianhanniballake.contractiontimer.ExistingNote";
-	/**
-	 * Left and right margin to use for the EditText in the dialog
-	 */
-	private final static float LEFT_RIGHT_MARGIN_DP = 10.0f;
 
 	@Override
 	public void onCancel(final DialogInterface dialog)
@@ -57,24 +54,19 @@ public class NoteDialogFragment extends DialogFragment
 				NoteDialogFragment.CONTRACTION_ID_ARGUMENT);
 		final String existingNote = getArguments().getString(
 				NoteDialogFragment.EXISTING_NOTE_ARGUMENT);
-		final FrameLayout layout = new FrameLayout(getActivity());
-		// Get the screen's density scale
-		final float scale = getResources().getDisplayMetrics().density;
-		// Convert the dps to pixels, based on density scale
-		final int leftRightMarginPixels = (int) (NoteDialogFragment.LEFT_RIGHT_MARGIN_DP
-				* scale + 0.5f);
-		layout.setPadding(leftRightMarginPixels, 0, leftRightMarginPixels, 0);
-		final EditText input = new EditText(getActivity());
-		input.setText(existingNote);
-		layout.addView(input);
 		final AlertDialog.Builder builder = new AlertDialog.Builder(
 				getActivity());
+		final LayoutInflater inflater = getActivity().getLayoutInflater();
+		final View layout = inflater.inflate(R.layout.dialog_note, null);
+		final EditText input = (EditText) layout
+				.findViewById(R.id.dialog_note_input);
 		if (existingNote.equals(""))
 			builder.setTitle(R.string.note_dialog_title_add);
 		else
 			builder.setTitle(R.string.note_dialog_title_edit);
 		return builder
 				.setView(layout)
+				.setInverseBackgroundForced(true)
 				.setPositiveButton(R.string.note_dialog_save,
 						new OnClickListener()
 						{

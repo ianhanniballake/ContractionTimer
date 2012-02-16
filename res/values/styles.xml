@@ -32,9 +32,4 @@
 		<item name="android:ellipsize">marquee</item>
 	</style>
 
-	<style name="DialogTheme" parent="android:Theme.Dialog">
-		<item name="android:background">@color/about_dialog_background</item>
-		<item name="android:textColor">@color/about_dialog_text_color</item>
-	</style>
-
 </resources>

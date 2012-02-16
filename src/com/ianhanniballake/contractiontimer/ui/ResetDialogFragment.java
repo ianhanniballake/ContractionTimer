@@ -9,6 +9,8 @@ import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentManager;
 import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
 
 import com.google.android.apps.analytics.GoogleAnalyticsTracker;
 import com.ianhanniballake.contractiontimer.R;
@@ -31,9 +33,12 @@ public class ResetDialogFragment extends DialogFragment
 	@Override
 	public Dialog onCreateDialog(final Bundle savedInstanceState)
 	{
+		final LayoutInflater inflater = getActivity().getLayoutInflater();
+		final View layout = inflater.inflate(R.layout.dialog_reset, null);
 		return new AlertDialog.Builder(getActivity())
 				.setTitle(R.string.reset_dialog_title)
-				.setMessage(R.string.reset_dialog_message)
+				.setView(layout)
+				.setInverseBackgroundForced(true)
 				.setPositiveButton(R.string.reset_dialog_confirm,
 						new OnClickListener()
 						{
