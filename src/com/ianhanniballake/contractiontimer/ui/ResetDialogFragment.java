@@ -7,13 +7,12 @@ import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
-import android.support.v4.app.FragmentManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 
-import com.google.android.apps.analytics.GoogleAnalyticsTracker;
 import com.ianhanniballake.contractiontimer.R;
+import com.ianhanniballake.contractiontimer.analytics.AnalyticsManagerService;
 import com.ianhanniballake.contractiontimer.provider.ContractionContract;
 
 /**
@@ -25,8 +24,7 @@ public class ResetDialogFragment extends DialogFragment
 	public void onCancel(final DialogInterface dialog)
 	{
 		Log.d(getClass().getSimpleName(), "Received cancelation event");
-		GoogleAnalyticsTracker.getInstance()
-				.trackEvent("Note", "Cancel", "", 0);
+		AnalyticsManagerService.trackEvent(getActivity(), "Note", "Cancel");
 		super.onCancel(dialog);
 	}
 
@@ -49,8 +47,8 @@ public class ResetDialogFragment extends DialogFragment
 								Log.d(ResetDialogFragment.this.getClass()
 										.getSimpleName(),
 										"Received positive event");
-								GoogleAnalyticsTracker.getInstance()
-										.trackEvent("Reset", "Positive", "", 0);
+								AnalyticsManagerService.trackEvent(
+										getActivity(), "Reset", "Positive");
 								new AsyncQueryHandler(getActivity()
 										.getContentResolver())
 								{
@@ -72,18 +70,9 @@ public class ResetDialogFragment extends DialogFragment
 								Log.d(ResetDialogFragment.this.getClass()
 										.getSimpleName(),
 										"Received negative event");
-								GoogleAnalyticsTracker.getInstance()
-										.trackEvent("Reset", "Negative", "", 0);
+								AnalyticsManagerService.trackEvent(
+										getActivity(), "Reset", "Negative");
 							}
 						}).create();
-	}
-
-	@Override
-	public void show(final FragmentManager manager, final String tag)
-	{
-		Log.d(getClass().getSimpleName(), "Showing Dialog");
-		GoogleAnalyticsTracker.getInstance().trackPageView(
-				"/" + getClass().getSimpleName());
-		super.show(manager, tag);
 	}
 }

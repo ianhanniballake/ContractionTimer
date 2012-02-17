@@ -10,14 +10,13 @@ import android.content.DialogInterface.OnClickListener;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
-import android.support.v4.app.FragmentManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
 
-import com.google.android.apps.analytics.GoogleAnalyticsTracker;
 import com.ianhanniballake.contractiontimer.R;
+import com.ianhanniballake.contractiontimer.analytics.AnalyticsManagerService;
 import com.ianhanniballake.contractiontimer.provider.ContractionContract;
 
 /**
@@ -42,8 +41,8 @@ public class NoteDialogFragment extends DialogFragment
 		Log.d(getClass().getSimpleName(), "Received cancelation event");
 		final String existingNote = getArguments().getString(
 				NoteDialogFragment.EXISTING_NOTE_ARGUMENT);
-		GoogleAnalyticsTracker.getInstance().trackEvent("Note", "Cancel",
-				existingNote.equals("") ? "Add Note" : "Edit Note", 0);
+		AnalyticsManagerService.trackEvent(getActivity(), "Note", "Cancel",
+				existingNote.equals("") ? "Add Note" : "Edit Note");
 		super.onCancel(dialog);
 	}
 
@@ -77,13 +76,10 @@ public class NoteDialogFragment extends DialogFragment
 								Log.d(NoteDialogFragment.this.getClass()
 										.getSimpleName(),
 										"Received positive event");
-								GoogleAnalyticsTracker
-										.getInstance()
-										.trackEvent(
-												"Note",
-												"Positive",
-												existingNote.equals("") ? "Add Note"
-														: "Edit Note", 0);
+								AnalyticsManagerService.trackEvent(
+										getActivity(), "Note", "Positive",
+										existingNote.equals("") ? "Add Note"
+												: "Edit Note");
 								final Uri updateUri = ContentUris
 										.withAppendedId(
 												ContractionContract.Contractions.CONTENT_ID_URI_BASE,
@@ -110,23 +106,11 @@ public class NoteDialogFragment extends DialogFragment
 								Log.d(NoteDialogFragment.this.getClass()
 										.getSimpleName(),
 										"Received negative event");
-								GoogleAnalyticsTracker
-										.getInstance()
-										.trackEvent(
-												"Note",
-												"Negative",
-												existingNote.equals("") ? "Add Note"
-														: "Edit Note", 0);
+								AnalyticsManagerService.trackEvent(
+										getActivity(), "Note", "Negative",
+										existingNote.equals("") ? "Add Note"
+												: "Edit Note");
 							}
 						}).create();
-	}
-
-	@Override
-	public void show(final FragmentManager manager, final String tag)
-	{
-		Log.d(getClass().getSimpleName(), "Showing Dialog");
-		GoogleAnalyticsTracker.getInstance().trackPageView(
-				"/" + getClass().getSimpleName());
-		super.show(manager, tag);
 	}
 }

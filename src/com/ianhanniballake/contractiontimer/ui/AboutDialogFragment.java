@@ -6,13 +6,12 @@ import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
-import android.support.v4.app.FragmentManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 
-import com.google.android.apps.analytics.GoogleAnalyticsTracker;
 import com.ianhanniballake.contractiontimer.R;
+import com.ianhanniballake.contractiontimer.analytics.AnalyticsManagerService;
 
 /**
  * About Dialog for the application
@@ -23,8 +22,7 @@ public class AboutDialogFragment extends DialogFragment
 	public void onCancel(final DialogInterface dialog)
 	{
 		Log.d(getClass().getSimpleName(), "Received cancelation event");
-		GoogleAnalyticsTracker.getInstance().trackEvent("About", "Cancel", "",
-				0);
+		AnalyticsManagerService.trackEvent(getActivity(), "About", "Cancel");
 		super.onCancel(dialog);
 	}
 
@@ -48,18 +46,9 @@ public class AboutDialogFragment extends DialogFragment
 								Log.d(AboutDialogFragment.this.getClass()
 										.getSimpleName(),
 										"Received neutral event");
-								GoogleAnalyticsTracker.getInstance()
-										.trackEvent("About", "Neutral", "", 0);
+								AnalyticsManagerService.trackEvent(
+										getActivity(), "About", "Neutral");
 							}
 						}).create();
-	}
-
-	@Override
-	public void show(final FragmentManager manager, final String tag)
-	{
-		Log.d(getClass().getSimpleName(), "Showing Dialog");
-		GoogleAnalyticsTracker.getInstance().trackPageView(
-				"/" + getClass().getSimpleName());
-		super.show(manager, tag);
 	}
 }

@@ -21,9 +21,9 @@ import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.TextView;
 
-import com.google.android.apps.analytics.GoogleAnalyticsTracker;
 import com.ianhanniballake.contractiontimer.R;
 import com.ianhanniballake.contractiontimer.actionbar.ActionBarActivity;
+import com.ianhanniballake.contractiontimer.analytics.AnalyticsManagerService;
 import com.ianhanniballake.contractiontimer.provider.ContractionContract;
 
 /**
@@ -79,12 +79,11 @@ public class MainActivity extends ActionBarActivity implements
 					MainActivity.LAUNCHED_FROM_WIDGET_EXTRA);
 			Log.d(getClass().getSimpleName(), "Launched from "
 					+ widgetIdentifier);
-			GoogleAnalyticsTracker.getInstance().trackEvent(widgetIdentifier,
-					"Launch", "", 0);
+			AnalyticsManagerService
+					.trackEvent(this, widgetIdentifier, "Launch");
 		}
 		Log.d(getClass().getSimpleName(), "Showing activity");
-		GoogleAnalyticsTracker.getInstance().trackPageView(
-				"/" + getClass().getSimpleName());
+		AnalyticsManagerService.trackPageView(this);
 	}
 
 	@Override
@@ -164,22 +163,26 @@ public class MainActivity extends ActionBarActivity implements
 		{
 			case R.id.menu_reset:
 				Log.d(getClass().getSimpleName(), "Menu selected Reset");
-				GoogleAnalyticsTracker.getInstance().trackEvent("Menu",
-						"Reset", "", adapter.getCount());
+				AnalyticsManagerService.trackEvent(this, "Menu", "Reset", "",
+						adapter.getCount());
 				final ResetDialogFragment resetDialogFragment = new ResetDialogFragment();
+				Log.d(resetDialogFragment.getClass().getSimpleName(),
+						"Showing Dialog");
+				AnalyticsManagerService
+						.trackPageView(this, resetDialogFragment);
 				resetDialogFragment.show(getSupportFragmentManager(), "reset");
 				return true;
 			case R.id.menu_share_averages:
 				Log.d(getClass().getSimpleName(),
 						"Menu selected Share Averages");
-				GoogleAnalyticsTracker.getInstance().trackEvent("Menu",
-						"Share", "Averages", adapter.getCount());
+				AnalyticsManagerService.trackEvent(this, "Menu", "Share",
+						"Averages", adapter.getCount());
 				shareAverages();
 				return true;
 			case R.id.menu_share_all:
 				Log.d(getClass().getSimpleName(), "Menu selected Share All");
-				GoogleAnalyticsTracker.getInstance().trackEvent("Menu",
-						"Share", "All", adapter.getCount());
+				AnalyticsManagerService.trackEvent(this, "Menu", "Share",
+						"All", adapter.getCount());
 				shareAll();
 				return true;
 			case R.id.menu_keep_screen_on:
@@ -189,7 +192,7 @@ public class MainActivity extends ActionBarActivity implements
 						"keepScreenOn", false);
 				Log.d(getClass().getSimpleName(),
 						"Menu selected Keep Screen On: " + newIsKeepScreenOn);
-				GoogleAnalyticsTracker.getInstance().trackEvent("Menu",
+				AnalyticsManagerService.trackEvent(this, "Menu",
 						"Keep Screen On", Boolean.toString(newIsKeepScreenOn),
 						0);
 				preferences.edit()
@@ -203,9 +206,13 @@ public class MainActivity extends ActionBarActivity implements
 				return true;
 			case R.id.menu_about:
 				Log.d(getClass().getSimpleName(), "Menu selected About");
-				GoogleAnalyticsTracker.getInstance().trackEvent("Menu",
-						"About", "", 0);
+				AnalyticsManagerService
+						.trackEvent(this, "Menu", "About", "", 0);
 				final AboutDialogFragment aboutDialogFragment = new AboutDialogFragment();
+				Log.d(aboutDialogFragment.getClass().getSimpleName(),
+						"Showing Dialog");
+				AnalyticsManagerService
+						.trackPageView(this, aboutDialogFragment);
 				aboutDialogFragment.show(getSupportFragmentManager(), "about");
 				return true;
 			default:

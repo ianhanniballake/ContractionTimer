@@ -36,6 +36,7 @@
 		</activity>
 
 		<service android:name=".analytics.AnalyticsService" />
+		<service android:name=".analytics.AnalyticsManagerService" />
 		<service android:name=".appwidget.AppWidgetToggleService" />
 		<service android:name=".appwidget.ToggleAppWidgetService" />
 		<service android:name=".appwidget.ControlAppWidgetService" />

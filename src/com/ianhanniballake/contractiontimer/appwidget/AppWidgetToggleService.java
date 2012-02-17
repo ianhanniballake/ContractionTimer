@@ -10,8 +10,7 @@ import android.net.Uri;
 import android.provider.BaseColumns;
 import android.util.Log;
 
-import com.google.android.apps.analytics.GoogleAnalyticsTracker;
-import com.ianhanniballake.contractiontimer.analytics.AnalyticSessionManager;
+import com.ianhanniballake.contractiontimer.analytics.AnalyticsManagerService;
 import com.ianhanniballake.contractiontimer.provider.ContractionContract;
 
 /**
@@ -38,7 +37,7 @@ public class AppWidgetToggleService extends IntentService
 	{
 		super.onCreate();
 		Log.d(getClass().getSimpleName(), "Creating service");
-		AnalyticSessionManager.startNewSession(getApplicationContext());
+		AnalyticsManagerService.startSession(this);
 	}
 
 	@Override
@@ -46,13 +45,14 @@ public class AppWidgetToggleService extends IntentService
 	{
 		super.onDestroy();
 		Log.d(getClass().getSimpleName(), "Destroying service");
-		AnalyticSessionManager.stopSession(getApplicationContext());
+		AnalyticsManagerService.stopSession(this);
 	}
 
 	@Override
 	protected void onHandleIntent(final Intent intent)
 	{
-		final String widgetName = intent.getStringExtra(WIDGET_NAME_EXTRA);
+		final String widgetName = intent
+				.getStringExtra(AppWidgetToggleService.WIDGET_NAME_EXTRA);
 		final ContentResolver contentResolver = getContentResolver();
 		final String[] projection = { BaseColumns._ID,
 				ContractionContract.Contractions.COLUMN_NAME_END_TIME };
@@ -66,8 +66,7 @@ public class AppWidgetToggleService extends IntentService
 		{
 			Log.d(AppWidgetToggleService.this.getClass().getSimpleName(),
 					"Stopping contraction");
-			GoogleAnalyticsTracker.getInstance().trackEvent(widgetName, "Stop",
-					"", 0);
+			AnalyticsManagerService.trackEvent(this, widgetName, "Stop");
 			final ContentValues newEndTime = new ContentValues();
 			newEndTime.put(
 					ContractionContract.Contractions.COLUMN_NAME_END_TIME,
@@ -84,8 +83,7 @@ public class AppWidgetToggleService extends IntentService
 		{
 			Log.d(AppWidgetToggleService.this.getClass().getSimpleName(),
 					"Starting contraction");
-			GoogleAnalyticsTracker.getInstance().trackEvent(widgetName,
-					"Start", "", 0);
+			AnalyticsManagerService.trackEvent(this, widgetName, "Start");
 			// Start a new contraction
 			contentResolver.insert(
 					ContractionContract.Contractions.CONTENT_URI,

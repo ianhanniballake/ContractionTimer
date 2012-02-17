@@ -26,8 +26,8 @@ import android.widget.AbsListView;
 import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.TextView;
 
-import com.google.android.apps.analytics.GoogleAnalyticsTracker;
 import com.ianhanniballake.contractiontimer.R;
+import com.ianhanniballake.contractiontimer.analytics.AnalyticsManagerService;
 import com.ianhanniballake.contractiontimer.provider.ContractionContract;
 
 /**
@@ -208,8 +208,8 @@ public class ContractionListFragment extends ListFragment implements
 				final String existingNote = noteView.getText().toString();
 				Log.d(getClass().getSimpleName(), "Context Menu selected "
 						+ (existingNote.equals("") ? "Add Note" : "Edit Note"));
-				GoogleAnalyticsTracker.getInstance().trackEvent("ContextMenu",
-						"Note",
+				AnalyticsManagerService.trackEvent(getActivity(),
+						"ContextMenu", "Note",
 						existingNote.equals("") ? "Add Note" : "Edit Note",
 						info.position);
 				final NoteDialogFragment noteDialogFragment = new NoteDialogFragment();
@@ -219,13 +219,17 @@ public class ContractionListFragment extends ListFragment implements
 				args.putString(NoteDialogFragment.EXISTING_NOTE_ARGUMENT,
 						existingNote);
 				noteDialogFragment.setArguments(args);
+				Log.d(noteDialogFragment.getClass().getSimpleName(),
+						"Showing Dialog");
+				AnalyticsManagerService.trackPageView(getActivity(),
+						noteDialogFragment);
 				noteDialogFragment.show(getFragmentManager(), "note");
 				return true;
 			case R.id.menu_context_delete:
 				Log.d(getClass().getSimpleName(),
 						"Context Menu selected delete");
-				GoogleAnalyticsTracker.getInstance().trackEvent("ContextMenu",
-						"Delete", "", info.position);
+				AnalyticsManagerService.trackEvent(getActivity(),
+						"ContextMenu", "Delete", "", info.position);
 				final Uri deleteUri = ContentUris.withAppendedId(
 						ContractionContract.Contractions.CONTENT_ID_URI_BASE,
 						info.id);
@@ -265,8 +269,8 @@ public class ContractionListFragment extends ListFragment implements
 		else
 			noteItem.setTitle(R.string.note_dialog_title_edit);
 		Log.d(getClass().getSimpleName(), "Context Menu Opened");
-		GoogleAnalyticsTracker.getInstance().trackEvent("ContextMenu", "Open",
-				note.equals("") ? "Add Note" : "Edit Note", 0);
+		AnalyticsManagerService.trackEvent(getActivity(), "ContextMenu",
+				"Open", note.equals("") ? "Add Note" : "Edit Note");
 	}
 
 	@Override

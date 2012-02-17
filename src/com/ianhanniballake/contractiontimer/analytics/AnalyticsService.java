@@ -16,7 +16,7 @@ public class AnalyticsService extends Service
 	public IBinder onBind(final Intent intent)
 	{
 		Log.d(getClass().getSimpleName(), "Binding service");
-		AnalyticSessionManager.startNewSession(getApplicationContext());
+		AnalyticsManagerService.startSession(this);
 		return new Binder();
 	}
 
@@ -24,7 +24,7 @@ public class AnalyticsService extends Service
 	public boolean onUnbind(final Intent intent)
 	{
 		Log.d(getClass().getSimpleName(), "Unbinding service");
-		AnalyticSessionManager.stopSession(getApplicationContext());
+		AnalyticsManagerService.stopSession(this);
 		return false;
 	}
 }
