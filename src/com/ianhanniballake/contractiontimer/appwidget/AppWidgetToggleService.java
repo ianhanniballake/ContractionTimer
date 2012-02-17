@@ -11,8 +11,8 @@ import android.provider.BaseColumns;
 import android.util.Log;
 
 import com.google.android.apps.analytics.GoogleAnalyticsTracker;
+import com.ianhanniballake.contractiontimer.analytics.AnalyticSessionManager;
 import com.ianhanniballake.contractiontimer.provider.ContractionContract;
-import com.ianhanniballake.contractiontimer.service.AnalyticSessionManager;
 
 /**
  * Starts a new contraction or stops the current contraction, updating all

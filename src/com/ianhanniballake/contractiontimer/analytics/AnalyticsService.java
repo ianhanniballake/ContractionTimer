@@ -1,4 +1,4 @@
-package com.ianhanniballake.contractiontimer.service;
+package com.ianhanniballake.contractiontimer.analytics;
 
 import android.app.Service;
 import android.content.Intent;

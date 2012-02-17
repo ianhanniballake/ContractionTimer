@@ -34,7 +34,7 @@
 			</intent-filter>
 		</activity>
 
-		<service android:name=".service.AnalyticsService" />
+		<service android:name=".analytics.AnalyticsService" />
 		<service android:name=".appwidget.AppWidgetToggleService" />
 		<service android:name=".appwidget.ToggleAppWidgetService" />
 		<service android:name=".appwidget.ControlAppWidgetService" />

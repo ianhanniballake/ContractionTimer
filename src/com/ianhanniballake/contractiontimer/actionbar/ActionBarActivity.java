@@ -5,7 +5,7 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 
-import com.ianhanniballake.contractiontimer.service.AnalyticTrackingActivity;
+import com.ianhanniballake.contractiontimer.analytics.AnalyticTrackingActivity;
 
 /**
  * A base activity that defers common functionality across app activities to an
