@@ -91,16 +91,6 @@ public class MainActivity extends ActionBarFragmentActivity implements
 	{
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
-		final SharedPreferences preferences = getSharedPreferences(
-				getPackageName(), Context.MODE_PRIVATE);
-		final boolean isKeepScreenOn = preferences.getBoolean("keepScreenOn",
-				false);
-		if (isKeepScreenOn)
-			getWindow()
-					.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
-		else
-			getWindow().clearFlags(
-					WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 		adapter = new CursorAdapter(this, null, 0)
 		{
 			@Override
@@ -185,24 +175,8 @@ public class MainActivity extends ActionBarFragmentActivity implements
 						"All", adapter.getCount());
 				shareAll();
 				return true;
-			case R.id.menu_keep_screen_on:
-				final SharedPreferences preferences = getSharedPreferences(
-						getPackageName(), Context.MODE_PRIVATE);
-				final boolean newIsKeepScreenOn = !preferences.getBoolean(
-						"keepScreenOn", false);
-				Log.d(getClass().getSimpleName(),
-						"Menu selected Keep Screen On: " + newIsKeepScreenOn);
-				AnalyticsManagerService.trackEvent(this, "Menu",
-						"Keep Screen On", Boolean.toString(newIsKeepScreenOn),
-						0);
-				preferences.edit()
-						.putBoolean("keepScreenOn", newIsKeepScreenOn).commit();
-				if (newIsKeepScreenOn)
-					getWindow().addFlags(
-							WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
-				else
-					getWindow().clearFlags(
-							WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+			case R.id.menu_settings:
+				startActivity(new Intent(this, Preferences.class));
 				return true;
 			case R.id.menu_about:
 				Log.d(getClass().getSimpleName(), "Menu selected About");
@@ -231,18 +205,24 @@ public class MainActivity extends ActionBarFragmentActivity implements
 		shareAverages.setEnabled(enableShare);
 		final MenuItem shareAll = menu.findItem(R.id.menu_share_all);
 		shareAll.setEnabled(enableShare);
-		// Set checked status of keep screen on item
-		final MenuItem keepScreenOn = menu.findItem(R.id.menu_keep_screen_on);
+		return true;
+	}
+
+	@Override
+	protected void onResume()
+	{
+		super.onResume();
 		final SharedPreferences preferences = getSharedPreferences(
 				getPackageName(), Context.MODE_PRIVATE);
-		final boolean isKeepScreenOn = preferences.getBoolean("keepScreenOn",
-				false);
-		keepScreenOn.setChecked(isKeepScreenOn);
+		final boolean isKeepScreenOn = preferences.getBoolean(
+				Preferences.KEEP_SCREEN_ON_PREFERENCE_KEY, false);
+		Log.d(getClass().getSimpleName(), "Keep Screen On: " + isKeepScreenOn);
 		if (isKeepScreenOn)
-			keepScreenOn.setIcon(android.R.drawable.checkbox_on_background);
+			getWindow()
+					.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 		else
-			keepScreenOn.setIcon(android.R.drawable.checkbox_off_background);
-		return true;
+			getWindow().clearFlags(
+					WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 	}
 
 	/**

@@ -244,6 +244,12 @@ public class ActionBarHelperBase extends ActionBarHelper
 		}
 	}
 
+	@Override
+	public void setDisplayHomeAsUpEnabled(final boolean showHomeAsUp)
+	{
+		// TODO This should probably do something
+	}
+
 	/**
 	 * Sets up the compatibility action bar with the given title.
 	 */

@@ -34,6 +34,9 @@
 				<category android:name="android.intent.category.LAUNCHER" />
 			</intent-filter>
 		</activity>
+		<activity
+			android:name=".ui.Preferences"
+			android:label="@string/settings" />
 
 		<service android:name=".analytics.AnalyticsService" />
 		<service android:name=".analytics.AnalyticsManagerService" />

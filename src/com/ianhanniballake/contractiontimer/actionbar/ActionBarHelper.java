@@ -74,4 +74,12 @@ public abstract class ActionBarHelper
 	 * lifecycle phase.
 	 */
 	public abstract void onPostCreate();
+
+	/**
+	 * Sets whether the home button should display the 'up' carret
+	 * 
+	 * @param showHomeAsUp
+	 *            Whether the 'up' carret should appear on the home button
+	 */
+	public abstract void setDisplayHomeAsUpEnabled(final boolean showHomeAsUp);
 }

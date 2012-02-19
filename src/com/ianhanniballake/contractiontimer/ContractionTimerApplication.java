@@ -4,6 +4,7 @@ import android.app.Application;
 import android.content.pm.ApplicationInfo;
 import android.os.Build;
 import android.os.StrictMode;
+import android.preference.PreferenceManager;
 
 /**
  * Creates the Contraction Timer application, setting strict mode in debug mode
@@ -31,5 +32,7 @@ public class ContractionTimerApplication extends Application
 			StrictMode.setVmPolicy(new StrictMode.VmPolicy.Builder()
 					.detectAll().penaltyLog().penaltyDeath().build());
 		}
+		PreferenceManager.setDefaultValues(this, R.xml.preferences_settings,
+				false);
 	}
 }

@@ -42,8 +42,11 @@ public abstract class ActionBarPreferenceActivity extends
 	@Override
 	protected void onCreate(final Bundle savedInstanceState)
 	{
-		super.onCreate(savedInstanceState);
+		// Note calls must be in this order as PreferenceActivity's onCreate
+		// adds UI elements, which is a problem for setting window features to
+		// support the custom action bar on pre-Honeycomb devices
 		mActionBarHelper.onCreate();
+		super.onCreate(savedInstanceState);
 	}
 
 	/**

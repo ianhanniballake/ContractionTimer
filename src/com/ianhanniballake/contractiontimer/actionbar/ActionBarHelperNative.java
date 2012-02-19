@@ -44,4 +44,10 @@ public class ActionBarHelperNative extends ActionBarHelper
 	{
 		// Nothing to do
 	}
+
+	@Override
+	public void setDisplayHomeAsUpEnabled(final boolean showHomeAsUp)
+	{
+		mActivity.getActionBar().setDisplayHomeAsUpEnabled(showHomeAsUp);
+	}
 }
