@@ -5,8 +5,8 @@
 		<SwitchPreference
 			android:defaultValue="@bool/pref_settings_keep_screen_on_default"
 			android:key="keepScreenOn"
-			android:summaryOff="@string/pref_settings_keep_screen_on_summary"
-			android:summaryOn="@string/pref_settings_keep_screen_on_summary"
+			android:summaryOff="@string/pref_settings_keep_screen_on_summary_off"
+			android:summaryOn="@string/pref_settings_keep_screen_on_summary_on"
 			android:switchTextOff="@string/pref_switch_text_off"
 			android:switchTextOn="@string/pref_switch_text_on"
 			android:title="@string/pref_settings_keep_screen_on_title" />
