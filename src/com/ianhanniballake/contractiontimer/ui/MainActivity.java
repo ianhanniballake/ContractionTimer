@@ -22,14 +22,14 @@ import android.view.WindowManager;
 import android.widget.TextView;
 
 import com.ianhanniballake.contractiontimer.R;
-import com.ianhanniballake.contractiontimer.actionbar.ActionBarActivity;
+import com.ianhanniballake.contractiontimer.actionbar.ActionBarFragmentActivity;
 import com.ianhanniballake.contractiontimer.analytics.AnalyticsManagerService;
 import com.ianhanniballake.contractiontimer.provider.ContractionContract;
 
 /**
  * Main Activity for managing contractions
  */
-public class MainActivity extends ActionBarActivity implements
+public class MainActivity extends ActionBarFragmentActivity implements
 		LoaderManager.LoaderCallbacks<Cursor>
 {
 	/**

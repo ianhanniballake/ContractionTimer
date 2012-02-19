@@ -8,19 +8,14 @@ import android.support.v4.app.FragmentActivity;
  * FragmentActivity that utilizes GoogleAnalyticsTracker to provide usage
  * metrics
  */
-public abstract class AnalyticTrackingActivity extends FragmentActivity
+public abstract class AnalyticTrackingFragmentActivity extends FragmentActivity
+		implements AnalyticsTrackingActivity
 {
 	/**
 	 * Connection to the analytics service
 	 */
 	private final AnalyticsServiceConnection service = new AnalyticsServiceConnection(
 			this);
-
-	/**
-	 * Called when the analytics instance is successfully connected to this
-	 * activity
-	 */
-	public abstract void onAnalyticsServiceConnected();
 
 	@Override
 	protected void onStart()

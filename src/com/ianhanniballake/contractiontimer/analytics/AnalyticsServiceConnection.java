@@ -14,7 +14,7 @@ public class AnalyticsServiceConnection implements ServiceConnection
 	/**
 	 * Activity instance to provide call back on service connected
 	 */
-	private final AnalyticTrackingActivity analyticTrackingActivity;
+	private final AnalyticsTrackingActivity analyticTrackingActivity;
 
 	/**
 	 * Constructs a service connection with the appropriate call back activity
@@ -23,7 +23,7 @@ public class AnalyticsServiceConnection implements ServiceConnection
 	 *            Activity to provide call back on service connected
 	 */
 	public AnalyticsServiceConnection(
-			final AnalyticTrackingActivity analyticTrackingActivity)
+			final AnalyticsTrackingActivity analyticTrackingActivity)
 	{
 		this.analyticTrackingActivity = analyticTrackingActivity;
 	}
