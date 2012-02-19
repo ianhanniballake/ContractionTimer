@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+	<string name="pref_switch_text_on">ON</string>
+	<string name="pref_switch_text_off">OFF</string>
+	<string name="pref_settings_keep_screen_on_summary_on">Screen will stay on when on the main contraction screen</string>
+	<string name="pref_settings_keep_screen_on_summary_off">Screen will time out per the system settings</string>
+
+</resources>
