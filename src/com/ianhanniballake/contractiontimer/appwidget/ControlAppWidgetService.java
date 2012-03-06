@@ -5,7 +5,9 @@ import android.app.PendingIntent;
 import android.appwidget.AppWidgetManager;
 import android.content.ComponentName;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
+import android.preference.PreferenceManager;
 import android.provider.BaseColumns;
 import android.text.format.DateUtils;
 import android.util.Log;
@@ -15,6 +17,7 @@ import android.widget.RemoteViews;
 import com.ianhanniballake.contractiontimer.R;
 import com.ianhanniballake.contractiontimer.provider.ContractionContract;
 import com.ianhanniballake.contractiontimer.ui.MainActivity;
+import com.ianhanniballake.contractiontimer.ui.Preferences;
 
 /**
  * Handles updates of the 'Control' style App Widgets
@@ -53,8 +56,18 @@ public class ControlAppWidgetService extends IntentService
 		final boolean contractionOngoing = atLeastOneContraction
 				&& data.isNull(data
 						.getColumnIndex(ContractionContract.Contractions.COLUMN_NAME_END_TIME));
-		final RemoteViews views = new RemoteViews(getPackageName(),
-				R.layout.control_appwidget_dark);
+		RemoteViews views;
+		final SharedPreferences preferences = PreferenceManager
+				.getDefaultSharedPreferences(this);
+		final String appwidgetBackground = preferences.getString(
+				Preferences.APPWIDGET_BACKGROUND_PREFERENCE_KEY,
+				getString(R.string.pref_appwidget_background_default));
+		if (appwidgetBackground.equals("light"))
+			views = new RemoteViews(getPackageName(),
+					R.layout.control_appwidget_light);
+		else
+			views = new RemoteViews(getPackageName(),
+					R.layout.control_appwidget_dark);
 		// Add the intent to the Application Launch button
 		final Intent applicationLaunchIntent = new Intent(this,
 				MainActivity.class);
