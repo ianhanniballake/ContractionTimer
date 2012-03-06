@@ -1,14 +1,18 @@
 package com.ianhanniballake.contractiontimer.ui;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
 import android.os.Bundle;
+import android.preference.ListPreference;
 import android.util.Log;
 import android.view.MenuItem;
 
 import com.ianhanniballake.contractiontimer.R;
 import com.ianhanniballake.contractiontimer.actionbar.ActionBarPreferenceActivity;
 import com.ianhanniballake.contractiontimer.analytics.AnalyticsManagerService;
+import com.ianhanniballake.contractiontimer.appwidget.ControlAppWidgetService;
+import com.ianhanniballake.contractiontimer.appwidget.ToggleAppWidgetService;
 
 /**
  * Activity managing the various application preferences
@@ -17,9 +21,18 @@ public class Preferences extends ActionBarPreferenceActivity implements
 		OnSharedPreferenceChangeListener
 {
 	/**
+	 * Appwidget Background preference name
+	 */
+	public static final String APPWIDGET_BACKGROUND_PREFERENCE_KEY = "appwidget_background";
+	/**
 	 * Keep Screen On preference name
 	 */
 	public static final String KEEP_SCREEN_ON_PREFERENCE_KEY = "keepScreenOn";
+	/**
+	 * Reference to the ListPreference corresponding with the undo animation
+	 * speed
+	 */
+	private ListPreference appwidgetBackgroundListPreference;
 
 	@Override
 	public void onAnalyticsServiceConnected()
@@ -33,6 +46,10 @@ public class Preferences extends ActionBarPreferenceActivity implements
 	{
 		super.onCreate(savedInstanceState);
 		addPreferencesFromResource(R.xml.preferences_settings);
+		appwidgetBackgroundListPreference = (ListPreference) getPreferenceScreen()
+				.findPreference(Preferences.APPWIDGET_BACKGROUND_PREFERENCE_KEY);
+		appwidgetBackgroundListPreference
+				.setSummary(appwidgetBackgroundListPreference.getEntry());
 	}
 
 	@Override
@@ -78,6 +95,19 @@ public class Preferences extends ActionBarPreferenceActivity implements
 					+ newIsKeepScreenOn);
 			AnalyticsManagerService.trackEvent(this, "Preferences",
 					"Keep Screen On", Boolean.toString(newIsKeepScreenOn));
+		}
+		else if (key.equals(Preferences.APPWIDGET_BACKGROUND_PREFERENCE_KEY))
+		{
+			final String newAppwidgetBackground = appwidgetBackgroundListPreference
+					.getValue();
+			Log.d(getClass().getSimpleName(), "Appwidget Background: "
+					+ newAppwidgetBackground);
+			AnalyticsManagerService.trackEvent(this, "Preferences",
+					"Appwidget Background", newAppwidgetBackground);
+			appwidgetBackgroundListPreference
+					.setSummary(appwidgetBackgroundListPreference.getEntry());
+			startService(new Intent(this, ToggleAppWidgetService.class));
+			startService(new Intent(this, ControlAppWidgetService.class));
 		}
 	}
 

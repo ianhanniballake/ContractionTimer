@@ -11,5 +11,14 @@
 			android:switchTextOn="@string/pref_switch_text_on"
 			android:title="@string/pref_settings_keep_screen_on_title" />
 	</PreferenceCategory>
+	<PreferenceCategory android:title="@string/pref_appwidget_category" >
+		<ListPreference
+			android:defaultValue="@string/pref_appwidget_background_default"
+			android:dialogTitle="@string/pref_appwidget_background_dialog_title"
+			android:entries="@array/pref_appwidget_background_entries"
+			android:entryValues="@array/pref_appwidget_background_entryvalues"
+			android:key="appwidget_background"
+			android:title="@string/pref_appwidget_background_title" />
+	</PreferenceCategory>
 
 </PreferenceScreen>

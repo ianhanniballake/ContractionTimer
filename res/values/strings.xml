@@ -36,5 +36,9 @@
 	<string name="pref_settings_category">Settings</string>
 	<string name="pref_settings_keep_screen_on_summary">Keep the screen on when on the main contraction screen</string>
 	<string name="pref_settings_keep_screen_on_title">Keep Screen On</string>
+	<string name="pref_appwidget_category">Application Widget</string>
+	<string name="pref_appwidget_background_title">Widget Background</string>
+	<string name="pref_appwidget_background_dialog_title">Choose Widget Background</string>
+	<string name="pref_appwidget_background_default">light</string>
 
 </resources>

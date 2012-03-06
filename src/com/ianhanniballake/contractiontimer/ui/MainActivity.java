@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.provider.BaseColumns;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
@@ -212,8 +213,8 @@ public class MainActivity extends ActionBarFragmentActivity implements
 	protected void onResume()
 	{
 		super.onResume();
-		final SharedPreferences preferences = getSharedPreferences(
-				getPackageName(), Context.MODE_PRIVATE);
+		final SharedPreferences preferences = PreferenceManager
+				.getDefaultSharedPreferences(this);
 		final boolean isKeepScreenOn = preferences.getBoolean(
 				Preferences.KEEP_SCREEN_ON_PREFERENCE_KEY, false);
 		Log.d(getClass().getSimpleName(), "Keep Screen On: " + isKeepScreenOn);
