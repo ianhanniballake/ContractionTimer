@@ -51,12 +51,13 @@ public class ToggleAppWidgetService extends IntentService
 				&& data.isNull(data
 						.getColumnIndex(ContractionContract.Contractions.COLUMN_NAME_END_TIME));
 		final RemoteViews views = new RemoteViews(getPackageName(),
-				R.layout.toggle_appwidget);
+				R.layout.toggle_appwidget_dark);
 		// Set the status of the contraction toggle button
 		final Intent toggleContractionIntent = new Intent(this,
 				AppWidgetToggleService.class);
 		toggleContractionIntent.putExtra(
-				AppWidgetToggleService.WIDGET_NAME_EXTRA, WIDGET_IDENTIFIER);
+				AppWidgetToggleService.WIDGET_NAME_EXTRA,
+				ToggleAppWidgetService.WIDGET_IDENTIFIER);
 		final PendingIntent toggleContractionPendingIntent = PendingIntent
 				.getService(this, 0, toggleContractionIntent,
 						PendingIntent.FLAG_UPDATE_CURRENT);
