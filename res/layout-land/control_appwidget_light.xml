@@ -26,14 +26,16 @@
 			android:layout_height="match_parent"
 			android:gravity="center_vertical"
 			android:paddingRight="10dp"
-			android:text="@string/average_duration_label" />
+			android:text="@string/average_duration_label"
+			android:textColor="@android:color/primary_text_light" />
 
 		<TextView
 			android:id="@+id/average_duration"
 			android:layout_width="wrap_content"
 			android:layout_height="match_parent"
 			android:layout_toRightOf="@id/average_duration_label"
-			android:gravity="center_vertical" />
+			android:gravity="center_vertical"
+			android:textColor="@android:color/primary_text_light" />
 	</LinearLayout>
 
 	<LinearLayout
@@ -49,14 +51,16 @@
 			android:layout_height="match_parent"
 			android:gravity="center_vertical"
 			android:paddingRight="10dp"
-			android:text="@string/average_frequency_label" />
+			android:text="@string/average_frequency_label"
+			android:textColor="@android:color/primary_text_light" />
 
 		<TextView
 			android:id="@+id/average_frequency"
 			android:layout_width="wrap_content"
 			android:layout_height="match_parent"
 			android:layout_toRightOf="@id/average_frequency_label"
-			android:gravity="center_vertical" />
+			android:gravity="center_vertical"
+			android:textColor="@android:color/primary_text_light" />
 	</LinearLayout>
 
 	<Button

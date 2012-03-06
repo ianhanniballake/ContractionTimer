@@ -4,6 +4,7 @@
 	android:layout_height="match_parent"
 	android:background="@drawable/appwidget_dark_bg"
 	android:orientation="horizontal" >
+
 	<ImageButton
 		android:id="@+id/application_launch"
 		android:layout_width="wrap_content"
@@ -11,46 +12,57 @@
 		android:background="@drawable/appwidget_button_left"
 		android:padding="@dimen/appwidget_padding"
 		android:src="@drawable/icon" />
+
 	<LinearLayout
 		android:layout_width="0dp"
 		android:layout_height="match_parent"
 		android:layout_weight="1"
 		android:orientation="horizontal"
 		android:padding="@dimen/appwidget_padding" >
+
 		<TextView
 			android:id="@+id/average_duration_label"
 			android:layout_width="wrap_content"
 			android:layout_height="match_parent"
 			android:gravity="center_vertical"
 			android:paddingRight="10dp"
-			android:text="@string/average_duration_label" />
+			android:text="@string/average_duration_label"
+			android:textColor="@android:color/primary_text_dark" />
+
 		<TextView
 			android:id="@+id/average_duration"
 			android:layout_width="wrap_content"
 			android:layout_height="match_parent"
 			android:layout_toRightOf="@id/average_duration_label"
-			android:gravity="center_vertical" />
+			android:gravity="center_vertical"
+			android:textColor="@android:color/primary_text_dark" />
 	</LinearLayout>
+
 	<LinearLayout
 		android:layout_width="0dp"
 		android:layout_height="match_parent"
 		android:layout_weight="1"
 		android:orientation="horizontal"
 		android:padding="@dimen/appwidget_padding" >
+
 		<TextView
 			android:id="@+id/average_frequency_label"
 			android:layout_width="wrap_content"
 			android:layout_height="match_parent"
 			android:gravity="center_vertical"
 			android:paddingRight="10dp"
-			android:text="@string/average_frequency_label" />
+			android:text="@string/average_frequency_label"
+			android:textColor="@android:color/primary_text_dark" />
+
 		<TextView
 			android:id="@+id/average_frequency"
 			android:layout_width="wrap_content"
 			android:layout_height="match_parent"
 			android:layout_toRightOf="@id/average_frequency_label"
-			android:gravity="center_vertical" />
+			android:gravity="center_vertical"
+			android:textColor="@android:color/primary_text_dark" />
 	</LinearLayout>
+
 	<Button
 		android:id="@+id/contraction_toggle_off"
 		android:layout_width="wrap_content"
@@ -60,6 +72,7 @@
 		android:padding="@dimen/appwidget_padding"
 		android:text="@string/appwidget_contraction_start"
 		android:textColor="@android:color/primary_text_dark" />
+
 	<Button
 		android:id="@+id/contraction_toggle_on"
 		android:layout_width="wrap_content"
@@ -70,4 +83,5 @@
 		android:text="@string/appwidget_contraction_stop"
 		android:textColor="@android:color/primary_text_dark"
 		android:visibility="gone" />
+
 </LinearLayout>
