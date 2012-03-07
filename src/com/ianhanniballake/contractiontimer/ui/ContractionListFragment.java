@@ -169,15 +169,17 @@ public class ContractionListFragment extends ListFragment implements
 		@Override
 		public void run()
 		{
-			final long durationInSeconds = (System.currentTimeMillis() - currentContractionStartTime) / 1000;
 			final View rootView = getView();
 			if (rootView != null)
 			{
 				final TextView currentContractionDurationView = (TextView) rootView
 						.findViewWithTag("durationView");
 				if (currentContractionDurationView != null)
+				{
+					final long durationInSeconds = (System.currentTimeMillis() - currentContractionStartTime) / 1000;
 					currentContractionDurationView.setText(DateUtils
 							.formatElapsedTime(durationInSeconds));
+				}
 			}
 			liveDurationHandler.postDelayed(this, 1000);
 		}
@@ -312,6 +314,24 @@ public class ContractionListFragment extends ListFragment implements
 	{
 		super.onPause();
 		liveDurationHandler.removeCallbacks(liveDurationUpdate);
+	}
+
+	@Override
+	public void onResume()
+	{
+		super.onResume();
+		final View rootView = getView();
+		if (rootView != null)
+		{
+			final TextView currentContractionDurationView = (TextView) rootView
+					.findViewWithTag("durationView");
+			if (currentContractionDurationView != null)
+			{
+				// Ensures the live duration update is running
+				liveDurationHandler.removeCallbacks(liveDurationUpdate);
+				liveDurationHandler.post(liveDurationUpdate);
+			}
+		}
 	}
 
 	@Override
