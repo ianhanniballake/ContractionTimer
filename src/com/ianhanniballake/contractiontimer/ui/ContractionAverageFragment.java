@@ -1,8 +1,10 @@
 package com.ianhanniballake.contractiontimer.ui;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
@@ -39,8 +41,12 @@ public class ContractionAverageFragment extends Fragment implements
 				ContractionContract.Contractions.COLUMN_NAME_END_TIME };
 		final String selection = ContractionContract.Contractions.COLUMN_NAME_START_TIME
 				+ ">?";
-		// In the last hour
-		final long timeCutoff = System.currentTimeMillis() - 1000 * 60 * 60;
+		final SharedPreferences preferences = PreferenceManager
+				.getDefaultSharedPreferences(getActivity());
+		final long averagesTimeFrame = Long.parseLong(preferences.getString(
+				Preferences.AVERAGE_TIME_FRAME_PREFERENCE_KEY,
+				getString(R.string.pref_settings_average_time_frame_default)));
+		final long timeCutoff = System.currentTimeMillis() - averagesTimeFrame;
 		final String[] selectionArgs = { Long.toString(timeCutoff) };
 		return new CursorLoader(getActivity(),
 				ContractionContract.Contractions.CONTENT_URI, projection,

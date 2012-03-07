@@ -120,8 +120,12 @@ public class MainActivity extends ActionBarFragmentActivity implements
 				ContractionContract.Contractions.COLUMN_NAME_NOTE };
 		final String selection = ContractionContract.Contractions.COLUMN_NAME_START_TIME
 				+ ">?";
-		// In the last hour
-		final long timeCutoff = System.currentTimeMillis() - 1000 * 60 * 60;
+		final SharedPreferences preferences = PreferenceManager
+				.getDefaultSharedPreferences(this);
+		final long averagesTimeFrame = Long.parseLong(preferences.getString(
+				Preferences.AVERAGE_TIME_FRAME_PREFERENCE_KEY,
+				getString(R.string.pref_settings_average_time_frame_default)));
+		final long timeCutoff = System.currentTimeMillis() - averagesTimeFrame;
 		final String[] selectionArgs = { Long.toString(timeCutoff) };
 		return new CursorLoader(this,
 				ContractionContract.Contractions.CONTENT_URI, projection,
