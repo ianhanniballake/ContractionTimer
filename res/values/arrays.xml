@@ -9,5 +9,19 @@
 		<item>light</item>
 		<item>dark</item>
 	</string-array>
+	<string-array name="pref_settings_average_time_frame_entries">
+		<item>Last 30 minutes</item>
+		<item>Last hour</item>
+		<item>Last 2 hours</item>
+		<item>Last 24 hours</item>
+		<item>All Contractions</item>
+	</string-array>
+	<string-array name="pref_settings_average_time_frame_entryvalues">
+		<item>1800000</item> <!-- 30 minutes in milliseconds -->
+		<item>3600000</item> <!-- 1 hour in milliseconds -->
+		<item>7200000</item> <!-- 2 hours in milliseconds -->
+		<item>86400000</item> <!-- 24 hours in milliseconds -->
+		<item>315360000000</item> <!-- 10 years in milliseconds -->
+	</string-array>
 
 </resources>

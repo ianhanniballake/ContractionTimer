@@ -25,6 +25,10 @@ public class Preferences extends ActionBarPreferenceActivity implements
 	 */
 	public static final String APPWIDGET_BACKGROUND_PREFERENCE_KEY = "appwidget_background";
 	/**
+	 * Average Time Frame preference name
+	 */
+	public static final String AVERAGE_TIME_FRAME_PREFERENCE_KEY = "average_time_frame";
+	/**
 	 * Keep Screen On preference name
 	 */
 	public static final String KEEP_SCREEN_ON_PREFERENCE_KEY = "keepScreenOn";
@@ -33,6 +37,10 @@ public class Preferences extends ActionBarPreferenceActivity implements
 	 * speed
 	 */
 	private ListPreference appwidgetBackgroundListPreference;
+	/**
+	 * Reference to the ListPreference corresponding with the average time frame
+	 */
+	private ListPreference averageTimeFrameListPreference;
 
 	@Override
 	public void onAnalyticsServiceConnected()
@@ -50,6 +58,11 @@ public class Preferences extends ActionBarPreferenceActivity implements
 				.findPreference(Preferences.APPWIDGET_BACKGROUND_PREFERENCE_KEY);
 		appwidgetBackgroundListPreference
 				.setSummary(appwidgetBackgroundListPreference.getEntry());
+		averageTimeFrameListPreference = (ListPreference) getPreferenceScreen()
+				.findPreference(Preferences.AVERAGE_TIME_FRAME_PREFERENCE_KEY);
+		averageTimeFrameListPreference
+				.setSummary(getString(R.string.pref_settings_average_time_frame_summary)
+						+ "\n" + averageTimeFrameListPreference.getEntry());
 	}
 
 	@Override
@@ -108,6 +121,18 @@ public class Preferences extends ActionBarPreferenceActivity implements
 					.setSummary(appwidgetBackgroundListPreference.getEntry());
 			startService(new Intent(this, ToggleAppWidgetService.class));
 			startService(new Intent(this, ControlAppWidgetService.class));
+		}
+		else if (key.equals(Preferences.AVERAGE_TIME_FRAME_PREFERENCE_KEY))
+		{
+			final String newAverageTimeFrame = averageTimeFrameListPreference
+					.getValue();
+			Log.d(getClass().getSimpleName(), "Average Time Frame: "
+					+ newAverageTimeFrame);
+			AnalyticsManagerService.trackEvent(this, "Preferences",
+					"Average Time Frame", newAverageTimeFrame);
+			averageTimeFrameListPreference
+					.setSummary(getString(R.string.pref_settings_average_time_frame_summary)
+							+ "\n" + averageTimeFrameListPreference.getEntry());
 		}
 	}
 
