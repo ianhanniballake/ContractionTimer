@@ -321,7 +321,8 @@ public class MainActivity extends ActionBarFragmentActivity implements
 		final Intent shareIntent = new Intent(Intent.ACTION_SEND);
 		shareIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
 		shareIntent.setType("text/plain");
-		shareIntent.putExtra(Intent.EXTRA_SUBJECT, "My Contractions");
+		shareIntent.putExtra(Intent.EXTRA_SUBJECT,
+				getText(R.string.share_subject));
 		shareIntent.putExtra(Intent.EXTRA_TEXT, formattedData);
 		startActivity(Intent.createChooser(shareIntent,
 				getText(R.string.share_pick_application)));
