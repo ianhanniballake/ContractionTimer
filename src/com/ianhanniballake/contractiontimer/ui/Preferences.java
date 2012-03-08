@@ -2,7 +2,9 @@ package com.ianhanniballake.contractiontimer.ui;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
+import android.os.Build;
 import android.os.Bundle;
 import android.preference.ListPreference;
 import android.util.Log;
@@ -24,6 +26,15 @@ public class Preferences extends ActionBarPreferenceActivity implements
 	 * Appwidget Background preference name
 	 */
 	public static final String APPWIDGET_BACKGROUND_PREFERENCE_KEY = "appwidget_background";
+	/**
+	 * Average Time Frame recently changed for ContractionAverageFragment
+	 * preference name
+	 */
+	public static final String AVERAGE_TIME_FRAME_CHANGED_FRAGMENT_PREFERENCE_KEY = "average_time_frame_changed_fragment";
+	/**
+	 * Average Time Frame recently changed for MainActivity preference name
+	 */
+	public static final String AVERAGE_TIME_FRAME_CHANGED_MAIN_PREFERENCE_KEY = "average_time_frame_changed_main";
 	/**
 	 * Average Time Frame preference name
 	 */
@@ -130,6 +141,17 @@ public class Preferences extends ActionBarPreferenceActivity implements
 					+ newAverageTimeFrame);
 			AnalyticsManagerService.trackEvent(this, "Preferences",
 					"Average Time Frame", newAverageTimeFrame);
+			final Editor editor = sharedPreferences.edit();
+			editor.putBoolean(
+					Preferences.AVERAGE_TIME_FRAME_CHANGED_MAIN_PREFERENCE_KEY,
+					true);
+			editor.putBoolean(
+					Preferences.AVERAGE_TIME_FRAME_CHANGED_FRAGMENT_PREFERENCE_KEY,
+					true);
+			if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.GINGERBREAD)
+				editor.apply();
+			else
+				editor.commit();
 			averageTimeFrameListPreference
 					.setSummary(getString(R.string.pref_settings_average_time_frame_summary)
 							+ "\n" + averageTimeFrameListPreference.getEntry());
