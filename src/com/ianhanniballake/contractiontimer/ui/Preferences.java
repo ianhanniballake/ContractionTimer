@@ -44,8 +44,8 @@ public class Preferences extends ActionBarPreferenceActivity implements
 	 */
 	public static final String KEEP_SCREEN_ON_PREFERENCE_KEY = "keepScreenOn";
 	/**
-	 * Reference to the ListPreference corresponding with the undo animation
-	 * speed
+	 * Reference to the ListPreference corresponding with the Appwidget
+	 * background
 	 */
 	private ListPreference appwidgetBackgroundListPreference;
 	/**
