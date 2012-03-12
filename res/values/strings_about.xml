@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
 	<string name="close">Close</string>
 	<string name="description">Contraction Timer allows you to track the start and stop of your contractions and automatically calculates their duration and frequency.</string>
 	<string name="project">For issues or more information:</string>
@@ -11,4 +12,5 @@
 	<string name="graphics_and_testing_by_label">Graphics and Testing by:</string>
 	<string name="artist_and_tester">Andrea Lake</string>
 	<string name="artist_and_tester_link">http://kamiawolf.deviantart.com</string>
+
 </resources>

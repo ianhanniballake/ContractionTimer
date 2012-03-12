@@ -5,12 +5,14 @@
 	android:background="@color/average_background"
 	android:orientation="horizontal"
 	android:padding="5dp" >
+
 	<TextView
 		android:layout_width="0dp"
 		android:layout_height="fill_parent"
 		android:layout_weight="1"
 		android:text="@string/contraction_average"
 		android:textAppearance="?android:attr/textAppearanceLarge" />
+
 	<TextView
 		android:id="@+id/average_duration"
 		android:layout_width="0dp"
@@ -18,6 +20,7 @@
 		android:layout_weight="1"
 		android:gravity="center_horizontal"
 		android:textAppearance="?android:attr/textAppearanceLarge" />
+
 	<TextView
 		android:id="@+id/average_frequency"
 		android:layout_width="0dp"
@@ -25,4 +28,5 @@
 		android:layout_weight="1"
 		android:gravity="center_horizontal"
 		android:textAppearance="?android:attr/textAppearanceLarge" />
+
 </LinearLayout>

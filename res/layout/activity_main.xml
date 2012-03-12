@@ -3,26 +3,33 @@
 	android:layout_width="match_parent"
 	android:layout_height="match_parent"
 	android:orientation="vertical" >
+
 	<fragment
 		android:id="@+id/controls"
+		android:name="com.ianhanniballake.contractiontimer.ui.ContractionControlsFragment"
 		android:layout_width="fill_parent"
-		android:layout_height="wrap_content"
-		android:name="com.ianhanniballake.contractiontimer.ui.ContractionControlsFragment" >
+		android:layout_height="wrap_content" >
+
 		<!-- Preview: layout=@layout/fragment_contraction_controls -->
 	</fragment>
+
 	<fragment
 		android:id="@+id/list"
+		android:name="com.ianhanniballake.contractiontimer.ui.ContractionListFragment"
 		android:layout_width="fill_parent"
 		android:layout_height="wrap_content"
-		android:layout_weight="1"
-		android:name="com.ianhanniballake.contractiontimer.ui.ContractionListFragment" >
+		android:layout_weight="1" >
+
 		<!-- Preview: layout=@layout/fragment_contraction_list -->
 	</fragment>
+
 	<fragment
 		android:id="@+id/average"
+		android:name="com.ianhanniballake.contractiontimer.ui.ContractionAverageFragment"
 		android:layout_width="fill_parent"
-		android:layout_height="wrap_content"
-		android:name="com.ianhanniballake.contractiontimer.ui.ContractionAverageFragment" >
+		android:layout_height="wrap_content" >
+
 		<!-- Preview: layout=@layout/fragment_contraction_average -->
 	</fragment>
+
 </LinearLayout>
