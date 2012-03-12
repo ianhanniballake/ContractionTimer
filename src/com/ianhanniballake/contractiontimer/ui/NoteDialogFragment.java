@@ -63,6 +63,7 @@ public class NoteDialogFragment extends DialogFragment
 			builder.setTitle(R.string.note_dialog_title_add);
 		else
 			builder.setTitle(R.string.note_dialog_title_edit);
+		input.setText(existingNote);
 		return builder
 				.setView(layout)
 				.setInverseBackgroundForced(true)
