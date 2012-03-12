@@ -1,12 +1,16 @@
 package com.ianhanniballake.contractiontimer.ui;
 
+import java.util.HashSet;
+
 import android.content.AsyncQueryHandler;
 import android.content.ContentUris;
 import android.content.Context;
 import android.database.Cursor;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.provider.BaseColumns;
 import android.support.v4.app.ListFragment;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
@@ -15,15 +19,23 @@ import android.support.v4.widget.CursorAdapter;
 import android.text.format.DateFormat;
 import android.text.format.DateUtils;
 import android.util.Log;
+import android.view.ActionMode;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.view.LayoutInflater;
+import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
+import android.widget.AbsListView.MultiChoiceModeListener;
 import android.widget.AdapterView.AdapterContextMenuInfo;
+import android.widget.Button;
+import android.widget.ListView;
+import android.widget.PopupMenu;
+import android.widget.PopupMenu.OnMenuItemClickListener;
 import android.widget.TextView;
 
 import com.ianhanniballake.contractiontimer.R;
@@ -34,7 +46,7 @@ import com.ianhanniballake.contractiontimer.provider.ContractionContract;
  * Fragment to list contractions entered by the user
  */
 public class ContractionListFragment extends ListFragment implements
-		LoaderManager.LoaderCallbacks<Cursor>
+		LoaderManager.LoaderCallbacks<Cursor>, OnClickListener
 {
 	/**
 	 * Cursor Adapter for creating and binding contraction list view items
@@ -83,6 +95,9 @@ public class ContractionListFragment extends ListFragment implements
 				holder.duration = (TextView) view.findViewById(R.id.duration);
 				holder.frequency = (TextView) view.findViewById(R.id.frequency);
 				holder.note = (TextView) view.findViewById(R.id.note);
+				if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB)
+					holder.showPopup = (Button) view
+							.findViewById(R.id.show_popup);
 				view.setTag(holder);
 			}
 			else
@@ -96,7 +111,9 @@ public class ContractionListFragment extends ListFragment implements
 			holder.startTime.setText(DateFormat.format(timeFormat, startTime));
 			final int endTimeColumnIndex = cursor
 					.getColumnIndex(ContractionContract.Contractions.COLUMN_NAME_END_TIME);
-			if (cursor.isNull(endTimeColumnIndex))
+			final boolean isContractionOngoing = cursor
+					.isNull(endTimeColumnIndex);
+			if (isContractionOngoing)
 			{
 				holder.endTime.setText(" ");
 				holder.duration.setText("");
@@ -138,15 +155,57 @@ public class ContractionListFragment extends ListFragment implements
 				holder.note.setVisibility(View.GONE);
 			else
 				holder.note.setVisibility(View.VISIBLE);
+			if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB)
+			{
+				final Object showPopupTag = holder.showPopup.getTag();
+				PopupHolder popupHolder;
+				if (showPopupTag == null)
+				{
+					popupHolder = new PopupHolder();
+					holder.showPopup.setTag(popupHolder);
+				}
+				else
+					popupHolder = (PopupHolder) showPopupTag;
+				final int idColumnIndex = cursor
+						.getColumnIndex(BaseColumns._ID);
+				popupHolder.id = cursor.getLong(idColumnIndex);
+				popupHolder.existingNote = note;
+				// Don't allow popup menu while the Contextual Action Bar is
+				// present
+				holder.showPopup.setEnabled(selectedItems.isEmpty());
+			}
 		}
 
 		@Override
 		public View newView(final Context context, final Cursor cursor,
 				final ViewGroup parent)
 		{
-			return inflater.inflate(R.layout.list_item_contraction, parent,
-					false);
+			final View view = inflater.inflate(R.layout.list_item_contraction,
+					parent, false);
+			if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB)
+			{
+				final Button showPopup = (Button) view
+						.findViewById(R.id.show_popup);
+				showPopup.setOnClickListener(ContractionListFragment.this);
+			}
+			return view;
 		}
+	}
+
+	/**
+	 * Helper class used to store temporary information to aid in handling
+	 * PopupMenu item selection
+	 */
+	static class PopupHolder
+	{
+		/**
+		 * A contraction's note, if any
+		 */
+		String existingNote;
+		/**
+		 * Cursor id for the contraction
+		 */
+		long id;
 	}
 
 	/**
@@ -172,11 +231,20 @@ public class ContractionListFragment extends ListFragment implements
 		 */
 		TextView note;
 		/**
+		 * Button to trigger the PopupMenu on v11+ devices
+		 */
+		Button showPopup;
+		/**
 		 * TextView representing the formatted start time of the contraction
 		 */
 		TextView startTime;
 	}
 
+	/**
+	 * Key for saving and retrieving the selected items for the Contextual
+	 * Action Bar
+	 */
+	private final static String SELECTED_ITEMS_KEY = "SELECTED_ITEMS";
 	/**
 	 * Adapter to display the list's data
 	 */
@@ -220,17 +288,187 @@ public class ContractionListFragment extends ListFragment implements
 			liveDurationHandler.postDelayed(this, 1000);
 		}
 	};
+	/**
+	 * Ids for selected contractions for the Contextual Action Bar
+	 */
+	private final HashSet<Long> selectedItems = new HashSet<Long>();
 
 	@Override
 	public void onActivityCreated(final Bundle savedInstanceState)
 	{
 		super.onActivityCreated(savedInstanceState);
+		if (savedInstanceState != null)
+		{
+			final long[] selectedItemsArray = savedInstanceState
+					.getLongArray(ContractionListFragment.SELECTED_ITEMS_KEY);
+			for (final long l : selectedItemsArray)
+				selectedItems.add(l);
+		}
 		setEmptyText(getText(R.string.list_loading));
 		adapter = new ContractionListCursorAdapter(getActivity(), null, 0);
 		setListAdapter(adapter);
-		getListView().setChoiceMode(AbsListView.CHOICE_MODE_NONE);
-		registerForContextMenu(getListView());
+		final ListView listView = getListView();
+		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB)
+		{
+			listView.setDrawSelectorOnTop(true);
+			listView.setChoiceMode(AbsListView.CHOICE_MODE_MULTIPLE_MODAL);
+			listView.setMultiChoiceModeListener(new MultiChoiceModeListener()
+			{
+				@Override
+				public boolean onActionItemClicked(final ActionMode mode,
+						final MenuItem item)
+				{
+					switch (item.getItemId())
+					{
+						case R.id.menu_context_delete:
+							Log.d(getClass().getSimpleName(),
+									"Context Action Mode selected delete");
+							AnalyticsManagerService.trackEvent(getActivity(),
+									"ContextActionBar", "Delete", "",
+									selectedItems.size());
+							for (final Long id : selectedItems)
+							{
+								final Uri deleteUri = ContentUris
+										.withAppendedId(
+												ContractionContract.Contractions.CONTENT_ID_URI_BASE,
+												id);
+								contractionQueryHandler.startDelete(0, 0,
+										deleteUri, null, null);
+							}
+							mode.finish();
+							return true;
+						default:
+							return false;
+					}
+				}
+
+				@Override
+				public boolean onCreateActionMode(final ActionMode mode,
+						final Menu menu)
+				{
+					Log.d(getClass().getSimpleName(), "onCreateActionMode");
+					final MenuInflater inflater = mode.getMenuInflater();
+					inflater.inflate(R.menu.list_context_action_mode, menu);
+					return true;
+				}
+
+				@Override
+				public void onDestroyActionMode(final ActionMode mode)
+				{
+					Log.d(getClass().getSimpleName(), "onDestroyActionMode");
+					selectedItems.clear();
+				}
+
+				@Override
+				public void onItemCheckedStateChanged(final ActionMode mode,
+						final int position, final long id, final boolean checked)
+				{
+					Log.d(getClass().getSimpleName(),
+							"onItemCheckedStateChanged: " + checked + " " + id);
+					if (checked)
+						selectedItems.add(id);
+					else
+						selectedItems.remove(id);
+					mode.invalidate();
+				}
+
+				@Override
+				public boolean onPrepareActionMode(final ActionMode mode,
+						final Menu menu)
+				{
+					Log.d(getClass().getSimpleName(), "onPrepareActionMode");
+					final MenuItem deleteItem = menu
+							.findItem(R.id.menu_context_delete);
+					final CharSequence currentTitle = deleteItem.getTitle();
+					CharSequence newTitle;
+					final int selectedItemsSize = selectedItems.size();
+					if (selectedItemsSize == 1)
+						newTitle = getString(R.string.menu_context_delete_single);
+					else
+						newTitle = getString(R.string.menu_context_delete_multiple);
+					deleteItem.setTitle(newTitle);
+					final CharSequence modeTitle = mode.getTitle();
+					final CharSequence newModeTitle = String.format(
+							getString(R.string.menu_context_action_mode_title),
+							selectedItemsSize);
+					mode.setTitle(newModeTitle);
+					return !newModeTitle.equals(modeTitle)
+							|| !newTitle.equals(currentTitle);
+				}
+			});
+		}
+		else
+		{
+			listView.setChoiceMode(AbsListView.CHOICE_MODE_NONE);
+			registerForContextMenu(listView);
+		}
 		getLoaderManager().initLoader(0, null, this);
+	}
+
+	@Override
+	public void onClick(final View v)
+	{
+		final PopupMenu popup = new PopupMenu(getActivity(), v);
+		final MenuInflater inflater = popup.getMenuInflater();
+		inflater.inflate(R.menu.list_context, popup.getMenu());
+		final PopupHolder popupHolder = (PopupHolder) v.getTag();
+		final MenuItem noteItem = popup.getMenu().findItem(
+				R.id.menu_context_note);
+		if (popupHolder.existingNote.equals(""))
+			noteItem.setTitle(R.string.note_dialog_title_add);
+		else
+			noteItem.setTitle(R.string.note_dialog_title_edit);
+		// final MenuItem deleteItem = popup.getMenu().findItem(
+		// R.id.menu_context_delete);
+		// deleteItem.setEnabled(!popupHolder.isContractionOngoing);
+		popup.setOnMenuItemClickListener(new OnMenuItemClickListener()
+		{
+			@Override
+			public boolean onMenuItemClick(final MenuItem item)
+			{
+				switch (item.getItemId())
+				{
+					case R.id.menu_context_note:
+						Log.d(getClass().getSimpleName(),
+								"Popup Menu selected "
+										+ (popupHolder.existingNote.equals("") ? "Add Note"
+												: "Edit Note"));
+						AnalyticsManagerService.trackEvent(getActivity(),
+								"PopupMenu", "Note", popupHolder.existingNote
+										.equals("") ? "Add Note" : "Edit Note");
+						final NoteDialogFragment noteDialogFragment = new NoteDialogFragment();
+						final Bundle args = new Bundle();
+						args.putLong(
+								NoteDialogFragment.CONTRACTION_ID_ARGUMENT,
+								popupHolder.id);
+						args.putString(
+								NoteDialogFragment.EXISTING_NOTE_ARGUMENT,
+								popupHolder.existingNote);
+						noteDialogFragment.setArguments(args);
+						Log.d(noteDialogFragment.getClass().getSimpleName(),
+								"Showing Dialog");
+						AnalyticsManagerService.trackPageView(getActivity(),
+								noteDialogFragment);
+						noteDialogFragment.show(getFragmentManager(), "note");
+						return true;
+					case R.id.menu_context_delete:
+						Log.d(getClass().getSimpleName(),
+								"Popup Menu selected delete");
+						AnalyticsManagerService.trackEvent(getActivity(),
+								"PopupMenu", "Delete");
+						final Uri deleteUri = ContentUris
+								.withAppendedId(
+										ContractionContract.Contractions.CONTENT_ID_URI_BASE,
+										popupHolder.id);
+						contractionQueryHandler.startDelete(0, 0, deleteUri,
+								null, null);
+						return true;
+					default:
+						return false;
+				}
+			}
+		});
+		popup.show();
 	}
 
 	@Override
@@ -368,6 +606,19 @@ public class ContractionListFragment extends ListFragment implements
 				liveDurationHandler.post(liveDurationUpdate);
 			}
 		}
+	}
+
+	@Override
+	public void onSaveInstanceState(final Bundle outState)
+	{
+		super.onSaveInstanceState(outState);
+		final int size = selectedItems.size();
+		final long[] selectedItemsArray = new long[size];
+		int currentPosition = 0;
+		for (final Long l : selectedItems)
+			selectedItemsArray[currentPosition++] = l;
+		outState.putLongArray(ContractionListFragment.SELECTED_ITEMS_KEY,
+				selectedItemsArray);
 	}
 
 	@Override
