@@ -70,40 +70,48 @@ public class ContractionListFragment extends ListFragment implements
 		public void bindView(final View view, final Context context,
 				final Cursor cursor)
 		{
-			final TextView startTimeView = (TextView) view
-					.findViewById(R.id.start_time);
-			final TextView endTimeView = (TextView) view
-					.findViewById(R.id.end_time);
-			final TextView durationView = (TextView) view
-					.findViewById(R.id.duration);
-			final TextView frequencyView = (TextView) view
-					.findViewById(R.id.frequency);
-			final TextView noteView = (TextView) view.findViewById(R.id.note);
+			final Object viewTag = view.getTag();
+			ViewHolder holder;
+			if (viewTag == null)
+			{
+				Log.d(getClass().getSimpleName(),
+						"Building Holder @ position = " + cursor.getPosition());
+				holder = new ViewHolder();
+				holder.startTime = (TextView) view
+						.findViewById(R.id.start_time);
+				holder.endTime = (TextView) view.findViewById(R.id.end_time);
+				holder.duration = (TextView) view.findViewById(R.id.duration);
+				holder.frequency = (TextView) view.findViewById(R.id.frequency);
+				holder.note = (TextView) view.findViewById(R.id.note);
+				view.setTag(holder);
+			}
+			else
+				holder = (ViewHolder) viewTag;
 			String timeFormat = "hh:mm:ssaa";
 			if (DateFormat.is24HourFormat(context))
 				timeFormat = "kk:mm:ss";
 			final int startTimeColumnIndex = cursor
 					.getColumnIndex(ContractionContract.Contractions.COLUMN_NAME_START_TIME);
 			final long startTime = cursor.getLong(startTimeColumnIndex);
-			startTimeView.setText(DateFormat.format(timeFormat, startTime));
+			holder.startTime.setText(DateFormat.format(timeFormat, startTime));
 			final int endTimeColumnIndex = cursor
 					.getColumnIndex(ContractionContract.Contractions.COLUMN_NAME_END_TIME);
 			if (cursor.isNull(endTimeColumnIndex))
 			{
-				endTimeView.setText(" ");
-				durationView.setText("");
+				holder.endTime.setText(" ");
+				holder.duration.setText("");
 				currentContractionStartTime = startTime;
-				durationView.setTag("durationView");
+				holder.duration.setTag("durationView");
 				liveDurationHandler.removeCallbacks(liveDurationUpdate);
 				liveDurationHandler.post(liveDurationUpdate);
 			}
 			else
 			{
 				final long endTime = cursor.getLong(endTimeColumnIndex);
-				endTimeView.setText(DateFormat.format(timeFormat, endTime));
-				durationView.setTag("");
+				holder.endTime.setText(DateFormat.format(timeFormat, endTime));
+				holder.duration.setTag("");
 				final long durationInSeconds = (endTime - startTime) / 1000;
-				durationView.setText(DateUtils
+				holder.duration.setText(DateUtils
 						.formatElapsedTime(durationInSeconds));
 			}
 			// If we aren't the last entry, move to the next (previous in time)
@@ -115,21 +123,21 @@ public class ContractionListFragment extends ListFragment implements
 				final long prevContractionStartTime = cursor
 						.getLong(prevContractionStartTimeColumnIndex);
 				final long frequencyInSeconds = (startTime - prevContractionStartTime) / 1000;
-				frequencyView.setText(DateUtils
+				holder.frequency.setText(DateUtils
 						.formatElapsedTime(frequencyInSeconds));
 				// Go back to the previous spot
 				cursor.moveToPrevious();
 			}
 			else
-				frequencyView.setText("");
+				holder.frequency.setText("");
 			final int noteColumnIndex = cursor
 					.getColumnIndex(ContractionContract.Contractions.COLUMN_NAME_NOTE);
 			final String note = cursor.getString(noteColumnIndex);
-			noteView.setText(note);
+			holder.note.setText(note);
 			if (note.equals(""))
-				noteView.setVisibility(View.GONE);
+				holder.note.setVisibility(View.GONE);
 			else
-				noteView.setVisibility(View.VISIBLE);
+				holder.note.setVisibility(View.VISIBLE);
 		}
 
 		@Override
@@ -139,6 +147,34 @@ public class ContractionListFragment extends ListFragment implements
 			return inflater.inflate(R.layout.list_item_contraction, parent,
 					false);
 		}
+	}
+
+	/**
+	 * Helper class used to store temporary references to list item views
+	 */
+	static class ViewHolder
+	{
+		/**
+		 * TextView representing the duration of the contraction
+		 */
+		TextView duration;
+		/**
+		 * TextView representing the formatted end time of the contraction
+		 */
+		TextView endTime;
+		/**
+		 * TextView representing the frequency of the contraction in relation to
+		 * the previous contraction
+		 */
+		TextView frequency;
+		/**
+		 * TextView representing the note attached to the contraction
+		 */
+		TextView note;
+		/**
+		 * TextView representing the formatted start time of the contraction
+		 */
+		TextView startTime;
 	}
 
 	/**
