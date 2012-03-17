@@ -74,6 +74,7 @@ public class ControlAppWidgetService extends IntentService
 		applicationLaunchIntent.putExtra(
 				MainActivity.LAUNCHED_FROM_WIDGET_EXTRA,
 				ControlAppWidgetService.WIDGET_IDENTIFIER);
+		applicationLaunchIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 		final PendingIntent applicationLaunchPendingIntent = PendingIntent
 				.getActivity(this, 0, applicationLaunchIntent,
 						PendingIntent.FLAG_UPDATE_CURRENT);
