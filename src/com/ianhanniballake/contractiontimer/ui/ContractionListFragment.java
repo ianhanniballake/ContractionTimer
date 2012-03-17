@@ -316,6 +316,28 @@ public class ContractionListFragment extends ListFragment implements
 				{
 					switch (item.getItemId())
 					{
+						case R.id.menu_context_note:
+							final long contractionId = listView
+									.getCheckedItemIds()[0];
+							final int position = listView
+									.getCheckedItemPositions().keyAt(0);
+							final Cursor cursor = (Cursor) listView
+									.getItemAtPosition(position);
+							final int noteColumnIndex = cursor
+									.getColumnIndex(ContractionContract.Contractions.COLUMN_NAME_NOTE);
+							final String existingNote = cursor
+									.getString(noteColumnIndex);
+							Log.d(getClass().getSimpleName(),
+									"Context Action Mode selected "
+											+ (existingNote.equals("") ? "Add Note"
+													: "Edit Note"));
+							AnalyticsManagerService.trackEvent(getActivity(),
+									"ContextActionBar", "Note", existingNote
+											.equals("") ? "Add Note"
+											: "Edit Note", position);
+							showNoteDialog(contractionId, existingNote);
+							mode.finish();
+							return true;
 						case R.id.menu_context_delete:
 							final long[] selectedIds = getListView()
 									.getCheckedItemIds();
@@ -338,7 +360,7 @@ public class ContractionListFragment extends ListFragment implements
 						final Menu menu)
 				{
 					final MenuInflater inflater = mode.getMenuInflater();
-					inflater.inflate(R.menu.list_context_action_mode, menu);
+					inflater.inflate(R.menu.list_context, menu);
 					return true;
 				}
 
@@ -359,17 +381,40 @@ public class ContractionListFragment extends ListFragment implements
 				public boolean onPrepareActionMode(final ActionMode mode,
 						final Menu menu)
 				{
+					final int selectedItemsSize = listView
+							.getCheckedItemCount();
+					// Set whether to display the note menu item
+					final MenuItem noteItem = menu
+							.findItem(R.id.menu_context_note);
+					final boolean showNoteItem = selectedItemsSize == 1;
+					// Set the title of the note menu item
+					if (showNoteItem)
+					{
+						final int position = listView.getCheckedItemPositions()
+								.keyAt(0);
+						final Cursor cursor = (Cursor) listView
+								.getItemAtPosition(position);
+						final int noteColumnIndex = cursor
+								.getColumnIndex(ContractionContract.Contractions.COLUMN_NAME_NOTE);
+						final String note = cursor.getString(noteColumnIndex);
+						if (note.equals(""))
+							noteItem.setTitle(R.string.note_dialog_title_add);
+						else
+							noteItem.setTitle(R.string.note_dialog_title_edit);
+					}
+					noteItem.setVisible(showNoteItem);
+					// Set the title of the delete menu item
 					final MenuItem deleteItem = menu
 							.findItem(R.id.menu_context_delete);
 					final CharSequence currentTitle = deleteItem.getTitle();
 					CharSequence newTitle;
-					final int selectedItemsSize = getListView()
-							.getCheckedItemCount();
 					if (selectedItemsSize == 1)
 						newTitle = getString(R.string.menu_context_delete_single);
 					else
 						newTitle = getString(R.string.menu_context_delete_multiple);
 					deleteItem.setTitle(newTitle);
+					// Set the Contextual Action Bar title with the new item
+					// size
 					final CharSequence modeTitle = mode.getTitle();
 					final CharSequence newModeTitle = String.format(
 							getString(R.string.menu_context_action_mode_title),

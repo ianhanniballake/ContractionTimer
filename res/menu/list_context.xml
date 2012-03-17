@@ -3,9 +3,13 @@
 
 	<item
 		android:id="@+id/menu_context_note"
+		android:icon="@android:drawable/ic_menu_edit"
+		android:showAsAction="always|withText"
 		android:title="@string/note_dialog_title_add"/>
 	<item
 		android:id="@+id/menu_context_delete"
+		android:icon="@android:drawable/ic_menu_delete"
+		android:showAsAction="always|withText"
 		android:title="@string/menu_context_delete_single"/>
 
 </menu>
