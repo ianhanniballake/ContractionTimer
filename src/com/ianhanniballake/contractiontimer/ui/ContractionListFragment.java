@@ -293,6 +293,19 @@ public class ContractionListFragment extends ListFragment implements
 	 */
 	private final HashSet<Long> selectedItems = new HashSet<Long>();
 
+	/**
+	 * Deletes a given contraction
+	 * 
+	 * @param id
+	 *            contraction id to delete
+	 */
+	private void deleteContraction(final long id)
+	{
+		final Uri deleteUri = ContentUris.withAppendedId(
+				ContractionContract.Contractions.CONTENT_ID_URI_BASE, id);
+		contractionQueryHandler.startDelete(0, 0, deleteUri, null, null);
+	}
+
 	@Override
 	public void onActivityCreated(final Bundle savedInstanceState)
 	{
@@ -327,14 +340,7 @@ public class ContractionListFragment extends ListFragment implements
 									"ContextActionBar", "Delete", "",
 									selectedItems.size());
 							for (final Long id : selectedItems)
-							{
-								final Uri deleteUri = ContentUris
-										.withAppendedId(
-												ContractionContract.Contractions.CONTENT_ID_URI_BASE,
-												id);
-								contractionQueryHandler.startDelete(0, 0,
-										deleteUri, null, null);
-							}
+								deleteContraction(id);
 							mode.finish();
 							return true;
 						default:
@@ -346,7 +352,6 @@ public class ContractionListFragment extends ListFragment implements
 				public boolean onCreateActionMode(final ActionMode mode,
 						final Menu menu)
 				{
-					Log.d(getClass().getSimpleName(), "onCreateActionMode");
 					final MenuInflater inflater = mode.getMenuInflater();
 					inflater.inflate(R.menu.list_context_action_mode, menu);
 					return true;
@@ -355,7 +360,6 @@ public class ContractionListFragment extends ListFragment implements
 				@Override
 				public void onDestroyActionMode(final ActionMode mode)
 				{
-					Log.d(getClass().getSimpleName(), "onDestroyActionMode");
 					selectedItems.clear();
 				}
 
@@ -363,8 +367,6 @@ public class ContractionListFragment extends ListFragment implements
 				public void onItemCheckedStateChanged(final ActionMode mode,
 						final int position, final long id, final boolean checked)
 				{
-					Log.d(getClass().getSimpleName(),
-							"onItemCheckedStateChanged: " + checked + " " + id);
 					if (checked)
 						selectedItems.add(id);
 					else
@@ -376,7 +378,6 @@ public class ContractionListFragment extends ListFragment implements
 				public boolean onPrepareActionMode(final ActionMode mode,
 						final Menu menu)
 				{
-					Log.d(getClass().getSimpleName(), "onPrepareActionMode");
 					final MenuItem deleteItem = menu
 							.findItem(R.id.menu_context_delete);
 					final CharSequence currentTitle = deleteItem.getTitle();
@@ -418,9 +419,6 @@ public class ContractionListFragment extends ListFragment implements
 			noteItem.setTitle(R.string.note_dialog_title_add);
 		else
 			noteItem.setTitle(R.string.note_dialog_title_edit);
-		// final MenuItem deleteItem = popup.getMenu().findItem(
-		// R.id.menu_context_delete);
-		// deleteItem.setEnabled(!popupHolder.isContractionOngoing);
 		popup.setOnMenuItemClickListener(new OnMenuItemClickListener()
 		{
 			@Override
@@ -436,32 +434,14 @@ public class ContractionListFragment extends ListFragment implements
 						AnalyticsManagerService.trackEvent(getActivity(),
 								"PopupMenu", "Note", popupHolder.existingNote
 										.equals("") ? "Add Note" : "Edit Note");
-						final NoteDialogFragment noteDialogFragment = new NoteDialogFragment();
-						final Bundle args = new Bundle();
-						args.putLong(
-								NoteDialogFragment.CONTRACTION_ID_ARGUMENT,
-								popupHolder.id);
-						args.putString(
-								NoteDialogFragment.EXISTING_NOTE_ARGUMENT,
-								popupHolder.existingNote);
-						noteDialogFragment.setArguments(args);
-						Log.d(noteDialogFragment.getClass().getSimpleName(),
-								"Showing Dialog");
-						AnalyticsManagerService.trackPageView(getActivity(),
-								noteDialogFragment);
-						noteDialogFragment.show(getFragmentManager(), "note");
+						showNoteDialog(popupHolder.id, popupHolder.existingNote);
 						return true;
 					case R.id.menu_context_delete:
 						Log.d(getClass().getSimpleName(),
 								"Popup Menu selected delete");
 						AnalyticsManagerService.trackEvent(getActivity(),
 								"PopupMenu", "Delete");
-						final Uri deleteUri = ContentUris
-								.withAppendedId(
-										ContractionContract.Contractions.CONTENT_ID_URI_BASE,
-										popupHolder.id);
-						contractionQueryHandler.startDelete(0, 0, deleteUri,
-								null, null);
+						deleteContraction(popupHolder.id);
 						return true;
 					default:
 						return false;
@@ -488,29 +468,14 @@ public class ContractionListFragment extends ListFragment implements
 						"ContextMenu", "Note",
 						existingNote.equals("") ? "Add Note" : "Edit Note",
 						info.position);
-				final NoteDialogFragment noteDialogFragment = new NoteDialogFragment();
-				final Bundle args = new Bundle();
-				args.putLong(NoteDialogFragment.CONTRACTION_ID_ARGUMENT,
-						info.id);
-				args.putString(NoteDialogFragment.EXISTING_NOTE_ARGUMENT,
-						existingNote);
-				noteDialogFragment.setArguments(args);
-				Log.d(noteDialogFragment.getClass().getSimpleName(),
-						"Showing Dialog");
-				AnalyticsManagerService.trackPageView(getActivity(),
-						noteDialogFragment);
-				noteDialogFragment.show(getFragmentManager(), "note");
+				showNoteDialog(info.id, existingNote);
 				return true;
 			case R.id.menu_context_delete:
 				Log.d(getClass().getSimpleName(),
 						"Context Menu selected delete");
 				AnalyticsManagerService.trackEvent(getActivity(),
 						"ContextMenu", "Delete", "", info.position);
-				final Uri deleteUri = ContentUris.withAppendedId(
-						ContractionContract.Contractions.CONTENT_ID_URI_BASE,
-						info.id);
-				contractionQueryHandler
-						.startDelete(0, 0, deleteUri, null, null);
+				deleteContraction(info.id);
 				return true;
 			default:
 				return super.onContextItemSelected(item);
@@ -626,5 +591,26 @@ public class ContractionListFragment extends ListFragment implements
 	{
 		final TextView emptyText = (TextView) getListView().getEmptyView();
 		emptyText.setText(text);
+	}
+
+	/**
+	 * Shows the 'note' dialog
+	 * 
+	 * @param id
+	 *            contraction id
+	 * @param existingNote
+	 *            existing note attached to this contraction if it exists
+	 */
+	private void showNoteDialog(final long id, final String existingNote)
+	{
+		final NoteDialogFragment noteDialogFragment = new NoteDialogFragment();
+		final Bundle args = new Bundle();
+		args.putLong(NoteDialogFragment.CONTRACTION_ID_ARGUMENT, id);
+		args.putString(NoteDialogFragment.EXISTING_NOTE_ARGUMENT, existingNote);
+		noteDialogFragment.setArguments(args);
+		Log.d(noteDialogFragment.getClass().getSimpleName(), "Showing Dialog");
+		AnalyticsManagerService
+				.trackPageView(getActivity(), noteDialogFragment);
+		noteDialogFragment.show(getFragmentManager(), "note");
 	}
 }
