@@ -1,7 +1,5 @@
 package com.ianhanniballake.contractiontimer.ui;
 
-import java.util.HashSet;
-
 import android.content.AsyncQueryHandler;
 import android.content.ContentUris;
 import android.content.Context;
@@ -172,7 +170,8 @@ public class ContractionListFragment extends ListFragment implements
 				popupHolder.existingNote = note;
 				// Don't allow popup menu while the Contextual Action Bar is
 				// present
-				holder.showPopup.setEnabled(selectedItems.isEmpty());
+				holder.showPopup
+						.setEnabled(getListView().getCheckedItemCount() == 0);
 			}
 		}
 
@@ -241,11 +240,6 @@ public class ContractionListFragment extends ListFragment implements
 	}
 
 	/**
-	 * Key for saving and retrieving the selected items for the Contextual
-	 * Action Bar
-	 */
-	private final static String SELECTED_ITEMS_KEY = "SELECTED_ITEMS";
-	/**
 	 * Adapter to display the list's data
 	 */
 	private CursorAdapter adapter;
@@ -288,10 +282,6 @@ public class ContractionListFragment extends ListFragment implements
 			liveDurationHandler.postDelayed(this, 1000);
 		}
 	};
-	/**
-	 * Ids for selected contractions for the Contextual Action Bar
-	 */
-	private final HashSet<Long> selectedItems = new HashSet<Long>();
 
 	/**
 	 * Deletes a given contraction
@@ -310,13 +300,6 @@ public class ContractionListFragment extends ListFragment implements
 	public void onActivityCreated(final Bundle savedInstanceState)
 	{
 		super.onActivityCreated(savedInstanceState);
-		if (savedInstanceState != null)
-		{
-			final long[] selectedItemsArray = savedInstanceState
-					.getLongArray(ContractionListFragment.SELECTED_ITEMS_KEY);
-			for (final long l : selectedItemsArray)
-				selectedItems.add(l);
-		}
 		setEmptyText(getText(R.string.list_loading));
 		adapter = new ContractionListCursorAdapter(getActivity(), null, 0);
 		setListAdapter(adapter);
@@ -334,12 +317,14 @@ public class ContractionListFragment extends ListFragment implements
 					switch (item.getItemId())
 					{
 						case R.id.menu_context_delete:
+							final long[] selectedIds = getListView()
+									.getCheckedItemIds();
 							Log.d(getClass().getSimpleName(),
 									"Context Action Mode selected delete");
 							AnalyticsManagerService.trackEvent(getActivity(),
 									"ContextActionBar", "Delete", "",
-									selectedItems.size());
-							for (final Long id : selectedItems)
+									selectedIds.length);
+							for (final long id : selectedIds)
 								deleteContraction(id);
 							mode.finish();
 							return true;
@@ -360,17 +345,13 @@ public class ContractionListFragment extends ListFragment implements
 				@Override
 				public void onDestroyActionMode(final ActionMode mode)
 				{
-					selectedItems.clear();
+					// Nothing to do
 				}
 
 				@Override
 				public void onItemCheckedStateChanged(final ActionMode mode,
 						final int position, final long id, final boolean checked)
 				{
-					if (checked)
-						selectedItems.add(id);
-					else
-						selectedItems.remove(id);
 					mode.invalidate();
 				}
 
@@ -382,7 +363,8 @@ public class ContractionListFragment extends ListFragment implements
 							.findItem(R.id.menu_context_delete);
 					final CharSequence currentTitle = deleteItem.getTitle();
 					CharSequence newTitle;
-					final int selectedItemsSize = selectedItems.size();
+					final int selectedItemsSize = getListView()
+							.getCheckedItemCount();
 					if (selectedItemsSize == 1)
 						newTitle = getString(R.string.menu_context_delete_single);
 					else
@@ -571,19 +553,6 @@ public class ContractionListFragment extends ListFragment implements
 				liveDurationHandler.post(liveDurationUpdate);
 			}
 		}
-	}
-
-	@Override
-	public void onSaveInstanceState(final Bundle outState)
-	{
-		super.onSaveInstanceState(outState);
-		final int size = selectedItems.size();
-		final long[] selectedItemsArray = new long[size];
-		int currentPosition = 0;
-		for (final Long l : selectedItems)
-			selectedItemsArray[currentPosition++] = l;
-		outState.putLongArray(ContractionListFragment.SELECTED_ITEMS_KEY,
-				selectedItemsArray);
 	}
 
 	@Override
