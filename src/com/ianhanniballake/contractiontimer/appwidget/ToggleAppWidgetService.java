@@ -42,14 +42,9 @@ public class ToggleAppWidgetService extends IntentService
 		final String[] projection = { BaseColumns._ID,
 				ContractionContract.Contractions.COLUMN_NAME_START_TIME,
 				ContractionContract.Contractions.COLUMN_NAME_END_TIME };
-		final String selection = ContractionContract.Contractions.COLUMN_NAME_START_TIME
-				+ ">?";
-		// In the last hour
-		final long timeCutoff = System.currentTimeMillis() - 1000 * 60 * 60;
-		final String[] selectionArgs = { Long.toString(timeCutoff) };
 		final Cursor data = getContentResolver().query(
-				ContractionContract.Contractions.CONTENT_URI, projection,
-				selection, selectionArgs, null);
+				ContractionContract.Contractions.CONTENT_URI, projection, null,
+				null, null);
 		final boolean contractionOngoing = data.moveToFirst()
 				&& data.isNull(data
 						.getColumnIndex(ContractionContract.Contractions.COLUMN_NAME_END_TIME));
