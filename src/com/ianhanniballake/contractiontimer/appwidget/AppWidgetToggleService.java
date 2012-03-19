@@ -1,19 +1,15 @@
 package com.ianhanniballake.contractiontimer.appwidget;
 
 import android.app.IntentService;
-import android.appwidget.AppWidgetManager;
-import android.content.ComponentName;
 import android.content.ContentResolver;
 import android.content.ContentUris;
 import android.content.ContentValues;
-import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
 import android.provider.BaseColumns;
 import android.util.Log;
 
-import com.ianhanniballake.contractiontimer.R;
 import com.ianhanniballake.contractiontimer.analytics.AnalyticsManagerService;
 import com.ianhanniballake.contractiontimer.provider.ContractionContract;
 
@@ -27,43 +23,6 @@ public class AppWidgetToggleService extends IntentService
 	 * Intent extra used to determine which widget called this service
 	 */
 	public final static String WIDGET_NAME_EXTRA = "com.ianhanniballake.contractiontimer.WidgetName";
-
-	/**
-	 * Updates all App Widgets with the latest information. This should be
-	 * called whenever a contraction is updated
-	 * 
-	 * @param context
-	 *            Context used to trigger updates
-	 */
-	public static void updateAllWidgets(final Context context)
-	{
-		final AppWidgetManager appWidgetManager = AppWidgetManager
-				.getInstance(context);
-		final boolean toggleWidgetsExist = appWidgetManager
-				.getAppWidgetIds(new ComponentName(context,
-						ToggleAppWidgetProvider.class)).length > 0;
-		if (toggleWidgetsExist)
-			context.startService(new Intent(context,
-					ToggleAppWidgetService.class));
-		final boolean controlWidgetsExist = appWidgetManager
-				.getAppWidgetIds(new ComponentName(context,
-						ControlAppWidgetProvider.class)).length > 0;
-		if (controlWidgetsExist)
-			context.startService(new Intent(context,
-					ControlAppWidgetService.class));
-		final int[] detailAppWidgetIds = AppWidgetManager.getInstance(context)
-				.getAppWidgetIds(
-						new ComponentName(context,
-								DetailAppWidgetProvider.class));
-		final boolean detailWidgetsExist = detailAppWidgetIds.length > 0;
-		if (detailWidgetsExist)
-		{
-			context.startService(new Intent(context,
-					DetailAppWidgetService.class));
-			appWidgetManager.notifyAppWidgetViewDataChanged(detailAppWidgetIds,
-					R.id.list_view);
-		}
-	}
 
 	/**
 	 * Creates a new AppWidgetToggleService
@@ -132,6 +91,6 @@ public class AppWidgetToggleService extends IntentService
 		}
 		// Close the cursor
 		data.close();
-		AppWidgetToggleService.updateAllWidgets(this);
+		AppWidgetUpdateHandler.updateAllWidgets(this);
 	}
 }
