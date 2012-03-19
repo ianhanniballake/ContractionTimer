@@ -18,10 +18,6 @@ public final class ContractionContract
 	public static final class Contractions implements BaseColumns
 	{
 		/**
-		 * The table name offered by this provider
-		 */
-		public static final String TABLE_NAME = "contractions";
-		/**
 		 * Column name for the contraction's end time
 		 * <P>
 		 * Type: INTEGER (long representing milliseconds)
@@ -43,22 +39,21 @@ public final class ContractionContract
 		 */
 		public static final String COLUMN_NAME_START_TIME = "start_time";
 		/**
-		 * The content URI base for the latest contraction
-		 */
-		public static final Uri CONTENT_ID_LATEST = Uri.parse(SCHEME
-				+ AUTHORITY + "/" + TABLE_NAME + "/latest");
-		/**
 		 * The content URI base for a single contraction. Callers must append a
 		 * numeric contraction id to this Uri to retrieve a contraction
 		 */
-		public static final Uri CONTENT_ID_URI_BASE = Uri.parse(SCHEME
-				+ AUTHORITY + "/" + TABLE_NAME + "/");
+		public static final Uri CONTENT_ID_URI_BASE = Uri
+				.parse(ContractionContract.SCHEME
+						+ ContractionContract.AUTHORITY + "/"
+						+ Contractions.TABLE_NAME + "/");
 		/**
 		 * The content URI match pattern for a single contraction, specified by
 		 * its ID. Use this to match incoming URIs or to construct an Intent.
 		 */
-		public static final Uri CONTENT_ID_URI_PATTERN = Uri.parse(SCHEME
-				+ AUTHORITY + "/" + TABLE_NAME + "/#");
+		public static final Uri CONTENT_ID_URI_PATTERN = Uri
+				.parse(ContractionContract.SCHEME
+						+ ContractionContract.AUTHORITY + "/"
+						+ Contractions.TABLE_NAME + "/#");
 		/**
 		 * The MIME type of a {@link #CONTENT_URI} sub-directory of a single
 		 * contraction.
@@ -72,13 +67,19 @@ public final class ContractionContract
 		/**
 		 * The content:// style URL for this table
 		 */
-		public static final Uri CONTENT_URI = Uri.parse(SCHEME + AUTHORITY
-				+ "/contractions");
+		public static final Uri CONTENT_URI = Uri
+				.parse(ContractionContract.SCHEME
+						+ ContractionContract.AUTHORITY + "/"
+						+ Contractions.TABLE_NAME);
 		/**
 		 * The default sort order for this table
 		 */
-		public static final String DEFAULT_SORT_ORDER = COLUMN_NAME_START_TIME
+		public static final String DEFAULT_SORT_ORDER = Contractions.COLUMN_NAME_START_TIME
 				+ " DESC";
+		/**
+		 * The table name offered by this provider
+		 */
+		public static final String TABLE_NAME = "contractions";
 
 		/**
 		 * This class cannot be instantiated

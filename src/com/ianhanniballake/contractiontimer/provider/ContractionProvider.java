@@ -36,7 +36,8 @@ public class ContractionProvider extends ContentProvider
 		 */
 		DatabaseHelper(final Context context)
 		{
-			super(context, DATABASE_NAME, null, DATABASE_VERSION);
+			super(context, ContractionProvider.DATABASE_NAME, null,
+					ContractionProvider.DATABASE_VERSION);
 		}
 
 		/**
@@ -46,7 +47,7 @@ public class ContractionProvider extends ContentProvider
 		@Override
 		public void onCreate(final SQLiteDatabase db)
 		{
-			Log.d(TAG, "Creating the "
+			Log.d(ContractionProvider.TAG, "Creating the "
 					+ ContractionContract.Contractions.TABLE_NAME + " table");
 			db.execSQL("CREATE TABLE "
 					+ ContractionContract.Contractions.TABLE_NAME + " ("
@@ -69,8 +70,9 @@ public class ContractionProvider extends ContentProvider
 		public void onUpgrade(final SQLiteDatabase db, final int oldVersion,
 				final int newVersion)
 		{
-			Log.w(TAG, "Upgrading database from version " + oldVersion + " to "
-					+ newVersion + ", which will destroy all old data");
+			Log.w(ContractionProvider.TAG, "Upgrading database from version "
+					+ oldVersion + " to " + newVersion
+					+ ", which will destroy all old data");
 			db.execSQL("DROP TABLE IF EXISTS "
 					+ ContractionContract.Contractions.TABLE_NAME);
 			onCreate(db);
@@ -81,10 +83,6 @@ public class ContractionProvider extends ContentProvider
 	 * The incoming URI matches the Contraction ID URI pattern
 	 */
 	private static final int CONTRACTION_ID = 2;
-	/**
-	 * The incoming URI matches the Contraction Latest URI pattern
-	 */
-	private static final int CONTRACTION_LATEST = 3;
 	/**
 	 * The incoming URI matches the Contractions URI pattern
 	 */
@@ -104,7 +102,8 @@ public class ContractionProvider extends ContentProvider
 	/**
 	 * A UriMatcher instance
 	 */
-	private static final UriMatcher uriMatcher = buildUriMatcher();
+	private static final UriMatcher uriMatcher = ContractionProvider
+			.buildUriMatcher();
 
 	/**
 	 * Creates and initializes a column project for all columns
@@ -136,20 +135,19 @@ public class ContractionProvider extends ContentProvider
 	{
 		final UriMatcher matcher = new UriMatcher(UriMatcher.NO_MATCH);
 		matcher.addURI(ContractionContract.AUTHORITY,
-				ContractionContract.Contractions.TABLE_NAME, CONTRACTIONS);
-		matcher.addURI(ContractionContract.AUTHORITY,
-				ContractionContract.Contractions.TABLE_NAME + "/latest",
-				CONTRACTION_LATEST);
+				ContractionContract.Contractions.TABLE_NAME,
+				ContractionProvider.CONTRACTIONS);
 		matcher.addURI(ContractionContract.AUTHORITY,
 				ContractionContract.Contractions.TABLE_NAME + "/#",
-				CONTRACTION_ID);
+				ContractionProvider.CONTRACTION_ID);
 		return matcher;
 	}
 
 	/**
 	 * An identity all column projection mapping
 	 */
-	final HashMap<String, String> allColumnProjectionMap = buildAllColumnProjectionMap();
+	final HashMap<String, String> allColumnProjectionMap = ContractionProvider
+			.buildAllColumnProjectionMap();
 	/**
 	 * Handle to a new DatabaseHelper.
 	 */
@@ -163,7 +161,7 @@ public class ContractionProvider extends ContentProvider
 		final SQLiteDatabase db = databaseHelper.getWritableDatabase();
 		int count;
 		// Does the delete based on the incoming URI pattern.
-		switch (uriMatcher.match(uri))
+		switch (ContractionProvider.uriMatcher.match(uri))
 		{
 			case CONTRACTIONS:
 				// If the incoming pattern matches the general pattern for
@@ -195,7 +193,7 @@ public class ContractionProvider extends ContentProvider
 		/**
 		 * Chooses the MIME type based on the incoming URI pattern
 		 */
-		switch (uriMatcher.match(uri))
+		switch (ContractionProvider.uriMatcher.match(uri))
 		{
 			case CONTRACTIONS:
 				// If the pattern is for contractions, returns the general
@@ -215,7 +213,7 @@ public class ContractionProvider extends ContentProvider
 	{
 		// Validates the incoming URI. Only the full provider URI is allowed for
 		// inserts.
-		if (uriMatcher.match(uri) != CONTRACTIONS)
+		if (ContractionProvider.uriMatcher.match(uri) != ContractionProvider.CONTRACTIONS)
 			throw new IllegalArgumentException("Unknown URI " + uri);
 		ContentValues values;
 		if (initialValues != null)
@@ -275,8 +273,7 @@ public class ContractionProvider extends ContentProvider
 		String finalSortOrder = sortOrder;
 		if (TextUtils.isEmpty(sortOrder))
 			finalSortOrder = ContractionContract.Contractions.DEFAULT_SORT_ORDER;
-		String limit = null;
-		switch (uriMatcher.match(uri))
+		switch (ContractionProvider.uriMatcher.match(uri))
 		{
 			case CONTRACTIONS:
 				break;
@@ -286,18 +283,12 @@ public class ContractionProvider extends ContentProvider
 				// so that it selects that single contraction
 				qb.appendWhere(BaseColumns._ID + "=" + uri.getLastPathSegment());
 				break;
-			case CONTRACTION_LATEST:
-				// If the incoming URI is for the latest contraction, limit only
-				// to the latest entry
-				limit = "1";
-				finalSortOrder = ContractionContract.Contractions.DEFAULT_SORT_ORDER;
-				break;
 			default:
 				throw new IllegalArgumentException("Unknown URI " + uri);
 		}
 		final SQLiteDatabase db = databaseHelper.getReadableDatabase();
 		final Cursor c = qb.query(db, projection, selection, selectionArgs,
-				null, null, finalSortOrder, limit);
+				null, null, finalSortOrder, null);
 		c.setNotificationUri(getContext().getContentResolver(), uri);
 		return c;
 	}
@@ -308,7 +299,7 @@ public class ContractionProvider extends ContentProvider
 	{
 		final SQLiteDatabase db = databaseHelper.getWritableDatabase();
 		int count = 0;
-		switch (uriMatcher.match(uri))
+		switch (ContractionProvider.uriMatcher.match(uri))
 		{
 			case CONTRACTIONS:
 				// If the incoming URI matches the general contractions pattern,
