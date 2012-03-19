@@ -84,8 +84,6 @@ public class ContractionListFragment extends ListFragment implements
 			ViewHolder holder;
 			if (viewTag == null)
 			{
-				Log.d(getClass().getSimpleName(),
-						"Building Holder @ position = " + cursor.getPosition());
 				holder = new ViewHolder();
 				holder.startTime = (TextView) view
 						.findViewById(R.id.start_time);
@@ -545,8 +543,8 @@ public class ContractionListFragment extends ListFragment implements
 	public Loader<Cursor> onCreateLoader(final int id, final Bundle args)
 	{
 		return new CursorLoader(getActivity(),
-				ContractionContract.Contractions.CONTENT_ID_URI_BASE, null,
-				null, null, null);
+				ContractionContract.Contractions.CONTENT_URI, null, null, null,
+				null);
 	}
 
 	@Override
