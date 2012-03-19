@@ -57,9 +57,6 @@ public class ControlAppWidgetService extends IntentService
 				ContractionContract.Contractions.CONTENT_URI, projection,
 				selection, selectionArgs, null);
 		final boolean atLeastOneContraction = data.moveToFirst();
-		final boolean contractionOngoing = atLeastOneContraction
-				&& data.isNull(data
-						.getColumnIndex(ContractionContract.Contractions.COLUMN_NAME_END_TIME));
 		RemoteViews views;
 		final String appwidgetBackground = preferences.getString(
 				Preferences.APPWIDGET_BACKGROUND_PREFERENCE_KEY,
@@ -132,6 +129,15 @@ public class ControlAppWidgetService extends IntentService
 			views.setTextViewText(R.id.average_frequency, "");
 		}
 		// Set the status of the contraction toggle button
+		// Need to use a separate cursor as there could be running contractions
+		// outside of the average time frame
+		final Cursor allData = getContentResolver().query(
+				ContractionContract.Contractions.CONTENT_URI, projection, null,
+				null, null);
+		final boolean contractionOngoing = allData.moveToFirst()
+				&& allData
+						.isNull(allData
+								.getColumnIndex(ContractionContract.Contractions.COLUMN_NAME_END_TIME));
 		final Intent toggleContractionIntent = new Intent(this,
 				AppWidgetToggleService.class);
 		toggleContractionIntent.putExtra(
@@ -154,8 +160,9 @@ public class ControlAppWidgetService extends IntentService
 					toggleContractionPendingIntent);
 			views.setViewVisibility(R.id.contraction_toggle_on, View.GONE);
 		}
-		// Close the cursor
+		// Close the cursors
 		data.close();
+		allData.close();
 		// Update the widgets
 		final AppWidgetManager appWidgetManager = AppWidgetManager
 				.getInstance(this);
