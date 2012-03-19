@@ -22,6 +22,7 @@
 	<string name="contraction_start">Start Contraction</string>
 	<string name="contraction_end">Stop Contraction</string>
 	<string name="list_loading">Loading contractions...</string>
+	<string name="list_item_loading">Loading</string>
 	<string name="list_empty"></string>
 	<string name="list_header_start_time">Start</string>
 	<string name="list_header_end_time">End</string>
@@ -34,6 +35,8 @@
 	<string name="average_frequency_label">Average Frequency:</string>
 	<string name="appwidget_contraction_start">Start</string>
 	<string name="appwidget_contraction_stop">Stop</string>
+	<string name="detail_appwidget_label">Contraction Timer Details</string>
+	<string name="duration_ongoing">Timing</string>
 	<string name="settings">Settings</string>
 	<string name="pref_settings_category">Settings</string>
 	<string name="pref_settings_keep_screen_on_summary">Keep the screen on when on the main contraction screen</string>

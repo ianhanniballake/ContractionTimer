@@ -20,8 +20,7 @@
 		android:theme="@style/AppTheme" >
 		<provider
 			android:name=".provider.ContractionProvider"
-			android:authorities="com.ianhanniballake.contractiontimer"
-			android:exported="false" >
+			android:authorities="com.ianhanniballake.contractiontimer" >
 			<grant-uri-permission android:pathPattern=".*" />
 		</provider>
 
@@ -45,6 +44,11 @@
 		<service android:name=".appwidget.AppWidgetToggleService" />
 		<service android:name=".appwidget.ToggleAppWidgetService" />
 		<service android:name=".appwidget.ControlAppWidgetService" />
+		<service android:name=".appwidget.DetailAppWidgetService" />
+		<service
+			android:name=".appwidget.DetailAppWidgetRemoteViewsService"
+			android:exported="false"
+			android:permission="android.permission.BIND_REMOTEVIEWS" />
 
 		<receiver
 			android:name=".appwidget.ToggleAppWidgetProvider"
@@ -67,6 +71,18 @@
 			<meta-data
 				android:name="android.appwidget.provider"
 				android:resource="@xml/control_appwidget_info" />
+		</receiver>
+		<receiver
+			android:name=".appwidget.DetailAppWidgetProvider"
+			android:enabled="@bool/detail_appwidget_enabled"
+			android:label="@string/detail_appwidget_label" >
+			<intent-filter>
+				<action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+			</intent-filter>
+
+			<meta-data
+				android:name="android.appwidget.provider"
+				android:resource="@xml/detail_appwidget_info" />
 		</receiver>
 	</application>
 

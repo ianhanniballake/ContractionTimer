@@ -6,5 +6,7 @@
 	<color name="about_dialog_text_color">@android:color/black</color>
 	<color name="about_dialog_foreground">#F0F0</color>
 	<color name="average_background">#D8F6CE</color>
+	<color name="detail_appwidget_background_dark">#FF444444</color>
+	<color name="detail_appwidget_background_light">#FFCCCCCC</color>
 
 </resources>

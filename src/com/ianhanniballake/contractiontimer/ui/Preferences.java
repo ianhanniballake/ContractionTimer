@@ -13,8 +13,7 @@ import android.view.MenuItem;
 import com.ianhanniballake.contractiontimer.R;
 import com.ianhanniballake.contractiontimer.actionbar.ActionBarPreferenceActivity;
 import com.ianhanniballake.contractiontimer.analytics.AnalyticsManagerService;
-import com.ianhanniballake.contractiontimer.appwidget.ControlAppWidgetService;
-import com.ianhanniballake.contractiontimer.appwidget.ToggleAppWidgetService;
+import com.ianhanniballake.contractiontimer.appwidget.AppWidgetToggleService;
 
 /**
  * Activity managing the various application preferences
@@ -133,8 +132,7 @@ public class Preferences extends ActionBarPreferenceActivity implements
 					"Appwidget Background", newAppwidgetBackground);
 			appwidgetBackgroundListPreference
 					.setSummary(appwidgetBackgroundListPreference.getEntry());
-			startService(new Intent(this, ToggleAppWidgetService.class));
-			startService(new Intent(this, ControlAppWidgetService.class));
+			AppWidgetToggleService.updateAllWidgets(this);
 		}
 		else if (key.equals(Preferences.AVERAGE_TIME_FRAME_PREFERENCE_KEY))
 		{
