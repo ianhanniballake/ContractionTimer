@@ -17,7 +17,7 @@ public class ToggleAppWidgetProvider extends AppWidgetProvider
 	{
 		Log.d(getClass().getSimpleName(), "Updating Toggle App Widgets");
 		final Intent service = new Intent(context, ToggleAppWidgetService.class);
-		service.putExtra("appWidgetIds", appWidgetIds);
+		service.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, appWidgetIds);
 		context.startService(service);
 	}
 }

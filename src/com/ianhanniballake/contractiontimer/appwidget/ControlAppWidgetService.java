@@ -159,9 +159,10 @@ public class ControlAppWidgetService extends IntentService
 		// Update the widgets
 		final AppWidgetManager appWidgetManager = AppWidgetManager
 				.getInstance(this);
-		if (intent.hasExtra("appWidgetIds"))
-			appWidgetManager.updateAppWidget(
-					intent.getIntArrayExtra("appWidgetIds"), views);
+		if (intent.hasExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS))
+			appWidgetManager.updateAppWidget(intent
+					.getIntArrayExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS),
+					views);
 		else
 			appWidgetManager.updateAppWidget(new ComponentName(this,
 					ControlAppWidgetProvider.class), views);

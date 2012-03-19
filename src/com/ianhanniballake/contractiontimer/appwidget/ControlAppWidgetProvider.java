@@ -18,7 +18,7 @@ public class ControlAppWidgetProvider extends AppWidgetProvider
 		Log.d(getClass().getSimpleName(), "Updating Control App Widgets");
 		final Intent service = new Intent(context,
 				ControlAppWidgetService.class);
-		service.putExtra("appWidgetIds", appWidgetIds);
+		service.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, appWidgetIds);
 		context.startService(service);
 	}
 }
