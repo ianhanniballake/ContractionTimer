@@ -121,6 +121,12 @@ public class DetailAppWidgetRemoteViewsService extends RemoteViewsService
 					// Go back to the previous spot
 					data.moveToPrevious();
 				}
+				final Intent fillInIntent = new Intent();
+				final int idColumnIndex = data.getColumnIndex(BaseColumns._ID);
+				final long id = data.getLong(idColumnIndex);
+				fillInIntent.putExtra(BaseColumns._ID, id);
+				views.setOnClickFillInIntent(R.id.list_item_detail_appwidget,
+						fillInIntent);
 				return views;
 			}
 

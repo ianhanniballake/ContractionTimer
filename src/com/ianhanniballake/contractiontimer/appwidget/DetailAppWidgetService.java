@@ -18,6 +18,7 @@ import com.ianhanniballake.contractiontimer.R;
 import com.ianhanniballake.contractiontimer.provider.ContractionContract;
 import com.ianhanniballake.contractiontimer.ui.MainActivity;
 import com.ianhanniballake.contractiontimer.ui.Preferences;
+import com.ianhanniballake.contractiontimer.ui.ViewActivity;
 
 /**
  * Handles updates of the 'Detail' style App Widgets
@@ -162,6 +163,13 @@ public class DetailAppWidgetService extends IntentService
 		}
 		views.setRemoteAdapter(0, R.id.list_view, new Intent(this,
 				DetailAppWidgetRemoteViewsService.class));
+		final Intent clickIntentTemplate = new Intent(this, ViewActivity.class);
+		clickIntentTemplate.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+		final PendingIntent clickPendingIntentTemplate = PendingIntent
+				.getActivity(this, 0, clickIntentTemplate,
+						PendingIntent.FLAG_UPDATE_CURRENT);
+		views.setPendingIntentTemplate(R.id.list_view,
+				clickPendingIntentTemplate);
 		views.setEmptyView(R.id.list_view, R.id.empty_view);
 		// Close the cursors
 		data.close();

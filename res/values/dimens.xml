@@ -12,5 +12,8 @@
 	<dimen name="control_padding_top">8dp</dimen>
 	<dimen name="dialog_padding">10dp</dimen>
 	<dimen name="shape_corner_radius">10dp</dimen>
+	<dimen name="outer_padding">10dp</dimen>
+	<dimen name="indent_padding">25dp</dimen>
+	<dimen name="dividing_padding">10dp</dimen>
 
 </resources>

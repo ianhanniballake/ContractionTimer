@@ -3,6 +3,7 @@ package com.ianhanniballake.contractiontimer.ui;
 import android.content.AsyncQueryHandler;
 import android.content.ContentUris;
 import android.content.Context;
+import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Build;
@@ -29,7 +30,9 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.AbsListView.MultiChoiceModeListener;
+import android.widget.AdapterView;
 import android.widget.AdapterView.AdapterContextMenuInfo;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.PopupMenu;
@@ -305,6 +308,19 @@ public class ContractionListFragment extends ListFragment implements
 		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB)
 		{
 			listView.setDrawSelectorOnTop(true);
+			listView.setOnItemClickListener(new OnItemClickListener()
+			{
+				@Override
+				public void onItemClick(final AdapterView<?> parent,
+						final View view, final int position, final long id)
+				{
+					// We need to launch a new activity to display the details
+					final Intent intent = new Intent(getActivity(),
+							ViewActivity.class);
+					intent.putExtra(BaseColumns._ID, id);
+					startActivity(intent);
+				}
+			});
 			listView.setChoiceMode(AbsListView.CHOICE_MODE_MULTIPLE_MODAL);
 			listView.setMultiChoiceModeListener(new MultiChoiceModeListener()
 			{
