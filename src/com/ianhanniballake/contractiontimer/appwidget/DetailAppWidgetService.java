@@ -165,6 +165,8 @@ public class DetailAppWidgetService extends IntentService
 				DetailAppWidgetRemoteViewsService.class));
 		final Intent clickIntentTemplate = new Intent(this, ViewActivity.class);
 		clickIntentTemplate.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+		clickIntentTemplate.putExtra(MainActivity.LAUNCHED_FROM_WIDGET_EXTRA,
+				DetailAppWidgetService.WIDGET_IDENTIFIER);
 		final PendingIntent clickPendingIntentTemplate = PendingIntent
 				.getActivity(this, 0, clickIntentTemplate,
 						PendingIntent.FLAG_UPDATE_CURRENT);
