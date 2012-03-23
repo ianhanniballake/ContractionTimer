@@ -2,6 +2,7 @@ package com.ianhanniballake.contractiontimer.ui;
 
 import android.content.AsyncQueryHandler;
 import android.content.ContentUris;
+import android.content.ContentValues;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -20,25 +21,16 @@ import com.ianhanniballake.contractiontimer.provider.ContractionContract;
 /**
  * Stand alone activity used to view the details of an individual contraction
  */
-public class ViewActivity extends ActionBarFragmentActivity
+public class EditActivity extends ActionBarFragmentActivity
 {
 	/**
-	 * Handler for asynchronous deletes of contractions
+	 * Handler for asynchronous updates of contractions
 	 */
 	private AsyncQueryHandler contractionQueryHandler;
 
 	@Override
 	public void onAnalyticsServiceConnected()
 	{
-		if (getIntent().hasExtra(MainActivity.LAUNCHED_FROM_WIDGET_EXTRA))
-		{
-			final String widgetIdentifier = getIntent().getExtras().getString(
-					MainActivity.LAUNCHED_FROM_WIDGET_EXTRA);
-			Log.d(getClass().getSimpleName(), "Launched from "
-					+ widgetIdentifier);
-			AnalyticsManagerService.trackEvent(this, widgetIdentifier,
-					"LaunchView");
-		}
 		Log.d(getClass().getSimpleName(), "Showing activity");
 		AnalyticsManagerService.trackPageView(this);
 	}
@@ -47,8 +39,8 @@ public class ViewActivity extends ActionBarFragmentActivity
 	public void onCreate(final Bundle savedInstanceState)
 	{
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_view);
-		if (findViewById(R.id.view) == null)
+		setContentView(R.layout.activity_edit);
+		if (findViewById(R.id.edit) == null)
 		{
 			// A null details view means we no longer need this activity
 			finish();
@@ -57,7 +49,7 @@ public class ViewActivity extends ActionBarFragmentActivity
 		long contractionId = 0;
 		if (getIntent() != null && getIntent().getExtras() != null)
 			contractionId = getIntent().getExtras().getLong(BaseColumns._ID, 0);
-		final ViewFragment viewFragment = new ViewFragment();
+		final EditFragment viewFragment = new EditFragment();
 		final Bundle args = new Bundle();
 		args.putLong(BaseColumns._ID, contractionId);
 		viewFragment.setArguments(args);
@@ -65,16 +57,16 @@ public class ViewActivity extends ActionBarFragmentActivity
 		// with this one inside the frame.
 		final FragmentTransaction ft = getSupportFragmentManager()
 				.beginTransaction();
-		ft.replace(R.id.view, viewFragment);
+		ft.replace(R.id.edit, viewFragment);
 		ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
 		ft.commit();
 		contractionQueryHandler = new AsyncQueryHandler(getContentResolver())
 		{
 			@Override
-			protected void onDeleteComplete(final int token,
+			protected void onUpdateComplete(final int token,
 					final Object cookie, final int result)
 			{
-				AppWidgetUpdateHandler.updateAllWidgets(ViewActivity.this);
+				AppWidgetUpdateHandler.updateAllWidgets(EditActivity.this);
 				finish();
 			}
 		};
@@ -83,7 +75,7 @@ public class ViewActivity extends ActionBarFragmentActivity
 	@Override
 	public boolean onCreateOptionsMenu(final Menu menu)
 	{
-		getMenuInflater().inflate(R.menu.activity_view, menu);
+		getMenuInflater().inflate(R.menu.activity_edit, menu);
 		return super.onCreateOptionsMenu(menu);
 	}
 
@@ -96,26 +88,30 @@ public class ViewActivity extends ActionBarFragmentActivity
 		switch (item.getItemId())
 		{
 			case android.R.id.home:
-				AnalyticsManagerService.trackEvent(this, "View", "Home");
-				final Intent intent = new Intent(this, MainActivity.class);
+				Log.d(getClass().getSimpleName(), "Edit selected home");
+				AnalyticsManagerService.trackEvent(this, "Edit", "Home");
+				final Intent intent = new Intent(this, ViewActivity.class);
 				intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+				intent.putExtra(BaseColumns._ID, contractionId);
 				startActivity(intent);
 				finish();
 				return true;
-			case R.id.menu_edit:
-				AnalyticsManagerService.trackEvent(this, "View", "Edit");
-				final Intent editIntent = new Intent(this, EditActivity.class);
-				editIntent.putExtra(BaseColumns._ID, contractionId);
-				startActivity(editIntent);
-				return true;
-			case R.id.menu_delete:
-				Log.d(getClass().getSimpleName(), "View selected delete");
-				AnalyticsManagerService.trackEvent(this, "View", "Delete");
-				final Uri deleteUri = ContentUris.withAppendedId(
+			case R.id.menu_save:
+				Log.d(getClass().getSimpleName(), "Edit selected save");
+				AnalyticsManagerService.trackEvent(this, "Edit", "Save");
+				final Uri updateUri = ContentUris.withAppendedId(
 						ContractionContract.Contractions.CONTENT_ID_URI_BASE,
 						contractionId);
-				contractionQueryHandler
-						.startDelete(0, 0, deleteUri, null, null);
+				final EditFragment editFragment = (EditFragment) getSupportFragmentManager()
+						.findFragmentById(R.id.edit);
+				final ContentValues values = editFragment.getContentValues();
+				contractionQueryHandler.startUpdate(0, null, updateUri, values,
+						null, null);
+				return true;
+			case R.id.menu_cancel:
+				Log.d(getClass().getSimpleName(), "Edit selected cancel");
+				AnalyticsManagerService.trackEvent(this, "Edit", "Cancel");
+				finish();
 				return true;
 			default:
 				return super.onOptionsItemSelected(item);
