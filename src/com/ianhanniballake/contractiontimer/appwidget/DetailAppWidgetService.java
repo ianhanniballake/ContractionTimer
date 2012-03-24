@@ -7,6 +7,7 @@ import android.content.ComponentName;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
+import android.os.Build;
 import android.preference.PreferenceManager;
 import android.provider.BaseColumns;
 import android.text.format.DateUtils;
@@ -161,8 +162,10 @@ public class DetailAppWidgetService extends IntentService
 					toggleContractionPendingIntent);
 			views.setViewVisibility(R.id.contraction_toggle_on, View.GONE);
 		}
-		views.setRemoteAdapter(0, R.id.list_view, new Intent(this,
-				DetailAppWidgetRemoteViewsService.class));
+		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.ICE_CREAM_SANDWICH)
+			setRemoteAdapter(views);
+		else
+			setRemoteAdapterV11(views);
 		final Intent clickIntentTemplate = new Intent(this, ViewActivity.class);
 		clickIntentTemplate.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 		clickIntentTemplate.putExtra(MainActivity.LAUNCHED_FROM_WIDGET_EXTRA,
@@ -186,5 +189,30 @@ public class DetailAppWidgetService extends IntentService
 		else
 			appWidgetManager.updateAppWidget(new ComponentName(this,
 					DetailAppWidgetProvider.class), views);
+	}
+
+	/**
+	 * Sets the remote adapter used to fill in the list items
+	 * 
+	 * @param views
+	 *            RemoteViews to set the RemoteAdapter
+	 */
+	private void setRemoteAdapter(final RemoteViews views)
+	{
+		views.setRemoteAdapter(R.id.list_view, new Intent(this,
+				DetailAppWidgetRemoteViewsService.class));
+	}
+
+	/**
+	 * Sets the remote adapter used to fill in the list items
+	 * 
+	 * @param views
+	 *            RemoteViews to set the RemoteAdapter
+	 */
+	@SuppressWarnings("deprecation")
+	private void setRemoteAdapterV11(final RemoteViews views)
+	{
+		views.setRemoteAdapter(0, R.id.list_view, new Intent(this,
+				DetailAppWidgetRemoteViewsService.class));
 	}
 }

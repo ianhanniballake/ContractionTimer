@@ -59,6 +59,7 @@ public class Preferences extends ActionBarPreferenceActivity implements
 		AnalyticsManagerService.trackPageView(this);
 	}
 
+	@SuppressWarnings("deprecation")
 	@Override
 	public void onCreate(final Bundle savedInstanceState)
 	{
@@ -91,6 +92,7 @@ public class Preferences extends ActionBarPreferenceActivity implements
 		}
 	}
 
+	@SuppressWarnings("deprecation")
 	@Override
 	public void onPause()
 	{
@@ -99,6 +101,7 @@ public class Preferences extends ActionBarPreferenceActivity implements
 				.unregisterOnSharedPreferenceChangeListener(this);
 	}
 
+	@SuppressWarnings("deprecation")
 	@Override
 	public void onResume()
 	{

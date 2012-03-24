@@ -166,7 +166,7 @@ public class ActionBarHelperBase extends ActionBarHelper
 		final int buttonWidth = (int) mActivity.getResources().getDimension(
 				widthDimenId);
 		actionButton.setLayoutParams(new ViewGroup.LayoutParams(buttonWidth,
-				ViewGroup.LayoutParams.FILL_PARENT));
+				ViewGroup.LayoutParams.MATCH_PARENT));
 		actionButton.setImageDrawable(item.getIcon());
 		actionButton.setScaleType(ImageView.ScaleType.CENTER);
 		actionButton.setContentDescription(item.getTitle());
@@ -259,7 +259,7 @@ public class ActionBarHelperBase extends ActionBarHelper
 		if (actionBarCompat == null)
 			return;
 		final LinearLayout.LayoutParams springLayoutParams = new LinearLayout.LayoutParams(
-				0, ViewGroup.LayoutParams.FILL_PARENT);
+				0, ViewGroup.LayoutParams.MATCH_PARENT);
 		springLayoutParams.weight = 1;
 		// Add Home button
 		final SimpleMenu tempMenu = new SimpleMenu(mActivity);
