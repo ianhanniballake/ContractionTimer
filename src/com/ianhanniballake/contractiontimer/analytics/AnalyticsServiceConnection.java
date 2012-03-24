@@ -5,6 +5,8 @@ import android.content.ServiceConnection;
 import android.os.IBinder;
 import android.util.Log;
 
+import com.ianhanniballake.contractiontimer.BuildConfig;
+
 /**
  * Simple Service Connection used to confirm that the AnalyticsService bound
  * successfully
@@ -32,13 +34,15 @@ public class AnalyticsServiceConnection implements ServiceConnection
 	public void onServiceConnected(final ComponentName name,
 			final IBinder service)
 	{
-		Log.d(getClass().getSimpleName(), "Service connected");
+		if (BuildConfig.DEBUG)
+			Log.d(getClass().getSimpleName(), "Service connected");
 		analyticTrackingActivity.onAnalyticsServiceConnected();
 	}
 
 	@Override
 	public void onServiceDisconnected(final ComponentName name)
 	{
-		Log.d(getClass().getSimpleName(), "Service disconnected");
+		if (BuildConfig.DEBUG)
+			Log.d(getClass().getSimpleName(), "Service disconnected");
 	}
 }

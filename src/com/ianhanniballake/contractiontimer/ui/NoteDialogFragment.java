@@ -15,6 +15,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
 
+import com.ianhanniballake.contractiontimer.BuildConfig;
 import com.ianhanniballake.contractiontimer.R;
 import com.ianhanniballake.contractiontimer.analytics.AnalyticsManagerService;
 import com.ianhanniballake.contractiontimer.provider.ContractionContract;
@@ -38,7 +39,8 @@ public class NoteDialogFragment extends DialogFragment
 	@Override
 	public void onCancel(final DialogInterface dialog)
 	{
-		Log.d(getClass().getSimpleName(), "Received cancelation event");
+		if (BuildConfig.DEBUG)
+			Log.d(getClass().getSimpleName(), "Received cancelation event");
 		final String existingNote = getArguments().getString(
 				NoteDialogFragment.EXISTING_NOTE_ARGUMENT);
 		AnalyticsManagerService.trackEvent(getActivity(), "Note", "Cancel",
@@ -74,9 +76,10 @@ public class NoteDialogFragment extends DialogFragment
 							public void onClick(final DialogInterface dialog,
 									final int which)
 							{
-								Log.d(NoteDialogFragment.this.getClass()
-										.getSimpleName(),
-										"Received positive event");
+								if (BuildConfig.DEBUG)
+									Log.d(NoteDialogFragment.this.getClass()
+											.getSimpleName(),
+											"Received positive event");
 								AnalyticsManagerService.trackEvent(
 										getActivity(), "Note", "Positive",
 										existingNote.equals("") ? "Add Note"
@@ -104,9 +107,10 @@ public class NoteDialogFragment extends DialogFragment
 							public void onClick(final DialogInterface dialog,
 									final int which)
 							{
-								Log.d(NoteDialogFragment.this.getClass()
-										.getSimpleName(),
-										"Received negative event");
+								if (BuildConfig.DEBUG)
+									Log.d(NoteDialogFragment.this.getClass()
+											.getSimpleName(),
+											"Received negative event");
 								AnalyticsManagerService.trackEvent(
 										getActivity(), "Note", "Negative",
 										existingNote.equals("") ? "Add Note"

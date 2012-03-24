@@ -2,7 +2,6 @@ package com.ianhanniballake.contractiontimer;
 
 import android.annotation.TargetApi;
 import android.app.Application;
-import android.content.pm.ApplicationInfo;
 import android.os.Build;
 import android.os.StrictMode;
 import android.preference.PreferenceManager;
@@ -33,10 +32,8 @@ public class ContractionTimerApplication extends Application
 	@Override
 	public void onCreate()
 	{
-		final ApplicationInfo appInfo = getApplicationContext()
-				.getApplicationInfo();
 		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.GINGERBREAD
-				&& (appInfo.flags & ApplicationInfo.FLAG_DEBUGGABLE) != 0)
+				&& BuildConfig.DEBUG)
 			ContractionTimerApplication.setStrictMode();
 		PreferenceManager.setDefaultValues(this, R.xml.preferences_settings,
 				false);

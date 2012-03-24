@@ -11,6 +11,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.ianhanniballake.contractiontimer.BuildConfig;
 import com.ianhanniballake.contractiontimer.R;
 import com.ianhanniballake.contractiontimer.actionbar.ActionBarFragmentActivity;
 import com.ianhanniballake.contractiontimer.analytics.AnalyticsManagerService;
@@ -34,12 +35,14 @@ public class ViewActivity extends ActionBarFragmentActivity
 		{
 			final String widgetIdentifier = getIntent().getExtras().getString(
 					MainActivity.LAUNCHED_FROM_WIDGET_EXTRA);
-			Log.d(getClass().getSimpleName(), "Launched from "
-					+ widgetIdentifier);
+			if (BuildConfig.DEBUG)
+				Log.d(getClass().getSimpleName(), "Launched from "
+						+ widgetIdentifier);
 			AnalyticsManagerService.trackEvent(this, widgetIdentifier,
 					"LaunchView");
 		}
-		Log.d(getClass().getSimpleName(), "Showing activity");
+		if (BuildConfig.DEBUG)
+			Log.d(getClass().getSimpleName(), "Showing activity");
 		AnalyticsManagerService.trackPageView(this);
 	}
 
@@ -96,6 +99,8 @@ public class ViewActivity extends ActionBarFragmentActivity
 		switch (item.getItemId())
 		{
 			case android.R.id.home:
+				if (BuildConfig.DEBUG)
+					Log.d(getClass().getSimpleName(), "View selected home");
 				AnalyticsManagerService.trackEvent(this, "View", "Home");
 				final Intent intent = new Intent(this, MainActivity.class);
 				intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
@@ -103,13 +108,16 @@ public class ViewActivity extends ActionBarFragmentActivity
 				finish();
 				return true;
 			case R.id.menu_edit:
+				if (BuildConfig.DEBUG)
+					Log.d(getClass().getSimpleName(), "View selected edit");
 				AnalyticsManagerService.trackEvent(this, "View", "Edit");
 				final Intent editIntent = new Intent(this, EditActivity.class);
 				editIntent.putExtra(BaseColumns._ID, contractionId);
 				startActivity(editIntent);
 				return true;
 			case R.id.menu_delete:
-				Log.d(getClass().getSimpleName(), "View selected delete");
+				if (BuildConfig.DEBUG)
+					Log.d(getClass().getSimpleName(), "View selected delete");
 				AnalyticsManagerService.trackEvent(this, "View", "Delete");
 				final Uri deleteUri = ContentUris.withAppendedId(
 						ContractionContract.Contractions.CONTENT_ID_URI_BASE,

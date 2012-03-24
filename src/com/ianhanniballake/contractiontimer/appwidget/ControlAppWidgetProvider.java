@@ -6,6 +6,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
 
+import com.ianhanniballake.contractiontimer.BuildConfig;
+
 /**
  * Handles updates of the 'Control' style App Widgets
  */
@@ -15,7 +17,8 @@ public class ControlAppWidgetProvider extends AppWidgetProvider
 	public void onUpdate(final Context context,
 			final AppWidgetManager appWidgetManager, final int[] appWidgetIds)
 	{
-		Log.d(getClass().getSimpleName(), "Updating Control App Widgets");
+		if (BuildConfig.DEBUG)
+			Log.d(getClass().getSimpleName(), "Updating Control App Widgets");
 		final Intent service = new Intent(context,
 				ControlAppWidgetService.class);
 		service.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, appWidgetIds);

@@ -10,6 +10,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 
+import com.ianhanniballake.contractiontimer.BuildConfig;
 import com.ianhanniballake.contractiontimer.R;
 import com.ianhanniballake.contractiontimer.analytics.AnalyticsManagerService;
 
@@ -21,7 +22,8 @@ public class AboutDialogFragment extends DialogFragment
 	@Override
 	public void onCancel(final DialogInterface dialog)
 	{
-		Log.d(getClass().getSimpleName(), "Received cancelation event");
+		if (BuildConfig.DEBUG)
+			Log.d(getClass().getSimpleName(), "Received cancelation event");
 		AnalyticsManagerService.trackEvent(getActivity(), "About", "Cancel");
 		super.onCancel(dialog);
 	}
@@ -43,9 +45,10 @@ public class AboutDialogFragment extends DialogFragment
 							public void onClick(final DialogInterface dialog,
 									final int which)
 							{
-								Log.d(AboutDialogFragment.this.getClass()
-										.getSimpleName(),
-										"Received neutral event");
+								if (BuildConfig.DEBUG)
+									Log.d(AboutDialogFragment.this.getClass()
+											.getSimpleName(),
+											"Received neutral event");
 								AnalyticsManagerService.trackEvent(
 										getActivity(), "About", "Neutral");
 							}

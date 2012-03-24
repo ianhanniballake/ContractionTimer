@@ -6,6 +6,8 @@ import android.os.Binder;
 import android.os.IBinder;
 import android.util.Log;
 
+import com.ianhanniballake.contractiontimer.BuildConfig;
+
 /**
  * Starts and stops the Google Analytics session based on the number of attached
  * activities
@@ -15,7 +17,8 @@ public class AnalyticsService extends Service
 	@Override
 	public IBinder onBind(final Intent intent)
 	{
-		Log.d(getClass().getSimpleName(), "Binding service");
+		if (BuildConfig.DEBUG)
+			Log.d(getClass().getSimpleName(), "Binding service");
 		AnalyticsManagerService.startSession(this);
 		return new Binder();
 	}
@@ -23,7 +26,8 @@ public class AnalyticsService extends Service
 	@Override
 	public boolean onUnbind(final Intent intent)
 	{
-		Log.d(getClass().getSimpleName(), "Unbinding service");
+		if (BuildConfig.DEBUG)
+			Log.d(getClass().getSimpleName(), "Unbinding service");
 		AnalyticsManagerService.stopSession(this);
 		return false;
 	}

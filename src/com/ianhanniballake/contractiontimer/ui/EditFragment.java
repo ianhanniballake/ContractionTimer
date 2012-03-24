@@ -31,6 +31,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.TimePicker;
 
+import com.ianhanniballake.contractiontimer.BuildConfig;
 import com.ianhanniballake.contractiontimer.R;
 import com.ianhanniballake.contractiontimer.analytics.AnalyticsManagerService;
 import com.ianhanniballake.contractiontimer.provider.ContractionContract;
@@ -239,8 +240,9 @@ public class EditFragment extends Fragment implements
 						updateViews();
 					}
 				});
-				Log.d(timePicker.getClass().getSimpleName(),
-						"Showing Start Time Dialog");
+				if (BuildConfig.DEBUG)
+					Log.d(timePicker.getClass().getSimpleName(),
+							"Showing Start Time Dialog");
 				AnalyticsManagerService
 						.trackPageView(getActivity(), timePicker);
 				timePicker.show(getFragmentManager(), "startTime");
@@ -269,8 +271,9 @@ public class EditFragment extends Fragment implements
 						updateViews();
 					}
 				});
-				Log.d(datePicker.getClass().getSimpleName(),
-						"Showing Start Date Dialog");
+				if (BuildConfig.DEBUG)
+					Log.d(datePicker.getClass().getSimpleName(),
+							"Showing Start Date Dialog");
 				AnalyticsManagerService
 						.trackPageView(getActivity(), datePicker);
 				datePicker.show(getFragmentManager(), "startDate");
@@ -298,8 +301,9 @@ public class EditFragment extends Fragment implements
 						updateViews();
 					}
 				});
-				Log.d(timePicker.getClass().getSimpleName(),
-						"Showing End Time Dialog");
+				if (BuildConfig.DEBUG)
+					Log.d(timePicker.getClass().getSimpleName(),
+							"Showing End Time Dialog");
 				AnalyticsManagerService
 						.trackPageView(getActivity(), timePicker);
 				timePicker.show(getFragmentManager(), "endTime");
@@ -328,8 +332,9 @@ public class EditFragment extends Fragment implements
 						updateViews();
 					}
 				});
-				Log.d(datePicker.getClass().getSimpleName(),
-						"Showing End Date Dialog");
+				if (BuildConfig.DEBUG)
+					Log.d(datePicker.getClass().getSimpleName(),
+							"Showing End Date Dialog");
 				AnalyticsManagerService
 						.trackPageView(getActivity(), datePicker);
 				datePicker.show(getFragmentManager(), "endDate");

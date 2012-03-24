@@ -9,6 +9,7 @@ import android.preference.ListPreference;
 import android.util.Log;
 import android.view.MenuItem;
 
+import com.ianhanniballake.contractiontimer.BuildConfig;
 import com.ianhanniballake.contractiontimer.R;
 import com.ianhanniballake.contractiontimer.actionbar.ActionBarPreferenceActivity;
 import com.ianhanniballake.contractiontimer.analytics.AnalyticsManagerService;
@@ -54,7 +55,8 @@ public class Preferences extends ActionBarPreferenceActivity implements
 	@Override
 	public void onAnalyticsServiceConnected()
 	{
-		Log.d(getClass().getSimpleName(), "Showing activity");
+		if (BuildConfig.DEBUG)
+			Log.d(getClass().getSimpleName(), "Showing activity");
 		AnalyticsManagerService.trackPageView(this);
 	}
 
@@ -119,8 +121,9 @@ public class Preferences extends ActionBarPreferenceActivity implements
 					Preferences.KEEP_SCREEN_ON_PREFERENCE_KEY,
 					getResources().getBoolean(
 							R.bool.pref_settings_keep_screen_on_default));
-			Log.d(getClass().getSimpleName(), "Keep Screen On: "
-					+ newIsKeepScreenOn);
+			if (BuildConfig.DEBUG)
+				Log.d(getClass().getSimpleName(), "Keep Screen On: "
+						+ newIsKeepScreenOn);
 			AnalyticsManagerService.trackEvent(this, "Preferences",
 					"Keep Screen On", Boolean.toString(newIsKeepScreenOn));
 		}
@@ -128,8 +131,9 @@ public class Preferences extends ActionBarPreferenceActivity implements
 		{
 			final String newAppwidgetBackground = appwidgetBackgroundListPreference
 					.getValue();
-			Log.d(getClass().getSimpleName(), "Appwidget Background: "
-					+ newAppwidgetBackground);
+			if (BuildConfig.DEBUG)
+				Log.d(getClass().getSimpleName(), "Appwidget Background: "
+						+ newAppwidgetBackground);
 			AnalyticsManagerService.trackEvent(this, "Preferences",
 					"Appwidget Background", newAppwidgetBackground);
 			appwidgetBackgroundListPreference
@@ -140,8 +144,9 @@ public class Preferences extends ActionBarPreferenceActivity implements
 		{
 			final String newAverageTimeFrame = averageTimeFrameListPreference
 					.getValue();
-			Log.d(getClass().getSimpleName(), "Average Time Frame: "
-					+ newAverageTimeFrame);
+			if (BuildConfig.DEBUG)
+				Log.d(getClass().getSimpleName(), "Average Time Frame: "
+						+ newAverageTimeFrame);
 			AnalyticsManagerService.trackEvent(this, "Preferences",
 					"Average Time Frame", newAverageTimeFrame);
 			final Editor editor = sharedPreferences.edit();

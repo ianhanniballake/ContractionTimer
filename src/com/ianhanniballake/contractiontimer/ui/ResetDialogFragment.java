@@ -11,6 +11,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 
+import com.ianhanniballake.contractiontimer.BuildConfig;
 import com.ianhanniballake.contractiontimer.R;
 import com.ianhanniballake.contractiontimer.analytics.AnalyticsManagerService;
 import com.ianhanniballake.contractiontimer.provider.ContractionContract;
@@ -23,7 +24,8 @@ public class ResetDialogFragment extends DialogFragment
 	@Override
 	public void onCancel(final DialogInterface dialog)
 	{
-		Log.d(getClass().getSimpleName(), "Received cancelation event");
+		if (BuildConfig.DEBUG)
+			Log.d(getClass().getSimpleName(), "Received cancelation event");
 		AnalyticsManagerService.trackEvent(getActivity(), "Note", "Cancel");
 		super.onCancel(dialog);
 	}
@@ -44,9 +46,10 @@ public class ResetDialogFragment extends DialogFragment
 							public void onClick(final DialogInterface dialog,
 									final int which)
 							{
-								Log.d(ResetDialogFragment.this.getClass()
-										.getSimpleName(),
-										"Received positive event");
+								if (BuildConfig.DEBUG)
+									Log.d(ResetDialogFragment.this.getClass()
+											.getSimpleName(),
+											"Received positive event");
 								AnalyticsManagerService.trackEvent(
 										getActivity(), "Reset", "Positive");
 								new AsyncQueryHandler(getActivity()
@@ -67,9 +70,10 @@ public class ResetDialogFragment extends DialogFragment
 							public void onClick(final DialogInterface dialog,
 									final int which)
 							{
-								Log.d(ResetDialogFragment.this.getClass()
-										.getSimpleName(),
-										"Received negative event");
+								if (BuildConfig.DEBUG)
+									Log.d(ResetDialogFragment.this.getClass()
+											.getSimpleName(),
+											"Received negative event");
 								AnalyticsManagerService.trackEvent(
 										getActivity(), "Reset", "Negative");
 							}

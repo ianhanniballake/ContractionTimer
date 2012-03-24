@@ -40,6 +40,7 @@ import android.widget.PopupMenu;
 import android.widget.PopupMenu.OnMenuItemClickListener;
 import android.widget.TextView;
 
+import com.ianhanniballake.contractiontimer.BuildConfig;
 import com.ianhanniballake.contractiontimer.R;
 import com.ianhanniballake.contractiontimer.analytics.AnalyticsManagerService;
 import com.ianhanniballake.contractiontimer.provider.ContractionContract;
@@ -349,18 +350,21 @@ public class ContractionListFragment extends ListFragment implements
 				switch (item.getItemId())
 				{
 					case R.id.menu_context_note:
-						Log.d(getClass().getSimpleName(),
-								"Popup Menu selected "
-										+ (popupHolder.existingNote.equals("") ? "Add Note"
-												: "Edit Note"));
+						if (BuildConfig.DEBUG)
+							Log.d(getClass().getSimpleName(),
+									"Popup Menu selected "
+											+ (popupHolder.existingNote
+													.equals("") ? "Add Note"
+													: "Edit Note"));
 						AnalyticsManagerService.trackEvent(getActivity(),
 								"PopupMenu", "Note", popupHolder.existingNote
 										.equals("") ? "Add Note" : "Edit Note");
 						showNoteDialog(popupHolder.id, popupHolder.existingNote);
 						return true;
 					case R.id.menu_context_delete:
-						Log.d(getClass().getSimpleName(),
-								"Popup Menu selected delete");
+						if (BuildConfig.DEBUG)
+							Log.d(getClass().getSimpleName(),
+									"Popup Menu selected delete");
 						AnalyticsManagerService.trackEvent(getActivity(),
 								"PopupMenu", "Delete");
 						deleteContraction(popupHolder.id);
@@ -384,8 +388,10 @@ public class ContractionListFragment extends ListFragment implements
 				final TextView noteView = (TextView) info.targetView
 						.findViewById(R.id.note);
 				final String existingNote = noteView.getText().toString();
-				Log.d(getClass().getSimpleName(), "Context Menu selected "
-						+ (existingNote.equals("") ? "Add Note" : "Edit Note"));
+				if (BuildConfig.DEBUG)
+					Log.d(getClass().getSimpleName(), "Context Menu selected "
+							+ (existingNote.equals("") ? "Add Note"
+									: "Edit Note"));
 				AnalyticsManagerService.trackEvent(getActivity(),
 						"ContextMenu", "Note",
 						existingNote.equals("") ? "Add Note" : "Edit Note",
@@ -393,8 +399,9 @@ public class ContractionListFragment extends ListFragment implements
 				showNoteDialog(info.id, existingNote);
 				return true;
 			case R.id.menu_context_delete:
-				Log.d(getClass().getSimpleName(),
-						"Context Menu selected delete");
+				if (BuildConfig.DEBUG)
+					Log.d(getClass().getSimpleName(),
+							"Context Menu selected delete");
 				AnalyticsManagerService.trackEvent(getActivity(),
 						"ContextMenu", "Delete", "", info.position);
 				deleteContraction(info.id);
@@ -431,7 +438,8 @@ public class ContractionListFragment extends ListFragment implements
 			noteItem.setTitle(R.string.note_dialog_title_add);
 		else
 			noteItem.setTitle(R.string.note_dialog_title_edit);
-		Log.d(getClass().getSimpleName(), "Context Menu Opened");
+		if (BuildConfig.DEBUG)
+			Log.d(getClass().getSimpleName(), "Context Menu Opened");
 		AnalyticsManagerService.trackEvent(getActivity(), "ContextMenu",
 				"Open", note.equals("") ? "Add Note" : "Edit Note");
 	}
@@ -544,10 +552,11 @@ public class ContractionListFragment extends ListFragment implements
 								.getColumnIndex(ContractionContract.Contractions.COLUMN_NAME_NOTE);
 						final String existingNote = cursor
 								.getString(noteColumnIndex);
-						Log.d(getClass().getSimpleName(),
-								"Context Action Mode selected "
-										+ (existingNote.equals("") ? "Add Note"
-												: "Edit Note"));
+						if (BuildConfig.DEBUG)
+							Log.d(getClass().getSimpleName(),
+									"Context Action Mode selected "
+											+ (existingNote.equals("") ? "Add Note"
+													: "Edit Note"));
 						AnalyticsManagerService.trackEvent(getActivity(),
 								"ContextActionBar", "Note", existingNote
 										.equals("") ? "Add Note" : "Edit Note",
@@ -558,8 +567,9 @@ public class ContractionListFragment extends ListFragment implements
 					case R.id.menu_context_delete:
 						final long[] selectedIds = getListView()
 								.getCheckedItemIds();
-						Log.d(getClass().getSimpleName(),
-								"Context Action Mode selected delete");
+						if (BuildConfig.DEBUG)
+							Log.d(getClass().getSimpleName(),
+									"Context Action Mode selected delete");
 						AnalyticsManagerService.trackEvent(getActivity(),
 								"ContextActionBar", "Delete", "",
 								selectedIds.length);
@@ -666,7 +676,9 @@ public class ContractionListFragment extends ListFragment implements
 		args.putLong(NoteDialogFragment.CONTRACTION_ID_ARGUMENT, id);
 		args.putString(NoteDialogFragment.EXISTING_NOTE_ARGUMENT, existingNote);
 		noteDialogFragment.setArguments(args);
-		Log.d(noteDialogFragment.getClass().getSimpleName(), "Showing Dialog");
+		if (BuildConfig.DEBUG)
+			Log.d(noteDialogFragment.getClass().getSimpleName(),
+					"Showing Dialog");
 		AnalyticsManagerService
 				.trackPageView(getActivity(), noteDialogFragment);
 		noteDialogFragment.show(getFragmentManager(), "note");

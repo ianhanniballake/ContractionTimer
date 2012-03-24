@@ -17,6 +17,8 @@ import android.provider.BaseColumns;
 import android.text.TextUtils;
 import android.util.Log;
 
+import com.ianhanniballake.contractiontimer.BuildConfig;
+
 /**
  * Provides access to a database of contractions.
  */
@@ -46,8 +48,10 @@ public class ContractionProvider extends ContentProvider
 		@Override
 		public void onCreate(final SQLiteDatabase db)
 		{
-			Log.d(ContractionProvider.TAG, "Creating the "
-					+ ContractionContract.Contractions.TABLE_NAME + " table");
+			if (BuildConfig.DEBUG)
+				Log.d(ContractionProvider.TAG, "Creating the "
+						+ ContractionContract.Contractions.TABLE_NAME
+						+ " table");
 			db.execSQL("CREATE TABLE "
 					+ ContractionContract.Contractions.TABLE_NAME + " ("
 					+ BaseColumns._ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
@@ -69,9 +73,11 @@ public class ContractionProvider extends ContentProvider
 		public void onUpgrade(final SQLiteDatabase db, final int oldVersion,
 				final int newVersion)
 		{
-			Log.w(ContractionProvider.TAG, "Upgrading database from version "
-					+ oldVersion + " to " + newVersion
-					+ ", which will destroy all old data");
+			if (BuildConfig.DEBUG)
+				Log.w(ContractionProvider.TAG,
+						"Upgrading database from version " + oldVersion
+								+ " to " + newVersion
+								+ ", which will destroy all old data");
 			db.execSQL("DROP TABLE IF EXISTS "
 					+ ContractionContract.Contractions.TABLE_NAME);
 			onCreate(db);

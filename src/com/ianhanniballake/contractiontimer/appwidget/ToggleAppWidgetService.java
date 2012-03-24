@@ -13,6 +13,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.RemoteViews;
 
+import com.ianhanniballake.contractiontimer.BuildConfig;
 import com.ianhanniballake.contractiontimer.R;
 import com.ianhanniballake.contractiontimer.provider.ContractionContract;
 import com.ianhanniballake.contractiontimer.ui.Preferences;
@@ -38,7 +39,8 @@ public class ToggleAppWidgetService extends IntentService
 	@Override
 	protected void onHandleIntent(final Intent intent)
 	{
-		Log.d(getClass().getSimpleName(), "Updating Toggle App Widgets");
+		if (BuildConfig.DEBUG)
+			Log.d(getClass().getSimpleName(), "Updating Toggle App Widgets");
 		final String[] projection = { BaseColumns._ID,
 				ContractionContract.Contractions.COLUMN_NAME_START_TIME,
 				ContractionContract.Contractions.COLUMN_NAME_END_TIME };

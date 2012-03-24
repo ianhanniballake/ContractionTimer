@@ -12,6 +12,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.ianhanniballake.contractiontimer.BuildConfig;
 import com.ianhanniballake.contractiontimer.R;
 import com.ianhanniballake.contractiontimer.actionbar.ActionBarFragmentActivity;
 import com.ianhanniballake.contractiontimer.analytics.AnalyticsManagerService;
@@ -31,7 +32,8 @@ public class EditActivity extends ActionBarFragmentActivity
 	@Override
 	public void onAnalyticsServiceConnected()
 	{
-		Log.d(getClass().getSimpleName(), "Showing activity");
+		if (BuildConfig.DEBUG)
+			Log.d(getClass().getSimpleName(), "Showing activity");
 		AnalyticsManagerService.trackPageView(this);
 	}
 
@@ -88,7 +90,8 @@ public class EditActivity extends ActionBarFragmentActivity
 		switch (item.getItemId())
 		{
 			case android.R.id.home:
-				Log.d(getClass().getSimpleName(), "Edit selected home");
+				if (BuildConfig.DEBUG)
+					Log.d(getClass().getSimpleName(), "Edit selected home");
 				AnalyticsManagerService.trackEvent(this, "Edit", "Home");
 				final Intent intent = new Intent(this, ViewActivity.class);
 				intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
@@ -97,7 +100,8 @@ public class EditActivity extends ActionBarFragmentActivity
 				finish();
 				return true;
 			case R.id.menu_save:
-				Log.d(getClass().getSimpleName(), "Edit selected save");
+				if (BuildConfig.DEBUG)
+					Log.d(getClass().getSimpleName(), "Edit selected save");
 				AnalyticsManagerService.trackEvent(this, "Edit", "Save");
 				final Uri updateUri = ContentUris.withAppendedId(
 						ContractionContract.Contractions.CONTENT_ID_URI_BASE,
@@ -109,7 +113,8 @@ public class EditActivity extends ActionBarFragmentActivity
 						null, null);
 				return true;
 			case R.id.menu_cancel:
-				Log.d(getClass().getSimpleName(), "Edit selected cancel");
+				if (BuildConfig.DEBUG)
+					Log.d(getClass().getSimpleName(), "Edit selected cancel");
 				AnalyticsManagerService.trackEvent(this, "Edit", "Cancel");
 				finish();
 				return true;

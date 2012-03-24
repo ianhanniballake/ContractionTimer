@@ -4,11 +4,11 @@ import android.app.Activity;
 import android.app.IntentService;
 import android.content.Context;
 import android.content.Intent;
-import android.content.pm.ApplicationInfo;
 import android.support.v4.app.DialogFragment;
 import android.util.Log;
 
 import com.google.android.apps.analytics.GoogleAnalyticsTracker;
+import com.ianhanniballake.contractiontimer.BuildConfig;
 
 /**
  * Provides access to the Analytics handler via asynchronous updates on a worker
@@ -208,7 +208,8 @@ public class AnalyticsManagerService extends IntentService
 	protected void onHandleIntent(final Intent intent)
 	{
 		final String intentAction = intent.getAction();
-		Log.d(getClass().getSimpleName(), "Handling " + intentAction);
+		if (BuildConfig.DEBUG)
+			Log.d(getClass().getSimpleName(), "Handling " + intentAction);
 		final GoogleAnalyticsTracker tracker = GoogleAnalyticsTracker
 				.getInstance();
 		if (intentAction == AnalyticsManagerService.ACTION_START_NEW_SESSION)
@@ -217,8 +218,7 @@ public class AnalyticsManagerService extends IntentService
 			tracker.startNewSession(
 					AnalyticsManagerService.ANALYTICS_PROPERTY_ID, this);
 			tracker.setAnonymizeIp(true);
-			final ApplicationInfo appInfo = getApplicationInfo();
-			tracker.setDebug((appInfo.flags & ApplicationInfo.FLAG_DEBUGGABLE) != 0);
+			tracker.setDebug(BuildConfig.DEBUG);
 		}
 		else if (intentAction == AnalyticsManagerService.ACTION_TRACK_PAGE_VIEW)
 		{
@@ -240,8 +240,7 @@ public class AnalyticsManagerService extends IntentService
 		}
 		else if (intentAction == AnalyticsManagerService.ACTION_STOP_SESSION)
 		{
-			final ApplicationInfo appInfo = getApplicationInfo();
-			if ((appInfo.flags & ApplicationInfo.FLAG_DEBUGGABLE) == 0)
+			if (!BuildConfig.DEBUG)
 				tracker.dispatch();
 			tracker.stopSession();
 		}

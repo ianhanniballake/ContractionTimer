@@ -23,6 +23,7 @@ import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.TextView;
 
+import com.ianhanniballake.contractiontimer.BuildConfig;
 import com.ianhanniballake.contractiontimer.R;
 import com.ianhanniballake.contractiontimer.actionbar.ActionBarFragmentActivity;
 import com.ianhanniballake.contractiontimer.analytics.AnalyticsManagerService;
@@ -79,12 +80,14 @@ public class MainActivity extends ActionBarFragmentActivity implements
 		{
 			final String widgetIdentifier = getIntent().getExtras().getString(
 					MainActivity.LAUNCHED_FROM_WIDGET_EXTRA);
-			Log.d(getClass().getSimpleName(), "Launched from "
-					+ widgetIdentifier);
+			if (BuildConfig.DEBUG)
+				Log.d(getClass().getSimpleName(), "Launched from "
+						+ widgetIdentifier);
 			AnalyticsManagerService
 					.trackEvent(this, widgetIdentifier, "Launch");
 		}
-		Log.d(getClass().getSimpleName(), "Showing activity");
+		if (BuildConfig.DEBUG)
+			Log.d(getClass().getSimpleName(), "Showing activity");
 		AnalyticsManagerService.trackPageView(this);
 	}
 
@@ -158,25 +161,29 @@ public class MainActivity extends ActionBarFragmentActivity implements
 		switch (item.getItemId())
 		{
 			case R.id.menu_reset:
-				Log.d(getClass().getSimpleName(), "Menu selected Reset");
+				if (BuildConfig.DEBUG)
+					Log.d(getClass().getSimpleName(), "Menu selected Reset");
 				AnalyticsManagerService.trackEvent(this, "Menu", "Reset", "",
 						adapter.getCount());
 				final ResetDialogFragment resetDialogFragment = new ResetDialogFragment();
-				Log.d(resetDialogFragment.getClass().getSimpleName(),
-						"Showing Dialog");
+				if (BuildConfig.DEBUG)
+					Log.d(resetDialogFragment.getClass().getSimpleName(),
+							"Showing Dialog");
 				AnalyticsManagerService
 						.trackPageView(this, resetDialogFragment);
 				resetDialogFragment.show(getSupportFragmentManager(), "reset");
 				return true;
 			case R.id.menu_share_averages:
-				Log.d(getClass().getSimpleName(),
-						"Menu selected Share Averages");
+				if (BuildConfig.DEBUG)
+					Log.d(getClass().getSimpleName(),
+							"Menu selected Share Averages");
 				AnalyticsManagerService.trackEvent(this, "Menu", "Share",
 						"Averages", adapter.getCount());
 				shareAverages();
 				return true;
 			case R.id.menu_share_all:
-				Log.d(getClass().getSimpleName(), "Menu selected Share All");
+				if (BuildConfig.DEBUG)
+					Log.d(getClass().getSimpleName(), "Menu selected Share All");
 				AnalyticsManagerService.trackEvent(this, "Menu", "Share",
 						"All", adapter.getCount());
 				shareAll();
@@ -185,12 +192,14 @@ public class MainActivity extends ActionBarFragmentActivity implements
 				startActivity(new Intent(this, Preferences.class));
 				return true;
 			case R.id.menu_about:
-				Log.d(getClass().getSimpleName(), "Menu selected About");
+				if (BuildConfig.DEBUG)
+					Log.d(getClass().getSimpleName(), "Menu selected About");
 				AnalyticsManagerService
 						.trackEvent(this, "Menu", "About", "", 0);
 				final AboutDialogFragment aboutDialogFragment = new AboutDialogFragment();
-				Log.d(aboutDialogFragment.getClass().getSimpleName(),
-						"Showing Dialog");
+				if (BuildConfig.DEBUG)
+					Log.d(aboutDialogFragment.getClass().getSimpleName(),
+							"Showing Dialog");
 				AnalyticsManagerService
 						.trackPageView(this, aboutDialogFragment);
 				aboutDialogFragment.show(getSupportFragmentManager(), "about");
@@ -222,7 +231,9 @@ public class MainActivity extends ActionBarFragmentActivity implements
 				.getDefaultSharedPreferences(this);
 		final boolean isKeepScreenOn = preferences.getBoolean(
 				Preferences.KEEP_SCREEN_ON_PREFERENCE_KEY, false);
-		Log.d(getClass().getSimpleName(), "Keep Screen On: " + isKeepScreenOn);
+		if (BuildConfig.DEBUG)
+			Log.d(getClass().getSimpleName(), "Keep Screen On: "
+					+ isKeepScreenOn);
 		if (isKeepScreenOn)
 			getWindow()
 					.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);

@@ -10,6 +10,7 @@ import android.net.Uri;
 import android.provider.BaseColumns;
 import android.util.Log;
 
+import com.ianhanniballake.contractiontimer.BuildConfig;
 import com.ianhanniballake.contractiontimer.analytics.AnalyticsManagerService;
 import com.ianhanniballake.contractiontimer.provider.ContractionContract;
 
@@ -36,7 +37,8 @@ public class AppWidgetToggleService extends IntentService
 	public void onCreate()
 	{
 		super.onCreate();
-		Log.d(getClass().getSimpleName(), "Creating service");
+		if (BuildConfig.DEBUG)
+			Log.d(getClass().getSimpleName(), "Creating service");
 		AnalyticsManagerService.startSession(this);
 	}
 
@@ -44,7 +46,8 @@ public class AppWidgetToggleService extends IntentService
 	public void onDestroy()
 	{
 		super.onDestroy();
-		Log.d(getClass().getSimpleName(), "Destroying service");
+		if (BuildConfig.DEBUG)
+			Log.d(getClass().getSimpleName(), "Destroying service");
 		AnalyticsManagerService.stopSession(this);
 	}
 
@@ -64,8 +67,9 @@ public class AppWidgetToggleService extends IntentService
 						.getColumnIndex(ContractionContract.Contractions.COLUMN_NAME_END_TIME));
 		if (contractionOngoing)
 		{
-			Log.d(AppWidgetToggleService.this.getClass().getSimpleName(),
-					"Stopping contraction");
+			if (BuildConfig.DEBUG)
+				Log.d(AppWidgetToggleService.this.getClass().getSimpleName(),
+						"Stopping contraction");
 			AnalyticsManagerService.trackEvent(this, widgetName, "Stop");
 			final ContentValues newEndTime = new ContentValues();
 			newEndTime.put(
@@ -81,8 +85,9 @@ public class AppWidgetToggleService extends IntentService
 		}
 		else
 		{
-			Log.d(AppWidgetToggleService.this.getClass().getSimpleName(),
-					"Starting contraction");
+			if (BuildConfig.DEBUG)
+				Log.d(AppWidgetToggleService.this.getClass().getSimpleName(),
+						"Starting contraction");
 			AnalyticsManagerService.trackEvent(this, widgetName, "Start");
 			// Start a new contraction
 			contentResolver.insert(

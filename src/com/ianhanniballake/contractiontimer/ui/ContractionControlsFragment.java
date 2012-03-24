@@ -20,6 +20,7 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.ToggleButton;
 
+import com.ianhanniballake.contractiontimer.BuildConfig;
 import com.ianhanniballake.contractiontimer.R;
 import com.ianhanniballake.contractiontimer.analytics.AnalyticsManagerService;
 import com.ianhanniballake.contractiontimer.appwidget.AppWidgetUpdateHandler;
@@ -103,8 +104,9 @@ public class ContractionControlsFragment extends Fragment implements
 				toggleContraction.setEnabled(false);
 				if (toggleContraction.isChecked())
 				{
-					Log.d(ContractionControlsFragment.this.getClass()
-							.getSimpleName(), "Starting contraction");
+					if (BuildConfig.DEBUG)
+						Log.d(ContractionControlsFragment.this.getClass()
+								.getSimpleName(), "Starting contraction");
 					AnalyticsManagerService.trackEvent(getActivity(),
 							"Controls", "Start");
 					// Start a new contraction
@@ -114,8 +116,9 @@ public class ContractionControlsFragment extends Fragment implements
 				}
 				else
 				{
-					Log.d(ContractionControlsFragment.this.getClass()
-							.getSimpleName(), "Stopping contraction");
+					if (BuildConfig.DEBUG)
+						Log.d(ContractionControlsFragment.this.getClass()
+								.getSimpleName(), "Stopping contraction");
 					AnalyticsManagerService.trackEvent(getActivity(),
 							"Controls", "Stop");
 					final ContentValues newEndTime = new ContentValues();
