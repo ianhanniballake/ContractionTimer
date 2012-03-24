@@ -1,5 +1,6 @@
 package com.ianhanniballake.contractiontimer.actionbar;
 
+import android.annotation.TargetApi;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.view.ActionProvider;
@@ -92,6 +93,7 @@ public class SimpleMenuItem implements MenuItem
 		return false;
 	}
 
+	@TargetApi(14)
 	@Override
 	public ActionProvider getActionProvider()
 	{
@@ -222,6 +224,7 @@ public class SimpleMenuItem implements MenuItem
 		return true;
 	}
 
+	@TargetApi(14)
 	@Override
 	public MenuItem setActionProvider(final ActionProvider actionProvider)
 	{
@@ -301,6 +304,7 @@ public class SimpleMenuItem implements MenuItem
 		return this;
 	}
 
+	@TargetApi(14)
 	@Override
 	public MenuItem setOnActionExpandListener(
 			final OnActionExpandListener onActionExpandListener)

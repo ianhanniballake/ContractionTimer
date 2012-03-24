@@ -1,5 +1,6 @@
 package com.ianhanniballake.contractiontimer.appwidget;
 
+import android.annotation.TargetApi;
 import android.app.IntentService;
 import android.app.PendingIntent;
 import android.appwidget.AppWidgetManager;
@@ -24,6 +25,7 @@ import com.ianhanniballake.contractiontimer.ui.ViewActivity;
 /**
  * Handles updates of the 'Detail' style App Widgets
  */
+@TargetApi(11)
 public class DetailAppWidgetService extends IntentService
 {
 	/**
@@ -197,6 +199,7 @@ public class DetailAppWidgetService extends IntentService
 	 * @param views
 	 *            RemoteViews to set the RemoteAdapter
 	 */
+	@TargetApi(14)
 	private void setRemoteAdapter(final RemoteViews views)
 	{
 		views.setRemoteAdapter(R.id.list_view, new Intent(this,

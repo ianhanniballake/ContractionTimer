@@ -33,8 +33,7 @@
 
 		<TextView
 			android:layout_width="48dp"
-			android:layout_height="fill_parent"
-			android:text=" " />
+			android:layout_height="fill_parent" />
 	</LinearLayout>
 
 	<LinearLayout

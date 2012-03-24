@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
-import android.os.Build;
 import android.os.Bundle;
 import android.preference.ListPreference;
 import android.util.Log;
@@ -152,10 +151,7 @@ public class Preferences extends ActionBarPreferenceActivity implements
 			editor.putBoolean(
 					Preferences.AVERAGE_TIME_FRAME_CHANGED_FRAGMENT_PREFERENCE_KEY,
 					true);
-			if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.GINGERBREAD)
-				editor.apply();
-			else
-				editor.commit();
+			editor.commit();
 			averageTimeFrameListPreference
 					.setSummary(getString(R.string.pref_settings_average_time_frame_summary)
 							+ "\n" + averageTimeFrameListPreference.getEntry());

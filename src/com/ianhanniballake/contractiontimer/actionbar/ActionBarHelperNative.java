@@ -1,5 +1,6 @@
 package com.ianhanniballake.contractiontimer.actionbar;
 
+import android.annotation.TargetApi;
 import android.app.Activity;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -8,6 +9,7 @@ import android.view.MenuInflater;
  * An extension of {@link ActionBarHelper} that provides access to the native
  * ActionBar in Android 3.0+ devices
  */
+@TargetApi(11)
 public class ActionBarHelperNative extends ActionBarHelper
 {
 	/**

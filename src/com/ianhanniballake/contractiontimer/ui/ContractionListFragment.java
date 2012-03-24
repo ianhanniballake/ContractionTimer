@@ -1,5 +1,6 @@
 package com.ianhanniballake.contractiontimer.ui;
 
+import android.annotation.TargetApi;
 import android.content.AsyncQueryHandler;
 import android.content.ContentUris;
 import android.content.Context;
@@ -155,25 +156,40 @@ public class ContractionListFragment extends ListFragment implements
 			else
 				holder.note.setVisibility(View.VISIBLE);
 			if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB)
+				buildPopupHolder(holder, cursor);
+		}
+
+		/**
+		 * Builds a PopupHolder, storing required information in the view tag
+		 * 
+		 * @param holder
+		 *            ViewHolder of the current row
+		 * @param cursor
+		 *            cursor pointing to the current row's data
+		 */
+		@TargetApi(11)
+		private void buildPopupHolder(final ViewHolder holder,
+				final Cursor cursor)
+		{
+			final Object showPopupTag = holder.showPopup.getTag();
+			PopupHolder popupHolder;
+			if (showPopupTag == null)
 			{
-				final Object showPopupTag = holder.showPopup.getTag();
-				PopupHolder popupHolder;
-				if (showPopupTag == null)
-				{
-					popupHolder = new PopupHolder();
-					holder.showPopup.setTag(popupHolder);
-				}
-				else
-					popupHolder = (PopupHolder) showPopupTag;
-				final int idColumnIndex = cursor
-						.getColumnIndex(BaseColumns._ID);
-				popupHolder.id = cursor.getLong(idColumnIndex);
-				popupHolder.existingNote = note;
-				// Don't allow popup menu while the Contextual Action Bar is
-				// present
-				holder.showPopup
-						.setEnabled(getListView().getCheckedItemCount() == 0);
+				popupHolder = new PopupHolder();
+				holder.showPopup.setTag(popupHolder);
 			}
+			else
+				popupHolder = (PopupHolder) showPopupTag;
+			final int idColumnIndex = cursor.getColumnIndex(BaseColumns._ID);
+			popupHolder.id = cursor.getLong(idColumnIndex);
+			final int noteColumnIndex = cursor
+					.getColumnIndex(ContractionContract.Contractions.COLUMN_NAME_NOTE);
+			final String note = cursor.getString(noteColumnIndex);
+			popupHolder.existingNote = note;
+			// Don't allow popup menu while the Contextual Action Bar is
+			// present
+			holder.showPopup
+					.setEnabled(getListView().getCheckedItemCount() == 0);
 		}
 
 		@Override
@@ -304,149 +320,14 @@ public class ContractionListFragment extends ListFragment implements
 		setEmptyText(getText(R.string.list_loading));
 		adapter = new ContractionListCursorAdapter(getActivity(), null, 0);
 		setListAdapter(adapter);
-		final ListView listView = getListView();
 		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB)
-		{
-			listView.setDrawSelectorOnTop(true);
-			listView.setOnItemClickListener(new OnItemClickListener()
-			{
-				@Override
-				public void onItemClick(final AdapterView<?> parent,
-						final View view, final int position, final long id)
-				{
-					// We need to launch a new activity to display the details
-					final Intent intent = new Intent(getActivity(),
-							ViewActivity.class);
-					intent.putExtra(BaseColumns._ID, id);
-					startActivity(intent);
-				}
-			});
-			listView.setChoiceMode(AbsListView.CHOICE_MODE_MULTIPLE_MODAL);
-			listView.setMultiChoiceModeListener(new MultiChoiceModeListener()
-			{
-				@Override
-				public boolean onActionItemClicked(final ActionMode mode,
-						final MenuItem item)
-				{
-					switch (item.getItemId())
-					{
-						case R.id.menu_context_note:
-							final long contractionId = listView
-									.getCheckedItemIds()[0];
-							final int position = listView
-									.getCheckedItemPositions().keyAt(0);
-							final Cursor cursor = (Cursor) listView
-									.getItemAtPosition(position);
-							final int noteColumnIndex = cursor
-									.getColumnIndex(ContractionContract.Contractions.COLUMN_NAME_NOTE);
-							final String existingNote = cursor
-									.getString(noteColumnIndex);
-							Log.d(getClass().getSimpleName(),
-									"Context Action Mode selected "
-											+ (existingNote.equals("") ? "Add Note"
-													: "Edit Note"));
-							AnalyticsManagerService.trackEvent(getActivity(),
-									"ContextActionBar", "Note", existingNote
-											.equals("") ? "Add Note"
-											: "Edit Note", position);
-							showNoteDialog(contractionId, existingNote);
-							mode.finish();
-							return true;
-						case R.id.menu_context_delete:
-							final long[] selectedIds = getListView()
-									.getCheckedItemIds();
-							Log.d(getClass().getSimpleName(),
-									"Context Action Mode selected delete");
-							AnalyticsManagerService.trackEvent(getActivity(),
-									"ContextActionBar", "Delete", "",
-									selectedIds.length);
-							for (final long id : selectedIds)
-								deleteContraction(id);
-							mode.finish();
-							return true;
-						default:
-							return false;
-					}
-				}
-
-				@Override
-				public boolean onCreateActionMode(final ActionMode mode,
-						final Menu menu)
-				{
-					final MenuInflater inflater = mode.getMenuInflater();
-					inflater.inflate(R.menu.list_context, menu);
-					return true;
-				}
-
-				@Override
-				public void onDestroyActionMode(final ActionMode mode)
-				{
-					// Nothing to do
-				}
-
-				@Override
-				public void onItemCheckedStateChanged(final ActionMode mode,
-						final int position, final long id, final boolean checked)
-				{
-					mode.invalidate();
-				}
-
-				@Override
-				public boolean onPrepareActionMode(final ActionMode mode,
-						final Menu menu)
-				{
-					final int selectedItemsSize = listView
-							.getCheckedItemCount();
-					// Set whether to display the note menu item
-					final MenuItem noteItem = menu
-							.findItem(R.id.menu_context_note);
-					final boolean showNoteItem = selectedItemsSize == 1;
-					// Set the title of the note menu item
-					if (showNoteItem)
-					{
-						final int position = listView.getCheckedItemPositions()
-								.keyAt(0);
-						final Cursor cursor = (Cursor) listView
-								.getItemAtPosition(position);
-						final int noteColumnIndex = cursor
-								.getColumnIndex(ContractionContract.Contractions.COLUMN_NAME_NOTE);
-						final String note = cursor.getString(noteColumnIndex);
-						if (note.equals(""))
-							noteItem.setTitle(R.string.note_dialog_title_add);
-						else
-							noteItem.setTitle(R.string.note_dialog_title_edit);
-					}
-					noteItem.setVisible(showNoteItem);
-					// Set the title of the delete menu item
-					final MenuItem deleteItem = menu
-							.findItem(R.id.menu_context_delete);
-					final CharSequence currentTitle = deleteItem.getTitle();
-					CharSequence newTitle;
-					if (selectedItemsSize == 1)
-						newTitle = getString(R.string.menu_context_delete_single);
-					else
-						newTitle = getString(R.string.menu_context_delete_multiple);
-					deleteItem.setTitle(newTitle);
-					// Set the Contextual Action Bar title with the new item
-					// size
-					final CharSequence modeTitle = mode.getTitle();
-					final CharSequence newModeTitle = String.format(
-							getString(R.string.menu_context_action_mode_title),
-							selectedItemsSize);
-					mode.setTitle(newModeTitle);
-					return !newModeTitle.equals(modeTitle)
-							|| !newTitle.equals(currentTitle);
-				}
-			});
-		}
+			setupListView();
 		else
-		{
-			listView.setChoiceMode(AbsListView.CHOICE_MODE_NONE);
-			registerForContextMenu(listView);
-		}
+			setupListViewV4();
 		getLoaderManager().initLoader(0, null, this);
 	}
 
+	@TargetApi(11)
 	@Override
 	public void onClick(final View v)
 	{
@@ -619,6 +500,155 @@ public class ContractionListFragment extends ListFragment implements
 	{
 		final TextView emptyText = (TextView) getListView().getEmptyView();
 		emptyText.setText(text);
+	}
+
+	/**
+	 * Sets up the ListView for multiple item selection with the Contextual
+	 * Action Bar
+	 */
+	@TargetApi(11)
+	private void setupListView()
+	{
+		final ListView listView = getListView();
+		listView.setDrawSelectorOnTop(true);
+		listView.setOnItemClickListener(new OnItemClickListener()
+		{
+			@Override
+			public void onItemClick(final AdapterView<?> parent,
+					final View view, final int position, final long id)
+			{
+				// We need to launch a new activity to display the details
+				final Intent intent = new Intent(getActivity(),
+						ViewActivity.class);
+				intent.putExtra(BaseColumns._ID, id);
+				startActivity(intent);
+			}
+		});
+		listView.setChoiceMode(AbsListView.CHOICE_MODE_MULTIPLE_MODAL);
+		listView.setMultiChoiceModeListener(new MultiChoiceModeListener()
+		{
+			@TargetApi(11)
+			@Override
+			public boolean onActionItemClicked(final ActionMode mode,
+					final MenuItem item)
+			{
+				switch (item.getItemId())
+				{
+					case R.id.menu_context_note:
+						final long contractionId = listView.getCheckedItemIds()[0];
+						final int position = listView.getCheckedItemPositions()
+								.keyAt(0);
+						final Cursor cursor = (Cursor) listView
+								.getItemAtPosition(position);
+						final int noteColumnIndex = cursor
+								.getColumnIndex(ContractionContract.Contractions.COLUMN_NAME_NOTE);
+						final String existingNote = cursor
+								.getString(noteColumnIndex);
+						Log.d(getClass().getSimpleName(),
+								"Context Action Mode selected "
+										+ (existingNote.equals("") ? "Add Note"
+												: "Edit Note"));
+						AnalyticsManagerService.trackEvent(getActivity(),
+								"ContextActionBar", "Note", existingNote
+										.equals("") ? "Add Note" : "Edit Note",
+								position);
+						showNoteDialog(contractionId, existingNote);
+						mode.finish();
+						return true;
+					case R.id.menu_context_delete:
+						final long[] selectedIds = getListView()
+								.getCheckedItemIds();
+						Log.d(getClass().getSimpleName(),
+								"Context Action Mode selected delete");
+						AnalyticsManagerService.trackEvent(getActivity(),
+								"ContextActionBar", "Delete", "",
+								selectedIds.length);
+						for (final long id : selectedIds)
+							deleteContraction(id);
+						mode.finish();
+						return true;
+					default:
+						return false;
+				}
+			}
+
+			@Override
+			public boolean onCreateActionMode(final ActionMode mode,
+					final Menu menu)
+			{
+				final MenuInflater inflater = mode.getMenuInflater();
+				inflater.inflate(R.menu.list_context, menu);
+				return true;
+			}
+
+			@Override
+			public void onDestroyActionMode(final ActionMode mode)
+			{
+				// Nothing to do
+			}
+
+			@Override
+			public void onItemCheckedStateChanged(final ActionMode mode,
+					final int position, final long id, final boolean checked)
+			{
+				mode.invalidate();
+			}
+
+			@Override
+			public boolean onPrepareActionMode(final ActionMode mode,
+					final Menu menu)
+			{
+				final int selectedItemsSize = listView.getCheckedItemCount();
+				// Set whether to display the note menu item
+				final MenuItem noteItem = menu.findItem(R.id.menu_context_note);
+				final boolean showNoteItem = selectedItemsSize == 1;
+				// Set the title of the note menu item
+				if (showNoteItem)
+				{
+					final int position = listView.getCheckedItemPositions()
+							.keyAt(0);
+					final Cursor cursor = (Cursor) listView
+							.getItemAtPosition(position);
+					final int noteColumnIndex = cursor
+							.getColumnIndex(ContractionContract.Contractions.COLUMN_NAME_NOTE);
+					final String note = cursor.getString(noteColumnIndex);
+					if (note.equals(""))
+						noteItem.setTitle(R.string.note_dialog_title_add);
+					else
+						noteItem.setTitle(R.string.note_dialog_title_edit);
+				}
+				noteItem.setVisible(showNoteItem);
+				// Set the title of the delete menu item
+				final MenuItem deleteItem = menu
+						.findItem(R.id.menu_context_delete);
+				final CharSequence currentTitle = deleteItem.getTitle();
+				CharSequence newTitle;
+				if (selectedItemsSize == 1)
+					newTitle = getString(R.string.menu_context_delete_single);
+				else
+					newTitle = getString(R.string.menu_context_delete_multiple);
+				deleteItem.setTitle(newTitle);
+				// Set the Contextual Action Bar title with the new item
+				// size
+				final CharSequence modeTitle = mode.getTitle();
+				final CharSequence newModeTitle = String.format(
+						getString(R.string.menu_context_action_mode_title),
+						selectedItemsSize);
+				mode.setTitle(newModeTitle);
+				return !newModeTitle.equals(modeTitle)
+						|| !newTitle.equals(currentTitle);
+			}
+		});
+	}
+
+	/**
+	 * Sets up the ListView with no selection and a context menu
+	 */
+	private void setupListViewV4()
+	{
+		final ListView listView = getListView();
+		listView.setChoiceMode(AbsListView.CHOICE_MODE_NONE);
+		registerForContextMenu(listView);
 	}
 
 	/**

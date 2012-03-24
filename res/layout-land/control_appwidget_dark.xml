@@ -10,6 +10,7 @@
 		android:layout_height="match_parent"
 		android:layout_alignParentLeft="true"
 		android:background="@drawable/appwidget_button_left"
+		android:contentDescription="@string/application_launch"
 		android:padding="@dimen/appwidget_padding"
 		android:src="@drawable/icon" />
 

@@ -15,11 +15,11 @@
 			android:layout_height="fill_parent"
 			android:layout_alignParentLeft="true"
 			android:background="@drawable/appwidget_button_left"
+			android:contentDescription="@string/application_launch"
 			android:padding="@dimen/appwidget_padding"
 			android:src="@drawable/icon" />
 
 		<RelativeLayout
-			android:id="@+id/average_layout"
 			android:layout_width="wrap_content"
 			android:layout_height="fill_parent"
 			android:layout_centerVertical="true"

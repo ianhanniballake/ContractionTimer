@@ -61,13 +61,14 @@
 		android:layout_width="fill_parent"
 		android:layout_height="wrap_content"
 		android:layout_below="@id/end_time"
+		android:contentDescription="@string/divider"
+		android:focusable="false"
 		android:paddingBottom="@dimen/dividing_padding"
 		android:paddingTop="@dimen/dividing_padding"
 		android:scaleType="fitXY"
 		android:src="@android:drawable/divider_horizontal_textfield" />
 
 	<TextView
-		android:id="@+id/duration_label"
 		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
 		android:layout_below="@id/duration_divider"
@@ -87,6 +88,8 @@
 		android:layout_width="fill_parent"
 		android:layout_height="wrap_content"
 		android:layout_below="@id/duration"
+		android:contentDescription="@string/divider"
+		android:focusable="false"
 		android:paddingBottom="@dimen/dividing_padding"
 		android:paddingTop="@dimen/dividing_padding"
 		android:scaleType="fitXY"

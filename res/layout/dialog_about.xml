@@ -6,7 +6,7 @@
 	<RelativeLayout
 		xmlns:android="http://schemas.android.com/apk/res/android"
 		android:layout_width="fill_parent"
-		android:layout_height="fill_parent"
+		android:layout_height="wrap_content"
 		android:padding="@dimen/dialog_padding" >
 
 		<TextView
@@ -75,7 +75,6 @@
 			android:text="@string/artist_and_tester" />
 
 		<TextView
-			android:id="@+id/artist_and_tester_link"
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
 			android:layout_below="@id/artist_and_tester"

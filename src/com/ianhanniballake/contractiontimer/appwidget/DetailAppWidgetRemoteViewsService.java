@@ -1,5 +1,6 @@
 package com.ianhanniballake.contractiontimer.appwidget;
 
+import android.annotation.TargetApi;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
@@ -19,6 +20,7 @@ import com.ianhanniballake.contractiontimer.ui.Preferences;
  * Service which creates the RemoteViews used in the ListView collection in the
  * Detail App Widgets
  */
+@TargetApi(11)
 public class DetailAppWidgetRemoteViewsService extends RemoteViewsService
 {
 	@Override

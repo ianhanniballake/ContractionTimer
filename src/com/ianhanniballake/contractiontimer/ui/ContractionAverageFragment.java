@@ -3,7 +3,6 @@ package com.ianhanniballake.contractiontimer.ui;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.database.Cursor;
-import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
@@ -137,10 +136,7 @@ public class ContractionAverageFragment extends Fragment implements
 		{
 			final Editor editor = preferences.edit();
 			editor.remove(Preferences.AVERAGE_TIME_FRAME_CHANGED_FRAGMENT_PREFERENCE_KEY);
-			if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.GINGERBREAD)
-				editor.apply();
-			else
-				editor.commit();
+			editor.commit();
 			getLoaderManager().restartLoader(0, null, this);
 		}
 	}

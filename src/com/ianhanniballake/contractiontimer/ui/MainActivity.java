@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.database.Cursor;
-import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.provider.BaseColumns;
@@ -237,10 +236,7 @@ public class MainActivity extends ActionBarFragmentActivity implements
 		{
 			final Editor editor = preferences.edit();
 			editor.remove(Preferences.AVERAGE_TIME_FRAME_CHANGED_MAIN_PREFERENCE_KEY);
-			if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.GINGERBREAD)
-				editor.apply();
-			else
-				editor.commit();
+			editor.commit();
 			getSupportLoaderManager().restartLoader(0, null, this);
 		}
 	}

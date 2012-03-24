@@ -21,11 +21,9 @@
 	<string name="menu_context_delete_multiple">Delete Contractions</string>
 	<string name="contraction_start">Start Contraction</string>
 	<string name="contraction_end">Stop Contraction</string>
-	<string name="list_loading">Loading contractions...</string>
+	<string name="list_loading">Loading contractions…</string>
 	<string name="list_item_loading">Loading</string>
 	<string name="list_empty"></string>
-	<string name="list_header_start_time">Start</string>
-	<string name="list_header_end_time">End</string>
 	<string name="list_header_duration">Duration</string>
 	<string name="list_header_frequency">Frequency</string>
 	<string name="contraction_average">Average</string>
@@ -33,12 +31,14 @@
 	<string name="detail_end_time_label">End Time</string>
 	<string name="detail_duration_label">Duration</string>
 	<string name="detail_note_label">Note</string>
+	<string name="divider">Divider</string>
 	<string name="menu_edit">Edit</string>
 	<string name="menu_delete">Delete</string>
 	<string name="menu_save">Save</string>
 	<string name="menu_cancel">Cancel</string>
 	<string name="toggle_appwidget_label">Contraction Timer Toggle</string>
 	<string name="control_appwidget_label">Contraction Timer Controls</string>
+	<string name="application_launch">Launch Contraction Timer</string>
 	<string name="average_duration_label">Average Duration:</string>
 	<string name="average_frequency_label">Average Frequency:</string>
 	<string name="appwidget_contraction_start">Start</string>
