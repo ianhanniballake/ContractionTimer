@@ -325,6 +325,20 @@ public class ContractionListFragment extends ListFragment implements
 			setupListView();
 		else
 			setupListViewV4();
+		final ListView listView = getListView();
+		listView.setOnItemClickListener(new OnItemClickListener()
+		{
+			@Override
+			public void onItemClick(final AdapterView<?> parent,
+					final View view, final int position, final long id)
+			{
+				// We need to launch a new activity to display the details
+				final Intent intent = new Intent(getActivity(),
+						ViewActivity.class);
+				intent.putExtra(BaseColumns._ID, id);
+				startActivity(intent);
+			}
+		});
 		getLoaderManager().initLoader(0, null, this);
 	}
 
@@ -519,19 +533,6 @@ public class ContractionListFragment extends ListFragment implements
 	{
 		final ListView listView = getListView();
 		listView.setDrawSelectorOnTop(true);
-		listView.setOnItemClickListener(new OnItemClickListener()
-		{
-			@Override
-			public void onItemClick(final AdapterView<?> parent,
-					final View view, final int position, final long id)
-			{
-				// We need to launch a new activity to display the details
-				final Intent intent = new Intent(getActivity(),
-						ViewActivity.class);
-				intent.putExtra(BaseColumns._ID, id);
-				startActivity(intent);
-			}
-		});
 		listView.setChoiceMode(AbsListView.CHOICE_MODE_MULTIPLE_MODAL);
 		listView.setMultiChoiceModeListener(new MultiChoiceModeListener()
 		{
@@ -657,7 +658,7 @@ public class ContractionListFragment extends ListFragment implements
 	private void setupListViewV4()
 	{
 		final ListView listView = getListView();
-		listView.setChoiceMode(AbsListView.CHOICE_MODE_NONE);
+		listView.setChoiceMode(AbsListView.CHOICE_MODE_SINGLE);
 		registerForContextMenu(listView);
 	}
 
