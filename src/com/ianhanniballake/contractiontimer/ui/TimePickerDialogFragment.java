@@ -4,10 +4,15 @@ import java.util.Calendar;
 
 import android.app.Dialog;
 import android.app.TimePickerDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
+import android.support.v4.content.LocalBroadcastManager;
 import android.text.format.DateFormat;
+import android.util.Log;
 import android.widget.TimePicker;
+
+import com.ianhanniballake.contractiontimer.BuildConfig;
 
 /**
  * Provides a DialogFragment for selecting a time
@@ -16,13 +21,21 @@ public class TimePickerDialogFragment extends DialogFragment implements
 		TimePickerDialog.OnTimeSetListener
 {
 	/**
+	 * Argument key for storing/retrieving the callback action
+	 */
+	public final static String CALLBACK_ACTION = "com.ianhanniballake.contractiontimer.CALLBACK_ACTION_ARGUMENT";
+	/**
+	 * Extra corresponding with the hour of the day that was set
+	 */
+	public final static String HOUR_OF_DAY_EXTRA = "com.ianhanniballake.contractionTimer.HOUR_OF_DAY_EXTRA";
+	/**
+	 * Extra corresponding with the minute that was set
+	 */
+	public final static String MINUTE_EXTRA = "com.ianhanniballake.contractionTimer.MINUTE_EXTRA";
+	/**
 	 * Argument key for storing/retrieving the time associated with this dialog
 	 */
-	public final static String TIME_ARGUMENT = "com.ianhanniballake.contractiontimer.Time";
-	/**
-	 * Callback listener to flow time set events to
-	 */
-	private TimePickerDialog.OnTimeSetListener callbackListener;
+	public final static String TIME_ARGUMENT = "com.ianhanniballake.contractiontimer.TIME_ARGUMENT";
 
 	@Override
 	public Dialog onCreateDialog(final Bundle savedInstanceState)
@@ -38,18 +51,16 @@ public class TimePickerDialogFragment extends DialogFragment implements
 	public void onTimeSet(final TimePicker view, final int hourOfDay,
 			final int minute)
 	{
-		callbackListener.onTimeSet(view, hourOfDay, minute);
-	}
-
-	/**
-	 * Sets the listener to call on TimeSet events
-	 * 
-	 * @param listener
-	 *            callback listener to use
-	 */
-	public void setOnTimeSetListener(
-			final TimePickerDialog.OnTimeSetListener listener)
-	{
-		callbackListener = listener;
+		final String action = getArguments().getString(
+				TimePickerDialogFragment.CALLBACK_ACTION);
+		if (BuildConfig.DEBUG)
+			Log.d(getClass().getSimpleName(), "onTimeSet: " + action);
+		final Intent broadcast = new Intent(action);
+		broadcast.putExtra(TimePickerDialogFragment.HOUR_OF_DAY_EXTRA,
+				hourOfDay);
+		broadcast.putExtra(TimePickerDialogFragment.MINUTE_EXTRA, minute);
+		final LocalBroadcastManager localBroadcastManager = LocalBroadcastManager
+				.getInstance(getActivity());
+		localBroadcastManager.sendBroadcast(broadcast);
 	}
 }

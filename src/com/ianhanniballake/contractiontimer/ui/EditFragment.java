@@ -2,11 +2,12 @@ package com.ianhanniballake.contractiontimer.ui;
 
 import java.util.Calendar;
 
-import android.app.DatePickerDialog.OnDateSetListener;
-import android.app.TimePickerDialog.OnTimeSetListener;
+import android.content.BroadcastReceiver;
 import android.content.ContentUris;
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
@@ -15,6 +16,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.widget.CursorAdapter;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -26,10 +28,8 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.TimePicker;
 
 import com.ianhanniballake.contractiontimer.BuildConfig;
 import com.ianhanniballake.contractiontimer.R;
@@ -74,6 +74,23 @@ public class EditFragment extends Fragment implements
 	}
 
 	/**
+	 * Action associated with the end time's date being changed
+	 */
+	public final static String END_DATE_ACTION = "com.ianhanniballake.contractiontimer.END_DATE";
+	/**
+	 * Action associated with the end time's time being changed
+	 */
+	public final static String END_TIME_ACTION = "com.ianhanniballake.contractiontimer.END_TIME";
+	/**
+	 * Action associated with the start time's date being changed
+	 */
+	public final static String START_DATE_ACTION = "com.ianhanniballake.contractiontimer.START_DATE";
+	/**
+	 * Action associated with the start time's time being changed
+	 */
+	public final static String START_TIME_ACTION = "com.ianhanniballake.contractiontimer.START_TIME";
+
+	/**
 	 * Gets a valid ViewHolder associated with the given view, creating one if
 	 * it doesn't exist
 	 * 
@@ -110,6 +127,44 @@ public class EditFragment extends Fragment implements
 	 */
 	private long contractionId = 0;
 	/**
+	 * BroadcastReceiver listening for START_DATE_ACTION and END_DATE_ACTION
+	 * actions
+	 */
+	private final BroadcastReceiver dateSetBroadcastReceiver = new BroadcastReceiver()
+	{
+		@Override
+		public void onReceive(final Context context, final Intent intent)
+		{
+			final String action = intent.getAction();
+			final int year = intent.getIntExtra(
+					DatePickerDialogFragment.YEAR_EXTRA,
+					startTime.get(Calendar.YEAR));
+			final int monthOfYear = intent.getIntExtra(
+					DatePickerDialogFragment.MONTH_OF_YEAR_EXTRA,
+					startTime.get(Calendar.MONTH));
+			final int dayOfMonth = intent.getIntExtra(
+					DatePickerDialogFragment.DAY_OF_MONTH_EXTRA,
+					startTime.get(Calendar.DAY_OF_MONTH));
+			if (BuildConfig.DEBUG)
+				Log.d(EditFragment.this.getClass().getSimpleName(),
+						"Date Receive: " + action + "; " + year + "-"
+								+ monthOfYear + "-" + dayOfMonth);
+			if (EditFragment.START_DATE_ACTION.equals(action))
+			{
+				startTime.set(Calendar.YEAR, year);
+				startTime.set(Calendar.MONTH, monthOfYear);
+				startTime.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+			}
+			else if (EditFragment.END_DATE_ACTION.equals(action))
+			{
+				endTime.set(Calendar.YEAR, year);
+				endTime.set(Calendar.MONTH, monthOfYear);
+				endTime.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+			}
+			updateViews();
+		}
+	};
+	/**
 	 * Current end time of the contraction
 	 */
 	private Calendar endTime = null;
@@ -121,6 +176,41 @@ public class EditFragment extends Fragment implements
 	 * Current start time of the contraction
 	 */
 	private Calendar startTime = null;
+	/**
+	 * BroadcastReceiver listening for START_TIME_ACTION and END_TIME_ACTION
+	 * actions
+	 */
+	private final BroadcastReceiver timeSetBroadcastReceiver = new BroadcastReceiver()
+	{
+		@Override
+		public void onReceive(final Context context, final Intent intent)
+		{
+			final String action = intent.getAction();
+			final int hourOfDay = intent.getIntExtra(
+					TimePickerDialogFragment.HOUR_OF_DAY_EXTRA,
+					startTime.get(Calendar.HOUR_OF_DAY));
+			final int minute = intent.getIntExtra(
+					TimePickerDialogFragment.MINUTE_EXTRA,
+					startTime.get(Calendar.MINUTE));
+			if (BuildConfig.DEBUG)
+				Log.d(EditFragment.this.getClass().getSimpleName(),
+						"Time Receive: " + action + "; " + hourOfDay + ", "
+								+ minute);
+			if (EditFragment.START_TIME_ACTION.equals(action))
+			{
+				startTime.set(Calendar.HOUR_OF_DAY, hourOfDay);
+				startTime.set(Calendar.MINUTE, minute);
+				startTime.set(Calendar.SECOND, 0);
+			}
+			else if (EditFragment.END_TIME_ACTION.equals(action))
+			{
+				endTime.set(Calendar.HOUR_OF_DAY, hourOfDay);
+				endTime.set(Calendar.MINUTE, minute);
+				endTime.set(Calendar.SECOND, 0);
+			}
+			updateViews();
+		}
+	};
 
 	/**
 	 * Reset the current data to empty/current dates
@@ -225,21 +315,11 @@ public class EditFragment extends Fragment implements
 			{
 				final TimePickerDialogFragment timePicker = new TimePickerDialogFragment();
 				final Bundle args = new Bundle();
+				args.putString(TimePickerDialogFragment.CALLBACK_ACTION,
+						EditFragment.START_TIME_ACTION);
 				args.putSerializable(TimePickerDialogFragment.TIME_ARGUMENT,
 						startTime);
 				timePicker.setArguments(args);
-				timePicker.setOnTimeSetListener(new OnTimeSetListener()
-				{
-					@Override
-					public void onTimeSet(final TimePicker picker,
-							final int hourOfDay, final int minute)
-					{
-						startTime.set(Calendar.HOUR_OF_DAY, hourOfDay);
-						startTime.set(Calendar.MINUTE, minute);
-						startTime.set(Calendar.SECOND, 0);
-						updateViews();
-					}
-				});
 				if (BuildConfig.DEBUG)
 					Log.d(timePicker.getClass().getSimpleName(),
 							"Showing Start Time Dialog");
@@ -255,22 +335,11 @@ public class EditFragment extends Fragment implements
 			{
 				final DatePickerDialogFragment datePicker = new DatePickerDialogFragment();
 				final Bundle args = new Bundle();
+				args.putString(DatePickerDialogFragment.CALLBACK_ACTION,
+						EditFragment.START_DATE_ACTION);
 				args.putSerializable(DatePickerDialogFragment.DATE_ARGUMENT,
 						startTime);
 				datePicker.setArguments(args);
-				datePicker.setOnDateSetListener(new OnDateSetListener()
-				{
-					@Override
-					public void onDateSet(final DatePicker picker,
-							final int year, final int monthOfYear,
-							final int dayOfMonth)
-					{
-						startTime.set(Calendar.YEAR, year);
-						startTime.set(Calendar.MONTH, monthOfYear);
-						startTime.set(Calendar.DAY_OF_MONTH, dayOfMonth);
-						updateViews();
-					}
-				});
 				if (BuildConfig.DEBUG)
 					Log.d(datePicker.getClass().getSimpleName(),
 							"Showing Start Date Dialog");
@@ -286,21 +355,11 @@ public class EditFragment extends Fragment implements
 			{
 				final TimePickerDialogFragment timePicker = new TimePickerDialogFragment();
 				final Bundle args = new Bundle();
+				args.putString(TimePickerDialogFragment.CALLBACK_ACTION,
+						EditFragment.END_TIME_ACTION);
 				args.putSerializable(TimePickerDialogFragment.TIME_ARGUMENT,
 						endTime);
 				timePicker.setArguments(args);
-				timePicker.setOnTimeSetListener(new OnTimeSetListener()
-				{
-					@Override
-					public void onTimeSet(final TimePicker picker,
-							final int hourOfDay, final int minute)
-					{
-						endTime.set(Calendar.HOUR_OF_DAY, hourOfDay);
-						endTime.set(Calendar.MINUTE, minute);
-						endTime.set(Calendar.SECOND, 0);
-						updateViews();
-					}
-				});
 				if (BuildConfig.DEBUG)
 					Log.d(timePicker.getClass().getSimpleName(),
 							"Showing End Time Dialog");
@@ -316,22 +375,11 @@ public class EditFragment extends Fragment implements
 			{
 				final DatePickerDialogFragment datePicker = new DatePickerDialogFragment();
 				final Bundle args = new Bundle();
+				args.putString(DatePickerDialogFragment.CALLBACK_ACTION,
+						EditFragment.END_DATE_ACTION);
 				args.putSerializable(DatePickerDialogFragment.DATE_ARGUMENT,
 						endTime);
 				datePicker.setArguments(args);
-				datePicker.setOnDateSetListener(new OnDateSetListener()
-				{
-					@Override
-					public void onDateSet(final DatePicker picker,
-							final int year, final int monthOfYear,
-							final int dayOfMonth)
-					{
-						endTime.set(Calendar.YEAR, year);
-						endTime.set(Calendar.MONTH, monthOfYear);
-						endTime.set(Calendar.DAY_OF_MONTH, dayOfMonth);
-						updateViews();
-					}
-				});
 				if (BuildConfig.DEBUG)
 					Log.d(datePicker.getClass().getSimpleName(),
 							"Showing End Date Dialog");
@@ -394,6 +442,38 @@ public class EditFragment extends Fragment implements
 				ContractionContract.Contractions.COLUMN_NAME_END_TIME, endTime);
 		outState.putString(ContractionContract.Contractions.COLUMN_NAME_NOTE,
 				note);
+	}
+
+	@Override
+	public void onStart()
+	{
+		super.onStart();
+		if (BuildConfig.DEBUG)
+			Log.d(getClass().getSimpleName(), "onStart");
+		final LocalBroadcastManager localBroadcastManager = LocalBroadcastManager
+				.getInstance(getActivity());
+		final IntentFilter timeFilter = new IntentFilter();
+		timeFilter.addAction(EditFragment.START_TIME_ACTION);
+		timeFilter.addAction(EditFragment.END_TIME_ACTION);
+		localBroadcastManager.registerReceiver(timeSetBroadcastReceiver,
+				timeFilter);
+		final IntentFilter dateFilter = new IntentFilter();
+		dateFilter.addAction(EditFragment.START_DATE_ACTION);
+		dateFilter.addAction(EditFragment.END_DATE_ACTION);
+		localBroadcastManager.registerReceiver(dateSetBroadcastReceiver,
+				dateFilter);
+	}
+
+	@Override
+	public void onStop()
+	{
+		super.onStop();
+		if (BuildConfig.DEBUG)
+			Log.d(getClass().getSimpleName(), "onStop");
+		final LocalBroadcastManager localBroadcastManager = LocalBroadcastManager
+				.getInstance(getActivity());
+		localBroadcastManager.unregisterReceiver(timeSetBroadcastReceiver);
+		localBroadcastManager.unregisterReceiver(dateSetBroadcastReceiver);
 	}
 
 	/**
