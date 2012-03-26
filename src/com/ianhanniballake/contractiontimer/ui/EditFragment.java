@@ -286,8 +286,13 @@ public class EditFragment extends Fragment implements
 						.getSerializable(ContractionContract.Contractions.COLUMN_NAME_END_TIME);
 				note = savedInstanceState
 						.getString(ContractionContract.Contractions.COLUMN_NAME_NOTE);
+				// No longer need the loader as we'll use our local (possibly
+				// changed) copies from now on
+				getLoaderManager().destroyLoader(0);
+				updateViews();
 			}
-			getLoaderManager().initLoader(0, null, this);
+			else
+				getLoaderManager().initLoader(0, null, this);
 		}
 	}
 
@@ -423,11 +428,10 @@ public class EditFragment extends Fragment implements
 	public void onLoadFinished(final Loader<Cursor> loader, final Cursor data)
 	{
 		adapter.swapCursor(data);
-		if (startTime == null)
-			if (data.moveToFirst())
-				adapter.bindView(getView(), getActivity(), data);
-			else
-				clear();
+		if (data.moveToFirst())
+			adapter.bindView(getView(), getActivity(), data);
+		else
+			clear();
 		updateViews();
 	}
 
@@ -448,8 +452,6 @@ public class EditFragment extends Fragment implements
 	public void onStart()
 	{
 		super.onStart();
-		if (BuildConfig.DEBUG)
-			Log.d(getClass().getSimpleName(), "onStart");
 		final LocalBroadcastManager localBroadcastManager = LocalBroadcastManager
 				.getInstance(getActivity());
 		final IntentFilter timeFilter = new IntentFilter();
@@ -468,8 +470,6 @@ public class EditFragment extends Fragment implements
 	public void onStop()
 	{
 		super.onStop();
-		if (BuildConfig.DEBUG)
-			Log.d(getClass().getSimpleName(), "onStop");
 		final LocalBroadcastManager localBroadcastManager = LocalBroadcastManager
 				.getInstance(getActivity());
 		localBroadcastManager.unregisterReceiver(timeSetBroadcastReceiver);

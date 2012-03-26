@@ -48,20 +48,6 @@ public class EditActivity extends ActionBarFragmentActivity
 			finish();
 			return;
 		}
-		long contractionId = 0;
-		if (getIntent() != null && getIntent().getExtras() != null)
-			contractionId = getIntent().getExtras().getLong(BaseColumns._ID, 0);
-		final EditFragment viewFragment = new EditFragment();
-		final Bundle args = new Bundle();
-		args.putLong(BaseColumns._ID, contractionId);
-		viewFragment.setArguments(args);
-		// Execute a transaction, replacing any existing fragment
-		// with this one inside the frame.
-		final FragmentTransaction ft = getSupportFragmentManager()
-				.beginTransaction();
-		ft.replace(R.id.edit, viewFragment);
-		ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
-		ft.commit();
 		contractionQueryHandler = new AsyncQueryHandler(getContentResolver())
 		{
 			@Override
@@ -72,6 +58,8 @@ public class EditActivity extends ActionBarFragmentActivity
 				finish();
 			}
 		};
+		if (savedInstanceState == null)
+			showFragment();
 	}
 
 	@Override
@@ -128,5 +116,26 @@ public class EditActivity extends ActionBarFragmentActivity
 	{
 		super.onStart();
 		getActionBarHelper().setDisplayHomeAsUpEnabled(true);
+	}
+
+	/**
+	 * Creates and shows the fragment associated with the current contraction
+	 */
+	private void showFragment()
+	{
+		long contractionId = 0;
+		if (getIntent() != null && getIntent().getExtras() != null)
+			contractionId = getIntent().getExtras().getLong(BaseColumns._ID, 0);
+		final EditFragment viewFragment = new EditFragment();
+		final Bundle args = new Bundle();
+		args.putLong(BaseColumns._ID, contractionId);
+		viewFragment.setArguments(args);
+		// Execute a transaction, replacing any existing fragment
+		// with this one inside the frame.
+		final FragmentTransaction ft = getSupportFragmentManager()
+				.beginTransaction();
+		ft.replace(R.id.edit, viewFragment);
+		ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
+		ft.commit();
 	}
 }
