@@ -10,6 +10,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.database.Cursor;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.provider.BaseColumns;
 import android.support.v4.app.Fragment;
@@ -43,6 +44,167 @@ public class EditFragment extends Fragment implements
 		LoaderManager.LoaderCallbacks<Cursor>
 {
 	/**
+	 * AsyncTask used to check to see if the current end time overlaps any other
+	 * existing contraction, displaying an error message if it does
+	 */
+	private class EndTimeOverlapCheck extends AsyncTask<Void, Void, Boolean>
+	{
+		@Override
+		protected Boolean doInBackground(final Void... params)
+		{
+			final String[] projection = { BaseColumns._ID };
+			final String selection = BaseColumns._ID + "<>? AND "
+					+ ContractionContract.Contractions.COLUMN_NAME_START_TIME
+					+ "<=? AND "
+					+ ContractionContract.Contractions.COLUMN_NAME_END_TIME
+					+ ">=?";
+			final String currentEndTimeMillis = Long.toString(endTime
+					.getTimeInMillis());
+			final String[] selectionArgs = { Long.toString(contractionId),
+					currentEndTimeMillis, currentEndTimeMillis };
+			if (BuildConfig.DEBUG)
+				Log.d(EditFragment.this.getClass().getSimpleName(),
+						selection
+								+ ": "
+								+ DateFormat.format("yyyy-MM-dd hh:mm:ss",
+										endTime));
+			final Cursor data = getActivity().getContentResolver().query(
+					ContractionContract.Contractions.CONTENT_URI, projection,
+					selection, selectionArgs, null);
+			final boolean overlapExists = data.moveToFirst();
+			if (BuildConfig.DEBUG)
+				Log.d(EditFragment.this.getClass().getSimpleName(), "Count: "
+						+ data.getCount());
+			data.close();
+			return overlapExists;
+		}
+
+		@Override
+		protected void onPostExecute(final Boolean overlapExists)
+		{
+			if (BuildConfig.DEBUG)
+				Log.d(EditFragment.this.getClass().getSimpleName(),
+						"End time overlap: " + overlapExists);
+			final View view = getView();
+			if (view == null)
+				return;
+			final ViewHolder holder = EditFragment.getViewHolder(view);
+			if (overlapExists)
+				holder.endTimeErrorOverlap.setVisibility(View.VISIBLE);
+			else
+				holder.endTimeErrorOverlap.setVisibility(View.GONE);
+		}
+	}
+
+	/**
+	 * AsyncTask used to check to see if the current start time overlaps any
+	 * other existing contraction, displaying an error message if it does
+	 */
+	private class StartTimeOverlapCheck extends AsyncTask<Void, Void, Boolean>
+	{
+		@Override
+		protected Boolean doInBackground(final Void... params)
+		{
+			final String[] projection = { BaseColumns._ID };
+			final String selection = BaseColumns._ID + "<>? AND "
+					+ ContractionContract.Contractions.COLUMN_NAME_START_TIME
+					+ "<=? AND "
+					+ ContractionContract.Contractions.COLUMN_NAME_END_TIME
+					+ ">=?";
+			final String currentStartTimeMillis = Long.toString(startTime
+					.getTimeInMillis());
+			final String[] selectionArgs = { Long.toString(contractionId),
+					currentStartTimeMillis, currentStartTimeMillis };
+			if (BuildConfig.DEBUG)
+				Log.d(EditFragment.this.getClass().getSimpleName(),
+						selection
+								+ ": "
+								+ DateFormat.format("yyyy-MM-dd hh:mm:ss",
+										startTime));
+			final Cursor data = getActivity().getContentResolver().query(
+					ContractionContract.Contractions.CONTENT_URI, projection,
+					selection, selectionArgs, null);
+			final boolean overlapExists = data.moveToFirst();
+			if (BuildConfig.DEBUG)
+				Log.d(EditFragment.this.getClass().getSimpleName(), "Count: "
+						+ data.getCount());
+			data.close();
+			return overlapExists;
+		}
+
+		@Override
+		protected void onPostExecute(final Boolean overlapExists)
+		{
+			if (BuildConfig.DEBUG)
+				Log.d(EditFragment.this.getClass().getSimpleName(),
+						"Start time overlap: " + overlapExists);
+			final View view = getView();
+			if (view == null)
+				return;
+			final ViewHolder holder = EditFragment.getViewHolder(view);
+			if (overlapExists)
+				holder.startTimeErrorOverlap.setVisibility(View.VISIBLE);
+			else
+				holder.startTimeErrorOverlap.setVisibility(View.GONE);
+		}
+	}
+
+	/**
+	 * AsyncTask used to check to see if the current start/end time overlaps any
+	 * other existing contraction, displaying an error message if it does
+	 */
+	private class TimeOverlapCheck extends AsyncTask<Void, Void, Boolean>
+	{
+		@Override
+		protected Boolean doInBackground(final Void... params)
+		{
+			final String[] projection = { BaseColumns._ID };
+			final String selection = BaseColumns._ID + "<>? AND "
+					+ ContractionContract.Contractions.COLUMN_NAME_START_TIME
+					+ ">=? AND "
+					+ ContractionContract.Contractions.COLUMN_NAME_END_TIME
+					+ "<=?";
+			final String currentStartTimeMillis = Long.toString(startTime
+					.getTimeInMillis());
+			final String currentEndTimeMillis = Long.toString(endTime
+					.getTimeInMillis());
+			final String[] selectionArgs = { Long.toString(contractionId),
+					currentStartTimeMillis, currentEndTimeMillis };
+			if (BuildConfig.DEBUG)
+				Log.d(EditFragment.this.getClass().getSimpleName(),
+						selection
+								+ ": "
+								+ DateFormat.format("yyyy-MM-dd hh:mm:ss",
+										endTime));
+			final Cursor data = getActivity().getContentResolver().query(
+					ContractionContract.Contractions.CONTENT_URI, projection,
+					selection, selectionArgs, null);
+			final boolean overlapExists = data.moveToFirst();
+			if (BuildConfig.DEBUG)
+				Log.d(EditFragment.this.getClass().getSimpleName(), "Count: "
+						+ data.getCount());
+			data.close();
+			return overlapExists;
+		}
+
+		@Override
+		protected void onPostExecute(final Boolean overlapExists)
+		{
+			if (BuildConfig.DEBUG)
+				Log.d(EditFragment.this.getClass().getSimpleName(),
+						"Time overlap: " + overlapExists);
+			final View view = getView();
+			if (view == null)
+				return;
+			final ViewHolder holder = EditFragment.getViewHolder(view);
+			if (overlapExists)
+				holder.timeErrorOverlap.setVisibility(View.VISIBLE);
+			else
+				holder.timeErrorOverlap.setVisibility(View.GONE);
+		}
+	}
+
+	/**
 	 * Helper class used to store temporary references to list item views
 	 */
 	static class ViewHolder
@@ -60,6 +222,14 @@ public class EditFragment extends Fragment implements
 		 */
 		Button endTime;
 		/**
+		 * TextView representing the end time order error message
+		 */
+		TextView endTimeErrorOrder;
+		/**
+		 * TextView representing the end time overlap error message
+		 */
+		TextView endTimeErrorOverlap;
+		/**
 		 * EditText representing the note attached to the contraction
 		 */
 		EditText note;
@@ -71,6 +241,14 @@ public class EditFragment extends Fragment implements
 		 * TextView representing the formatted start time of the contraction
 		 */
 		Button startTime;
+		/**
+		 * TextView representing the start time overlap error message
+		 */
+		TextView startTimeErrorOverlap;
+		/**
+		 * TextView representing the time overlap error message
+		 */
+		TextView timeErrorOverlap;
 	}
 
 	/**
@@ -105,10 +283,18 @@ public class EditFragment extends Fragment implements
 		if (viewTag == null)
 		{
 			holder = new ViewHolder();
+			holder.timeErrorOverlap = (TextView) view
+					.findViewById(R.id.time_error_overlap);
 			holder.startTime = (Button) view.findViewById(R.id.start_time);
 			holder.startDate = (Button) view.findViewById(R.id.start_date);
+			holder.startTimeErrorOverlap = (TextView) view
+					.findViewById(R.id.start_time_error_overlap);
 			holder.endTime = (Button) view.findViewById(R.id.end_time);
 			holder.endDate = (Button) view.findViewById(R.id.end_date);
+			holder.endTimeErrorOrder = (TextView) view
+					.findViewById(R.id.end_time_error_order);
+			holder.endTimeErrorOverlap = (TextView) view
+					.findViewById(R.id.end_time_error_overlap);
 			holder.duration = (TextView) view.findViewById(R.id.duration);
 			holder.note = (EditText) view.findViewById(R.id.note);
 			view.setTag(holder);
@@ -151,15 +337,24 @@ public class EditFragment extends Fragment implements
 								+ monthOfYear + "-" + dayOfMonth);
 			if (EditFragment.START_DATE_ACTION.equals(action))
 			{
+				final long oldStartTime = startTime.getTimeInMillis();
 				startTime.set(Calendar.YEAR, year);
 				startTime.set(Calendar.MONTH, monthOfYear);
 				startTime.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+				final long timeOffset = startTime.getTimeInMillis()
+						- oldStartTime;
+				endTime.setTimeInMillis(endTime.getTimeInMillis() + timeOffset);
+				new StartTimeOverlapCheck().execute();
+				new EndTimeOverlapCheck().execute();
+				new TimeOverlapCheck().execute();
 			}
 			else if (EditFragment.END_DATE_ACTION.equals(action))
 			{
 				endTime.set(Calendar.YEAR, year);
 				endTime.set(Calendar.MONTH, monthOfYear);
 				endTime.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+				new EndTimeOverlapCheck().execute();
+				new TimeOverlapCheck().execute();
 			}
 			updateViews();
 		}
@@ -198,15 +393,26 @@ public class EditFragment extends Fragment implements
 								+ minute);
 			if (EditFragment.START_TIME_ACTION.equals(action))
 			{
+				final long oldStartTime = startTime.getTimeInMillis();
 				startTime.set(Calendar.HOUR_OF_DAY, hourOfDay);
 				startTime.set(Calendar.MINUTE, minute);
 				startTime.set(Calendar.SECOND, 0);
+				startTime.set(Calendar.MILLISECOND, 0);
+				final long timeOffset = startTime.getTimeInMillis()
+						- oldStartTime;
+				endTime.setTimeInMillis(endTime.getTimeInMillis() + timeOffset);
+				new StartTimeOverlapCheck().execute();
+				new EndTimeOverlapCheck().execute();
+				new TimeOverlapCheck().execute();
 			}
 			else if (EditFragment.END_TIME_ACTION.equals(action))
 			{
 				endTime.set(Calendar.HOUR_OF_DAY, hourOfDay);
 				endTime.set(Calendar.MINUTE, minute);
 				endTime.set(Calendar.SECOND, 0);
+				endTime.set(Calendar.MILLISECOND, 0);
+				new EndTimeOverlapCheck().execute();
+				new TimeOverlapCheck().execute();
 			}
 			updateViews();
 		}
@@ -491,8 +697,8 @@ public class EditFragment extends Fragment implements
 		final boolean isContractionOngoing = endTime == null;
 		if (isContractionOngoing)
 		{
-			holder.endTime.setText(" ");
-			holder.endDate.setText(" ");
+			holder.endTime.setText("");
+			holder.endDate.setText("");
 			holder.duration.setText(getString(R.string.duration_ongoing));
 		}
 		else
@@ -500,10 +706,16 @@ public class EditFragment extends Fragment implements
 			holder.endTime.setText(DateFormat.format(timeFormat, endTime));
 			holder.endDate.setText(DateFormat.getDateFormat(getActivity())
 					.format(endTime.getTime()));
-			final long durationInSeconds = (endTime.getTimeInMillis() - startTime
-					.getTimeInMillis()) / 1000;
-			holder.duration.setText(DateUtils
-					.formatElapsedTime(durationInSeconds));
+			if (endTime.before(startTime))
+				holder.duration.setText("");
+			else
+			{
+				holder.endTimeErrorOrder.setVisibility(View.GONE);
+				final long durationInSeconds = (endTime.getTimeInMillis() - startTime
+						.getTimeInMillis()) / 1000;
+				holder.duration.setText(DateUtils
+						.formatElapsedTime(durationInSeconds));
+			}
 		}
 		holder.note.setText(note);
 	}

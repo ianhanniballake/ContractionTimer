@@ -3,6 +3,7 @@
 
 	<color name="actionbar_compat_background">#EEE</color>
 	<color name="average_background">#D8F6CE</color>
+	<color name="error_background">#F78181</color>
 	<color name="detail_appwidget_background_dark">#FF444444</color>
 	<color name="detail_appwidget_background_light">#FFCCCCCC</color>
 

@@ -5,9 +5,20 @@
 	android:padding="@dimen/outer_padding" >
 
 	<TextView
+		android:id="@+id/time_error_overlap"
+		android:layout_width="fill_parent"
+		android:layout_height="wrap_content"
+		android:background="@drawable/error_background"
+		android:gravity="center"
+		android:text="@string/edit_time_error_overlap"
+		android:textAppearance="?android:attr/textAppearanceSmall"
+		android:visibility="gone" />
+
+	<TextView
 		android:id="@+id/start_time_label"
 		android:layout_width="fill_parent"
 		android:layout_height="wrap_content"
+		android:layout_below="@id/time_error_overlap"
 		android:text="@string/detail_start_time_label"
 		android:textAppearance="?android:attr/textAppearanceLarge" />
 
@@ -32,10 +43,21 @@
 		android:textAppearance="?android:attr/textAppearanceMedium" />
 
 	<TextView
-		android:id="@+id/end_time_label"
+		android:id="@+id/start_time_error_overlap"
 		android:layout_width="fill_parent"
 		android:layout_height="wrap_content"
 		android:layout_below="@id/start_time"
+		android:background="@drawable/error_background"
+		android:gravity="center"
+		android:text="@string/edit_start_time_error_overlap"
+		android:textAppearance="?android:attr/textAppearanceSmall"
+		android:visibility="gone" />
+
+	<TextView
+		android:id="@+id/end_time_label"
+		android:layout_width="fill_parent"
+		android:layout_height="wrap_content"
+		android:layout_below="@id/start_time_error_overlap"
 		android:paddingTop="@dimen/dividing_padding"
 		android:text="@string/detail_end_time_label"
 		android:textAppearance="?android:attr/textAppearanceLarge" />
@@ -60,11 +82,33 @@
 		android:paddingLeft="@dimen/indent_padding"
 		android:textAppearance="?android:attr/textAppearanceMedium" />
 
+	<TextView
+		android:id="@+id/end_time_error_order"
+		android:layout_width="fill_parent"
+		android:layout_height="wrap_content"
+		android:layout_below="@id/end_time"
+		android:background="@drawable/error_background"
+		android:gravity="center"
+		android:text="@string/edit_end_time_error_order"
+		android:textAppearance="?android:attr/textAppearanceSmall"
+		android:visibility="gone" />
+
+	<TextView
+		android:id="@+id/end_time_error_overlap"
+		android:layout_width="fill_parent"
+		android:layout_height="wrap_content"
+		android:layout_below="@id/end_time_error_order"
+		android:background="@drawable/error_background"
+		android:gravity="center"
+		android:text="@string/edit_end_time_error_overlap"
+		android:textAppearance="?android:attr/textAppearanceSmall"
+		android:visibility="gone" />
+
 	<ImageView
 		android:id="@+id/duration_divider"
 		android:layout_width="fill_parent"
 		android:layout_height="wrap_content"
-		android:layout_below="@id/end_time"
+		android:layout_below="@id/end_time_error_overlap"
 		android:contentDescription="@string/divider"
 		android:focusable="false"
 		android:paddingBottom="@dimen/dividing_padding"

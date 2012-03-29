@@ -31,6 +31,10 @@
 	<string name="detail_end_time_label">End Time</string>
 	<string name="detail_duration_label">Duration</string>
 	<string name="detail_note_label">Note</string>
+	<string name="edit_start_time_error_overlap">Error: cannot start during another contraction</string>
+	<string name="edit_end_time_error_order">Error: cannot end before it begins</string>
+	<string name="edit_end_time_error_overlap">Error: cannot end during another contraction</string>
+	<string name="edit_time_error_overlap">Error: cannot overlap another contraction</string>
 	<string name="divider">Divider</string>
 	<string name="menu_edit">Edit</string>
 	<string name="menu_delete">Delete</string>
