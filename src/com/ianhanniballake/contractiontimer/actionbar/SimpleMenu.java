@@ -42,6 +42,10 @@ public class SimpleMenu implements Menu
 	}
 
 	/**
+	 * ActionBarHelper for state change callbacks
+	 */
+	private final ActionBarHelper mActionBarHelper;
+	/**
 	 * Context used to create menu items
 	 */
 	private final Context mContext;
@@ -59,12 +63,16 @@ public class SimpleMenu implements Menu
 	 * 
 	 * @param context
 	 *            Context used to create menu items
+	 * @param actionBarHelper
+	 *            ActionBarHelper for state change callbacks
 	 */
-	public SimpleMenu(final Context context)
+	public SimpleMenu(final Context context,
+			final ActionBarHelper actionBarHelper)
 	{
 		mContext = context;
 		mResources = context.getResources();
 		mItems = new ArrayList<SimpleMenuItem>();
+		mActionBarHelper = actionBarHelper;
 	}
 
 	@Override
@@ -117,7 +125,7 @@ public class SimpleMenu implements Menu
 			final CharSequence title)
 	{
 		final SimpleMenuItem item = new SimpleMenuItem(this, itemId, order,
-				title);
+				title, mActionBarHelper);
 		mItems.add(SimpleMenu.findInsertIndex(mItems, order), item);
 		return item;
 	}

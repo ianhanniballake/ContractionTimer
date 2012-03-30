@@ -135,6 +135,10 @@ public class ActionBarHelperBase extends ActionBarHelper
 	 * Menu ids to be added to the ActionBar
 	 */
 	protected Set<Integer> mActionItemIds = new HashSet<Integer>();
+	/**
+	 * Reference to the created menu
+	 */
+	protected Menu mMenu;
 
 	/**
 	 * @param activity
@@ -161,6 +165,7 @@ public class ActionBarHelperBase extends ActionBarHelper
 		// Create the button
 		final ImageButton actionButton = new ImageButton(mActivity, null,
 				R.attr.actionbarCompatItemStyle);
+		actionButton.setId(itemId);
 		final int widthDimenId = itemId == android.R.id.home ? R.dimen.actionbar_compat_button_home_width
 				: R.dimen.actionbar_compat_button_width;
 		final int buttonWidth = (int) mActivity.getResources().getDimension(
@@ -220,6 +225,7 @@ public class ActionBarHelperBase extends ActionBarHelper
 	@Override
 	public boolean onCreateOptionsMenu(final Menu menu)
 	{
+		mMenu = menu;
 		// Hides on-screen action items from the options menu.
 		for (final Integer id : mActionItemIds)
 			menu.findItem(id).setVisible(false);
@@ -233,7 +239,7 @@ public class ActionBarHelperBase extends ActionBarHelper
 		mActivity.getWindow().setFeatureInt(Window.FEATURE_CUSTOM_TITLE,
 				R.layout.actionbar_compat);
 		setupActionBar();
-		final SimpleMenu menu = new SimpleMenu(mActivity);
+		final SimpleMenu menu = new SimpleMenu(mActivity, this);
 		mActivity.onCreatePanelMenu(Window.FEATURE_OPTIONS_PANEL, menu);
 		mActivity.onPrepareOptionsMenu(menu);
 		for (int i = 0; i < menu.size(); i++)
@@ -250,6 +256,18 @@ public class ActionBarHelperBase extends ActionBarHelper
 		// TODO This should probably do something
 	}
 
+	@Override
+	public void setEnabled(final MenuItem item, final boolean enabled)
+	{
+		final int itemId = item.getItemId();
+		if (mActionItemIds.contains(itemId))
+		{
+			final View menuButton = getActionBarCompat().findViewById(itemId);
+			if (menuButton != null)
+				menuButton.setEnabled(enabled);
+		}
+	}
+
 	/**
 	 * Sets up the compatibility action bar with the given title.
 	 */
@@ -262,9 +280,10 @@ public class ActionBarHelperBase extends ActionBarHelper
 				0, ViewGroup.LayoutParams.MATCH_PARENT);
 		springLayoutParams.weight = 1;
 		// Add Home button
-		final SimpleMenu tempMenu = new SimpleMenu(mActivity);
+		final SimpleMenu tempMenu = new SimpleMenu(mActivity, this);
 		final SimpleMenuItem homeItem = new SimpleMenuItem(tempMenu,
-				android.R.id.home, 0, mActivity.getString(R.string.app_name));
+				android.R.id.home, 0, mActivity.getString(R.string.app_name),
+				this);
 		homeItem.setIcon(R.drawable.icon);
 		addActionItemCompatFromMenuItem(homeItem);
 		// Add title text
@@ -273,5 +292,15 @@ public class ActionBarHelperBase extends ActionBarHelper
 		titleText.setLayoutParams(springLayoutParams);
 		titleText.setText(mActivity.getTitle());
 		actionBarCompat.addView(titleText);
+	}
+
+	@Override
+	public void supportInvalidateOptionsMenu()
+	{
+		// Usually we wait until the menu is shown before invalidating options,
+		// but if there are any action bar buttons, we need to invalidate now to
+		// ensure their state is correct
+		if (!mActionItemIds.isEmpty())
+			mActivity.onCreatePanelMenu(Window.FEATURE_OPTIONS_PANEL, mMenu);
 	}
 }

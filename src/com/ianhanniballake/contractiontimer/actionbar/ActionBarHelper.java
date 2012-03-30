@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.os.Build;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.view.MenuItem;
 
 /**
  * An abstract base class for supporting ActionBar implementations on both
@@ -82,4 +83,19 @@ public abstract class ActionBarHelper
 	 *            Whether the 'up' carret should appear on the home button
 	 */
 	public abstract void setDisplayHomeAsUpEnabled(final boolean showHomeAsUp);
+
+	/**
+	 * Callback for when a MenuItem is enabled or disabled
+	 * 
+	 * @param item
+	 *            MenuItem that was enabled/disabled
+	 * @param enabled
+	 *            current state of the MenuItem
+	 */
+	public abstract void setEnabled(MenuItem item, boolean enabled);
+
+	/**
+	 * Invalidate the option menu
+	 */
+	public abstract void supportInvalidateOptionsMenu();
 }

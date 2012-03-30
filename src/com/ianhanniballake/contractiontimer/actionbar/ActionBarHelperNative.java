@@ -4,6 +4,7 @@ import android.annotation.TargetApi;
 import android.app.Activity;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.view.MenuItem;
 
 /**
  * An extension of {@link ActionBarHelper} that provides access to the native
@@ -51,5 +52,17 @@ public class ActionBarHelperNative extends ActionBarHelper
 	public void setDisplayHomeAsUpEnabled(final boolean showHomeAsUp)
 	{
 		mActivity.getActionBar().setDisplayHomeAsUpEnabled(showHomeAsUp);
+	}
+
+	@Override
+	public void setEnabled(final MenuItem item, final boolean enabled)
+	{
+		// Nothing to do
+	}
+
+	@Override
+	public void supportInvalidateOptionsMenu()
+	{
+		// Nothing to do
 	}
 }

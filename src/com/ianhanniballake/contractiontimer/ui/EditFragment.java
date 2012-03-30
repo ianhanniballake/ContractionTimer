@@ -2,6 +2,7 @@ package com.ianhanniballake.contractiontimer.ui;
 
 import java.util.Calendar;
 
+import android.content.AsyncQueryHandler;
 import android.content.BroadcastReceiver;
 import android.content.ContentUris;
 import android.content.ContentValues;
@@ -25,6 +26,9 @@ import android.text.format.DateFormat;
 import android.text.format.DateUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
@@ -35,6 +39,7 @@ import android.widget.TextView;
 import com.ianhanniballake.contractiontimer.BuildConfig;
 import com.ianhanniballake.contractiontimer.R;
 import com.ianhanniballake.contractiontimer.analytics.AnalyticsManagerService;
+import com.ianhanniballake.contractiontimer.appwidget.AppWidgetUpdateHandler;
 import com.ianhanniballake.contractiontimer.provider.ContractionContract;
 
 /**
@@ -92,7 +97,11 @@ public class EditFragment extends Fragment implements
 			if (overlapExists)
 				holder.endTimeErrorOverlap.setVisibility(View.VISIBLE);
 			else
+			{
+				errorCheckPass++;
 				holder.endTimeErrorOverlap.setVisibility(View.GONE);
+			}
+			getActivity().supportInvalidateOptionsMenu();
 		}
 	}
 
@@ -145,7 +154,11 @@ public class EditFragment extends Fragment implements
 			if (overlapExists)
 				holder.startTimeErrorOverlap.setVisibility(View.VISIBLE);
 			else
+			{
+				errorCheckPass++;
 				holder.startTimeErrorOverlap.setVisibility(View.GONE);
+			}
+			getActivity().supportInvalidateOptionsMenu();
 		}
 	}
 
@@ -200,7 +213,11 @@ public class EditFragment extends Fragment implements
 			if (overlapExists)
 				holder.timeErrorOverlap.setVisibility(View.VISIBLE);
 			else
+			{
+				errorCheckPass++;
 				holder.timeErrorOverlap.setVisibility(View.GONE);
+			}
+			getActivity().supportInvalidateOptionsMenu();
 		}
 	}
 
@@ -251,6 +268,10 @@ public class EditFragment extends Fragment implements
 		TextView timeErrorOverlap;
 	}
 
+	/**
+	 * Total number of error checks
+	 */
+	private final static int ALL_ERROR_CHECK_PASSED = 4;
 	/**
 	 * Action associated with the end time's date being changed
 	 */
@@ -313,6 +334,10 @@ public class EditFragment extends Fragment implements
 	 */
 	private long contractionId = 0;
 	/**
+	 * Handler for asynchronous updates of contractions
+	 */
+	private AsyncQueryHandler contractionQueryHandler;
+	/**
 	 * BroadcastReceiver listening for START_DATE_ACTION and END_DATE_ACTION
 	 * actions
 	 */
@@ -344,17 +369,12 @@ public class EditFragment extends Fragment implements
 				final long timeOffset = startTime.getTimeInMillis()
 						- oldStartTime;
 				endTime.setTimeInMillis(endTime.getTimeInMillis() + timeOffset);
-				new StartTimeOverlapCheck().execute();
-				new EndTimeOverlapCheck().execute();
-				new TimeOverlapCheck().execute();
 			}
 			else if (EditFragment.END_DATE_ACTION.equals(action))
 			{
 				endTime.set(Calendar.YEAR, year);
 				endTime.set(Calendar.MONTH, monthOfYear);
 				endTime.set(Calendar.DAY_OF_MONTH, dayOfMonth);
-				new EndTimeOverlapCheck().execute();
-				new TimeOverlapCheck().execute();
 			}
 			updateViews();
 		}
@@ -363,6 +383,10 @@ public class EditFragment extends Fragment implements
 	 * Current end time of the contraction
 	 */
 	private Calendar endTime = null;
+	/**
+	 * Number of error checks that have passed in the start / end time
+	 */
+	private int errorCheckPass = 0;
 	/**
 	 * Current note of the contraction
 	 */
@@ -401,9 +425,6 @@ public class EditFragment extends Fragment implements
 				final long timeOffset = startTime.getTimeInMillis()
 						- oldStartTime;
 				endTime.setTimeInMillis(endTime.getTimeInMillis() + timeOffset);
-				new StartTimeOverlapCheck().execute();
-				new EndTimeOverlapCheck().execute();
-				new TimeOverlapCheck().execute();
 			}
 			else if (EditFragment.END_TIME_ACTION.equals(action))
 			{
@@ -411,8 +432,6 @@ public class EditFragment extends Fragment implements
 				endTime.set(Calendar.MINUTE, minute);
 				endTime.set(Calendar.SECOND, 0);
 				endTime.set(Calendar.MILLISECOND, 0);
-				new EndTimeOverlapCheck().execute();
-				new TimeOverlapCheck().execute();
 			}
 			updateViews();
 		}
@@ -449,6 +468,18 @@ public class EditFragment extends Fragment implements
 	public void onActivityCreated(final Bundle savedInstanceState)
 	{
 		super.onActivityCreated(savedInstanceState);
+		setHasOptionsMenu(true);
+		contractionQueryHandler = new AsyncQueryHandler(getActivity()
+				.getContentResolver())
+		{
+			@Override
+			protected void onUpdateComplete(final int token,
+					final Object cookie, final int result)
+			{
+				AppWidgetUpdateHandler.updateAllWidgets(getActivity());
+				getActivity().finish();
+			}
+		};
 		adapter = new CursorAdapter(getActivity(), null, 0)
 		{
 			@Override
@@ -510,6 +541,18 @@ public class EditFragment extends Fragment implements
 				contractionId);
 		return new CursorLoader(getActivity(), contractionUri, null, null,
 				null, null);
+	}
+
+	@Override
+	public void onCreateOptionsMenu(final Menu menu, final MenuInflater inflater)
+	{
+		super.onCreateOptionsMenu(menu, inflater);
+		inflater.inflate(R.menu.activity_edit, menu);
+		final boolean allErrorCheckPassed = errorCheckPass == EditFragment.ALL_ERROR_CHECK_PASSED;
+		if (BuildConfig.DEBUG)
+			Log.d(getClass().getSimpleName(), "Create All error check passed: "
+					+ allErrorCheckPassed);
+		menu.findItem(R.id.menu_save).setEnabled(allErrorCheckPassed);
 	}
 
 	@Override
@@ -642,6 +685,46 @@ public class EditFragment extends Fragment implements
 	}
 
 	@Override
+	public boolean onOptionsItemSelected(final MenuItem item)
+	{
+		switch (item.getItemId())
+		{
+			case R.id.menu_save:
+				if (BuildConfig.DEBUG)
+					Log.d(getClass().getSimpleName(), "Edit selected save");
+				AnalyticsManagerService.trackEvent(getActivity(), "Edit",
+						"Save");
+				final Uri updateUri = ContentUris.withAppendedId(
+						ContractionContract.Contractions.CONTENT_ID_URI_BASE,
+						contractionId);
+				final ContentValues values = getContentValues();
+				contractionQueryHandler.startUpdate(0, null, updateUri, values,
+						null, null);
+				return true;
+			case R.id.menu_cancel:
+				if (BuildConfig.DEBUG)
+					Log.d(getClass().getSimpleName(), "Edit selected cancel");
+				AnalyticsManagerService.trackEvent(getActivity(), "Edit",
+						"Cancel");
+				getActivity().finish();
+				return true;
+			default:
+				return super.onOptionsItemSelected(item);
+		}
+	}
+
+	@Override
+	public void onPrepareOptionsMenu(final Menu menu)
+	{
+		super.onPrepareOptionsMenu(menu);
+		final boolean allErrorCheckPassed = errorCheckPass == EditFragment.ALL_ERROR_CHECK_PASSED;
+		if (BuildConfig.DEBUG)
+			Log.d(getClass().getSimpleName(), "All error check passed: "
+					+ allErrorCheckPassed);
+		menu.findItem(R.id.menu_save).setEnabled(allErrorCheckPassed);
+	}
+
+	@Override
 	public void onSaveInstanceState(final Bundle outState)
 	{
 		super.onSaveInstanceState(outState);
@@ -687,6 +770,10 @@ public class EditFragment extends Fragment implements
 	 */
 	private void updateViews()
 	{
+		errorCheckPass = 0;
+		new StartTimeOverlapCheck().execute();
+		new EndTimeOverlapCheck().execute();
+		new TimeOverlapCheck().execute();
 		final ViewHolder holder = EditFragment.getViewHolder(getView());
 		String timeFormat = "hh:mm:ssaa";
 		if (DateFormat.is24HourFormat(getActivity()))
@@ -707,15 +794,20 @@ public class EditFragment extends Fragment implements
 			holder.endDate.setText(DateFormat.getDateFormat(getActivity())
 					.format(endTime.getTime()));
 			if (endTime.before(startTime))
+			{
+				holder.endTimeErrorOrder.setVisibility(View.VISIBLE);
 				holder.duration.setText("");
+			}
 			else
 			{
+				errorCheckPass++;
 				holder.endTimeErrorOrder.setVisibility(View.GONE);
 				final long durationInSeconds = (endTime.getTimeInMillis() - startTime
 						.getTimeInMillis()) / 1000;
 				holder.duration.setText(DateUtils
 						.formatElapsedTime(durationInSeconds));
 			}
+			getActivity().supportInvalidateOptionsMenu();
 		}
 		holder.note.setText(note);
 	}

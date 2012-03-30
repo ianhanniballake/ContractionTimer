@@ -18,6 +18,10 @@ import android.view.View;
 public class SimpleMenuItem implements MenuItem
 {
 	/**
+	 * ActionBarHelper for enable state change callbacks
+	 */
+	private final ActionBarHelper mActionBarHelper;
+	/**
 	 * If this menu item is checkable
 	 */
 	private boolean mCheckable = false;
@@ -69,14 +73,17 @@ public class SimpleMenuItem implements MenuItem
 	 *            Menu item order
 	 * @param title
 	 *            Full title for this menu item
+	 * @param actionBarHelper
+	 *            ActionBarHelper for enable state change callbacks
 	 */
 	public SimpleMenuItem(final SimpleMenu menu, final int id, final int order,
-			final CharSequence title)
+			final CharSequence title, final ActionBarHelper actionBarHelper)
 	{
 		mMenu = menu;
 		mId = id;
 		mOrder = order;
 		mTitle = title;
+		mActionBarHelper = actionBarHelper;
 	}
 
 	@Override
@@ -271,6 +278,7 @@ public class SimpleMenuItem implements MenuItem
 	public MenuItem setEnabled(final boolean enabled)
 	{
 		mEnabled = enabled;
+		mActionBarHelper.setEnabled(this, enabled);
 		return this;
 	}
 
