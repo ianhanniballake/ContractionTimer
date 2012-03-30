@@ -714,17 +714,6 @@ public class EditFragment extends Fragment implements
 	}
 
 	@Override
-	public void onPrepareOptionsMenu(final Menu menu)
-	{
-		super.onPrepareOptionsMenu(menu);
-		final boolean allErrorCheckPassed = errorCheckPass == EditFragment.ALL_ERROR_CHECK_PASSED;
-		if (BuildConfig.DEBUG)
-			Log.d(getClass().getSimpleName(), "All error check passed: "
-					+ allErrorCheckPassed);
-		menu.findItem(R.id.menu_save).setEnabled(allErrorCheckPassed);
-	}
-
-	@Override
 	public void onSaveInstanceState(final Bundle outState)
 	{
 		super.onSaveInstanceState(outState);
