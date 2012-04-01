@@ -2,8 +2,10 @@ package com.ianhanniballake.contractiontimer.ui;
 
 import java.util.Date;
 
+import android.content.AsyncQueryHandler;
 import android.content.ContentUris;
 import android.content.Context;
+import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
@@ -15,12 +17,19 @@ import android.support.v4.content.Loader;
 import android.support.v4.widget.CursorAdapter;
 import android.text.format.DateFormat;
 import android.text.format.DateUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.ianhanniballake.contractiontimer.BuildConfig;
 import com.ianhanniballake.contractiontimer.R;
+import com.ianhanniballake.contractiontimer.analytics.AnalyticsManagerService;
+import com.ianhanniballake.contractiontimer.appwidget.AppWidgetUpdateHandler;
 import com.ianhanniballake.contractiontimer.provider.ContractionContract;
 
 /**
@@ -68,11 +77,33 @@ public class ViewFragment extends Fragment implements
 	 * Id of the current contraction to show
 	 */
 	protected long contractionId = 0;
+	/**
+	 * Handler for asynchronous deletes of contractions
+	 */
+	private AsyncQueryHandler contractionQueryHandler;
+	/**
+	 * Whether the current contraction is ongoing (i.e., not yet ended). Null
+	 * indicates that we haven't checked yet, while true or false indicates
+	 * whether the contraction is ongoing
+	 */
+	private Boolean isContractionOngoing = null;
 
 	@Override
 	public void onActivityCreated(final Bundle savedInstanceState)
 	{
 		super.onActivityCreated(savedInstanceState);
+		setHasOptionsMenu(true);
+		contractionQueryHandler = new AsyncQueryHandler(getActivity()
+				.getContentResolver())
+		{
+			@Override
+			protected void onDeleteComplete(final int token,
+					final Object cookie, final int result)
+			{
+				AppWidgetUpdateHandler.updateAllWidgets(getActivity());
+				getActivity().finish();
+			}
+		};
 		adapter = new CursorAdapter(getActivity(), null, 0)
 		{
 			@Override
@@ -112,8 +143,7 @@ public class ViewFragment extends Fragment implements
 						.getDateFormat(getActivity()).format(startDate));
 				final int endTimeColumnIndex = cursor
 						.getColumnIndex(ContractionContract.Contractions.COLUMN_NAME_END_TIME);
-				final boolean isContractionOngoing = cursor
-						.isNull(endTimeColumnIndex);
+				isContractionOngoing = cursor.isNull(endTimeColumnIndex);
 				if (isContractionOngoing)
 				{
 					holder.endTime.setText(" ");
@@ -133,6 +163,7 @@ public class ViewFragment extends Fragment implements
 					holder.duration.setText(DateUtils
 							.formatElapsedTime(durationInSeconds));
 				}
+				getActivity().supportInvalidateOptionsMenu();
 				final int noteColumnIndex = cursor
 						.getColumnIndex(ContractionContract.Contractions.COLUMN_NAME_NOTE);
 				final String note = cursor.getString(noteColumnIndex);
@@ -166,6 +197,15 @@ public class ViewFragment extends Fragment implements
 	}
 
 	@Override
+	public void onCreateOptionsMenu(final Menu menu, final MenuInflater inflater)
+	{
+		super.onCreateOptionsMenu(menu, inflater);
+		inflater.inflate(R.menu.activity_view, menu);
+		if (isContractionOngoing != null && isContractionOngoing)
+			menu.findItem(R.id.menu_edit).setVisible(false);
+	}
+
+	@Override
 	public View onCreateView(final LayoutInflater inflater,
 			final ViewGroup container, final Bundle savedInstanceState)
 	{
@@ -184,5 +224,36 @@ public class ViewFragment extends Fragment implements
 		adapter.swapCursor(data);
 		if (data.moveToFirst())
 			adapter.bindView(getView(), getActivity(), data);
+	}
+
+	@Override
+	public boolean onOptionsItemSelected(final MenuItem item)
+	{
+		switch (item.getItemId())
+		{
+			case R.id.menu_edit:
+				if (BuildConfig.DEBUG)
+					Log.d(getClass().getSimpleName(), "View selected edit");
+				AnalyticsManagerService.trackEvent(getActivity(), "View",
+						"Edit");
+				final Intent editIntent = new Intent(getActivity(),
+						EditActivity.class);
+				editIntent.putExtra(BaseColumns._ID, contractionId);
+				startActivity(editIntent);
+				return true;
+			case R.id.menu_delete:
+				if (BuildConfig.DEBUG)
+					Log.d(getClass().getSimpleName(), "View selected delete");
+				AnalyticsManagerService.trackEvent(getActivity(), "View",
+						"Delete");
+				final Uri deleteUri = ContentUris.withAppendedId(
+						ContractionContract.Contractions.CONTENT_ID_URI_BASE,
+						contractionId);
+				contractionQueryHandler
+						.startDelete(0, 0, deleteUri, null, null);
+				return true;
+			default:
+				return super.onOptionsItemSelected(item);
+		}
 	}
 }

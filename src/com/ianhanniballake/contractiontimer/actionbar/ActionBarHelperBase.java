@@ -295,6 +295,21 @@ public class ActionBarHelperBase extends ActionBarHelper
 	}
 
 	@Override
+	public void setVisible(final MenuItem item, final boolean visible)
+	{
+		final int itemId = item.getItemId();
+		if (mActionItemIds.contains(itemId))
+		{
+			final View menuButton = getActionBarCompat().findViewById(itemId);
+			if (menuButton != null)
+				if (visible)
+					menuButton.setVisibility(View.VISIBLE);
+				else
+					menuButton.setVisibility(View.GONE);
+		}
+	}
+
+	@Override
 	public void supportInvalidateOptionsMenu()
 	{
 		// Usually we wait until the menu is shown before invalidating options,

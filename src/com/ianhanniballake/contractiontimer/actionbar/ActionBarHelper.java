@@ -95,6 +95,16 @@ public abstract class ActionBarHelper
 	public abstract void setEnabled(MenuItem item, boolean enabled);
 
 	/**
+	 * Callback for when a MenuItem is set to visible/invisible
+	 * 
+	 * @param item
+	 *            MenuItem that was set to visible/invisible
+	 * @param visible
+	 *            current state of the MenuItem
+	 */
+	public abstract void setVisible(MenuItem item, boolean visible);
+
+	/**
 	 * Invalidate the option menu
 	 */
 	public abstract void supportInvalidateOptionsMenu();

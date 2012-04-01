@@ -61,6 +61,10 @@ public class SimpleMenuItem implements MenuItem
 	 * Condensed title for this menu item
 	 */
 	private CharSequence mTitleCondensed;
+	/**
+	 * If this menu item is visible
+	 */
+	private boolean mVisible = true;
 
 	/**
 	 * Creates a new SimpleMenuItem
@@ -228,7 +232,7 @@ public class SimpleMenuItem implements MenuItem
 	public boolean isVisible()
 	{
 		// Noop
-		return true;
+		return mVisible;
 	}
 
 	@TargetApi(14)
@@ -372,7 +376,8 @@ public class SimpleMenuItem implements MenuItem
 	@Override
 	public MenuItem setVisible(final boolean b)
 	{
-		// Noop
+		mVisible = b;
+		mActionBarHelper.setVisible(this, mVisible);
 		return this;
 	}
 }

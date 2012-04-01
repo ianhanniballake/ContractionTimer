@@ -61,6 +61,12 @@ public class ActionBarHelperNative extends ActionBarHelper
 	}
 
 	@Override
+	public void setVisible(final MenuItem item, final boolean visible)
+	{
+		// Nothing to do
+	}
+
+	@Override
 	public void supportInvalidateOptionsMenu()
 	{
 		// Nothing to do
