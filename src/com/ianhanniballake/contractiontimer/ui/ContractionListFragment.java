@@ -363,6 +363,17 @@ public class ContractionListFragment extends ListFragment implements
 			{
 				switch (item.getItemId())
 				{
+					case R.id.menu_context_view:
+						if (BuildConfig.DEBUG)
+							Log.d(getClass().getSimpleName(),
+									"Popup Menu selected view");
+						AnalyticsManagerService.trackEvent(getActivity(),
+								"PopupMenu", "View");
+						final Intent intent = new Intent(getActivity(),
+								ViewActivity.class);
+						intent.putExtra(BaseColumns._ID, popupHolder.id);
+						startActivity(intent);
+						return true;
 					case R.id.menu_context_note:
 						if (BuildConfig.DEBUG)
 							Log.d(getClass().getSimpleName(),
@@ -398,6 +409,17 @@ public class ContractionListFragment extends ListFragment implements
 				.getMenuInfo();
 		switch (item.getItemId())
 		{
+			case R.id.menu_context_view:
+				if (BuildConfig.DEBUG)
+					Log.d(getClass().getSimpleName(),
+							"Context Menu selected view");
+				AnalyticsManagerService.trackEvent(getActivity(),
+						"ContextMenu", "View");
+				final Intent intent = new Intent(getActivity(),
+						ViewActivity.class);
+				intent.putExtra(BaseColumns._ID, info.id);
+				startActivity(intent);
+				return true;
 			case R.id.menu_context_note:
 				final TextView noteView = (TextView) info.targetView
 						.findViewById(R.id.note);
@@ -541,10 +563,21 @@ public class ContractionListFragment extends ListFragment implements
 			public boolean onActionItemClicked(final ActionMode mode,
 					final MenuItem item)
 			{
+				final long contractionId = listView.getCheckedItemIds()[0];
 				switch (item.getItemId())
 				{
+					case R.id.menu_context_view:
+						if (BuildConfig.DEBUG)
+							Log.d(getClass().getSimpleName(),
+									"Context Action Mode selected view");
+						AnalyticsManagerService.trackEvent(getActivity(),
+								"ContextActionBar", "View");
+						final Intent intent = new Intent(getActivity(),
+								ViewActivity.class);
+						intent.putExtra(BaseColumns._ID, contractionId);
+						startActivity(intent);
+						return true;
 					case R.id.menu_context_note:
-						final long contractionId = listView.getCheckedItemIds()[0];
 						final int position = listView.getCheckedItemPositions()
 								.keyAt(0);
 						final Cursor cursor = (Cursor) listView
@@ -610,6 +643,10 @@ public class ContractionListFragment extends ListFragment implements
 					final Menu menu)
 			{
 				final int selectedItemsSize = listView.getCheckedItemCount();
+				// Show or hide the view menu item
+				final MenuItem viewItem = menu.findItem(R.id.menu_context_view);
+				final boolean showViewItem = selectedItemsSize == 1;
+				viewItem.setVisible(showViewItem);
 				// Set whether to display the note menu item
 				final MenuItem noteItem = menu.findItem(R.id.menu_context_note);
 				final boolean showNoteItem = selectedItemsSize == 1;
