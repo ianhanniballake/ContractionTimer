@@ -442,9 +442,10 @@ public class EditFragment extends Fragment implements
 	 */
 	private void clear()
 	{
-		final Calendar currentTime = Calendar.getInstance();
-		startTime = currentTime;
-		endTime = currentTime;
+		startTime = Calendar.getInstance();
+		endTime = Calendar.getInstance();
+		endTime.setTimeInMillis(startTime.getTimeInMillis());
+		startTime.add(Calendar.MINUTE, -1);
 		note = "";
 	}
 
@@ -472,6 +473,14 @@ public class EditFragment extends Fragment implements
 		contractionQueryHandler = new AsyncQueryHandler(getActivity()
 				.getContentResolver())
 		{
+			@Override
+			protected void onInsertComplete(final int token,
+					final Object cookie, final Uri uri)
+			{
+				AppWidgetUpdateHandler.updateAllWidgets(getActivity());
+				getActivity().finish();
+			}
+
 			@Override
 			protected void onUpdateComplete(final int token,
 					final Object cookie, final int result)
@@ -547,7 +556,10 @@ public class EditFragment extends Fragment implements
 	public void onCreateOptionsMenu(final Menu menu, final MenuInflater inflater)
 	{
 		super.onCreateOptionsMenu(menu, inflater);
-		inflater.inflate(R.menu.activity_edit, menu);
+		if (contractionId == 0)
+			inflater.inflate(R.menu.activity_add, menu);
+		else
+			inflater.inflate(R.menu.activity_edit, menu);
 		final boolean allErrorCheckPassed = errorCheckPass == EditFragment.ALL_ERROR_CHECK_PASSED;
 		if (BuildConfig.DEBUG)
 			Log.d(getClass().getSimpleName(), "Create All error check passed: "
@@ -690,16 +702,30 @@ public class EditFragment extends Fragment implements
 		switch (item.getItemId())
 		{
 			case R.id.menu_save:
-				if (BuildConfig.DEBUG)
-					Log.d(getClass().getSimpleName(), "Edit selected save");
-				AnalyticsManagerService.trackEvent(getActivity(), "Edit",
-						"Save");
-				final Uri updateUri = ContentUris.withAppendedId(
-						ContractionContract.Contractions.CONTENT_ID_URI_BASE,
-						contractionId);
 				final ContentValues values = getContentValues();
-				contractionQueryHandler.startUpdate(0, null, updateUri, values,
-						null, null);
+				if (contractionId == 0)
+				{
+					if (BuildConfig.DEBUG)
+						Log.d(getClass().getSimpleName(), "Add selected save");
+					AnalyticsManagerService.trackEvent(getActivity(), "Add",
+							"Save");
+					contractionQueryHandler.startInsert(0, null,
+							ContractionContract.Contractions.CONTENT_URI,
+							values);
+				}
+				else
+				{
+					if (BuildConfig.DEBUG)
+						Log.d(getClass().getSimpleName(), "Edit selected save");
+					AnalyticsManagerService.trackEvent(getActivity(), "Edit",
+							"Save");
+					final Uri updateUri = ContentUris
+							.withAppendedId(
+									ContractionContract.Contractions.CONTENT_ID_URI_BASE,
+									contractionId);
+					contractionQueryHandler.startUpdate(0, null, updateUri,
+							values, null, null);
+				}
 				return true;
 			case R.id.menu_cancel:
 				if (BuildConfig.DEBUG)

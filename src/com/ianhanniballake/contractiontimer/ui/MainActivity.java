@@ -173,6 +173,13 @@ public class MainActivity extends ActionBarFragmentActivity implements
 						.trackPageView(this, resetDialogFragment);
 				resetDialogFragment.show(getSupportFragmentManager(), "reset");
 				return true;
+			case R.id.menu_add:
+				if (BuildConfig.DEBUG)
+					Log.d(getClass().getSimpleName(), "Menu selected Add");
+				AnalyticsManagerService.trackEvent(this, "Menu", "Add");
+				final Intent addIntent = new Intent(this, EditActivity.class);
+				startActivity(addIntent);
+				return true;
 			case R.id.menu_share_averages:
 				if (BuildConfig.DEBUG)
 					Log.d(getClass().getSimpleName(),

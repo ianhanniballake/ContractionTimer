@@ -7,6 +7,7 @@
 	<string name="reset_dialog_message">Are you sure you want to reset and remove all contractions?</string>
 	<string name="reset_dialog_confirm">Yes</string>
 	<string name="reset_dialog_cancel">Cancel</string>
+	<string name="menu_add">Add Contraction</string>
 	<string name="menu_share_averages">Share Averages</string>
 	<string name="menu_share_all">Share All</string>
 	<string name="share_pick_application">Share To:</string>

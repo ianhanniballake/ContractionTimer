@@ -46,16 +46,27 @@ public class EditActivity extends ActionBarFragmentActivity
 		switch (item.getItemId())
 		{
 			case android.R.id.home:
-				if (BuildConfig.DEBUG)
-					Log.d(getClass().getSimpleName(), "Edit selected home");
-				AnalyticsManagerService.trackEvent(this, "Edit", "Home");
-				final Intent intent = new Intent(this, ViewActivity.class);
-				intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 				long contractionId = 0;
 				if (getIntent() != null && getIntent().getExtras() != null)
 					contractionId = getIntent().getExtras().getLong(
 							BaseColumns._ID, 0);
-				intent.putExtra(BaseColumns._ID, contractionId);
+				Intent intent;
+				if (contractionId == 0) // Adding new contraction
+				{
+					if (BuildConfig.DEBUG)
+						Log.d(getClass().getSimpleName(), "Add selected home");
+					AnalyticsManagerService.trackEvent(this, "Add", "Home");
+					intent = new Intent(this, MainActivity.class);
+				}
+				else
+				{
+					if (BuildConfig.DEBUG)
+						Log.d(getClass().getSimpleName(), "Edit selected home");
+					AnalyticsManagerService.trackEvent(this, "Edit", "Home");
+					intent = new Intent(this, ViewActivity.class);
+					intent.putExtra(BaseColumns._ID, contractionId);
+				}
+				intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 				startActivity(intent);
 				finish();
 				return true;
