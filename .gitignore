@@ -3,6 +3,7 @@
 # Exclude all svn files
 .svn/
 
-# Exclude all files in the bin and the gen folders
+# Exclude all files in the bin, gen, and proguard folders
 bin/
 gen/
+proguard/
