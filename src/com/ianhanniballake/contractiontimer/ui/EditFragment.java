@@ -67,19 +67,10 @@ public class EditFragment extends Fragment implements
 					.getTimeInMillis());
 			final String[] selectionArgs = { Long.toString(contractionId),
 					currentEndTimeMillis, currentEndTimeMillis };
-			if (BuildConfig.DEBUG)
-				Log.d(EditFragment.this.getClass().getSimpleName(),
-						selection
-								+ ": "
-								+ DateFormat.format("yyyy-MM-dd hh:mm:ss",
-										endTime));
 			final Cursor data = getActivity().getContentResolver().query(
 					ContractionContract.Contractions.CONTENT_URI, projection,
 					selection, selectionArgs, null);
 			final boolean overlapExists = data.moveToFirst();
-			if (BuildConfig.DEBUG)
-				Log.d(EditFragment.this.getClass().getSimpleName(), "Count: "
-						+ data.getCount());
 			data.close();
 			return overlapExists;
 		}
@@ -124,19 +115,10 @@ public class EditFragment extends Fragment implements
 					.getTimeInMillis());
 			final String[] selectionArgs = { Long.toString(contractionId),
 					currentStartTimeMillis, currentStartTimeMillis };
-			if (BuildConfig.DEBUG)
-				Log.d(EditFragment.this.getClass().getSimpleName(),
-						selection
-								+ ": "
-								+ DateFormat.format("yyyy-MM-dd hh:mm:ss",
-										startTime));
 			final Cursor data = getActivity().getContentResolver().query(
 					ContractionContract.Contractions.CONTENT_URI, projection,
 					selection, selectionArgs, null);
 			final boolean overlapExists = data.moveToFirst();
-			if (BuildConfig.DEBUG)
-				Log.d(EditFragment.this.getClass().getSimpleName(), "Count: "
-						+ data.getCount());
 			data.close();
 			return overlapExists;
 		}
@@ -183,19 +165,10 @@ public class EditFragment extends Fragment implements
 					.getTimeInMillis());
 			final String[] selectionArgs = { Long.toString(contractionId),
 					currentStartTimeMillis, currentEndTimeMillis };
-			if (BuildConfig.DEBUG)
-				Log.d(EditFragment.this.getClass().getSimpleName(),
-						selection
-								+ ": "
-								+ DateFormat.format("yyyy-MM-dd hh:mm:ss",
-										endTime));
 			final Cursor data = getActivity().getContentResolver().query(
 					ContractionContract.Contractions.CONTENT_URI, projection,
 					selection, selectionArgs, null);
 			final boolean overlapExists = data.moveToFirst();
-			if (BuildConfig.DEBUG)
-				Log.d(EditFragment.this.getClass().getSimpleName(), "Count: "
-						+ data.getCount());
 			data.close();
 			return overlapExists;
 		}
@@ -558,7 +531,7 @@ public class EditFragment extends Fragment implements
 		super.onCreateOptionsMenu(menu, inflater);
 		final boolean allErrorCheckPassed = errorCheckPass == EditFragment.ALL_ERROR_CHECK_PASSED;
 		if (BuildConfig.DEBUG)
-			Log.d(getClass().getSimpleName(), "Create All error check passed: "
+			Log.d(getClass().getSimpleName(), "All error check passed: "
 					+ allErrorCheckPassed);
 		menu.findItem(R.id.menu_save).setEnabled(allErrorCheckPassed);
 	}
