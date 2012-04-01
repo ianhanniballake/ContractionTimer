@@ -76,7 +76,7 @@ public class ViewFragment extends Fragment implements
 	/**
 	 * Id of the current contraction to show
 	 */
-	protected long contractionId = 0;
+	private long contractionId = 0;
 	/**
 	 * Handler for asynchronous deletes of contractions
 	 */

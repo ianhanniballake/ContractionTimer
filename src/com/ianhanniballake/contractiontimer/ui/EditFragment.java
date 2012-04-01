@@ -453,7 +453,7 @@ public class EditFragment extends Fragment implements
 	 * 
 	 * @return ContentValues associated with the current (possibly edited) data
 	 */
-	public ContentValues getContentValues()
+	private ContentValues getContentValues()
 	{
 		final ContentValues values = new ContentValues();
 		values.put(ContractionContract.Contractions.COLUMN_NAME_START_TIME,
