@@ -556,10 +556,6 @@ public class EditFragment extends Fragment implements
 	public void onCreateOptionsMenu(final Menu menu, final MenuInflater inflater)
 	{
 		super.onCreateOptionsMenu(menu, inflater);
-		if (contractionId == 0)
-			inflater.inflate(R.menu.activity_add, menu);
-		else
-			inflater.inflate(R.menu.activity_edit, menu);
 		final boolean allErrorCheckPassed = errorCheckPass == EditFragment.ALL_ERROR_CHECK_PASSED;
 		if (BuildConfig.DEBUG)
 			Log.d(getClass().getSimpleName(), "Create All error check passed: "

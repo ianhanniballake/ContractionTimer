@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.provider.BaseColumns;
 import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
+import android.view.Menu;
 import android.view.MenuItem;
 
 import com.ianhanniballake.contractiontimer.BuildConfig;
@@ -49,6 +50,13 @@ public class ViewActivity extends ActionBarFragmentActivity
 		// Only create the fragment if we haven't already created it
 		if (savedInstanceState == null)
 			showFragment();
+	}
+
+	@Override
+	public boolean onCreateOptionsMenu(final Menu menu)
+	{
+		getMenuInflater().inflate(R.menu.activity_view, menu);
+		return super.onCreateOptionsMenu(menu);
 	}
 
 	@Override

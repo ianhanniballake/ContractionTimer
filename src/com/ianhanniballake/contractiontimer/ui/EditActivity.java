@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.provider.BaseColumns;
 import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
+import android.view.Menu;
 import android.view.MenuItem;
 
 import com.ianhanniballake.contractiontimer.BuildConfig;
@@ -38,6 +39,19 @@ public class EditActivity extends ActionBarFragmentActivity
 		}
 		if (savedInstanceState == null)
 			showFragment();
+	}
+
+	@Override
+	public boolean onCreateOptionsMenu(final Menu menu)
+	{
+		long contractionId = 0;
+		if (getIntent() != null && getIntent().getExtras() != null)
+			contractionId = getIntent().getExtras().getLong(BaseColumns._ID, 0);
+		if (contractionId == 0)
+			getMenuInflater().inflate(R.menu.activity_add, menu);
+		else
+			getMenuInflater().inflate(R.menu.activity_edit, menu);
+		return super.onCreateOptionsMenu(menu);
 	}
 
 	@Override

@@ -134,11 +134,15 @@ public class ActionBarHelperBase extends ActionBarHelper
 	/**
 	 * Menu ids to be added to the ActionBar
 	 */
-	protected Set<Integer> mActionItemIds = new HashSet<Integer>();
+	private final Set<Integer> mActionItemIds = new HashSet<Integer>();
 	/**
 	 * Reference to the created menu
 	 */
-	protected Menu mMenu;
+	private Menu mMenu;
+	/**
+	 * Whether we are currently setting up the options menu
+	 */
+	private boolean settingUpCreateOptionsMenu = false;
 
 	/**
 	 * @param activity
@@ -227,8 +231,10 @@ public class ActionBarHelperBase extends ActionBarHelper
 	{
 		mMenu = menu;
 		// Hides on-screen action items from the options menu.
+		settingUpCreateOptionsMenu = true;
 		for (final Integer id : mActionItemIds)
 			menu.findItem(id).setVisible(false);
+		settingUpCreateOptionsMenu = false;
 		return menu.hasVisibleItems();
 	}
 
@@ -297,6 +303,8 @@ public class ActionBarHelperBase extends ActionBarHelper
 	@Override
 	public void setVisible(final MenuItem item, final boolean visible)
 	{
+		if (settingUpCreateOptionsMenu)
+			return;
 		final int itemId = item.getItemId();
 		if (mActionItemIds.contains(itemId))
 		{

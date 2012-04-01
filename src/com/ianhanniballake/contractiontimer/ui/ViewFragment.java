@@ -200,7 +200,6 @@ public class ViewFragment extends Fragment implements
 	public void onCreateOptionsMenu(final Menu menu, final MenuInflater inflater)
 	{
 		super.onCreateOptionsMenu(menu, inflater);
-		inflater.inflate(R.menu.activity_view, menu);
 		if (isContractionOngoing != null && isContractionOngoing)
 			menu.findItem(R.id.menu_edit).setVisible(false);
 	}
