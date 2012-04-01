@@ -67,7 +67,10 @@ public class EditFragment extends Fragment implements
 					.getTimeInMillis());
 			final String[] selectionArgs = { Long.toString(contractionId),
 					currentEndTimeMillis, currentEndTimeMillis };
-			final Cursor data = getActivity().getContentResolver().query(
+			final Context context = getActivity();
+			if (context == null)
+				return false;
+			final Cursor data = context.getContentResolver().query(
 					ContractionContract.Contractions.CONTENT_URI, projection,
 					selection, selectionArgs, null);
 			final boolean overlapExists = data.moveToFirst();
@@ -115,7 +118,10 @@ public class EditFragment extends Fragment implements
 					.getTimeInMillis());
 			final String[] selectionArgs = { Long.toString(contractionId),
 					currentStartTimeMillis, currentStartTimeMillis };
-			final Cursor data = getActivity().getContentResolver().query(
+			final Context context = getActivity();
+			if (context == null)
+				return false;
+			final Cursor data = context.getContentResolver().query(
 					ContractionContract.Contractions.CONTENT_URI, projection,
 					selection, selectionArgs, null);
 			final boolean overlapExists = data.moveToFirst();
@@ -165,7 +171,10 @@ public class EditFragment extends Fragment implements
 					.getTimeInMillis());
 			final String[] selectionArgs = { Long.toString(contractionId),
 					currentStartTimeMillis, currentEndTimeMillis };
-			final Cursor data = getActivity().getContentResolver().query(
+			final Context context = getActivity();
+			if (context == null)
+				return false;
+			final Cursor data = context.getContentResolver().query(
 					ContractionContract.Contractions.CONTENT_URI, projection,
 					selection, selectionArgs, null);
 			final boolean overlapExists = data.moveToFirst();
