@@ -99,6 +99,8 @@ public class AnalyticsManagerService extends IntentService
 	public static void trackEvent(final Context context, final String category,
 			final String action)
 	{
+		if (context == null)
+			return;
 		final Intent service = new Intent(context,
 				AnalyticsManagerService.class);
 		service.setAction(AnalyticsManagerService.ACTION_TRACK_EVENT);
@@ -124,6 +126,8 @@ public class AnalyticsManagerService extends IntentService
 	public static void trackEvent(final Context context, final String category,
 			final String action, final String label)
 	{
+		if (context == null)
+			return;
 		final Intent service = new Intent(context,
 				AnalyticsManagerService.class);
 		service.setAction(AnalyticsManagerService.ACTION_TRACK_EVENT);
@@ -151,6 +155,8 @@ public class AnalyticsManagerService extends IntentService
 	public static void trackEvent(final Context context, final String category,
 			final String action, final String label, final int value)
 	{
+		if (context == null)
+			return;
 		final Intent service = new Intent(context,
 				AnalyticsManagerService.class);
 		service.setAction(AnalyticsManagerService.ACTION_TRACK_EVENT);
@@ -169,6 +175,8 @@ public class AnalyticsManagerService extends IntentService
 	 */
 	public static void trackPageView(final Activity activity)
 	{
+		if (activity == null)
+			return;
 		final Intent service = new Intent(activity,
 				AnalyticsManagerService.class);
 		service.setAction(AnalyticsManagerService.ACTION_TRACK_PAGE_VIEW);
@@ -188,6 +196,8 @@ public class AnalyticsManagerService extends IntentService
 	public static void trackPageView(final Context context,
 			final DialogFragment dialogFragment)
 	{
+		if (context == null)
+			return;
 		final Intent service = new Intent(context,
 				AnalyticsManagerService.class);
 		service.setAction(AnalyticsManagerService.ACTION_TRACK_PAGE_VIEW);
