@@ -138,7 +138,7 @@ public class Preferences extends ActionBarPreferenceActivity implements
 					"Appwidget Background", newAppwidgetBackground);
 			appwidgetBackgroundListPreference
 					.setSummary(appwidgetBackgroundListPreference.getEntry());
-			AppWidgetUpdateHandler.updateAllWidgets(this);
+			AppWidgetUpdateHandler.createInstance().updateAllWidgets(this);
 		}
 		else if (key.equals(Preferences.AVERAGE_TIME_FRAME_PREFERENCE_KEY))
 		{

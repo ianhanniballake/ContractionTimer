@@ -459,7 +459,8 @@ public class EditFragment extends Fragment implements
 			protected void onInsertComplete(final int token,
 					final Object cookie, final Uri uri)
 			{
-				AppWidgetUpdateHandler.updateAllWidgets(getActivity());
+				AppWidgetUpdateHandler.createInstance().updateAllWidgets(
+						getActivity());
 				getActivity().finish();
 			}
 
@@ -467,7 +468,8 @@ public class EditFragment extends Fragment implements
 			protected void onUpdateComplete(final int token,
 					final Object cookie, final int result)
 			{
-				AppWidgetUpdateHandler.updateAllWidgets(getActivity());
+				AppWidgetUpdateHandler.createInstance().updateAllWidgets(
+						getActivity());
 				getActivity().finish();
 			}
 		};

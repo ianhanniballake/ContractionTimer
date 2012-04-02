@@ -96,6 +96,6 @@ public class AppWidgetToggleService extends IntentService
 		}
 		// Close the cursor
 		data.close();
-		AppWidgetUpdateHandler.updateAllWidgets(this);
+		AppWidgetUpdateHandler.createInstance().updateAllWidgets(this);
 	}
 }

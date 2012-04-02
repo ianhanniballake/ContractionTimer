@@ -100,7 +100,8 @@ public class ViewFragment extends Fragment implements
 			protected void onDeleteComplete(final int token,
 					final Object cookie, final int result)
 			{
-				AppWidgetUpdateHandler.updateAllWidgets(getActivity());
+				AppWidgetUpdateHandler.createInstance().updateAllWidgets(
+						getActivity());
 				getActivity().finish();
 			}
 		};
