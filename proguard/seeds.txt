@@ -296,3 +296,52 @@ com.ianhanniballake.contractiontimer.ui.ResetDialogFragment
 com.ianhanniballake.contractiontimer.ui.TimePickerDialogFragment
 com.ianhanniballake.contractiontimer.ui.ViewActivity
 com.ianhanniballake.contractiontimer.ui.ViewFragment
+org.acra.ACRA
+org.acra.ACRA: boolean DEV_LOGGING
+org.acra.ACRA: java.lang.String LOG_TAG
+org.acra.ACRA: java.lang.String RES_NOTIF_ICON
+org.acra.ACRA: java.lang.String RES_NOTIF_TICKER_TEXT
+org.acra.ACRA: java.lang.String RES_NOTIF_TITLE
+org.acra.ACRA: java.lang.String RES_NOTIF_TEXT
+org.acra.ACRA: java.lang.String RES_DIALOG_ICON
+org.acra.ACRA: java.lang.String RES_DIALOG_TITLE
+org.acra.ACRA: java.lang.String RES_DIALOG_TEXT
+org.acra.ACRA: java.lang.String RES_DIALOG_COMMENT_PROMPT
+org.acra.ACRA: java.lang.String RES_DIALOG_OK_TOAST
+org.acra.ACRA: java.lang.String RES_TOAST_TEXT
+org.acra.ACRA: int NOTIF_CRASH_ID
+org.acra.ACRA: java.lang.String PREF_DISABLE_ACRA
+org.acra.ACRA: java.lang.String PREF_ENABLE_ACRA
+org.acra.ACRA: java.lang.String PREF_ENABLE_SYSTEM_LOGS
+org.acra.ACRA: java.lang.String PREF_ENABLE_DEVICE_ID
+org.acra.ACRA: java.lang.String PREF_USER_EMAIL_ADDRESS
+org.acra.ACRA: java.lang.String PREF_ALWAYS_ACCEPT
+org.acra.ACRA: android.app.Application mApplication
+org.acra.ACRA: org.acra.annotation.ReportsCrashes mReportsCrashes
+org.acra.ACRA: android.content.SharedPreferences$OnSharedPreferenceChangeListener mPrefListener
+org.acra.ACRA: android.text.format.Time mAppStartDate
+org.acra.ACRA: org.acra.ReportField[] DEFAULT_MAIL_REPORT_FIELDS
+org.acra.ACRA: org.acra.ReportField[] DEFAULT_REPORT_FIELDS
+org.acra.ACRA: java.lang.String NULL_VALUE
+org.acra.ACRA: ACRA()
+org.acra.ACRA: void init(android.app.Application)
+org.acra.ACRA: void initAcra()
+org.acra.ACRA: void checkCrashResources()
+org.acra.ACRA: android.content.SharedPreferences getACRASharedPreferences()
+org.acra.ACRA: org.acra.annotation.ReportsCrashes getConfig()
+org.acra.ACRA: void access$000()
+org.acra.ACRA: void <clinit>()
+org.acra.CrashReportDialog
+org.acra.ErrorReporter
+org.acra.ErrorReporter: void addCustomData(java.lang.String,java.lang.String)
+org.acra.ReportField: org.acra.ReportField[] values()
+org.acra.ReportField: org.acra.ReportField valueOf(java.lang.String)
+org.acra.ReportingInteractionMode
+org.acra.ReportingInteractionMode: org.acra.ReportingInteractionMode SILENT
+org.acra.ReportingInteractionMode: org.acra.ReportingInteractionMode NOTIFICATION
+org.acra.ReportingInteractionMode: org.acra.ReportingInteractionMode TOAST
+org.acra.ReportingInteractionMode: org.acra.ReportingInteractionMode[] $VALUES
+org.acra.ReportingInteractionMode: org.acra.ReportingInteractionMode[] values()
+org.acra.ReportingInteractionMode: org.acra.ReportingInteractionMode valueOf(java.lang.String)
+org.acra.ReportingInteractionMode: ReportingInteractionMode(java.lang.String,int)
+org.acra.ReportingInteractionMode: void <clinit>()
