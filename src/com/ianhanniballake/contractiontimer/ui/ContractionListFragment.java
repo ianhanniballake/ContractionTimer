@@ -193,7 +193,7 @@ public abstract class ContractionListFragment extends ListFragment implements
 	/**
 	 * Handler for asynchronous deletes of contractions
 	 */
-	private AsyncQueryHandler contractionQueryHandler;
+	private AsyncQueryHandler contractionQueryHandler = null;
 	/**
 	 * Start time of the current contraction
 	 */
@@ -251,6 +251,12 @@ public abstract class ContractionListFragment extends ListFragment implements
 	{
 		final Uri deleteUri = ContentUris.withAppendedId(
 				ContractionContract.Contractions.CONTENT_ID_URI_BASE, id);
+		if (contractionQueryHandler == null)
+			contractionQueryHandler = new AsyncQueryHandler(getActivity()
+					.getContentResolver())
+			{
+				// No call backs needed
+			};
 		contractionQueryHandler.startDelete(0, 0, deleteUri, null, null);
 	}
 
@@ -277,17 +283,6 @@ public abstract class ContractionListFragment extends ListFragment implements
 			}
 		});
 		getLoaderManager().initLoader(0, null, this);
-	}
-
-	@Override
-	public void onCreate(final Bundle savedInstanceState)
-	{
-		super.onCreate(savedInstanceState);
-		contractionQueryHandler = new AsyncQueryHandler(getActivity()
-				.getContentResolver())
-		{
-			// No call backs needed
-		};
 	}
 
 	@Override
