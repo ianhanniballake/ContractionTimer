@@ -5,9 +5,11 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.database.Cursor;
+import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.provider.BaseColumns;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
@@ -96,6 +98,8 @@ public class MainActivity extends ActionBarFragmentActivity implements
 	{
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
+		if (savedInstanceState == null)
+			showFragments();
 		adapter = new CursorAdapter(this, null, 0)
 		{
 			@Override
@@ -359,5 +363,28 @@ public class MainActivity extends ActionBarFragmentActivity implements
 		shareIntent.putExtra(Intent.EXTRA_TEXT, formattedData);
 		startActivity(Intent.createChooser(shareIntent,
 				getText(R.string.share_pick_application)));
+	}
+
+	/**
+	 * Creates and shows the fragments for the MainActivity
+	 */
+	private void showFragments()
+	{
+		final ContractionControlsFragment controlsFragment = new ContractionControlsFragment();
+		ContractionListFragment listFragment;
+		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB)
+			listFragment = new ContractionListFragmentV11();
+		else
+			listFragment = new ContractionListFragmentBase();
+		final ContractionAverageFragment averageFragment = new ContractionAverageFragment();
+		// Execute a transaction, replacing any existing fragment
+		// with this one inside the frame.
+		final FragmentTransaction ft = getSupportFragmentManager()
+				.beginTransaction();
+		ft.replace(R.id.controls, controlsFragment);
+		ft.replace(R.id.list, listFragment);
+		ft.replace(R.id.averages, averageFragment);
+		ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
+		ft.commit();
 	}
 }

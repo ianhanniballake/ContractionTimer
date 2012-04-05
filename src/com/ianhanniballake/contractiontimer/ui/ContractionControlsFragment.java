@@ -143,7 +143,10 @@ public class ContractionControlsFragment extends Fragment implements
 	public void onLoaderReset(final Loader<Cursor> loader)
 	{
 		adapter.swapCursor(null);
-		final ToggleButton toggleContraction = (ToggleButton) getActivity()
+		final View view = getView();
+		if (view == null)
+			return;
+		final ToggleButton toggleContraction = (ToggleButton) view
 				.findViewById(R.id.toggleContraction);
 		toggleContraction.setChecked(false);
 	}
@@ -152,7 +155,10 @@ public class ContractionControlsFragment extends Fragment implements
 	public void onLoadFinished(final Loader<Cursor> loader, final Cursor data)
 	{
 		adapter.swapCursor(data);
-		final ToggleButton toggleContraction = (ToggleButton) getActivity()
+		final View view = getView();
+		if (view == null)
+			return;
+		final ToggleButton toggleContraction = (ToggleButton) view
 				.findViewById(R.id.toggleContraction);
 		toggleContraction.setEnabled(true);
 		final boolean contractionOngoing = data.moveToFirst()

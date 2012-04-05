@@ -62,9 +62,12 @@ public class ContractionAverageFragment extends Fragment implements
 	@Override
 	public void onLoaderReset(final Loader<Cursor> loader)
 	{
-		final TextView averageDurationView = (TextView) getActivity()
+		final View view = getView();
+		if (view == null)
+			return;
+		final TextView averageDurationView = (TextView) view
 				.findViewById(R.id.average_duration);
-		final TextView averageFrequencyView = (TextView) getActivity()
+		final TextView averageFrequencyView = (TextView) view
 				.findViewById(R.id.average_frequency);
 		averageDurationView.setText("");
 		averageFrequencyView.setText("");
@@ -73,9 +76,12 @@ public class ContractionAverageFragment extends Fragment implements
 	@Override
 	public void onLoadFinished(final Loader<Cursor> loader, final Cursor data)
 	{
-		final TextView averageDurationView = (TextView) getActivity()
+		final View view = getView();
+		if (view == null)
+			return;
+		final TextView averageDurationView = (TextView) view
 				.findViewById(R.id.average_duration);
-		final TextView averageFrequencyView = (TextView) getActivity()
+		final TextView averageFrequencyView = (TextView) view
 				.findViewById(R.id.average_frequency);
 		if (!data.moveToFirst())
 		{

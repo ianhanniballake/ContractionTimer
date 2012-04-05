@@ -4,29 +4,23 @@
 	android:layout_height="match_parent"
 	android:orientation="vertical" >
 
-	<fragment
-		android:name="com.ianhanniballake.contractiontimer.ui.ContractionControlsFragment"
+	<FrameLayout
+		android:id="@+id/controls"
 		android:layout_width="fill_parent"
 		android:layout_height="wrap_content" >
+	</FrameLayout>
 
-		<!-- Preview: layout=@layout/fragment_contraction_controls -->
-	</fragment>
-
-	<fragment
-		android:name="com.ianhanniballake.contractiontimer.ui.ContractionListFragmentBase"
+	<FrameLayout
+		android:id="@+id/list"
 		android:layout_width="fill_parent"
 		android:layout_height="0dp"
 		android:layout_weight="1" >
+	</FrameLayout>
 
-		<!-- Preview: layout=@layout/fragment_contraction_list -->
-	</fragment>
-
-	<fragment
-		android:name="com.ianhanniballake.contractiontimer.ui.ContractionAverageFragment"
+	<FrameLayout
+		android:id="@+id/averages"
 		android:layout_width="fill_parent"
 		android:layout_height="wrap_content" >
-
-		<!-- Preview: layout=@layout/fragment_contraction_average -->
-	</fragment>
+	</FrameLayout>
 
 </LinearLayout>
