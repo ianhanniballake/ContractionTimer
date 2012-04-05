@@ -95,8 +95,10 @@ com.ianhanniballake.contractiontimer.R$id: int average_duration
 com.ianhanniballake.contractiontimer.R$id: int average_duration_label
 com.ianhanniballake.contractiontimer.R$id: int average_frequency
 com.ianhanniballake.contractiontimer.R$id: int average_frequency_label
+com.ianhanniballake.contractiontimer.R$id: int averages
 com.ianhanniballake.contractiontimer.R$id: int contraction_toggle_off
 com.ianhanniballake.contractiontimer.R$id: int contraction_toggle_on
+com.ianhanniballake.contractiontimer.R$id: int controls
 com.ianhanniballake.contractiontimer.R$id: int created_by_label
 com.ianhanniballake.contractiontimer.R$id: int creator
 com.ianhanniballake.contractiontimer.R$id: int creator_link
@@ -114,6 +116,7 @@ com.ianhanniballake.contractiontimer.R$id: int end_time_error_overlap
 com.ianhanniballake.contractiontimer.R$id: int end_time_label
 com.ianhanniballake.contractiontimer.R$id: int frequency
 com.ianhanniballake.contractiontimer.R$id: int graphics_and_testing_by_label
+com.ianhanniballake.contractiontimer.R$id: int list
 com.ianhanniballake.contractiontimer.R$id: int list_item_detail_appwidget
 com.ianhanniballake.contractiontimer.R$id: int list_view
 com.ianhanniballake.contractiontimer.R$id: int menu_about
