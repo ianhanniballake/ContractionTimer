@@ -33,7 +33,7 @@ public class DetailAppWidgetRemoteViewsService extends RemoteViewsService
 			@Override
 			public int getCount()
 			{
-				return data.getCount();
+				return data == null ? 0 : data.getCount();
 			}
 
 			@Override
