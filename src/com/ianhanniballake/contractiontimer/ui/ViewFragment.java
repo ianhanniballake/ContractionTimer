@@ -25,6 +25,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.ianhanniballake.contractiontimer.BuildConfig;
 import com.ianhanniballake.contractiontimer.R;
@@ -202,7 +203,11 @@ public class ViewFragment extends Fragment implements
 	{
 		super.onCreateOptionsMenu(menu, inflater);
 		if (isContractionOngoing != null && isContractionOngoing)
-			menu.findItem(R.id.menu_edit).setVisible(false);
+		{
+			final MenuItem editItem = menu.findItem(R.id.menu_edit);
+			editItem.setEnabled(false);
+			editItem.setVisible(false);
+		}
 	}
 
 	@Override
@@ -235,11 +240,17 @@ public class ViewFragment extends Fragment implements
 				if (BuildConfig.DEBUG)
 					Log.d(getClass().getSimpleName(), "View selected edit");
 				AnalyticsManagerService.trackEvent(getActivity(), "View",
-						"Edit");
-				final Intent editIntent = new Intent(getActivity(),
-						EditActivity.class);
-				editIntent.putExtra(BaseColumns._ID, contractionId);
-				startActivity(editIntent);
+						"Edit", Boolean.toString(isContractionOngoing));
+				if (isContractionOngoing)
+					Toast.makeText(getActivity(), R.string.edit_ongoing_error,
+							Toast.LENGTH_SHORT);
+				else
+				{
+					final Intent editIntent = new Intent(getActivity(),
+							EditActivity.class);
+					editIntent.putExtra(BaseColumns._ID, contractionId);
+					startActivity(editIntent);
+				}
 				return true;
 			case R.id.menu_delete:
 				if (BuildConfig.DEBUG)
