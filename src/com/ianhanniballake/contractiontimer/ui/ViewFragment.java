@@ -243,7 +243,7 @@ public class ViewFragment extends Fragment implements
 						"Edit", Boolean.toString(isContractionOngoing));
 				if (isContractionOngoing)
 					Toast.makeText(getActivity(), R.string.edit_ongoing_error,
-							Toast.LENGTH_SHORT);
+							Toast.LENGTH_SHORT).show();
 				else
 				{
 					final Intent editIntent = new Intent(getActivity(),
