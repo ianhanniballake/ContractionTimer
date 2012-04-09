@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-	android:layout_width="match_parent"
-	android:layout_height="match_parent"
+	android:layout_width="fill_parent"
+	android:layout_height="fill_parent"
 	android:background="@drawable/appwidget_light_bg"
 	android:orientation="vertical" >
 
 	<RelativeLayout
-		android:layout_width="match_parent"
+		android:layout_width="fill_parent"
 		android:layout_height="60dp" >
 
 		<ImageButton
@@ -85,7 +85,7 @@
 	</RelativeLayout>
 
 	<FrameLayout
-		android:layout_width="match_parent"
+		android:layout_width="fill_parent"
 		android:layout_height="0dp"
 		android:layout_margin="@dimen/appwidget_padding"
 		android:layout_weight="1"
@@ -94,16 +94,16 @@
 
 		<ListView
 			android:id="@+id/list_view"
-			android:layout_width="match_parent"
-			android:layout_height="match_parent" >
+			android:layout_width="fill_parent"
+			android:layout_height="fill_parent" >
 
 			<!-- Preview: listitem=@layout/list_item_detail_appwidget_light -->
 		</ListView>
 
 		<TextView
 			android:id="@+id/empty_view"
-			android:layout_width="match_parent"
-			android:layout_height="match_parent"
+			android:layout_width="fill_parent"
+			android:layout_height="fill_parent"
 			android:gravity="center"
 			android:text="@string/list_empty"
 			android:textColor="@android:color/primary_text_light" />

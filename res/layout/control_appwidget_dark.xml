@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-	android:layout_width="match_parent"
-	android:layout_height="match_parent"
+	android:layout_width="fill_parent"
+	android:layout_height="fill_parent"
 	android:background="@drawable/appwidget_dark_bg" >
 
 	<ImageButton
 		android:id="@+id/application_launch"
 		android:layout_width="wrap_content"
-		android:layout_height="match_parent"
+		android:layout_height="fill_parent"
 		android:layout_alignParentLeft="true"
 		android:background="@drawable/appwidget_button_left"
 		android:contentDescription="@string/application_launch"
@@ -57,7 +57,7 @@
 	<Button
 		android:id="@+id/contraction_toggle_off"
 		android:layout_width="wrap_content"
-		android:layout_height="match_parent"
+		android:layout_height="fill_parent"
 		android:layout_alignParentRight="true"
 		android:background="@drawable/appwidget_button_right"
 		android:drawableBottom="@android:drawable/button_onoff_indicator_off"
@@ -68,7 +68,7 @@
 	<Button
 		android:id="@+id/contraction_toggle_on"
 		android:layout_width="wrap_content"
-		android:layout_height="match_parent"
+		android:layout_height="fill_parent"
 		android:layout_alignParentRight="true"
 		android:background="@drawable/appwidget_button_right"
 		android:drawableBottom="@android:drawable/button_onoff_indicator_on"
