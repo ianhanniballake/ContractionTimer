@@ -37,14 +37,14 @@
 		<activity
 			android:name=".ui.ViewActivity"
 			android:finishOnTaskLaunch="true"
-			android:label="@string/app_name"
+			android:label="@string/view_activity_name"
 			android:launchMode="singleTop"
 			android:taskAffinity="com.ianhanniballake.contractiontimer.ui.ViewActivity" >
 		</activity>
 		<activity
 			android:name=".ui.EditActivity"
 			android:finishOnTaskLaunch="true"
-			android:label="@string/app_name"
+			android:label="@string/edit_activity_name"
 			android:launchMode="singleTop"
 			android:taskAffinity="com.ianhanniballake.contractiontimer.ui.ViewActivity" >
 		</activity>

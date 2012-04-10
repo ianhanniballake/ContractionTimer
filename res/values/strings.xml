@@ -2,6 +2,8 @@
 <resources>
 
 	<string name="app_name">Contraction Timer</string>
+	<string name="view_activity_name">View Contraction</string>
+	<string name="edit_activity_name">Edit Contraction</string>
 	<string name="menu_reset">Reset</string>
 	<string name="reset_dialog_title">Reset Confirmation</string>
 	<string name="reset_dialog_message">Are you sure you want to reset and remove all contractions?</string>
