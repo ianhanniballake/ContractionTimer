@@ -46,9 +46,8 @@ public class ContractionAverageFragment extends Fragment implements
 				getString(R.string.pref_settings_average_time_frame_default)));
 		final long timeCutoff = System.currentTimeMillis() - averagesTimeFrame;
 		final String[] selectionArgs = { Long.toString(timeCutoff) };
-		return new CursorLoader(getActivity(),
-				ContractionContract.Contractions.CONTENT_URI, projection,
-				selection, selectionArgs, null);
+		return new CursorLoader(getActivity(), getActivity().getIntent()
+				.getData(), projection, selection, selectionArgs, null);
 	}
 
 	@Override

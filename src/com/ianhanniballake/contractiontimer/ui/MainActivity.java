@@ -97,6 +97,11 @@ public class MainActivity extends ActionBarFragmentActivity implements
 	public void onCreate(final Bundle savedInstanceState)
 	{
 		super.onCreate(savedInstanceState);
+		final Intent intent = getIntent();
+		// If there is no data associated with the Intent, sets the data to the
+		// default URI, which accesses all contractions.
+		if (intent.getData() == null)
+			intent.setData(ContractionContract.Contractions.CONTENT_URI);
 		setContentView(R.layout.activity_main);
 		if (savedInstanceState == null)
 			showFragments();
@@ -135,8 +140,7 @@ public class MainActivity extends ActionBarFragmentActivity implements
 				getString(R.string.pref_settings_average_time_frame_default)));
 		final long timeCutoff = System.currentTimeMillis() - averagesTimeFrame;
 		final String[] selectionArgs = { Long.toString(timeCutoff) };
-		return new CursorLoader(this,
-				ContractionContract.Contractions.CONTENT_URI, projection,
+		return new CursorLoader(this, getIntent().getData(), projection,
 				selection, selectionArgs, null);
 	}
 
@@ -181,7 +185,8 @@ public class MainActivity extends ActionBarFragmentActivity implements
 				if (BuildConfig.DEBUG)
 					Log.d(getClass().getSimpleName(), "Menu selected Add");
 				AnalyticsManagerService.trackEvent(this, "Menu", "Add");
-				final Intent addIntent = new Intent(this, EditActivity.class);
+				final Intent addIntent = new Intent(Intent.ACTION_INSERT,
+						getIntent().getData());
 				startActivity(addIntent);
 				return true;
 			case R.id.menu_share_averages:

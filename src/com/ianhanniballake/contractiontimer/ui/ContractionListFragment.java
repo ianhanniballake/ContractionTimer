@@ -8,7 +8,6 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
-import android.provider.BaseColumns;
 import android.support.v4.app.ListFragment;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
@@ -275,11 +274,7 @@ public abstract class ContractionListFragment extends ListFragment implements
 			public void onItemClick(final AdapterView<?> parent,
 					final View view, final int position, final long id)
 			{
-				// We need to launch a new activity to display the details
-				final Intent intent = new Intent(getActivity(),
-						ViewActivity.class);
-				intent.putExtra(BaseColumns._ID, id);
-				startActivity(intent);
+				viewContraction(id);
 			}
 		});
 		getLoaderManager().initLoader(0, null, this);
@@ -288,9 +283,8 @@ public abstract class ContractionListFragment extends ListFragment implements
 	@Override
 	public Loader<Cursor> onCreateLoader(final int id, final Bundle args)
 	{
-		return new CursorLoader(getActivity(),
-				ContractionContract.Contractions.CONTENT_URI, null, null, null,
-				null);
+		return new CursorLoader(getActivity(), getActivity().getIntent()
+				.getData(), null, null, null, null);
 	}
 
 	@Override
@@ -385,5 +379,19 @@ public abstract class ContractionListFragment extends ListFragment implements
 		AnalyticsManagerService
 				.trackPageView(getActivity(), noteDialogFragment);
 		noteDialogFragment.show(getFragmentManager(), "note");
+	}
+
+	/**
+	 * View the details of the given contraction
+	 * 
+	 * @param id
+	 *            contraction id
+	 */
+	protected void viewContraction(final long id)
+	{
+		final Uri contractionUri = ContentUris.withAppendedId(
+				ContractionContract.Contractions.CONTENT_ID_URI_BASE, id);
+		final Intent intent = new Intent(Intent.ACTION_VIEW, contractionUri);
+		startActivity(intent);
 	}
 }

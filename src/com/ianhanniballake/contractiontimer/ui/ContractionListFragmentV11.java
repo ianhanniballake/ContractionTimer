@@ -1,7 +1,6 @@
 package com.ianhanniballake.contractiontimer.ui;
 
 import android.annotation.TargetApi;
-import android.content.Intent;
 import android.database.Cursor;
 import android.provider.BaseColumns;
 import android.util.Log;
@@ -95,10 +94,7 @@ public class ContractionListFragmentV11 extends ContractionListFragment
 									"Popup Menu selected view");
 						AnalyticsManagerService.trackEvent(getActivity(),
 								"PopupMenu", "View");
-						final Intent intent = new Intent(getActivity(),
-								ViewActivity.class);
-						intent.putExtra(BaseColumns._ID, popupHolder.id);
-						startActivity(intent);
+						viewContraction(popupHolder.id);
 						return true;
 					case R.id.menu_context_note:
 						if (BuildConfig.DEBUG)
@@ -153,10 +149,7 @@ public class ContractionListFragmentV11 extends ContractionListFragment
 									"Context Action Mode selected view");
 						AnalyticsManagerService.trackEvent(getActivity(),
 								"ContextActionBar", "View");
-						final Intent intent = new Intent(getActivity(),
-								ViewActivity.class);
-						intent.putExtra(BaseColumns._ID, contractionId);
-						startActivity(intent);
+						viewContraction(contractionId);
 						return true;
 					case R.id.menu_context_note:
 						final int position = listView.getCheckedItemPositions()

@@ -65,6 +65,9 @@ public class EditFragment extends Fragment implements
 					+ ">=?";
 			final String currentEndTimeMillis = Long.toString(endTime
 					.getTimeInMillis());
+			final long contractionId = Intent.ACTION_INSERT
+					.equals(getActivity().getIntent().getAction()) ? 0
+					: ContentUris.parseId(getActivity().getIntent().getData());
 			final String[] selectionArgs = { Long.toString(contractionId),
 					currentEndTimeMillis, currentEndTimeMillis };
 			final Context context = getActivity();
@@ -116,6 +119,9 @@ public class EditFragment extends Fragment implements
 					+ ">=?";
 			final String currentStartTimeMillis = Long.toString(startTime
 					.getTimeInMillis());
+			final long contractionId = Intent.ACTION_INSERT
+					.equals(getActivity().getIntent().getAction()) ? 0
+					: ContentUris.parseId(getActivity().getIntent().getData());
 			final String[] selectionArgs = { Long.toString(contractionId),
 					currentStartTimeMillis, currentStartTimeMillis };
 			final Context context = getActivity();
@@ -169,6 +175,9 @@ public class EditFragment extends Fragment implements
 					.getTimeInMillis());
 			final String currentEndTimeMillis = Long.toString(endTime
 					.getTimeInMillis());
+			final long contractionId = Intent.ACTION_INSERT
+					.equals(getActivity().getIntent().getAction()) ? 0
+					: ContentUris.parseId(getActivity().getIntent().getData());
 			final String[] selectionArgs = { Long.toString(contractionId),
 					currentStartTimeMillis, currentEndTimeMillis };
 			final Context context = getActivity();
@@ -311,10 +320,6 @@ public class EditFragment extends Fragment implements
 	 * Adapter to display the detailed data
 	 */
 	private CursorAdapter adapter;
-	/**
-	 * Id of the current contraction to show
-	 */
-	private long contractionId = 0;
 	/**
 	 * Handler for asynchronous updates of contractions
 	 */
@@ -505,35 +510,34 @@ public class EditFragment extends Fragment implements
 				return null;
 			}
 		};
-		if (getArguments() != null)
+		if (savedInstanceState != null)
 		{
-			contractionId = getArguments().getLong(BaseColumns._ID, 0);
-			if (savedInstanceState != null)
-			{
-				startTime = (Calendar) savedInstanceState
-						.getSerializable(ContractionContract.Contractions.COLUMN_NAME_START_TIME);
-				endTime = (Calendar) savedInstanceState
-						.getSerializable(ContractionContract.Contractions.COLUMN_NAME_END_TIME);
-				note = savedInstanceState
-						.getString(ContractionContract.Contractions.COLUMN_NAME_NOTE);
-				// No longer need the loader as we'll use our local (possibly
-				// changed) copies from now on
-				getLoaderManager().destroyLoader(0);
-				updateViews();
-			}
-			else
-				getLoaderManager().initLoader(0, null, this);
+			startTime = (Calendar) savedInstanceState
+					.getSerializable(ContractionContract.Contractions.COLUMN_NAME_START_TIME);
+			endTime = (Calendar) savedInstanceState
+					.getSerializable(ContractionContract.Contractions.COLUMN_NAME_END_TIME);
+			note = savedInstanceState
+					.getString(ContractionContract.Contractions.COLUMN_NAME_NOTE);
+			// No longer need the loader as we'll use our local (possibly
+			// changed) copies from now on
+			getLoaderManager().destroyLoader(0);
+			updateViews();
+		}
+		else if (Intent.ACTION_EDIT.equals(getActivity().getIntent()
+				.getAction()))
+			getLoaderManager().initLoader(0, null, this);
+		else
+		{
+			clear();
+			updateViews();
 		}
 	}
 
 	@Override
 	public Loader<Cursor> onCreateLoader(final int id, final Bundle args)
 	{
-		final Uri contractionUri = ContentUris.withAppendedId(
-				ContractionContract.Contractions.CONTENT_ID_URI_PATTERN,
-				contractionId);
-		return new CursorLoader(getActivity(), contractionUri, null, null,
-				null, null);
+		return new CursorLoader(getActivity(), getActivity().getIntent()
+				.getData(), null, null, null, null);
 	}
 
 	@Override
@@ -683,15 +687,15 @@ public class EditFragment extends Fragment implements
 		{
 			case R.id.menu_save:
 				final ContentValues values = getContentValues();
-				if (contractionId == 0)
+				if (Intent.ACTION_INSERT.equals(getActivity().getIntent()
+						.getAction()))
 				{
 					if (BuildConfig.DEBUG)
 						Log.d(getClass().getSimpleName(), "Add selected save");
 					AnalyticsManagerService.trackEvent(getActivity(), "Add",
 							"Save");
-					contractionQueryHandler.startInsert(0, null,
-							ContractionContract.Contractions.CONTENT_URI,
-							values);
+					contractionQueryHandler.startInsert(0, null, getActivity()
+							.getIntent().getData(), values);
 				}
 				else
 				{
@@ -699,12 +703,8 @@ public class EditFragment extends Fragment implements
 						Log.d(getClass().getSimpleName(), "Edit selected save");
 					AnalyticsManagerService.trackEvent(getActivity(), "Edit",
 							"Save");
-					final Uri updateUri = ContentUris
-							.withAppendedId(
-									ContractionContract.Contractions.CONTENT_ID_URI_BASE,
-									contractionId);
-					contractionQueryHandler.startUpdate(0, null, updateUri,
-							values, null, null);
+					contractionQueryHandler.startUpdate(0, null, getActivity()
+							.getIntent().getData(), values, null, null);
 				}
 				return true;
 			case R.id.menu_cancel:

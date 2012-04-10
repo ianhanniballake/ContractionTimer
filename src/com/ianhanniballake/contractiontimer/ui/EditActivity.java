@@ -2,7 +2,6 @@ package com.ianhanniballake.contractiontimer.ui;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.provider.BaseColumns;
 import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 import android.view.Menu;
@@ -44,10 +43,7 @@ public class EditActivity extends ActionBarFragmentActivity
 	@Override
 	public boolean onCreateOptionsMenu(final Menu menu)
 	{
-		long contractionId = 0;
-		if (getIntent() != null && getIntent().getExtras() != null)
-			contractionId = getIntent().getExtras().getLong(BaseColumns._ID, 0);
-		if (contractionId == 0)
+		if (Intent.ACTION_INSERT.equals(getIntent().getAction()))
 			getMenuInflater().inflate(R.menu.activity_add, menu);
 		else
 			getMenuInflater().inflate(R.menu.activity_edit, menu);
@@ -60,12 +56,8 @@ public class EditActivity extends ActionBarFragmentActivity
 		switch (item.getItemId())
 		{
 			case android.R.id.home:
-				long contractionId = 0;
-				if (getIntent() != null && getIntent().getExtras() != null)
-					contractionId = getIntent().getExtras().getLong(
-							BaseColumns._ID, 0);
 				Intent intent;
-				if (contractionId == 0) // Adding new contraction
+				if (Intent.ACTION_INSERT.equals(getIntent().getAction()))
 				{
 					if (BuildConfig.DEBUG)
 						Log.d(getClass().getSimpleName(), "Add selected home");
@@ -77,8 +69,8 @@ public class EditActivity extends ActionBarFragmentActivity
 					if (BuildConfig.DEBUG)
 						Log.d(getClass().getSimpleName(), "Edit selected home");
 					AnalyticsManagerService.trackEvent(this, "Edit", "Home");
-					intent = new Intent(this, ViewActivity.class);
-					intent.putExtra(BaseColumns._ID, contractionId);
+					intent = new Intent(Intent.ACTION_VIEW, getIntent()
+							.getData());
 				}
 				intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 				startActivity(intent);
@@ -101,13 +93,7 @@ public class EditActivity extends ActionBarFragmentActivity
 	 */
 	private void showFragment()
 	{
-		long contractionId = 0;
-		if (getIntent() != null && getIntent().getExtras() != null)
-			contractionId = getIntent().getExtras().getLong(BaseColumns._ID, 0);
 		final EditFragment viewFragment = new EditFragment();
-		final Bundle args = new Bundle();
-		args.putLong(BaseColumns._ID, contractionId);
-		viewFragment.setArguments(args);
 		// Execute a transaction, replacing any existing fragment
 		// with this one inside the frame.
 		final FragmentTransaction ft = getSupportFragmentManager()

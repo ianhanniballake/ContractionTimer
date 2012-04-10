@@ -21,7 +21,6 @@ import com.ianhanniballake.contractiontimer.R;
 import com.ianhanniballake.contractiontimer.provider.ContractionContract;
 import com.ianhanniballake.contractiontimer.ui.MainActivity;
 import com.ianhanniballake.contractiontimer.ui.Preferences;
-import com.ianhanniballake.contractiontimer.ui.ViewActivity;
 
 /**
  * Handles updates of the 'Detail' style App Widgets
@@ -170,7 +169,7 @@ public class DetailAppWidgetService extends IntentService
 			setRemoteAdapter(views);
 		else
 			setRemoteAdapterV11(views);
-		final Intent clickIntentTemplate = new Intent(this, ViewActivity.class);
+		final Intent clickIntentTemplate = new Intent(Intent.ACTION_VIEW);
 		clickIntentTemplate.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 		clickIntentTemplate.putExtra(MainActivity.LAUNCHED_FROM_WIDGET_EXTRA,
 				DetailAppWidgetService.WIDGET_IDENTIFIER);

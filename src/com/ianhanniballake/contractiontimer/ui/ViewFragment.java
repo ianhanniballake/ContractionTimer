@@ -3,13 +3,10 @@ package com.ianhanniballake.contractiontimer.ui;
 import java.util.Date;
 
 import android.content.AsyncQueryHandler;
-import android.content.ContentUris;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
-import android.net.Uri;
 import android.os.Bundle;
-import android.provider.BaseColumns;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
@@ -74,10 +71,6 @@ public class ViewFragment extends Fragment implements
 	 * Adapter to display the detailed data
 	 */
 	private CursorAdapter adapter;
-	/**
-	 * Id of the current contraction to show
-	 */
-	private long contractionId = 0;
 	/**
 	 * Handler for asynchronous deletes of contractions
 	 */
@@ -180,22 +173,14 @@ public class ViewFragment extends Fragment implements
 				return null;
 			}
 		};
-		if (getArguments() != null)
-		{
-			contractionId = getArguments().getLong(BaseColumns._ID, 0);
-			if (contractionId != 0)
-				getLoaderManager().initLoader(0, null, this);
-		}
+		getLoaderManager().initLoader(0, null, this);
 	}
 
 	@Override
 	public Loader<Cursor> onCreateLoader(final int id, final Bundle args)
 	{
-		final Uri contractionUri = ContentUris.withAppendedId(
-				ContractionContract.Contractions.CONTENT_ID_URI_PATTERN,
-				contractionId);
-		return new CursorLoader(getActivity(), contractionUri, null, null,
-				null, null);
+		return new CursorLoader(getActivity(), getActivity().getIntent()
+				.getData(), null, null, null, null);
 	}
 
 	@Override
@@ -245,23 +230,16 @@ public class ViewFragment extends Fragment implements
 					Toast.makeText(getActivity(), R.string.edit_ongoing_error,
 							Toast.LENGTH_SHORT).show();
 				else
-				{
-					final Intent editIntent = new Intent(getActivity(),
-							EditActivity.class);
-					editIntent.putExtra(BaseColumns._ID, contractionId);
-					startActivity(editIntent);
-				}
+					startActivity(new Intent(Intent.ACTION_EDIT, getActivity()
+							.getIntent().getData()));
 				return true;
 			case R.id.menu_delete:
 				if (BuildConfig.DEBUG)
 					Log.d(getClass().getSimpleName(), "View selected delete");
 				AnalyticsManagerService.trackEvent(getActivity(), "View",
 						"Delete");
-				final Uri deleteUri = ContentUris.withAppendedId(
-						ContractionContract.Contractions.CONTENT_ID_URI_BASE,
-						contractionId);
-				contractionQueryHandler
-						.startDelete(0, 0, deleteUri, null, null);
+				contractionQueryHandler.startDelete(0, 0, getActivity()
+						.getIntent().getData(), null, null);
 				return true;
 			default:
 				return super.onOptionsItemSelected(item);

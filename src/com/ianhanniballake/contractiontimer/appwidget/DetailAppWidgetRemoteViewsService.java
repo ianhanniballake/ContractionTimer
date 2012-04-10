@@ -1,6 +1,7 @@
 package com.ianhanniballake.contractiontimer.appwidget;
 
 import android.annotation.TargetApi;
+import android.content.ContentUris;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
@@ -126,7 +127,8 @@ public class DetailAppWidgetRemoteViewsService extends RemoteViewsService
 				final Intent fillInIntent = new Intent();
 				final int idColumnIndex = data.getColumnIndex(BaseColumns._ID);
 				final long id = data.getLong(idColumnIndex);
-				fillInIntent.putExtra(BaseColumns._ID, id);
+				fillInIntent.setData(ContentUris.withAppendedId(
+						Contractions.CONTENT_ID_URI_BASE, id));
 				views.setOnClickFillInIntent(R.id.list_item_detail_appwidget,
 						fillInIntent);
 				return views;

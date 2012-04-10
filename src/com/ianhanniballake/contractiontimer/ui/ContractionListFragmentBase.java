@@ -1,8 +1,6 @@
 package com.ianhanniballake.contractiontimer.ui;
 
-import android.content.Intent;
 import android.database.Cursor;
-import android.provider.BaseColumns;
 import android.util.Log;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
@@ -42,10 +40,7 @@ public class ContractionListFragmentBase extends ContractionListFragment
 							"Context Menu selected view");
 				AnalyticsManagerService.trackEvent(getActivity(),
 						"ContextMenu", "View");
-				final Intent intent = new Intent(getActivity(),
-						ViewActivity.class);
-				intent.putExtra(BaseColumns._ID, info.id);
-				startActivity(intent);
+				viewContraction(info.id);
 				return true;
 			case R.id.menu_context_note:
 				final TextView noteView = (TextView) info.targetView

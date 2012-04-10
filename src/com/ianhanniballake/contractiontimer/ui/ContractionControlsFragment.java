@@ -81,9 +81,8 @@ public class ContractionControlsFragment extends Fragment implements
 		final String[] projection = { BaseColumns._ID,
 				ContractionContract.Contractions.COLUMN_NAME_START_TIME,
 				ContractionContract.Contractions.COLUMN_NAME_END_TIME };
-		return new CursorLoader(getActivity(),
-				ContractionContract.Contractions.CONTENT_URI, projection, null,
-				null, null);
+		return new CursorLoader(getActivity(), getActivity().getIntent()
+				.getData(), projection, null, null, null);
 	}
 
 	@Override

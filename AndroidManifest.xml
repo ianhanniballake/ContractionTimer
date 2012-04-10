@@ -40,6 +40,13 @@
 			android:label="@string/view_activity_name"
 			android:launchMode="singleTop"
 			android:taskAffinity="com.ianhanniballake.contractiontimer.ui.ViewActivity" >
+			<intent-filter>
+				<action android:name="android.intent.action.VIEW" />
+
+				<category android:name="android.intent.category.DEFAULT" />
+
+				<data android:mimeType="vnd.android.cursor.item/vnd.ianhanniballake.contraction" />
+			</intent-filter>
 		</activity>
 		<activity
 			android:name=".ui.EditActivity"
@@ -47,6 +54,20 @@
 			android:label="@string/edit_activity_name"
 			android:launchMode="singleTop"
 			android:taskAffinity="com.ianhanniballake.contractiontimer.ui.ViewActivity" >
+			<intent-filter>
+				<action android:name="android.intent.action.EDIT" />
+
+				<category android:name="android.intent.category.DEFAULT" />
+
+				<data android:mimeType="vnd.android.cursor.item/vnd.ianhanniballake.contraction" />
+			</intent-filter>
+			<intent-filter>
+				<action android:name="android.intent.action.INSERT" />
+
+				<category android:name="android.intent.category.DEFAULT" />
+
+				<data android:mimeType="vnd.android.cursor.dir/vnd.ianhanniballake.contraction" />
+			</intent-filter>
 		</activity>
 		<activity
 			android:name=".ui.Preferences"
