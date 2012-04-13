@@ -14,6 +14,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.database.sqlite.SQLiteQueryBuilder;
 import android.net.Uri;
 import android.provider.BaseColumns;
+import android.support.v4.database.DatabaseUtilsCompat;
 import android.text.TextUtils;
 import android.util.Log;
 
@@ -149,24 +150,6 @@ public class ContractionProvider extends ContentProvider
 	}
 
 	/**
-	 * Concatenates two SQL WHERE clauses, handling empty or null values.
-	 * 
-	 * @param a
-	 *            First WHERE clause
-	 * @param b
-	 *            Second WHERE clause
-	 * @return A valid concatenated WHERE clause
-	 */
-	private static String concatenateWhere(final String a, final String b)
-	{
-		if (TextUtils.isEmpty(a))
-			return b;
-		if (TextUtils.isEmpty(b))
-			return a;
-		return "(" + a + ") AND (" + b + ")";
-	}
-
-	/**
 	 * An identity all column projection mapping
 	 */
 	final HashMap<String, String> allColumnProjectionMap = ContractionProvider
@@ -197,11 +180,13 @@ public class ContractionProvider extends ContentProvider
 				// If the incoming URI matches a single contraction ID, does the
 				// delete based on the incoming data, but modifies the where
 				// clause to restrict it to the particular contraction ID.
-				final String finalWhere = ContractionProvider.concatenateWhere(
-						BaseColumns._ID + " = " + ContentUris.parseId(uri),
-						where);
+				final String finalWhere = DatabaseUtilsCompat.concatenateWhere(
+						where, BaseColumns._ID + "=?");
+				final String[] finalWhereArgs = DatabaseUtilsCompat
+						.appendSelectionArgs(whereArgs, new String[] { Long
+								.toString(ContentUris.parseId(uri)) });
 				count = db.delete(ContractionContract.Contractions.TABLE_NAME,
-						finalWhere, whereArgs);
+						finalWhere, finalWhereArgs);
 				break;
 			default:
 				throw new IllegalArgumentException("Unknown URI " + uri);
@@ -334,11 +319,13 @@ public class ContractionProvider extends ContentProvider
 				// If the incoming URI matches a single contraction ID, does the
 				// update based on the incoming data, but modifies the where
 				// clause to restrict it to the particular contraction ID.
-				final String finalWhere = ContractionProvider.concatenateWhere(
-						BaseColumns._ID + " = " + ContentUris.parseId(uri),
-						selection);
+				final String finalWhere = DatabaseUtilsCompat.concatenateWhere(
+						selection, BaseColumns._ID + "=?");
+				final String[] finalWhereArgs = DatabaseUtilsCompat
+						.appendSelectionArgs(selectionArgs, new String[] { Long
+								.toString(ContentUris.parseId(uri)) });
 				count = db.update(ContractionContract.Contractions.TABLE_NAME,
-						values, finalWhere, selectionArgs);
+						values, finalWhere, finalWhereArgs);
 				break;
 			default:
 				throw new IllegalArgumentException("Unknown URI " + uri);
