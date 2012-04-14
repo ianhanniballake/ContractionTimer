@@ -81,6 +81,10 @@ public class ContractionListFragmentV11 extends ContractionListFragment
 			noteItem.setTitle(R.string.note_dialog_title_add);
 		else
 			noteItem.setTitle(R.string.note_dialog_title_edit);
+		final MenuItem deleteItem = popup.getMenu().findItem(
+				R.id.menu_context_delete);
+		deleteItem.setTitle(getResources().getQuantityText(
+				R.plurals.menu_context_delete, 1));
 		popup.setOnMenuItemClickListener(new OnMenuItemClickListener()
 		{
 			@Override
@@ -244,11 +248,8 @@ public class ContractionListFragmentV11 extends ContractionListFragment
 				final MenuItem deleteItem = menu
 						.findItem(R.id.menu_context_delete);
 				final CharSequence currentTitle = deleteItem.getTitle();
-				CharSequence newTitle;
-				if (selectedItemsSize == 1)
-					newTitle = getString(R.string.menu_context_delete_single);
-				else
-					newTitle = getString(R.string.menu_context_delete_multiple);
+				final CharSequence newTitle = getResources().getQuantityText(
+						R.plurals.menu_context_delete, selectedItemsSize);
 				deleteItem.setTitle(newTitle);
 				// Set the Contextual Action Bar title with the new item
 				// size

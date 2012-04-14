@@ -85,6 +85,9 @@ public class ContractionListFragmentBase extends ContractionListFragment
 			noteItem.setTitle(R.string.note_dialog_title_add);
 		else
 			noteItem.setTitle(R.string.note_dialog_title_edit);
+		final MenuItem deleteItem = menu.findItem(R.id.menu_context_delete);
+		deleteItem.setTitle(getResources().getQuantityText(
+				R.plurals.menu_context_delete, 1));
 		if (BuildConfig.DEBUG)
 			Log.d(getClass().getSimpleName(), "Context Menu Opened");
 		AnalyticsManagerService.trackEvent(getActivity(), "ContextMenu",

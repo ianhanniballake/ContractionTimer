@@ -21,8 +21,12 @@
 	<string name="note_dialog_cancel">Cancel</string>
 	<string name="menu_context_action_mode_title">%1$d Selected</string>
 	<string name="menu_context_view">View Contraction Details</string>
-	<string name="menu_context_delete_single">Delete Contraction</string>
-	<string name="menu_context_delete_multiple">Delete Contractions</string>
+
+	<plurals name="menu_context_delete">
+		<item quantity="one">Delete Contraction</item>
+		<item quantity="other">Delete Contractions</item>
+	</plurals>
+
 	<string name="contraction_start">Start Contraction</string>
 	<string name="contraction_end">Stop Contraction</string>
 	<string name="list_loading">Loading contractions…</string>
