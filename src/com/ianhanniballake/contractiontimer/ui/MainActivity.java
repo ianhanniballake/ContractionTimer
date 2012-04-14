@@ -62,17 +62,16 @@ public class MainActivity extends ActionBarFragmentActivity implements
 		final int startTimeColumnIndex = data
 				.getColumnIndex(ContractionContract.Contractions.COLUMN_NAME_START_TIME);
 		final long lastStartTime = data.getLong(startTimeColumnIndex);
-		String averageDataFormat;
-		if (adapter.getCount() == 1)
-			averageDataFormat = getString(R.string.share_average_single);
-		else
-			averageDataFormat = getString(R.string.share_average_multiple);
+		final int count = adapter.getCount();
 		final CharSequence relativeTimeSpan = DateUtils
 				.getRelativeTimeSpanString(lastStartTime,
 						System.currentTimeMillis(), 0);
-		return String.format(averageDataFormat, relativeTimeSpan,
-				adapter.getCount(), averageDurationView.getText(),
-				averageFrequencyView.getText());
+		return getResources().getQuantityString(
+				R.plurals.share_average,
+				count,
+				new Object[] { relativeTimeSpan, count,
+						averageDurationView.getText(),
+						averageFrequencyView.getText() });
 	}
 
 	@Override

@@ -1,8 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-	<string name="share_average_single">Since %1$s, I\'ve had %2$d contraction, with an average duration of %3$s and average frequency of %4$s.</string>
-	<string name="share_average_multiple">Since %1$s, I\'ve had %2$d contractions, with an average duration of %3$s and average frequency of %4$s.</string>
+	<plurals name="share_average">
+		<item quantity="one">Since %1$s, I\'ve had %2$d contraction, with an average duration of %3$s and average frequency of %4$s.</item>
+		<item quantity="other">Since %1$s, I\'ve had %2$d contractions, with an average duration of %3$s and average frequency of %4$s.</item>
+	</plurals>
+
 	<string name="share_details_header">My contraction details</string>
 	<string name="share_detail_time_ongoing">%1$s and still going</string>
 	<string name="share_detail_time_finished">%1$s to %2$s, lasted %3$s</string>
