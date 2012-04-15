@@ -71,6 +71,22 @@ public class ViewFragment extends Fragment implements
 	}
 
 	/**
+	 * Creates a new Fragment to display the given contraction
+	 * 
+	 * @param contractionId
+	 *            Id of the Contraction to display
+	 * @return ViewFragment associated with the given id
+	 */
+	public static ViewFragment createInstance(final long contractionId)
+	{
+		final ViewFragment viewFragment = new ViewFragment();
+		final Bundle args = new Bundle();
+		args.putLong(BaseColumns._ID, contractionId);
+		viewFragment.setArguments(args);
+		return viewFragment;
+	}
+
+	/**
 	 * Adapter to display the detailed data
 	 */
 	private CursorAdapter adapter;

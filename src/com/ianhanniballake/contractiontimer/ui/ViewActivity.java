@@ -3,7 +3,6 @@ package com.ianhanniballake.contractiontimer.ui;
 import android.content.ContentUris;
 import android.content.Intent;
 import android.os.Bundle;
-import android.provider.BaseColumns;
 import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 import android.view.Menu;
@@ -92,10 +91,8 @@ public class ViewActivity extends ActionBarFragmentActivity
 	private void showFragment()
 	{
 		final long contractionId = ContentUris.parseId(getIntent().getData());
-		final ViewFragment viewFragment = new ViewFragment();
-		final Bundle args = new Bundle();
-		args.putLong(BaseColumns._ID, contractionId);
-		viewFragment.setArguments(args);
+		final ViewFragment viewFragment = ViewFragment
+				.createInstance(contractionId);
 		// Execute a transaction, replacing any existing fragment
 		// with this one inside the frame.
 		final FragmentTransaction ft = getSupportFragmentManager()
