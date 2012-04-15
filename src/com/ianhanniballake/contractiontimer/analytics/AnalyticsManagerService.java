@@ -4,6 +4,10 @@ import android.app.Activity;
 import android.app.IntentService;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
+import android.content.pm.PackageManager.NameNotFoundException;
+import android.os.Build;
 import android.support.v4.app.DialogFragment;
 import android.util.Log;
 
@@ -228,6 +232,22 @@ public class AnalyticsManagerService extends IntentService
 			tracker.startNewSession(
 					AnalyticsManagerService.ANALYTICS_PROPERTY_ID, this);
 			tracker.setAnonymizeIp(true);
+			String appVersion = "UNKNOWN";
+			final PackageManager pm = getPackageManager();
+			PackageInfo packageInfo = null;
+			try
+			{
+				packageInfo = pm.getPackageInfo(getPackageName(), 0);
+			} catch (final NameNotFoundException e)
+			{
+				// Nothing to do
+			}
+			if (packageInfo != null)
+				appVersion = packageInfo.versionName;
+			tracker.setProductVersion(Build.VERSION.RELEASE, appVersion);
+			if (BuildConfig.DEBUG)
+				Log.d(getClass().getSimpleName(), "Product Version: "
+						+ Build.VERSION.RELEASE + "; " + appVersion);
 			tracker.setDebug(BuildConfig.DEBUG);
 		}
 		else if (intentAction == AnalyticsManagerService.ACTION_TRACK_PAGE_VIEW)
