@@ -270,9 +270,9 @@ public class AnalyticsManagerService extends IntentService
 		}
 		else if (intentAction == AnalyticsManagerService.ACTION_STOP_SESSION)
 		{
+			tracker.stopSession();
 			if (!BuildConfig.DEBUG)
 				tracker.dispatch();
-			tracker.stopSession();
 		}
 	}
 }
