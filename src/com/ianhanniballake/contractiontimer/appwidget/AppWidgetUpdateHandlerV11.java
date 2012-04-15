@@ -11,8 +11,7 @@ import com.ianhanniballake.contractiontimer.R;
 /**
  * Handles updating all App Widgets
  */
-public class AppWidgetUpdateHandlerV11 extends
-		AppWidgetUpdateHandlerBase
+public class AppWidgetUpdateHandlerV11 extends AppWidgetUpdateHandlerBase
 {
 	/**
 	 * Updates all instances of the Detail App Widgets
@@ -26,10 +25,9 @@ public class AppWidgetUpdateHandlerV11 extends
 	private static void updateDetailWidgets(final Context context,
 			final AppWidgetManager appWidgetManager)
 	{
-		final int[] detailAppWidgetIds = AppWidgetManager.getInstance(context)
-				.getAppWidgetIds(
-						new ComponentName(context,
-								DetailAppWidgetProvider.class));
+		final int[] detailAppWidgetIds = appWidgetManager
+				.getAppWidgetIds(new ComponentName(context,
+						DetailAppWidgetProvider.class));
 		final boolean detailWidgetsExist = detailAppWidgetIds.length > 0;
 		if (detailWidgetsExist)
 		{
@@ -46,7 +44,7 @@ public class AppWidgetUpdateHandlerV11 extends
 		super.updateAllWidgets(context);
 		final AppWidgetManager appWidgetManager = AppWidgetManager
 				.getInstance(context);
-		AppWidgetUpdateHandlerV11.updateDetailWidgets(context,
-				appWidgetManager);
+		AppWidgetUpdateHandlerV11
+				.updateDetailWidgets(context, appWidgetManager);
 	}
 }

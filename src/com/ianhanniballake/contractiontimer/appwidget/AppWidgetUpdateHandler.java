@@ -25,7 +25,7 @@ public abstract class AppWidgetUpdateHandler
 	 * called whenever a contraction is updated
 	 * 
 	 * @param context
-	 *            Context used to trigger updates
+	 *            Context used to trigger updates, must not be null
 	 */
 	public abstract void updateAllWidgets(final Context context);
 }

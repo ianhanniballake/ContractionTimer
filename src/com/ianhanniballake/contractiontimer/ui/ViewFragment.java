@@ -94,6 +94,8 @@ public class ViewFragment extends Fragment implements
 	{
 		super.onActivityCreated(savedInstanceState);
 		setHasOptionsMenu(true);
+		final Context applicationContext = getActivity()
+				.getApplicationContext();
 		contractionQueryHandler = new AsyncQueryHandler(getActivity()
 				.getContentResolver())
 		{
@@ -102,7 +104,7 @@ public class ViewFragment extends Fragment implements
 					final Object cookie, final int result)
 			{
 				AppWidgetUpdateHandler.createInstance().updateAllWidgets(
-						getActivity());
+						applicationContext);
 				getActivity().finish();
 			}
 		};
