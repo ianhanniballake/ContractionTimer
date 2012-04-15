@@ -1,23 +1,90 @@
 package com.ianhanniballake.contractiontimer.ui;
 
 import android.content.ContentUris;
+import android.content.Context;
 import android.content.Intent;
+import android.database.Cursor;
 import android.os.Bundle;
-import android.support.v4.app.FragmentTransaction;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.app.LoaderManager;
+import android.support.v4.content.CursorLoader;
+import android.support.v4.content.Loader;
+import android.support.v4.view.ViewPager;
+import android.support.v4.widget.CursorAdapter;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.view.ViewGroup;
 
 import com.ianhanniballake.contractiontimer.BuildConfig;
 import com.ianhanniballake.contractiontimer.R;
 import com.ianhanniballake.contractiontimer.actionbar.ActionBarFragmentActivity;
 import com.ianhanniballake.contractiontimer.analytics.AnalyticsManagerService;
+import com.ianhanniballake.contractiontimer.provider.ContractionContract;
+import com.ianhanniballake.contractiontimer.provider.ContractionContract.Contractions;
 
 /**
  * Stand alone activity used to view the details of an individual contraction
  */
-public class ViewActivity extends ActionBarFragmentActivity
+public class ViewActivity extends ActionBarFragmentActivity implements
+		LoaderManager.LoaderCallbacks<Cursor>, ViewPager.OnPageChangeListener
 {
+	/**
+	 * Creates ViewFragments as necessary
+	 */
+	private class ViewFragmentPagerAdapter extends FragmentPagerAdapter
+	{
+		/**
+		 * Creates a new ViewFragmentPagerAdapter
+		 * 
+		 * @param fm
+		 *            FragmentManager used to manage fragments
+		 */
+		public ViewFragmentPagerAdapter(final FragmentManager fm)
+		{
+			super(fm);
+		}
+
+		@Override
+		public int getCount()
+		{
+			return adapter == null ? 0 : adapter.getCount();
+		}
+
+		@Override
+		public Fragment getItem(final int position)
+		{
+			return ViewFragment.createInstance(adapter.getItemId(position));
+		}
+
+		@Override
+		public CharSequence getPageTitle(final int position)
+		{
+			if (position == currentPosition)
+				return "";
+			else if (position < currentPosition)
+				return getText(R.string.detail_previous_page);
+			else
+				return getText(R.string.detail_next_page);
+		}
+	}
+
+	/**
+	 * Adapter for all contractions
+	 */
+	private CursorAdapter adapter = null;
+	/**
+	 * Currently shown page
+	 */
+	private int currentPosition = -1;
+	/**
+	 * Pager Adapter to manage view contraction pages
+	 */
+	private ViewFragmentPagerAdapter pagerAdapter;
+
 	@Override
 	public void onAnalyticsServiceConnected()
 	{
@@ -41,15 +108,40 @@ public class ViewActivity extends ActionBarFragmentActivity
 	{
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_view);
-		if (findViewById(R.id.view) == null)
+		if (findViewById(R.id.pager) == null)
 		{
-			// A null details view means we no longer need this activity
+			// A null pager means we no longer need this activity
 			finish();
 			return;
 		}
-		// Only create the fragment if we haven't already created it
-		if (savedInstanceState == null)
-			showFragment();
+		adapter = new CursorAdapter(this, null, 0)
+		{
+			@Override
+			public void bindView(final View view, final Context context,
+					final Cursor cursor)
+			{
+				// Nothing to do
+			}
+
+			@Override
+			public View newView(final Context context, final Cursor cursor,
+					final ViewGroup parent)
+			{
+				return null;
+			}
+		};
+		final ViewPager pager = (ViewPager) findViewById(R.id.pager);
+		pager.setOnPageChangeListener(this);
+		pagerAdapter = new ViewFragmentPagerAdapter(getSupportFragmentManager());
+		getSupportLoaderManager().initLoader(0, null, this);
+	}
+
+	@Override
+	public Loader<Cursor> onCreateLoader(final int id, final Bundle args)
+	{
+		return new CursorLoader(this,
+				ContractionContract.Contractions.CONTENT_URI, null, null, null,
+				Contractions.COLUMN_NAME_START_TIME);
 	}
 
 	@Override
@@ -57,6 +149,33 @@ public class ViewActivity extends ActionBarFragmentActivity
 	{
 		getMenuInflater().inflate(R.menu.activity_view, menu);
 		return super.onCreateOptionsMenu(menu);
+	}
+
+	@Override
+	public void onLoaderReset(final Loader<Cursor> loader)
+	{
+		adapter.swapCursor(null);
+		pagerAdapter.notifyDataSetChanged();
+	}
+
+	@Override
+	public void onLoadFinished(final Loader<Cursor> loader, final Cursor data)
+	{
+		adapter.swapCursor(data);
+		final ViewPager pager = (ViewPager) findViewById(R.id.pager);
+		pagerAdapter.notifyDataSetChanged();
+		pager.setAdapter(pagerAdapter);
+		final long contractionId = ContentUris.parseId(getIntent().getData());
+		final int count = adapter.getCount();
+		for (int position = 0; position < count; position++)
+		{
+			final long id = adapter.getItemId(position);
+			if (id == contractionId)
+			{
+				pager.setCurrentItem(position, false);
+				break;
+			}
+		}
 	}
 
 	@Override
@@ -79,26 +198,42 @@ public class ViewActivity extends ActionBarFragmentActivity
 	}
 
 	@Override
+	public void onPageScrolled(final int position, final float positionOffset,
+			final int positionOffsetPixels)
+	{
+		// Nothing to do
+	}
+
+	@Override
+	public void onPageScrollStateChanged(final int state)
+	{
+		// Nothing to do
+	}
+
+	@Override
+	public void onPageSelected(final int position)
+	{
+		if (BuildConfig.DEBUG)
+			Log.d(getClass().getSimpleName(), "Swapped to " + position);
+		if (currentPosition != -1)
+			if (position > currentPosition)
+				AnalyticsManagerService.trackEvent(this, "View", "Scroll",
+						"Next");
+			else
+				AnalyticsManagerService.trackEvent(this, "View", "Scroll",
+						"Previous");
+		currentPosition = position;
+		final long newContractionId = adapter.getItemId(position);
+		getIntent().setData(
+				ContentUris.withAppendedId(
+						ContractionContract.Contractions.CONTENT_ID_URI_BASE,
+						newContractionId));
+	}
+
+	@Override
 	protected void onStart()
 	{
 		super.onStart();
 		getActionBarHelper().setDisplayHomeAsUpEnabled(true);
-	}
-
-	/**
-	 * Creates and shows the fragment associated with the current contraction
-	 */
-	private void showFragment()
-	{
-		final long contractionId = ContentUris.parseId(getIntent().getData());
-		final ViewFragment viewFragment = ViewFragment
-				.createInstance(contractionId);
-		// Execute a transaction, replacing any existing fragment
-		// with this one inside the frame.
-		final FragmentTransaction ft = getSupportFragmentManager()
-				.beginTransaction();
-		ft.replace(R.id.view, viewFragment);
-		ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
-		ft.commit();
 	}
 }

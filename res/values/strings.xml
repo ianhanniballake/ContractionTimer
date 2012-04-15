@@ -39,6 +39,8 @@
 	<string name="detail_end_time_label">End Time</string>
 	<string name="detail_duration_label">Duration</string>
 	<string name="detail_note_label">Note</string>
+	<string name="detail_previous_page">&lt; Previous</string>
+	<string name="detail_next_page">Next &gt;</string>
 	<string name="edit_start_time_error_overlap">Error: cannot start during another contraction</string>
 	<string name="edit_end_time_error_order">Error: cannot end before it begins</string>
 	<string name="edit_end_time_error_overlap">Error: cannot end during another contraction</string>
