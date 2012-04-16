@@ -9,6 +9,7 @@ import org.xmlpull.v1.XmlPullParserException;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.res.Resources;
 import android.content.res.XmlResourceParser;
 import android.view.InflateException;
 import android.view.Menu;
@@ -29,6 +30,78 @@ import com.ianhanniballake.contractiontimer.R;
  */
 public class ActionBarHelperBase extends ActionBarHelper
 {
+	/**
+	 * Layout that manages the Home button and up caret as a single unit
+	 */
+	private class HomeButtonLayout extends LinearLayout
+	{
+		/**
+		 * Create a new HomeButtonLayout
+		 * 
+		 * @param context
+		 *            Context used to create the layout
+		 */
+		public HomeButtonLayout(final Context context)
+		{
+			super(context);
+			setId(android.R.id.home);
+			setContentDescription(mActivity.getString(R.string.app_name));
+			final ImageButton upCaretButton = new ImageButton(mActivity, null,
+					R.attr.actionbarCompatItemStyle);
+			final int upCaretButtonWidth = (int) mActivity.getResources()
+					.getDimension(
+							R.dimen.actionbar_compat_button_up_caret_width);
+			upCaretButton.setLayoutParams(new ViewGroup.LayoutParams(
+					upCaretButtonWidth, ViewGroup.LayoutParams.MATCH_PARENT));
+			upCaretButton.setScaleType(ImageView.ScaleType.CENTER);
+			upCaretButton.setDuplicateParentStateEnabled(true);
+			upCaretButton.setClickable(false);
+			addView(upCaretButton);
+			final ImageButton homeButton = new ImageButton(mActivity, null,
+					R.attr.actionbarCompatItemStyle);
+			final int homeButtonWidth = (int) mActivity.getResources()
+					.getDimension(R.dimen.actionbar_compat_button_home_width);
+			homeButton.setLayoutParams(new ViewGroup.LayoutParams(
+					homeButtonWidth, ViewGroup.LayoutParams.MATCH_PARENT));
+			homeButton.setImageDrawable(mActivity.getResources().getDrawable(
+					R.drawable.icon));
+			homeButton.setScaleType(ImageView.ScaleType.CENTER);
+			homeButton.setDuplicateParentStateEnabled(true);
+			homeButton.setClickable(false);
+			addView(homeButton);
+			final SimpleMenu tempMenu = new SimpleMenu(mActivity,
+					ActionBarHelperBase.this);
+			final SimpleMenuItem homeItem = new SimpleMenuItem(tempMenu,
+					android.R.id.home, 0,
+					mActivity.getString(R.string.app_name),
+					ActionBarHelperBase.this);
+			setOnClickListener(new View.OnClickListener()
+			{
+				@Override
+				public void onClick(final View view)
+				{
+					mActivity.onMenuItemSelected(Window.FEATURE_OPTIONS_PANEL,
+							homeItem);
+				}
+			});
+		}
+
+		@Override
+		public void setClickable(final boolean clickable)
+		{
+			super.setClickable(clickable);
+			final ImageButton upCaretButton = (ImageButton) getChildAt(0);
+			if (clickable)
+			{
+				final Resources resources = mActivity.getResources();
+				upCaretButton.setImageDrawable(resources
+						.getDrawable(R.drawable.actionbar_up_caret));
+			}
+			else
+				upCaretButton.setImageDrawable(null);
+		}
+	}
+
 	/**
 	 * A {@link android.view.MenuInflater} that reads ActionBar metadata.
 	 */
@@ -143,6 +216,10 @@ public class ActionBarHelperBase extends ActionBarHelper
 	 * Whether we are currently setting up the options menu
 	 */
 	private boolean settingUpCreateOptionsMenu = false;
+	/**
+	 * Whether we should show the home button as an 'Up' button
+	 */
+	private boolean showHomeAsUp = false;
 
 	/**
 	 * @param activity
@@ -170,25 +247,22 @@ public class ActionBarHelperBase extends ActionBarHelper
 		final ImageButton actionButton = new ImageButton(mActivity, null,
 				R.attr.actionbarCompatItemStyle);
 		actionButton.setId(itemId);
-		final int widthDimenId = itemId == android.R.id.home ? R.dimen.actionbar_compat_button_home_width
-				: R.dimen.actionbar_compat_button_width;
 		final int buttonWidth = (int) mActivity.getResources().getDimension(
-				widthDimenId);
+				R.dimen.actionbar_compat_button_width);
 		actionButton.setLayoutParams(new ViewGroup.LayoutParams(buttonWidth,
 				ViewGroup.LayoutParams.MATCH_PARENT));
 		actionButton.setImageDrawable(item.getIcon());
 		actionButton.setScaleType(ImageView.ScaleType.CENTER);
 		actionButton.setContentDescription(item.getTitle());
-		if (itemId != android.R.id.home)
-			actionButton.setOnClickListener(new View.OnClickListener()
+		actionButton.setOnClickListener(new View.OnClickListener()
+		{
+			@Override
+			public void onClick(final View view)
 			{
-				@Override
-				public void onClick(final View view)
-				{
-					mActivity.onMenuItemSelected(Window.FEATURE_OPTIONS_PANEL,
-							item);
-				}
-			});
+				mActivity
+						.onMenuItemSelected(Window.FEATURE_OPTIONS_PANEL, item);
+			}
+		});
 		actionBar.addView(actionButton);
 	}
 
@@ -263,7 +337,14 @@ public class ActionBarHelperBase extends ActionBarHelper
 	@Override
 	public void setDisplayHomeAsUpEnabled(final boolean showHomeAsUp)
 	{
-		// TODO This should probably do something
+		this.showHomeAsUp = showHomeAsUp;
+		final ViewGroup actionBar = getActionBarCompat();
+		if (actionBar == null)
+			return;
+		final View homeButton = actionBar.findViewById(android.R.id.home);
+		if (homeButton == null)
+			return;
+		homeButton.setClickable(showHomeAsUp);
 	}
 
 	@Override
@@ -290,12 +371,10 @@ public class ActionBarHelperBase extends ActionBarHelper
 				0, ViewGroup.LayoutParams.MATCH_PARENT);
 		springLayoutParams.weight = 1;
 		// Add Home button
-		final SimpleMenu tempMenu = new SimpleMenu(mActivity, this);
-		final SimpleMenuItem homeItem = new SimpleMenuItem(tempMenu,
-				android.R.id.home, 0, mActivity.getString(R.string.app_name),
-				this);
-		homeItem.setIcon(R.drawable.icon);
-		addActionItemCompatFromMenuItem(homeItem);
+		final HomeButtonLayout homeButtonLayout = new HomeButtonLayout(
+				mActivity);
+		homeButtonLayout.setClickable(showHomeAsUp);
+		actionBarCompat.addView(homeButtonLayout);
 		// Add title text
 		final TextView titleText = new TextView(mActivity, null,
 				R.attr.actionbarCompatTitleStyle);

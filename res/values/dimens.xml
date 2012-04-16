@@ -6,6 +6,7 @@
 	<dimen name="actionbar_compat_height">48dp</dimen>
 	<dimen name="actionbar_compat_button_width">48dp</dimen>
 	<dimen name="actionbar_compat_button_home_width">56dp</dimen>
+	<dimen name="actionbar_compat_button_up_caret_width">8dp</dimen>
 	<dimen name="appwidget_padding">5dp</dimen>
 	<dimen name="control_frame_padding">8dp</dimen>
 	<dimen name="control_padding_bottom">24dp</dimen>
