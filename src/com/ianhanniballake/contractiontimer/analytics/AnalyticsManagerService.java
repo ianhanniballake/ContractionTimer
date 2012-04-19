@@ -269,7 +269,8 @@ public class AnalyticsManagerService extends IntentService
 		final boolean enableAnalytics = preferences.getBoolean(
 				Preferences.ANALYTICS_PREFERENCE_KEY, getResources()
 						.getBoolean(R.bool.pref_privacy_analytics_default));
-		if (intentAction == AnalyticsManagerService.ACTION_TOGGLE_ANALYTICS)
+		if (AnalyticsManagerService.ACTION_TOGGLE_ANALYTICS
+				.equals(intentAction))
 		{
 			if (enableAnalytics)
 			{
@@ -288,15 +289,18 @@ public class AnalyticsManagerService extends IntentService
 		// Don't collect analytics if analytics are disabled
 		if (!enableAnalytics)
 			return;
-		if (intentAction == AnalyticsManagerService.ACTION_START_NEW_SESSION)
+		if (AnalyticsManagerService.ACTION_START_NEW_SESSION
+				.equals(intentAction))
 			startSession(tracker);
-		else if (intentAction == AnalyticsManagerService.ACTION_TRACK_PAGE_VIEW)
+		else if (AnalyticsManagerService.ACTION_TRACK_PAGE_VIEW
+				.equals(intentAction))
 		{
 			final String pageName = intent
 					.getStringExtra(AnalyticsManagerService.EXTRA_PAGE_NAME);
 			tracker.trackPageView(pageName);
 		}
-		else if (intentAction == AnalyticsManagerService.ACTION_TRACK_EVENT)
+		else if (AnalyticsManagerService.ACTION_TRACK_EVENT
+				.equals(intentAction))
 		{
 			final String category = intent
 					.getStringExtra(AnalyticsManagerService.EXTRA_CATEGORY);
@@ -308,7 +312,8 @@ public class AnalyticsManagerService extends IntentService
 					AnalyticsManagerService.EXTRA_VALUE, 0);
 			tracker.trackEvent(category, action, label, value);
 		}
-		else if (intentAction == AnalyticsManagerService.ACTION_STOP_SESSION)
+		else if (AnalyticsManagerService.ACTION_STOP_SESSION
+				.equals(intentAction))
 			AnalyticsManagerService.stopSession(tracker);
 	}
 
@@ -324,6 +329,7 @@ public class AnalyticsManagerService extends IntentService
 		tracker.startNewSession(AnalyticsManagerService.ANALYTICS_PROPERTY_ID,
 				this);
 		tracker.setAnonymizeIp(true);
+		final String productVersion = "Android-" + Build.VERSION.RELEASE;
 		String appVersion = "UNKNOWN";
 		final PackageManager pm = getPackageManager();
 		PackageInfo packageInfo = null;
@@ -336,10 +342,10 @@ public class AnalyticsManagerService extends IntentService
 		}
 		if (packageInfo != null)
 			appVersion = packageInfo.versionName;
-		tracker.setProductVersion(Build.VERSION.RELEASE, appVersion);
+		tracker.setProductVersion(productVersion, appVersion);
 		if (BuildConfig.DEBUG)
 			Log.d(getClass().getSimpleName(), "Product Version: "
-					+ Build.VERSION.RELEASE + "; " + appVersion);
+					+ productVersion + "; " + appVersion);
 		tracker.setDebug(BuildConfig.DEBUG);
 	}
 }
