@@ -22,6 +22,10 @@ public class Preferences extends ActionBarPreferenceActivity implements
 		OnSharedPreferenceChangeListener
 {
 	/**
+	 * Analytics preference name
+	 */
+	public static final String ANALYTICS_PREFERENCE_KEY = "analytics";
+	/**
 	 * Appwidget Background preference name
 	 */
 	public static final String APPWIDGET_BACKGROUND_PREFERENCE_KEY = "appwidget_background";
@@ -161,6 +165,8 @@ public class Preferences extends ActionBarPreferenceActivity implements
 					.setSummary(getString(R.string.pref_settings_average_time_frame_summary)
 							+ "\n" + averageTimeFrameListPreference.getEntry());
 		}
+		else if (key.equals(Preferences.ANALYTICS_PREFERENCE_KEY))
+			AnalyticsManagerService.toggleAnalytics(this);
 	}
 
 	@Override

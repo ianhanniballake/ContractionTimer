@@ -72,5 +72,8 @@
 	<string name="pref_appwidget_background_title">Widget Background</string>
 	<string name="pref_appwidget_background_dialog_title">Choose Widget Background</string>
 	<string name="pref_appwidget_background_default">light</string>
+	<string name="pref_privacy_category">Privacy</string>
+	<string name="pref_privacy_analytics_title">Send Usage Statistics</string>
+	<string name="pref_privacy_analytics_summary">Help make Contraction Timer better by sending anonymous data to Google Analytics</string>
 
 </resources>

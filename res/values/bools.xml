@@ -3,5 +3,6 @@
 
 	<bool name="detail_appwidget_enabled">false</bool>
 	<bool name="pref_settings_keep_screen_on_default">false</bool>
+	<bool name="pref_privacy_analytics_default">true</bool>
 
 </resources>

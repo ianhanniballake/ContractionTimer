@@ -22,4 +22,10 @@
 		android:key="appwidget_background"
 		android:title="@string/pref_appwidget_background_title" />
 
+	<CheckBoxPreference
+		android:defaultValue="@bool/pref_privacy_analytics_default"
+		android:key="analytics"
+		android:summary="@string/pref_privacy_analytics_summary"
+		android:title="@string/pref_privacy_analytics_title" />
+
 </PreferenceScreen>

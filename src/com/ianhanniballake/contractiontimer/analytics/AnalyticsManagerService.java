@@ -4,15 +4,19 @@ import android.app.Activity;
 import android.app.IntentService;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.os.Build;
+import android.preference.PreferenceManager;
 import android.support.v4.app.DialogFragment;
 import android.util.Log;
 
 import com.google.android.apps.analytics.GoogleAnalyticsTracker;
 import com.ianhanniballake.contractiontimer.BuildConfig;
+import com.ianhanniballake.contractiontimer.R;
+import com.ianhanniballake.contractiontimer.ui.Preferences;
 
 /**
  * Provides access to the Analytics handler via asynchronous updates on a worker
@@ -28,6 +32,10 @@ public class AnalyticsManagerService extends IntentService
 	 * Action associated with stopping an existing Analytics session
 	 */
 	public final static String ACTION_STOP_SESSION = "com.ianhanniballake.contractiontimer.STOP_SESSION";
+	/**
+	 * Action associated with tracking page (Activity or DialogFragment) views
+	 */
+	public final static String ACTION_TOGGLE_ANALYTICS = "com.ianhanniballake.contractiontimer.TOGGLE_ANALYTICS";
 	/**
 	 * Action associated with tracking Analytics events
 	 */
@@ -86,6 +94,36 @@ public class AnalyticsManagerService extends IntentService
 		final Intent service = new Intent(context,
 				AnalyticsManagerService.class);
 		service.setAction(AnalyticsManagerService.ACTION_STOP_SESSION);
+		context.startService(service);
+	}
+
+	/**
+	 * Stops the current session, dispatching events if not in debug mode
+	 * 
+	 * @param tracker
+	 *            GoogleAnalyticsTracker instance
+	 */
+	private static void stopSession(final GoogleAnalyticsTracker tracker)
+	{
+		tracker.stopSession();
+		if (!BuildConfig.DEBUG)
+			tracker.dispatch();
+	}
+
+	/**
+	 * Toogle Google Analytics on or off (new value should be added to the
+	 * Preferences)
+	 * 
+	 * @param context
+	 *            Context used to create the asynchronous IntentService instance
+	 */
+	public static void toggleAnalytics(final Context context)
+	{
+		if (context == null)
+			return;
+		final Intent service = new Intent(context,
+				AnalyticsManagerService.class);
+		service.setAction(AnalyticsManagerService.ACTION_TOGGLE_ANALYTICS);
 		context.startService(service);
 	}
 
@@ -226,30 +264,32 @@ public class AnalyticsManagerService extends IntentService
 			Log.d(getClass().getSimpleName(), "Handling " + intentAction);
 		final GoogleAnalyticsTracker tracker = GoogleAnalyticsTracker
 				.getInstance();
-		if (intentAction == AnalyticsManagerService.ACTION_START_NEW_SESSION)
+		final SharedPreferences preferences = PreferenceManager
+				.getDefaultSharedPreferences(this);
+		final boolean enableAnalytics = preferences.getBoolean(
+				Preferences.ANALYTICS_PREFERENCE_KEY, getResources()
+						.getBoolean(R.bool.pref_privacy_analytics_default));
+		if (intentAction == AnalyticsManagerService.ACTION_TOGGLE_ANALYTICS)
 		{
-			// Start the tracker in manual dispatch mode
-			tracker.startNewSession(
-					AnalyticsManagerService.ANALYTICS_PROPERTY_ID, this);
-			tracker.setAnonymizeIp(true);
-			String appVersion = "UNKNOWN";
-			final PackageManager pm = getPackageManager();
-			PackageInfo packageInfo = null;
-			try
+			if (enableAnalytics)
 			{
-				packageInfo = pm.getPackageInfo(getPackageName(), 0);
-			} catch (final NameNotFoundException e)
-			{
-				// Nothing to do
+				startSession(tracker);
+				tracker.trackEvent("Preferences", "Analytics",
+						Boolean.toString(enableAnalytics), 0);
 			}
-			if (packageInfo != null)
-				appVersion = packageInfo.versionName;
-			tracker.setProductVersion(Build.VERSION.RELEASE, appVersion);
-			if (BuildConfig.DEBUG)
-				Log.d(getClass().getSimpleName(), "Product Version: "
-						+ Build.VERSION.RELEASE + "; " + appVersion);
-			tracker.setDebug(BuildConfig.DEBUG);
+			else
+			{
+				tracker.trackEvent("Preferences", "Analytics",
+						Boolean.toString(enableAnalytics), 0);
+				AnalyticsManagerService.stopSession(tracker);
+			}
+			return;
 		}
+		// Don't collect analytics if analytics are disabled
+		if (!enableAnalytics)
+			return;
+		if (intentAction == AnalyticsManagerService.ACTION_START_NEW_SESSION)
+			startSession(tracker);
 		else if (intentAction == AnalyticsManagerService.ACTION_TRACK_PAGE_VIEW)
 		{
 			final String pageName = intent
@@ -269,10 +309,37 @@ public class AnalyticsManagerService extends IntentService
 			tracker.trackEvent(category, action, label, value);
 		}
 		else if (intentAction == AnalyticsManagerService.ACTION_STOP_SESSION)
+			AnalyticsManagerService.stopSession(tracker);
+	}
+
+	/**
+	 * Create a new sesion in manual dispatch mode, anonymizing IP addresses
+	 * 
+	 * @param tracker
+	 *            GoogleAnalyticsTracker instance
+	 */
+	private void startSession(final GoogleAnalyticsTracker tracker)
+	{
+		// Start the tracker in manual dispatch mode
+		tracker.startNewSession(AnalyticsManagerService.ANALYTICS_PROPERTY_ID,
+				this);
+		tracker.setAnonymizeIp(true);
+		String appVersion = "UNKNOWN";
+		final PackageManager pm = getPackageManager();
+		PackageInfo packageInfo = null;
+		try
 		{
-			tracker.stopSession();
-			if (!BuildConfig.DEBUG)
-				tracker.dispatch();
+			packageInfo = pm.getPackageInfo(getPackageName(), 0);
+		} catch (final NameNotFoundException e)
+		{
+			// Nothing to do
 		}
+		if (packageInfo != null)
+			appVersion = packageInfo.versionName;
+		tracker.setProductVersion(Build.VERSION.RELEASE, appVersion);
+		if (BuildConfig.DEBUG)
+			Log.d(getClass().getSimpleName(), "Product Version: "
+					+ Build.VERSION.RELEASE + "; " + appVersion);
+		tracker.setDebug(BuildConfig.DEBUG);
 	}
 }
