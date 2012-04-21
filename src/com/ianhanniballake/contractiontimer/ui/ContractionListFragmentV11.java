@@ -213,7 +213,20 @@ public class ContractionListFragmentV11 extends ContractionListFragment
 			public void onItemCheckedStateChanged(final ActionMode mode,
 					final int position, final long id, final boolean checked)
 			{
-				mode.invalidate();
+				// This is called in the middle of the ListView's selected items
+				// being refreshed (in a state where the getCheckedItemCount
+				// call returns the new number of items, but the
+				// getCheckedItemPositions() call returns the old items.
+				// Therefore to give the ListView some time to stabilize, we
+				// post this call to invalidate
+				getView().post(new Runnable()
+				{
+					@Override
+					public void run()
+					{
+						mode.invalidate();
+					}
+				});
 			}
 
 			@Override
