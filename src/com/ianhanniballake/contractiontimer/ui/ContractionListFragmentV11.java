@@ -158,8 +158,8 @@ public class ContractionListFragmentV11 extends ContractionListFragment
 					case R.id.menu_context_note:
 						final int position = listView.getCheckedItemPositions()
 								.keyAt(0);
-						final Cursor cursor = (Cursor) listView
-								.getItemAtPosition(position);
+						final Cursor cursor = (Cursor) listView.getAdapter()
+								.getItem(position);
 						final int noteColumnIndex = cursor
 								.getColumnIndex(ContractionContract.Contractions.COLUMN_NAME_NOTE);
 						final String existingNote = cursor
@@ -233,8 +233,8 @@ public class ContractionListFragmentV11 extends ContractionListFragment
 				{
 					final int position = listView.getCheckedItemPositions()
 							.keyAt(0);
-					final Cursor cursor = (Cursor) listView
-							.getItemAtPosition(position);
+					final Cursor cursor = (Cursor) listView.getAdapter()
+							.getItem(position);
 					final int noteColumnIndex = cursor
 							.getColumnIndex(ContractionContract.Contractions.COLUMN_NAME_NOTE);
 					final String note = cursor.getString(noteColumnIndex);
