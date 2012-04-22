@@ -11,6 +11,7 @@ import android.database.Cursor;
 import android.os.Build;
 import android.preference.PreferenceManager;
 import android.provider.BaseColumns;
+import android.support.v4.app.TaskStackBuilder;
 import android.text.format.DateUtils;
 import android.util.Log;
 import android.view.View;
@@ -21,6 +22,7 @@ import com.ianhanniballake.contractiontimer.R;
 import com.ianhanniballake.contractiontimer.provider.ContractionContract;
 import com.ianhanniballake.contractiontimer.ui.MainActivity;
 import com.ianhanniballake.contractiontimer.ui.Preferences;
+import com.ianhanniballake.contractiontimer.ui.ViewActivity;
 
 /**
  * Handles updates of the 'Detail' style App Widgets
@@ -169,13 +171,14 @@ public class DetailAppWidgetService extends IntentService
 			setRemoteAdapter(views);
 		else
 			setRemoteAdapterV11(views);
-		final Intent clickIntentTemplate = new Intent(Intent.ACTION_VIEW);
-		clickIntentTemplate.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+		final Intent clickIntentTemplate = new Intent(Intent.ACTION_VIEW)
+				.setClass(this, ViewActivity.class);
 		clickIntentTemplate.putExtra(MainActivity.LAUNCHED_FROM_WIDGET_EXTRA,
 				DetailAppWidgetService.WIDGET_IDENTIFIER);
-		final PendingIntent clickPendingIntentTemplate = PendingIntent
-				.getActivity(this, 0, clickIntentTemplate,
-						PendingIntent.FLAG_UPDATE_CURRENT);
+		final PendingIntent clickPendingIntentTemplate = TaskStackBuilder
+				.from(this).addParentStack(ViewActivity.class)
+				.addNextIntent(clickIntentTemplate)
+				.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
 		views.setPendingIntentTemplate(R.id.list_view,
 				clickPendingIntentTemplate);
 		views.setEmptyView(R.id.list_view, R.id.empty_view);

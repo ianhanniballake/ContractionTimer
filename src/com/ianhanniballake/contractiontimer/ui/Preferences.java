@@ -6,6 +6,8 @@ import android.content.SharedPreferences.Editor;
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
 import android.os.Bundle;
 import android.preference.ListPreference;
+import android.support.v4.app.NavUtils;
+import android.support.v4.app.TaskStackBuilder;
 import android.util.Log;
 import android.view.MenuItem;
 
@@ -87,10 +89,15 @@ public class Preferences extends ActionBarPreferenceActivity implements
 		switch (item.getItemId())
 		{
 			case android.R.id.home:
-				final Intent intent = new Intent(this, MainActivity.class);
-				intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-				startActivity(intent);
-				finish();
+				final Intent upIntent = NavUtils.getParentActivityIntent(this);
+				if (NavUtils.shouldUpRecreateTask(this, upIntent))
+				{
+					TaskStackBuilder.from(this).addParentStack(this)
+							.startActivities();
+					finish();
+				}
+				else
+					NavUtils.navigateUpTo(this, upIntent);
 				return true;
 			default:
 				return super.onOptionsItemSelected(item);

@@ -70,7 +70,7 @@ public class EditActivity extends ActionBarFragmentActivity
 						Log.d(getClass().getSimpleName(), "Edit selected home");
 					AnalyticsManagerService.trackEvent(this, "Edit", "Home");
 					intent = new Intent(Intent.ACTION_VIEW, getIntent()
-							.getData());
+							.getData()).setClass(this, ViewActivity.class);
 				}
 				intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 				startActivity(intent);

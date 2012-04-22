@@ -9,6 +9,8 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.app.LoaderManager;
+import android.support.v4.app.NavUtils;
+import android.support.v4.app.TaskStackBuilder;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
 import android.support.v4.view.ViewPager;
@@ -187,10 +189,15 @@ public class ViewActivity extends ActionBarFragmentActivity implements
 				if (BuildConfig.DEBUG)
 					Log.d(getClass().getSimpleName(), "View selected home");
 				AnalyticsManagerService.trackEvent(this, "View", "Home");
-				final Intent intent = new Intent(this, MainActivity.class);
-				intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-				startActivity(intent);
-				finish();
+				final Intent upIntent = NavUtils.getParentActivityIntent(this);
+				if (NavUtils.shouldUpRecreateTask(this, upIntent))
+				{
+					TaskStackBuilder.from(this).addParentStack(this)
+							.startActivities();
+					finish();
+				}
+				else
+					NavUtils.navigateUpTo(this, upIntent);
 				return true;
 			default:
 				return super.onOptionsItemSelected(item);
