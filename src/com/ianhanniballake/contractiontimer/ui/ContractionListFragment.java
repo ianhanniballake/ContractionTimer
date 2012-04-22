@@ -307,7 +307,7 @@ public abstract class ContractionListFragment extends ListFragment implements
 	{
 		liveDurationHandler.removeCallbacks(liveDurationUpdate);
 		adapter.swapCursor(data);
-		if (data.getCount() == 0)
+		if (data == null || data.getCount() == 0)
 			setEmptyText(getText(R.string.list_empty));
 		else
 			getListView().setSelection(0);
@@ -341,7 +341,12 @@ public abstract class ContractionListFragment extends ListFragment implements
 	@Override
 	public void setEmptyText(final CharSequence text)
 	{
-		final TextView emptyText = (TextView) getListView().getEmptyView();
+		final ListView listView = getListView();
+		if (listView == null)
+			return;
+		final TextView emptyText = (TextView) listView.getEmptyView();
+		if (emptyText == null)
+			return;
 		emptyText.setText(text);
 	}
 
