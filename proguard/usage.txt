@@ -677,6 +677,9 @@ com.ianhanniballake.contractiontimer.provider.ContractionProvider:
     private static final java.lang.String DATABASE_NAME
     private static final int DATABASE_VERSION
     private static final java.lang.String TAG
+com.ianhanniballake.contractiontimer.strictmode.StrictModeController
+com.ianhanniballake.contractiontimer.strictmode.StrictModeControllerBase
+com.ianhanniballake.contractiontimer.strictmode.StrictModeControllerV10
 com.ianhanniballake.contractiontimer.ui.DatePickerDialogFragment:
     public static final java.lang.String CALLBACK_ACTION
     public static final java.lang.String DATE_ARGUMENT
