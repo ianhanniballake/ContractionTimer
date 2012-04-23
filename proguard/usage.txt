@@ -5,10 +5,11 @@ android.support.v4.accessibilityservice.AccessibilityServiceInfoCompat$Accessibi
 android.support.v4.accessibilityservice.AccessibilityServiceInfoCompat$AccessibilityServiceInfoStubImpl
 android.support.v4.accessibilityservice.AccessibilityServiceInfoCompat$AccessibilityServiceInfoVersionImpl
 android.support.v4.accessibilityservice.AccessibilityServiceInfoCompatIcs
-android.support.v4.app.ActivityCompat
+android.support.v4.app.ActivityCompat:
+    27:27:public ActivityCompat()
+    61:65:public static boolean invalidateOptionsMenu(android.app.Activity)
 android.support.v4.app.ActivityCompatHoneycomb:
     28:28:ActivityCompatHoneycomb()
-    34:35:static void startActivities(android.app.Activity,android.content.Intent[])
     39:40:static void dump(android.app.Activity,java.lang.String,java.io.FileDescriptor,java.io.PrintWriter,java.lang.String[])
 android.support.v4.app.BackStackRecord:
     static final java.lang.String TAG
@@ -26,11 +27,8 @@ android.support.v4.app.BackStackRecord:
     303:306:public java.lang.CharSequence getBreadCrumbTitle()
     310:313:public java.lang.CharSequence getBreadCrumbShortTitle()
     337:338:public android.support.v4.app.FragmentTransaction add(int,android.support.v4.app.Fragment)
-    342:343:public android.support.v4.app.FragmentTransaction add(int,android.support.v4.app.Fragment,java.lang.String)
     396:401:public android.support.v4.app.FragmentTransaction hide(android.support.v4.app.Fragment)
     405:410:public android.support.v4.app.FragmentTransaction show(android.support.v4.app.Fragment)
-    414:419:public android.support.v4.app.FragmentTransaction detach(android.support.v4.app.Fragment)
-    423:428:public android.support.v4.app.FragmentTransaction attach(android.support.v4.app.Fragment)
     432:432:public android.support.v4.app.FragmentTransaction setCustomAnimations(int,int)
     437:441:public android.support.v4.app.FragmentTransaction setCustomAnimations(int,int,int,int)
     450:451:public android.support.v4.app.FragmentTransaction setTransitionStyle(int)
@@ -84,8 +82,6 @@ android.support.v4.app.Fragment:
     650:650:public final boolean isVisible()
     690:691:public void setRetainInstance(boolean)
     694:694:public final boolean getRetainInstance()
-    723:729:public void setMenuVisibility(boolean)
-    745:750:public void setUserVisibleHint(boolean)
     757:757:public boolean getUserVisibleHint()
     791:795:public void startActivityForResult(android.content.Intent,int)
     1229:1230:public void unregisterForContextMenu(android.view.View)
@@ -106,9 +102,7 @@ android.support.v4.app.FragmentActivity$FragmentTag:
 android.support.v4.app.FragmentManager:
     public static final int POP_BACK_STACK_INCLUSIVE
     139:139:public android.support.v4.app.FragmentTransaction openTransaction()
-    public abstract boolean executePendingTransactions()
     public abstract android.support.v4.app.Fragment findFragmentById(int)
-    public abstract android.support.v4.app.Fragment findFragmentByTag(java.lang.String)
     public abstract void popBackStack()
     public abstract boolean popBackStackImmediate()
     public abstract void popBackStack(java.lang.String,int)
@@ -149,7 +143,9 @@ android.support.v4.app.FragmentManagerImpl:
     1286:1294:public android.support.v4.app.Fragment findFragmentByWho(java.lang.String)
 android.support.v4.app.FragmentManagerImpl$2
 android.support.v4.app.FragmentManagerImpl$3
-android.support.v4.app.FragmentPagerAdapter
+android.support.v4.app.FragmentPagerAdapter:
+    private static final java.lang.String TAG
+    private static final boolean DEBUG
 android.support.v4.app.FragmentStatePagerAdapter
 android.support.v4.app.FragmentTransaction:
     public static final int TRANSIT_ENTER_MASK
@@ -160,12 +156,9 @@ android.support.v4.app.FragmentTransaction:
     public static final int TRANSIT_FRAGMENT_CLOSE
     public static final int TRANSIT_FRAGMENT_FADE
     public abstract android.support.v4.app.FragmentTransaction add(int,android.support.v4.app.Fragment)
-    public abstract android.support.v4.app.FragmentTransaction add(int,android.support.v4.app.Fragment,java.lang.String)
     public abstract android.support.v4.app.FragmentTransaction replace(int,android.support.v4.app.Fragment,java.lang.String)
     public abstract android.support.v4.app.FragmentTransaction hide(android.support.v4.app.Fragment)
     public abstract android.support.v4.app.FragmentTransaction show(android.support.v4.app.Fragment)
-    public abstract android.support.v4.app.FragmentTransaction detach(android.support.v4.app.Fragment)
-    public abstract android.support.v4.app.FragmentTransaction attach(android.support.v4.app.Fragment)
     public abstract boolean isEmpty()
     public abstract android.support.v4.app.FragmentTransaction setCustomAnimations(int,int)
     public abstract android.support.v4.app.FragmentTransaction setCustomAnimations(int,int,int,int)
@@ -199,7 +192,11 @@ android.support.v4.app.LoaderManagerImpl:
     static final java.lang.String TAG
     boolean mRetainingStarted
     682:693:public android.support.v4.content.Loader getLoader(int)
-android.support.v4.app.NavUtils
+android.support.v4.app.NavUtils:
+    private static final java.lang.String TAG
+    public static final java.lang.String PARENT_ACTIVITY
+    71:82:public static void navigateUpFromSameTask(android.app.Activity)
+    196:197:private NavUtils()
 android.support.v4.app.NotificationCompat
 android.support.v4.app.NotificationCompat$Builder
 android.support.v4.app.NotificationCompat$NotificationCompatImpl
@@ -214,11 +211,12 @@ android.support.v4.app.ShareCompat$ShareCompatImpl
 android.support.v4.app.ShareCompat$ShareCompatImplBase
 android.support.v4.app.ShareCompat$ShareCompatImplICS
 android.support.v4.app.ShareCompatICS
-android.support.v4.app.TaskStackBuilder
-android.support.v4.app.TaskStackBuilder$TaskStackBuilderImpl
-android.support.v4.app.TaskStackBuilder$TaskStackBuilderImplBase
-android.support.v4.app.TaskStackBuilder$TaskStackBuilderImplHoneycomb
-android.support.v4.app.TaskStackBuilderHoneycomb
+android.support.v4.app.TaskStackBuilder:
+    private static final java.lang.String TAG
+    181:181:public int getIntentCount()
+    193:193:public android.content.Intent getIntent(int)
+android.support.v4.app.TaskStackBuilderHoneycomb:
+    26:26:public TaskStackBuilderHoneycomb()
 android.support.v4.content.AsyncTaskLoader:
     static final java.lang.String TAG
     static final boolean DEBUG
@@ -262,7 +260,8 @@ android.support.v4.content.ModernAsyncTask:
     433:434:public static void execute(java.lang.Runnable)
     451:455:protected final varargs void publishProgress(java.lang.Object[])
 android.support.v4.content.pm.ActivityInfoCompat
-android.support.v4.database.DatabaseUtilsCompat
+android.support.v4.database.DatabaseUtilsCompat:
+    27:29:private DatabaseUtilsCompat()
 android.support.v4.os.ParcelableCompat:
     26:42:public ParcelableCompat()
 android.support.v4.os.ParcelableCompatCreatorHoneycombMR2Stub:
@@ -324,8 +323,6 @@ android.support.v4.view.MotionEventCompatEclair:
 android.support.v4.view.PagerAdapter:
     public static final int POSITION_UNCHANGED
     public static final int POSITION_NONE
-    78:79:public PagerAdapter()
-    276:277:public void notifyDataSetChanged()
 android.support.v4.view.PagerTitleStrip:
     private static final java.lang.String TAG
     private static final int SIDE_ALPHA
@@ -470,6 +467,12 @@ android.support.v4.widget.SearchViewCompatHoneycomb$OnQueryTextListenerCompatBri
 android.support.v4.widget.SimpleCursorAdapter
 android.support.v4.widget.SimpleCursorAdapter$CursorToStringConverter
 android.support.v4.widget.SimpleCursorAdapter$ViewBinder
+com.google.android.apps.analytics.AdHitIdGenerator:
+    AdHitIdGenerator(boolean)
+com.google.android.apps.analytics.AdMobInfo:
+    public java.lang.String getJoinId()
+    public void setAdHitId(int)
+    public int getAdHitId()
 com.google.android.apps.analytics.AnalyticsParameterEncoder:
     private AnalyticsParameterEncoder()
 com.google.android.apps.analytics.AnalyticsReceiver:
@@ -498,7 +501,10 @@ com.google.android.apps.analytics.GoogleAnalyticsTracker:
     public void start(java.lang.String,int,android.content.Context)
     public void start(java.lang.String,android.content.Context)
     com.google.android.apps.analytics.Dispatcher getDispatcher()
-    public void setProductVersion(java.lang.String,java.lang.String)
+    void setAdHitIdGenerator(com.google.android.apps.analytics.AdHitIdGenerator)
+    void returnToInitialState()
+    java.lang.String getVisitorIdForAds()
+    java.lang.String getSessionIdForAds()
     com.google.android.apps.analytics.HitStore getHitStore()
     public boolean setCustomVar(int,java.lang.String,java.lang.String,int)
     public boolean setCustomVar(int,java.lang.String,java.lang.String)
@@ -508,6 +514,7 @@ com.google.android.apps.analytics.GoogleAnalyticsTracker:
     public void trackTransactions()
     public void clearTransactions()
     public boolean getAnonymizeIp()
+    public void setUseServerTime(boolean)
     public void setSampleRate(int)
     public int getSampleRate()
     public boolean setReferrer(java.lang.String)
@@ -524,6 +531,8 @@ com.google.android.apps.analytics.HitBuilder:
 com.google.android.apps.analytics.HitStore:
     public abstract com.google.android.apps.analytics.Hit[] peekHits(int)
     public abstract int getStoreId()
+    public abstract java.lang.String getVisitorId()
+    public abstract java.lang.String getSessionId()
     public abstract com.google.android.apps.analytics.Referrer getReferrer()
     public abstract void clearReferrer()
     public abstract void loadExistingSession()
@@ -531,12 +540,14 @@ com.google.android.apps.analytics.HitStore:
 com.google.android.apps.analytics.NetworkDispatcher:
     private static final java.lang.String GOOGLE_ANALYTICS_HOST_NAME
     private static final int GOOGLE_ANALYTICS_HOST_PORT
+    private static final int MAX_GET_LENGTH
+    private static final int MAX_POST_LENGTH
     private static final java.lang.String USER_AGENT_TEMPLATE
     private static final int MAX_EVENTS_PER_PIPELINE
     private static final int MAX_SEQUENTIAL_REQUESTS
     private static final long MIN_RETRY_INTERVAL
     public void init(com.google.android.apps.analytics.Dispatcher$Callbacks,com.google.android.apps.analytics.PipelinedRequester,com.google.android.apps.analytics.HitStore)
-    public void waitForThreadLooper()
+    void waitForThreadLooper()
     java.lang.String getUserAgent()
 com.google.android.apps.analytics.NetworkDispatcher$DispatcherThread:
     synthetic NetworkDispatcher$DispatcherThread(com.google.android.apps.analytics.Dispatcher$Callbacks,com.google.android.apps.analytics.PipelinedRequester,java.lang.String,com.google.android.apps.analytics.NetworkDispatcher,com.google.android.apps.analytics.NetworkDispatcher$1)
@@ -596,11 +607,15 @@ com.google.android.apps.analytics.PersistentHitStore:
     int getVisits()
     public java.lang.String getVisitorCustomVar(int)
     public int getStoreId()
+    public java.lang.String getVisitorId()
+    public java.lang.String getSessionId()
     public com.google.android.apps.analytics.Referrer getReferrer()
     public void clearReferrer()
 com.google.android.apps.analytics.PersistentHitStore$DataBaseHelper:
     public PersistentHitStore$DataBaseHelper(android.content.Context,com.google.android.apps.analytics.PersistentHitStore)
     public PersistentHitStore$DataBaseHelper(android.content.Context,java.lang.String,com.google.android.apps.analytics.PersistentHitStore)
+com.google.android.apps.analytics.PipelinedRequester:
+    private static final int RECEIVE_BUFFER_SIZE
 com.google.android.apps.analytics.Utils:
     Utils()
 com.ianhanniballake.contractiontimer.BuildConfig
@@ -614,6 +629,7 @@ com.ianhanniballake.contractiontimer.R$drawable
 com.ianhanniballake.contractiontimer.R$id
 com.ianhanniballake.contractiontimer.R$layout
 com.ianhanniballake.contractiontimer.R$menu
+com.ianhanniballake.contractiontimer.R$plurals
 com.ianhanniballake.contractiontimer.R$string
 com.ianhanniballake.contractiontimer.R$style
 com.ianhanniballake.contractiontimer.R$styleable
@@ -625,6 +641,7 @@ com.ianhanniballake.contractiontimer.actionbar.ActionBarHelperBase$WrappedMenuIn
 com.ianhanniballake.contractiontimer.analytics.AnalyticsManagerService:
     public static final java.lang.String ACTION_START_NEW_SESSION
     public static final java.lang.String ACTION_STOP_SESSION
+    public static final java.lang.String ACTION_TOGGLE_ANALYTICS
     public static final java.lang.String ACTION_TRACK_EVENT
     public static final java.lang.String ACTION_TRACK_PAGE_VIEW
     private static final java.lang.String ANALYTICS_PROPERTY_ID
@@ -660,9 +677,6 @@ com.ianhanniballake.contractiontimer.provider.ContractionProvider:
     private static final java.lang.String DATABASE_NAME
     private static final int DATABASE_VERSION
     private static final java.lang.String TAG
-com.ianhanniballake.contractiontimer.strictmode.StrictModeController
-com.ianhanniballake.contractiontimer.strictmode.StrictModeControllerBase
-com.ianhanniballake.contractiontimer.strictmode.StrictModeControllerV10
 com.ianhanniballake.contractiontimer.ui.DatePickerDialogFragment:
     public static final java.lang.String CALLBACK_ACTION
     public static final java.lang.String DATE_ARGUMENT
@@ -681,6 +695,7 @@ com.ianhanniballake.contractiontimer.ui.NoteDialogFragment:
     public static final java.lang.String CONTRACTION_ID_ARGUMENT
     public static final java.lang.String EXISTING_NOTE_ARGUMENT
 com.ianhanniballake.contractiontimer.ui.Preferences:
+    public static final java.lang.String ANALYTICS_PREFERENCE_KEY
     public static final java.lang.String APPWIDGET_BACKGROUND_PREFERENCE_KEY
     public static final java.lang.String AVERAGE_TIME_FRAME_CHANGED_FRAGMENT_PREFERENCE_KEY
     public static final java.lang.String AVERAGE_TIME_FRAME_CHANGED_MAIN_PREFERENCE_KEY
