@@ -174,6 +174,7 @@ public class ViewActivity extends ActionBarFragmentActivity implements
 			final long id = adapter.getItemId(position);
 			if (id == contractionId)
 			{
+				currentPosition = position;
 				pager.setCurrentItem(position, false);
 				break;
 			}
