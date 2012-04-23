@@ -213,6 +213,9 @@ public class ContractionListFragmentV11 extends ContractionListFragment
 			public void onItemCheckedStateChanged(final ActionMode mode,
 					final int position, final long id, final boolean checked)
 			{
+				final int selectedItemsSize = listView.getCheckedItemCount();
+				if (selectedItemsSize == 0)
+					return;
 				// This is called in the middle of the ListView's selected items
 				// being refreshed (in a state where the getCheckedItemCount
 				// call returns the new number of items, but the
