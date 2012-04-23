@@ -1,5 +1,6 @@
 package com.ianhanniballake.contractiontimer.ui;
 
+import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -23,6 +24,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.widget.SearchView;
 import android.widget.TextView;
 
 import com.ianhanniballake.contractiontimer.BuildConfig;
@@ -147,6 +149,11 @@ public class MainActivity extends ActionBarFragmentActivity implements
 	public boolean onCreateOptionsMenu(final Menu menu)
 	{
 		getMenuInflater().inflate(R.menu.activity_main, menu);
+		final SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
+		final SearchView searchView = (SearchView) menu.findItem(
+				R.id.menu_search).getActionView();
+		searchView.setSearchableInfo(searchManager
+				.getSearchableInfo(getComponentName()));
 		return super.onCreateOptionsMenu(menu);
 	}
 
@@ -187,6 +194,12 @@ public class MainActivity extends ActionBarFragmentActivity implements
 				final Intent addIntent = new Intent(Intent.ACTION_INSERT,
 						getIntent().getData());
 				startActivity(addIntent);
+				return true;
+			case R.id.menu_search:
+				if (BuildConfig.DEBUG)
+					Log.d(getClass().getSimpleName(), "Menu selected Search");
+				AnalyticsManagerService.trackEvent(this, "Menu", "Search");
+				onSearchRequested();
 				return true;
 			case R.id.menu_share_averages:
 				if (BuildConfig.DEBUG)

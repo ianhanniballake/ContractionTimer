@@ -19,6 +19,12 @@
 		android:icon="@android:drawable/ic_menu_add"
 		android:title="@string/menu_add"/>
 	<item
+		android:id="@+id/menu_search"
+		android:actionViewClass="android.widget.SearchView"
+		android:icon="@android:drawable/ic_menu_search"
+		android:showAsAction="collapseActionView|ifRoom"
+		android:title="@string/menu_search"/>
+	<item
 		android:id="@+id/menu_settings"
 		android:icon="@android:drawable/ic_menu_manage"
 		android:title="@string/menu_settings"/>
