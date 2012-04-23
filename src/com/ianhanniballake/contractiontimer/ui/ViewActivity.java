@@ -65,12 +65,12 @@ public class ViewActivity extends ActionBarFragmentActivity implements
 		@Override
 		public CharSequence getPageTitle(final int position)
 		{
-			if (position == currentPosition)
-				return "";
-			else if (position < currentPosition)
+			if (position + 1 == currentPosition)
 				return getText(R.string.detail_previous_page);
-			else
+			else if (position - 1 == currentPosition)
 				return getText(R.string.detail_next_page);
+			else
+				return null;
 		}
 	}
 
@@ -164,9 +164,7 @@ public class ViewActivity extends ActionBarFragmentActivity implements
 	public void onLoadFinished(final Loader<Cursor> loader, final Cursor data)
 	{
 		adapter.swapCursor(data);
-		final ViewPager pager = (ViewPager) findViewById(R.id.pager);
 		pagerAdapter.notifyDataSetChanged();
-		pager.setAdapter(pagerAdapter);
 		final long contractionId = ContentUris.parseId(getIntent().getData());
 		final int count = adapter.getCount();
 		for (int position = 0; position < count; position++)
@@ -175,10 +173,12 @@ public class ViewActivity extends ActionBarFragmentActivity implements
 			if (id == contractionId)
 			{
 				currentPosition = position;
-				pager.setCurrentItem(position, false);
 				break;
 			}
 		}
+		final ViewPager pager = (ViewPager) findViewById(R.id.pager);
+		pager.setAdapter(pagerAdapter);
+		pager.setCurrentItem(currentPosition, false);
 	}
 
 	@Override
