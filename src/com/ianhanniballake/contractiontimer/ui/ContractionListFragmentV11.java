@@ -2,6 +2,7 @@ package com.ianhanniballake.contractiontimer.ui;
 
 import android.annotation.TargetApi;
 import android.database.Cursor;
+import android.os.Bundle;
 import android.provider.BaseColumns;
 import android.util.Log;
 import android.view.ActionMode;
@@ -45,6 +46,15 @@ public class ContractionListFragmentV11 extends ContractionListFragment
 		long id;
 	}
 
+	/**
+	 * Key used to store the selected item note in the bundle
+	 */
+	private final static String SELECTED_ITEM_NOTE_KEY = "com.ianhanniballake.contractiontimer.SELECTED_ITEM_NOTE_KEY";
+	/**
+	 * Note associated with the currently selected item
+	 */
+	private String selectedItemNote = null;
+
 	@Override
 	protected void bindView(final ViewHolder holder, final Cursor cursor)
 	{
@@ -66,6 +76,15 @@ public class ContractionListFragmentV11 extends ContractionListFragment
 		// Don't allow popup menu while the Contextual Action Bar is
 		// present
 		holder.showPopup.setEnabled(getListView().getCheckedItemCount() == 0);
+	}
+
+	@Override
+	public void onActivityCreated(final Bundle savedInstanceState)
+	{
+		if (savedInstanceState != null)
+			selectedItemNote = savedInstanceState
+					.getString(ContractionListFragmentV11.SELECTED_ITEM_NOTE_KEY);
+		super.onActivityCreated(savedInstanceState);
 	}
 
 	@Override
@@ -126,6 +145,14 @@ public class ContractionListFragmentV11 extends ContractionListFragment
 			}
 		});
 		popup.show();
+	}
+
+	@Override
+	public void onSaveInstanceState(final Bundle outState)
+	{
+		super.onSaveInstanceState(outState);
+		outState.putString(ContractionListFragmentV11.SELECTED_ITEM_NOTE_KEY,
+				selectedItemNote);
 	}
 
 	/**
@@ -251,10 +278,15 @@ public class ContractionListFragmentV11 extends ContractionListFragment
 							.keyAt(0);
 					final Cursor cursor = (Cursor) listView.getAdapter()
 							.getItem(position);
-					final int noteColumnIndex = cursor
-							.getColumnIndex(ContractionContract.Contractions.COLUMN_NAME_NOTE);
-					final String note = cursor.getString(noteColumnIndex);
-					if (note.equals(""))
+					// The cursor will be null when first resuming the Fragment
+					// so we'll used the selectedItemNote loaded from the Bundle
+					if (cursor != null)
+					{
+						final int noteColumnIndex = cursor
+								.getColumnIndex(ContractionContract.Contractions.COLUMN_NAME_NOTE);
+						selectedItemNote = cursor.getString(noteColumnIndex);
+					}
+					if ("".equals(selectedItemNote))
 						noteItem.setTitle(R.string.note_dialog_title_add);
 					else
 						noteItem.setTitle(R.string.note_dialog_title_edit);
