@@ -26,13 +26,11 @@ android.support.v4.app.BackStackRecord -> android.support.v4.app.c:
     212:284:void dump(java.lang.String,java.io.FileDescriptor,java.io.PrintWriter,java.lang.String[]) -> a
     317:329:void addOp(android.support.v4.app.BackStackRecord$Op) -> a
     332:333:android.support.v4.app.FragmentTransaction add(android.support.v4.app.Fragment,java.lang.String) -> a
-    342:343:android.support.v4.app.FragmentTransaction add(int,android.support.v4.app.Fragment,java.lang.String) -> a
+    337:338:android.support.v4.app.FragmentTransaction add(int,android.support.v4.app.Fragment) -> a
     347:371:void doAddOp(int,android.support.v4.app.Fragment,java.lang.String,int) -> a
-    374:374:android.support.v4.app.FragmentTransaction replace(int,android.support.v4.app.Fragment) -> a
-    378:383:android.support.v4.app.FragmentTransaction replace(int,android.support.v4.app.Fragment,java.lang.String) -> b
+    374:374:android.support.v4.app.FragmentTransaction replace(int,android.support.v4.app.Fragment) -> b
+    378:383:android.support.v4.app.FragmentTransaction replace(int,android.support.v4.app.Fragment,java.lang.String) -> a
     387:392:android.support.v4.app.FragmentTransaction remove(android.support.v4.app.Fragment) -> a
-    414:419:android.support.v4.app.FragmentTransaction detach(android.support.v4.app.Fragment) -> b
-    423:428:android.support.v4.app.FragmentTransaction attach(android.support.v4.app.Fragment) -> c
     445:446:android.support.v4.app.FragmentTransaction setTransition(int) -> a
     502:522:void bumpBackStackNesting(int) -> b
     525:525:int commit() -> a
@@ -143,6 +141,7 @@ android.support.v4.app.Fragment -> android.support.v4.app.Fragment:
     437:452:java.lang.String toString() -> toString
     479:483:void setArguments(android.os.Bundle) -> f
     490:490:android.os.Bundle getArguments() -> g
+    502:507:void setInitialSavedState(android.support.v4.app.Fragment$SavedState) -> a
     543:543:android.support.v4.app.FragmentActivity getActivity() -> h
     550:553:android.content.res.Resources getResources() -> i
     563:563:java.lang.CharSequence getText(int) -> b
@@ -153,7 +152,6 @@ android.support.v4.app.Fragment -> android.support.v4.app.Fragment:
     673:673:void onHiddenChanged(boolean) -> b
     705:711:void setHasOptionsMenu(boolean) -> c
     723:729:void setMenuVisibility(boolean) -> d
-    745:750:void setUserVisibleHint(boolean) -> e
     764:772:android.support.v4.app.LoaderManager getLoaderManager() -> m
     780:784:void startActivity(android.content.Intent) -> a
     812:812:void onActivityResult(int,int,android.content.Intent) -> a
@@ -259,8 +257,10 @@ android.support.v4.app.FragmentActivity$NonConfigurationInstances -> android.sup
 android.support.v4.app.FragmentManager -> android.support.v4.app.k:
     android.support.v4.app.FragmentTransaction beginTransaction() -> a
     boolean executePendingTransactions() -> b
-    android.support.v4.app.Fragment findFragmentByTag(java.lang.String) -> a
     void popBackStack(int,int) -> a
+    void putFragment(android.os.Bundle,java.lang.String,android.support.v4.app.Fragment) -> a
+    android.support.v4.app.Fragment getFragment(android.os.Bundle,java.lang.String) -> a
+    android.support.v4.app.Fragment$SavedState saveFragmentInstanceState(android.support.v4.app.Fragment) -> a
 android.support.v4.app.FragmentManager$OnBackStackChangedListener -> android.support.v4.app.l:
     void onBackStackChanged() -> a
 android.support.v4.app.FragmentManagerImpl -> android.support.v4.app.m:
@@ -297,19 +297,20 @@ android.support.v4.app.FragmentManagerImpl -> android.support.v4.app.m:
     468:476:void popBackStack(int,int) -> a
     515:520:void putFragment(android.os.Bundle,java.lang.String,android.support.v4.app.Fragment) -> a
     524:537:android.support.v4.app.Fragment getFragment(android.os.Bundle,java.lang.String) -> a
+    542:550:android.support.v4.app.Fragment$SavedState saveFragmentInstanceState(android.support.v4.app.Fragment) -> a
     555:561:java.lang.String toString() -> toString
     566:670:void dump(java.lang.String,java.io.FileDescriptor,java.io.PrintWriter,java.lang.String[]) -> a
     681:691:android.view.animation.Animation makeOpenCloseAnimation(android.content.Context,float,float,float,float) -> a
     695:698:android.view.animation.Animation makeFadeAnimation(android.content.Context,float,float) -> a
     703:757:android.view.animation.Animation loadAnimation(android.support.v4.app.Fragment,int,boolean,int) -> a
-    761:770:void performPendingDeferredStart(android.support.v4.app.Fragment) -> a
+    761:770:void performPendingDeferredStart(android.support.v4.app.Fragment) -> b
     774:1055:void moveToState(android.support.v4.app.Fragment,int,int,int) -> a
-    1058:1059:void moveToState(android.support.v4.app.Fragment) -> b
+    1058:1059:void moveToState(android.support.v4.app.Fragment) -> c
     1062:1063:void moveToState(int,boolean) -> a
     1066:1096:void moveToState(int,int,int,boolean) -> a
     1099:1107:void startPendingDeferredFragments() -> d
-    1110:1125:void makeActive(android.support.v4.app.Fragment) -> c
-    1128:1140:void makeInactive(android.support.v4.app.Fragment) -> d
+    1110:1125:void makeActive(android.support.v4.app.Fragment) -> d
+    1128:1140:void makeInactive(android.support.v4.app.Fragment) -> e
     1143:1159:void addFragment(android.support.v4.app.Fragment,boolean) -> a
     1162:1174:void removeFragment(android.support.v4.app.Fragment,int,int) -> a
     1177:1193:void hideFragment(android.support.v4.app.Fragment,int,int) -> b
@@ -328,8 +329,8 @@ android.support.v4.app.FragmentManagerImpl -> android.support.v4.app.m:
     1448:1453:void addBackStackState(android.support.v4.app.BackStackRecord) -> b
     1456:1515:boolean popBackStackState(android.os.Handler,java.lang.String,int,int) -> a
     1519:1533:java.util.ArrayList retainNonConfig() -> g
-    1537:1550:void saveFragmentViewState(android.support.v4.app.Fragment) -> e
-    1553:1579:android.os.Bundle saveFragmentBasicState(android.support.v4.app.Fragment) -> f
+    1537:1550:void saveFragmentViewState(android.support.v4.app.Fragment) -> f
+    1553:1579:android.os.Bundle saveFragmentBasicState(android.support.v4.app.Fragment) -> g
     1585:1686:android.os.Parcelable saveAllState() -> h
     1692:1792:void restoreAllState(android.os.Parcelable,java.util.ArrayList) -> a
     1795:1797:void attachActivity(android.support.v4.app.FragmentActivity) -> a
@@ -377,20 +378,6 @@ android.support.v4.app.FragmentManagerState$1 -> android.support.v4.app.q:
     369:369:android.support.v4.app.FragmentManagerState[] newArray(int) -> a
     363:363:java.lang.Object[] newArray(int) -> newArray
     363:363:java.lang.Object createFromParcel(android.os.Parcel) -> createFromParcel
-android.support.v4.app.FragmentPagerAdapter -> android.support.v4.app.r:
-    android.support.v4.app.FragmentManager mFragmentManager -> a
-    android.support.v4.app.FragmentTransaction mCurTransaction -> b
-    android.support.v4.app.Fragment mCurrentPrimaryItem -> c
-    android.support.v4.app.Fragment getItem(int) -> a
-    80:80:void startUpdate(android.view.ViewGroup) -> a
-    84:105:java.lang.Object instantiateItem(android.view.ViewGroup,int) -> a
-    110:116:void destroyItem(android.view.ViewGroup,int,java.lang.Object) -> a
-    120:132:void setPrimaryItem(android.view.ViewGroup,int,java.lang.Object) -> b
-    136:141:void finishUpdate(android.view.ViewGroup) -> b
-    145:145:boolean isViewFromObject(android.view.View,java.lang.Object) -> a
-    150:150:android.os.Parcelable saveState() -> a
-    155:155:void restoreState(android.os.Parcelable,java.lang.ClassLoader) -> a
-    158:158:java.lang.String makeFragmentName(int,int) -> a
 android.support.v4.app.FragmentState -> android.support.v4.app.FragmentState:
     java.lang.String mClassName -> a
     int mIndex -> b
@@ -407,18 +394,31 @@ android.support.v4.app.FragmentState -> android.support.v4.app.FragmentState:
     88:112:android.support.v4.app.Fragment instantiate(android.support.v4.app.FragmentActivity) -> a
     116:116:int describeContents() -> describeContents
     120:130:void writeToParcel(android.os.Parcel,int) -> writeToParcel
-android.support.v4.app.FragmentState$1 -> android.support.v4.app.s:
+android.support.v4.app.FragmentState$1 -> android.support.v4.app.r:
     135:135:android.support.v4.app.FragmentState createFromParcel(android.os.Parcel) -> a
     139:139:android.support.v4.app.FragmentState[] newArray(int) -> a
     133:133:java.lang.Object[] newArray(int) -> newArray
     133:133:java.lang.Object createFromParcel(android.os.Parcel) -> createFromParcel
+android.support.v4.app.FragmentStatePagerAdapter -> android.support.v4.app.s:
+    android.support.v4.app.FragmentManager mFragmentManager -> a
+    android.support.v4.app.FragmentTransaction mCurTransaction -> b
+    java.util.ArrayList mSavedState -> c
+    java.util.ArrayList mFragments -> d
+    android.support.v4.app.Fragment mCurrentPrimaryItem -> e
+    android.support.v4.app.Fragment getItem(int) -> a
+    86:86:void startUpdate(android.view.ViewGroup) -> a
+    94:120:java.lang.Object instantiateItem(android.view.ViewGroup,int) -> a
+    125:139:void destroyItem(android.view.ViewGroup,int,java.lang.Object) -> a
+    143:153:void setPrimaryItem(android.view.ViewGroup,int,java.lang.Object) -> b
+    157:162:void finishUpdate(android.view.ViewGroup) -> b
+    166:166:boolean isViewFromObject(android.view.View,java.lang.Object) -> a
+    171:188:android.os.Parcelable saveState() -> a
+    193:221:void restoreState(android.os.Parcelable,java.lang.ClassLoader) -> a
 android.support.v4.app.FragmentTransaction -> android.support.v4.app.t:
     android.support.v4.app.FragmentTransaction add(android.support.v4.app.Fragment,java.lang.String) -> a
-    android.support.v4.app.FragmentTransaction add(int,android.support.v4.app.Fragment,java.lang.String) -> a
-    android.support.v4.app.FragmentTransaction replace(int,android.support.v4.app.Fragment) -> a
+    android.support.v4.app.FragmentTransaction add(int,android.support.v4.app.Fragment) -> a
+    android.support.v4.app.FragmentTransaction replace(int,android.support.v4.app.Fragment) -> b
     android.support.v4.app.FragmentTransaction remove(android.support.v4.app.Fragment) -> a
-    android.support.v4.app.FragmentTransaction detach(android.support.v4.app.Fragment) -> b
-    android.support.v4.app.FragmentTransaction attach(android.support.v4.app.Fragment) -> c
     android.support.v4.app.FragmentTransaction setTransition(int) -> a
     int commit() -> a
     int commitAllowingStateLoss() -> b
@@ -553,7 +553,7 @@ android.support.v4.app.TaskStackBuilder -> android.support.v4.app.ae:
     163:174:android.support.v4.app.TaskStackBuilder addParentStack(java.lang.Class) -> a
     197:197:java.util.Iterator iterator() -> iterator
     209:223:void startActivities() -> a
-    237:238:android.app.PendingIntent getPendingIntent(int,int) -> a
+    237:246:android.app.PendingIntent getPendingIntent(int,int) -> a
 android.support.v4.app.TaskStackBuilder$TaskStackBuilderImpl -> android.support.v4.app.af:
     android.app.PendingIntent getPendingIntent(android.content.Context,android.content.Intent[],int,int) -> a
 android.support.v4.app.TaskStackBuilder$TaskStackBuilderImplBase -> android.support.v4.app.ag:
@@ -1831,26 +1831,31 @@ com.ianhanniballake.contractiontimer.ui.ContractionListFragmentBase -> com.ianha
     103:106:void setupListView() -> y
     112:112:void setupNewView(android.view.View) -> b
 com.ianhanniballake.contractiontimer.ui.ContractionListFragmentV11 -> com.ianhanniballake.contractiontimer.ui.ContractionListFragmentV11:
-    51:69:void bindView(com.ianhanniballake.contractiontimer.ui.ContractionListFragment$ViewHolder,android.database.Cursor) -> a
-    74:129:void onClick(android.view.View) -> onClick
-    138:281:void setupListView() -> y
-    286:288:void setupNewView(android.view.View) -> b
+    java.lang.String selectedItemNote -> V
+    61:79:void bindView(com.ianhanniballake.contractiontimer.ui.ContractionListFragment$ViewHolder,android.database.Cursor) -> a
+    84:88:void onActivityCreated(android.os.Bundle) -> d
+    93:148:void onClick(android.view.View) -> onClick
+    153:156:void onSaveInstanceState(android.os.Bundle) -> e
+    165:313:void setupListView() -> y
+    318:320:void setupNewView(android.view.View) -> b
+    56:56:void access$0(com.ianhanniballake.contractiontimer.ui.ContractionListFragmentV11,java.lang.String) -> a
+    56:56:java.lang.String access$1(com.ianhanniballake.contractiontimer.ui.ContractionListFragmentV11) -> a
 com.ianhanniballake.contractiontimer.ui.ContractionListFragmentV11$1 -> com.ianhanniballake.contractiontimer.ui.j:
     com.ianhanniballake.contractiontimer.ui.ContractionListFragmentV11 this$0 -> a
     com.ianhanniballake.contractiontimer.ui.ContractionListFragmentV11$PopupHolder val$popupHolder -> b
-    93:124:boolean onMenuItemClick(android.view.MenuItem) -> onMenuItemClick
+    112:143:boolean onMenuItemClick(android.view.MenuItem) -> onMenuItemClick
 com.ianhanniballake.contractiontimer.ui.ContractionListFragmentV11$2 -> com.ianhanniballake.contractiontimer.ui.k:
     com.ianhanniballake.contractiontimer.ui.ContractionListFragmentV11 this$0 -> a
     android.widget.ListView val$listView -> b
-    147:193:boolean onActionItemClicked(android.view.ActionMode,android.view.MenuItem) -> onActionItemClicked
-    201:203:boolean onCreateActionMode(android.view.ActionMode,android.view.Menu) -> onCreateActionMode
-    210:210:void onDestroyActionMode(android.view.ActionMode) -> onDestroyActionMode
-    216:233:void onItemCheckedStateChanged(android.view.ActionMode,int,long,boolean) -> onItemCheckedStateChanged
-    239:277:boolean onPrepareActionMode(android.view.ActionMode,android.view.Menu) -> onPrepareActionMode
+    174:220:boolean onActionItemClicked(android.view.ActionMode,android.view.MenuItem) -> onActionItemClicked
+    228:230:boolean onCreateActionMode(android.view.ActionMode,android.view.Menu) -> onCreateActionMode
+    237:237:void onDestroyActionMode(android.view.ActionMode) -> onDestroyActionMode
+    243:260:void onItemCheckedStateChanged(android.view.ActionMode,int,long,boolean) -> onItemCheckedStateChanged
+    266:309:boolean onPrepareActionMode(android.view.ActionMode,android.view.Menu) -> onPrepareActionMode
 com.ianhanniballake.contractiontimer.ui.ContractionListFragmentV11$2$1 -> com.ianhanniballake.contractiontimer.ui.l:
     com.ianhanniballake.contractiontimer.ui.ContractionListFragmentV11$2 this$1 -> a
     android.view.ActionMode val$mode -> b
-    230:231:void run() -> run
+    257:258:void run() -> run
 com.ianhanniballake.contractiontimer.ui.ContractionListFragmentV11$PopupHolder -> com.ianhanniballake.contractiontimer.ui.m:
     java.lang.String existingNote -> a
     long id -> b
@@ -1873,78 +1878,78 @@ com.ianhanniballake.contractiontimer.ui.EditFragment -> com.ianhanniballake.cont
     java.lang.String note -> f
     java.util.Calendar startTime -> g
     android.content.BroadcastReceiver timeSetBroadcastReceiver -> h
-    293:316:com.ianhanniballake.contractiontimer.ui.EditFragment$ViewHolder getViewHolder(android.view.View) -> c
-    432:437:void clear() -> a
-    446:452:android.content.ContentValues getContentValues() -> y
-    458:536:void onActivityCreated(android.os.Bundle) -> d
-    541:541:android.support.v4.content.Loader onCreateLoader(int,android.os.Bundle) -> a
-    548:554:void onCreateOptionsMenu(android.view.Menu,android.view.MenuInflater) -> a
-    560:665:android.view.View onCreateView(android.view.LayoutInflater,android.view.ViewGroup,android.os.Bundle) -> a
-    671:672:void onLoaderReset(android.support.v4.content.Loader) -> a
-    677:683:void onLoadFinished(android.support.v4.content.Loader,android.database.Cursor) -> a
-    688:720:boolean onOptionsItemSelected(android.view.MenuItem) -> a
-    727:735:void onSaveInstanceState(android.os.Bundle) -> e
-    740:753:void onStart() -> b
-    758:763:void onStop() -> c
-    770:810:void updateViews() -> z
+    294:317:com.ianhanniballake.contractiontimer.ui.EditFragment$ViewHolder getViewHolder(android.view.View) -> c
+    433:438:void clear() -> a
+    447:453:android.content.ContentValues getContentValues() -> y
+    459:537:void onActivityCreated(android.os.Bundle) -> d
+    542:542:android.support.v4.content.Loader onCreateLoader(int,android.os.Bundle) -> a
+    549:555:void onCreateOptionsMenu(android.view.Menu,android.view.MenuInflater) -> a
+    561:666:android.view.View onCreateView(android.view.LayoutInflater,android.view.ViewGroup,android.os.Bundle) -> a
+    672:673:void onLoaderReset(android.support.v4.content.Loader) -> a
+    678:684:void onLoadFinished(android.support.v4.content.Loader,android.database.Cursor) -> a
+    689:721:boolean onOptionsItemSelected(android.view.MenuItem) -> a
+    728:736:void onSaveInstanceState(android.os.Bundle) -> e
+    741:754:void onStart() -> b
+    759:764:void onStop() -> c
+    771:811:void updateViews() -> z
     1:1:void onLoadFinished(android.support.v4.content.Loader,java.lang.Object) -> a
-    384:384:java.util.Calendar access$1(com.ianhanniballake.contractiontimer.ui.EditFragment) -> a
-    372:372:java.util.Calendar access$2(com.ianhanniballake.contractiontimer.ui.EditFragment) -> b
-    768:768:void access$3(com.ianhanniballake.contractiontimer.ui.EditFragment) -> c
-    291:291:com.ianhanniballake.contractiontimer.ui.EditFragment$ViewHolder access$4(android.view.View) -> b
-    376:376:int access$5(com.ianhanniballake.contractiontimer.ui.EditFragment) -> d
-    376:376:void access$6(com.ianhanniballake.contractiontimer.ui.EditFragment,int) -> a
-    384:384:void access$7(com.ianhanniballake.contractiontimer.ui.EditFragment,java.util.Calendar) -> a
-    372:372:void access$8(com.ianhanniballake.contractiontimer.ui.EditFragment,java.util.Calendar) -> b
-    380:380:void access$9(com.ianhanniballake.contractiontimer.ui.EditFragment,java.lang.String) -> a
+    385:385:java.util.Calendar access$1(com.ianhanniballake.contractiontimer.ui.EditFragment) -> a
+    373:373:java.util.Calendar access$2(com.ianhanniballake.contractiontimer.ui.EditFragment) -> b
+    769:769:void access$3(com.ianhanniballake.contractiontimer.ui.EditFragment) -> c
+    292:292:com.ianhanniballake.contractiontimer.ui.EditFragment$ViewHolder access$4(android.view.View) -> b
+    377:377:int access$5(com.ianhanniballake.contractiontimer.ui.EditFragment) -> d
+    377:377:void access$6(com.ianhanniballake.contractiontimer.ui.EditFragment,int) -> a
+    385:385:void access$7(com.ianhanniballake.contractiontimer.ui.EditFragment,java.util.Calendar) -> a
+    373:373:void access$8(com.ianhanniballake.contractiontimer.ui.EditFragment,java.util.Calendar) -> b
+    381:381:void access$9(com.ianhanniballake.contractiontimer.ui.EditFragment,java.lang.String) -> a
 com.ianhanniballake.contractiontimer.ui.EditFragment$1 -> com.ianhanniballake.contractiontimer.ui.n:
     com.ianhanniballake.contractiontimer.ui.EditFragment this$0 -> a
-    336:367:void onReceive(android.content.Context,android.content.Intent) -> onReceive
+    337:368:void onReceive(android.content.Context,android.content.Intent) -> onReceive
 com.ianhanniballake.contractiontimer.ui.EditFragment$2 -> com.ianhanniballake.contractiontimer.ui.o:
     com.ianhanniballake.contractiontimer.ui.EditFragment this$0 -> a
-    394:424:void onReceive(android.content.Context,android.content.Intent) -> onReceive
+    395:425:void onReceive(android.content.Context,android.content.Intent) -> onReceive
 com.ianhanniballake.contractiontimer.ui.EditFragment$3 -> com.ianhanniballake.contractiontimer.ui.p:
     com.ianhanniballake.contractiontimer.ui.EditFragment this$0 -> a
     android.content.Context val$applicationContext -> b
-    469:472:void onInsertComplete(int,java.lang.Object,android.net.Uri) -> onInsertComplete
-    478:481:void onUpdateComplete(int,java.lang.Object,int) -> onUpdateComplete
+    470:473:void onInsertComplete(int,java.lang.Object,android.net.Uri) -> onInsertComplete
+    479:482:void onUpdateComplete(int,java.lang.Object,int) -> onUpdateComplete
 com.ianhanniballake.contractiontimer.ui.EditFragment$4 -> com.ianhanniballake.contractiontimer.ui.q:
     com.ianhanniballake.contractiontimer.ui.EditFragment this$0 -> j
-    489:505:void bindView(android.view.View,android.content.Context,android.database.Cursor) -> a
-    512:512:android.view.View newView(android.content.Context,android.database.Cursor,android.view.ViewGroup) -> a
+    490:506:void bindView(android.view.View,android.content.Context,android.database.Cursor) -> a
+    513:513:android.view.View newView(android.content.Context,android.database.Cursor,android.view.ViewGroup) -> a
 com.ianhanniballake.contractiontimer.ui.EditFragment$5 -> com.ianhanniballake.contractiontimer.ui.r:
     com.ianhanniballake.contractiontimer.ui.EditFragment this$0 -> a
-    568:581:void onClick(android.view.View) -> onClick
+    569:582:void onClick(android.view.View) -> onClick
 com.ianhanniballake.contractiontimer.ui.EditFragment$6 -> com.ianhanniballake.contractiontimer.ui.s:
     com.ianhanniballake.contractiontimer.ui.EditFragment this$0 -> a
-    588:601:void onClick(android.view.View) -> onClick
+    589:602:void onClick(android.view.View) -> onClick
 com.ianhanniballake.contractiontimer.ui.EditFragment$7 -> com.ianhanniballake.contractiontimer.ui.t:
     com.ianhanniballake.contractiontimer.ui.EditFragment this$0 -> a
-    608:621:void onClick(android.view.View) -> onClick
+    609:622:void onClick(android.view.View) -> onClick
 com.ianhanniballake.contractiontimer.ui.EditFragment$8 -> com.ianhanniballake.contractiontimer.ui.u:
     com.ianhanniballake.contractiontimer.ui.EditFragment this$0 -> a
-    628:641:void onClick(android.view.View) -> onClick
+    629:642:void onClick(android.view.View) -> onClick
 com.ianhanniballake.contractiontimer.ui.EditFragment$9 -> com.ianhanniballake.contractiontimer.ui.v:
     com.ianhanniballake.contractiontimer.ui.EditFragment this$0 -> a
-    648:649:void afterTextChanged(android.text.Editable) -> afterTextChanged
-    656:656:void beforeTextChanged(java.lang.CharSequence,int,int,int) -> beforeTextChanged
-    663:663:void onTextChanged(java.lang.CharSequence,int,int,int) -> onTextChanged
+    649:650:void afterTextChanged(android.text.Editable) -> afterTextChanged
+    657:657:void beforeTextChanged(java.lang.CharSequence,int,int,int) -> beforeTextChanged
+    664:664:void onTextChanged(java.lang.CharSequence,int,int,int) -> onTextChanged
 com.ianhanniballake.contractiontimer.ui.EditFragment$EndTimeOverlapCheck -> com.ianhanniballake.contractiontimer.ui.w:
     com.ianhanniballake.contractiontimer.ui.EditFragment this$0 -> a
-    60:81:java.lang.Boolean doInBackground(java.lang.Void[]) -> a
-    90:102:void onPostExecute(java.lang.Boolean) -> a
+    61:82:java.lang.Boolean doInBackground(java.lang.Void[]) -> a
+    91:103:void onPostExecute(java.lang.Boolean) -> a
     1:1:void onPostExecute(java.lang.Object) -> onPostExecute
     1:1:java.lang.Object doInBackground(java.lang.Object[]) -> doInBackground
 com.ianhanniballake.contractiontimer.ui.EditFragment$StartTimeOverlapCheck -> com.ianhanniballake.contractiontimer.ui.x:
     com.ianhanniballake.contractiontimer.ui.EditFragment this$0 -> a
-    114:135:java.lang.Boolean doInBackground(java.lang.Void[]) -> a
-    144:156:void onPostExecute(java.lang.Boolean) -> a
+    115:136:java.lang.Boolean doInBackground(java.lang.Void[]) -> a
+    145:157:void onPostExecute(java.lang.Boolean) -> a
     1:1:void onPostExecute(java.lang.Object) -> onPostExecute
     1:1:java.lang.Object doInBackground(java.lang.Object[]) -> doInBackground
 com.ianhanniballake.contractiontimer.ui.EditFragment$TimeOverlapCheck -> com.ianhanniballake.contractiontimer.ui.y:
     com.ianhanniballake.contractiontimer.ui.EditFragment this$0 -> a
-    168:191:java.lang.Boolean doInBackground(java.lang.Void[]) -> a
-    200:212:void onPostExecute(java.lang.Boolean) -> a
+    169:192:java.lang.Boolean doInBackground(java.lang.Void[]) -> a
+    201:213:void onPostExecute(java.lang.Boolean) -> a
     1:1:void onPostExecute(java.lang.Object) -> onPostExecute
     1:1:java.lang.Object doInBackground(java.lang.Object[]) -> doInBackground
 com.ianhanniballake.contractiontimer.ui.EditFragment$ViewHolder -> com.ianhanniballake.contractiontimer.ui.z:
