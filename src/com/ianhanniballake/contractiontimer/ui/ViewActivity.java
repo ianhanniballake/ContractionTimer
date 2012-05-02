@@ -7,7 +7,7 @@ import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.app.NavUtils;
 import android.support.v4.app.TaskStackBuilder;
@@ -37,7 +37,7 @@ public class ViewActivity extends ActionBarFragmentActivity implements
 	/**
 	 * Creates ViewFragments as necessary
 	 */
-	private class ViewFragmentPagerAdapter extends FragmentPagerAdapter
+	private class ViewFragmentPagerAdapter extends FragmentStatePagerAdapter
 	{
 		/**
 		 * Creates a new ViewFragmentPagerAdapter
