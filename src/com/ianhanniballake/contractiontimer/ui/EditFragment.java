@@ -469,7 +469,9 @@ public class EditFragment extends Fragment implements
 			{
 				AppWidgetUpdateHandler.createInstance().updateAllWidgets(
 						applicationContext);
-				getActivity().finish();
+				final Activity activity = getActivity();
+				if (activity != null)
+					activity.finish();
 			}
 
 			@Override
@@ -478,7 +480,9 @@ public class EditFragment extends Fragment implements
 			{
 				AppWidgetUpdateHandler.createInstance().updateAllWidgets(
 						applicationContext);
-				getActivity().finish();
+				final Activity activity = getActivity();
+				if (activity != null)
+					activity.finish();
 			}
 		};
 		adapter = new CursorAdapter(getActivity(), null, 0)
