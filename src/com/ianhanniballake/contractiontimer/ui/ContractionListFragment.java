@@ -347,6 +347,7 @@ public abstract class ContractionListFragment extends ListFragment implements
 	public void onLoadFinished(final Loader<Cursor> loader, final Cursor data)
 	{
 		liveDurationHandler.removeCallbacks(liveDurationUpdate);
+		timeSinceLastHandler.removeCallbacks(timeSinceLastUpdate);
 		adapter.swapCursor(data);
 		if (data == null || data.getCount() == 0)
 			setEmptyText(getText(R.string.list_empty));
