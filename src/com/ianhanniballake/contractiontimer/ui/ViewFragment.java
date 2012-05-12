@@ -2,6 +2,7 @@ package com.ianhanniballake.contractiontimer.ui;
 
 import java.util.Date;
 
+import android.app.Activity;
 import android.content.AsyncQueryHandler;
 import android.content.ContentUris;
 import android.content.Context;
@@ -121,7 +122,9 @@ public class ViewFragment extends Fragment implements
 			{
 				AppWidgetUpdateHandler.createInstance().updateAllWidgets(
 						applicationContext);
-				getActivity().finish();
+				final Activity activity = getActivity();
+				if (activity != null)
+					activity.finish();
 			}
 		};
 		adapter = new CursorAdapter(getActivity(), null, 0)

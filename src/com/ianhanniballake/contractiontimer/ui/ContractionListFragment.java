@@ -22,6 +22,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Button;
+import android.widget.FrameLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -198,6 +199,10 @@ public abstract class ContractionListFragment extends ListFragment implements
 	 */
 	private long currentContractionStartTime = 0;
 	/**
+	 * View for the header row
+	 */
+	private View headerView = null;
+	/**
 	 * Handler of live duration updates
 	 */
 	private final Handler liveDurationHandler = new Handler();
@@ -226,6 +231,38 @@ public abstract class ContractionListFragment extends ListFragment implements
 				}
 			}
 			liveDurationHandler.postDelayed(this, 1000);
+		}
+	};
+	/**
+	 * Handler of time since last contraction updates
+	 */
+	private final Handler timeSinceLastHandler = new Handler();
+	/**
+	 * Reference to the Runnable time since last contraction updater
+	 */
+	private final Runnable timeSinceLastUpdate = new Runnable()
+	{
+		/**
+		 * Updates the time since last contraction and schedules this to rerun
+		 * in 1 second
+		 */
+		@Override
+		public void run()
+		{
+			if (headerView != null)
+			{
+				final TextView timeSinceLastView = (TextView) headerView
+						.findViewById(R.id.list_header_time_since_last);
+				if (timeSinceLastView != null
+						&& currentContractionStartTime != 0)
+				{
+					final long timeSinceLastInSeconds = (System
+							.currentTimeMillis() - currentContractionStartTime) / 1000;
+					timeSinceLastView.setText(DateUtils
+							.formatElapsedTime(timeSinceLastInSeconds));
+				}
+			}
+			timeSinceLastHandler.postDelayed(this, 1000);
 		}
 	};
 
@@ -264,10 +301,15 @@ public abstract class ContractionListFragment extends ListFragment implements
 	{
 		super.onActivityCreated(savedInstanceState);
 		setEmptyText(getText(R.string.list_loading));
+		final ListView listView = getListView();
+		headerView = getLayoutInflater(savedInstanceState).inflate(
+				R.layout.list_header, listView, false);
+		final FrameLayout headerFrame = new FrameLayout(getActivity());
+		headerFrame.addView(headerView);
+		listView.addHeaderView(headerFrame, null, false);
 		adapter = new ContractionListCursorAdapter(getActivity(), null, 0);
 		setListAdapter(adapter);
 		setupListView();
-		final ListView listView = getListView();
 		listView.setOnItemClickListener(new OnItemClickListener()
 		{
 			@Override
@@ -306,11 +348,30 @@ public abstract class ContractionListFragment extends ListFragment implements
 	public void onLoadFinished(final Loader<Cursor> loader, final Cursor data)
 	{
 		liveDurationHandler.removeCallbacks(liveDurationUpdate);
+		timeSinceLastHandler.removeCallbacks(timeSinceLastUpdate);
 		adapter.swapCursor(data);
 		if (data == null || data.getCount() == 0)
 			setEmptyText(getText(R.string.list_empty));
 		else
+		{
 			getListView().setSelection(0);
+			data.moveToFirst();
+			final int endTimeColumnIndex = data
+					.getColumnIndex(ContractionContract.Contractions.COLUMN_NAME_END_TIME);
+			final boolean isContractionOngoing = data
+					.isNull(endTimeColumnIndex);
+			if (isContractionOngoing)
+				headerView.setVisibility(View.GONE);
+			else
+			{
+				final int startTimeColumnIndex = data
+						.getColumnIndex(ContractionContract.Contractions.COLUMN_NAME_START_TIME);
+				currentContractionStartTime = data
+						.getLong(startTimeColumnIndex);
+				timeSinceLastHandler.post(timeSinceLastUpdate);
+				headerView.setVisibility(View.VISIBLE);
+			}
+		}
 	}
 
 	@Override
@@ -318,6 +379,7 @@ public abstract class ContractionListFragment extends ListFragment implements
 	{
 		super.onPause();
 		liveDurationHandler.removeCallbacks(liveDurationUpdate);
+		timeSinceLastHandler.removeCallbacks(timeSinceLastUpdate);
 	}
 
 	@Override
@@ -335,6 +397,12 @@ public abstract class ContractionListFragment extends ListFragment implements
 				liveDurationHandler.removeCallbacks(liveDurationUpdate);
 				liveDurationHandler.post(liveDurationUpdate);
 			}
+		}
+		if (headerView != null)
+		{
+			// Ensures the live time since last update is running
+			timeSinceLastHandler.removeCallbacks(timeSinceLastUpdate);
+			timeSinceLastHandler.post(timeSinceLastUpdate);
 		}
 	}
 

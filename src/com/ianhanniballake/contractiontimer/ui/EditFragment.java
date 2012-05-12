@@ -2,6 +2,7 @@ package com.ianhanniballake.contractiontimer.ui;
 
 import java.util.Calendar;
 
+import android.app.Activity;
 import android.content.AsyncQueryHandler;
 import android.content.BroadcastReceiver;
 import android.content.ContentUris;
@@ -57,6 +58,9 @@ public class EditFragment extends Fragment implements
 		@Override
 		protected Boolean doInBackground(final Void... params)
 		{
+			final Activity activity = getActivity();
+			if (activity == null)
+				return false;
 			final String[] projection = { BaseColumns._ID };
 			final String selection = BaseColumns._ID + "<>? AND "
 					+ ContractionContract.Contractions.COLUMN_NAME_START_TIME
@@ -65,15 +69,12 @@ public class EditFragment extends Fragment implements
 					+ ">=?";
 			final String currentEndTimeMillis = Long.toString(endTime
 					.getTimeInMillis());
-			final long contractionId = Intent.ACTION_INSERT
-					.equals(getActivity().getIntent().getAction()) ? 0
-					: ContentUris.parseId(getActivity().getIntent().getData());
+			final long contractionId = Intent.ACTION_INSERT.equals(activity
+					.getIntent().getAction()) ? 0 : ContentUris
+					.parseId(activity.getIntent().getData());
 			final String[] selectionArgs = { Long.toString(contractionId),
 					currentEndTimeMillis, currentEndTimeMillis };
-			final Context context = getActivity();
-			if (context == null)
-				return false;
-			final Cursor data = context.getContentResolver().query(
+			final Cursor data = activity.getContentResolver().query(
 					ContractionContract.Contractions.CONTENT_URI, projection,
 					selection, selectionArgs, null);
 			final boolean overlapExists = data.moveToFirst();
@@ -111,6 +112,9 @@ public class EditFragment extends Fragment implements
 		@Override
 		protected Boolean doInBackground(final Void... params)
 		{
+			final Activity activity = getActivity();
+			if (activity == null)
+				return false;
 			final String[] projection = { BaseColumns._ID };
 			final String selection = BaseColumns._ID + "<>? AND "
 					+ ContractionContract.Contractions.COLUMN_NAME_START_TIME
@@ -119,15 +123,12 @@ public class EditFragment extends Fragment implements
 					+ ">=?";
 			final String currentStartTimeMillis = Long.toString(startTime
 					.getTimeInMillis());
-			final long contractionId = Intent.ACTION_INSERT
-					.equals(getActivity().getIntent().getAction()) ? 0
-					: ContentUris.parseId(getActivity().getIntent().getData());
+			final long contractionId = Intent.ACTION_INSERT.equals(activity
+					.getIntent().getAction()) ? 0 : ContentUris
+					.parseId(activity.getIntent().getData());
 			final String[] selectionArgs = { Long.toString(contractionId),
 					currentStartTimeMillis, currentStartTimeMillis };
-			final Context context = getActivity();
-			if (context == null)
-				return false;
-			final Cursor data = context.getContentResolver().query(
+			final Cursor data = activity.getContentResolver().query(
 					ContractionContract.Contractions.CONTENT_URI, projection,
 					selection, selectionArgs, null);
 			final boolean overlapExists = data.moveToFirst();
@@ -165,6 +166,9 @@ public class EditFragment extends Fragment implements
 		@Override
 		protected Boolean doInBackground(final Void... params)
 		{
+			final Activity activity = getActivity();
+			if (activity == null)
+				return false;
 			final String[] projection = { BaseColumns._ID };
 			final String selection = BaseColumns._ID + "<>? AND "
 					+ ContractionContract.Contractions.COLUMN_NAME_START_TIME
@@ -175,15 +179,12 @@ public class EditFragment extends Fragment implements
 					.getTimeInMillis());
 			final String currentEndTimeMillis = Long.toString(endTime
 					.getTimeInMillis());
-			final long contractionId = Intent.ACTION_INSERT
-					.equals(getActivity().getIntent().getAction()) ? 0
-					: ContentUris.parseId(getActivity().getIntent().getData());
+			final long contractionId = Intent.ACTION_INSERT.equals(activity
+					.getIntent().getAction()) ? 0 : ContentUris
+					.parseId(activity.getIntent().getData());
 			final String[] selectionArgs = { Long.toString(contractionId),
 					currentStartTimeMillis, currentEndTimeMillis };
-			final Context context = getActivity();
-			if (context == null)
-				return false;
-			final Cursor data = context.getContentResolver().query(
+			final Cursor data = activity.getContentResolver().query(
 					ContractionContract.Contractions.CONTENT_URI, projection,
 					selection, selectionArgs, null);
 			final boolean overlapExists = data.moveToFirst();
@@ -468,7 +469,9 @@ public class EditFragment extends Fragment implements
 			{
 				AppWidgetUpdateHandler.createInstance().updateAllWidgets(
 						applicationContext);
-				getActivity().finish();
+				final Activity activity = getActivity();
+				if (activity != null)
+					activity.finish();
 			}
 
 			@Override
@@ -477,7 +480,9 @@ public class EditFragment extends Fragment implements
 			{
 				AppWidgetUpdateHandler.createInstance().updateAllWidgets(
 						applicationContext);
-				getActivity().finish();
+				final Activity activity = getActivity();
+				if (activity != null)
+					activity.finish();
 			}
 		};
 		adapter = new CursorAdapter(getActivity(), null, 0)

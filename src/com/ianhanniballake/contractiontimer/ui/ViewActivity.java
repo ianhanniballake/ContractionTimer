@@ -7,7 +7,7 @@ import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.app.NavUtils;
 import android.support.v4.app.TaskStackBuilder;
@@ -37,7 +37,7 @@ public class ViewActivity extends ActionBarFragmentActivity implements
 	/**
 	 * Creates ViewFragments as necessary
 	 */
-	private class ViewFragmentPagerAdapter extends FragmentPagerAdapter
+	private class ViewFragmentPagerAdapter extends FragmentStatePagerAdapter
 	{
 		/**
 		 * Creates a new ViewFragmentPagerAdapter
@@ -65,12 +65,12 @@ public class ViewActivity extends ActionBarFragmentActivity implements
 		@Override
 		public CharSequence getPageTitle(final int position)
 		{
-			if (position == currentPosition)
-				return "";
-			else if (position < currentPosition)
+			if (position + 1 == currentPosition)
 				return getText(R.string.detail_previous_page);
-			else
+			else if (position - 1 == currentPosition)
 				return getText(R.string.detail_next_page);
+			else
+				return null;
 		}
 	}
 
@@ -164,9 +164,7 @@ public class ViewActivity extends ActionBarFragmentActivity implements
 	public void onLoadFinished(final Loader<Cursor> loader, final Cursor data)
 	{
 		adapter.swapCursor(data);
-		final ViewPager pager = (ViewPager) findViewById(R.id.pager);
 		pagerAdapter.notifyDataSetChanged();
-		pager.setAdapter(pagerAdapter);
 		final long contractionId = ContentUris.parseId(getIntent().getData());
 		final int count = adapter.getCount();
 		for (int position = 0; position < count; position++)
@@ -174,10 +172,13 @@ public class ViewActivity extends ActionBarFragmentActivity implements
 			final long id = adapter.getItemId(position);
 			if (id == contractionId)
 			{
-				pager.setCurrentItem(position, false);
+				currentPosition = position;
 				break;
 			}
 		}
+		final ViewPager pager = (ViewPager) findViewById(R.id.pager);
+		pager.setAdapter(pagerAdapter);
+		pager.setCurrentItem(currentPosition, false);
 	}
 
 	@Override

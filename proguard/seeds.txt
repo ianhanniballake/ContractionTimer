@@ -38,13 +38,16 @@ com.ianhanniballake.contractiontimer.R$array: int pref_settings_average_time_fra
 com.ianhanniballake.contractiontimer.R$attr: int actionbarCompatItemStyle
 com.ianhanniballake.contractiontimer.R$attr: int actionbarCompatTitleStyle
 com.ianhanniballake.contractiontimer.R$bool: int detail_appwidget_enabled
+com.ianhanniballake.contractiontimer.R$bool: int pref_privacy_analytics_default
 com.ianhanniballake.contractiontimer.R$bool: int pref_settings_keep_screen_on_default
 com.ianhanniballake.contractiontimer.R$color: int actionbar_compat_background
 com.ianhanniballake.contractiontimer.R$color: int average_background
 com.ianhanniballake.contractiontimer.R$color: int detail_appwidget_background_dark
 com.ianhanniballake.contractiontimer.R$color: int detail_appwidget_background_light
 com.ianhanniballake.contractiontimer.R$color: int error_background
+com.ianhanniballake.contractiontimer.R$color: int pagerstrip_background
 com.ianhanniballake.contractiontimer.R$dimen: int actionbar_compat_button_home_width
+com.ianhanniballake.contractiontimer.R$dimen: int actionbar_compat_button_up_caret_width
 com.ianhanniballake.contractiontimer.R$dimen: int actionbar_compat_button_width
 com.ianhanniballake.contractiontimer.R$dimen: int actionbar_compat_height
 com.ianhanniballake.contractiontimer.R$dimen: int actionbar_compat_padding
@@ -62,6 +65,7 @@ com.ianhanniballake.contractiontimer.R$drawable: int actionbar_compat_item
 com.ianhanniballake.contractiontimer.R$drawable: int actionbar_compat_item_focused
 com.ianhanniballake.contractiontimer.R$drawable: int actionbar_compat_item_pressed
 com.ianhanniballake.contractiontimer.R$drawable: int actionbar_shadow
+com.ianhanniballake.contractiontimer.R$drawable: int actionbar_up_caret
 com.ianhanniballake.contractiontimer.R$drawable: int appwidget_button_center
 com.ianhanniballake.contractiontimer.R$drawable: int appwidget_button_left
 com.ianhanniballake.contractiontimer.R$drawable: int appwidget_button_right
@@ -135,6 +139,7 @@ com.ianhanniballake.contractiontimer.R$id: int menu_share_averages
 com.ianhanniballake.contractiontimer.R$id: int note
 com.ianhanniballake.contractiontimer.R$id: int note_divider
 com.ianhanniballake.contractiontimer.R$id: int note_label
+com.ianhanniballake.contractiontimer.R$id: int pager
 com.ianhanniballake.contractiontimer.R$id: int project
 com.ianhanniballake.contractiontimer.R$id: int project_link
 com.ianhanniballake.contractiontimer.R$id: int show_popup
@@ -144,7 +149,6 @@ com.ianhanniballake.contractiontimer.R$id: int start_time_error_overlap
 com.ianhanniballake.contractiontimer.R$id: int start_time_label
 com.ianhanniballake.contractiontimer.R$id: int time_error_overlap
 com.ianhanniballake.contractiontimer.R$id: int toggleContraction
-com.ianhanniballake.contractiontimer.R$id: int view
 com.ianhanniballake.contractiontimer.R$layout: int actionbar_compat
 com.ianhanniballake.contractiontimer.R$layout: int activity_edit
 com.ianhanniballake.contractiontimer.R$layout: int activity_main
@@ -173,6 +177,8 @@ com.ianhanniballake.contractiontimer.R$menu: int activity_edit
 com.ianhanniballake.contractiontimer.R$menu: int activity_main
 com.ianhanniballake.contractiontimer.R$menu: int activity_view
 com.ianhanniballake.contractiontimer.R$menu: int list_context
+com.ianhanniballake.contractiontimer.R$plurals: int menu_context_delete
+com.ianhanniballake.contractiontimer.R$plurals: int share_average
 com.ianhanniballake.contractiontimer.R$string: int app_name
 com.ianhanniballake.contractiontimer.R$string: int application_launch
 com.ianhanniballake.contractiontimer.R$string: int appwidget_contraction_start
@@ -193,12 +199,16 @@ com.ianhanniballake.contractiontimer.R$string: int description
 com.ianhanniballake.contractiontimer.R$string: int detail_appwidget_label
 com.ianhanniballake.contractiontimer.R$string: int detail_duration_label
 com.ianhanniballake.contractiontimer.R$string: int detail_end_time_label
+com.ianhanniballake.contractiontimer.R$string: int detail_next_page
 com.ianhanniballake.contractiontimer.R$string: int detail_note_label
+com.ianhanniballake.contractiontimer.R$string: int detail_previous_page
 com.ianhanniballake.contractiontimer.R$string: int detail_start_time_label
 com.ianhanniballake.contractiontimer.R$string: int divider
 com.ianhanniballake.contractiontimer.R$string: int duration_ongoing
+com.ianhanniballake.contractiontimer.R$string: int edit_activity_name
 com.ianhanniballake.contractiontimer.R$string: int edit_end_time_error_order
 com.ianhanniballake.contractiontimer.R$string: int edit_end_time_error_overlap
+com.ianhanniballake.contractiontimer.R$string: int edit_ongoing_error
 com.ianhanniballake.contractiontimer.R$string: int edit_start_time_error_overlap
 com.ianhanniballake.contractiontimer.R$string: int edit_time_error_overlap
 com.ianhanniballake.contractiontimer.R$string: int graphics_and_testing_by_label
@@ -211,8 +221,6 @@ com.ianhanniballake.contractiontimer.R$string: int menu_about
 com.ianhanniballake.contractiontimer.R$string: int menu_add
 com.ianhanniballake.contractiontimer.R$string: int menu_cancel
 com.ianhanniballake.contractiontimer.R$string: int menu_context_action_mode_title
-com.ianhanniballake.contractiontimer.R$string: int menu_context_delete_multiple
-com.ianhanniballake.contractiontimer.R$string: int menu_context_delete_single
 com.ianhanniballake.contractiontimer.R$string: int menu_context_view
 com.ianhanniballake.contractiontimer.R$string: int menu_delete
 com.ianhanniballake.contractiontimer.R$string: int menu_edit
@@ -229,6 +237,9 @@ com.ianhanniballake.contractiontimer.R$string: int pref_appwidget_background_def
 com.ianhanniballake.contractiontimer.R$string: int pref_appwidget_background_dialog_title
 com.ianhanniballake.contractiontimer.R$string: int pref_appwidget_background_title
 com.ianhanniballake.contractiontimer.R$string: int pref_appwidget_category
+com.ianhanniballake.contractiontimer.R$string: int pref_privacy_analytics_summary
+com.ianhanniballake.contractiontimer.R$string: int pref_privacy_analytics_title
+com.ianhanniballake.contractiontimer.R$string: int pref_privacy_category
 com.ianhanniballake.contractiontimer.R$string: int pref_settings_average_time_frame_default
 com.ianhanniballake.contractiontimer.R$string: int pref_settings_average_time_frame_dialog_title
 com.ianhanniballake.contractiontimer.R$string: int pref_settings_average_time_frame_summary
@@ -248,8 +259,6 @@ com.ianhanniballake.contractiontimer.R$string: int reset_dialog_message
 com.ianhanniballake.contractiontimer.R$string: int reset_dialog_title
 com.ianhanniballake.contractiontimer.R$string: int separator
 com.ianhanniballake.contractiontimer.R$string: int settings
-com.ianhanniballake.contractiontimer.R$string: int share_average_multiple
-com.ianhanniballake.contractiontimer.R$string: int share_average_single
 com.ianhanniballake.contractiontimer.R$string: int share_detail_frequency
 com.ianhanniballake.contractiontimer.R$string: int share_detail_time_finished
 com.ianhanniballake.contractiontimer.R$string: int share_detail_time_ongoing
@@ -257,6 +266,7 @@ com.ianhanniballake.contractiontimer.R$string: int share_details_header
 com.ianhanniballake.contractiontimer.R$string: int share_pick_application
 com.ianhanniballake.contractiontimer.R$string: int share_subject
 com.ianhanniballake.contractiontimer.R$string: int toggle_appwidget_label
+com.ianhanniballake.contractiontimer.R$string: int view_activity_name
 com.ianhanniballake.contractiontimer.R$style: int ActionBarCompat
 com.ianhanniballake.contractiontimer.R$style: int ActionBarCompatItem
 com.ianhanniballake.contractiontimer.R$style: int ActionBarCompatTitle
