@@ -256,9 +256,10 @@ public abstract class ContractionListFragment extends ListFragment implements
 				if (timeSinceLastView != null
 						&& currentContractionStartTime != 0)
 				{
-					final long durationInSeconds = (System.currentTimeMillis() - currentContractionStartTime) / 1000;
+					final long timeSinceLastInSeconds = (System
+							.currentTimeMillis() - currentContractionStartTime) / 1000;
 					timeSinceLastView.setText(DateUtils
-							.formatElapsedTime(durationInSeconds));
+							.formatElapsedTime(timeSinceLastInSeconds));
 				}
 			}
 			timeSinceLastHandler.postDelayed(this, 1000);
