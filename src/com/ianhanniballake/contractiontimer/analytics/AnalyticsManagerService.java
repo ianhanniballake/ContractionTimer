@@ -327,7 +327,7 @@ public class AnalyticsManagerService extends IntentService
 	{
 		// Start the tracker in manual dispatch mode
 		tracker.startNewSession(AnalyticsManagerService.ANALYTICS_PROPERTY_ID,
-				this);
+				getApplicationContext());
 		tracker.setAnonymizeIp(true);
 		final String productVersion = "Android-" + Build.VERSION.RELEASE;
 		String appVersion = "UNKNOWN";
