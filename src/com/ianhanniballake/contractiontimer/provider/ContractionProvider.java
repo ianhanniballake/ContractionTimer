@@ -2,6 +2,7 @@ package com.ianhanniballake.contractiontimer.provider;
 
 import java.util.HashMap;
 
+import android.app.SearchManager;
 import android.content.ContentProvider;
 import android.content.ContentUris;
 import android.content.ContentValues;
@@ -19,6 +20,7 @@ import android.text.TextUtils;
 import android.util.Log;
 
 import com.ianhanniballake.contractiontimer.BuildConfig;
+import com.ianhanniballake.contractiontimer.provider.ContractionContract.Contractions;
 
 /**
  * Provides access to a database of contractions.
@@ -102,6 +104,10 @@ public class ContractionProvider extends ContentProvider
 	 */
 	private static final int DATABASE_VERSION = 2;
 	/**
+	 * The incoming URI matches the Search URI pattern
+	 */
+	private static final int SEARCH = 3;
+	/**
 	 * Used for debugging and logging
 	 */
 	private static final String TAG = "ContractionProvider";
@@ -146,6 +152,9 @@ public class ContractionProvider extends ContentProvider
 		matcher.addURI(ContractionContract.AUTHORITY,
 				ContractionContract.Contractions.TABLE_NAME + "/#",
 				ContractionProvider.CONTRACTION_ID);
+		matcher.addURI(ContractionContract.AUTHORITY,
+				SearchManager.SUGGEST_URI_PATH_QUERY + "/*",
+				ContractionProvider.SEARCH);
 		return matcher;
 	}
 
@@ -204,6 +213,7 @@ public class ContractionProvider extends ContentProvider
 		switch (ContractionProvider.uriMatcher.match(uri))
 		{
 			case CONTRACTIONS:
+			case SEARCH:
 				// If the pattern is for contractions, returns the general
 				// content type.
 				return ContractionContract.Contractions.CONTENT_TYPE;
@@ -290,6 +300,10 @@ public class ContractionProvider extends ContentProvider
 				// its ID, appends "_ID = <contractionID>" to the where clause,
 				// so that it selects that single contraction
 				qb.appendWhere(BaseColumns._ID + "=" + uri.getLastPathSegment());
+				break;
+			case SEARCH:
+				qb.appendWhere(Contractions.COLUMN_NAME_NOTE + " LIKE '%"
+						+ uri.getLastPathSegment() + "%'");
 				break;
 			default:
 				throw new IllegalArgumentException("Unknown URI " + uri);

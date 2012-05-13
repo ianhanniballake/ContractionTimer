@@ -1,5 +1,6 @@
 package com.ianhanniballake.contractiontimer.provider;
 
+import android.app.SearchManager;
 import android.net.Uri;
 import android.provider.BaseColumns;
 
@@ -76,6 +77,13 @@ public final class ContractionContract
 		 */
 		public static final String DEFAULT_SORT_ORDER = Contractions.COLUMN_NAME_START_TIME
 				+ " DESC";
+		/**
+		 * The content:// style URL for this table
+		 */
+		public static final Uri SEARCH_URI = Uri
+				.parse(ContractionContract.SCHEME
+						+ ContractionContract.AUTHORITY + "/"
+						+ SearchManager.SUGGEST_URI_PATH_QUERY);
 		/**
 		 * The table name offered by this provider
 		 */
