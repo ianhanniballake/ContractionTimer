@@ -1,5 +1,7 @@
 package com.ianhanniballake.contractiontimer.analytics;
 
+import org.acra.ErrorReporter;
+
 import android.app.Activity;
 import android.app.IntentService;
 import android.content.Context;
@@ -107,7 +109,13 @@ public class AnalyticsManagerService extends IntentService
 	{
 		tracker.stopSession();
 		if (!BuildConfig.DEBUG)
-			tracker.dispatch();
+			try
+			{
+				tracker.dispatch();
+			} catch (final NullPointerException e)
+			{
+				ErrorReporter.getInstance().handleSilentException(e);
+			}
 	}
 
 	/**
@@ -310,7 +318,39 @@ public class AnalyticsManagerService extends IntentService
 					.getStringExtra(AnalyticsManagerService.EXTRA_LABEL);
 			final int value = intent.getIntExtra(
 					AnalyticsManagerService.EXTRA_VALUE, 0);
-			tracker.trackEvent(category, action, label, value);
+			try
+			{
+				tracker.trackEvent(category, action, label, value);
+			} catch (final NullPointerException e)
+			{
+				if (BuildConfig.DEBUG)
+					Log.e(getClass().getSimpleName(), "Tracking Event: "
+							+ category + ":" + action + ":" + label + ":"
+							+ value);
+				else
+				{
+					final ErrorReporter errorReporter = ErrorReporter
+							.getInstance();
+					errorReporter.putCustomData(
+							AnalyticsManagerService.EXTRA_CATEGORY, category);
+					errorReporter.putCustomData(
+							AnalyticsManagerService.EXTRA_ACTION, action);
+					errorReporter.putCustomData(
+							AnalyticsManagerService.EXTRA_LABEL, label);
+					errorReporter.putCustomData(
+							AnalyticsManagerService.EXTRA_VALUE,
+							Integer.toString(value));
+					ErrorReporter.getInstance().handleSilentException(e);
+					errorReporter
+							.removeCustomData(AnalyticsManagerService.EXTRA_CATEGORY);
+					errorReporter
+							.removeCustomData(AnalyticsManagerService.EXTRA_ACTION);
+					errorReporter
+							.removeCustomData(AnalyticsManagerService.EXTRA_LABEL);
+					errorReporter
+							.removeCustomData(AnalyticsManagerService.EXTRA_VALUE);
+				}
+			}
 		}
 		else if (AnalyticsManagerService.ACTION_STOP_SESSION
 				.equals(intentAction))
