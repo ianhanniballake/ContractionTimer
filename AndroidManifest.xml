@@ -2,8 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
 	package="com.ianhanniballake.contractiontimer"
 	android:installLocation="auto"
-	android:versionCode="4151890"
-	android:versionName="1.9-beta1" >
+	android:versionCode="4151830"
+	android:versionName="1.8.3" >
 
 	<uses-sdk
 		android:minSdkVersion="4"

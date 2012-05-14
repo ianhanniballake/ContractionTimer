@@ -761,10 +761,7 @@ org.acra.ErrorReporter:
     private static final int MAX_SEND_REPORTS
     static final java.lang.String APPROVED_SUFFIX
     static final java.lang.String EXTRA_REPORT_FILE_NAME
-    289:289:public java.lang.String putCustomData(java.lang.String,java.lang.String)
-    302:302:public java.lang.String removeCustomData(java.lang.String)
     315:315:public java.lang.String getCustomData(java.lang.String)
-    787:793:public java.lang.Thread handleSilentException(java.lang.Throwable)
     1081:1082:public void deletePendingSilentReports()
     1234:1235:public void removeReportSender(org.acra.sender.ReportSender)
     1243:1250:public void removeReportSenders(java.lang.Class)

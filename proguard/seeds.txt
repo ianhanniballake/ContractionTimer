@@ -121,6 +121,7 @@ com.ianhanniballake.contractiontimer.R$id: int end_time_label
 com.ianhanniballake.contractiontimer.R$id: int frequency
 com.ianhanniballake.contractiontimer.R$id: int graphics_and_testing_by_label
 com.ianhanniballake.contractiontimer.R$id: int list
+com.ianhanniballake.contractiontimer.R$id: int list_header_time_since_last
 com.ianhanniballake.contractiontimer.R$id: int list_item_detail_appwidget
 com.ianhanniballake.contractiontimer.R$id: int list_view
 com.ianhanniballake.contractiontimer.R$id: int menu_about
@@ -165,6 +166,7 @@ com.ianhanniballake.contractiontimer.R$layout: int fragment_contraction_controls
 com.ianhanniballake.contractiontimer.R$layout: int fragment_contraction_list
 com.ianhanniballake.contractiontimer.R$layout: int fragment_edit
 com.ianhanniballake.contractiontimer.R$layout: int fragment_view
+com.ianhanniballake.contractiontimer.R$layout: int list_header
 com.ianhanniballake.contractiontimer.R$layout: int list_item_contraction
 com.ianhanniballake.contractiontimer.R$layout: int list_item_detail_appwidget_dark
 com.ianhanniballake.contractiontimer.R$layout: int list_item_detail_appwidget_light
@@ -306,6 +308,9 @@ com.ianhanniballake.contractiontimer.ui.MainActivity
 com.ianhanniballake.contractiontimer.ui.NoteDialogFragment
 com.ianhanniballake.contractiontimer.ui.Preferences
 com.ianhanniballake.contractiontimer.ui.ResetDialogFragment
+com.ianhanniballake.contractiontimer.ui.SafePagerTitleStrip
+com.ianhanniballake.contractiontimer.ui.SafePagerTitleStrip: SafePagerTitleStrip(android.content.Context)
+com.ianhanniballake.contractiontimer.ui.SafePagerTitleStrip: SafePagerTitleStrip(android.content.Context,android.util.AttributeSet)
 com.ianhanniballake.contractiontimer.ui.TimePickerDialogFragment
 com.ianhanniballake.contractiontimer.ui.ViewActivity
 com.ianhanniballake.contractiontimer.ui.ViewFragment
