@@ -223,12 +223,12 @@ public class ViewFragment extends Fragment implements
 	public void onCreateOptionsMenu(final Menu menu, final MenuInflater inflater)
 	{
 		super.onCreateOptionsMenu(menu, inflater);
-		if (isContractionOngoing != null && isContractionOngoing)
-		{
-			final MenuItem editItem = menu.findItem(R.id.menu_edit);
-			editItem.setEnabled(false);
-			editItem.setVisible(false);
-		}
+		// Only allow editing contractions that have already finished
+		final boolean showEdit = isContractionOngoing != null
+				&& !isContractionOngoing;
+		final MenuItem editItem = menu.findItem(R.id.menu_edit);
+		editItem.setEnabled(showEdit);
+		editItem.setVisible(showEdit);
 	}
 
 	@Override
@@ -250,6 +250,7 @@ public class ViewFragment extends Fragment implements
 		adapter.swapCursor(data);
 		if (data.moveToFirst())
 			adapter.bindView(getView(), getActivity(), data);
+		getActivity().supportInvalidateOptionsMenu();
 	}
 
 	@Override
@@ -261,6 +262,10 @@ public class ViewFragment extends Fragment implements
 		switch (item.getItemId())
 		{
 			case R.id.menu_edit:
+				// isContractionOngoing should be non-null at this point, but
+				// just in case
+				if (isContractionOngoing == null)
+					return true;
 				if (BuildConfig.DEBUG)
 					Log.d(getClass().getSimpleName(), "View selected edit");
 				AnalyticsManagerService.trackEvent(getActivity(), "View",
