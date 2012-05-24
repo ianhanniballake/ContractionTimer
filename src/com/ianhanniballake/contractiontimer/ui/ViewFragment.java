@@ -41,37 +41,6 @@ public class ViewFragment extends Fragment implements
 		LoaderManager.LoaderCallbacks<Cursor>
 {
 	/**
-	 * Helper class used to store temporary references to list item views
-	 */
-	static class ViewHolder
-	{
-		/**
-		 * TextView representing the duration of the contraction
-		 */
-		TextView duration;
-		/**
-		 * TextView representing the formatted end date of the contraction
-		 */
-		TextView endDate;
-		/**
-		 * TextView representing the formatted end time of the contraction
-		 */
-		TextView endTime;
-		/**
-		 * TextView representing the note attached to the contraction
-		 */
-		TextView note;
-		/**
-		 * TextView representing the formatted start date of the contraction
-		 */
-		TextView startDate;
-		/**
-		 * TextView representing the formatted start time of the contraction
-		 */
-		TextView startTime;
-	}
-
-	/**
 	 * Creates a new Fragment to display the given contraction
 	 * 
 	 * @param contractionId
@@ -106,6 +75,20 @@ public class ViewFragment extends Fragment implements
 	 */
 	private Boolean isContractionOngoing = null;
 
+	/**
+	 * We need to find the exact view_fragment view as there is a
+	 * NoSaveStateFrameLayout view inserted in between the parent and the view
+	 * we created in onCreateView
+	 * 
+	 * @return View created in onCreateView
+	 */
+	private View getFragmentView()
+	{
+		final View rootView = getView();
+		return rootView == null ? null : rootView
+				.findViewById(R.id.view_fragment);
+	}
+
 	@Override
 	public void onActivityCreated(final Bundle savedInstanceState)
 	{
@@ -133,64 +116,52 @@ public class ViewFragment extends Fragment implements
 			public void bindView(final View view, final Context context,
 					final Cursor cursor)
 			{
-				final Object viewTag = view.getTag();
-				ViewHolder holder;
-				if (viewTag == null)
-				{
-					holder = new ViewHolder();
-					holder.startTime = (TextView) view
-							.findViewById(R.id.start_time);
-					holder.startDate = (TextView) view
-							.findViewById(R.id.start_date);
-					holder.endTime = (TextView) view
-							.findViewById(R.id.end_time);
-					holder.endDate = (TextView) view
-							.findViewById(R.id.end_date);
-					holder.duration = (TextView) view
-							.findViewById(R.id.duration);
-					holder.note = (TextView) view.findViewById(R.id.note);
-					view.setTag(holder);
-				}
-				else
-					holder = (ViewHolder) viewTag;
+				final TextView startTimeView = (TextView) view
+						.getTag(R.id.start_time);
 				String timeFormat = "hh:mm:ssaa";
 				if (DateFormat.is24HourFormat(context))
 					timeFormat = "kk:mm:ss";
 				final int startTimeColumnIndex = cursor
 						.getColumnIndex(ContractionContract.Contractions.COLUMN_NAME_START_TIME);
 				final long startTime = cursor.getLong(startTimeColumnIndex);
-				holder.startTime.setText(DateFormat.format(timeFormat,
-						startTime));
+				startTimeView.setText(DateFormat.format(timeFormat, startTime));
+				final TextView startDateView = (TextView) view
+						.getTag(R.id.start_date);
 				final Date startDate = new Date(startTime);
-				holder.startDate.setText(DateFormat
-						.getDateFormat(getActivity()).format(startDate));
+				startDateView.setText(DateFormat.getDateFormat(getActivity())
+						.format(startDate));
+				final TextView endTimeView = (TextView) view
+						.getTag(R.id.end_time);
+				final TextView endDateView = (TextView) view
+						.getTag(R.id.end_date);
+				final TextView durationView = (TextView) view
+						.getTag(R.id.duration);
 				final int endTimeColumnIndex = cursor
 						.getColumnIndex(ContractionContract.Contractions.COLUMN_NAME_END_TIME);
 				isContractionOngoing = cursor.isNull(endTimeColumnIndex);
 				if (isContractionOngoing)
 				{
-					holder.endTime.setText(" ");
-					holder.endDate.setText(" ");
-					holder.duration
-							.setText(getString(R.string.duration_ongoing));
+					endTimeView.setText(" ");
+					endDateView.setText(" ");
+					durationView.setText(getString(R.string.duration_ongoing));
 				}
 				else
 				{
 					final long endTime = cursor.getLong(endTimeColumnIndex);
-					holder.endTime.setText(DateFormat.format(timeFormat,
-							endTime));
+					endTimeView.setText(DateFormat.format(timeFormat, endTime));
 					final Date endDate = new Date(endTime);
-					holder.endDate.setText(DateFormat.getDateFormat(
-							getActivity()).format(endDate));
+					endDateView.setText(DateFormat.getDateFormat(getActivity())
+							.format(endDate));
 					final long durationInSeconds = (endTime - startTime) / 1000;
-					holder.duration.setText(DateUtils
+					durationView.setText(DateUtils
 							.formatElapsedTime(durationInSeconds));
 				}
 				getActivity().supportInvalidateOptionsMenu();
+				final TextView noteView = (TextView) view.getTag(R.id.note);
 				final int noteColumnIndex = cursor
 						.getColumnIndex(ContractionContract.Contractions.COLUMN_NAME_NOTE);
 				final String note = cursor.getString(noteColumnIndex);
-				holder.note.setText(note);
+				noteView.setText(note);
 			}
 
 			@Override
@@ -235,7 +206,15 @@ public class ViewFragment extends Fragment implements
 	public View onCreateView(final LayoutInflater inflater,
 			final ViewGroup container, final Bundle savedInstanceState)
 	{
-		return inflater.inflate(R.layout.fragment_view, container, false);
+		final View view = inflater.inflate(R.layout.fragment_view, container,
+				false);
+		view.setTag(R.id.start_time, view.findViewById(R.id.start_time));
+		view.setTag(R.id.start_date, view.findViewById(R.id.start_date));
+		view.setTag(R.id.end_time, view.findViewById(R.id.end_time));
+		view.setTag(R.id.end_date, view.findViewById(R.id.end_date));
+		view.setTag(R.id.duration, view.findViewById(R.id.duration));
+		view.setTag(R.id.note, view.findViewById(R.id.note));
+		return view;
 	}
 
 	@Override
@@ -249,7 +228,7 @@ public class ViewFragment extends Fragment implements
 	{
 		adapter.swapCursor(data);
 		if (data.moveToFirst())
-			adapter.bindView(getView(), getActivity(), data);
+			adapter.bindView(getFragmentView(), getActivity(), data);
 		getActivity().supportInvalidateOptionsMenu();
 	}
 

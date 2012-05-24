@@ -56,14 +56,15 @@ public class ContractionListFragmentV11 extends ContractionListFragment
 	private String selectedItemNote = null;
 
 	@Override
-	protected void bindView(final ViewHolder holder, final Cursor cursor)
+	protected void bindView(final View view, final Cursor cursor)
 	{
-		final Object showPopupTag = holder.showPopup.getTag();
+		final Button showPopup = (Button) view.getTag(R.id.show_popup);
+		final Object showPopupTag = showPopup.getTag();
 		PopupHolder popupHolder;
 		if (showPopupTag == null)
 		{
 			popupHolder = new PopupHolder();
-			holder.showPopup.setTag(popupHolder);
+			showPopup.setTag(popupHolder);
 		}
 		else
 			popupHolder = (PopupHolder) showPopupTag;
@@ -75,7 +76,7 @@ public class ContractionListFragmentV11 extends ContractionListFragment
 		popupHolder.existingNote = note;
 		// Don't allow popup menu while the Contextual Action Bar is
 		// present
-		holder.showPopup.setEnabled(getListView().getCheckedItemCount() == 0);
+		showPopup.setEnabled(getListView().getCheckedItemCount() == 0);
 	}
 
 	@Override
@@ -316,6 +317,7 @@ public class ContractionListFragmentV11 extends ContractionListFragment
 	protected void setupNewView(final View view)
 	{
 		final Button showPopup = (Button) view.findViewById(R.id.show_popup);
+		view.setTag(R.id.show_popup, showPopup);
 		showPopup.setOnClickListener(this);
 	}
 }

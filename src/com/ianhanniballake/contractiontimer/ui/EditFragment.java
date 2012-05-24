@@ -33,7 +33,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -88,16 +87,19 @@ public class EditFragment extends Fragment implements
 			if (BuildConfig.DEBUG)
 				Log.d(EditFragment.this.getClass().getSimpleName(),
 						"End time overlap: " + overlapExists);
-			final View view = getView();
+			final View view = getFragmentView();
 			if (view == null)
 				return;
-			final ViewHolder holder = EditFragment.getViewHolder(view);
+			final TextView endTimeErrorOverlapView = (TextView) view
+					.getTag(R.id.end_time_error_overlap);
+			if (endTimeErrorOverlapView == null)
+				return;
 			if (overlapExists)
-				holder.endTimeErrorOverlap.setVisibility(View.VISIBLE);
+				endTimeErrorOverlapView.setVisibility(View.VISIBLE);
 			else
 			{
 				errorCheckPass++;
-				holder.endTimeErrorOverlap.setVisibility(View.GONE);
+				endTimeErrorOverlapView.setVisibility(View.GONE);
 			}
 			getActivity().supportInvalidateOptionsMenu();
 		}
@@ -142,16 +144,19 @@ public class EditFragment extends Fragment implements
 			if (BuildConfig.DEBUG)
 				Log.d(EditFragment.this.getClass().getSimpleName(),
 						"Start time overlap: " + overlapExists);
-			final View view = getView();
+			final View view = getFragmentView();
 			if (view == null)
 				return;
-			final ViewHolder holder = EditFragment.getViewHolder(view);
+			final TextView startTimeErrorOverlapView = (TextView) view
+					.getTag(R.id.start_time_error_overlap);
+			if (startTimeErrorOverlapView == null)
+				return;
 			if (overlapExists)
-				holder.startTimeErrorOverlap.setVisibility(View.VISIBLE);
+				startTimeErrorOverlapView.setVisibility(View.VISIBLE);
 			else
 			{
 				errorCheckPass++;
-				holder.startTimeErrorOverlap.setVisibility(View.GONE);
+				startTimeErrorOverlapView.setVisibility(View.GONE);
 			}
 			getActivity().supportInvalidateOptionsMenu();
 		}
@@ -198,66 +203,22 @@ public class EditFragment extends Fragment implements
 			if (BuildConfig.DEBUG)
 				Log.d(EditFragment.this.getClass().getSimpleName(),
 						"Time overlap: " + overlapExists);
-			final View view = getView();
+			final View view = getFragmentView();
 			if (view == null)
 				return;
-			final ViewHolder holder = EditFragment.getViewHolder(view);
+			final TextView timeErrorOverlapView = (TextView) view
+					.getTag(R.id.time_error_overlap);
+			if (timeErrorOverlapView == null)
+				return;
 			if (overlapExists)
-				holder.timeErrorOverlap.setVisibility(View.VISIBLE);
+				timeErrorOverlapView.setVisibility(View.VISIBLE);
 			else
 			{
 				errorCheckPass++;
-				holder.timeErrorOverlap.setVisibility(View.GONE);
+				timeErrorOverlapView.setVisibility(View.GONE);
 			}
 			getActivity().supportInvalidateOptionsMenu();
 		}
-	}
-
-	/**
-	 * Helper class used to store temporary references to list item views
-	 */
-	static class ViewHolder
-	{
-		/**
-		 * TextView representing the duration of the contraction
-		 */
-		TextView duration;
-		/**
-		 * TextView representing the formatted end date of the contraction
-		 */
-		Button endDate;
-		/**
-		 * TextView representing the formatted end time of the contraction
-		 */
-		Button endTime;
-		/**
-		 * TextView representing the end time order error message
-		 */
-		TextView endTimeErrorOrder;
-		/**
-		 * TextView representing the end time overlap error message
-		 */
-		TextView endTimeErrorOverlap;
-		/**
-		 * EditText representing the note attached to the contraction
-		 */
-		EditText note;
-		/**
-		 * TextView representing the formatted start date of the contraction
-		 */
-		Button startDate;
-		/**
-		 * TextView representing the formatted start time of the contraction
-		 */
-		Button startTime;
-		/**
-		 * TextView representing the start time overlap error message
-		 */
-		TextView startTimeErrorOverlap;
-		/**
-		 * TextView representing the time overlap error message
-		 */
-		TextView timeErrorOverlap;
 	}
 
 	/**
@@ -280,43 +241,6 @@ public class EditFragment extends Fragment implements
 	 * Action associated with the start time's time being changed
 	 */
 	public final static String START_TIME_ACTION = "com.ianhanniballake.contractiontimer.START_TIME";
-
-	/**
-	 * Gets a valid ViewHolder associated with the given view, creating one if
-	 * it doesn't exist
-	 * 
-	 * @param view
-	 *            View to retrieve a ViewHolder from
-	 * @return A valid ViewHolder instance
-	 */
-	private static ViewHolder getViewHolder(final View view)
-	{
-		final Object viewTag = view.getTag();
-		ViewHolder holder;
-		if (viewTag == null)
-		{
-			holder = new ViewHolder();
-			holder.timeErrorOverlap = (TextView) view
-					.findViewById(R.id.time_error_overlap);
-			holder.startTime = (Button) view.findViewById(R.id.start_time);
-			holder.startDate = (Button) view.findViewById(R.id.start_date);
-			holder.startTimeErrorOverlap = (TextView) view
-					.findViewById(R.id.start_time_error_overlap);
-			holder.endTime = (Button) view.findViewById(R.id.end_time);
-			holder.endDate = (Button) view.findViewById(R.id.end_date);
-			holder.endTimeErrorOrder = (TextView) view
-					.findViewById(R.id.end_time_error_order);
-			holder.endTimeErrorOverlap = (TextView) view
-					.findViewById(R.id.end_time_error_overlap);
-			holder.duration = (TextView) view.findViewById(R.id.duration);
-			holder.note = (EditText) view.findViewById(R.id.note);
-			view.setTag(holder);
-		}
-		else
-			holder = (ViewHolder) viewTag;
-		return holder;
-	}
-
 	/**
 	 * Adapter to display the detailed data
 	 */
@@ -453,6 +377,20 @@ public class EditFragment extends Fragment implements
 		return values;
 	}
 
+	/**
+	 * We need to find the exact edit_fragment view as there is a
+	 * NoSaveStateFrameLayout view inserted in between the parent and the view
+	 * we created in onCreateView
+	 * 
+	 * @return View created in onCreateView
+	 */
+	private View getFragmentView()
+	{
+		final View rootView = getView();
+		return rootView == null ? null : rootView
+				.findViewById(R.id.edit_fragment);
+	}
+
 	@Override
 	public void onActivityCreated(final Bundle savedInstanceState)
 	{
@@ -564,8 +502,22 @@ public class EditFragment extends Fragment implements
 	{
 		final View view = inflater.inflate(R.layout.fragment_edit, container,
 				false);
-		final ViewHolder holder = EditFragment.getViewHolder(view);
-		holder.startTime.setOnClickListener(new OnClickListener()
+		view.setTag(R.id.start_time, view.findViewById(R.id.start_time));
+		view.setTag(R.id.start_date, view.findViewById(R.id.start_date));
+		view.setTag(R.id.end_time, view.findViewById(R.id.end_time));
+		view.setTag(R.id.end_date, view.findViewById(R.id.end_date));
+		view.setTag(R.id.duration, view.findViewById(R.id.duration));
+		view.setTag(R.id.note, view.findViewById(R.id.note));
+		view.setTag(R.id.time_error_overlap,
+				view.findViewById(R.id.time_error_overlap));
+		view.setTag(R.id.start_time_error_overlap,
+				view.findViewById(R.id.start_time_error_overlap));
+		view.setTag(R.id.end_time_error_overlap,
+				view.findViewById(R.id.end_time_error_overlap));
+		view.setTag(R.id.end_time_error_order,
+				view.findViewById(R.id.end_time_error_order));
+		final TextView startTimeView = (TextView) view.getTag(R.id.start_time);
+		startTimeView.setOnClickListener(new OnClickListener()
 		{
 			@Override
 			public void onClick(final View v)
@@ -585,7 +537,8 @@ public class EditFragment extends Fragment implements
 				timePicker.show(getFragmentManager(), "startTime");
 			}
 		});
-		holder.startDate.setOnClickListener(new OnClickListener()
+		final TextView startDateView = (TextView) view.getTag(R.id.start_date);
+		startDateView.setOnClickListener(new OnClickListener()
 		{
 			@Override
 			public void onClick(final View v)
@@ -605,7 +558,8 @@ public class EditFragment extends Fragment implements
 				datePicker.show(getFragmentManager(), "startDate");
 			}
 		});
-		holder.endTime.setOnClickListener(new OnClickListener()
+		final TextView endTimeView = (TextView) view.getTag(R.id.end_time);
+		endTimeView.setOnClickListener(new OnClickListener()
 		{
 			@Override
 			public void onClick(final View v)
@@ -625,7 +579,8 @@ public class EditFragment extends Fragment implements
 				timePicker.show(getFragmentManager(), "endTime");
 			}
 		});
-		holder.endDate.setOnClickListener(new OnClickListener()
+		final TextView endDateView = (TextView) view.getTag(R.id.end_date);
+		endDateView.setOnClickListener(new OnClickListener()
 		{
 			@Override
 			public void onClick(final View v)
@@ -645,7 +600,8 @@ public class EditFragment extends Fragment implements
 				datePicker.show(getFragmentManager(), "endDate");
 			}
 		});
-		holder.note.addTextChangedListener(new TextWatcher()
+		final EditText noteView = (EditText) view.getTag(R.id.note);
+		noteView.addTextChangedListener(new TextWatcher()
 		{
 			@Override
 			public void afterTextChanged(final Editable s)
@@ -681,7 +637,7 @@ public class EditFragment extends Fragment implements
 	{
 		adapter.swapCursor(data);
 		if (data.moveToFirst())
-			adapter.bindView(getView(), getActivity(), data);
+			adapter.bindView(getFragmentView(), getActivity(), data);
 		else
 			clear();
 		updateViews();
@@ -776,41 +732,51 @@ public class EditFragment extends Fragment implements
 		new StartTimeOverlapCheck().execute();
 		new EndTimeOverlapCheck().execute();
 		new TimeOverlapCheck().execute();
-		final ViewHolder holder = EditFragment.getViewHolder(getView());
+		final View view = getFragmentView();
+		if (view == null)
+			return;
+		final TextView startTimeView = (TextView) view.getTag(R.id.start_time);
+		final TextView startDateView = (TextView) view.getTag(R.id.start_date);
 		String timeFormat = "hh:mm:ssaa";
 		if (DateFormat.is24HourFormat(getActivity()))
 			timeFormat = "kk:mm:ss";
-		holder.startTime.setText(DateFormat.format(timeFormat, startTime));
-		holder.startDate.setText(DateFormat.getDateFormat(getActivity())
-				.format(startTime.getTime()));
+		startTimeView.setText(DateFormat.format(timeFormat, startTime));
+		startDateView.setText(DateFormat.getDateFormat(getActivity()).format(
+				startTime.getTime()));
+		final TextView endTimeView = (TextView) view.getTag(R.id.end_time);
+		final TextView endDateView = (TextView) view.getTag(R.id.end_date);
+		final TextView durationView = (TextView) view.getTag(R.id.duration);
 		final boolean isContractionOngoing = endTime == null;
 		if (isContractionOngoing)
 		{
-			holder.endTime.setText("");
-			holder.endDate.setText("");
-			holder.duration.setText(getString(R.string.duration_ongoing));
+			endTimeView.setText("");
+			endDateView.setText("");
+			durationView.setText(getString(R.string.duration_ongoing));
 		}
 		else
 		{
-			holder.endTime.setText(DateFormat.format(timeFormat, endTime));
-			holder.endDate.setText(DateFormat.getDateFormat(getActivity())
-					.format(endTime.getTime()));
+			endTimeView.setText(DateFormat.format(timeFormat, endTime));
+			endDateView.setText(DateFormat.getDateFormat(getActivity()).format(
+					endTime.getTime()));
+			final TextView endTimeErrorOrderView = (TextView) view
+					.getTag(R.id.end_time_error_order);
 			if (endTime.before(startTime))
 			{
-				holder.endTimeErrorOrder.setVisibility(View.VISIBLE);
-				holder.duration.setText("");
+				endTimeErrorOrderView.setVisibility(View.VISIBLE);
+				durationView.setText("");
 			}
 			else
 			{
 				errorCheckPass++;
-				holder.endTimeErrorOrder.setVisibility(View.GONE);
+				endTimeErrorOrderView.setVisibility(View.GONE);
 				final long durationInSeconds = (endTime.getTimeInMillis() - startTime
 						.getTimeInMillis()) / 1000;
-				holder.duration.setText(DateUtils
+				durationView.setText(DateUtils
 						.formatElapsedTime(durationInSeconds));
 			}
 			getActivity().supportInvalidateOptionsMenu();
 		}
-		holder.note.setText(note);
+		final EditText noteView = (EditText) view.getTag(R.id.note);
+		noteView.setText(note);
 	}
 }
