@@ -51,6 +51,10 @@ public class AnalyticsManagerService extends IntentService
 	 */
 	private final static String ANALYTICS_PROPERTY_ID = "UA-25785295-1";
 	/**
+	 * Analytics dispatch interval (in seconds) to be used in release mode
+	 */
+	private static final int DISPATCH_INTERVAL = 60;
+	/**
 	 * Extra holding an event's unique (for the given category) identifier
 	 */
 	public final static String EXTRA_ACTION = "com.ianhanniballake.contractiontimer.ACTION";
@@ -358,16 +362,25 @@ public class AnalyticsManagerService extends IntentService
 	}
 
 	/**
-	 * Create a new sesion in manual dispatch mode, anonymizing IP addresses
+	 * Create a new session (debug: manual dispatch, release: interval
+	 * dispatch), anonymizing IP addresses
 	 * 
 	 * @param tracker
 	 *            GoogleAnalyticsTracker instance
 	 */
 	private void startSession(final GoogleAnalyticsTracker tracker)
 	{
-		// Start the tracker in manual dispatch mode
-		tracker.startNewSession(AnalyticsManagerService.ANALYTICS_PROPERTY_ID,
-				getApplicationContext());
+		if (BuildConfig.DEBUG)
+			// Start the tracker in manual dispatch mode
+			tracker.startNewSession(
+					AnalyticsManagerService.ANALYTICS_PROPERTY_ID,
+					getApplicationContext());
+		else
+			// Set it to dispatch on an interval
+			tracker.startNewSession(
+					AnalyticsManagerService.ANALYTICS_PROPERTY_ID,
+					AnalyticsManagerService.DISPATCH_INTERVAL,
+					getApplicationContext());
 		tracker.setAnonymizeIp(true);
 		final String productVersion = "Android-" + Build.VERSION.RELEASE;
 		String appVersion = "UNKNOWN";
