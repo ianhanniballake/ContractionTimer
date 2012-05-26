@@ -16,6 +16,7 @@ import com.ianhanniballake.contractiontimer.R;
 import com.ianhanniballake.contractiontimer.actionbar.ActionBarPreferenceActivity;
 import com.ianhanniballake.contractiontimer.analytics.AnalyticsManagerService;
 import com.ianhanniballake.contractiontimer.appwidget.AppWidgetUpdateHandler;
+import com.ianhanniballake.contractiontimer.backup.BackupController;
 
 /**
  * Activity managing the various application preferences
@@ -174,6 +175,7 @@ public class Preferences extends ActionBarPreferenceActivity implements
 		}
 		else if (key.equals(Preferences.ANALYTICS_PREFERENCE_KEY))
 			AnalyticsManagerService.toggleAnalytics(this);
+		BackupController.createInstance().dataChanged(this);
 	}
 
 	@Override

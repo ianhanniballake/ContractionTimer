@@ -1,5 +1,7 @@
 package com.ianhanniballake.contractiontimer.analytics;
 
+import org.acra.ErrorReporter;
+
 import android.app.Activity;
 import android.app.IntentService;
 import android.content.Context;
@@ -48,6 +50,10 @@ public class AnalyticsManagerService extends IntentService
 	 * Valid Google Analytics Web Property ID to log analytics to
 	 */
 	private final static String ANALYTICS_PROPERTY_ID = "UA-25785295-1";
+	/**
+	 * Analytics dispatch interval (in seconds) to be used in release mode
+	 */
+	private static final int DISPATCH_INTERVAL = 60;
 	/**
 	 * Extra holding an event's unique (for the given category) identifier
 	 */
@@ -107,7 +113,13 @@ public class AnalyticsManagerService extends IntentService
 	{
 		tracker.stopSession();
 		if (!BuildConfig.DEBUG)
-			tracker.dispatch();
+			try
+			{
+				tracker.dispatch();
+			} catch (final NullPointerException e)
+			{
+				ErrorReporter.getInstance().handleSilentException(e);
+			}
 	}
 
 	/**
@@ -310,7 +322,39 @@ public class AnalyticsManagerService extends IntentService
 					.getStringExtra(AnalyticsManagerService.EXTRA_LABEL);
 			final int value = intent.getIntExtra(
 					AnalyticsManagerService.EXTRA_VALUE, 0);
-			tracker.trackEvent(category, action, label, value);
+			try
+			{
+				tracker.trackEvent(category, action, label, value);
+			} catch (final NullPointerException e)
+			{
+				if (BuildConfig.DEBUG)
+					Log.e(getClass().getSimpleName(), "Tracking Event: "
+							+ category + ":" + action + ":" + label + ":"
+							+ value);
+				else
+				{
+					final ErrorReporter errorReporter = ErrorReporter
+							.getInstance();
+					errorReporter.putCustomData(
+							AnalyticsManagerService.EXTRA_CATEGORY, category);
+					errorReporter.putCustomData(
+							AnalyticsManagerService.EXTRA_ACTION, action);
+					errorReporter.putCustomData(
+							AnalyticsManagerService.EXTRA_LABEL, label);
+					errorReporter.putCustomData(
+							AnalyticsManagerService.EXTRA_VALUE,
+							Integer.toString(value));
+					ErrorReporter.getInstance().handleSilentException(e);
+					errorReporter
+							.removeCustomData(AnalyticsManagerService.EXTRA_CATEGORY);
+					errorReporter
+							.removeCustomData(AnalyticsManagerService.EXTRA_ACTION);
+					errorReporter
+							.removeCustomData(AnalyticsManagerService.EXTRA_LABEL);
+					errorReporter
+							.removeCustomData(AnalyticsManagerService.EXTRA_VALUE);
+				}
+			}
 		}
 		else if (AnalyticsManagerService.ACTION_STOP_SESSION
 				.equals(intentAction))
@@ -318,16 +362,25 @@ public class AnalyticsManagerService extends IntentService
 	}
 
 	/**
-	 * Create a new sesion in manual dispatch mode, anonymizing IP addresses
+	 * Create a new session (debug: manual dispatch, release: interval
+	 * dispatch), anonymizing IP addresses
 	 * 
 	 * @param tracker
 	 *            GoogleAnalyticsTracker instance
 	 */
 	private void startSession(final GoogleAnalyticsTracker tracker)
 	{
-		// Start the tracker in manual dispatch mode
-		tracker.startNewSession(AnalyticsManagerService.ANALYTICS_PROPERTY_ID,
-				this);
+		if (BuildConfig.DEBUG)
+			// Start the tracker in manual dispatch mode
+			tracker.startNewSession(
+					AnalyticsManagerService.ANALYTICS_PROPERTY_ID,
+					getApplicationContext());
+		else
+			// Set it to dispatch on an interval
+			tracker.startNewSession(
+					AnalyticsManagerService.ANALYTICS_PROPERTY_ID,
+					AnalyticsManagerService.DISPATCH_INTERVAL,
+					getApplicationContext());
 		tracker.setAnonymizeIp(true);
 		final String productVersion = "Android-" + Build.VERSION.RELEASE;
 		String appVersion = "UNKNOWN";

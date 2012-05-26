@@ -63,7 +63,6 @@ public class DetailAppWidgetService extends IntentService
 		final Cursor data = getContentResolver().query(
 				ContractionContract.Contractions.CONTENT_URI, projection,
 				selection, selectionArgs, null);
-		final boolean atLeastOneContraction = data.moveToFirst();
 		RemoteViews views;
 		final String appwidgetBackground = preferences.getString(
 				Preferences.APPWIDGET_BACKGROUND_PREFERENCE_KEY,
@@ -87,7 +86,7 @@ public class DetailAppWidgetService extends IntentService
 		views.setOnClickPendingIntent(R.id.application_launch,
 				applicationLaunchPendingIntent);
 		// Set the average duration and frequency
-		if (atLeastOneContraction)
+		if (data != null && data.moveToFirst())
 		{
 			double averageDuration = 0;
 			double averageFrequency = 0;
@@ -141,7 +140,8 @@ public class DetailAppWidgetService extends IntentService
 		final Cursor allData = getContentResolver().query(
 				ContractionContract.Contractions.CONTENT_URI, projection, null,
 				null, null);
-		final boolean contractionOngoing = allData.moveToFirst()
+		final boolean contractionOngoing = allData != null
+				&& allData.moveToFirst()
 				&& allData
 						.isNull(allData
 								.getColumnIndex(ContractionContract.Contractions.COLUMN_NAME_END_TIME));
@@ -183,8 +183,10 @@ public class DetailAppWidgetService extends IntentService
 				clickPendingIntentTemplate);
 		views.setEmptyView(R.id.list_view, R.id.empty_view);
 		// Close the cursors
-		data.close();
-		allData.close();
+		if (data != null)
+			data.close();
+		if (allData != null)
+			allData.close();
 		// Update the widgets
 		final AppWidgetManager appWidgetManager = AppWidgetManager
 				.getInstance(this);

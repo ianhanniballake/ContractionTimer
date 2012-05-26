@@ -99,6 +99,7 @@ public class ViewActivity extends ActionBarFragmentActivity implements
 						+ widgetIdentifier);
 			AnalyticsManagerService.trackEvent(this, widgetIdentifier,
 					"LaunchView");
+			getIntent().removeExtra(MainActivity.LAUNCHED_FROM_WIDGET_EXTRA);
 		}
 		if (BuildConfig.DEBUG)
 			Log.d(getClass().getSimpleName(), "Showing activity");

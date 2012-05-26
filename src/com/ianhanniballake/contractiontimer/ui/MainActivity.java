@@ -12,6 +12,7 @@ import android.preference.PreferenceManager;
 import android.provider.BaseColumns;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.app.LoaderManager;
+import android.support.v4.app.ShareCompat;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
 import android.support.v4.widget.CursorAdapter;
@@ -88,6 +89,7 @@ public class MainActivity extends ActionBarFragmentActivity implements
 						+ widgetIdentifier);
 			AnalyticsManagerService
 					.trackEvent(this, widgetIdentifier, "Launch");
+			getIntent().removeExtra(MainActivity.LAUNCHED_FROM_WIDGET_EXTRA);
 		}
 		if (BuildConfig.DEBUG)
 			Log.d(getClass().getSimpleName(), "Showing activity");
@@ -352,15 +354,12 @@ public class MainActivity extends ActionBarFragmentActivity implements
 			}
 			formattedData.append("<br />");
 		}
-		final Intent shareIntent = new Intent(Intent.ACTION_SEND);
-		shareIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
-		shareIntent.setType("text/html");
-		shareIntent.putExtra(Intent.EXTRA_SUBJECT,
-				getText(R.string.share_subject));
-		shareIntent.putExtra(Intent.EXTRA_TEXT,
-				Html.fromHtml(formattedData.toString()));
-		startActivity(Intent.createChooser(shareIntent,
-				getText(R.string.share_pick_application)));
+		ShareCompat.IntentBuilder.from(this)
+				.setSubject(getText(R.string.share_subject).toString())
+				.setType("text/html")
+				.setText(Html.fromHtml(formattedData.toString()))
+				.setChooserTitle(R.string.share_pick_application)
+				.startChooser();
 	}
 
 	/**
@@ -372,14 +371,11 @@ public class MainActivity extends ActionBarFragmentActivity implements
 		if (data.getCount() == 0)
 			return;
 		final String formattedData = getAverageData();
-		final Intent shareIntent = new Intent(Intent.ACTION_SEND);
-		shareIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
-		shareIntent.setType("text/plain");
-		shareIntent.putExtra(Intent.EXTRA_SUBJECT,
-				getText(R.string.share_subject));
-		shareIntent.putExtra(Intent.EXTRA_TEXT, formattedData);
-		startActivity(Intent.createChooser(shareIntent,
-				getText(R.string.share_pick_application)));
+		ShareCompat.IntentBuilder.from(this)
+				.setSubject(getText(R.string.share_subject).toString())
+				.setType("text/plain").setText(formattedData)
+				.setChooserTitle(R.string.share_pick_application)
+				.startChooser();
 	}
 
 	/**
