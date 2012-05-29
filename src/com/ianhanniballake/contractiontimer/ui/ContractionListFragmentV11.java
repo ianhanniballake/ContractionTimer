@@ -14,6 +14,7 @@ import android.view.View.OnClickListener;
 import android.widget.AbsListView;
 import android.widget.AbsListView.MultiChoiceModeListener;
 import android.widget.Button;
+import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.PopupMenu;
 import android.widget.PopupMenu.OnMenuItemClickListener;
@@ -277,8 +278,9 @@ public class ContractionListFragmentV11 extends ContractionListFragment
 				{
 					final int position = listView.getCheckedItemPositions()
 							.keyAt(0);
-					final Cursor cursor = (Cursor) listView.getAdapter()
-							.getItem(position);
+					final ListAdapter adapter = listView.getAdapter();
+					final Cursor cursor = adapter.getCount() == 0 ? null
+							: (Cursor) listView.getAdapter().getItem(position);
 					// The cursor will be null when first resuming the Fragment
 					// so we'll used the selectedItemNote loaded from the Bundle
 					if (cursor != null)
