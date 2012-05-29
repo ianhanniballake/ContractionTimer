@@ -67,72 +67,49 @@ public class SearchActivity extends ActionBarFragmentActivity implements
 		public void bindView(final View view, final Context context,
 				final Cursor cursor)
 		{
-			final Object viewTag = view.getTag();
-			ViewHolder holder;
-			if (viewTag == null)
-			{
-				holder = new ViewHolder();
-				holder.startTime = (TextView) view
-						.findViewById(R.id.start_time);
-				holder.endTime = (TextView) view.findViewById(R.id.end_time);
-				holder.note = (TextView) view.findViewById(R.id.note);
-				view.setTag(holder);
-			}
-			else
-				holder = (ViewHolder) viewTag;
+			final TextView startTimeView = (TextView) view
+					.getTag(R.id.start_time);
+			final TextView endTimeView = (TextView) view.getTag(R.id.end_time);
+			final TextView noteView = (TextView) view.getTag(R.id.note);
 			String timeFormat = "hh:mm:ssaa";
 			if (DateFormat.is24HourFormat(context))
 				timeFormat = "kk:mm:ss";
 			final int startTimeColumnIndex = cursor
 					.getColumnIndex(ContractionContract.Contractions.COLUMN_NAME_START_TIME);
 			final long startTime = cursor.getLong(startTimeColumnIndex);
-			holder.startTime.setText(DateFormat.format(timeFormat, startTime));
+			startTimeView.setText(DateFormat.format(timeFormat, startTime));
 			final int endTimeColumnIndex = cursor
 					.getColumnIndex(ContractionContract.Contractions.COLUMN_NAME_END_TIME);
 			final boolean isContractionOngoing = cursor
 					.isNull(endTimeColumnIndex);
 			if (isContractionOngoing)
-				holder.endTime.setText(" ");
+				endTimeView.setText(" ");
 			else
 			{
 				final long endTime = cursor.getLong(endTimeColumnIndex);
-				holder.endTime.setText(DateFormat.format(timeFormat, endTime));
+				endTimeView.setText(DateFormat.format(timeFormat, endTime));
 			}
 			final int noteColumnIndex = cursor
 					.getColumnIndex(ContractionContract.Contractions.COLUMN_NAME_NOTE);
 			final String note = cursor.getString(noteColumnIndex);
-			holder.note.setText(note);
+			noteView.setText(note);
 			if (note.equals(""))
-				holder.note.setVisibility(View.GONE);
+				noteView.setVisibility(View.GONE);
 			else
-				holder.note.setVisibility(View.VISIBLE);
+				noteView.setVisibility(View.VISIBLE);
 		}
 
 		@Override
 		public View newView(final Context context, final Cursor cursor,
 				final ViewGroup parent)
 		{
-			return inflater.inflate(R.layout.list_item_search, parent, false);
+			final View view = inflater.inflate(R.layout.list_item_search,
+					parent, false);
+			view.setTag(R.id.start_time, view.findViewById(R.id.start_time));
+			view.setTag(R.id.end_time, view.findViewById(R.id.end_time));
+			view.setTag(R.id.note, view.findViewById(R.id.note));
+			return view;
 		}
-	}
-
-	/**
-	 * Helper class used to store temporary references to list item views
-	 */
-	static class ViewHolder
-	{
-		/**
-		 * TextView representing the formatted end time of the contraction
-		 */
-		TextView endTime;
-		/**
-		 * TextView representing the note attached to the contraction
-		 */
-		TextView note;
-		/**
-		 * TextView representing the formatted start time of the contraction
-		 */
-		TextView startTime;
 	}
 
 	/**
