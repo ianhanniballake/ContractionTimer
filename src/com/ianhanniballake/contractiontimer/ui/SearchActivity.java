@@ -140,10 +140,6 @@ public class SearchActivity extends ActionBarFragmentActivity implements
 	 */
 	private SearchResultCursorAdapter adapter;
 	/**
-	 * Last submitted query
-	 */
-	private String query = null;
-	/**
 	 * Current SearchView
 	 */
 	private SearchView searchView;
@@ -158,11 +154,11 @@ public class SearchActivity extends ActionBarFragmentActivity implements
 	{
 		if (Intent.ACTION_SEARCH.equals(intent.getAction()))
 		{
-			query = intent.getStringExtra(SearchManager.QUERY);
+			final String query = intent.getStringExtra(SearchManager.QUERY);
 			if (BuildConfig.DEBUG)
 				Log.d(getClass().getSimpleName(), query);
-			if (searchView != null)
-				searchView.setQuery(query, false);
+			final String titleFormat = getString(R.string.search_title_prefix);
+			setTitle(String.format(titleFormat, query));
 			intent.setData(Uri.withAppendedPath(
 					ContractionContract.Contractions.SEARCH_URI,
 					Uri.encode(query)));
@@ -206,9 +202,6 @@ public class SearchActivity extends ActionBarFragmentActivity implements
 				.getActionView();
 		searchView.setSearchableInfo(searchManager
 				.getSearchableInfo(getComponentName()));
-		searchView.setIconifiedByDefault(false);
-		if (query != null)
-			searchView.setQuery(query, false);
 		return super.onCreateOptionsMenu(menu);
 	}
 
