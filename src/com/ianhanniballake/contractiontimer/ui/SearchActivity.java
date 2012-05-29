@@ -134,6 +134,8 @@ public class SearchActivity extends ActionBarFragmentActivity implements
 			final String query = intent.getStringExtra(SearchManager.QUERY);
 			if (BuildConfig.DEBUG)
 				Log.d(getClass().getSimpleName(), query);
+			if (searchView != null)
+				searchView.setQuery(query, false);
 			final String titleFormat = getString(R.string.search_title_prefix);
 			setTitle(String.format(titleFormat, query));
 			intent.setData(Uri.withAppendedPath(
