@@ -166,6 +166,10 @@ public class ViewActivity extends ActionBarFragmentActivity implements
 	{
 		adapter.swapCursor(data);
 		pagerAdapter.notifyDataSetChanged();
+		// A null intent/data means we should cancel out as we are in an
+		// indeterminate state
+		if (getIntent() == null || getIntent().getData() == null)
+			finish();
 		final long contractionId = ContentUris.parseId(getIntent().getData());
 		final int count = adapter.getCount();
 		for (int position = 0; position < count; position++)

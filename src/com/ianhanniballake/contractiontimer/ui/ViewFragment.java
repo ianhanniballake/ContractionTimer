@@ -63,7 +63,7 @@ public class ViewFragment extends Fragment implements
 	/**
 	 * Id of the current contraction to show
 	 */
-	private long contractionId = 0;
+	private long contractionId = -1;
 	/**
 	 * Handler for asynchronous deletes of contractions
 	 */
@@ -175,7 +175,7 @@ public class ViewFragment extends Fragment implements
 		if (getArguments() != null)
 		{
 			contractionId = getArguments().getLong(BaseColumns._ID, 0);
-			if (contractionId != 0)
+			if (contractionId != -1)
 				getLoaderManager().initLoader(0, null, this);
 		}
 	}
