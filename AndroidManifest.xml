@@ -14,7 +14,7 @@
 
 	<application
 		android:name="ContractionTimerApplication"
-		android:backupAgent="ContractionTimerBackupAgent"
+		android:backupAgent=".backup.ContractionTimerBackupAgent"
 		android:icon="@drawable/icon"
 		android:label="@string/app_name"
 		android:theme="@style/AppTheme" >
