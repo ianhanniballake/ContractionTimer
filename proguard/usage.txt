@@ -203,12 +203,35 @@ android.support.v4.app.NotificationCompat$NotificationCompatImplBase
 android.support.v4.app.NotificationCompat$NotificationCompatImplHoneycomb
 android.support.v4.app.NotificationCompatHoneycomb
 android.support.v4.app.ServiceCompat
-android.support.v4.app.ShareCompat
-android.support.v4.app.ShareCompat$IntentBuilder
+android.support.v4.app.ShareCompat:
+    public static final java.lang.String EXTRA_CALLING_PACKAGE
+    public static final java.lang.String EXTRA_CALLING_ACTIVITY
+    55:577:public ShareCompat()
+    117:121:public static java.lang.String getCallingPackage(android.app.Activity)
+    137:141:public static android.content.ComponentName getCallingActivity(android.app.Activity)
+    176:177:public static void configureMenuItem(android.view.MenuItem,android.support.v4.app.ShareCompat$IntentBuilder)
+    188:194:public static void configureMenuItem(android.view.Menu,int,android.support.v4.app.ShareCompat$IntentBuilder)
+android.support.v4.app.ShareCompat$IntentBuilder:
+    284:284:android.app.Activity getActivity()
+    300:307:private void combineArrayExtra(java.lang.String,java.lang.String[])
+    389:394:public android.support.v4.app.ShareCompat$IntentBuilder setStream(android.net.Uri)
+    409:421:public android.support.v4.app.ShareCompat$IntentBuilder addStream(android.net.Uri)
+    433:437:public android.support.v4.app.ShareCompat$IntentBuilder setEmailTo(java.lang.String[])
+    448:452:public android.support.v4.app.ShareCompat$IntentBuilder addEmailTo(java.lang.String)
+    463:464:public android.support.v4.app.ShareCompat$IntentBuilder addEmailTo(java.lang.String[])
+    476:477:public android.support.v4.app.ShareCompat$IntentBuilder setEmailCc(java.lang.String[])
+    488:492:public android.support.v4.app.ShareCompat$IntentBuilder addEmailCc(java.lang.String)
+    503:504:public android.support.v4.app.ShareCompat$IntentBuilder addEmailCc(java.lang.String[])
+    516:517:public android.support.v4.app.ShareCompat$IntentBuilder setEmailBcc(java.lang.String[])
+    528:532:public android.support.v4.app.ShareCompat$IntentBuilder addEmailBcc(java.lang.String)
+    543:544:public android.support.v4.app.ShareCompat$IntentBuilder addEmailBcc(java.lang.String[])
 android.support.v4.app.ShareCompat$IntentReader
-android.support.v4.app.ShareCompat$ShareCompatImpl
-android.support.v4.app.ShareCompat$ShareCompatImplBase
-android.support.v4.app.ShareCompat$ShareCompatImplICS
+android.support.v4.app.ShareCompat$ShareCompatImpl:
+    public abstract void configureMenuItem(android.view.MenuItem,android.support.v4.app.ShareCompat$IntentBuilder)
+android.support.v4.app.ShareCompat$ShareCompatImplBase:
+    83:84:public void configureMenuItem(android.view.MenuItem,android.support.v4.app.ShareCompat$IntentBuilder)
+android.support.v4.app.ShareCompat$ShareCompatImplICS:
+    89:91:public void configureMenuItem(android.view.MenuItem,android.support.v4.app.ShareCompat$IntentBuilder)
 android.support.v4.app.ShareCompatICS
 android.support.v4.app.TaskStackBuilder:
     private static final java.lang.String TAG
@@ -499,6 +522,7 @@ com.google.android.apps.analytics.GoogleAnalyticsTracker:
     public static final java.lang.String LOG_TAG
     public void start(java.lang.String,int,android.content.Context)
     public void start(java.lang.String,android.content.Context)
+    public void startNewSession(java.lang.String,android.content.Context)
     com.google.android.apps.analytics.Dispatcher getDispatcher()
     void setAdHitIdGenerator(com.google.android.apps.analytics.AdHitIdGenerator)
     void returnToInitialState()
@@ -644,6 +668,7 @@ com.ianhanniballake.contractiontimer.analytics.AnalyticsManagerService:
     public static final java.lang.String ACTION_TRACK_EVENT
     public static final java.lang.String ACTION_TRACK_PAGE_VIEW
     private static final java.lang.String ANALYTICS_PROPERTY_ID
+    private static final int DISPATCH_INTERVAL
     public static final java.lang.String EXTRA_ACTION
     public static final java.lang.String EXTRA_CATEGORY
     public static final java.lang.String EXTRA_LABEL

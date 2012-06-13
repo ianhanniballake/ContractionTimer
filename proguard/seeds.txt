@@ -112,6 +112,7 @@ com.ianhanniballake.contractiontimer.R$id: int dialog_note_input
 com.ianhanniballake.contractiontimer.R$id: int duration
 com.ianhanniballake.contractiontimer.R$id: int duration_divider
 com.ianhanniballake.contractiontimer.R$id: int edit
+com.ianhanniballake.contractiontimer.R$id: int edit_fragment
 com.ianhanniballake.contractiontimer.R$id: int empty_view
 com.ianhanniballake.contractiontimer.R$id: int end_date
 com.ianhanniballake.contractiontimer.R$id: int end_time
@@ -150,6 +151,7 @@ com.ianhanniballake.contractiontimer.R$id: int start_time_error_overlap
 com.ianhanniballake.contractiontimer.R$id: int start_time_label
 com.ianhanniballake.contractiontimer.R$id: int time_error_overlap
 com.ianhanniballake.contractiontimer.R$id: int toggleContraction
+com.ianhanniballake.contractiontimer.R$id: int view_fragment
 com.ianhanniballake.contractiontimer.R$layout: int actionbar_compat
 com.ianhanniballake.contractiontimer.R$layout: int activity_edit
 com.ianhanniballake.contractiontimer.R$layout: int activity_main
@@ -294,6 +296,7 @@ com.ianhanniballake.contractiontimer.appwidget.DetailAppWidgetRemoteViewsService
 com.ianhanniballake.contractiontimer.appwidget.DetailAppWidgetService
 com.ianhanniballake.contractiontimer.appwidget.ToggleAppWidgetProvider
 com.ianhanniballake.contractiontimer.appwidget.ToggleAppWidgetService
+com.ianhanniballake.contractiontimer.backup.ContractionTimerBackupAgent
 com.ianhanniballake.contractiontimer.provider.ContractionProvider
 com.ianhanniballake.contractiontimer.ui.AboutDialogFragment
 com.ianhanniballake.contractiontimer.ui.ContractionAverageFragment
