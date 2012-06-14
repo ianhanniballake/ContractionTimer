@@ -249,6 +249,9 @@ public abstract class ContractionListFragment extends ListFragment implements
 	 */
 	protected void deleteContraction(final long id)
 	{
+		// Ensure we don't attempt to delete contractions with invalid ids
+		if (id < 0)
+			return;
 		final Uri deleteUri = ContentUris.withAppendedId(
 				ContractionContract.Contractions.CONTENT_ID_URI_BASE, id);
 		if (contractionQueryHandler == null)
@@ -405,6 +408,10 @@ public abstract class ContractionListFragment extends ListFragment implements
 	 */
 	protected void showNoteDialog(final long id, final String existingNote)
 	{
+		// Ensure we don't attempt to change the note on contractions with
+		// invalid ids
+		if (id < 0)
+			return;
 		final NoteDialogFragment noteDialogFragment = new NoteDialogFragment();
 		final Bundle args = new Bundle();
 		args.putLong(NoteDialogFragment.CONTRACTION_ID_ARGUMENT, id);
@@ -426,6 +433,9 @@ public abstract class ContractionListFragment extends ListFragment implements
 	 */
 	protected void viewContraction(final long id)
 	{
+		// Ensure we don't attempt to view contractions with invalid ids
+		if (id < 0)
+			return;
 		final Uri contractionUri = ContentUris.withAppendedId(
 				ContractionContract.Contractions.CONTENT_ID_URI_BASE, id);
 		final Intent intent = new Intent(Intent.ACTION_VIEW, contractionUri);

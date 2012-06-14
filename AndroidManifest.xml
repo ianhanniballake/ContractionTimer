@@ -2,8 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
 	package="com.ianhanniballake.contractiontimer"
 	android:installLocation="auto"
-	android:versionCode="4151830"
-	android:versionName="1.8.3" >
+	android:versionCode="4151850"
+	android:versionName="1.8.5" >
 
 	<uses-sdk
 		android:minSdkVersion="4"
@@ -14,7 +14,7 @@
 
 	<application
 		android:name="ContractionTimerApplication"
-		android:backupAgent="ContractionTimerBackupAgent"
+		android:backupAgent=".backup.ContractionTimerBackupAgent"
 		android:icon="@drawable/icon"
 		android:label="@string/app_name"
 		android:theme="@style/AppTheme" >

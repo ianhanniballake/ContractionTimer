@@ -21,7 +21,7 @@ public abstract class BackupController
 	}
 
 	/**
-	 * Set the strict mode appropriately
+	 * Notifies the BackupManager that the data has changed
 	 * 
 	 * @param context
 	 *            Context used to back up data
