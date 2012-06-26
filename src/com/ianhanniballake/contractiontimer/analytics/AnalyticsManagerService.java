@@ -309,7 +309,25 @@ public class AnalyticsManagerService extends IntentService
 		{
 			final String pageName = intent
 					.getStringExtra(AnalyticsManagerService.EXTRA_PAGE_NAME);
-			tracker.trackPageView(pageName);
+			try
+			{
+				tracker.trackPageView(pageName);
+			} catch (final NullPointerException e)
+			{
+				if (BuildConfig.DEBUG)
+					Log.e(getClass().getSimpleName(), "Tracking Page View: "
+							+ pageName);
+				else
+				{
+					final ErrorReporter errorReporter = ErrorReporter
+							.getInstance();
+					errorReporter.putCustomData(
+							AnalyticsManagerService.EXTRA_PAGE_NAME, pageName);
+					ErrorReporter.getInstance().handleSilentException(e);
+					errorReporter
+							.removeCustomData(AnalyticsManagerService.EXTRA_PAGE_NAME);
+				}
+			}
 		}
 		else if (AnalyticsManagerService.ACTION_TRACK_EVENT
 				.equals(intentAction))
