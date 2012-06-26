@@ -1,7 +1,10 @@
 package com.ianhanniballake.contractiontimer;
 
 import org.acra.ACRA;
+import org.acra.ErrorReporter;
 import org.acra.annotation.ReportsCrashes;
+import org.acra.sender.HttpPostSender;
+import org.acra.sender.ReportSender;
 
 import android.app.Application;
 import android.preference.PreferenceManager;
@@ -25,7 +28,12 @@ public class ContractionTimerApplication extends Application
 		if (BuildConfig.DEBUG)
 			StrictModeController.createInstance().setStrictMode();
 		else
+		{
 			ACRA.init(this);
+			final ReportSender bugsenseReportSender = new HttpPostSender(
+					"http://www.bugsense.com/api/acra?api_key=6ebe60f4", null);
+			ErrorReporter.getInstance().addReportSender(bugsenseReportSender);
+		}
 		PreferenceManager.setDefaultValues(this, R.xml.preferences_settings,
 				false);
 		super.onCreate();
