@@ -5,7 +5,8 @@
 		android:id="@+id/menu_context_view"
 		android:icon="@android:drawable/ic_menu_view"
 		android:showAsAction="ifRoom|withText"
-		android:title="@string/menu_context_view"/>
+		android:title="@string/menu_context_view"
+		android:titleCondensed="@string/menu_context_view_condensed"/>
 	<item
 		android:id="@+id/menu_context_note"
 		android:icon="@android:drawable/ic_menu_edit"

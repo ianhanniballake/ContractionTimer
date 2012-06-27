@@ -20,11 +20,12 @@
 	<string name="note_dialog_save">Save</string>
 	<string name="note_dialog_cancel">Cancel</string>
 	<string name="menu_context_action_mode_title">%1$d Selected</string>
-	<string name="menu_context_view">View Contraction Details</string>
+	<string name="menu_context_view_condensed">View</string>
+	<string name="menu_context_view">View Details</string>
 
 	<plurals name="menu_context_delete">
-		<item quantity="one">Delete Contraction</item>
-		<item quantity="other">Delete Contractions</item>
+		<item quantity="one">Delete</item>
+		<item quantity="other">Delete All</item>
 	</plurals>
 
 	<string name="contraction_start">Start Contraction</string>
