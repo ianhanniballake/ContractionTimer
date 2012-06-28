@@ -1,11 +1,13 @@
 package com.ianhanniballake.contractiontimer.backup;
 
+import android.annotation.TargetApi;
 import android.app.backup.BackupAgentHelper;
 import android.app.backup.SharedPreferencesBackupHelper;
 
 /**
  * Agent which handles backup of user settings
  */
+@TargetApi(8)
 public class ContractionTimerBackupAgent extends BackupAgentHelper
 {
 	/**
