@@ -93,7 +93,7 @@ public class Preferences extends ActionBarPreferenceActivity implements
 				final Intent upIntent = NavUtils.getParentActivityIntent(this);
 				if (NavUtils.shouldUpRecreateTask(this, upIntent))
 				{
-					TaskStackBuilder.from(this).addParentStack(this)
+					TaskStackBuilder.create(this).addParentStack(this)
 							.startActivities();
 					finish();
 				}

@@ -176,7 +176,7 @@ public class DetailAppWidgetService extends IntentService
 		clickIntentTemplate.putExtra(MainActivity.LAUNCHED_FROM_WIDGET_EXTRA,
 				DetailAppWidgetService.WIDGET_IDENTIFIER);
 		final PendingIntent clickPendingIntentTemplate = TaskStackBuilder
-				.from(this).addParentStack(ViewActivity.class)
+				.create(this).addParentStack(ViewActivity.class)
 				.addNextIntent(clickIntentTemplate)
 				.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
 		views.setPendingIntentTemplate(R.id.list_view,
