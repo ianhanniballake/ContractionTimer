@@ -1,28 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-	android:layout_width="fill_parent"
-	android:layout_height="fill_parent"
-	android:background="@drawable/appwidget_dark_bg"
-	android:gravity="center_horizontal"
-	android:orientation="horizontal" >
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@drawable/appwidget_dark_bg"
+    android:gravity="center_horizontal"
+    android:orientation="horizontal" >
 
-	<Button
-		android:id="@+id/contraction_toggle_off"
-		android:layout_width="wrap_content"
-		android:layout_height="fill_parent"
-		android:background="@drawable/appwidget_button_center"
-		android:drawableBottom="@android:drawable/button_onoff_indicator_off"
-		android:drawableTop="@drawable/icon"
-		android:padding="@dimen/appwidget_padding" />
+    <Button
+        android:id="@+id/contraction_toggle_off"
+        android:layout_width="wrap_content"
+        android:layout_height="fill_parent"
+        android:background="@drawable/appwidget_button_center"
+        android:drawableBottom="@android:drawable/button_onoff_indicator_off"
+        android:drawableTop="@drawable/icon"
+        android:padding="@dimen/appwidget_padding" />
 
-	<Button
-		android:id="@+id/contraction_toggle_on"
-		android:layout_width="wrap_content"
-		android:layout_height="fill_parent"
-		android:background="@drawable/appwidget_button_center"
-		android:drawableBottom="@android:drawable/button_onoff_indicator_on"
-		android:drawableTop="@drawable/icon"
-		android:padding="@dimen/appwidget_padding"
-		android:visibility="gone" />
+    <Button
+        android:id="@+id/contraction_toggle_on"
+        android:layout_width="wrap_content"
+        android:layout_height="fill_parent"
+        android:background="@drawable/appwidget_button_center"
+        android:drawableBottom="@android:drawable/button_onoff_indicator_on"
+        android:drawableTop="@drawable/icon"
+        android:padding="@dimen/appwidget_padding"
+        android:visibility="gone" />
 
 </LinearLayout>

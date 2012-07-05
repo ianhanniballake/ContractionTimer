@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-	<bool name="detail_appwidget_enabled">true</bool>
+    <bool name="detail_appwidget_enabled">true</bool>
 
 </resources>

@@ -1,116 +1,116 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-	android:layout_width="fill_parent"
-	android:layout_height="fill_parent"
-	android:background="@drawable/appwidget_light_bg"
-	android:orientation="vertical" >
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@drawable/appwidget_light_bg"
+    android:orientation="vertical" >
 
-	<RelativeLayout
-		android:layout_width="fill_parent"
-		android:layout_height="60dp" >
+    <RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="60dp" >
 
-		<ImageButton
-			android:id="@+id/application_launch"
-			android:layout_width="wrap_content"
-			android:layout_height="fill_parent"
-			android:layout_alignParentLeft="true"
-			android:background="@drawable/appwidget_button_left"
-			android:contentDescription="@string/application_launch"
-			android:padding="@dimen/appwidget_padding"
-			android:src="@drawable/icon" />
+        <ImageButton
+            android:id="@+id/application_launch"
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent"
+            android:layout_alignParentLeft="true"
+            android:background="@drawable/appwidget_button_left"
+            android:contentDescription="@string/application_launch"
+            android:padding="@dimen/appwidget_padding"
+            android:src="@drawable/icon" />
 
-		<TextView
-			android:id="@+id/average_duration_label"
-			android:layout_width="wrap_content"
-			android:layout_height="wrap_content"
-			android:layout_centerVertical="true"
-			android:layout_toRightOf="@id/application_launch"
-			android:paddingLeft="@dimen/appwidget_padding"
-			android:paddingRight="10dp"
-			android:text="@string/average_duration_label"
-			android:textColor="@android:color/primary_text_light" />
+        <TextView
+            android:id="@+id/average_duration_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@id/application_launch"
+            android:paddingLeft="@dimen/appwidget_padding"
+            android:paddingRight="10dp"
+            android:text="@string/average_duration_label"
+            android:textColor="@android:color/primary_text_light" />
 
-		<TextView
-			android:id="@+id/average_duration"
-			android:layout_width="wrap_content"
-			android:layout_height="wrap_content"
-			android:layout_centerVertical="true"
-			android:layout_toRightOf="@id/average_duration_label"
-			android:textColor="@android:color/primary_text_light" />
+        <TextView
+            android:id="@+id/average_duration"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@id/average_duration_label"
+            android:textColor="@android:color/primary_text_light" />
 
-		<TextView
-			android:id="@+id/average_center_mark"
-			android:layout_width="0dp"
-			android:layout_height="0dp"
-			android:layout_centerInParent="true" />
+        <TextView
+            android:id="@+id/average_center_mark"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_centerInParent="true" />
 
-		<TextView
-			android:id="@+id/average_frequency_label"
-			android:layout_width="wrap_content"
-			android:layout_height="wrap_content"
-			android:layout_centerVertical="true"
-			android:layout_toRightOf="@id/average_center_mark"
-			android:paddingLeft="@dimen/appwidget_padding"
-			android:paddingRight="10dp"
-			android:text="@string/average_frequency_label"
-			android:textColor="@android:color/primary_text_light" />
+        <TextView
+            android:id="@+id/average_frequency_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@id/average_center_mark"
+            android:paddingLeft="@dimen/appwidget_padding"
+            android:paddingRight="10dp"
+            android:text="@string/average_frequency_label"
+            android:textColor="@android:color/primary_text_light" />
 
-		<TextView
-			android:id="@+id/average_frequency"
-			android:layout_width="wrap_content"
-			android:layout_height="wrap_content"
-			android:layout_centerVertical="true"
-			android:layout_toRightOf="@id/average_frequency_label"
-			android:textColor="@android:color/primary_text_light" />
+        <TextView
+            android:id="@+id/average_frequency"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@id/average_frequency_label"
+            android:textColor="@android:color/primary_text_light" />
 
-		<Button
-			android:id="@+id/contraction_toggle_off"
-			android:layout_width="wrap_content"
-			android:layout_height="fill_parent"
-			android:layout_alignParentRight="true"
-			android:background="@drawable/appwidget_button_right"
-			android:drawableBottom="@android:drawable/button_onoff_indicator_off"
-			android:padding="@dimen/appwidget_padding"
-			android:text="@string/appwidget_contraction_start"
-			android:textColor="@android:color/primary_text_light" />
+        <Button
+            android:id="@+id/contraction_toggle_off"
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent"
+            android:layout_alignParentRight="true"
+            android:background="@drawable/appwidget_button_right"
+            android:drawableBottom="@android:drawable/button_onoff_indicator_off"
+            android:padding="@dimen/appwidget_padding"
+            android:text="@string/appwidget_contraction_start"
+            android:textColor="@android:color/primary_text_light" />
 
-		<Button
-			android:id="@+id/contraction_toggle_on"
-			android:layout_width="wrap_content"
-			android:layout_height="fill_parent"
-			android:layout_alignParentRight="true"
-			android:background="@drawable/appwidget_button_right"
-			android:drawableBottom="@android:drawable/button_onoff_indicator_on"
-			android:padding="@dimen/appwidget_padding"
-			android:text="@string/appwidget_contraction_stop"
-			android:textColor="@android:color/primary_text_light"
-			android:visibility="gone" />
-	</RelativeLayout>
+        <Button
+            android:id="@+id/contraction_toggle_on"
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent"
+            android:layout_alignParentRight="true"
+            android:background="@drawable/appwidget_button_right"
+            android:drawableBottom="@android:drawable/button_onoff_indicator_on"
+            android:padding="@dimen/appwidget_padding"
+            android:text="@string/appwidget_contraction_stop"
+            android:textColor="@android:color/primary_text_light"
+            android:visibility="gone" />
+    </RelativeLayout>
 
-	<FrameLayout
-		android:layout_width="fill_parent"
-		android:layout_height="0dp"
-		android:layout_margin="@dimen/appwidget_padding"
-		android:layout_weight="1"
-		android:background="@drawable/detail_appwidget_list_background_light"
-		android:padding="@dimen/appwidget_padding" >
+    <FrameLayout
+        android:layout_width="fill_parent"
+        android:layout_height="0dp"
+        android:layout_margin="@dimen/appwidget_padding"
+        android:layout_weight="1"
+        android:background="@drawable/detail_appwidget_list_background_light"
+        android:padding="@dimen/appwidget_padding" >
 
-		<ListView
-			android:id="@+id/list_view"
-			android:layout_width="fill_parent"
-			android:layout_height="fill_parent" >
+        <ListView
+            android:id="@+id/list_view"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent" >
 
-			<!-- Preview: listitem=@layout/list_item_detail_appwidget -->
-		</ListView>
+            <!-- Preview: listitem=@layout/list_item_detail_appwidget -->
+        </ListView>
 
-		<TextView
-			android:id="@+id/empty_view"
-			android:layout_width="fill_parent"
-			android:layout_height="fill_parent"
-			android:gravity="center"
-			android:text="@string/list_empty"
-			android:textColor="@android:color/primary_text_dark"
-			android:visibility="gone" />
-	</FrameLayout>
+        <TextView
+            android:id="@+id/empty_view"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:gravity="center"
+            android:text="@string/list_empty"
+            android:textColor="@android:color/primary_text_dark"
+            android:visibility="gone" />
+    </FrameLayout>
 
 </LinearLayout>

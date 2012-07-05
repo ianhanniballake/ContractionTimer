@@ -1,8 +1,8 @@
 <resources>
 
-	<declare-styleable name="AppTheme">
-		<attr name="actionbarCompatTitleStyle" format="reference" />
-		<attr name="actionbarCompatItemStyle" format="reference" />
-	</declare-styleable>
+    <declare-styleable name="AppTheme">
+        <attr name="actionbarCompatTitleStyle" format="reference" />
+        <attr name="actionbarCompatItemStyle" format="reference" />
+    </declare-styleable>
 
 </resources>

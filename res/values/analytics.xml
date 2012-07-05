@@ -2,7 +2,7 @@
 <resources>
 
     <string name="ga_trackingId">UA-25785295-2</string>
-    
+
     <bool name="ga_anonymizeIp">true</bool>
 
 </resources>

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-	<dimen name="control_padding_bottom">16dp</dimen>
-	<dimen name="control_padding_top">16dp</dimen>
+    <dimen name="control_padding_bottom">16dp</dimen>
+    <dimen name="control_padding_top">16dp</dimen>
 
 </resources>
