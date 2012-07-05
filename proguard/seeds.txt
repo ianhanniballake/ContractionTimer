@@ -1,36 +1,60 @@
 android.support.v4.app.BackStackState
 android.support.v4.app.BackStackState: android.os.Parcelable$Creator CREATOR
-android.support.v4.app.DialogFragment
 android.support.v4.app.Fragment$SavedState
 android.support.v4.app.Fragment$SavedState: android.os.Parcelable$Creator CREATOR
-android.support.v4.app.FragmentActivity
+android.support.v4.app.FragmentActivity: FragmentActivity()
 android.support.v4.app.FragmentManagerState
 android.support.v4.app.FragmentManagerState: android.os.Parcelable$Creator CREATOR
 android.support.v4.app.FragmentState
 android.support.v4.app.FragmentState: android.os.Parcelable$Creator CREATOR
-android.support.v4.app.ListFragment
 android.support.v4.content.ModernAsyncTask$Status: android.support.v4.content.ModernAsyncTask$Status[] values()
 android.support.v4.content.ModernAsyncTask$Status: android.support.v4.content.ModernAsyncTask$Status valueOf(java.lang.String)
-android.support.v4.view.PagerTitleStrip
+android.support.v4.view.PagerTabStrip: void setTabIndicatorColor(int)
+android.support.v4.view.PagerTabStrip: void setTabIndicatorColorResource(int)
+android.support.v4.view.PagerTabStrip: int getTabIndicatorColor()
+android.support.v4.view.PagerTabStrip: void setTextSpacing(int)
+android.support.v4.view.PagerTabStrip: void setBackgroundDrawable(android.graphics.drawable.Drawable)
+android.support.v4.view.PagerTabStrip: void setBackgroundColor(int)
+android.support.v4.view.PagerTabStrip: void setBackgroundResource(int)
+android.support.v4.view.PagerTabStrip: void setDrawFullUnderline(boolean)
+android.support.v4.view.PagerTabStrip: boolean getDrawFullUnderline()
+android.support.v4.view.PagerTabStrip: int getMinHeight()
+android.support.v4.view.PagerTitleStrip: void setSingleLineAllCaps(android.widget.TextView)
 android.support.v4.view.PagerTitleStrip: PagerTitleStrip(android.content.Context)
 android.support.v4.view.PagerTitleStrip: PagerTitleStrip(android.content.Context,android.util.AttributeSet)
+android.support.v4.view.PagerTitleStrip: void setTextSpacing(int)
+android.support.v4.view.PagerTitleStrip: int getTextSpacing()
+android.support.v4.view.PagerTitleStrip: void setNonPrimaryAlpha(float)
+android.support.v4.view.PagerTitleStrip: void setTextColor(int)
+android.support.v4.view.PagerTitleStrip: void setGravity(int)
+android.support.v4.view.PagerTitleStrip: int getMinHeight()
 android.support.v4.view.ViewPager
 android.support.v4.view.ViewPager: ViewPager(android.content.Context)
 android.support.v4.view.ViewPager: ViewPager(android.content.Context,android.util.AttributeSet)
+android.support.v4.view.ViewPager: void setScrollState(int)
 android.support.v4.view.ViewPager: void setAdapter(android.support.v4.view.PagerAdapter)
+android.support.v4.view.ViewPager: android.support.v4.view.PagerAdapter getAdapter()
+android.support.v4.view.ViewPager: void setOnAdapterChangeListener(android.support.v4.view.ViewPager$OnAdapterChangeListener)
 android.support.v4.view.ViewPager: void setCurrentItem(int)
-android.support.v4.view.ViewPager: void setCurrentItem(int,boolean)
+android.support.v4.view.ViewPager: int getCurrentItem()
 android.support.v4.view.ViewPager: void setOnPageChangeListener(android.support.v4.view.ViewPager$OnPageChangeListener)
+android.support.v4.view.ViewPager: int getOffscreenPageLimit()
 android.support.v4.view.ViewPager: void setOffscreenPageLimit(int)
 android.support.v4.view.ViewPager: void setPageMargin(int)
+android.support.v4.view.ViewPager: int getPageMargin()
 android.support.v4.view.ViewPager: void setPageMarginDrawable(android.graphics.drawable.Drawable)
 android.support.v4.view.ViewPager: void setPageMarginDrawable(int)
-android.support.v4.view.ViewPager$LayoutParams
-android.support.v4.view.ViewPager$LayoutParams: ViewPager$LayoutParams(android.content.Context,android.util.AttributeSet)
+android.support.v4.view.ViewPager: void setScrollingCacheEnabled(boolean)
 android.support.v4.view.ViewPager$SavedState
 android.support.v4.view.ViewPager$SavedState: android.os.Parcelable$Creator CREATOR
-com.google.android.apps.analytics.AnalyticsReceiver
+com.google.analytics.tracking.android.AdMobInfo$AdMobKey: com.google.analytics.tracking.android.AdMobInfo$AdMobKey[] values()
+com.google.analytics.tracking.android.AdMobInfo$AdMobKey: com.google.analytics.tracking.android.AdMobInfo$AdMobKey valueOf(java.lang.String)
+com.google.analytics.tracking.android.GAServiceProxy$ConnectState: com.google.analytics.tracking.android.GAServiceProxy$ConnectState[] values()
+com.google.analytics.tracking.android.GAServiceProxy$ConnectState: com.google.analytics.tracking.android.GAServiceProxy$ConnectState valueOf(java.lang.String)
+com.google.android.gms.analytics.internal.Command
+com.google.android.gms.analytics.internal.Command: android.os.Parcelable$Creator CREATOR
 com.ianhanniballake.contractiontimer.ContractionTimerApplication
+com.ianhanniballake.contractiontimer.ContractionTimerApplication: ContractionTimerApplication()
 com.ianhanniballake.contractiontimer.R$array: int pref_appwidget_background_entries
 com.ianhanniballake.contractiontimer.R$array: int pref_appwidget_background_entryvalues
 com.ianhanniballake.contractiontimer.R$array: int pref_settings_average_time_frame_entries
@@ -38,6 +62,7 @@ com.ianhanniballake.contractiontimer.R$array: int pref_settings_average_time_fra
 com.ianhanniballake.contractiontimer.R$attr: int actionbarCompatItemStyle
 com.ianhanniballake.contractiontimer.R$attr: int actionbarCompatTitleStyle
 com.ianhanniballake.contractiontimer.R$bool: int detail_appwidget_enabled
+com.ianhanniballake.contractiontimer.R$bool: int ga_anonymizeIp
 com.ianhanniballake.contractiontimer.R$bool: int pref_privacy_analytics_default
 com.ianhanniballake.contractiontimer.R$bool: int pref_settings_keep_screen_on_default
 com.ianhanniballake.contractiontimer.R$color: int actionbar_compat_background
@@ -70,9 +95,6 @@ com.ianhanniballake.contractiontimer.R$drawable: int appwidget_button_center
 com.ianhanniballake.contractiontimer.R$drawable: int appwidget_button_left
 com.ianhanniballake.contractiontimer.R$drawable: int appwidget_button_right
 com.ianhanniballake.contractiontimer.R$drawable: int appwidget_dark_bg
-com.ianhanniballake.contractiontimer.R$drawable: int appwidget_dark_bg_clickable
-com.ianhanniballake.contractiontimer.R$drawable: int appwidget_dark_bg_focused
-com.ianhanniballake.contractiontimer.R$drawable: int appwidget_dark_bg_pressed
 com.ianhanniballake.contractiontimer.R$drawable: int appwidget_inner_focused_c
 com.ianhanniballake.contractiontimer.R$drawable: int appwidget_inner_focused_l
 com.ianhanniballake.contractiontimer.R$drawable: int appwidget_inner_focused_r
@@ -80,9 +102,6 @@ com.ianhanniballake.contractiontimer.R$drawable: int appwidget_inner_pressed_c
 com.ianhanniballake.contractiontimer.R$drawable: int appwidget_inner_pressed_l
 com.ianhanniballake.contractiontimer.R$drawable: int appwidget_inner_pressed_r
 com.ianhanniballake.contractiontimer.R$drawable: int appwidget_light_bg
-com.ianhanniballake.contractiontimer.R$drawable: int appwidget_light_bg_clickable
-com.ianhanniballake.contractiontimer.R$drawable: int appwidget_light_bg_focused
-com.ianhanniballake.contractiontimer.R$drawable: int appwidget_light_bg_pressed
 com.ianhanniballake.contractiontimer.R$drawable: int control_appwidget_preview
 com.ianhanniballake.contractiontimer.R$drawable: int detail_appwidget_list_background_dark
 com.ianhanniballake.contractiontimer.R$drawable: int detail_appwidget_list_background_light
@@ -215,6 +234,7 @@ com.ianhanniballake.contractiontimer.R$string: int edit_end_time_error_overlap
 com.ianhanniballake.contractiontimer.R$string: int edit_ongoing_error
 com.ianhanniballake.contractiontimer.R$string: int edit_start_time_error_overlap
 com.ianhanniballake.contractiontimer.R$string: int edit_time_error_overlap
+com.ianhanniballake.contractiontimer.R$string: int ga_trackingId
 com.ianhanniballake.contractiontimer.R$string: int graphics_and_testing_by_label
 com.ianhanniballake.contractiontimer.R$string: int list_empty
 com.ianhanniballake.contractiontimer.R$string: int list_header_duration
@@ -226,6 +246,7 @@ com.ianhanniballake.contractiontimer.R$string: int menu_add
 com.ianhanniballake.contractiontimer.R$string: int menu_cancel
 com.ianhanniballake.contractiontimer.R$string: int menu_context_action_mode_title
 com.ianhanniballake.contractiontimer.R$string: int menu_context_view
+com.ianhanniballake.contractiontimer.R$string: int menu_context_view_condensed
 com.ianhanniballake.contractiontimer.R$string: int menu_delete
 com.ianhanniballake.contractiontimer.R$string: int menu_edit
 com.ianhanniballake.contractiontimer.R$string: int menu_reset
@@ -282,41 +303,39 @@ com.ianhanniballake.contractiontimer.R$xml: int control_appwidget_info
 com.ianhanniballake.contractiontimer.R$xml: int detail_appwidget_info
 com.ianhanniballake.contractiontimer.R$xml: int preferences_settings
 com.ianhanniballake.contractiontimer.R$xml: int toggle_appwidget_info
-com.ianhanniballake.contractiontimer.actionbar.ActionBarFragmentActivity
-com.ianhanniballake.contractiontimer.actionbar.ActionBarPreferenceActivity
-com.ianhanniballake.contractiontimer.analytics.AnalyticTrackingFragmentActivity
-com.ianhanniballake.contractiontimer.analytics.AnalyticTrackingPreferenceActivity
-com.ianhanniballake.contractiontimer.analytics.AnalyticsManagerService
-com.ianhanniballake.contractiontimer.analytics.AnalyticsService
+com.ianhanniballake.contractiontimer.actionbar.ActionBarFragmentActivity: ActionBarFragmentActivity()
+com.ianhanniballake.contractiontimer.actionbar.ActionBarPreferenceActivity: ActionBarPreferenceActivity()
 com.ianhanniballake.contractiontimer.appwidget.AppWidgetToggleService
+com.ianhanniballake.contractiontimer.appwidget.AppWidgetToggleService: AppWidgetToggleService()
 com.ianhanniballake.contractiontimer.appwidget.ControlAppWidgetProvider
+com.ianhanniballake.contractiontimer.appwidget.ControlAppWidgetProvider: ControlAppWidgetProvider()
 com.ianhanniballake.contractiontimer.appwidget.ControlAppWidgetService
+com.ianhanniballake.contractiontimer.appwidget.ControlAppWidgetService: ControlAppWidgetService()
 com.ianhanniballake.contractiontimer.appwidget.DetailAppWidgetProvider
+com.ianhanniballake.contractiontimer.appwidget.DetailAppWidgetProvider: DetailAppWidgetProvider()
 com.ianhanniballake.contractiontimer.appwidget.DetailAppWidgetRemoteViewsService
+com.ianhanniballake.contractiontimer.appwidget.DetailAppWidgetRemoteViewsService: DetailAppWidgetRemoteViewsService()
 com.ianhanniballake.contractiontimer.appwidget.DetailAppWidgetService
+com.ianhanniballake.contractiontimer.appwidget.DetailAppWidgetService: DetailAppWidgetService()
 com.ianhanniballake.contractiontimer.appwidget.ToggleAppWidgetProvider
+com.ianhanniballake.contractiontimer.appwidget.ToggleAppWidgetProvider: ToggleAppWidgetProvider()
 com.ianhanniballake.contractiontimer.appwidget.ToggleAppWidgetService
+com.ianhanniballake.contractiontimer.appwidget.ToggleAppWidgetService: ToggleAppWidgetService()
 com.ianhanniballake.contractiontimer.backup.ContractionTimerBackupAgent
+com.ianhanniballake.contractiontimer.backup.ContractionTimerBackupAgent: ContractionTimerBackupAgent()
 com.ianhanniballake.contractiontimer.provider.ContractionProvider
-com.ianhanniballake.contractiontimer.ui.AboutDialogFragment
-com.ianhanniballake.contractiontimer.ui.ContractionAverageFragment
-com.ianhanniballake.contractiontimer.ui.ContractionControlsFragment
-com.ianhanniballake.contractiontimer.ui.ContractionListFragment
-com.ianhanniballake.contractiontimer.ui.ContractionListFragmentBase
-com.ianhanniballake.contractiontimer.ui.ContractionListFragmentV11
-com.ianhanniballake.contractiontimer.ui.DatePickerDialogFragment
+com.ianhanniballake.contractiontimer.provider.ContractionProvider: ContractionProvider()
 com.ianhanniballake.contractiontimer.ui.EditActivity
-com.ianhanniballake.contractiontimer.ui.EditFragment
+com.ianhanniballake.contractiontimer.ui.EditActivity: EditActivity()
 com.ianhanniballake.contractiontimer.ui.MainActivity
-com.ianhanniballake.contractiontimer.ui.NoteDialogFragment
+com.ianhanniballake.contractiontimer.ui.MainActivity: MainActivity()
 com.ianhanniballake.contractiontimer.ui.Preferences
-com.ianhanniballake.contractiontimer.ui.ResetDialogFragment
+com.ianhanniballake.contractiontimer.ui.Preferences: Preferences()
 com.ianhanniballake.contractiontimer.ui.SafePagerTitleStrip
 com.ianhanniballake.contractiontimer.ui.SafePagerTitleStrip: SafePagerTitleStrip(android.content.Context)
 com.ianhanniballake.contractiontimer.ui.SafePagerTitleStrip: SafePagerTitleStrip(android.content.Context,android.util.AttributeSet)
-com.ianhanniballake.contractiontimer.ui.TimePickerDialogFragment
 com.ianhanniballake.contractiontimer.ui.ViewActivity
-com.ianhanniballake.contractiontimer.ui.ViewFragment
+com.ianhanniballake.contractiontimer.ui.ViewActivity: ViewActivity()
 org.acra.ACRA
 org.acra.ACRA: boolean DEV_LOGGING
 org.acra.ACRA: java.lang.String LOG_TAG
@@ -352,7 +371,6 @@ org.acra.ACRA: android.content.SharedPreferences getACRASharedPreferences()
 org.acra.ACRA: org.acra.annotation.ReportsCrashes getConfig()
 org.acra.ACRA: void access$000()
 org.acra.ACRA: void <clinit>()
-org.acra.CrashReportDialog
 org.acra.ErrorReporter
 org.acra.ErrorReporter: void addCustomData(java.lang.String,java.lang.String)
 org.acra.ReportField: org.acra.ReportField[] values()
