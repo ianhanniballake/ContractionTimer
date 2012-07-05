@@ -21,7 +21,8 @@
         android:theme="@style/AppTheme" >
         <provider
             android:name=".provider.ContractionProvider"
-            android:authorities="com.ianhanniballake.contractiontimer" >
+            android:authorities="com.ianhanniballake.contractiontimer"
+            tools:ignore="ExportedContentProvider" >
             <grant-uri-permission android:pathPattern=".*" />
         </provider>
 
@@ -37,7 +38,8 @@
         <activity
             android:name=".ui.ViewActivity"
             android:label="@string/view_activity_name"
-            android:launchMode="singleTop" >
+            android:launchMode="singleTop"
+            tools:ignore="ExportedActivity" >
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
 
@@ -53,7 +55,8 @@
         <activity
             android:name=".ui.EditActivity"
             android:label="@string/edit_activity_name"
-            android:launchMode="singleTop" >
+            android:launchMode="singleTop"
+            tools:ignore="ExportedActivity" >
             <intent-filter>
                 <action android:name="android.intent.action.EDIT" />
 
@@ -72,7 +75,8 @@
         <activity
             android:name=".ui.Preferences"
             android:label="@string/settings"
-            android:launchMode="singleTop" >
+            android:launchMode="singleTop"
+            tools:ignore="ExportedActivity" >
             <intent-filter>
                 <action android:name="android.intent.action.MANAGE_NETWORK_USAGE" />
 
@@ -97,7 +101,8 @@
 
         <receiver
             android:name=".appwidget.ToggleAppWidgetProvider"
-            android:label="@string/toggle_appwidget_label" >
+            android:label="@string/toggle_appwidget_label"
+            tools:ignore="ExportedReceiver" >
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
             </intent-filter>
@@ -108,7 +113,8 @@
         </receiver>
         <receiver
             android:name=".appwidget.ControlAppWidgetProvider"
-            android:label="@string/control_appwidget_label" >
+            android:label="@string/control_appwidget_label"
+            tools:ignore="ExportedReceiver" >
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
             </intent-filter>
@@ -120,7 +126,8 @@
         <receiver
             android:name=".appwidget.DetailAppWidgetProvider"
             android:enabled="@bool/detail_appwidget_enabled"
-            android:label="@string/detail_appwidget_label" >
+            android:label="@string/detail_appwidget_label"
+            tools:ignore="ExportedReceiver" >
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
             </intent-filter>
@@ -131,7 +138,8 @@
         </receiver>
         <receiver
             android:name="com.google.android.apps.analytics.AnalyticsReceiver"
-            android:exported="true" >
+            android:exported="true"
+            tools:ignore="ExportedReceiver" >
             <intent-filter>
                 <action android:name="com.android.vending.INSTALL_REFERRER" />
             </intent-filter>
