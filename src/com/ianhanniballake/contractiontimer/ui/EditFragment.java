@@ -36,9 +36,9 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.google.analytics.tracking.android.EasyTracker;
 import com.ianhanniballake.contractiontimer.BuildConfig;
 import com.ianhanniballake.contractiontimer.R;
-import com.ianhanniballake.contractiontimer.analytics.AnalyticsManagerService;
 import com.ianhanniballake.contractiontimer.appwidget.AppWidgetUpdateHandler;
 import com.ianhanniballake.contractiontimer.provider.ContractionContract;
 
@@ -532,8 +532,7 @@ public class EditFragment extends Fragment implements
 				if (BuildConfig.DEBUG)
 					Log.d(timePicker.getClass().getSimpleName(),
 							"Showing Start Time Dialog");
-				AnalyticsManagerService
-						.trackPageView(getActivity(), timePicker);
+				EasyTracker.getTracker().trackView("PickTimeStart");
 				timePicker.show(getFragmentManager(), "startTime");
 			}
 		});
@@ -553,8 +552,7 @@ public class EditFragment extends Fragment implements
 				if (BuildConfig.DEBUG)
 					Log.d(datePicker.getClass().getSimpleName(),
 							"Showing Start Date Dialog");
-				AnalyticsManagerService
-						.trackPageView(getActivity(), datePicker);
+				EasyTracker.getTracker().trackView("PickDateStart");
 				datePicker.show(getFragmentManager(), "startDate");
 			}
 		});
@@ -574,8 +572,7 @@ public class EditFragment extends Fragment implements
 				if (BuildConfig.DEBUG)
 					Log.d(timePicker.getClass().getSimpleName(),
 							"Showing End Time Dialog");
-				AnalyticsManagerService
-						.trackPageView(getActivity(), timePicker);
+				EasyTracker.getTracker().trackView("PickTimeEnd");
 				timePicker.show(getFragmentManager(), "endTime");
 			}
 		});
@@ -595,8 +592,7 @@ public class EditFragment extends Fragment implements
 				if (BuildConfig.DEBUG)
 					Log.d(datePicker.getClass().getSimpleName(),
 							"Showing End Date Dialog");
-				AnalyticsManagerService
-						.trackPageView(getActivity(), datePicker);
+				EasyTracker.getTracker().trackView("PickDateEnd");
 				datePicker.show(getFragmentManager(), "endDate");
 			}
 		});
@@ -655,8 +651,7 @@ public class EditFragment extends Fragment implements
 				{
 					if (BuildConfig.DEBUG)
 						Log.d(getClass().getSimpleName(), "Add selected save");
-					AnalyticsManagerService.trackEvent(getActivity(), "Add",
-							"Save");
+					EasyTracker.getTracker().trackEvent("Add", "Save", "", 0L);
 					contractionQueryHandler.startInsert(0, null, getActivity()
 							.getIntent().getData(), values);
 				}
@@ -664,8 +659,7 @@ public class EditFragment extends Fragment implements
 				{
 					if (BuildConfig.DEBUG)
 						Log.d(getClass().getSimpleName(), "Edit selected save");
-					AnalyticsManagerService.trackEvent(getActivity(), "Edit",
-							"Save");
+					EasyTracker.getTracker().trackEvent("Edit", "Save", "", 0L);
 					contractionQueryHandler.startUpdate(0, null, getActivity()
 							.getIntent().getData(), values, null, null);
 				}
@@ -673,8 +667,7 @@ public class EditFragment extends Fragment implements
 			case R.id.menu_cancel:
 				if (BuildConfig.DEBUG)
 					Log.d(getClass().getSimpleName(), "Edit selected cancel");
-				AnalyticsManagerService.trackEvent(getActivity(), "Edit",
-						"Cancel");
+				EasyTracker.getTracker().trackEvent("Edit", "Cancel", "", 0L);
 				getActivity().finish();
 				return true;
 			default:

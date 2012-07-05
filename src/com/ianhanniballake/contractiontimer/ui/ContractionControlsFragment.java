@@ -20,9 +20,9 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.ToggleButton;
 
+import com.google.analytics.tracking.android.EasyTracker;
 import com.ianhanniballake.contractiontimer.BuildConfig;
 import com.ianhanniballake.contractiontimer.R;
-import com.ianhanniballake.contractiontimer.analytics.AnalyticsManagerService;
 import com.ianhanniballake.contractiontimer.appwidget.AppWidgetUpdateHandler;
 import com.ianhanniballake.contractiontimer.provider.ContractionContract;
 
@@ -106,8 +106,8 @@ public class ContractionControlsFragment extends Fragment implements
 					if (BuildConfig.DEBUG)
 						Log.d(ContractionControlsFragment.this.getClass()
 								.getSimpleName(), "Starting contraction");
-					AnalyticsManagerService.trackEvent(getActivity(),
-							"Controls", "Start");
+					EasyTracker.getTracker().trackEvent("Controls", "Start",
+							"", 0L);
 					// Start a new contraction
 					contractionQueryHandler.startInsert(0, null,
 							ContractionContract.Contractions.CONTENT_URI,
@@ -118,8 +118,8 @@ public class ContractionControlsFragment extends Fragment implements
 					if (BuildConfig.DEBUG)
 						Log.d(ContractionControlsFragment.this.getClass()
 								.getSimpleName(), "Stopping contraction");
-					AnalyticsManagerService.trackEvent(getActivity(),
-							"Controls", "Stop");
+					EasyTracker.getTracker().trackEvent("Controls", "Stop", "",
+							0L);
 					final ContentValues newEndTime = new ContentValues();
 					newEndTime
 							.put(ContractionContract.Contractions.COLUMN_NAME_END_TIME,

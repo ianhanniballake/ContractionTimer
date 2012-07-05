@@ -10,8 +10,8 @@ import android.net.Uri;
 import android.provider.BaseColumns;
 import android.util.Log;
 
+import com.google.analytics.tracking.android.EasyTracker;
 import com.ianhanniballake.contractiontimer.BuildConfig;
-import com.ianhanniballake.contractiontimer.analytics.AnalyticsManagerService;
 import com.ianhanniballake.contractiontimer.provider.ContractionContract;
 
 /**
@@ -34,24 +34,6 @@ public class AppWidgetToggleService extends IntentService
 	}
 
 	@Override
-	public void onCreate()
-	{
-		super.onCreate();
-		if (BuildConfig.DEBUG)
-			Log.d(getClass().getSimpleName(), "Creating service");
-		AnalyticsManagerService.startSession(this);
-	}
-
-	@Override
-	public void onDestroy()
-	{
-		super.onDestroy();
-		if (BuildConfig.DEBUG)
-			Log.d(getClass().getSimpleName(), "Destroying service");
-		AnalyticsManagerService.stopSession(this);
-	}
-
-	@Override
 	protected void onHandleIntent(final Intent intent)
 	{
 		final String widgetName = intent
@@ -70,7 +52,7 @@ public class AppWidgetToggleService extends IntentService
 			if (BuildConfig.DEBUG)
 				Log.d(AppWidgetToggleService.this.getClass().getSimpleName(),
 						"Stopping contraction");
-			AnalyticsManagerService.trackEvent(this, widgetName, "Stop");
+			EasyTracker.getTracker().trackEvent(widgetName, "Stop", "", 0L);
 			final ContentValues newEndTime = new ContentValues();
 			newEndTime.put(
 					ContractionContract.Contractions.COLUMN_NAME_END_TIME,
@@ -88,7 +70,7 @@ public class AppWidgetToggleService extends IntentService
 			if (BuildConfig.DEBUG)
 				Log.d(AppWidgetToggleService.this.getClass().getSimpleName(),
 						"Starting contraction");
-			AnalyticsManagerService.trackEvent(this, widgetName, "Start");
+			EasyTracker.getTracker().trackEvent(widgetName, "Start", "", 0L);
 			// Start a new contraction
 			contentResolver.insert(
 					ContractionContract.Contractions.CONTENT_URI,

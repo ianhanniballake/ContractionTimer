@@ -26,10 +26,10 @@ import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.TextView;
 
+import com.google.analytics.tracking.android.EasyTracker;
 import com.ianhanniballake.contractiontimer.BuildConfig;
 import com.ianhanniballake.contractiontimer.R;
 import com.ianhanniballake.contractiontimer.actionbar.ActionBarFragmentActivity;
-import com.ianhanniballake.contractiontimer.analytics.AnalyticsManagerService;
 import com.ianhanniballake.contractiontimer.provider.ContractionContract;
 
 /**
@@ -73,25 +73,6 @@ public class MainActivity extends ActionBarFragmentActivity implements
 				new Object[] { relativeTimeSpan, count,
 						averageDurationView.getText(),
 						averageFrequencyView.getText() });
-	}
-
-	@Override
-	public void onAnalyticsServiceConnected()
-	{
-		if (getIntent().hasExtra(MainActivity.LAUNCHED_FROM_WIDGET_EXTRA))
-		{
-			final String widgetIdentifier = getIntent().getExtras().getString(
-					MainActivity.LAUNCHED_FROM_WIDGET_EXTRA);
-			if (BuildConfig.DEBUG)
-				Log.d(getClass().getSimpleName(), "Launched from "
-						+ widgetIdentifier);
-			AnalyticsManagerService
-					.trackEvent(this, widgetIdentifier, "Launch");
-			getIntent().removeExtra(MainActivity.LAUNCHED_FROM_WIDGET_EXTRA);
-		}
-		if (BuildConfig.DEBUG)
-			Log.d(getClass().getSimpleName(), "Showing activity");
-		AnalyticsManagerService.trackPageView(this);
 	}
 
 	@Override
@@ -172,20 +153,19 @@ public class MainActivity extends ActionBarFragmentActivity implements
 			case R.id.menu_reset:
 				if (BuildConfig.DEBUG)
 					Log.d(getClass().getSimpleName(), "Menu selected Reset");
-				AnalyticsManagerService.trackEvent(this, "Menu", "Reset", "",
-						adapter.getCount());
+				EasyTracker.getTracker().trackEvent("Menu", "Reset", "",
+						(long) adapter.getCount());
 				final ResetDialogFragment resetDialogFragment = new ResetDialogFragment();
 				if (BuildConfig.DEBUG)
 					Log.d(resetDialogFragment.getClass().getSimpleName(),
 							"Showing Dialog");
-				AnalyticsManagerService
-						.trackPageView(this, resetDialogFragment);
+				EasyTracker.getTracker().trackView("Reset");
 				resetDialogFragment.show(getSupportFragmentManager(), "reset");
 				return true;
 			case R.id.menu_add:
 				if (BuildConfig.DEBUG)
 					Log.d(getClass().getSimpleName(), "Menu selected Add");
-				AnalyticsManagerService.trackEvent(this, "Menu", "Add");
+				EasyTracker.getTracker().trackEvent("Menu", "Add", "", 0L);
 				final Intent addIntent = new Intent(Intent.ACTION_INSERT,
 						getIntent().getData());
 				startActivity(addIntent);
@@ -194,15 +174,15 @@ public class MainActivity extends ActionBarFragmentActivity implements
 				if (BuildConfig.DEBUG)
 					Log.d(getClass().getSimpleName(),
 							"Menu selected Share Averages");
-				AnalyticsManagerService.trackEvent(this, "Menu", "Share",
-						"Averages", adapter.getCount());
+				EasyTracker.getTracker().trackEvent("Menu", "Share",
+						"Averages", (long) adapter.getCount());
 				shareAverages();
 				return true;
 			case R.id.menu_share_all:
 				if (BuildConfig.DEBUG)
 					Log.d(getClass().getSimpleName(), "Menu selected Share All");
-				AnalyticsManagerService.trackEvent(this, "Menu", "Share",
-						"All", adapter.getCount());
+				EasyTracker.getTracker().trackEvent("Menu", "Share", "All",
+						(long) adapter.getCount());
 				shareAll();
 				return true;
 			case R.id.menu_settings:
@@ -211,14 +191,12 @@ public class MainActivity extends ActionBarFragmentActivity implements
 			case R.id.menu_about:
 				if (BuildConfig.DEBUG)
 					Log.d(getClass().getSimpleName(), "Menu selected About");
-				AnalyticsManagerService
-						.trackEvent(this, "Menu", "About", "", 0);
+				EasyTracker.getTracker().trackEvent("Menu", "About", "", 0L);
 				final AboutDialogFragment aboutDialogFragment = new AboutDialogFragment();
 				if (BuildConfig.DEBUG)
 					Log.d(aboutDialogFragment.getClass().getSimpleName(),
 							"Showing Dialog");
-				AnalyticsManagerService
-						.trackPageView(this, aboutDialogFragment);
+				EasyTracker.getTracker().trackView("About");
 				aboutDialogFragment.show(getSupportFragmentManager(), "about");
 				return true;
 			default:
@@ -267,6 +245,32 @@ public class MainActivity extends ActionBarFragmentActivity implements
 			editor.commit();
 			getSupportLoaderManager().restartLoader(0, null, this);
 		}
+	}
+
+	@Override
+	protected void onStart()
+	{
+		super.onStart();
+		if (getIntent().hasExtra(MainActivity.LAUNCHED_FROM_WIDGET_EXTRA))
+		{
+			final String widgetIdentifier = getIntent().getExtras().getString(
+					MainActivity.LAUNCHED_FROM_WIDGET_EXTRA);
+			if (BuildConfig.DEBUG)
+				Log.d(getClass().getSimpleName(), "Launched from "
+						+ widgetIdentifier);
+			EasyTracker.getTracker().trackEvent(widgetIdentifier, "Launch", "",
+					0L);
+			getIntent().removeExtra(MainActivity.LAUNCHED_FROM_WIDGET_EXTRA);
+		}
+		EasyTracker.getInstance().activityStart(this);
+		EasyTracker.getTracker().trackView("Main");
+	}
+
+	@Override
+	protected void onStop()
+	{
+		super.onStop();
+		EasyTracker.getInstance().activityStop(this);
 	}
 
 	/**

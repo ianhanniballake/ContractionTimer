@@ -19,9 +19,9 @@ import android.widget.ListView;
 import android.widget.PopupMenu;
 import android.widget.PopupMenu.OnMenuItemClickListener;
 
+import com.google.analytics.tracking.android.EasyTracker;
 import com.ianhanniballake.contractiontimer.BuildConfig;
 import com.ianhanniballake.contractiontimer.R;
-import com.ianhanniballake.contractiontimer.analytics.AnalyticsManagerService;
 import com.ianhanniballake.contractiontimer.provider.ContractionContract;
 
 /**
@@ -117,8 +117,8 @@ public class ContractionListFragmentV11 extends ContractionListFragment
 						if (BuildConfig.DEBUG)
 							Log.d(getClass().getSimpleName(),
 									"Popup Menu selected view");
-						AnalyticsManagerService.trackEvent(getActivity(),
-								"PopupMenu", "View");
+						EasyTracker.getTracker().trackEvent("PopupMenu",
+								"View", "", 0L);
 						viewContraction(popupHolder.id);
 						return true;
 					case R.id.menu_context_note:
@@ -128,17 +128,21 @@ public class ContractionListFragmentV11 extends ContractionListFragment
 											+ (popupHolder.existingNote
 													.equals("") ? "Add Note"
 													: "Edit Note"));
-						AnalyticsManagerService.trackEvent(getActivity(),
-								"PopupMenu", "Note", popupHolder.existingNote
-										.equals("") ? "Add Note" : "Edit Note");
+						EasyTracker
+								.getTracker()
+								.trackEvent(
+										"PopupMenu",
+										"Note",
+										popupHolder.existingNote.equals("") ? "Add Note"
+												: "Edit Note", 0L);
 						showNoteDialog(popupHolder.id, popupHolder.existingNote);
 						return true;
 					case R.id.menu_context_delete:
 						if (BuildConfig.DEBUG)
 							Log.d(getClass().getSimpleName(),
 									"Popup Menu selected delete");
-						AnalyticsManagerService.trackEvent(getActivity(),
-								"PopupMenu", "Delete");
+						EasyTracker.getTracker().trackEvent("PopupMenu",
+								"Delete", "", 0L);
 						deleteContraction(popupHolder.id);
 						return true;
 					default:
@@ -180,8 +184,8 @@ public class ContractionListFragmentV11 extends ContractionListFragment
 						if (BuildConfig.DEBUG)
 							Log.d(getClass().getSimpleName(),
 									"Context Action Mode selected view");
-						AnalyticsManagerService.trackEvent(getActivity(),
-								"ContextActionBar", "View");
+						EasyTracker.getTracker().trackEvent("ContextActionBar",
+								"View", "", 0L);
 						viewContraction(contractionId);
 						return true;
 					case R.id.menu_context_note:
@@ -198,10 +202,11 @@ public class ContractionListFragmentV11 extends ContractionListFragment
 									"Context Action Mode selected "
 											+ (existingNote.equals("") ? "Add Note"
 													: "Edit Note"));
-						AnalyticsManagerService.trackEvent(getActivity(),
-								"ContextActionBar", "Note", existingNote
-										.equals("") ? "Add Note" : "Edit Note",
-								position);
+						EasyTracker.getTracker().trackEvent(
+								"ContextActionBar",
+								"Note",
+								existingNote.equals("") ? "Add Note"
+										: "Edit Note", (long) position);
 						showNoteDialog(contractionId, existingNote);
 						mode.finish();
 						return true;
@@ -211,9 +216,8 @@ public class ContractionListFragmentV11 extends ContractionListFragment
 						if (BuildConfig.DEBUG)
 							Log.d(getClass().getSimpleName(),
 									"Context Action Mode selected delete");
-						AnalyticsManagerService.trackEvent(getActivity(),
-								"ContextActionBar", "Delete", "",
-								selectedIds.length);
+						EasyTracker.getTracker().trackEvent("ContextActionBar",
+								"Delete", "", (long) selectedIds.length);
 						for (final long id : selectedIds)
 							deleteContraction(id);
 						mode.finish();

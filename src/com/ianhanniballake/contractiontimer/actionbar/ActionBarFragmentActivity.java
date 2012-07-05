@@ -6,14 +6,11 @@ import android.support.v4.app.FragmentActivity;
 import android.view.Menu;
 import android.view.MenuInflater;
 
-import com.ianhanniballake.contractiontimer.analytics.AnalyticTrackingFragmentActivity;
-
 /**
  * A base activity that defers common functionality across app activities to an
  * {@link ActionBarHelper}.
  */
-public abstract class ActionBarFragmentActivity extends
-		AnalyticTrackingFragmentActivity
+public abstract class ActionBarFragmentActivity extends FragmentActivity
 {
 	/**
 	 * Instance of the ActionBarHelper appropriate to the current Android

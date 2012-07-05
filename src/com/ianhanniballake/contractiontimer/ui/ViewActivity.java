@@ -21,10 +21,10 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.google.analytics.tracking.android.EasyTracker;
 import com.ianhanniballake.contractiontimer.BuildConfig;
 import com.ianhanniballake.contractiontimer.R;
 import com.ianhanniballake.contractiontimer.actionbar.ActionBarFragmentActivity;
-import com.ianhanniballake.contractiontimer.analytics.AnalyticsManagerService;
 import com.ianhanniballake.contractiontimer.provider.ContractionContract;
 import com.ianhanniballake.contractiontimer.provider.ContractionContract.Contractions;
 
@@ -86,25 +86,6 @@ public class ViewActivity extends ActionBarFragmentActivity implements
 	 * Pager Adapter to manage view contraction pages
 	 */
 	private ViewFragmentPagerAdapter pagerAdapter;
-
-	@Override
-	public void onAnalyticsServiceConnected()
-	{
-		if (getIntent().hasExtra(MainActivity.LAUNCHED_FROM_WIDGET_EXTRA))
-		{
-			final String widgetIdentifier = getIntent().getExtras().getString(
-					MainActivity.LAUNCHED_FROM_WIDGET_EXTRA);
-			if (BuildConfig.DEBUG)
-				Log.d(getClass().getSimpleName(), "Launched from "
-						+ widgetIdentifier);
-			AnalyticsManagerService.trackEvent(this, widgetIdentifier,
-					"LaunchView");
-			getIntent().removeExtra(MainActivity.LAUNCHED_FROM_WIDGET_EXTRA);
-		}
-		if (BuildConfig.DEBUG)
-			Log.d(getClass().getSimpleName(), "Showing activity");
-		AnalyticsManagerService.trackPageView(this);
-	}
 
 	@Override
 	public void onCreate(final Bundle savedInstanceState)
@@ -194,7 +175,7 @@ public class ViewActivity extends ActionBarFragmentActivity implements
 			case android.R.id.home:
 				if (BuildConfig.DEBUG)
 					Log.d(getClass().getSimpleName(), "View selected home");
-				AnalyticsManagerService.trackEvent(this, "View", "Home");
+				EasyTracker.getTracker().trackEvent("View", "Home", "", 0L);
 				final Intent upIntent = NavUtils.getParentActivityIntent(this);
 				if (NavUtils.shouldUpRecreateTask(this, upIntent))
 				{
@@ -230,11 +211,11 @@ public class ViewActivity extends ActionBarFragmentActivity implements
 			Log.d(getClass().getSimpleName(), "Swapped to " + position);
 		if (currentPosition != -1)
 			if (position > currentPosition)
-				AnalyticsManagerService.trackEvent(this, "View", "Scroll",
-						"Next");
+				EasyTracker.getTracker().trackEvent("View", "Scroll", "Next",
+						(long) position);
 			else
-				AnalyticsManagerService.trackEvent(this, "View", "Scroll",
-						"Previous");
+				EasyTracker.getTracker().trackEvent("View", "Scroll",
+						"Previous", (long) position);
 		currentPosition = position;
 		final long newContractionId = adapter.getItemId(position);
 		getIntent().setData(
@@ -248,5 +229,25 @@ public class ViewActivity extends ActionBarFragmentActivity implements
 	{
 		super.onStart();
 		getActionBarHelper().setDisplayHomeAsUpEnabled(true);
+		if (getIntent().hasExtra(MainActivity.LAUNCHED_FROM_WIDGET_EXTRA))
+		{
+			final String widgetIdentifier = getIntent().getExtras().getString(
+					MainActivity.LAUNCHED_FROM_WIDGET_EXTRA);
+			if (BuildConfig.DEBUG)
+				Log.d(getClass().getSimpleName(), "Launched from "
+						+ widgetIdentifier);
+			EasyTracker.getTracker().trackEvent(widgetIdentifier, "LaunchView",
+					"", 0L);
+			getIntent().removeExtra(MainActivity.LAUNCHED_FROM_WIDGET_EXTRA);
+		}
+		EasyTracker.getInstance().activityStart(this);
+		EasyTracker.getTracker().trackView("View");
+	}
+
+	@Override
+	protected void onStop()
+	{
+		super.onStop();
+		EasyTracker.getInstance().activityStop(this);
 	}
 }

@@ -11,9 +11,9 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 
+import com.google.analytics.tracking.android.EasyTracker;
 import com.ianhanniballake.contractiontimer.BuildConfig;
 import com.ianhanniballake.contractiontimer.R;
-import com.ianhanniballake.contractiontimer.analytics.AnalyticsManagerService;
 import com.ianhanniballake.contractiontimer.provider.ContractionContract;
 
 /**
@@ -26,7 +26,7 @@ public class ResetDialogFragment extends DialogFragment
 	{
 		if (BuildConfig.DEBUG)
 			Log.d(getClass().getSimpleName(), "Received cancelation event");
-		AnalyticsManagerService.trackEvent(getActivity(), "Note", "Cancel");
+		EasyTracker.getTracker().trackEvent("Note", "Cancel", "", 0L);
 		super.onCancel(dialog);
 	}
 
@@ -50,8 +50,8 @@ public class ResetDialogFragment extends DialogFragment
 									Log.d(ResetDialogFragment.this.getClass()
 											.getSimpleName(),
 											"Received positive event");
-								AnalyticsManagerService.trackEvent(
-										getActivity(), "Reset", "Positive");
+								EasyTracker.getTracker().trackEvent("Reset",
+										"Positive", "", 0L);
 								new AsyncQueryHandler(getActivity()
 										.getContentResolver())
 								{
@@ -74,8 +74,8 @@ public class ResetDialogFragment extends DialogFragment
 									Log.d(ResetDialogFragment.this.getClass()
 											.getSimpleName(),
 											"Received negative event");
-								AnalyticsManagerService.trackEvent(
-										getActivity(), "Reset", "Negative");
+								EasyTracker.getTracker().trackEvent("Reset",
+										"Negative", "", 0L);
 							}
 						}).create();
 	}

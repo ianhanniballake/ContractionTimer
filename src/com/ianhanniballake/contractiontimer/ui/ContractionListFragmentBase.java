@@ -12,9 +12,9 @@ import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.google.analytics.tracking.android.EasyTracker;
 import com.ianhanniballake.contractiontimer.BuildConfig;
 import com.ianhanniballake.contractiontimer.R;
-import com.ianhanniballake.contractiontimer.analytics.AnalyticsManagerService;
 
 /**
  * Fragment to list contractions entered by the user
@@ -38,8 +38,8 @@ public class ContractionListFragmentBase extends ContractionListFragment
 				if (BuildConfig.DEBUG)
 					Log.d(getClass().getSimpleName(),
 							"Context Menu selected view");
-				AnalyticsManagerService.trackEvent(getActivity(),
-						"ContextMenu", "View");
+				EasyTracker.getTracker().trackEvent("ContextMenu", "View", "",
+						0L);
 				viewContraction(info.id);
 				return true;
 			case R.id.menu_context_note:
@@ -50,18 +50,17 @@ public class ContractionListFragmentBase extends ContractionListFragment
 					Log.d(getClass().getSimpleName(), "Context Menu selected "
 							+ (existingNote.equals("") ? "Add Note"
 									: "Edit Note"));
-				AnalyticsManagerService.trackEvent(getActivity(),
-						"ContextMenu", "Note",
+				EasyTracker.getTracker().trackEvent("ContextMenu", "Note",
 						existingNote.equals("") ? "Add Note" : "Edit Note",
-						info.position);
+						(long) info.position);
 				showNoteDialog(info.id, existingNote);
 				return true;
 			case R.id.menu_context_delete:
 				if (BuildConfig.DEBUG)
 					Log.d(getClass().getSimpleName(),
 							"Context Menu selected delete");
-				AnalyticsManagerService.trackEvent(getActivity(),
-						"ContextMenu", "Delete", "", info.position);
+				EasyTracker.getTracker().trackEvent("ContextMenu", "Delete",
+						"", (long) info.position);
 				deleteContraction(info.id);
 				return true;
 			default:
@@ -90,8 +89,8 @@ public class ContractionListFragmentBase extends ContractionListFragment
 				R.plurals.menu_context_delete, 1));
 		if (BuildConfig.DEBUG)
 			Log.d(getClass().getSimpleName(), "Context Menu Opened");
-		AnalyticsManagerService.trackEvent(getActivity(), "ContextMenu",
-				"Open", note.equals("") ? "Add Note" : "Edit Note");
+		EasyTracker.getTracker().trackEvent("ContextMenu", "Open",
+				note.equals("") ? "Add Note" : "Edit Note", 0L);
 	}
 
 	/**

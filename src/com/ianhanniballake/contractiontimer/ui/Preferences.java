@@ -11,10 +11,11 @@ import android.support.v4.app.TaskStackBuilder;
 import android.util.Log;
 import android.view.MenuItem;
 
+import com.google.analytics.tracking.android.EasyTracker;
+import com.google.analytics.tracking.android.GoogleAnalytics;
 import com.ianhanniballake.contractiontimer.BuildConfig;
 import com.ianhanniballake.contractiontimer.R;
 import com.ianhanniballake.contractiontimer.actionbar.ActionBarPreferenceActivity;
-import com.ianhanniballake.contractiontimer.analytics.AnalyticsManagerService;
 import com.ianhanniballake.contractiontimer.appwidget.AppWidgetUpdateHandler;
 import com.ianhanniballake.contractiontimer.backup.BackupController;
 
@@ -58,14 +59,6 @@ public class Preferences extends ActionBarPreferenceActivity implements
 	 * Reference to the ListPreference corresponding with the average time frame
 	 */
 	private ListPreference averageTimeFrameListPreference;
-
-	@Override
-	public void onAnalyticsServiceConnected()
-	{
-		if (BuildConfig.DEBUG)
-			Log.d(getClass().getSimpleName(), "Showing activity");
-		AnalyticsManagerService.trackPageView(this);
-	}
 
 	@SuppressWarnings("deprecation")
 	@Override
@@ -136,8 +129,8 @@ public class Preferences extends ActionBarPreferenceActivity implements
 			if (BuildConfig.DEBUG)
 				Log.d(getClass().getSimpleName(), "Keep Screen On: "
 						+ newIsKeepScreenOn);
-			AnalyticsManagerService.trackEvent(this, "Preferences",
-					"Keep Screen On", Boolean.toString(newIsKeepScreenOn));
+			EasyTracker.getTracker().trackEvent("Preferences",
+					"Keep Screen On", Boolean.toString(newIsKeepScreenOn), 0L);
 		}
 		else if (key.equals(Preferences.APPWIDGET_BACKGROUND_PREFERENCE_KEY))
 		{
@@ -146,8 +139,8 @@ public class Preferences extends ActionBarPreferenceActivity implements
 			if (BuildConfig.DEBUG)
 				Log.d(getClass().getSimpleName(), "Appwidget Background: "
 						+ newAppwidgetBackground);
-			AnalyticsManagerService.trackEvent(this, "Preferences",
-					"Appwidget Background", newAppwidgetBackground);
+			EasyTracker.getTracker().trackEvent("Preferences",
+					"Appwidget Background", newAppwidgetBackground, 0L);
 			appwidgetBackgroundListPreference
 					.setSummary(appwidgetBackgroundListPreference.getEntry());
 			AppWidgetUpdateHandler.createInstance().updateAllWidgets(this);
@@ -159,8 +152,8 @@ public class Preferences extends ActionBarPreferenceActivity implements
 			if (BuildConfig.DEBUG)
 				Log.d(getClass().getSimpleName(), "Average Time Frame: "
 						+ newAverageTimeFrame);
-			AnalyticsManagerService.trackEvent(this, "Preferences",
-					"Average Time Frame", newAverageTimeFrame);
+			EasyTracker.getTracker().trackEvent("Preferences",
+					"Average Time Frame", newAverageTimeFrame, 0L);
 			final Editor editor = sharedPreferences.edit();
 			editor.putBoolean(
 					Preferences.AVERAGE_TIME_FRAME_CHANGED_MAIN_PREFERENCE_KEY,
@@ -174,7 +167,17 @@ public class Preferences extends ActionBarPreferenceActivity implements
 							+ "\n" + averageTimeFrameListPreference.getEntry());
 		}
 		else if (key.equals(Preferences.ANALYTICS_PREFERENCE_KEY))
-			AnalyticsManagerService.toggleAnalytics(this);
+		{
+			final boolean newCollectAnalytics = sharedPreferences.getBoolean(
+					Preferences.ANALYTICS_PREFERENCE_KEY, getResources()
+							.getBoolean(R.bool.pref_privacy_analytics_default));
+			if (BuildConfig.DEBUG)
+				Log.d(getClass().getSimpleName(), "Analytics: "
+						+ newCollectAnalytics);
+			EasyTracker.getTracker().trackEvent("Preferences", "Analytics",
+					Boolean.toString(newCollectAnalytics), 0L);
+			GoogleAnalytics.getInstance(this).setAppOptOut(newCollectAnalytics);
+		}
 		BackupController.createInstance().dataChanged(this);
 	}
 
@@ -183,5 +186,14 @@ public class Preferences extends ActionBarPreferenceActivity implements
 	{
 		super.onStart();
 		getActionBarHelper().setDisplayHomeAsUpEnabled(true);
+		EasyTracker.getInstance().activityStart(this);
+		EasyTracker.getTracker().trackView("Preferences");
+	}
+
+	@Override
+	protected void onStop()
+	{
+		super.onStop();
+		EasyTracker.getInstance().activityStop(this);
 	}
 }

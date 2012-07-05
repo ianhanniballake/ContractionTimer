@@ -10,9 +10,9 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 
+import com.google.analytics.tracking.android.EasyTracker;
 import com.ianhanniballake.contractiontimer.BuildConfig;
 import com.ianhanniballake.contractiontimer.R;
-import com.ianhanniballake.contractiontimer.analytics.AnalyticsManagerService;
 
 /**
  * About Dialog for the application
@@ -24,7 +24,7 @@ public class AboutDialogFragment extends DialogFragment
 	{
 		if (BuildConfig.DEBUG)
 			Log.d(getClass().getSimpleName(), "Received cancelation event");
-		AnalyticsManagerService.trackEvent(getActivity(), "About", "Cancel");
+		EasyTracker.getTracker().trackEvent("About", "Cancel", "", 0L);
 		super.onCancel(dialog);
 	}
 
@@ -49,8 +49,8 @@ public class AboutDialogFragment extends DialogFragment
 									Log.d(AboutDialogFragment.this.getClass()
 											.getSimpleName(),
 											"Received neutral event");
-								AnalyticsManagerService.trackEvent(
-										getActivity(), "About", "Neutral");
+								EasyTracker.getTracker().trackEvent("About",
+										"Neutral", "", 0L);
 							}
 						}).create();
 	}

@@ -28,9 +28,9 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.analytics.tracking.android.EasyTracker;
 import com.ianhanniballake.contractiontimer.BuildConfig;
 import com.ianhanniballake.contractiontimer.R;
-import com.ianhanniballake.contractiontimer.analytics.AnalyticsManagerService;
 import com.ianhanniballake.contractiontimer.appwidget.AppWidgetUpdateHandler;
 import com.ianhanniballake.contractiontimer.provider.ContractionContract;
 
@@ -247,8 +247,8 @@ public class ViewFragment extends Fragment implements
 					return true;
 				if (BuildConfig.DEBUG)
 					Log.d(getClass().getSimpleName(), "View selected edit");
-				AnalyticsManagerService.trackEvent(getActivity(), "View",
-						"Edit", Boolean.toString(isContractionOngoing));
+				EasyTracker.getTracker().trackEvent("View", "Edit",
+						Boolean.toString(isContractionOngoing), 0L);
 				if (isContractionOngoing)
 					Toast.makeText(getActivity(), R.string.edit_ongoing_error,
 							Toast.LENGTH_SHORT).show();
@@ -258,8 +258,7 @@ public class ViewFragment extends Fragment implements
 			case R.id.menu_delete:
 				if (BuildConfig.DEBUG)
 					Log.d(getClass().getSimpleName(), "View selected delete");
-				AnalyticsManagerService.trackEvent(getActivity(), "View",
-						"Delete");
+				EasyTracker.getTracker().trackEvent("View", "Delete", "", 0L);
 				contractionQueryHandler.startDelete(0, 0, uri, null, null);
 				return true;
 			default:

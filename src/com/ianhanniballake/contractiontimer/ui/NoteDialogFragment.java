@@ -15,9 +15,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
 
+import com.google.analytics.tracking.android.EasyTracker;
 import com.ianhanniballake.contractiontimer.BuildConfig;
 import com.ianhanniballake.contractiontimer.R;
-import com.ianhanniballake.contractiontimer.analytics.AnalyticsManagerService;
 import com.ianhanniballake.contractiontimer.provider.ContractionContract;
 
 /**
@@ -43,8 +43,8 @@ public class NoteDialogFragment extends DialogFragment
 			Log.d(getClass().getSimpleName(), "Received cancelation event");
 		final String existingNote = getArguments().getString(
 				NoteDialogFragment.EXISTING_NOTE_ARGUMENT);
-		AnalyticsManagerService.trackEvent(getActivity(), "Note", "Cancel",
-				existingNote.equals("") ? "Add Note" : "Edit Note");
+		EasyTracker.getTracker().trackEvent("Note", "Cancel",
+				existingNote.equals("") ? "Add Note" : "Edit Note", 0L);
 		super.onCancel(dialog);
 	}
 
@@ -80,10 +80,11 @@ public class NoteDialogFragment extends DialogFragment
 									Log.d(NoteDialogFragment.this.getClass()
 											.getSimpleName(),
 											"Received positive event");
-								AnalyticsManagerService.trackEvent(
-										getActivity(), "Note", "Positive",
+								EasyTracker.getTracker().trackEvent(
+										"Note",
+										"Positive",
 										existingNote.equals("") ? "Add Note"
-												: "Edit Note");
+												: "Edit Note", 0L);
 								final Uri updateUri = ContentUris
 										.withAppendedId(
 												ContractionContract.Contractions.CONTENT_ID_URI_BASE,
@@ -111,10 +112,11 @@ public class NoteDialogFragment extends DialogFragment
 									Log.d(NoteDialogFragment.this.getClass()
 											.getSimpleName(),
 											"Received negative event");
-								AnalyticsManagerService.trackEvent(
-										getActivity(), "Note", "Negative",
+								EasyTracker.getTracker().trackEvent(
+										"Note",
+										"Negative",
 										existingNote.equals("") ? "Add Note"
-												: "Edit Note");
+												: "Edit Note", 0L);
 							}
 						}).create();
 	}

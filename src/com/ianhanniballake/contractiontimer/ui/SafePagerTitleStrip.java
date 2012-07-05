@@ -7,6 +7,7 @@ import android.support.v4.view.PagerTitleStrip;
 import android.util.AttributeSet;
 import android.util.Log;
 
+import com.google.analytics.tracking.android.EasyTracker;
 import com.ianhanniballake.contractiontimer.BuildConfig;
 
 /**
@@ -51,7 +52,11 @@ public class SafePagerTitleStrip extends PagerTitleStrip
 				Log.e(getClass().getSimpleName(),
 						"NullPointerException in onDetachedFromWindow", e);
 			else
+			{
+				EasyTracker.getTracker().trackException(
+						Thread.currentThread().getName(), e, false);
 				ErrorReporter.getInstance().handleSilentException(e);
+			}
 		}
 	}
 }

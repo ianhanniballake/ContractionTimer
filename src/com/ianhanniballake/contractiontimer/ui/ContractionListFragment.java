@@ -25,9 +25,9 @@ import android.widget.FrameLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.google.analytics.tracking.android.EasyTracker;
 import com.ianhanniballake.contractiontimer.BuildConfig;
 import com.ianhanniballake.contractiontimer.R;
-import com.ianhanniballake.contractiontimer.analytics.AnalyticsManagerService;
 import com.ianhanniballake.contractiontimer.provider.ContractionContract;
 
 /**
@@ -420,8 +420,8 @@ public abstract class ContractionListFragment extends ListFragment implements
 		if (BuildConfig.DEBUG)
 			Log.d(noteDialogFragment.getClass().getSimpleName(),
 					"Showing Dialog");
-		AnalyticsManagerService
-				.trackPageView(getActivity(), noteDialogFragment);
+		EasyTracker.getTracker().trackView(
+				"".equals(existingNote) ? "NoteAdd" : "NoteEdit");
 		noteDialogFragment.show(getFragmentManager(), "note");
 	}
 

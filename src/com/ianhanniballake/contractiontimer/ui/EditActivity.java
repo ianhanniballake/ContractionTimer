@@ -7,24 +7,16 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.google.analytics.tracking.android.EasyTracker;
 import com.ianhanniballake.contractiontimer.BuildConfig;
 import com.ianhanniballake.contractiontimer.R;
 import com.ianhanniballake.contractiontimer.actionbar.ActionBarFragmentActivity;
-import com.ianhanniballake.contractiontimer.analytics.AnalyticsManagerService;
 
 /**
  * Stand alone activity used to view the details of an individual contraction
  */
 public class EditActivity extends ActionBarFragmentActivity
 {
-	@Override
-	public void onAnalyticsServiceConnected()
-	{
-		if (BuildConfig.DEBUG)
-			Log.d(getClass().getSimpleName(), "Showing activity");
-		AnalyticsManagerService.trackPageView(this);
-	}
-
 	@Override
 	public void onCreate(final Bundle savedInstanceState)
 	{
@@ -61,14 +53,14 @@ public class EditActivity extends ActionBarFragmentActivity
 				{
 					if (BuildConfig.DEBUG)
 						Log.d(getClass().getSimpleName(), "Add selected home");
-					AnalyticsManagerService.trackEvent(this, "Add", "Home");
+					EasyTracker.getTracker().trackEvent("Add", "Home", "", 0L);
 					intent = new Intent(this, MainActivity.class);
 				}
 				else
 				{
 					if (BuildConfig.DEBUG)
 						Log.d(getClass().getSimpleName(), "Edit selected home");
-					AnalyticsManagerService.trackEvent(this, "Edit", "Home");
+					EasyTracker.getTracker().trackEvent("Edit", "Home", "", 0L);
 					intent = new Intent(Intent.ACTION_VIEW, getIntent()
 							.getData()).setClass(this, ViewActivity.class);
 				}
@@ -86,6 +78,18 @@ public class EditActivity extends ActionBarFragmentActivity
 	{
 		super.onStart();
 		getActionBarHelper().setDisplayHomeAsUpEnabled(true);
+		EasyTracker.getInstance().activityStart(this);
+		if (Intent.ACTION_INSERT.equals(getIntent().getAction()))
+			EasyTracker.getTracker().trackView("Add");
+		else
+			EasyTracker.getTracker().trackView("Edit");
+	}
+
+	@Override
+	protected void onStop()
+	{
+		super.onStop();
+		EasyTracker.getInstance().activityStop(this);
 	}
 
 	/**

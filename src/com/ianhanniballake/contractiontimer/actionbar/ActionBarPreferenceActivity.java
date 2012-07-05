@@ -2,17 +2,15 @@ package com.ianhanniballake.contractiontimer.actionbar;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.preference.PreferenceActivity;
 import android.view.Menu;
 import android.view.MenuInflater;
-
-import com.ianhanniballake.contractiontimer.analytics.AnalyticTrackingPreferenceActivity;
 
 /**
  * A base activity that defers common functionality across app activities to an
  * {@link ActionBarHelper}.
  */
-public abstract class ActionBarPreferenceActivity extends
-		AnalyticTrackingPreferenceActivity
+public abstract class ActionBarPreferenceActivity extends PreferenceActivity
 {
 	/**
 	 * Instance of the ActionBarHelper appropriate to the current Android
