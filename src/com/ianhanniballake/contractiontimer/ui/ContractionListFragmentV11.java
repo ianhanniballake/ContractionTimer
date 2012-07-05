@@ -283,6 +283,7 @@ public class ContractionListFragmentV11 extends ContractionListFragment
 					final int position = listView.getCheckedItemPositions()
 							.keyAt(0);
 					final ListAdapter adapter = listView.getAdapter();
+					@SuppressWarnings("resource")
 					final Cursor cursor = position < adapter.getCount() ? (Cursor) adapter
 							.getItem(position) : null;
 					// The cursor will be null when first resuming the Fragment
