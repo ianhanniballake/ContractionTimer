@@ -12,6 +12,7 @@ import android.util.Log;
 import android.view.MenuItem;
 
 import com.google.analytics.tracking.android.EasyTracker;
+import com.google.analytics.tracking.android.GAServiceManager;
 import com.google.analytics.tracking.android.GoogleAnalytics;
 import com.ianhanniballake.contractiontimer.BuildConfig;
 import com.ianhanniballake.contractiontimer.R;
@@ -176,6 +177,7 @@ public class Preferences extends ActionBarPreferenceActivity implements
 						+ newCollectAnalytics);
 			EasyTracker.getTracker().trackEvent("Preferences", "Analytics",
 					Boolean.toString(newCollectAnalytics), 0L);
+			GAServiceManager.getInstance().dispatch();
 			GoogleAnalytics.getInstance(this).setAppOptOut(newCollectAnalytics);
 		}
 		BackupController.createInstance().dataChanged(this);
