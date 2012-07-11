@@ -4,6 +4,8 @@ import java.util.Calendar;
 
 import android.app.Dialog;
 import android.app.TimePickerDialog;
+import android.content.DialogInterface;
+import android.content.DialogInterface.OnDismissListener;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
@@ -18,7 +20,7 @@ import com.ianhanniballake.contractiontimer.BuildConfig;
  * Provides a DialogFragment for selecting a time
  */
 public class TimePickerDialogFragment extends DialogFragment implements
-		TimePickerDialog.OnTimeSetListener
+		TimePickerDialog.OnTimeSetListener, OnDismissListener
 {
 	/**
 	 * Argument key for storing/retrieving the callback action
@@ -36,15 +38,31 @@ public class TimePickerDialogFragment extends DialogFragment implements
 	 * Argument key for storing/retrieving the time associated with this dialog
 	 */
 	public final static String TIME_ARGUMENT = "com.ianhanniballake.contractiontimer.TIME_ARGUMENT";
+	/**
+	 * Action associated with this fragment closing
+	 */
+	public final static String TIME_PICKER_CLOSE_ACTION = "com.ianhanniballake.contractiontimer.TIME_PICKER_CLOSE";
 
 	@Override
 	public Dialog onCreateDialog(final Bundle savedInstanceState)
 	{
 		final Calendar date = (Calendar) getArguments().getSerializable(
 				TimePickerDialogFragment.TIME_ARGUMENT);
-		return new TimePickerDialog(getActivity(), this,
-				date.get(Calendar.HOUR_OF_DAY), date.get(Calendar.MINUTE),
+		final TimePickerDialog dialog = new TimePickerDialog(getActivity(),
+				this, date.get(Calendar.HOUR_OF_DAY),
+				date.get(Calendar.MINUTE),
 				DateFormat.is24HourFormat(getActivity()));
+		dialog.setOnDismissListener(this);
+		return dialog;
+	}
+
+	@Override
+	public void onDismiss(final DialogInterface dialog)
+	{
+		final LocalBroadcastManager localBroadcastManager = LocalBroadcastManager
+				.getInstance(getActivity());
+		localBroadcastManager
+				.sendBroadcast(new Intent(TIME_PICKER_CLOSE_ACTION));
 	}
 
 	@Override

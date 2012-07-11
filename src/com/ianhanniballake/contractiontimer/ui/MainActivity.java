@@ -1,7 +1,9 @@
 package com.ianhanniballake.contractiontimer.ui;
 
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.database.Cursor;
@@ -14,6 +16,7 @@ import android.support.v4.app.LoaderManager;
 import android.support.v4.app.ShareCompat;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.widget.CursorAdapter;
 import android.text.Html;
 import android.text.format.DateFormat;
@@ -47,6 +50,21 @@ public class MainActivity extends ActionBarFragmentActivity implements
 	 * Adapter to store and manage the current cursor
 	 */
 	private CursorAdapter adapter;
+	/**
+	 * BroadcastReceiver listening for ABOUT_CLOSE_ACTION, NOTE_CLOSE_ACTION,
+	 * and RESET_CLOSE_ACTION actions
+	 */
+	private final BroadcastReceiver dialogFragmentClosedBroadcastReceiver = new BroadcastReceiver()
+	{
+		@Override
+		public void onReceive(final Context context, final Intent intent)
+		{
+			if (BuildConfig.DEBUG)
+				Log.d(MainActivity.this.getClass().getSimpleName(),
+						"DialogFragmentClosedBR Received " + intent.getAction());
+			EasyTracker.getTracker().trackView("Main");
+		}
+	};
 
 	/**
 	 * Builds a string representing a user friendly formatting of the average
@@ -264,6 +282,14 @@ public class MainActivity extends ActionBarFragmentActivity implements
 		}
 		EasyTracker.getInstance().activityStart(this);
 		EasyTracker.getTracker().trackView("Main");
+		final LocalBroadcastManager localBroadcastManager = LocalBroadcastManager
+				.getInstance(this);
+		final IntentFilter dialogCloseFilter = new IntentFilter();
+		dialogCloseFilter.addAction(AboutDialogFragment.ABOUT_CLOSE_ACTION);
+		dialogCloseFilter.addAction(NoteDialogFragment.NOTE_CLOSE_ACTION);
+		dialogCloseFilter.addAction(ResetDialogFragment.RESET_CLOSE_ACTION);
+		localBroadcastManager.registerReceiver(
+				dialogFragmentClosedBroadcastReceiver, dialogCloseFilter);
 	}
 
 	@Override
@@ -271,6 +297,10 @@ public class MainActivity extends ActionBarFragmentActivity implements
 	{
 		super.onStop();
 		EasyTracker.getInstance().activityStop(this);
+		final LocalBroadcastManager localBroadcastManager = LocalBroadcastManager
+				.getInstance(this);
+		localBroadcastManager
+				.unregisterReceiver(dialogFragmentClosedBroadcastReceiver);
 	}
 
 	/**

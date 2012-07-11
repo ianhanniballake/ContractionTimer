@@ -7,9 +7,11 @@ import android.content.ContentUris;
 import android.content.ContentValues;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
+import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -35,6 +37,10 @@ public class NoteDialogFragment extends DialogFragment
 	 * this dialog
 	 */
 	public final static String EXISTING_NOTE_ARGUMENT = "com.ianhanniballake.contractiontimer.ExistingNote";
+	/**
+	 * Action associated with this fragment closing
+	 */
+	public final static String NOTE_CLOSE_ACTION = "com.ianhanniballake.contractiontimer.NOTE_CLOSE";
 
 	@Override
 	public void onCancel(final DialogInterface dialog)
@@ -119,5 +125,14 @@ public class NoteDialogFragment extends DialogFragment
 												: "Edit Note", 0L);
 							}
 						}).create();
+	}
+
+	@Override
+	public void onDismiss(final DialogInterface dialog)
+	{
+		final LocalBroadcastManager localBroadcastManager = LocalBroadcastManager
+				.getInstance(getActivity());
+		localBroadcastManager.sendBroadcast(new Intent(NOTE_CLOSE_ACTION));
+		super.onDismiss(dialog);
 	}
 }

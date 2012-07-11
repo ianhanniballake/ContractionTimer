@@ -1,8 +1,12 @@
 package com.ianhanniballake.contractiontimer.ui;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -17,6 +21,25 @@ import com.ianhanniballake.contractiontimer.actionbar.ActionBarFragmentActivity;
  */
 public class EditActivity extends ActionBarFragmentActivity
 {
+	/**
+	 * BroadcastReceiver listening for TIME_PICKER_CLOSE_ACTION and
+	 * DATE_PICKER_CLOSE_ACTION actions
+	 */
+	private final BroadcastReceiver dialogFragmentClosedBroadcastReceiver = new BroadcastReceiver()
+	{
+		@Override
+		public void onReceive(final Context context, final Intent intent)
+		{
+			if (BuildConfig.DEBUG)
+				Log.d(EditActivity.this.getClass().getSimpleName(),
+						"DialogFragmentClosedBR Received " + intent.getAction());
+			if (Intent.ACTION_INSERT.equals(getIntent().getAction()))
+				EasyTracker.getTracker().trackView("Add");
+			else
+				EasyTracker.getTracker().trackView("Edit");
+		}
+	};
+
 	@Override
 	public void onCreate(final Bundle savedInstanceState)
 	{
@@ -83,6 +106,15 @@ public class EditActivity extends ActionBarFragmentActivity
 			EasyTracker.getTracker().trackView("Add");
 		else
 			EasyTracker.getTracker().trackView("Edit");
+		final LocalBroadcastManager localBroadcastManager = LocalBroadcastManager
+				.getInstance(this);
+		final IntentFilter dialogCloseFilter = new IntentFilter();
+		dialogCloseFilter
+				.addAction(TimePickerDialogFragment.TIME_PICKER_CLOSE_ACTION);
+		dialogCloseFilter
+				.addAction(DatePickerDialogFragment.DATE_PICKER_CLOSE_ACTION);
+		localBroadcastManager.registerReceiver(
+				dialogFragmentClosedBroadcastReceiver, dialogCloseFilter);
 	}
 
 	@Override
@@ -90,6 +122,10 @@ public class EditActivity extends ActionBarFragmentActivity
 	{
 		super.onStop();
 		EasyTracker.getInstance().activityStop(this);
+		final LocalBroadcastManager localBroadcastManager = LocalBroadcastManager
+				.getInstance(this);
+		localBroadcastManager
+				.unregisterReceiver(dialogFragmentClosedBroadcastReceiver);
 	}
 
 	/**

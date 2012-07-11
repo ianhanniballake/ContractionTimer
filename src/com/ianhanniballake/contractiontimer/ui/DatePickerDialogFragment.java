@@ -4,6 +4,8 @@ import java.util.Calendar;
 
 import android.app.DatePickerDialog;
 import android.app.Dialog;
+import android.content.DialogInterface;
+import android.content.DialogInterface.OnDismissListener;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
@@ -17,7 +19,7 @@ import com.ianhanniballake.contractiontimer.BuildConfig;
  * Provides a DialogFragment for selecting a date
  */
 public class DatePickerDialogFragment extends DialogFragment implements
-		DatePickerDialog.OnDateSetListener
+		DatePickerDialog.OnDateSetListener, OnDismissListener
 {
 	/**
 	 * Argument key for storing/retrieving the callback action
@@ -27,6 +29,10 @@ public class DatePickerDialogFragment extends DialogFragment implements
 	 * Argument key for storing/retrieving the date associated with this dialog
 	 */
 	public final static String DATE_ARGUMENT = "com.ianhanniballake.contractiontimer.Date";
+	/**
+	 * Action associated with this fragment closing
+	 */
+	public final static String DATE_PICKER_CLOSE_ACTION = "com.ianhanniballake.contractiontimer.DATE_PICKER_CLOSE";
 	/**
 	 * Extra corresponding with the day of the month that was set
 	 */
@@ -45,9 +51,11 @@ public class DatePickerDialogFragment extends DialogFragment implements
 	{
 		final Calendar date = (Calendar) getArguments().getSerializable(
 				DatePickerDialogFragment.DATE_ARGUMENT);
-		return new DatePickerDialog(getActivity(), this,
-				date.get(Calendar.YEAR), date.get(Calendar.MONTH),
+		final DatePickerDialog dialog = new DatePickerDialog(getActivity(),
+				this, date.get(Calendar.YEAR), date.get(Calendar.MONTH),
 				date.get(Calendar.DAY_OF_MONTH));
+		dialog.setOnDismissListener(this);
+		return dialog;
 	}
 
 	@Override
@@ -67,5 +75,14 @@ public class DatePickerDialogFragment extends DialogFragment implements
 		final LocalBroadcastManager localBroadcastManager = LocalBroadcastManager
 				.getInstance(getActivity());
 		localBroadcastManager.sendBroadcast(broadcast);
+	}
+
+	@Override
+	public void onDismiss(final DialogInterface dialog)
+	{
+		final LocalBroadcastManager localBroadcastManager = LocalBroadcastManager
+				.getInstance(getActivity());
+		localBroadcastManager
+				.sendBroadcast(new Intent(DATE_PICKER_CLOSE_ACTION));
 	}
 }
