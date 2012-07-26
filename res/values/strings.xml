@@ -52,14 +52,14 @@
     <string name="menu_save">Save</string>
     <string name="menu_cancel">Cancel</string>
     <string name="edit_ongoing_error">Error: Cannot edit ongoing contractions</string>
-    <string name="toggle_appwidget_label">Contraction Timer Toggle</string>
-    <string name="control_appwidget_label">Contraction Timer Controls</string>
+    <string name="toggle_appwidget_label">Contraction Toggle</string>
+    <string name="control_appwidget_label">Contraction Controls</string>
     <string name="application_launch">Launch Contraction Timer</string>
     <string name="average_duration_label">Average Duration:</string>
     <string name="average_frequency_label">Average Frequency:</string>
     <string name="appwidget_contraction_start">Start</string>
     <string name="appwidget_contraction_stop">Stop</string>
-    <string name="detail_appwidget_label">Contraction Timer Details</string>
+    <string name="detail_appwidget_label">Contraction Details</string>
     <string name="duration_ongoing">Timing</string>
     <string name="settings">Settings</string>
     <string name="pref_settings_category">Settings</string>
