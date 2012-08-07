@@ -917,7 +917,6 @@ com.google.analytics.tracking.android.EasyTracker$NoopTracker:
     472:472:public void setAppScreen(java.lang.String)
     476:476:public void trackView()
     488:488:public void trackTransaction(com.google.analytics.tracking.android.Transaction)
-    496:496:public void trackException(java.lang.String,java.lang.Throwable,boolean)
     501:501:public void trackTiming(java.lang.String,long,java.lang.String,java.lang.String)
     505:505:public void close()
     509:509:public void send(java.lang.String,java.util.Map)
@@ -980,14 +979,11 @@ com.google.analytics.tracking.android.GoogleAnalytics:
     226:226:java.lang.Boolean getAppOptOut()
     231:236:public void requestAppOptOut(com.google.analytics.tracking.android.Analytics$AppOptOutCallback)
 com.google.analytics.tracking.android.GoogleTracker:
-    private com.google.analytics.tracking.android.ExceptionParser exceptionParser
     112:117:public void trackTransaction(com.google.analytics.tracking.android.Transaction)
-    126:140:public void trackException(java.lang.String,java.lang.Throwable,boolean)
     145:147:public void trackTiming(java.lang.String,long,java.lang.String,java.lang.String)
     166:166:private static java.lang.String microsToCurrencyString(long)
     171:181:public java.util.Map constructTransaction(com.google.analytics.tracking.android.Transaction)
     185:194:java.util.Map constructItem(com.google.analytics.tracking.android.Item,com.google.analytics.tracking.android.Transaction)
-    210:221:public java.util.Map constructRawException(java.lang.String,java.lang.Throwable,boolean)
     227:233:public java.util.Map constructTiming(java.lang.String,long,java.lang.String,java.lang.String)
     238:240:public void close()
     244:244:public java.lang.String getTrackingId()
@@ -1052,7 +1048,6 @@ com.google.analytics.tracking.android.Tracker:
     public abstract void setAppScreen(java.lang.String)
     public abstract void trackView()
     public abstract void trackTransaction(com.google.analytics.tracking.android.Transaction)
-    public abstract void trackException(java.lang.String,java.lang.Throwable,boolean)
     public abstract void trackTiming(java.lang.String,long,java.lang.String,java.lang.String)
     public abstract void close()
     public abstract void send(java.lang.String,java.util.Map)
@@ -1082,7 +1077,6 @@ com.google.analytics.tracking.android.Transaction$Builder
 com.google.analytics.tracking.android.Utils:
     18:18:Utils()
     51:57:public static long safeParseLong(java.lang.String)
-    153:159:static java.lang.String hexEncode(byte[])
 com.google.android.gms.analytics.internal.Command:
     public static final java.lang.String APPEND_VERSION
     public static final java.lang.String APPEND_QUEUE_TIME
@@ -1142,11 +1136,17 @@ com.ianhanniballake.contractiontimer.provider.ContractionProvider:
     private static final java.lang.String DATABASE_NAME
     private static final int DATABASE_VERSION
     private static final java.lang.String TAG
+com.ianhanniballake.contractiontimer.strictmode.StrictModeController
+com.ianhanniballake.contractiontimer.strictmode.StrictModeControllerBase
+com.ianhanniballake.contractiontimer.strictmode.StrictModeControllerV10
+com.ianhanniballake.contractiontimer.ui.AboutDialogFragment:
+    public static final java.lang.String ABOUT_CLOSE_ACTION
 com.ianhanniballake.contractiontimer.ui.ContractionListFragmentV11:
     private static final java.lang.String SELECTED_ITEM_NOTE_KEY
 com.ianhanniballake.contractiontimer.ui.DatePickerDialogFragment:
     public static final java.lang.String CALLBACK_ACTION
     public static final java.lang.String DATE_ARGUMENT
+    public static final java.lang.String DATE_PICKER_CLOSE_ACTION
     public static final java.lang.String DAY_OF_MONTH_EXTRA
     public static final java.lang.String MONTH_OF_YEAR_EXTRA
     public static final java.lang.String YEAR_EXTRA
@@ -1161,6 +1161,7 @@ com.ianhanniballake.contractiontimer.ui.MainActivity:
 com.ianhanniballake.contractiontimer.ui.NoteDialogFragment:
     public static final java.lang.String CONTRACTION_ID_ARGUMENT
     public static final java.lang.String EXISTING_NOTE_ARGUMENT
+    public static final java.lang.String NOTE_CLOSE_ACTION
 com.ianhanniballake.contractiontimer.ui.Preferences:
     public static final java.lang.String ANALYTICS_PREFERENCE_KEY
     public static final java.lang.String APPWIDGET_BACKGROUND_PREFERENCE_KEY
@@ -1168,11 +1169,14 @@ com.ianhanniballake.contractiontimer.ui.Preferences:
     public static final java.lang.String AVERAGE_TIME_FRAME_CHANGED_MAIN_PREFERENCE_KEY
     public static final java.lang.String AVERAGE_TIME_FRAME_PREFERENCE_KEY
     public static final java.lang.String KEEP_SCREEN_ON_PREFERENCE_KEY
+com.ianhanniballake.contractiontimer.ui.ResetDialogFragment:
+    public static final java.lang.String RESET_CLOSE_ACTION
 com.ianhanniballake.contractiontimer.ui.TimePickerDialogFragment:
     public static final java.lang.String CALLBACK_ACTION
     public static final java.lang.String HOUR_OF_DAY_EXTRA
     public static final java.lang.String MINUTE_EXTRA
     public static final java.lang.String TIME_ARGUMENT
+    public static final java.lang.String TIME_PICKER_CLOSE_ACTION
 org.acra.ACRAConfigurationException:
     private static final long serialVersionUID
 org.acra.Compatibility:
@@ -1227,7 +1231,6 @@ org.acra.ErrorReporter:
     289:289:public java.lang.String putCustomData(java.lang.String,java.lang.String)
     302:302:public java.lang.String removeCustomData(java.lang.String)
     315:315:public java.lang.String getCustomData(java.lang.String)
-    787:793:public java.lang.Thread handleSilentException(java.lang.Throwable)
     1081:1082:public void deletePendingSilentReports()
     1234:1235:public void removeReportSender(org.acra.sender.ReportSender)
     1243:1250:public void removeReportSenders(java.lang.Class)
