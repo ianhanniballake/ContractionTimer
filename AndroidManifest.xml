@@ -137,7 +137,7 @@
                 android:resource="@xml/detail_appwidget_info" />
         </receiver>
         <receiver
-            android:name="com.google.android.apps.analytics.AnalyticsReceiver"
+            android:name="com.google.analytics.tracking.android.AnalyticsReceiver"
             android:exported="true"
             tools:ignore="ExportedReceiver" >
             <intent-filter>
