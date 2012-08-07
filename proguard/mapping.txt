@@ -1432,26 +1432,26 @@ android.support.v4.widget.EdgeEffectCompatIcs -> android.support.v4.e.k:
     46:47:boolean onPull(java.lang.Object,float) -> a
     51:53:boolean onRelease(java.lang.Object) -> c
     62:62:boolean draw(java.lang.Object,android.graphics.Canvas) -> a
-com.google.analytics.tracking.android.AdHitIdGenerator -> com.google.a.a.a.a:
+com.google.analytics.tracking.android.AdHitIdGenerator -> com.google.analytics.tracking.android.a:
     boolean adMobSdkInstalled -> a
     31:34:int getAdHitId() -> a
-com.google.analytics.tracking.android.AdMobInfo -> com.google.a.a.a.b:
+com.google.analytics.tracking.android.AdMobInfo -> com.google.analytics.tracking.android.b:
     com.google.analytics.tracking.android.AdMobInfo INSTANCE -> a
     int adHitId -> b
     java.util.Random random -> c
     40:40:com.google.analytics.tracking.android.AdMobInfo getInstance() -> a
     55:56:int generateAdHitId() -> b
-com.google.analytics.tracking.android.Analytics -> com.google.a.a.a.c:
+com.google.analytics.tracking.android.Analytics -> com.google.analytics.tracking.android.c:
     void setDebug(boolean) -> a
     com.google.analytics.tracking.android.Tracker getTracker(java.lang.String) -> a
-com.google.analytics.tracking.android.Analytics$AppOptOutCallback -> com.google.a.a.a.d:
+com.google.analytics.tracking.android.Analytics$AppOptOutCallback -> com.google.analytics.tracking.android.d:
     void reportAppOptOut(boolean) -> a
-com.google.analytics.tracking.android.AnalyticsClient -> com.google.a.a.a.e:
+com.google.analytics.tracking.android.AnalyticsClient -> com.google.analytics.tracking.android.e:
     void sendHit(java.util.Map,long,java.lang.String,java.util.List) -> a
     void clearHits() -> a
     void connect() -> b
     void disconnect() -> c
-com.google.analytics.tracking.android.AnalyticsGmsCoreClient -> com.google.a.a.a.f:
+com.google.analytics.tracking.android.AnalyticsGmsCoreClient -> com.google.analytics.tracking.android.f:
     android.content.ServiceConnection connection -> a
     com.google.analytics.tracking.android.AnalyticsGmsCoreClient$OnConnectedListener onConnectedListener -> b
     com.google.analytics.tracking.android.AnalyticsGmsCoreClient$OnConnectionFailedListener onConnectionFailedListener -> c
@@ -1472,22 +1472,24 @@ com.google.analytics.tracking.android.AnalyticsGmsCoreClient -> com.google.a.a.a
     23:23:android.content.ServiceConnection access$302(com.google.analytics.tracking.android.AnalyticsGmsCoreClient,android.content.ServiceConnection) -> a
     23:23:com.google.analytics.tracking.android.AnalyticsGmsCoreClient$OnConnectionFailedListener access$400(com.google.analytics.tracking.android.AnalyticsGmsCoreClient) -> c
     23:23:com.google.analytics.tracking.android.AnalyticsGmsCoreClient$OnConnectedListener access$500(com.google.analytics.tracking.android.AnalyticsGmsCoreClient) -> d
-com.google.analytics.tracking.android.AnalyticsGmsCoreClient$AnalyticsServiceConnection -> com.google.a.a.a.g:
+com.google.analytics.tracking.android.AnalyticsGmsCoreClient$AnalyticsServiceConnection -> com.google.analytics.tracking.android.g:
     com.google.analytics.tracking.android.AnalyticsGmsCoreClient this$0 -> a
     146:166:void onServiceConnected(android.content.ComponentName,android.os.IBinder) -> onServiceConnected
     170:173:void onServiceDisconnected(android.content.ComponentName) -> onServiceDisconnected
-com.google.analytics.tracking.android.AnalyticsGmsCoreClient$OnConnectedListener -> com.google.a.a.a.h:
+com.google.analytics.tracking.android.AnalyticsGmsCoreClient$OnConnectedListener -> com.google.analytics.tracking.android.h:
     void onConnected() -> a
     void onDisconnected() -> b
-com.google.analytics.tracking.android.AnalyticsGmsCoreClient$OnConnectionFailedListener -> com.google.a.a.a.i:
+com.google.analytics.tracking.android.AnalyticsGmsCoreClient$OnConnectionFailedListener -> com.google.analytics.tracking.android.i:
     void onConnectionFailed(int,android.content.Intent) -> a
-com.google.analytics.tracking.android.AnalyticsStore -> com.google.a.a.a.j:
+com.google.analytics.tracking.android.AnalyticsReceiver -> com.google.analytics.tracking.android.AnalyticsReceiver:
+    29:45:void onReceive(android.content.Context,android.content.Intent) -> onReceive
+com.google.analytics.tracking.android.AnalyticsStore -> com.google.analytics.tracking.android.j:
     void putHit(java.util.Map,long,java.lang.String,java.util.Collection) -> a
     void clearHits() -> a
     void dispatch() -> b
-com.google.analytics.tracking.android.AnalyticsStoreStateListener -> com.google.a.a.a.k:
+com.google.analytics.tracking.android.AnalyticsStoreStateListener -> com.google.analytics.tracking.android.k:
     void reportStoreIsEmpty(boolean) -> a
-com.google.analytics.tracking.android.AnalyticsThread -> com.google.a.a.a.l:
+com.google.analytics.tracking.android.AnalyticsThread -> com.google.analytics.tracking.android.l:
     void sendHit(java.util.Map) -> a
     void dispatch() -> a
     void setAppOptOut(boolean) -> a
@@ -1495,14 +1497,14 @@ com.google.analytics.tracking.android.AnalyticsThread -> com.google.a.a.a.l:
     void requestClientId(com.google.analytics.tracking.android.AnalyticsThread$ClientIdCallback) -> a
     java.util.concurrent.LinkedBlockingQueue getQueue() -> b
     java.lang.Thread getThread() -> c
-com.google.analytics.tracking.android.AnalyticsThread$ClientIdCallback -> com.google.a.a.a.m:
+com.google.analytics.tracking.android.AnalyticsThread$ClientIdCallback -> com.google.analytics.tracking.android.m:
     void reportClientId(java.lang.String) -> a
-com.google.analytics.tracking.android.Clock -> com.google.a.a.a.n:
+com.google.analytics.tracking.android.Clock -> com.google.analytics.tracking.android.n:
     long currentTimeMillis() -> a
-com.google.analytics.tracking.android.Dispatcher -> com.google.a.a.a.o:
+com.google.analytics.tracking.android.Dispatcher -> com.google.analytics.tracking.android.o:
     int dispatchHits(java.util.List) -> a
     boolean okToDispatch() -> a
-com.google.analytics.tracking.android.EasyTracker -> com.google.a.a.a.p:
+com.google.analytics.tracking.android.EasyTracker -> com.google.analytics.tracking.android.p:
     com.google.analytics.tracking.android.EasyTracker instance -> a
     boolean gaEnabled -> b
     java.lang.String gaTrackingId -> c
@@ -1540,10 +1542,10 @@ com.google.analytics.tracking.android.EasyTracker -> com.google.a.a.a.p:
     413:422:java.lang.String getActivityName(android.app.Activity) -> c
     80:80:boolean access$102(com.google.analytics.tracking.android.EasyTracker,boolean) -> a
     80:80:com.google.analytics.tracking.android.Tracker access$200(com.google.analytics.tracking.android.EasyTracker) -> a
-com.google.analytics.tracking.android.EasyTracker$1 -> com.google.a.a.a.q:
+com.google.analytics.tracking.android.EasyTracker$1 -> com.google.analytics.tracking.android.q:
     com.google.analytics.tracking.android.EasyTracker this$0 -> a
     86:86:long currentTimeMillis() -> a
-com.google.analytics.tracking.android.EasyTracker$NoopTracker -> com.google.a.a.a.r:
+com.google.analytics.tracking.android.EasyTracker$NoopTracker -> com.google.analytics.tracking.android.r:
     double sampleRate -> b
     boolean anonymizeIp -> c
     boolean useSecure -> d
@@ -1558,21 +1560,21 @@ com.google.analytics.tracking.android.EasyTracker$NoopTracker -> com.google.a.a.
     527:528:void setAnonymizeIp(boolean) -> b
     537:538:void setSampleRate(double) -> a
     547:548:void setUseSecure(boolean) -> c
-com.google.analytics.tracking.android.EasyTracker$NotInForegroundTimerTask -> com.google.a.a.a.s:
+com.google.analytics.tracking.android.EasyTracker$NotInForegroundTimerTask -> com.google.analytics.tracking.android.s:
     com.google.analytics.tracking.android.EasyTracker this$0 -> a
     620:624:void run() -> run
-com.google.analytics.tracking.android.ExceptionParser -> com.google.a.a.a.t:
+com.google.analytics.tracking.android.ExceptionParser -> com.google.analytics.tracking.android.t:
     java.lang.String getDescription(java.lang.String,java.lang.Throwable) -> a
-com.google.analytics.tracking.android.ExceptionReporter -> com.google.a.a.a.u:
+com.google.analytics.tracking.android.ExceptionReporter -> com.google.analytics.tracking.android.u:
     java.lang.Thread$UncaughtExceptionHandler originalHandler -> a
     com.google.analytics.tracking.android.Tracker tracker -> b
     com.google.analytics.tracking.android.ServiceManager serviceManager -> c
     com.google.analytics.tracking.android.ExceptionParser exceptionParser -> d
     64:80:void uncaughtException(java.lang.Thread,java.lang.Throwable) -> uncaughtException
-com.google.analytics.tracking.android.FutureApis -> com.google.a.a.a.v:
+com.google.analytics.tracking.android.FutureApis -> com.google.analytics.tracking.android.v:
     26:31:int version() -> a
     39:53:boolean setOwnerOnlyReadWrite(java.lang.String) -> a
-com.google.analytics.tracking.android.GAServiceManager -> com.google.a.a.a.w:
+com.google.analytics.tracking.android.GAServiceManager -> com.google.analytics.tracking.android.w:
     java.lang.Object MSG_OBJECT -> a
     android.content.Context ctx -> b
     com.google.analytics.tracking.android.AnalyticsStore store -> c
@@ -1594,13 +1596,13 @@ com.google.analytics.tracking.android.GAServiceManager -> com.google.a.a.a.w:
     20:20:int access$100(com.google.analytics.tracking.android.GAServiceManager) -> a
     20:20:boolean access$200(com.google.analytics.tracking.android.GAServiceManager) -> b
     20:20:android.os.Handler access$300(com.google.analytics.tracking.android.GAServiceManager) -> c
-com.google.analytics.tracking.android.GAServiceManager$1 -> com.google.a.a.a.x:
+com.google.analytics.tracking.android.GAServiceManager$1 -> com.google.analytics.tracking.android.x:
     com.google.analytics.tracking.android.GAServiceManager this$0 -> a
     45:46:void reportStoreIsEmpty(boolean) -> a
-com.google.analytics.tracking.android.GAServiceManager$2 -> com.google.a.a.a.y:
+com.google.analytics.tracking.android.GAServiceManager$2 -> com.google.analytics.tracking.android.y:
     com.google.analytics.tracking.android.GAServiceManager this$0 -> a
     80:88:boolean handleMessage(android.os.Message) -> handleMessage
-com.google.analytics.tracking.android.GAServiceProxy -> com.google.a.a.a.z:
+com.google.analytics.tracking.android.GAServiceProxy -> com.google.analytics.tracking.android.z:
     long lastRequestTime -> a
     com.google.analytics.tracking.android.GAServiceProxy$ConnectState state -> b
     com.google.analytics.tracking.android.AnalyticsClient client -> c
@@ -1642,15 +1644,15 @@ com.google.analytics.tracking.android.GAServiceProxy -> com.google.a.a.a.z:
     27:27:com.google.analytics.tracking.android.Clock access$1000(com.google.analytics.tracking.android.GAServiceProxy) -> h
     27:27:void access$1100(com.google.analytics.tracking.android.GAServiceProxy) -> i
     27:27:java.util.Timer access$1200(com.google.analytics.tracking.android.GAServiceProxy) -> j
-com.google.analytics.tracking.android.GAServiceProxy$1 -> com.google.a.a.a.aa:
+com.google.analytics.tracking.android.GAServiceProxy$1 -> com.google.analytics.tracking.android.aa:
     com.google.analytics.tracking.android.GAServiceProxy this$0 -> a
     74:74:long currentTimeMillis() -> a
-com.google.analytics.tracking.android.GAServiceProxy$2 -> com.google.a.a.a.ab:
+com.google.analytics.tracking.android.GAServiceProxy$2 -> com.google.analytics.tracking.android.ab:
     com.google.analytics.tracking.android.GAServiceProxy this$0 -> a
     198:199:void run() -> run
-com.google.analytics.tracking.android.GAServiceProxy$3 -> com.google.a.a.a.ac:
+com.google.analytics.tracking.android.GAServiceProxy$3 -> com.google.analytics.tracking.android.ac:
     int[] $SwitchMap$com$google$analytics$tracking$android$GAServiceProxy$ConnectState -> a
-com.google.analytics.tracking.android.GAServiceProxy$ConnectState -> com.google.a.a.a.ad:
+com.google.analytics.tracking.android.GAServiceProxy$ConnectState -> com.google.analytics.tracking.android.ad:
     com.google.analytics.tracking.android.GAServiceProxy$ConnectState CONNECTING -> a
     com.google.analytics.tracking.android.GAServiceProxy$ConnectState CONNECTED_SERVICE -> b
     com.google.analytics.tracking.android.GAServiceProxy$ConnectState CONNECTED_LOCAL -> c
@@ -1661,13 +1663,13 @@ com.google.analytics.tracking.android.GAServiceProxy$ConnectState -> com.google.
     com.google.analytics.tracking.android.GAServiceProxy$ConnectState[] $VALUES -> h
     29:29:com.google.analytics.tracking.android.GAServiceProxy$ConnectState[] values() -> values
     29:29:com.google.analytics.tracking.android.GAServiceProxy$ConnectState valueOf(java.lang.String) -> valueOf
-com.google.analytics.tracking.android.GAServiceProxy$DisconnectCheckTask -> com.google.a.a.a.ae:
+com.google.analytics.tracking.android.GAServiceProxy$DisconnectCheckTask -> com.google.analytics.tracking.android.ae:
     com.google.analytics.tracking.android.GAServiceProxy this$0 -> a
     363:371:void run() -> run
-com.google.analytics.tracking.android.GAServiceProxy$FailedConnectTask -> com.google.a.a.a.af:
+com.google.analytics.tracking.android.GAServiceProxy$FailedConnectTask -> com.google.analytics.tracking.android.af:
     com.google.analytics.tracking.android.GAServiceProxy this$0 -> a
     346:350:void run() -> run
-com.google.analytics.tracking.android.GAServiceProxy$HitParams -> com.google.a.a.a.ag:
+com.google.analytics.tracking.android.GAServiceProxy$HitParams -> com.google.analytics.tracking.android.ag:
     java.util.Map wireFormatParams -> a
     long hitTimeInMilliseconds -> b
     java.lang.String path -> c
@@ -1676,10 +1678,10 @@ com.google.analytics.tracking.android.GAServiceProxy$HitParams -> com.google.a.a
     396:396:long getHitTimeInMilliseconds() -> b
     400:400:java.lang.String getPath() -> c
     404:404:java.util.List getCommands() -> d
-com.google.analytics.tracking.android.GAServiceProxy$ReconnectTask -> com.google.a.a.a.ah:
+com.google.analytics.tracking.android.GAServiceProxy$ReconnectTask -> com.google.analytics.tracking.android.ah:
     com.google.analytics.tracking.android.GAServiceProxy this$0 -> a
     356:357:void run() -> run
-com.google.analytics.tracking.android.GAThread -> com.google.a.a.a.ai:
+com.google.analytics.tracking.android.GAThread -> com.google.analytics.tracking.android.ai:
     java.util.concurrent.LinkedBlockingQueue queue -> a
     boolean disabled -> b
     boolean closed -> c
@@ -1727,27 +1729,27 @@ com.google.analytics.tracking.android.GAThread -> com.google.a.a.a.ai:
     35:35:com.google.analytics.tracking.android.ServiceProxy access$1000(com.google.analytics.tracking.android.GAThread) -> f
     35:35:android.content.Context access$1100(com.google.analytics.tracking.android.GAThread) -> g
     35:35:boolean access$002(com.google.analytics.tracking.android.GAThread,boolean) -> a
-com.google.analytics.tracking.android.GAThread$1 -> com.google.a.a.a.aj:
+com.google.analytics.tracking.android.GAThread$1 -> com.google.analytics.tracking.android.aj:
     java.util.Map val$hitCopy -> a
     long val$hitTime -> b
     com.google.analytics.tracking.android.GAThread this$0 -> c
     112:125:void run() -> run
-com.google.analytics.tracking.android.GAThread$2 -> com.google.a.a.a.ak:
+com.google.analytics.tracking.android.GAThread$2 -> com.google.analytics.tracking.android.ak:
     com.google.analytics.tracking.android.GAThread this$0 -> a
     254:255:void run() -> run
-com.google.analytics.tracking.android.GAThread$3 -> com.google.a.a.a.al:
+com.google.analytics.tracking.android.GAThread$3 -> com.google.analytics.tracking.android.al:
     boolean val$appOptOut -> a
     com.google.analytics.tracking.android.GAThread this$0 -> b
     266:283:void run() -> run
-com.google.analytics.tracking.android.GAThread$4 -> com.google.a.a.a.am:
+com.google.analytics.tracking.android.GAThread$4 -> com.google.analytics.tracking.android.am:
     com.google.analytics.tracking.android.Analytics$AppOptOutCallback val$callback -> a
     com.google.analytics.tracking.android.GAThread this$0 -> b
     295:296:void run() -> run
-com.google.analytics.tracking.android.GAThread$5 -> com.google.a.a.a.an:
+com.google.analytics.tracking.android.GAThread$5 -> com.google.analytics.tracking.android.an:
     com.google.analytics.tracking.android.AnalyticsThread$ClientIdCallback val$callback -> a
     com.google.analytics.tracking.android.GAThread this$0 -> b
     307:308:void run() -> run
-com.google.analytics.tracking.android.GoogleAnalytics -> com.google.a.a.a.ao:
+com.google.analytics.tracking.android.GoogleAnalytics -> com.google.analytics.tracking.android.ao:
     boolean debug -> a
     com.google.analytics.tracking.android.AnalyticsThread thread -> b
     android.content.Context context -> c
@@ -1765,13 +1767,13 @@ com.google.analytics.tracking.android.GoogleAnalytics -> com.google.a.a.a.ao:
     218:220:void setAppOptOut(boolean) -> b
     24:24:java.lang.Boolean access$002(com.google.analytics.tracking.android.GoogleAnalytics,java.lang.Boolean) -> a
     24:24:java.lang.String access$102(com.google.analytics.tracking.android.GoogleAnalytics,java.lang.String) -> a
-com.google.analytics.tracking.android.GoogleAnalytics$1 -> com.google.a.a.a.ap:
+com.google.analytics.tracking.android.GoogleAnalytics$1 -> com.google.analytics.tracking.android.ap:
     com.google.analytics.tracking.android.GoogleAnalytics this$0 -> a
     70:71:void reportAppOptOut(boolean) -> a
-com.google.analytics.tracking.android.GoogleAnalytics$2 -> com.google.a.a.a.aq:
+com.google.analytics.tracking.android.GoogleAnalytics$2 -> com.google.analytics.tracking.android.aq:
     com.google.analytics.tracking.android.GoogleAnalytics this$0 -> a
     78:80:void reportClientId(java.lang.String) -> a
-com.google.analytics.tracking.android.GoogleTracker -> com.google.a.a.a.ar:
+com.google.analytics.tracking.android.GoogleTracker -> com.google.analytics.tracking.android.ar:
     java.text.DecimalFormat DF -> a
     com.google.analytics.tracking.android.TrackerHandler handler -> b
     com.google.analytics.tracking.android.GoogleTracker$SimpleModel model -> c
@@ -1795,8 +1797,8 @@ com.google.analytics.tracking.android.GoogleTracker -> com.google.a.a.a.ar:
     292:302:void setAppName(java.lang.String) -> a
     309:314:void setAppVersion(java.lang.String) -> b
     348:350:void setUseSecure(boolean) -> c
-com.google.analytics.tracking.android.GoogleTracker$1 -> com.google.a.a.a.as:
-com.google.analytics.tracking.android.GoogleTracker$SimpleModel -> com.google.a.a.a.at:
+com.google.analytics.tracking.android.GoogleTracker$1 -> com.google.analytics.tracking.android.as:
+com.google.analytics.tracking.android.GoogleTracker$SimpleModel -> com.google.analytics.tracking.android.at:
     java.util.Map temporaryMap -> a
     java.util.Map permanentMap -> b
     362:363:void setForNextHit(java.lang.String,java.lang.String) -> a
@@ -1805,7 +1807,7 @@ com.google.analytics.tracking.android.GoogleTracker$SimpleModel -> com.google.a.
     374:378:java.lang.String get(java.lang.String) -> a
     382:387:void setAll(java.util.Map,java.lang.Boolean) -> a
     390:392:java.util.Map getKeysAndValues() -> b
-com.google.analytics.tracking.android.Hit -> com.google.a.a.a.au:
+com.google.analytics.tracking.android.Hit -> com.google.analytics.tracking.android.au:
     java.lang.String hitString -> a
     long hitId -> b
     long hitTime -> c
@@ -1816,13 +1818,13 @@ com.google.analytics.tracking.android.Hit -> com.google.a.a.a.au:
     33:33:long getHitTime() -> c
     43:43:java.lang.String getHitUrl() -> d
     48:49:void setHitUrl(java.lang.String) -> b
-com.google.analytics.tracking.android.HitBuilder -> com.google.a.a.a.av:
+com.google.analytics.tracking.android.HitBuilder -> com.google.analytics.tracking.android.av:
     25:47:java.util.Map generateHitParams(com.google.analytics.tracking.android.MetaModel,java.util.Map) -> a
     59:78:java.lang.String postProcessHit(com.google.analytics.tracking.android.Hit,long) -> a
     83:85:java.lang.String encode(java.lang.String) -> a
-com.google.analytics.tracking.android.HttpClientFactory -> com.google.a.a.a.aw:
+com.google.analytics.tracking.android.HttpClientFactory -> com.google.analytics.tracking.android.aw:
     org.apache.http.client.HttpClient newInstance() -> a
-com.google.analytics.tracking.android.Log -> com.google.a.a.a.ax:
+com.google.analytics.tracking.android.Log -> com.google.analytics.tracking.android.ax:
     boolean debug -> a
     26:27:void setDebug(boolean) -> a
     35:35:boolean debugEnabled() -> a
@@ -1836,41 +1838,41 @@ com.google.analytics.tracking.android.Log -> com.google.a.a.a.ax:
     146:146:int w(java.lang.String) -> h
     157:160:int wDebug(java.lang.String) -> i
     164:164:java.lang.String formatMessage(java.lang.String) -> j
-com.google.analytics.tracking.android.MetaModel -> com.google.a.a.a.ay:
+com.google.analytics.tracking.android.MetaModel -> com.google.analytics.tracking.android.ay:
     java.util.Map metaInfos -> a
     20:24:com.google.analytics.tracking.android.MetaModel$MetaInfo getMetaInfo(java.lang.String) -> a
     35:36:void addField(java.lang.String,java.lang.String,java.lang.String,com.google.analytics.tracking.android.MetaModel$Formatter) -> a
-com.google.analytics.tracking.android.MetaModel$Formatter -> com.google.a.a.a.az:
+com.google.analytics.tracking.android.MetaModel$Formatter -> com.google.analytics.tracking.android.az:
     java.lang.String format(java.lang.String) -> a
-com.google.analytics.tracking.android.MetaModel$MetaInfo -> com.google.a.a.a.ba:
+com.google.analytics.tracking.android.MetaModel$MetaInfo -> com.google.analytics.tracking.android.ba:
     java.lang.String urlParam -> a
     java.lang.String defaultValue -> b
     com.google.analytics.tracking.android.MetaModel$Formatter formatter -> c
     53:53:java.lang.String getUrlParam() -> a
     57:57:java.lang.String getDefaultValue() -> b
     61:61:com.google.analytics.tracking.android.MetaModel$Formatter getFormatter() -> c
-com.google.analytics.tracking.android.MetaModelInitializer -> com.google.a.a.a.bb:
+com.google.analytics.tracking.android.MetaModelInitializer -> com.google.analytics.tracking.android.bb:
     com.google.analytics.tracking.android.MetaModel$Formatter BOOLEAN_FORMATTER -> a
     com.google.analytics.tracking.android.MetaModel$Formatter UP_TO_TWO_DIGIT_FLOAT_FORMATTER -> b
     34:117:void set(com.google.analytics.tracking.android.MetaModel) -> a
-com.google.analytics.tracking.android.MetaModelInitializer$1 -> com.google.a.a.a.bc:
+com.google.analytics.tracking.android.MetaModelInitializer$1 -> com.google.analytics.tracking.android.bc:
     17:17:java.lang.String format(java.lang.String) -> a
-com.google.analytics.tracking.android.MetaModelInitializer$2 -> com.google.a.a.a.bd:
+com.google.analytics.tracking.android.MetaModelInitializer$2 -> com.google.analytics.tracking.android.bd:
     java.text.DecimalFormat floatFormat -> a
     25:25:java.lang.String format(java.lang.String) -> a
-com.google.analytics.tracking.android.ParameterLoader -> com.google.a.a.a.be:
+com.google.analytics.tracking.android.ParameterLoader -> com.google.analytics.tracking.android.be:
     java.lang.String getString(java.lang.String) -> a
     java.lang.Double getDoubleFromString(java.lang.String) -> b
     boolean getBoolean(java.lang.String) -> c
     int getInt(java.lang.String,int) -> a
-com.google.analytics.tracking.android.ParameterLoaderImpl -> com.google.a.a.a.bf:
+com.google.analytics.tracking.android.ParameterLoaderImpl -> com.google.analytics.tracking.android.bf:
     android.content.Context ctx -> a
     36:39:int getResourceIdForType(java.lang.String,java.lang.String) -> a
     44:48:java.lang.String getString(java.lang.String) -> a
     54:58:boolean getBoolean(java.lang.String) -> c
     64:72:int getInt(java.lang.String,int) -> a
     84:92:java.lang.Double getDoubleFromString(java.lang.String) -> b
-com.google.analytics.tracking.android.PersistentAnalyticsStore -> com.google.a.a.a.bg:
+com.google.analytics.tracking.android.PersistentAnalyticsStore -> com.google.analytics.tracking.android.bg:
     long tokens -> a
     long lastTrackTime -> b
     boolean throttlingEnabled -> c
@@ -1897,10 +1899,10 @@ com.google.analytics.tracking.android.PersistentAnalyticsStore -> com.google.a.a
     519:535:boolean tokensAvailable() -> e
     562:569:android.database.sqlite.SQLiteDatabase getWritableDatabase(java.lang.String) -> a
     36:36:java.lang.String access$000() -> f
-com.google.analytics.tracking.android.PersistentAnalyticsStore$1 -> com.google.a.a.a.bh:
+com.google.analytics.tracking.android.PersistentAnalyticsStore$1 -> com.google.analytics.tracking.android.bh:
     com.google.analytics.tracking.android.PersistentAnalyticsStore this$0 -> a
     128:128:org.apache.http.client.HttpClient newInstance() -> a
-com.google.analytics.tracking.android.PersistentAnalyticsStore$AnalyticsDatabaseHelper -> com.google.a.a.a.bi:
+com.google.analytics.tracking.android.PersistentAnalyticsStore$AnalyticsDatabaseHelper -> com.google.analytics.tracking.android.bi:
     boolean badDatabase -> b
     com.google.analytics.tracking.android.PersistentAnalyticsStore this$0 -> a
     602:617:boolean tablePresent(java.lang.String,android.database.sqlite.SQLiteDatabase) -> a
@@ -1908,15 +1910,15 @@ com.google.analytics.tracking.android.PersistentAnalyticsStore$AnalyticsDatabase
     640:648:void onOpen(android.database.sqlite.SQLiteDatabase) -> onOpen
     652:653:void onCreate(android.database.sqlite.SQLiteDatabase) -> onCreate
     661:661:void onUpgrade(android.database.sqlite.SQLiteDatabase,int,int) -> onUpgrade
-com.google.analytics.tracking.android.ServiceManager -> com.google.a.a.a.bj:
+com.google.analytics.tracking.android.ServiceManager -> com.google.analytics.tracking.android.bj:
     void dispatch() -> c
     void setDispatchPeriod(int) -> a
-com.google.analytics.tracking.android.ServiceProxy -> com.google.a.a.a.bk:
+com.google.analytics.tracking.android.ServiceProxy -> com.google.analytics.tracking.android.bk:
     void putHit(java.util.Map,long,java.lang.String,java.util.List) -> a
     void clearHits() -> d
     void dispatch() -> c
     void createService() -> e
-com.google.analytics.tracking.android.SimpleNetworkDispatcher -> com.google.a.a.a.bl:
+com.google.analytics.tracking.android.SimpleNetworkDispatcher -> com.google.analytics.tracking.android.bl:
     java.lang.String userAgent -> a
     com.google.analytics.tracking.android.HttpClientFactory httpClientFactory -> b
     android.content.Context ctx -> c
@@ -1926,14 +1928,14 @@ com.google.analytics.tracking.android.SimpleNetworkDispatcher -> com.google.a.a.
     179:187:void logDebugInformation(boolean,org.apache.http.HttpEntityEnclosingRequest) -> a
     196:196:java.lang.String createUserAgentString(java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String) -> a
     205:214:java.net.URL getUrl(com.google.analytics.tracking.android.Hit) -> a
-com.google.analytics.tracking.android.StandardExceptionParser -> com.google.a.a.a.bm:
+com.google.analytics.tracking.android.StandardExceptionParser -> com.google.analytics.tracking.android.bm:
     java.util.TreeSet includedPackages -> a
     57:105:void setIncludedPackages(android.content.Context,java.util.Collection) -> a
     116:120:java.lang.Throwable getCause(java.lang.Throwable) -> a
     131:143:java.lang.StackTraceElement getBestStackTraceElement(java.lang.Throwable) -> b
     152:168:java.lang.String getDescription(java.lang.Throwable,java.lang.StackTraceElement,java.lang.String) -> a
     173:173:java.lang.String getDescription(java.lang.String,java.lang.Throwable) -> a
-com.google.analytics.tracking.android.Tracker -> com.google.a.a.a.bn:
+com.google.analytics.tracking.android.Tracker -> com.google.analytics.tracking.android.bn:
     void setStartSession(boolean) -> a
     void setAppName(java.lang.String) -> a
     void setAppVersion(java.lang.String) -> b
@@ -1944,9 +1946,9 @@ com.google.analytics.tracking.android.Tracker -> com.google.a.a.a.bn:
     void setAnonymizeIp(boolean) -> b
     void setSampleRate(double) -> a
     void setUseSecure(boolean) -> c
-com.google.analytics.tracking.android.TrackerHandler -> com.google.a.a.a.bo:
+com.google.analytics.tracking.android.TrackerHandler -> com.google.analytics.tracking.android.bo:
     void sendHit(java.util.Map) -> a
-com.google.analytics.tracking.android.Utils -> com.google.a.a.a.bp:
+com.google.analytics.tracking.android.Utils -> com.google.analytics.tracking.android.bp:
     char[] HEXBYTES -> a
     24:34:java.util.Map parseURLParameters(java.lang.String) -> a
     39:45:double safeParseDouble(java.lang.String) -> b

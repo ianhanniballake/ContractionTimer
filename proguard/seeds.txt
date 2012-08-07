@@ -49,6 +49,8 @@ android.support.v4.view.ViewPager$SavedState
 android.support.v4.view.ViewPager$SavedState: android.os.Parcelable$Creator CREATOR
 com.google.analytics.tracking.android.AdMobInfo$AdMobKey: com.google.analytics.tracking.android.AdMobInfo$AdMobKey[] values()
 com.google.analytics.tracking.android.AdMobInfo$AdMobKey: com.google.analytics.tracking.android.AdMobInfo$AdMobKey valueOf(java.lang.String)
+com.google.analytics.tracking.android.AnalyticsReceiver
+com.google.analytics.tracking.android.AnalyticsReceiver: AnalyticsReceiver()
 com.google.analytics.tracking.android.GAServiceProxy$ConnectState: com.google.analytics.tracking.android.GAServiceProxy$ConnectState[] values()
 com.google.analytics.tracking.android.GAServiceProxy$ConnectState: com.google.analytics.tracking.android.GAServiceProxy$ConnectState valueOf(java.lang.String)
 com.google.android.gms.analytics.internal.Command

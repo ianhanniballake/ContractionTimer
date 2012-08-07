@@ -898,7 +898,9 @@ com.google.analytics.tracking.android.AnalyticsGmsCoreClient:
     static final java.lang.String SERVICE_ACTION
     private static final int BIND_ADJUST_WITH_ACTIVITY
     public static final java.lang.String KEY_APP_PACKAGE_NAME
-com.google.analytics.tracking.android.AnalyticsReceiver
+com.google.analytics.tracking.android.AnalyticsReceiver:
+    static final java.lang.String INSTALL_ACTION
+    static final java.lang.String CAMPAIGN_KEY
 com.google.analytics.tracking.android.AnalyticsStore:
     public abstract void setDispatch(boolean)
     public abstract void close()
