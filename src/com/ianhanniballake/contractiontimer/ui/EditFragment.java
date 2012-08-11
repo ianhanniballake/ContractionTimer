@@ -97,10 +97,8 @@ public class EditFragment extends Fragment implements
 			if (overlapExists)
 				endTimeErrorOverlapView.setVisibility(View.VISIBLE);
 			else
-			{
-				errorCheckPass++;
 				endTimeErrorOverlapView.setVisibility(View.GONE);
-			}
+			passedEndTimeOverlapCheck = !overlapExists;
 			getActivity().supportInvalidateOptionsMenu();
 		}
 	}
@@ -154,10 +152,8 @@ public class EditFragment extends Fragment implements
 			if (overlapExists)
 				startTimeErrorOverlapView.setVisibility(View.VISIBLE);
 			else
-			{
-				errorCheckPass++;
 				startTimeErrorOverlapView.setVisibility(View.GONE);
-			}
+			passedStartTimeOverlapCheck = !overlapExists;
 			getActivity().supportInvalidateOptionsMenu();
 		}
 	}
@@ -213,18 +209,12 @@ public class EditFragment extends Fragment implements
 			if (overlapExists)
 				timeErrorOverlapView.setVisibility(View.VISIBLE);
 			else
-			{
-				errorCheckPass++;
 				timeErrorOverlapView.setVisibility(View.GONE);
-			}
+			passedTimeOverlapCheck = !overlapExists;
 			getActivity().supportInvalidateOptionsMenu();
 		}
 	}
 
-	/**
-	 * Total number of error checks
-	 */
-	private final static int ALL_ERROR_CHECK_PASSED = 4;
 	/**
 	 * Action associated with the end time's date being changed
 	 */
@@ -296,13 +286,13 @@ public class EditFragment extends Fragment implements
 	 */
 	private Calendar endTime = null;
 	/**
-	 * Number of error checks that have passed in the start / end time
-	 */
-	private int errorCheckPass = 0;
-	/**
 	 * Current note of the contraction
 	 */
 	private String note = "";
+	private boolean passedEndTimeOrderCheck = false;
+	private boolean passedEndTimeOverlapCheck = false;
+	private boolean passedStartTimeOverlapCheck = false;
+	private boolean passedTimeOverlapCheck = false;
 	/**
 	 * Current start time of the contraction
 	 */
@@ -489,9 +479,15 @@ public class EditFragment extends Fragment implements
 	public void onCreateOptionsMenu(final Menu menu, final MenuInflater inflater)
 	{
 		super.onCreateOptionsMenu(menu, inflater);
-		final boolean allErrorCheckPassed = errorCheckPass == EditFragment.ALL_ERROR_CHECK_PASSED;
+		final boolean allErrorCheckPassed = passedEndTimeOverlapCheck
+				&& passedStartTimeOverlapCheck && passedTimeOverlapCheck
+				&& passedEndTimeOrderCheck;
 		if (BuildConfig.DEBUG)
-			Log.d(getClass().getSimpleName(), "All error check passed: "
+			Log.d(getClass().getSimpleName(), "EndTimeOverlap Pass: "
+					+ passedEndTimeOverlapCheck + ", StartTimeOverlap Pass: "
+					+ passedStartTimeOverlapCheck + ", TimeOverlap Pass: "
+					+ passedStartTimeOverlapCheck + ", EndTimeOrder Pass: "
+					+ passedEndTimeOrderCheck + ". Allow save: "
 					+ allErrorCheckPassed);
 		menu.findItem(R.id.menu_save).setEnabled(allErrorCheckPassed);
 	}
@@ -721,7 +717,10 @@ public class EditFragment extends Fragment implements
 	 */
 	private void updateViews()
 	{
-		errorCheckPass = 0;
+		passedEndTimeOverlapCheck = false;
+		passedStartTimeOverlapCheck = false;
+		passedTimeOverlapCheck = false;
+		passedEndTimeOrderCheck = false;
 		new StartTimeOverlapCheck().execute();
 		new EndTimeOverlapCheck().execute();
 		new TimeOverlapCheck().execute();
@@ -753,19 +752,19 @@ public class EditFragment extends Fragment implements
 					endTime.getTime()));
 			final TextView endTimeErrorOrderView = (TextView) view
 					.getTag(R.id.end_time_error_order);
-			if (endTime.before(startTime))
+			passedEndTimeOrderCheck = startTime.before(endTime);
+			if (passedEndTimeOrderCheck)
 			{
-				endTimeErrorOrderView.setVisibility(View.VISIBLE);
-				durationView.setText("");
-			}
-			else
-			{
-				errorCheckPass++;
 				endTimeErrorOrderView.setVisibility(View.GONE);
 				final long durationInSeconds = (endTime.getTimeInMillis() - startTime
 						.getTimeInMillis()) / 1000;
 				durationView.setText(DateUtils
 						.formatElapsedTime(durationInSeconds));
+			}
+			else
+			{
+				endTimeErrorOrderView.setVisibility(View.VISIBLE);
+				durationView.setText("");
 			}
 			getActivity().supportInvalidateOptionsMenu();
 		}
