@@ -192,11 +192,20 @@ android.support.v4.app.NavUtils:
 android.support.v4.app.NavUtilsJB:
     23:23:NavUtilsJB()
 android.support.v4.app.NotificationCompat
+android.support.v4.app.NotificationCompat$Action
+android.support.v4.app.NotificationCompat$BigPictureStyle
+android.support.v4.app.NotificationCompat$BigTextStyle
 android.support.v4.app.NotificationCompat$Builder
+android.support.v4.app.NotificationCompat$InboxStyle
 android.support.v4.app.NotificationCompat$NotificationCompatImpl
 android.support.v4.app.NotificationCompat$NotificationCompatImplBase
 android.support.v4.app.NotificationCompat$NotificationCompatImplHoneycomb
+android.support.v4.app.NotificationCompat$NotificationCompatImplIceCreamSandwich
+android.support.v4.app.NotificationCompat$NotificationCompatImplJellybean
+android.support.v4.app.NotificationCompat$Style
 android.support.v4.app.NotificationCompatHoneycomb
+android.support.v4.app.NotificationCompatIceCreamSandwich
+android.support.v4.app.NotificationCompatJellybean
 android.support.v4.app.ServiceCompat
 android.support.v4.app.ShareCompat:
     public static final java.lang.String EXTRA_CALLING_PACKAGE
@@ -1153,7 +1162,6 @@ com.ianhanniballake.contractiontimer.ui.DatePickerDialogFragment:
     public static final java.lang.String MONTH_OF_YEAR_EXTRA
     public static final java.lang.String YEAR_EXTRA
 com.ianhanniballake.contractiontimer.ui.EditFragment:
-    private static final int ALL_ERROR_CHECK_PASSED
     public static final java.lang.String END_DATE_ACTION
     public static final java.lang.String END_TIME_ACTION
     public static final java.lang.String START_DATE_ACTION

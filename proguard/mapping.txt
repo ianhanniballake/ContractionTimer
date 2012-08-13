@@ -2260,79 +2260,86 @@ com.ianhanniballake.contractiontimer.ui.ContractionListFragment -> com.ianhannib
     java.lang.Runnable liveDurationUpdate -> aa
     android.os.Handler timeSinceLastHandler -> ab
     java.lang.Runnable timeSinceLastUpdate -> ac
-    void bindView(android.view.View,android.database.Cursor) -> a
-    253:264:void deleteContraction(long) -> a
-    269:290:void onActivityCreated(android.os.Bundle) -> d
-    295:295:android.support.v4.content.Loader onCreateLoader(int,android.os.Bundle) -> a
-    303:303:android.view.View onCreateView(android.view.LayoutInflater,android.view.ViewGroup,android.os.Bundle) -> a
-    310:312:void onLoaderReset(android.support.v4.content.Loader) -> a
-    317:342:void onLoadFinished(android.support.v4.content.Loader,android.database.Cursor) -> a
-    347:350:void onPause() -> q
-    355:374:void onResume() -> p
-    379:386:void setEmptyText(java.lang.CharSequence) -> a
+    void bindView(com.ianhanniballake.contractiontimer.ui.ContractionListFragment$ViewHolder,android.database.Cursor) -> a
+    296:307:void deleteContraction(long) -> a
+    312:333:void onActivityCreated(android.os.Bundle) -> d
+    338:338:android.support.v4.content.Loader onCreateLoader(int,android.os.Bundle) -> a
+    346:346:android.view.View onCreateView(android.view.LayoutInflater,android.view.ViewGroup,android.os.Bundle) -> a
+    353:355:void onLoaderReset(android.support.v4.content.Loader) -> a
+    360:385:void onLoadFinished(android.support.v4.content.Loader,android.database.Cursor) -> a
+    390:393:void onPause() -> q
+    398:417:void onResume() -> p
+    422:429:void setEmptyText(java.lang.CharSequence) -> a
     void setupListView() -> y
     void setupNewView(android.view.View) -> b
-    413:426:void showNoteDialog(long,java.lang.String) -> a
-    437:443:void viewContraction(long) -> b
+    456:469:void showNoteDialog(long,java.lang.String) -> a
+    480:486:void viewContraction(long) -> b
     1:1:void onLoadFinished(android.support.v4.content.Loader,java.lang.Object) -> a
-    165:165:long access$1(com.ianhanniballake.contractiontimer.ui.ContractionListFragment) -> a
-    173:173:android.os.Handler access$2(com.ianhanniballake.contractiontimer.ui.ContractionListFragment) -> b
-    169:169:android.view.View access$3(com.ianhanniballake.contractiontimer.ui.ContractionListFragment) -> c
-    204:204:android.os.Handler access$4(com.ianhanniballake.contractiontimer.ui.ContractionListFragment) -> d
-    165:165:void access$5(com.ianhanniballake.contractiontimer.ui.ContractionListFragment,long) -> a
-    177:177:java.lang.Runnable access$6(com.ianhanniballake.contractiontimer.ui.ContractionListFragment) -> e
+    207:207:long access$1(com.ianhanniballake.contractiontimer.ui.ContractionListFragment) -> a
+    215:215:android.os.Handler access$2(com.ianhanniballake.contractiontimer.ui.ContractionListFragment) -> b
+    211:211:android.view.View access$3(com.ianhanniballake.contractiontimer.ui.ContractionListFragment) -> c
+    246:246:android.os.Handler access$4(com.ianhanniballake.contractiontimer.ui.ContractionListFragment) -> d
+    207:207:void access$5(com.ianhanniballake.contractiontimer.ui.ContractionListFragment,long) -> a
+    219:219:java.lang.Runnable access$6(com.ianhanniballake.contractiontimer.ui.ContractionListFragment) -> e
 com.ianhanniballake.contractiontimer.ui.ContractionListFragment$1 -> com.ianhanniballake.contractiontimer.ui.i:
     com.ianhanniballake.contractiontimer.ui.ContractionListFragment this$0 -> a
-    186:199:void run() -> run
+    228:241:void run() -> run
 com.ianhanniballake.contractiontimer.ui.ContractionListFragment$2 -> com.ianhanniballake.contractiontimer.ui.j:
     com.ianhanniballake.contractiontimer.ui.ContractionListFragment this$0 -> a
-    217:231:void run() -> run
+    259:273:void run() -> run
 com.ianhanniballake.contractiontimer.ui.ContractionListFragment$3 -> com.ianhanniballake.contractiontimer.ui.k:
     com.ianhanniballake.contractiontimer.ui.ContractionListFragment this$0 -> a
 com.ianhanniballake.contractiontimer.ui.ContractionListFragment$4 -> com.ianhanniballake.contractiontimer.ui.l:
     com.ianhanniballake.contractiontimer.ui.ContractionListFragment this$0 -> a
-    286:287:void onItemClick(android.widget.AdapterView,android.view.View,int,long) -> onItemClick
+    329:330:void onItemClick(android.widget.AdapterView,android.view.View,int,long) -> onItemClick
 com.ianhanniballake.contractiontimer.ui.ContractionListFragment$ContractionListCursorAdapter -> com.ianhanniballake.contractiontimer.ui.m:
     android.view.LayoutInflater inflater -> k
     com.ianhanniballake.contractiontimer.ui.ContractionListFragment this$0 -> j
-    73:134:void bindView(android.view.View,android.content.Context,android.database.Cursor) -> a
-    140:150:android.view.View newView(android.content.Context,android.database.Cursor,android.view.ViewGroup) -> a
-com.ianhanniballake.contractiontimer.ui.ContractionListFragmentBase -> com.ianhanniballake.contractiontimer.ui.n:
-    28:28:void bindView(android.view.View,android.database.Cursor) -> a
+    74:144:void bindView(android.view.View,android.content.Context,android.database.Cursor) -> a
+    150:160:android.view.View newView(android.content.Context,android.database.Cursor,android.view.ViewGroup) -> a
+com.ianhanniballake.contractiontimer.ui.ContractionListFragment$ViewHolder -> com.ianhanniballake.contractiontimer.ui.n:
+    android.widget.TextView duration -> a
+    android.widget.TextView endTime -> b
+    android.widget.TextView frequency -> c
+    android.widget.TextView note -> d
+    android.widget.Button showPopup -> e
+    android.widget.TextView startTime -> f
+com.ianhanniballake.contractiontimer.ui.ContractionListFragmentBase -> com.ianhanniballake.contractiontimer.ui.o:
+    28:28:void bindView(com.ianhanniballake.contractiontimer.ui.ContractionListFragment$ViewHolder,android.database.Cursor) -> a
     33:67:boolean onContextItemSelected(android.view.MenuItem) -> b
     75:94:void onCreateContextMenu(android.view.ContextMenu,android.view.View,android.view.ContextMenu$ContextMenuInfo) -> onCreateContextMenu
     102:105:void setupListView() -> y
     111:111:void setupNewView(android.view.View) -> b
-com.ianhanniballake.contractiontimer.ui.ContractionListFragmentV11 -> com.ianhanniballake.contractiontimer.ui.o:
+com.ianhanniballake.contractiontimer.ui.ContractionListFragmentV11 -> com.ianhanniballake.contractiontimer.ui.p:
     java.lang.String selectedItemNote -> i
-    62:81:void bindView(android.view.View,android.database.Cursor) -> a
-    86:90:void onActivityCreated(android.os.Bundle) -> d
-    95:154:void onClick(android.view.View) -> onClick
-    159:162:void onSaveInstanceState(android.os.Bundle) -> e
-    171:321:void setupListView() -> y
-    326:329:void setupNewView(android.view.View) -> b
+    62:80:void bindView(com.ianhanniballake.contractiontimer.ui.ContractionListFragment$ViewHolder,android.database.Cursor) -> a
+    85:89:void onActivityCreated(android.os.Bundle) -> d
+    94:153:void onClick(android.view.View) -> onClick
+    158:161:void onSaveInstanceState(android.os.Bundle) -> e
+    170:320:void setupListView() -> y
+    325:328:void setupNewView(android.view.View) -> b
     57:57:void access$0(com.ianhanniballake.contractiontimer.ui.ContractionListFragmentV11,java.lang.String) -> a
     57:57:java.lang.String access$1(com.ianhanniballake.contractiontimer.ui.ContractionListFragmentV11) -> a
-com.ianhanniballake.contractiontimer.ui.ContractionListFragmentV11$1 -> com.ianhanniballake.contractiontimer.ui.p:
+com.ianhanniballake.contractiontimer.ui.ContractionListFragmentV11$1 -> com.ianhanniballake.contractiontimer.ui.q:
     com.ianhanniballake.contractiontimer.ui.ContractionListFragmentV11 this$0 -> a
     com.ianhanniballake.contractiontimer.ui.ContractionListFragmentV11$PopupHolder val$popupHolder -> b
-    114:149:boolean onMenuItemClick(android.view.MenuItem) -> onMenuItemClick
-com.ianhanniballake.contractiontimer.ui.ContractionListFragmentV11$2 -> com.ianhanniballake.contractiontimer.ui.q:
+    113:148:boolean onMenuItemClick(android.view.MenuItem) -> onMenuItemClick
+com.ianhanniballake.contractiontimer.ui.ContractionListFragmentV11$2 -> com.ianhanniballake.contractiontimer.ui.r:
     com.ianhanniballake.contractiontimer.ui.ContractionListFragmentV11 this$0 -> a
     android.widget.ListView val$listView -> b
-    180:226:boolean onActionItemClicked(android.view.ActionMode,android.view.MenuItem) -> onActionItemClicked
-    234:236:boolean onCreateActionMode(android.view.ActionMode,android.view.Menu) -> onCreateActionMode
-    243:243:void onDestroyActionMode(android.view.ActionMode) -> onDestroyActionMode
-    249:266:void onItemCheckedStateChanged(android.view.ActionMode,int,long,boolean) -> onItemCheckedStateChanged
-    272:317:boolean onPrepareActionMode(android.view.ActionMode,android.view.Menu) -> onPrepareActionMode
-com.ianhanniballake.contractiontimer.ui.ContractionListFragmentV11$2$1 -> com.ianhanniballake.contractiontimer.ui.r:
+    179:225:boolean onActionItemClicked(android.view.ActionMode,android.view.MenuItem) -> onActionItemClicked
+    233:235:boolean onCreateActionMode(android.view.ActionMode,android.view.Menu) -> onCreateActionMode
+    242:242:void onDestroyActionMode(android.view.ActionMode) -> onDestroyActionMode
+    248:265:void onItemCheckedStateChanged(android.view.ActionMode,int,long,boolean) -> onItemCheckedStateChanged
+    271:316:boolean onPrepareActionMode(android.view.ActionMode,android.view.Menu) -> onPrepareActionMode
+com.ianhanniballake.contractiontimer.ui.ContractionListFragmentV11$2$1 -> com.ianhanniballake.contractiontimer.ui.s:
     com.ianhanniballake.contractiontimer.ui.ContractionListFragmentV11$2 this$1 -> a
     android.view.ActionMode val$mode -> b
-    263:264:void run() -> run
-com.ianhanniballake.contractiontimer.ui.ContractionListFragmentV11$PopupHolder -> com.ianhanniballake.contractiontimer.ui.s:
+    262:263:void run() -> run
+com.ianhanniballake.contractiontimer.ui.ContractionListFragmentV11$PopupHolder -> com.ianhanniballake.contractiontimer.ui.t:
     java.lang.String existingNote -> a
     long id -> b
-com.ianhanniballake.contractiontimer.ui.DatePickerDialogFragment -> com.ianhanniballake.contractiontimer.ui.t:
+com.ianhanniballake.contractiontimer.ui.DatePickerDialogFragment -> com.ianhanniballake.contractiontimer.ui.u:
     52:58:android.app.Dialog onCreateDialog(android.os.Bundle) -> c
     65:78:void onDateSet(android.widget.DatePicker,int,int,int) -> onDateSet
     84:87:void onDismiss(android.content.DialogInterface) -> onDismiss
@@ -2344,90 +2351,94 @@ com.ianhanniballake.contractiontimer.ui.EditActivity -> com.ianhanniballake.cont
     102:118:void onStart() -> onStart
     123:129:void onStop() -> onStop
     136:144:void showFragment() -> h
-com.ianhanniballake.contractiontimer.ui.EditActivity$1 -> com.ianhanniballake.contractiontimer.ui.u:
+com.ianhanniballake.contractiontimer.ui.EditActivity$1 -> com.ianhanniballake.contractiontimer.ui.v:
     com.ianhanniballake.contractiontimer.ui.EditActivity this$0 -> a
     36:40:void onReceive(android.content.Context,android.content.Intent) -> onReceive
-com.ianhanniballake.contractiontimer.ui.EditFragment -> com.ianhanniballake.contractiontimer.ui.v:
+com.ianhanniballake.contractiontimer.ui.EditFragment -> com.ianhanniballake.contractiontimer.ui.w:
     android.support.v4.widget.CursorAdapter adapter -> a
     android.content.AsyncQueryHandler contractionQueryHandler -> b
     android.content.BroadcastReceiver dateSetBroadcastReceiver -> c
     java.util.Calendar endTime -> d
-    int errorCheckPass -> e
-    java.lang.String note -> f
-    java.util.Calendar startTime -> g
-    android.content.BroadcastReceiver timeSetBroadcastReceiver -> h
-    357:362:void clear() -> a
-    371:377:android.content.ContentValues getContentValues() -> y
-    389:390:android.view.View getFragmentView() -> z
-    397:479:void onActivityCreated(android.os.Bundle) -> d
-    484:484:android.support.v4.content.Loader onCreateLoader(int,android.os.Bundle) -> a
-    491:497:void onCreateOptionsMenu(android.view.Menu,android.view.MenuInflater) -> a
-    503:622:android.view.View onCreateView(android.view.LayoutInflater,android.view.ViewGroup,android.os.Bundle) -> a
-    628:629:void onLoaderReset(android.support.v4.content.Loader) -> a
-    634:640:void onLoadFinished(android.support.v4.content.Loader,android.database.Cursor) -> a
-    645:674:boolean onOptionsItemSelected(android.view.MenuItem) -> a
-    681:689:void onSaveInstanceState(android.os.Bundle) -> e
-    694:707:void onStart() -> c
-    712:717:void onStop() -> d
-    724:774:void updateViews() -> A
+    java.lang.String note -> e
+    boolean passedEndTimeOrderCheck -> f
+    boolean passedEndTimeOverlapCheck -> g
+    boolean passedStartTimeOverlapCheck -> h
+    boolean passedTimeOverlapCheck -> i
+    java.util.Calendar startTime -> W
+    android.content.BroadcastReceiver timeSetBroadcastReceiver -> X
+    347:352:void clear() -> a
+    361:367:android.content.ContentValues getContentValues() -> y
+    379:380:android.view.View getFragmentView() -> z
+    387:469:void onActivityCreated(android.os.Bundle) -> d
+    474:474:android.support.v4.content.Loader onCreateLoader(int,android.os.Bundle) -> a
+    481:493:void onCreateOptionsMenu(android.view.Menu,android.view.MenuInflater) -> a
+    499:618:android.view.View onCreateView(android.view.LayoutInflater,android.view.ViewGroup,android.os.Bundle) -> a
+    624:625:void onLoaderReset(android.support.v4.content.Loader) -> a
+    630:636:void onLoadFinished(android.support.v4.content.Loader,android.database.Cursor) -> a
+    641:670:boolean onOptionsItemSelected(android.view.MenuItem) -> a
+    677:685:void onSaveInstanceState(android.os.Bundle) -> e
+    690:703:void onStart() -> c
+    708:713:void onStop() -> d
+    720:773:void updateViews() -> A
     1:1:void onLoadFinished(android.support.v4.content.Loader,java.lang.Object) -> a
-    309:309:java.util.Calendar access$1(com.ianhanniballake.contractiontimer.ui.EditFragment) -> a
-    297:297:java.util.Calendar access$2(com.ianhanniballake.contractiontimer.ui.EditFragment) -> b
-    722:722:void access$3(com.ianhanniballake.contractiontimer.ui.EditFragment) -> c
-    387:387:android.view.View access$4(com.ianhanniballake.contractiontimer.ui.EditFragment) -> d
-    301:301:int access$5(com.ianhanniballake.contractiontimer.ui.EditFragment) -> e
-    301:301:void access$6(com.ianhanniballake.contractiontimer.ui.EditFragment,int) -> a
-    309:309:void access$7(com.ianhanniballake.contractiontimer.ui.EditFragment,java.util.Calendar) -> a
-    297:297:void access$8(com.ianhanniballake.contractiontimer.ui.EditFragment,java.util.Calendar) -> b
-    305:305:void access$9(com.ianhanniballake.contractiontimer.ui.EditFragment,java.lang.String) -> a
-com.ianhanniballake.contractiontimer.ui.EditFragment$1 -> com.ianhanniballake.contractiontimer.ui.w:
+    299:299:java.util.Calendar access$1(com.ianhanniballake.contractiontimer.ui.EditFragment) -> a
+    287:287:java.util.Calendar access$2(com.ianhanniballake.contractiontimer.ui.EditFragment) -> b
+    718:718:void access$3(com.ianhanniballake.contractiontimer.ui.EditFragment) -> c
+    377:377:android.view.View access$4(com.ianhanniballake.contractiontimer.ui.EditFragment) -> d
+    293:293:void access$5(com.ianhanniballake.contractiontimer.ui.EditFragment,boolean) -> a
+    294:294:void access$6(com.ianhanniballake.contractiontimer.ui.EditFragment,boolean) -> b
+    295:295:void access$7(com.ianhanniballake.contractiontimer.ui.EditFragment,boolean) -> c
+    299:299:void access$8(com.ianhanniballake.contractiontimer.ui.EditFragment,java.util.Calendar) -> a
+    287:287:void access$9(com.ianhanniballake.contractiontimer.ui.EditFragment,java.util.Calendar) -> b
+    291:291:void access$10(com.ianhanniballake.contractiontimer.ui.EditFragment,java.lang.String) -> a
+com.ianhanniballake.contractiontimer.ui.EditFragment$1 -> com.ianhanniballake.contractiontimer.ui.x:
     com.ianhanniballake.contractiontimer.ui.EditFragment this$0 -> a
-    261:292:void onReceive(android.content.Context,android.content.Intent) -> onReceive
-com.ianhanniballake.contractiontimer.ui.EditFragment$2 -> com.ianhanniballake.contractiontimer.ui.x:
+    251:282:void onReceive(android.content.Context,android.content.Intent) -> onReceive
+com.ianhanniballake.contractiontimer.ui.EditFragment$2 -> com.ianhanniballake.contractiontimer.ui.y:
     com.ianhanniballake.contractiontimer.ui.EditFragment this$0 -> a
-    319:349:void onReceive(android.content.Context,android.content.Intent) -> onReceive
-com.ianhanniballake.contractiontimer.ui.EditFragment$3 -> com.ianhanniballake.contractiontimer.ui.y:
+    309:339:void onReceive(android.content.Context,android.content.Intent) -> onReceive
+com.ianhanniballake.contractiontimer.ui.EditFragment$3 -> com.ianhanniballake.contractiontimer.ui.z:
     com.ianhanniballake.contractiontimer.ui.EditFragment this$0 -> a
     android.content.Context val$applicationContext -> b
-    408:413:void onInsertComplete(int,java.lang.Object,android.net.Uri) -> onInsertComplete
-    419:424:void onUpdateComplete(int,java.lang.Object,int) -> onUpdateComplete
-com.ianhanniballake.contractiontimer.ui.EditFragment$4 -> com.ianhanniballake.contractiontimer.ui.z:
+    398:403:void onInsertComplete(int,java.lang.Object,android.net.Uri) -> onInsertComplete
+    409:414:void onUpdateComplete(int,java.lang.Object,int) -> onUpdateComplete
+com.ianhanniballake.contractiontimer.ui.EditFragment$4 -> com.ianhanniballake.contractiontimer.ui.aa:
     com.ianhanniballake.contractiontimer.ui.EditFragment this$0 -> j
-    432:448:void bindView(android.view.View,android.content.Context,android.database.Cursor) -> a
-    455:455:android.view.View newView(android.content.Context,android.database.Cursor,android.view.ViewGroup) -> a
-com.ianhanniballake.contractiontimer.ui.EditFragment$5 -> com.ianhanniballake.contractiontimer.ui.aa:
+    422:438:void bindView(android.view.View,android.content.Context,android.database.Cursor) -> a
+    445:445:android.view.View newView(android.content.Context,android.database.Cursor,android.view.ViewGroup) -> a
+com.ianhanniballake.contractiontimer.ui.EditFragment$5 -> com.ianhanniballake.contractiontimer.ui.ab:
     com.ianhanniballake.contractiontimer.ui.EditFragment this$0 -> a
-    525:537:void onClick(android.view.View) -> onClick
-com.ianhanniballake.contractiontimer.ui.EditFragment$6 -> com.ianhanniballake.contractiontimer.ui.ab:
+    521:533:void onClick(android.view.View) -> onClick
+com.ianhanniballake.contractiontimer.ui.EditFragment$6 -> com.ianhanniballake.contractiontimer.ui.ac:
     com.ianhanniballake.contractiontimer.ui.EditFragment this$0 -> a
-    545:557:void onClick(android.view.View) -> onClick
-com.ianhanniballake.contractiontimer.ui.EditFragment$7 -> com.ianhanniballake.contractiontimer.ui.ac:
+    541:553:void onClick(android.view.View) -> onClick
+com.ianhanniballake.contractiontimer.ui.EditFragment$7 -> com.ianhanniballake.contractiontimer.ui.ad:
     com.ianhanniballake.contractiontimer.ui.EditFragment this$0 -> a
-    565:577:void onClick(android.view.View) -> onClick
-com.ianhanniballake.contractiontimer.ui.EditFragment$8 -> com.ianhanniballake.contractiontimer.ui.ad:
+    561:573:void onClick(android.view.View) -> onClick
+com.ianhanniballake.contractiontimer.ui.EditFragment$8 -> com.ianhanniballake.contractiontimer.ui.ae:
     com.ianhanniballake.contractiontimer.ui.EditFragment this$0 -> a
-    585:597:void onClick(android.view.View) -> onClick
-com.ianhanniballake.contractiontimer.ui.EditFragment$9 -> com.ianhanniballake.contractiontimer.ui.ae:
+    581:593:void onClick(android.view.View) -> onClick
+com.ianhanniballake.contractiontimer.ui.EditFragment$9 -> com.ianhanniballake.contractiontimer.ui.af:
     com.ianhanniballake.contractiontimer.ui.EditFragment this$0 -> a
-    605:606:void afterTextChanged(android.text.Editable) -> afterTextChanged
-    613:613:void beforeTextChanged(java.lang.CharSequence,int,int,int) -> beforeTextChanged
-    620:620:void onTextChanged(java.lang.CharSequence,int,int,int) -> onTextChanged
-com.ianhanniballake.contractiontimer.ui.EditFragment$EndTimeOverlapCheck -> com.ianhanniballake.contractiontimer.ui.af:
+    601:602:void afterTextChanged(android.text.Editable) -> afterTextChanged
+    609:609:void beforeTextChanged(java.lang.CharSequence,int,int,int) -> beforeTextChanged
+    616:616:void onTextChanged(java.lang.CharSequence,int,int,int) -> onTextChanged
+com.ianhanniballake.contractiontimer.ui.EditFragment$EndTimeOverlapCheck -> com.ianhanniballake.contractiontimer.ui.ag:
     com.ianhanniballake.contractiontimer.ui.EditFragment this$0 -> a
     60:81:java.lang.Boolean doInBackground(java.lang.Void[]) -> a
-    90:105:void onPostExecute(java.lang.Boolean) -> a
+    90:103:void onPostExecute(java.lang.Boolean) -> a
     1:1:void onPostExecute(java.lang.Object) -> onPostExecute
     1:1:java.lang.Object doInBackground(java.lang.Object[]) -> doInBackground
-com.ianhanniballake.contractiontimer.ui.EditFragment$StartTimeOverlapCheck -> com.ianhanniballake.contractiontimer.ui.ag:
+com.ianhanniballake.contractiontimer.ui.EditFragment$StartTimeOverlapCheck -> com.ianhanniballake.contractiontimer.ui.ah:
     com.ianhanniballake.contractiontimer.ui.EditFragment this$0 -> a
-    117:138:java.lang.Boolean doInBackground(java.lang.Void[]) -> a
-    147:162:void onPostExecute(java.lang.Boolean) -> a
+    115:136:java.lang.Boolean doInBackground(java.lang.Void[]) -> a
+    145:158:void onPostExecute(java.lang.Boolean) -> a
     1:1:void onPostExecute(java.lang.Object) -> onPostExecute
     1:1:java.lang.Object doInBackground(java.lang.Object[]) -> doInBackground
-com.ianhanniballake.contractiontimer.ui.EditFragment$TimeOverlapCheck -> com.ianhanniballake.contractiontimer.ui.ah:
+com.ianhanniballake.contractiontimer.ui.EditFragment$TimeOverlapCheck -> com.ianhanniballake.contractiontimer.ui.ai:
     com.ianhanniballake.contractiontimer.ui.EditFragment this$0 -> a
-    174:197:java.lang.Boolean doInBackground(java.lang.Void[]) -> a
-    206:221:void onPostExecute(java.lang.Boolean) -> a
+    170:193:java.lang.Boolean doInBackground(java.lang.Void[]) -> a
+    202:215:void onPostExecute(java.lang.Boolean) -> a
     1:1:void onPostExecute(java.lang.Object) -> onPostExecute
     1:1:java.lang.Object doInBackground(java.lang.Object[]) -> doInBackground
 com.ianhanniballake.contractiontimer.ui.MainActivity -> com.ianhanniballake.contractiontimer.ui.MainActivity:
@@ -2448,26 +2459,26 @@ com.ianhanniballake.contractiontimer.ui.MainActivity -> com.ianhanniballake.cont
     391:400:void shareAverages() -> j
     407:423:void showFragments() -> k
     1:1:void onLoadFinished(android.support.v4.content.Loader,java.lang.Object) -> a
-com.ianhanniballake.contractiontimer.ui.MainActivity$1 -> com.ianhanniballake.contractiontimer.ui.ai:
+com.ianhanniballake.contractiontimer.ui.MainActivity$1 -> com.ianhanniballake.contractiontimer.ui.aj:
     com.ianhanniballake.contractiontimer.ui.MainActivity this$0 -> a
     65:66:void onReceive(android.content.Context,android.content.Intent) -> onReceive
-com.ianhanniballake.contractiontimer.ui.MainActivity$2 -> com.ianhanniballake.contractiontimer.ui.aj:
+com.ianhanniballake.contractiontimer.ui.MainActivity$2 -> com.ianhanniballake.contractiontimer.ui.ak:
     com.ianhanniballake.contractiontimer.ui.MainActivity this$0 -> j
     115:115:void bindView(android.view.View,android.content.Context,android.database.Cursor) -> a
     121:121:android.view.View newView(android.content.Context,android.database.Cursor,android.view.ViewGroup) -> a
-com.ianhanniballake.contractiontimer.ui.NoteDialogFragment -> com.ianhanniballake.contractiontimer.ui.ak:
+com.ianhanniballake.contractiontimer.ui.NoteDialogFragment -> com.ianhanniballake.contractiontimer.ui.al:
     50:55:void onCancel(android.content.DialogInterface) -> onCancel
     60:75:android.app.Dialog onCreateDialog(android.os.Bundle) -> c
     134:137:void onDismiss(android.content.DialogInterface) -> onDismiss
-com.ianhanniballake.contractiontimer.ui.NoteDialogFragment$1 -> com.ianhanniballake.contractiontimer.ui.al:
+com.ianhanniballake.contractiontimer.ui.NoteDialogFragment$1 -> com.ianhanniballake.contractiontimer.ui.am:
     com.ianhanniballake.contractiontimer.ui.NoteDialogFragment this$0 -> a
     java.lang.String val$existingNote -> b
     long val$contractionId -> c
     android.widget.EditText val$input -> d
     89:108:void onClick(android.content.DialogInterface,int) -> onClick
-com.ianhanniballake.contractiontimer.ui.NoteDialogFragment$1$1 -> com.ianhanniballake.contractiontimer.ui.am:
+com.ianhanniballake.contractiontimer.ui.NoteDialogFragment$1$1 -> com.ianhanniballake.contractiontimer.ui.an:
     com.ianhanniballake.contractiontimer.ui.NoteDialogFragment$1 this$1 -> a
-com.ianhanniballake.contractiontimer.ui.NoteDialogFragment$2 -> com.ianhanniballake.contractiontimer.ui.an:
+com.ianhanniballake.contractiontimer.ui.NoteDialogFragment$2 -> com.ianhanniballake.contractiontimer.ui.ao:
     com.ianhanniballake.contractiontimer.ui.NoteDialogFragment this$0 -> a
     java.lang.String val$existingNote -> b
     121:126:void onClick(android.content.DialogInterface,int) -> onClick
@@ -2481,21 +2492,21 @@ com.ianhanniballake.contractiontimer.ui.Preferences -> com.ianhanniballake.contr
     124:184:void onSharedPreferenceChanged(android.content.SharedPreferences,java.lang.String) -> onSharedPreferenceChanged
     189:193:void onStart() -> onStart
     198:200:void onStop() -> onStop
-com.ianhanniballake.contractiontimer.ui.ResetDialogFragment -> com.ianhanniballake.contractiontimer.ui.ao:
+com.ianhanniballake.contractiontimer.ui.ResetDialogFragment -> com.ianhanniballake.contractiontimer.ui.ap:
     36:38:void onCancel(android.content.DialogInterface) -> onCancel
     43:45:android.app.Dialog onCreateDialog(android.os.Bundle) -> c
     94:97:void onDismiss(android.content.DialogInterface) -> onDismiss
-com.ianhanniballake.contractiontimer.ui.ResetDialogFragment$1 -> com.ianhanniballake.contractiontimer.ui.ap:
+com.ianhanniballake.contractiontimer.ui.ResetDialogFragment$1 -> com.ianhanniballake.contractiontimer.ui.aq:
     com.ianhanniballake.contractiontimer.ui.ResetDialogFragment this$0 -> a
     60:71:void onClick(android.content.DialogInterface,int) -> onClick
-com.ianhanniballake.contractiontimer.ui.ResetDialogFragment$1$1 -> com.ianhanniballake.contractiontimer.ui.aq:
+com.ianhanniballake.contractiontimer.ui.ResetDialogFragment$1$1 -> com.ianhanniballake.contractiontimer.ui.ar:
     com.ianhanniballake.contractiontimer.ui.ResetDialogFragment$1 this$1 -> a
-com.ianhanniballake.contractiontimer.ui.ResetDialogFragment$2 -> com.ianhanniballake.contractiontimer.ui.ar:
+com.ianhanniballake.contractiontimer.ui.ResetDialogFragment$2 -> com.ianhanniballake.contractiontimer.ui.as:
     com.ianhanniballake.contractiontimer.ui.ResetDialogFragment this$0 -> a
     84:86:void onClick(android.content.DialogInterface,int) -> onClick
 com.ianhanniballake.contractiontimer.ui.SafePagerTitleStrip -> com.ianhanniballake.contractiontimer.ui.SafePagerTitleStrip:
     48:61:void onDetachedFromWindow() -> onDetachedFromWindow
-com.ianhanniballake.contractiontimer.ui.TimePickerDialogFragment -> com.ianhanniballake.contractiontimer.ui.as:
+com.ianhanniballake.contractiontimer.ui.TimePickerDialogFragment -> com.ianhanniballake.contractiontimer.ui.at:
     49:56:android.app.Dialog onCreateDialog(android.os.Bundle) -> c
     63:66:void onDismiss(android.content.DialogInterface) -> onDismiss
     72:83:void onTimeSet(android.widget.TimePicker,int,int) -> onTimeSet
@@ -2517,16 +2528,16 @@ com.ianhanniballake.contractiontimer.ui.ViewActivity -> com.ianhanniballake.cont
     1:1:void onLoadFinished(android.support.v4.content.Loader,java.lang.Object) -> a
     80:80:android.support.v4.widget.CursorAdapter access$1(com.ianhanniballake.contractiontimer.ui.ViewActivity) -> a
     84:84:int access$2(com.ianhanniballake.contractiontimer.ui.ViewActivity) -> b
-com.ianhanniballake.contractiontimer.ui.ViewActivity$1 -> com.ianhanniballake.contractiontimer.ui.at:
+com.ianhanniballake.contractiontimer.ui.ViewActivity$1 -> com.ianhanniballake.contractiontimer.ui.au:
     com.ianhanniballake.contractiontimer.ui.ViewActivity this$0 -> j
     108:108:void bindView(android.view.View,android.content.Context,android.database.Cursor) -> a
     114:114:android.view.View newView(android.content.Context,android.database.Cursor,android.view.ViewGroup) -> a
-com.ianhanniballake.contractiontimer.ui.ViewActivity$ViewFragmentPagerAdapter -> com.ianhanniballake.contractiontimer.ui.au:
+com.ianhanniballake.contractiontimer.ui.ViewActivity$ViewFragmentPagerAdapter -> com.ianhanniballake.contractiontimer.ui.av:
     com.ianhanniballake.contractiontimer.ui.ViewActivity this$0 -> a
     56:56:int getCount() -> b
     62:62:android.support.v4.app.Fragment getItem(int) -> a
     68:73:java.lang.CharSequence getPageTitle(int) -> b
-com.ianhanniballake.contractiontimer.ui.ViewFragment -> com.ianhanniballake.contractiontimer.ui.av:
+com.ianhanniballake.contractiontimer.ui.ViewFragment -> com.ianhanniballake.contractiontimer.ui.aw:
     android.support.v4.widget.CursorAdapter adapter -> a
     long contractionId -> b
     android.content.AsyncQueryHandler contractionQueryHandler -> c
@@ -2543,11 +2554,11 @@ com.ianhanniballake.contractiontimer.ui.ViewFragment -> com.ianhanniballake.cont
     1:1:void onLoadFinished(android.support.v4.content.Loader,java.lang.Object) -> a
     77:77:void access$1(com.ianhanniballake.contractiontimer.ui.ViewFragment,java.lang.Boolean) -> a
     77:77:java.lang.Boolean access$2(com.ianhanniballake.contractiontimer.ui.ViewFragment) -> a
-com.ianhanniballake.contractiontimer.ui.ViewFragment$1 -> com.ianhanniballake.contractiontimer.ui.aw:
+com.ianhanniballake.contractiontimer.ui.ViewFragment$1 -> com.ianhanniballake.contractiontimer.ui.ax:
     com.ianhanniballake.contractiontimer.ui.ViewFragment this$0 -> a
     android.content.Context val$applicationContext -> b
     107:112:void onDeleteComplete(int,java.lang.Object,int) -> onDeleteComplete
-com.ianhanniballake.contractiontimer.ui.ViewFragment$2 -> com.ianhanniballake.contractiontimer.ui.ax:
+com.ianhanniballake.contractiontimer.ui.ViewFragment$2 -> com.ianhanniballake.contractiontimer.ui.ay:
     com.ianhanniballake.contractiontimer.ui.ViewFragment this$0 -> j
     120:166:void bindView(android.view.View,android.content.Context,android.database.Cursor) -> a
     173:173:android.view.View newView(android.content.Context,android.database.Cursor,android.view.ViewGroup) -> a
