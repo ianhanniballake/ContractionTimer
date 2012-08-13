@@ -21,6 +21,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -70,41 +71,51 @@ public abstract class ContractionListFragment extends ListFragment implements
 		public void bindView(final View view, final Context context,
 				final Cursor cursor)
 		{
-			final TextView startTimeView = (TextView) view
-					.getTag(R.id.start_time);
+			final Object viewTag = view.getTag();
+			ViewHolder holder;
+			if (viewTag == null)
+			{
+				holder = new ViewHolder();
+				holder.startTime = (TextView) view
+						.findViewById(R.id.start_time);
+				holder.endTime = (TextView) view.findViewById(R.id.end_time);
+				holder.duration = (TextView) view.findViewById(R.id.duration);
+				holder.frequency = (TextView) view.findViewById(R.id.frequency);
+				holder.note = (TextView) view.findViewById(R.id.note);
+				holder.showPopup = (Button) view.findViewById(R.id.show_popup);
+				view.setTag(holder);
+			}
+			else
+				holder = (ViewHolder) viewTag;
 			String timeFormat = "hh:mm:ssaa";
 			if (DateFormat.is24HourFormat(context))
 				timeFormat = "kk:mm:ss";
 			final int startTimeColumnIndex = cursor
 					.getColumnIndex(ContractionContract.Contractions.COLUMN_NAME_START_TIME);
 			final long startTime = cursor.getLong(startTimeColumnIndex);
-			startTimeView.setText(DateFormat.format(timeFormat, startTime));
-			final TextView endTimeView = (TextView) view.getTag(R.id.end_time);
-			final TextView durationView = (TextView) view.getTag(R.id.duration);
+			holder.startTime.setText(DateFormat.format(timeFormat, startTime));
 			final int endTimeColumnIndex = cursor
 					.getColumnIndex(ContractionContract.Contractions.COLUMN_NAME_END_TIME);
 			final boolean isContractionOngoing = cursor
 					.isNull(endTimeColumnIndex);
 			if (isContractionOngoing)
 			{
-				endTimeView.setText(" ");
-				durationView.setText("");
+				holder.endTime.setText(" ");
+				holder.duration.setText("");
 				currentContractionStartTime = startTime;
-				durationView.setTag("durationView");
+				holder.duration.setTag("durationView");
 				liveDurationHandler.removeCallbacks(liveDurationUpdate);
 				liveDurationHandler.post(liveDurationUpdate);
 			}
 			else
 			{
 				final long endTime = cursor.getLong(endTimeColumnIndex);
-				endTimeView.setText(DateFormat.format(timeFormat, endTime));
-				durationView.setTag("");
+				holder.endTime.setText(DateFormat.format(timeFormat, endTime));
+				holder.duration.setTag("");
 				final long durationInSeconds = (endTime - startTime) / 1000;
-				durationView.setText(DateUtils
+				holder.duration.setText(DateUtils
 						.formatElapsedTime(durationInSeconds));
 			}
-			final TextView frequencyView = (TextView) view
-					.getTag(R.id.frequency);
 			// If we aren't the last entry, move to the next (previous in time)
 			// contraction to get its start time to compute the frequency
 			if (!cursor.isLast() && cursor.moveToNext())
@@ -114,23 +125,22 @@ public abstract class ContractionListFragment extends ListFragment implements
 				final long prevContractionStartTime = cursor
 						.getLong(prevContractionStartTimeColumnIndex);
 				final long frequencyInSeconds = (startTime - prevContractionStartTime) / 1000;
-				frequencyView.setText(DateUtils
+				holder.frequency.setText(DateUtils
 						.formatElapsedTime(frequencyInSeconds));
 				// Go back to the previous spot
 				cursor.moveToPrevious();
 			}
 			else
-				frequencyView.setText("");
-			final TextView noteView = (TextView) view.getTag(R.id.note);
+				holder.frequency.setText("");
 			final int noteColumnIndex = cursor
 					.getColumnIndex(ContractionContract.Contractions.COLUMN_NAME_NOTE);
 			final String note = cursor.getString(noteColumnIndex);
-			noteView.setText(note);
+			holder.note.setText(note);
 			if (note.equals(""))
-				noteView.setVisibility(View.GONE);
+				holder.note.setVisibility(View.GONE);
 			else
-				noteView.setVisibility(View.VISIBLE);
-			ContractionListFragment.this.bindView(view, cursor);
+				holder.note.setVisibility(View.VISIBLE);
+			ContractionListFragment.this.bindView(holder, cursor);
 		}
 
 		@Override
@@ -149,6 +159,38 @@ public abstract class ContractionListFragment extends ListFragment implements
 			setupNewView(view);
 			return view;
 		}
+	}
+
+	/**
+	 * Helper class used to store temporary references to list item views
+	 */
+	static class ViewHolder
+	{
+		/**
+		 * TextView representing the duration of the contraction
+		 */
+		TextView duration;
+		/**
+		 * TextView representing the formatted end time of the contraction
+		 */
+		TextView endTime;
+		/**
+		 * TextView representing the frequency of the contraction in relation to
+		 * the previous contraction
+		 */
+		TextView frequency;
+		/**
+		 * TextView representing the note attached to the contraction
+		 */
+		TextView note;
+		/**
+		 * Button to trigger the PopupMenu on v11+ devices
+		 */
+		Button showPopup;
+		/**
+		 * TextView representing the formatted start time of the contraction
+		 */
+		TextView startTime;
 	}
 
 	/**
@@ -234,12 +276,13 @@ public abstract class ContractionListFragment extends ListFragment implements
 	/**
 	 * Do any version specific view binding
 	 * 
-	 * @param view
-	 *            Current view
+	 * @param holder
+	 *            Current holder ViewHolder associated with the current view
 	 * @param cursor
 	 *            Cursor pointing to the current data
 	 */
-	protected abstract void bindView(final View view, final Cursor cursor);
+	protected abstract void bindView(final ViewHolder holder,
+			final Cursor cursor);
 
 	/**
 	 * Deletes a given contraction

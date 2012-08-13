@@ -22,7 +22,7 @@ import com.ianhanniballake.contractiontimer.R;
 public class ContractionListFragmentBase extends ContractionListFragment
 {
 	@Override
-	protected void bindView(final View view, final Cursor cursor)
+	protected void bindView(final ViewHolder holder, final Cursor cursor)
 	{
 		// Nothing to do
 	}
