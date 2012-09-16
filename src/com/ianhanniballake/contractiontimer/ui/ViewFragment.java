@@ -118,7 +118,7 @@ public class ViewFragment extends Fragment implements
 					final Cursor cursor)
 			{
 				final TextView startTimeView = (TextView) view
-						.getTag(R.id.start_time);
+						.findViewById(R.id.start_time);
 				String timeFormat = "hh:mm:ssaa";
 				if (DateFormat.is24HourFormat(context))
 					timeFormat = "kk:mm:ss";
@@ -127,16 +127,16 @@ public class ViewFragment extends Fragment implements
 				final long startTime = cursor.getLong(startTimeColumnIndex);
 				startTimeView.setText(DateFormat.format(timeFormat, startTime));
 				final TextView startDateView = (TextView) view
-						.getTag(R.id.start_date);
+						.findViewById(R.id.start_date);
 				final Date startDate = new Date(startTime);
 				startDateView.setText(DateFormat.getDateFormat(getActivity())
 						.format(startDate));
 				final TextView endTimeView = (TextView) view
-						.getTag(R.id.end_time);
+						.findViewById(R.id.end_time);
 				final TextView endDateView = (TextView) view
-						.getTag(R.id.end_date);
+						.findViewById(R.id.end_date);
 				final TextView durationView = (TextView) view
-						.getTag(R.id.duration);
+						.findViewById(R.id.duration);
 				final int endTimeColumnIndex = cursor
 						.getColumnIndex(ContractionContract.Contractions.COLUMN_NAME_END_TIME);
 				isContractionOngoing = cursor.isNull(endTimeColumnIndex);
@@ -158,7 +158,8 @@ public class ViewFragment extends Fragment implements
 							.formatElapsedTime(durationInSeconds));
 				}
 				getActivity().supportInvalidateOptionsMenu();
-				final TextView noteView = (TextView) view.getTag(R.id.note);
+				final TextView noteView = (TextView) view
+						.findViewById(R.id.note);
 				final int noteColumnIndex = cursor
 						.getColumnIndex(ContractionContract.Contractions.COLUMN_NAME_NOTE);
 				final String note = cursor.getString(noteColumnIndex);
@@ -209,15 +210,7 @@ public class ViewFragment extends Fragment implements
 	public View onCreateView(final LayoutInflater inflater,
 			final ViewGroup container, final Bundle savedInstanceState)
 	{
-		final View view = inflater.inflate(R.layout.fragment_view, container,
-				false);
-		view.setTag(R.id.start_time, view.findViewById(R.id.start_time));
-		view.setTag(R.id.start_date, view.findViewById(R.id.start_date));
-		view.setTag(R.id.end_time, view.findViewById(R.id.end_time));
-		view.setTag(R.id.end_date, view.findViewById(R.id.end_date));
-		view.setTag(R.id.duration, view.findViewById(R.id.duration));
-		view.setTag(R.id.note, view.findViewById(R.id.note));
-		return view;
+		return inflater.inflate(R.layout.fragment_view, container, false);
 	}
 
 	@Override
