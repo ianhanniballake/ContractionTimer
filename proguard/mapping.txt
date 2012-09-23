@@ -1986,7 +1986,7 @@ com.google.android.gms.analytics.internal.IAnalyticsService$Stub$Proxy -> com.go
     102:117:void sendHit(java.util.Map,long,java.lang.String,java.util.List) -> a
     123:134:void clearHits() -> a
 com.ianhanniballake.contractiontimer.ContractionTimerApplication -> com.ianhanniballake.contractiontimer.ContractionTimerApplication:
-    34:59:void onCreate() -> onCreate
+    33:58:void onCreate() -> onCreate
 com.ianhanniballake.contractiontimer.actionbar.ActionBarFragmentActivity -> com.ianhanniballake.contractiontimer.a.a:
     com.ianhanniballake.contractiontimer.actionbar.ActionBarHelper mActionBarHelper -> m
     29:29:com.ianhanniballake.contractiontimer.actionbar.ActionBarHelper getActionBarHelper() -> g
@@ -2260,86 +2260,79 @@ com.ianhanniballake.contractiontimer.ui.ContractionListFragment -> com.ianhannib
     java.lang.Runnable liveDurationUpdate -> aa
     android.os.Handler timeSinceLastHandler -> ab
     java.lang.Runnable timeSinceLastUpdate -> ac
-    void bindView(com.ianhanniballake.contractiontimer.ui.ContractionListFragment$ViewHolder,android.database.Cursor) -> a
-    296:307:void deleteContraction(long) -> a
-    312:333:void onActivityCreated(android.os.Bundle) -> d
-    338:338:android.support.v4.content.Loader onCreateLoader(int,android.os.Bundle) -> a
-    346:346:android.view.View onCreateView(android.view.LayoutInflater,android.view.ViewGroup,android.os.Bundle) -> a
-    353:355:void onLoaderReset(android.support.v4.content.Loader) -> a
-    360:385:void onLoadFinished(android.support.v4.content.Loader,android.database.Cursor) -> a
-    390:393:void onPause() -> q
-    398:417:void onResume() -> p
-    422:429:void setEmptyText(java.lang.CharSequence) -> a
+    void bindView(android.view.View,android.database.Cursor) -> a
+    248:259:void deleteContraction(long) -> a
+    264:285:void onActivityCreated(android.os.Bundle) -> d
+    290:290:android.support.v4.content.Loader onCreateLoader(int,android.os.Bundle) -> a
+    298:298:android.view.View onCreateView(android.view.LayoutInflater,android.view.ViewGroup,android.os.Bundle) -> a
+    305:307:void onLoaderReset(android.support.v4.content.Loader) -> a
+    312:337:void onLoadFinished(android.support.v4.content.Loader,android.database.Cursor) -> a
+    342:345:void onPause() -> q
+    350:369:void onResume() -> p
+    374:381:void setEmptyText(java.lang.CharSequence) -> a
     void setupListView() -> y
     void setupNewView(android.view.View) -> b
-    456:469:void showNoteDialog(long,java.lang.String) -> a
-    480:486:void viewContraction(long) -> b
+    408:421:void showNoteDialog(long,java.lang.String) -> a
+    432:438:void viewContraction(long) -> b
     1:1:void onLoadFinished(android.support.v4.content.Loader,java.lang.Object) -> a
-    207:207:long access$1(com.ianhanniballake.contractiontimer.ui.ContractionListFragment) -> a
-    215:215:android.os.Handler access$2(com.ianhanniballake.contractiontimer.ui.ContractionListFragment) -> b
-    211:211:android.view.View access$3(com.ianhanniballake.contractiontimer.ui.ContractionListFragment) -> c
-    246:246:android.os.Handler access$4(com.ianhanniballake.contractiontimer.ui.ContractionListFragment) -> d
-    207:207:void access$5(com.ianhanniballake.contractiontimer.ui.ContractionListFragment,long) -> a
-    219:219:java.lang.Runnable access$6(com.ianhanniballake.contractiontimer.ui.ContractionListFragment) -> e
+    160:160:long access$1(com.ianhanniballake.contractiontimer.ui.ContractionListFragment) -> a
+    168:168:android.os.Handler access$2(com.ianhanniballake.contractiontimer.ui.ContractionListFragment) -> b
+    164:164:android.view.View access$3(com.ianhanniballake.contractiontimer.ui.ContractionListFragment) -> c
+    199:199:android.os.Handler access$4(com.ianhanniballake.contractiontimer.ui.ContractionListFragment) -> d
+    160:160:void access$5(com.ianhanniballake.contractiontimer.ui.ContractionListFragment,long) -> a
+    172:172:java.lang.Runnable access$6(com.ianhanniballake.contractiontimer.ui.ContractionListFragment) -> e
 com.ianhanniballake.contractiontimer.ui.ContractionListFragment$1 -> com.ianhanniballake.contractiontimer.ui.i:
     com.ianhanniballake.contractiontimer.ui.ContractionListFragment this$0 -> a
-    228:241:void run() -> run
+    181:194:void run() -> run
 com.ianhanniballake.contractiontimer.ui.ContractionListFragment$2 -> com.ianhanniballake.contractiontimer.ui.j:
     com.ianhanniballake.contractiontimer.ui.ContractionListFragment this$0 -> a
-    259:273:void run() -> run
+    212:226:void run() -> run
 com.ianhanniballake.contractiontimer.ui.ContractionListFragment$3 -> com.ianhanniballake.contractiontimer.ui.k:
     com.ianhanniballake.contractiontimer.ui.ContractionListFragment this$0 -> a
 com.ianhanniballake.contractiontimer.ui.ContractionListFragment$4 -> com.ianhanniballake.contractiontimer.ui.l:
     com.ianhanniballake.contractiontimer.ui.ContractionListFragment this$0 -> a
-    329:330:void onItemClick(android.widget.AdapterView,android.view.View,int,long) -> onItemClick
+    281:282:void onItemClick(android.widget.AdapterView,android.view.View,int,long) -> onItemClick
 com.ianhanniballake.contractiontimer.ui.ContractionListFragment$ContractionListCursorAdapter -> com.ianhanniballake.contractiontimer.ui.m:
     android.view.LayoutInflater inflater -> k
     com.ianhanniballake.contractiontimer.ui.ContractionListFragment this$0 -> j
-    74:144:void bindView(android.view.View,android.content.Context,android.database.Cursor) -> a
-    150:160:android.view.View newView(android.content.Context,android.database.Cursor,android.view.ViewGroup) -> a
-com.ianhanniballake.contractiontimer.ui.ContractionListFragment$ViewHolder -> com.ianhanniballake.contractiontimer.ui.n:
-    android.widget.TextView duration -> a
-    android.widget.TextView endTime -> b
-    android.widget.TextView frequency -> c
-    android.widget.TextView note -> d
-    android.widget.Button showPopup -> e
-    android.widget.TextView startTime -> f
-com.ianhanniballake.contractiontimer.ui.ContractionListFragmentBase -> com.ianhanniballake.contractiontimer.ui.o:
-    28:28:void bindView(com.ianhanniballake.contractiontimer.ui.ContractionListFragment$ViewHolder,android.database.Cursor) -> a
+    73:136:void bindView(android.view.View,android.content.Context,android.database.Cursor) -> a
+    142:145:android.view.View newView(android.content.Context,android.database.Cursor,android.view.ViewGroup) -> a
+com.ianhanniballake.contractiontimer.ui.ContractionListFragmentBase -> com.ianhanniballake.contractiontimer.ui.n:
+    28:28:void bindView(android.view.View,android.database.Cursor) -> a
     33:67:boolean onContextItemSelected(android.view.MenuItem) -> b
     75:94:void onCreateContextMenu(android.view.ContextMenu,android.view.View,android.view.ContextMenu$ContextMenuInfo) -> onCreateContextMenu
     102:105:void setupListView() -> y
     111:111:void setupNewView(android.view.View) -> b
-com.ianhanniballake.contractiontimer.ui.ContractionListFragmentV11 -> com.ianhanniballake.contractiontimer.ui.p:
+com.ianhanniballake.contractiontimer.ui.ContractionListFragmentV11 -> com.ianhanniballake.contractiontimer.ui.o:
     java.lang.String selectedItemNote -> i
-    62:80:void bindView(com.ianhanniballake.contractiontimer.ui.ContractionListFragment$ViewHolder,android.database.Cursor) -> a
-    85:89:void onActivityCreated(android.os.Bundle) -> d
-    94:153:void onClick(android.view.View) -> onClick
-    158:161:void onSaveInstanceState(android.os.Bundle) -> e
-    170:320:void setupListView() -> y
-    325:328:void setupNewView(android.view.View) -> b
+    62:81:void bindView(android.view.View,android.database.Cursor) -> a
+    86:90:void onActivityCreated(android.os.Bundle) -> d
+    95:154:void onClick(android.view.View) -> onClick
+    159:162:void onSaveInstanceState(android.os.Bundle) -> e
+    171:321:void setupListView() -> y
+    326:328:void setupNewView(android.view.View) -> b
     57:57:void access$0(com.ianhanniballake.contractiontimer.ui.ContractionListFragmentV11,java.lang.String) -> a
     57:57:java.lang.String access$1(com.ianhanniballake.contractiontimer.ui.ContractionListFragmentV11) -> a
-com.ianhanniballake.contractiontimer.ui.ContractionListFragmentV11$1 -> com.ianhanniballake.contractiontimer.ui.q:
+com.ianhanniballake.contractiontimer.ui.ContractionListFragmentV11$1 -> com.ianhanniballake.contractiontimer.ui.p:
     com.ianhanniballake.contractiontimer.ui.ContractionListFragmentV11 this$0 -> a
     com.ianhanniballake.contractiontimer.ui.ContractionListFragmentV11$PopupHolder val$popupHolder -> b
-    113:148:boolean onMenuItemClick(android.view.MenuItem) -> onMenuItemClick
-com.ianhanniballake.contractiontimer.ui.ContractionListFragmentV11$2 -> com.ianhanniballake.contractiontimer.ui.r:
+    114:149:boolean onMenuItemClick(android.view.MenuItem) -> onMenuItemClick
+com.ianhanniballake.contractiontimer.ui.ContractionListFragmentV11$2 -> com.ianhanniballake.contractiontimer.ui.q:
     com.ianhanniballake.contractiontimer.ui.ContractionListFragmentV11 this$0 -> a
     android.widget.ListView val$listView -> b
-    179:225:boolean onActionItemClicked(android.view.ActionMode,android.view.MenuItem) -> onActionItemClicked
-    233:235:boolean onCreateActionMode(android.view.ActionMode,android.view.Menu) -> onCreateActionMode
-    242:242:void onDestroyActionMode(android.view.ActionMode) -> onDestroyActionMode
-    248:265:void onItemCheckedStateChanged(android.view.ActionMode,int,long,boolean) -> onItemCheckedStateChanged
-    271:316:boolean onPrepareActionMode(android.view.ActionMode,android.view.Menu) -> onPrepareActionMode
-com.ianhanniballake.contractiontimer.ui.ContractionListFragmentV11$2$1 -> com.ianhanniballake.contractiontimer.ui.s:
+    180:226:boolean onActionItemClicked(android.view.ActionMode,android.view.MenuItem) -> onActionItemClicked
+    234:236:boolean onCreateActionMode(android.view.ActionMode,android.view.Menu) -> onCreateActionMode
+    243:243:void onDestroyActionMode(android.view.ActionMode) -> onDestroyActionMode
+    249:266:void onItemCheckedStateChanged(android.view.ActionMode,int,long,boolean) -> onItemCheckedStateChanged
+    272:317:boolean onPrepareActionMode(android.view.ActionMode,android.view.Menu) -> onPrepareActionMode
+com.ianhanniballake.contractiontimer.ui.ContractionListFragmentV11$2$1 -> com.ianhanniballake.contractiontimer.ui.r:
     com.ianhanniballake.contractiontimer.ui.ContractionListFragmentV11$2 this$1 -> a
     android.view.ActionMode val$mode -> b
-    262:263:void run() -> run
-com.ianhanniballake.contractiontimer.ui.ContractionListFragmentV11$PopupHolder -> com.ianhanniballake.contractiontimer.ui.t:
+    263:264:void run() -> run
+com.ianhanniballake.contractiontimer.ui.ContractionListFragmentV11$PopupHolder -> com.ianhanniballake.contractiontimer.ui.s:
     java.lang.String existingNote -> a
     long id -> b
-com.ianhanniballake.contractiontimer.ui.DatePickerDialogFragment -> com.ianhanniballake.contractiontimer.ui.u:
+com.ianhanniballake.contractiontimer.ui.DatePickerDialogFragment -> com.ianhanniballake.contractiontimer.ui.t:
     52:58:android.app.Dialog onCreateDialog(android.os.Bundle) -> c
     65:78:void onDateSet(android.widget.DatePicker,int,int,int) -> onDateSet
     84:87:void onDismiss(android.content.DialogInterface) -> onDismiss
@@ -2351,10 +2344,10 @@ com.ianhanniballake.contractiontimer.ui.EditActivity -> com.ianhanniballake.cont
     102:118:void onStart() -> onStart
     123:129:void onStop() -> onStop
     136:144:void showFragment() -> h
-com.ianhanniballake.contractiontimer.ui.EditActivity$1 -> com.ianhanniballake.contractiontimer.ui.v:
+com.ianhanniballake.contractiontimer.ui.EditActivity$1 -> com.ianhanniballake.contractiontimer.ui.u:
     com.ianhanniballake.contractiontimer.ui.EditActivity this$0 -> a
     36:40:void onReceive(android.content.Context,android.content.Intent) -> onReceive
-com.ianhanniballake.contractiontimer.ui.EditFragment -> com.ianhanniballake.contractiontimer.ui.w:
+com.ianhanniballake.contractiontimer.ui.EditFragment -> com.ianhanniballake.contractiontimer.ui.v:
     android.support.v4.widget.CursorAdapter adapter -> a
     android.content.AsyncQueryHandler contractionQueryHandler -> b
     android.content.BroadcastReceiver dateSetBroadcastReceiver -> c
@@ -2372,18 +2365,18 @@ com.ianhanniballake.contractiontimer.ui.EditFragment -> com.ianhanniballake.cont
     387:469:void onActivityCreated(android.os.Bundle) -> d
     474:474:android.support.v4.content.Loader onCreateLoader(int,android.os.Bundle) -> a
     481:493:void onCreateOptionsMenu(android.view.Menu,android.view.MenuInflater) -> a
-    499:618:android.view.View onCreateView(android.view.LayoutInflater,android.view.ViewGroup,android.os.Bundle) -> a
-    624:625:void onLoaderReset(android.support.v4.content.Loader) -> a
-    630:636:void onLoadFinished(android.support.v4.content.Loader,android.database.Cursor) -> a
-    641:670:boolean onOptionsItemSelected(android.view.MenuItem) -> a
-    677:685:void onSaveInstanceState(android.os.Bundle) -> e
-    690:703:void onStart() -> c
-    708:713:void onStop() -> d
-    720:773:void updateViews() -> A
+    499:608:android.view.View onCreateView(android.view.LayoutInflater,android.view.ViewGroup,android.os.Bundle) -> a
+    614:615:void onLoaderReset(android.support.v4.content.Loader) -> a
+    620:626:void onLoadFinished(android.support.v4.content.Loader,android.database.Cursor) -> a
+    631:660:boolean onOptionsItemSelected(android.view.MenuItem) -> a
+    667:675:void onSaveInstanceState(android.os.Bundle) -> e
+    680:693:void onStart() -> c
+    698:703:void onStop() -> d
+    710:768:void updateViews() -> A
     1:1:void onLoadFinished(android.support.v4.content.Loader,java.lang.Object) -> a
     299:299:java.util.Calendar access$1(com.ianhanniballake.contractiontimer.ui.EditFragment) -> a
     287:287:java.util.Calendar access$2(com.ianhanniballake.contractiontimer.ui.EditFragment) -> b
-    718:718:void access$3(com.ianhanniballake.contractiontimer.ui.EditFragment) -> c
+    708:708:void access$3(com.ianhanniballake.contractiontimer.ui.EditFragment) -> c
     377:377:android.view.View access$4(com.ianhanniballake.contractiontimer.ui.EditFragment) -> d
     293:293:void access$5(com.ianhanniballake.contractiontimer.ui.EditFragment,boolean) -> a
     294:294:void access$6(com.ianhanniballake.contractiontimer.ui.EditFragment,boolean) -> b
@@ -2391,51 +2384,51 @@ com.ianhanniballake.contractiontimer.ui.EditFragment -> com.ianhanniballake.cont
     299:299:void access$8(com.ianhanniballake.contractiontimer.ui.EditFragment,java.util.Calendar) -> a
     287:287:void access$9(com.ianhanniballake.contractiontimer.ui.EditFragment,java.util.Calendar) -> b
     291:291:void access$10(com.ianhanniballake.contractiontimer.ui.EditFragment,java.lang.String) -> a
-com.ianhanniballake.contractiontimer.ui.EditFragment$1 -> com.ianhanniballake.contractiontimer.ui.x:
+com.ianhanniballake.contractiontimer.ui.EditFragment$1 -> com.ianhanniballake.contractiontimer.ui.w:
     com.ianhanniballake.contractiontimer.ui.EditFragment this$0 -> a
     251:282:void onReceive(android.content.Context,android.content.Intent) -> onReceive
-com.ianhanniballake.contractiontimer.ui.EditFragment$2 -> com.ianhanniballake.contractiontimer.ui.y:
+com.ianhanniballake.contractiontimer.ui.EditFragment$2 -> com.ianhanniballake.contractiontimer.ui.x:
     com.ianhanniballake.contractiontimer.ui.EditFragment this$0 -> a
     309:339:void onReceive(android.content.Context,android.content.Intent) -> onReceive
-com.ianhanniballake.contractiontimer.ui.EditFragment$3 -> com.ianhanniballake.contractiontimer.ui.z:
+com.ianhanniballake.contractiontimer.ui.EditFragment$3 -> com.ianhanniballake.contractiontimer.ui.y:
     com.ianhanniballake.contractiontimer.ui.EditFragment this$0 -> a
     android.content.Context val$applicationContext -> b
     398:403:void onInsertComplete(int,java.lang.Object,android.net.Uri) -> onInsertComplete
     409:414:void onUpdateComplete(int,java.lang.Object,int) -> onUpdateComplete
-com.ianhanniballake.contractiontimer.ui.EditFragment$4 -> com.ianhanniballake.contractiontimer.ui.aa:
+com.ianhanniballake.contractiontimer.ui.EditFragment$4 -> com.ianhanniballake.contractiontimer.ui.z:
     com.ianhanniballake.contractiontimer.ui.EditFragment this$0 -> j
     422:438:void bindView(android.view.View,android.content.Context,android.database.Cursor) -> a
     445:445:android.view.View newView(android.content.Context,android.database.Cursor,android.view.ViewGroup) -> a
-com.ianhanniballake.contractiontimer.ui.EditFragment$5 -> com.ianhanniballake.contractiontimer.ui.ab:
+com.ianhanniballake.contractiontimer.ui.EditFragment$5 -> com.ianhanniballake.contractiontimer.ui.aa:
     com.ianhanniballake.contractiontimer.ui.EditFragment this$0 -> a
-    521:533:void onClick(android.view.View) -> onClick
-com.ianhanniballake.contractiontimer.ui.EditFragment$6 -> com.ianhanniballake.contractiontimer.ui.ac:
+    508:520:void onClick(android.view.View) -> onClick
+com.ianhanniballake.contractiontimer.ui.EditFragment$6 -> com.ianhanniballake.contractiontimer.ui.ab:
     com.ianhanniballake.contractiontimer.ui.EditFragment this$0 -> a
-    541:553:void onClick(android.view.View) -> onClick
-com.ianhanniballake.contractiontimer.ui.EditFragment$7 -> com.ianhanniballake.contractiontimer.ui.ad:
+    529:541:void onClick(android.view.View) -> onClick
+com.ianhanniballake.contractiontimer.ui.EditFragment$7 -> com.ianhanniballake.contractiontimer.ui.ac:
     com.ianhanniballake.contractiontimer.ui.EditFragment this$0 -> a
-    561:573:void onClick(android.view.View) -> onClick
-com.ianhanniballake.contractiontimer.ui.EditFragment$8 -> com.ianhanniballake.contractiontimer.ui.ae:
+    550:562:void onClick(android.view.View) -> onClick
+com.ianhanniballake.contractiontimer.ui.EditFragment$8 -> com.ianhanniballake.contractiontimer.ui.ad:
     com.ianhanniballake.contractiontimer.ui.EditFragment this$0 -> a
-    581:593:void onClick(android.view.View) -> onClick
-com.ianhanniballake.contractiontimer.ui.EditFragment$9 -> com.ianhanniballake.contractiontimer.ui.af:
+    571:583:void onClick(android.view.View) -> onClick
+com.ianhanniballake.contractiontimer.ui.EditFragment$9 -> com.ianhanniballake.contractiontimer.ui.ae:
     com.ianhanniballake.contractiontimer.ui.EditFragment this$0 -> a
-    601:602:void afterTextChanged(android.text.Editable) -> afterTextChanged
-    609:609:void beforeTextChanged(java.lang.CharSequence,int,int,int) -> beforeTextChanged
-    616:616:void onTextChanged(java.lang.CharSequence,int,int,int) -> onTextChanged
-com.ianhanniballake.contractiontimer.ui.EditFragment$EndTimeOverlapCheck -> com.ianhanniballake.contractiontimer.ui.ag:
+    591:592:void afterTextChanged(android.text.Editable) -> afterTextChanged
+    599:599:void beforeTextChanged(java.lang.CharSequence,int,int,int) -> beforeTextChanged
+    606:606:void onTextChanged(java.lang.CharSequence,int,int,int) -> onTextChanged
+com.ianhanniballake.contractiontimer.ui.EditFragment$EndTimeOverlapCheck -> com.ianhanniballake.contractiontimer.ui.af:
     com.ianhanniballake.contractiontimer.ui.EditFragment this$0 -> a
     60:81:java.lang.Boolean doInBackground(java.lang.Void[]) -> a
     90:103:void onPostExecute(java.lang.Boolean) -> a
     1:1:void onPostExecute(java.lang.Object) -> onPostExecute
     1:1:java.lang.Object doInBackground(java.lang.Object[]) -> doInBackground
-com.ianhanniballake.contractiontimer.ui.EditFragment$StartTimeOverlapCheck -> com.ianhanniballake.contractiontimer.ui.ah:
+com.ianhanniballake.contractiontimer.ui.EditFragment$StartTimeOverlapCheck -> com.ianhanniballake.contractiontimer.ui.ag:
     com.ianhanniballake.contractiontimer.ui.EditFragment this$0 -> a
     115:136:java.lang.Boolean doInBackground(java.lang.Void[]) -> a
     145:158:void onPostExecute(java.lang.Boolean) -> a
     1:1:void onPostExecute(java.lang.Object) -> onPostExecute
     1:1:java.lang.Object doInBackground(java.lang.Object[]) -> doInBackground
-com.ianhanniballake.contractiontimer.ui.EditFragment$TimeOverlapCheck -> com.ianhanniballake.contractiontimer.ui.ai:
+com.ianhanniballake.contractiontimer.ui.EditFragment$TimeOverlapCheck -> com.ianhanniballake.contractiontimer.ui.ah:
     com.ianhanniballake.contractiontimer.ui.EditFragment this$0 -> a
     170:193:java.lang.Boolean doInBackground(java.lang.Void[]) -> a
     202:215:void onPostExecute(java.lang.Boolean) -> a
@@ -2459,26 +2452,26 @@ com.ianhanniballake.contractiontimer.ui.MainActivity -> com.ianhanniballake.cont
     391:400:void shareAverages() -> j
     407:423:void showFragments() -> k
     1:1:void onLoadFinished(android.support.v4.content.Loader,java.lang.Object) -> a
-com.ianhanniballake.contractiontimer.ui.MainActivity$1 -> com.ianhanniballake.contractiontimer.ui.aj:
+com.ianhanniballake.contractiontimer.ui.MainActivity$1 -> com.ianhanniballake.contractiontimer.ui.ai:
     com.ianhanniballake.contractiontimer.ui.MainActivity this$0 -> a
     65:66:void onReceive(android.content.Context,android.content.Intent) -> onReceive
-com.ianhanniballake.contractiontimer.ui.MainActivity$2 -> com.ianhanniballake.contractiontimer.ui.ak:
+com.ianhanniballake.contractiontimer.ui.MainActivity$2 -> com.ianhanniballake.contractiontimer.ui.aj:
     com.ianhanniballake.contractiontimer.ui.MainActivity this$0 -> j
     115:115:void bindView(android.view.View,android.content.Context,android.database.Cursor) -> a
     121:121:android.view.View newView(android.content.Context,android.database.Cursor,android.view.ViewGroup) -> a
-com.ianhanniballake.contractiontimer.ui.NoteDialogFragment -> com.ianhanniballake.contractiontimer.ui.al:
+com.ianhanniballake.contractiontimer.ui.NoteDialogFragment -> com.ianhanniballake.contractiontimer.ui.ak:
     50:55:void onCancel(android.content.DialogInterface) -> onCancel
     60:75:android.app.Dialog onCreateDialog(android.os.Bundle) -> c
     134:137:void onDismiss(android.content.DialogInterface) -> onDismiss
-com.ianhanniballake.contractiontimer.ui.NoteDialogFragment$1 -> com.ianhanniballake.contractiontimer.ui.am:
+com.ianhanniballake.contractiontimer.ui.NoteDialogFragment$1 -> com.ianhanniballake.contractiontimer.ui.al:
     com.ianhanniballake.contractiontimer.ui.NoteDialogFragment this$0 -> a
     java.lang.String val$existingNote -> b
     long val$contractionId -> c
     android.widget.EditText val$input -> d
     89:108:void onClick(android.content.DialogInterface,int) -> onClick
-com.ianhanniballake.contractiontimer.ui.NoteDialogFragment$1$1 -> com.ianhanniballake.contractiontimer.ui.an:
+com.ianhanniballake.contractiontimer.ui.NoteDialogFragment$1$1 -> com.ianhanniballake.contractiontimer.ui.am:
     com.ianhanniballake.contractiontimer.ui.NoteDialogFragment$1 this$1 -> a
-com.ianhanniballake.contractiontimer.ui.NoteDialogFragment$2 -> com.ianhanniballake.contractiontimer.ui.ao:
+com.ianhanniballake.contractiontimer.ui.NoteDialogFragment$2 -> com.ianhanniballake.contractiontimer.ui.an:
     com.ianhanniballake.contractiontimer.ui.NoteDialogFragment this$0 -> a
     java.lang.String val$existingNote -> b
     121:126:void onClick(android.content.DialogInterface,int) -> onClick
@@ -2492,21 +2485,21 @@ com.ianhanniballake.contractiontimer.ui.Preferences -> com.ianhanniballake.contr
     124:184:void onSharedPreferenceChanged(android.content.SharedPreferences,java.lang.String) -> onSharedPreferenceChanged
     189:193:void onStart() -> onStart
     198:200:void onStop() -> onStop
-com.ianhanniballake.contractiontimer.ui.ResetDialogFragment -> com.ianhanniballake.contractiontimer.ui.ap:
+com.ianhanniballake.contractiontimer.ui.ResetDialogFragment -> com.ianhanniballake.contractiontimer.ui.ao:
     36:38:void onCancel(android.content.DialogInterface) -> onCancel
     43:45:android.app.Dialog onCreateDialog(android.os.Bundle) -> c
     94:97:void onDismiss(android.content.DialogInterface) -> onDismiss
-com.ianhanniballake.contractiontimer.ui.ResetDialogFragment$1 -> com.ianhanniballake.contractiontimer.ui.aq:
+com.ianhanniballake.contractiontimer.ui.ResetDialogFragment$1 -> com.ianhanniballake.contractiontimer.ui.ap:
     com.ianhanniballake.contractiontimer.ui.ResetDialogFragment this$0 -> a
     60:71:void onClick(android.content.DialogInterface,int) -> onClick
-com.ianhanniballake.contractiontimer.ui.ResetDialogFragment$1$1 -> com.ianhanniballake.contractiontimer.ui.ar:
+com.ianhanniballake.contractiontimer.ui.ResetDialogFragment$1$1 -> com.ianhanniballake.contractiontimer.ui.aq:
     com.ianhanniballake.contractiontimer.ui.ResetDialogFragment$1 this$1 -> a
-com.ianhanniballake.contractiontimer.ui.ResetDialogFragment$2 -> com.ianhanniballake.contractiontimer.ui.as:
+com.ianhanniballake.contractiontimer.ui.ResetDialogFragment$2 -> com.ianhanniballake.contractiontimer.ui.ar:
     com.ianhanniballake.contractiontimer.ui.ResetDialogFragment this$0 -> a
     84:86:void onClick(android.content.DialogInterface,int) -> onClick
 com.ianhanniballake.contractiontimer.ui.SafePagerTitleStrip -> com.ianhanniballake.contractiontimer.ui.SafePagerTitleStrip:
     48:61:void onDetachedFromWindow() -> onDetachedFromWindow
-com.ianhanniballake.contractiontimer.ui.TimePickerDialogFragment -> com.ianhanniballake.contractiontimer.ui.at:
+com.ianhanniballake.contractiontimer.ui.TimePickerDialogFragment -> com.ianhanniballake.contractiontimer.ui.as:
     49:56:android.app.Dialog onCreateDialog(android.os.Bundle) -> c
     63:66:void onDismiss(android.content.DialogInterface) -> onDismiss
     72:83:void onTimeSet(android.widget.TimePicker,int,int) -> onTimeSet
@@ -2528,197 +2521,234 @@ com.ianhanniballake.contractiontimer.ui.ViewActivity -> com.ianhanniballake.cont
     1:1:void onLoadFinished(android.support.v4.content.Loader,java.lang.Object) -> a
     80:80:android.support.v4.widget.CursorAdapter access$1(com.ianhanniballake.contractiontimer.ui.ViewActivity) -> a
     84:84:int access$2(com.ianhanniballake.contractiontimer.ui.ViewActivity) -> b
-com.ianhanniballake.contractiontimer.ui.ViewActivity$1 -> com.ianhanniballake.contractiontimer.ui.au:
+com.ianhanniballake.contractiontimer.ui.ViewActivity$1 -> com.ianhanniballake.contractiontimer.ui.at:
     com.ianhanniballake.contractiontimer.ui.ViewActivity this$0 -> j
     108:108:void bindView(android.view.View,android.content.Context,android.database.Cursor) -> a
     114:114:android.view.View newView(android.content.Context,android.database.Cursor,android.view.ViewGroup) -> a
-com.ianhanniballake.contractiontimer.ui.ViewActivity$ViewFragmentPagerAdapter -> com.ianhanniballake.contractiontimer.ui.av:
+com.ianhanniballake.contractiontimer.ui.ViewActivity$ViewFragmentPagerAdapter -> com.ianhanniballake.contractiontimer.ui.au:
     com.ianhanniballake.contractiontimer.ui.ViewActivity this$0 -> a
     56:56:int getCount() -> b
     62:62:android.support.v4.app.Fragment getItem(int) -> a
     68:73:java.lang.CharSequence getPageTitle(int) -> b
-com.ianhanniballake.contractiontimer.ui.ViewFragment -> com.ianhanniballake.contractiontimer.ui.aw:
+com.ianhanniballake.contractiontimer.ui.ViewFragment -> com.ianhanniballake.contractiontimer.ui.av:
     android.support.v4.widget.CursorAdapter adapter -> a
     long contractionId -> b
     android.content.AsyncQueryHandler contractionQueryHandler -> c
     java.lang.Boolean isContractionOngoing -> d
     53:57:com.ianhanniballake.contractiontimer.ui.ViewFragment createInstance(long) -> a
     88:89:android.view.View getFragmentView() -> a
-    96:182:void onActivityCreated(android.os.Bundle) -> d
-    188:190:android.support.v4.content.Loader onCreateLoader(int,android.os.Bundle) -> a
-    197:206:void onCreateOptionsMenu(android.view.Menu,android.view.MenuInflater) -> a
-    212:220:android.view.View onCreateView(android.view.LayoutInflater,android.view.ViewGroup,android.os.Bundle) -> a
-    226:227:void onLoaderReset(android.support.v4.content.Loader) -> a
-    232:236:void onLoadFinished(android.support.v4.content.Loader,android.database.Cursor) -> a
-    242:268:boolean onOptionsItemSelected(android.view.MenuItem) -> a
+    96:183:void onActivityCreated(android.os.Bundle) -> d
+    189:191:android.support.v4.content.Loader onCreateLoader(int,android.os.Bundle) -> a
+    198:207:void onCreateOptionsMenu(android.view.Menu,android.view.MenuInflater) -> a
+    213:213:android.view.View onCreateView(android.view.LayoutInflater,android.view.ViewGroup,android.os.Bundle) -> a
+    219:220:void onLoaderReset(android.support.v4.content.Loader) -> a
+    225:229:void onLoadFinished(android.support.v4.content.Loader,android.database.Cursor) -> a
+    235:261:boolean onOptionsItemSelected(android.view.MenuItem) -> a
     1:1:void onLoadFinished(android.support.v4.content.Loader,java.lang.Object) -> a
     77:77:void access$1(com.ianhanniballake.contractiontimer.ui.ViewFragment,java.lang.Boolean) -> a
     77:77:java.lang.Boolean access$2(com.ianhanniballake.contractiontimer.ui.ViewFragment) -> a
-com.ianhanniballake.contractiontimer.ui.ViewFragment$1 -> com.ianhanniballake.contractiontimer.ui.ax:
+com.ianhanniballake.contractiontimer.ui.ViewFragment$1 -> com.ianhanniballake.contractiontimer.ui.aw:
     com.ianhanniballake.contractiontimer.ui.ViewFragment this$0 -> a
     android.content.Context val$applicationContext -> b
     107:112:void onDeleteComplete(int,java.lang.Object,int) -> onDeleteComplete
-com.ianhanniballake.contractiontimer.ui.ViewFragment$2 -> com.ianhanniballake.contractiontimer.ui.ay:
+com.ianhanniballake.contractiontimer.ui.ViewFragment$2 -> com.ianhanniballake.contractiontimer.ui.ax:
     com.ianhanniballake.contractiontimer.ui.ViewFragment this$0 -> j
-    120:166:void bindView(android.view.View,android.content.Context,android.database.Cursor) -> a
-    173:173:android.view.View newView(android.content.Context,android.database.Cursor,android.view.ViewGroup) -> a
+    120:167:void bindView(android.view.View,android.content.Context,android.database.Cursor) -> a
+    174:174:android.view.View newView(android.content.Context,android.database.Cursor,android.view.ViewGroup) -> a
 org.acra.ACRA -> org.acra.ACRA:
     boolean DEV_LOGGING -> DEV_LOGGING
     java.lang.String LOG_TAG -> LOG_TAG
-    java.lang.String RES_NOTIF_ICON -> RES_NOTIF_ICON
-    java.lang.String RES_NOTIF_TICKER_TEXT -> RES_NOTIF_TICKER_TEXT
-    java.lang.String RES_NOTIF_TITLE -> RES_NOTIF_TITLE
-    java.lang.String RES_NOTIF_TEXT -> RES_NOTIF_TEXT
-    java.lang.String RES_DIALOG_ICON -> RES_DIALOG_ICON
-    java.lang.String RES_DIALOG_TITLE -> RES_DIALOG_TITLE
-    java.lang.String RES_DIALOG_TEXT -> RES_DIALOG_TEXT
-    java.lang.String RES_DIALOG_COMMENT_PROMPT -> RES_DIALOG_COMMENT_PROMPT
-    java.lang.String RES_DIALOG_OK_TOAST -> RES_DIALOG_OK_TOAST
-    java.lang.String RES_TOAST_TEXT -> RES_TOAST_TEXT
-    int NOTIF_CRASH_ID -> NOTIF_CRASH_ID
     java.lang.String PREF_DISABLE_ACRA -> PREF_DISABLE_ACRA
     java.lang.String PREF_ENABLE_ACRA -> PREF_ENABLE_ACRA
     java.lang.String PREF_ENABLE_SYSTEM_LOGS -> PREF_ENABLE_SYSTEM_LOGS
     java.lang.String PREF_ENABLE_DEVICE_ID -> PREF_ENABLE_DEVICE_ID
     java.lang.String PREF_USER_EMAIL_ADDRESS -> PREF_USER_EMAIL_ADDRESS
     java.lang.String PREF_ALWAYS_ACCEPT -> PREF_ALWAYS_ACCEPT
+    java.lang.String PREF_LAST_VERSION_NR -> PREF_LAST_VERSION_NR
     android.app.Application mApplication -> mApplication
     org.acra.annotation.ReportsCrashes mReportsCrashes -> mReportsCrashes
+    org.acra.ErrorReporter errorReporterSingleton -> errorReporterSingleton
     android.content.SharedPreferences$OnSharedPreferenceChangeListener mPrefListener -> mPrefListener
-    android.text.format.Time mAppStartDate -> mAppStartDate
     org.acra.ReportField[] DEFAULT_MAIL_REPORT_FIELDS -> DEFAULT_MAIL_REPORT_FIELDS
     org.acra.ReportField[] DEFAULT_REPORT_FIELDS -> DEFAULT_REPORT_FIELDS
-    java.lang.String NULL_VALUE -> NULL_VALUE
-    186:249:void init(android.app.Application) -> init
-    257:301:void initAcra() -> initAcra
-    304:319:void checkCrashResources() -> checkCrashResources
-    331:337:android.content.SharedPreferences getACRASharedPreferences() -> getACRASharedPreferences
-    346:346:org.acra.annotation.ReportsCrashes getConfig() -> getConfig
-    77:77:void access$000() -> access$000
+    org.acra.ACRAConfiguration configProxy -> configProxy
+    117:168:void init(android.app.Application) -> init
+    177:180:org.acra.ErrorReporter getErrorReporter() -> getErrorReporter
+    196:203:boolean shouldDisableACRA(android.content.SharedPreferences) -> shouldDisableACRA
+    213:237:void checkCrashResources() -> checkCrashResources
+    249:253:android.content.SharedPreferences getACRASharedPreferences() -> getACRASharedPreferences
+    263:270:org.acra.ACRAConfiguration getConfig() -> getConfig
+    280:281:void setConfig(org.acra.ACRAConfiguration) -> setConfig
+    288:288:org.acra.ACRAConfiguration getNewDefaultConfig(android.app.Application) -> getNewDefaultConfig
+    321:325:boolean isDebuggable() -> isDebuggable
+    330:330:android.app.Application getApplication() -> getApplication
+    41:41:boolean access$000(android.content.SharedPreferences) -> access$000
 org.acra.ACRA$1 -> org.acra.a:
-    201:220:void onSharedPreferenceChanged(android.content.SharedPreferences,java.lang.String) -> onSharedPreferenceChanged
+    157:161:void onSharedPreferenceChanged(android.content.SharedPreferences,java.lang.String) -> onSharedPreferenceChanged
 org.acra.ACRA$2 -> org.acra.b:
     int[] $SwitchMap$org$acra$ReportingInteractionMode -> a
-org.acra.ACRAConfigurationException -> org.acra.c:
-org.acra.Compatibility -> org.acra.d:
-    40:52:int getAPILevel() -> a
-    66:70:java.lang.String getDropBoxServiceName() -> b
-org.acra.ConfigurationInspector -> org.acra.e:
-    android.util.SparseArray mHardKeyboardHiddenValues -> a
-    android.util.SparseArray mKeyboardValues -> b
-    android.util.SparseArray mKeyboardHiddenValues -> c
-    android.util.SparseArray mNavigationValues -> d
-    android.util.SparseArray mNavigationHiddenValues -> e
-    android.util.SparseArray mOrientationValues -> f
-    android.util.SparseArray mScreenLayoutValues -> g
-    android.util.SparseArray mTouchScreenValues -> h
-    android.util.SparseArray mUiModeValues -> i
-    java.util.HashMap mValueArrays -> j
-    120:139:java.lang.String toString(android.content.res.Configuration) -> a
-    160:178:java.lang.String getFieldValueName(android.content.res.Configuration,java.lang.reflect.Field) -> a
-    196:211:java.lang.String activeFlags(android.util.SparseArray,int) -> a
-org.acra.CrashReportData -> org.acra.f:
-    org.acra.CrashReportData defaults -> a
-    java.lang.String lineSeparator -> b
-    93:130:void dumpString(java.lang.StringBuilder,java.lang.String,boolean) -> a
-    142:146:java.lang.String getProperty(org.acra.ReportField) -> a
-    252:265:void load(java.io.InputStream) -> a
-    269:282:boolean isEbcdic(java.io.BufferedInputStream) -> a
-    314:472:void load(java.io.Reader) -> a
-    534:552:void store(java.io.OutputStream,java.lang.String) -> a
-org.acra.CrashReportDialog -> org.acra.g:
+org.acra.ACRAConfiguration -> org.acra.c:
+    java.lang.String[] mAdditionalDropboxTags -> a
+    java.lang.String[] mAdditionalSharedPreferences -> b
+    java.lang.Integer mConnectionTimeout -> c
+    org.acra.ReportField[] mCustomReportContent -> d
+    java.lang.Boolean mDeleteUnapprovedReportsOnApplicationStart -> e
+    java.lang.Boolean mDeleteOldUnsentReportsOnApplicationStart -> f
+    java.lang.Integer mDropboxCollectionMinutes -> g
+    java.lang.Boolean mForceCloseDialogAfterToast -> h
+    java.lang.String mFormKey -> i
+    java.lang.String mFormUri -> j
+    java.lang.String mFormUriBasicAuthLogin -> k
+    java.lang.String mFormUriBasicAuthPassword -> l
+    java.lang.Boolean mIncludeDropboxSystemTags -> m
+    java.lang.String[] mLogcatArguments -> n
+    java.lang.String mMailTo -> o
+    java.lang.Integer mMaxNumberOfRequestRetries -> p
+    org.acra.ReportingInteractionMode mMode -> q
+    org.acra.annotation.ReportsCrashes mReportsCrashes -> r
+    java.lang.Integer mResDialogCommentPrompt -> s
+    java.lang.Integer mResDialogEmailPrompt -> t
+    java.lang.Integer mResDialogIcon -> u
+    java.lang.Integer mResDialogOkToast -> v
+    java.lang.Integer mResDialogText -> w
+    java.lang.Integer mResDialogTitle -> x
+    java.lang.Integer mResNotifIcon -> y
+    java.lang.Integer mResNotifText -> z
+    java.lang.Integer mResNotifTickerText -> A
+    java.lang.Integer mResNotifTitle -> B
+    java.lang.Integer mResToastText -> C
+    java.lang.Integer mSharedPreferenceMode -> D
+    java.lang.String mSharedPreferenceName -> E
+    java.lang.Integer mSocketTimeout -> F
+    java.lang.Boolean mLogcatFilterByPid -> G
+    java.lang.Boolean mSendReportsInDevMode -> H
+    java.lang.String[] mExcludeMatchingSharedPreferencesKeys -> I
+    java.lang.String mApplicationLogFile -> J
+    java.lang.Integer mApplicationLogFileLines -> K
+    java.lang.String mGoogleFormUrlFormat -> L
+    473:482:java.lang.String[] additionalDropBoxTags() -> a
+    487:496:java.lang.String[] additionalSharedPreferences() -> b
+    501:501:java.lang.Class annotationType() -> annotationType
+    506:514:int connectionTimeout() -> c
+    519:528:org.acra.ReportField[] customReportContent() -> d
+    533:541:boolean deleteUnapprovedReportsOnApplicationStart() -> e
+    546:554:boolean deleteOldUnsentReportsOnApplicationStart() -> f
+    559:567:int dropboxCollectionMinutes() -> g
+    572:580:boolean forceCloseDialogAfterToast() -> h
+    585:593:java.lang.String formKey() -> i
+    598:606:java.lang.String formUri() -> j
+    611:619:java.lang.String formUriBasicAuthLogin() -> k
+    624:632:java.lang.String formUriBasicAuthPassword() -> l
+    637:645:boolean includeDropBoxSystemTags() -> m
+    650:659:java.lang.String[] logcatArguments() -> n
+    664:672:java.lang.String mailTo() -> o
+    677:685:int maxNumberOfRequestRetries() -> p
+    690:698:org.acra.ReportingInteractionMode mode() -> q
+    703:711:int resDialogCommentPrompt() -> r
+    716:724:int resDialogEmailPrompt() -> s
+    729:737:int resDialogIcon() -> t
+    742:750:int resDialogOkToast() -> u
+    755:763:int resDialogText() -> v
+    768:776:int resDialogTitle() -> w
+    781:789:int resNotifIcon() -> x
+    794:802:int resNotifText() -> y
+    807:815:int resNotifTickerText() -> z
+    820:828:int resNotifTitle() -> A
+    833:841:int resToastText() -> B
+    846:854:int sharedPreferencesMode() -> C
+    859:867:java.lang.String sharedPreferencesName() -> D
+    872:880:int socketTimeout() -> E
+    885:893:boolean logcatFilterByPid() -> F
+    898:906:boolean sendReportsInDevMode() -> G
+    911:921:java.lang.String[] excludeMatchingSharedPreferencesKeys() -> H
+    926:934:java.lang.String applicationLogFile() -> I
+    939:947:int applicationLogFileLines() -> J
+    952:960:java.lang.String googleFormUrlFormat() -> K
+org.acra.ACRAConfigurationException -> org.acra.d:
+org.acra.ACRAConstants -> org.acra.e:
+    java.lang.String SILENT_SUFFIX -> a
+org.acra.CrashReportDialog -> org.acra.f:
     android.content.SharedPreferences prefs -> b
     android.widget.EditText userComment -> c
     android.widget.EditText userEmail -> d
     java.lang.String mReportFileName -> a
-    62:189:void onCreate(android.os.Bundle) -> onCreate
-    195:197:void cancelNotification() -> a
-    48:48:android.widget.EditText access$000(org.acra.CrashReportDialog) -> a
-    48:48:android.content.SharedPreferences access$100(org.acra.CrashReportDialog) -> b
-    48:48:android.widget.EditText access$200(org.acra.CrashReportDialog) -> c
-org.acra.CrashReportDialog$1 -> org.acra.h:
+    66:197:void onCreate(android.os.Bundle) -> onCreate
+    203:205:void cancelNotification() -> a
+    52:52:android.widget.EditText access$000(org.acra.CrashReportDialog) -> a
+    52:52:android.content.SharedPreferences access$100(org.acra.CrashReportDialog) -> b
+    52:52:android.widget.EditText access$200(org.acra.CrashReportDialog) -> c
+org.acra.CrashReportDialog$1 -> org.acra.g:
     org.acra.CrashReportDialog this$0 -> a
-    131:161:void onClick(android.view.View) -> onClick
-org.acra.CrashReportDialog$2 -> org.acra.i:
+    134:168:void onClick(android.view.View) -> onClick
+org.acra.CrashReportDialog$2 -> org.acra.h:
     org.acra.CrashReportDialog this$0 -> a
-    171:173:void onClick(android.view.View) -> onClick
-org.acra.DeviceFeaturesCollector -> org.acra.j:
-    35:61:java.lang.String getFeatures(android.content.Context) -> a
-org.acra.DropBoxCollector -> org.acra.k:
-    java.lang.String[] SYSTEM_TAGS -> a
-    56:124:java.lang.String read(android.content.Context,java.lang.String[]) -> a
-org.acra.DumpSysCollector -> org.acra.l:
-    40:60:java.lang.String collectMemInfo() -> a
+    179:181:void onClick(android.view.View) -> onClick
+org.acra.CrashReportFileNameParser -> org.acra.i:
+    33:33:boolean isSilent(java.lang.String) -> a
+    50:50:boolean isApproved(java.lang.String) -> b
+org.acra.CrashReportFinder -> org.acra.j:
+    android.content.Context context -> a
+    46:66:java.lang.String[] getCrashReportFiles() -> a
+org.acra.CrashReportFinder$1 -> org.acra.k:
+    org.acra.CrashReportFinder this$0 -> a
+    62:62:boolean accept(java.io.File,java.lang.String) -> accept
+org.acra.CrashReportPersister -> org.acra.l:
+    android.content.Context context -> a
+    63:80:org.acra.collector.CrashReportData load(java.lang.String) -> a
+    95:113:void store(org.acra.collector.CrashReportData,java.lang.String) -> a
+    117:130:boolean isEbcdic(java.io.BufferedInputStream) -> a
+    162:325:org.acra.collector.CrashReportData load(java.io.Reader) -> a
+    336:373:void dumpString(java.lang.StringBuilder,java.lang.String,boolean) -> a
 org.acra.ErrorReporter -> org.acra.ErrorReporter:
-    boolean enabled -> c
-    java.util.ArrayList mReportSenders -> d
-    org.acra.CrashReportData mCrashProperties -> e
-    java.util.Map mCustomParameters -> a
-    java.lang.String SILENT_SUFFIX -> b
-    java.lang.Thread$UncaughtExceptionHandler mDfltExceptionHandler -> f
-    org.acra.ErrorReporter mInstanceSingleton -> g
-    android.content.Context mContext -> h
-    java.lang.String mInitialConfiguration -> i
-    org.acra.ReportingInteractionMode mReportingInteractionMode -> j
-    245:256:void approvePendingReports() -> a
-    266:267:void addCustomData(java.lang.String,java.lang.String) -> addCustomData
-    324:331:java.lang.String createCustomInfoString() -> i
-    340:343:org.acra.ErrorReporter getInstance() -> b
-    357:365:void init(android.content.Context) -> a
-    374:378:long getAvailableInternalMemorySize() -> j
-    388:392:long getTotalInternalMemorySize() -> k
-    403:583:void retrieveCrashData(android.content.Context) -> b
-    594:605:java.lang.String toString(android.view.Display) -> a
-    614:667:void uncaughtException(java.lang.Thread,java.lang.Throwable) -> uncaughtException
-    681:761:org.acra.ErrorReporter$ReportsSenderWorker handleException(java.lang.Throwable,org.acra.ReportingInteractionMode) -> a
-    773:773:org.acra.ErrorReporter$ReportsSenderWorker handleException(java.lang.Throwable) -> a
-    787:793:java.lang.Thread handleSilentException(java.lang.Throwable) -> b
-    807:833:void notifySendReport(java.lang.String) -> a
-    847:863:void sendCrashReport(android.content.Context,org.acra.CrashReportData) -> a
-    878:899:java.lang.String saveCrashReportFile(java.lang.String,org.acra.CrashReportData) -> a
-    908:928:java.lang.String[] getCrashReportFilesList() -> c
-    942:977:void checkAndSendReports(android.content.Context,boolean) -> a
-    980:988:org.acra.CrashReportData loadCrashReport(android.content.Context,java.lang.String) -> a
-    992:996:void deleteFile(android.content.Context,java.lang.String) -> b
-    1005:1006:void setReportingInteractionMode(org.acra.ReportingInteractionMode) -> a
-    1012:1046:void checkReportsOnApplicationStart() -> d
-    1057:1066:java.lang.String getLatestNonSilentReport(java.lang.String[]) -> a
-    1074:1075:void deletePendingReports() -> e
-    1090:1092:void deletePendingNonApprovedReports() -> f
-    1104:1117:void deletePendingReports(boolean,boolean,int) -> a
-    1123:1132:void disable() -> g
-    1142:1147:boolean containsOnlySilentOrApprovedReports(java.lang.String[]) -> b
-    1157:1157:boolean isSilent(java.lang.String) -> b
-    1173:1173:boolean isApproved(java.lang.String) -> c
-    1192:1215:void addUserDataToReport(android.content.Context,java.lang.String,java.lang.String,java.lang.String) -> b
-    1224:1225:void addReportSender(org.acra.sender.ReportSender) -> a
-    1277:1278:void setAppStartDate(android.text.format.Time) -> a
-    88:88:android.content.Context access$000() -> h
-    88:88:void access$100(android.content.Context,java.lang.String,java.lang.String,java.lang.String) -> a
+    boolean enabled -> a
+    android.content.Context mContext -> b
+    android.content.SharedPreferences prefs -> c
+    java.util.List mReportSenders -> d
+    org.acra.collector.CrashReportDataFactory crashReportDataFactory -> e
+    org.acra.CrashReportFileNameParser fileNameParser -> f
+    java.lang.Thread$UncaughtExceptionHandler mDfltExceptionHandler -> g
+    java.lang.Thread brokenThread -> h
+    java.lang.Throwable unhandledThrowable -> i
+    boolean toastWaitEnded -> j
+    164:165:void addCustomData(java.lang.String,java.lang.String) -> addCustomData
+    225:226:void addReportSender(org.acra.sender.ReportSender) -> a
+    261:262:void removeAllReportSenders() -> a
+    272:274:void setReportSender(org.acra.sender.ReportSender) -> b
+    287:315:void uncaughtException(java.lang.Thread,java.lang.Throwable) -> uncaughtException
+    321:336:void endApplication() -> e
+    349:356:void handleSilentException(java.lang.Throwable) -> a
+    366:368:void setEnabled(boolean) -> a
+    380:382:org.acra.SendWorker startSendingReports(boolean,boolean) -> a
+    389:390:void deletePendingReports() -> b
+    400:468:void checkReportsOnApplicationStart() -> f
+    480:482:void deletePendingNonApprovedReports(boolean) -> b
+    531:677:void handleException(java.lang.Throwable,org.acra.ReportingInteractionMode,boolean,boolean) -> a
+    688:693:void notifyDialog(java.lang.String) -> a
+    710:736:void notifySendReport(java.lang.String) -> b
+    739:743:java.lang.String getReportFileName(org.acra.collector.CrashReportData) -> a
+    764:770:void saveCrashReportFile(java.lang.String,org.acra.collector.CrashReportData) -> a
+    782:791:java.lang.String getLatestNonSilentReport(java.lang.String[]) -> a
+    809:824:void deletePendingReports(boolean,boolean,int) -> a
+    836:841:boolean containsOnlySilentOrApprovedReports(java.lang.String[]) -> b
+    849:888:void setDefaultReportSenders() -> c
+    75:75:android.content.Context access$000(org.acra.ErrorReporter) -> a
+    75:75:boolean access$102(boolean) -> c
+    75:75:boolean access$100() -> d
+    75:75:void access$200(org.acra.ErrorReporter) -> b
 org.acra.ErrorReporter$1 -> org.acra.m:
     org.acra.ErrorReporter this$0 -> a
-    714:717:void run() -> run
+    568:571:void run() -> run
 org.acra.ErrorReporter$2 -> org.acra.n:
     org.acra.ErrorReporter this$0 -> a
-    920:920:boolean accept(java.io.File,java.lang.String) -> accept
-org.acra.ErrorReporter$ReportsSenderWorker -> org.acra.o:
-    java.lang.String mCommentedReportFileName -> b
-    java.lang.String mUserComment -> c
-    java.lang.String mUserEmail -> d
-    boolean mSendOnlySilentReports -> e
-    boolean mApprovePendingReports -> f
-    org.acra.ErrorReporter this$0 -> a
-    135:148:void run() -> run
-    154:163:android.os.PowerManager$WakeLock acquireWakeLock() -> b
-    175:177:void setUserComment(java.lang.String,java.lang.String) -> a
-    188:190:void setUserEmail(java.lang.String,java.lang.String) -> b
-    196:197:void setApprovePendingReports() -> a
-org.acra.LogCatCollector -> org.acra.p:
-    59:97:java.lang.String collectLogCat(java.lang.String) -> a
-org.acra.ReflectionCollector -> org.acra.q:
-    39:54:java.lang.String collectConstants(java.lang.Class) -> a
-    63:82:java.lang.String collectStaticGettersResults(java.lang.Class) -> b
-org.acra.ReportField -> org.acra.r:
+    620:636:void run() -> run
+org.acra.ErrorReporter$3 -> org.acra.o:
+    org.acra.SendWorker val$worker -> a
+    boolean val$showDirectDialog -> b
+    java.lang.String val$reportFileName -> c
+    boolean val$endApplication -> d
+    org.acra.ErrorReporter this$0 -> e
+    652:675:void run() -> run
+org.acra.ReportField -> org.acra.p:
     org.acra.ReportField REPORT_ID -> a
     org.acra.ReportField APP_VERSION_CODE -> b
     org.acra.ReportField APP_VERSION_NAME -> c
@@ -2753,70 +2783,185 @@ org.acra.ReportField -> org.acra.r:
     org.acra.ReportField SETTINGS_SYSTEM -> F
     org.acra.ReportField SETTINGS_SECURE -> G
     org.acra.ReportField SHARED_PREFERENCES -> H
-    org.acra.ReportField[] $VALUES -> I
-    26:26:org.acra.ReportField[] values() -> values
-    26:26:org.acra.ReportField valueOf(java.lang.String) -> valueOf
+    org.acra.ReportField APPLICATION_LOG -> I
+    org.acra.ReportField MEDIA_CODEC_LIST -> J
+    org.acra.ReportField THREAD_DETAILS -> K
+    org.acra.ReportField[] $VALUES -> L
+    28:28:org.acra.ReportField[] values() -> values
+    28:28:org.acra.ReportField valueOf(java.lang.String) -> valueOf
 org.acra.ReportingInteractionMode -> org.acra.ReportingInteractionMode:
     org.acra.ReportingInteractionMode SILENT -> SILENT
     org.acra.ReportingInteractionMode NOTIFICATION -> NOTIFICATION
     org.acra.ReportingInteractionMode TOAST -> TOAST
+    org.acra.ReportingInteractionMode DIALOG -> DIALOG
     org.acra.ReportingInteractionMode[] $VALUES -> $VALUES
     30:30:org.acra.ReportingInteractionMode[] values() -> values
     30:30:org.acra.ReportingInteractionMode valueOf(java.lang.String) -> valueOf
-org.acra.SettingsCollector -> org.acra.s:
-    45:65:java.lang.String collectSystemSettings(android.content.Context) -> a
-    78:95:java.lang.String collectSecureSettings(android.content.Context) -> b
-    99:103:boolean isAuthorized(java.lang.reflect.Field) -> a
-org.acra.SharedPreferencesCollector -> org.acra.t:
-    13:42:java.lang.String collect(android.content.Context) -> a
+org.acra.SendWorker -> org.acra.q:
+    android.content.Context context -> a
+    boolean sendOnlySilentReports -> b
+    boolean approvePendingReports -> c
+    org.acra.CrashReportFileNameParser fileNameParser -> d
+    java.util.List reportSenders -> e
+    74:78:void run() -> run
+    85:107:void approvePendingReports() -> a
+    120:161:void checkAndSendReports(android.content.Context,boolean) -> a
+    174:195:void sendCrashReport(org.acra.collector.CrashReportData) -> a
+    198:202:void deleteFile(android.content.Context,java.lang.String) -> a
 org.acra.annotation.ReportsCrashes -> org.acra.a.a:
-    java.lang.String formKey() -> a
-    java.lang.String formUri() -> b
-    org.acra.ReportingInteractionMode mode() -> c
-    int resDialogCommentPrompt() -> d
-    int resDialogEmailPrompt() -> e
-    int resDialogIcon() -> f
-    int resDialogOkToast() -> g
-    int resDialogText() -> h
-    int resDialogTitle() -> i
-    int resNotifIcon() -> j
-    int resNotifText() -> k
-    int resNotifTickerText() -> l
-    int resNotifTitle() -> m
-    int resToastText() -> n
-    java.lang.String sharedPreferencesName() -> o
-    int sharedPreferencesMode() -> p
-    boolean includeDropBoxSystemTags() -> q
-    java.lang.String[] additionalDropBoxTags() -> r
-    int dropboxCollectionMinutes() -> s
-    java.lang.String[] logcatArguments() -> t
-    java.lang.String formUriBasicAuthLogin() -> u
-    java.lang.String formUriBasicAuthPassword() -> v
-    org.acra.ReportField[] customReportContent() -> w
-    java.lang.String mailTo() -> x
-    boolean deleteUnapprovedReportsOnApplicationStart() -> y
-    int socketTimeout() -> z
-    boolean forceCloseDialogAfterToast() -> A
-    java.lang.String[] additionalSharedPreferences() -> B
-org.acra.sender.EmailIntentSender -> org.acra.b.a:
+    java.lang.String formKey() -> i
+    java.lang.String formUri() -> j
+    org.acra.ReportingInteractionMode mode() -> q
+    int resDialogCommentPrompt() -> r
+    int resDialogEmailPrompt() -> s
+    int resDialogIcon() -> t
+    int resDialogOkToast() -> u
+    int resDialogText() -> v
+    int resDialogTitle() -> w
+    int resNotifIcon() -> x
+    int resNotifText() -> y
+    int resNotifTickerText() -> z
+    int resNotifTitle() -> A
+    int resToastText() -> B
+    java.lang.String sharedPreferencesName() -> D
+    int sharedPreferencesMode() -> C
+    boolean includeDropBoxSystemTags() -> m
+    java.lang.String[] additionalDropBoxTags() -> a
+    int dropboxCollectionMinutes() -> g
+    java.lang.String[] logcatArguments() -> n
+    java.lang.String formUriBasicAuthLogin() -> k
+    java.lang.String formUriBasicAuthPassword() -> l
+    org.acra.ReportField[] customReportContent() -> d
+    java.lang.String mailTo() -> o
+    boolean deleteUnapprovedReportsOnApplicationStart() -> e
+    boolean deleteOldUnsentReportsOnApplicationStart() -> f
+    int connectionTimeout() -> c
+    int socketTimeout() -> E
+    int maxNumberOfRequestRetries() -> p
+    boolean forceCloseDialogAfterToast() -> h
+    java.lang.String[] additionalSharedPreferences() -> b
+    boolean logcatFilterByPid() -> F
+    boolean sendReportsInDevMode() -> G
+    java.lang.String[] excludeMatchingSharedPreferencesKeys() -> H
+    java.lang.String applicationLogFile() -> I
+    int applicationLogFileLines() -> J
+    java.lang.String googleFormUrlFormat() -> K
+org.acra.collector.Compatibility -> org.acra.b.a:
+    40:52:int getAPILevel() -> a
+    63:67:java.lang.String getDropBoxServiceName() -> b
+org.acra.collector.ConfigurationCollector -> org.acra.b.b:
+    android.util.SparseArray mHardKeyboardHiddenValues -> a
+    android.util.SparseArray mKeyboardValues -> b
+    android.util.SparseArray mKeyboardHiddenValues -> c
+    android.util.SparseArray mNavigationValues -> d
+    android.util.SparseArray mNavigationHiddenValues -> e
+    android.util.SparseArray mOrientationValues -> f
+    android.util.SparseArray mScreenLayoutValues -> g
+    android.util.SparseArray mTouchScreenValues -> h
+    android.util.SparseArray mUiModeValues -> i
+    java.util.HashMap mValueArrays -> j
+    124:143:java.lang.String toString(android.content.res.Configuration) -> a
+    162:181:java.lang.String getFieldValueName(android.content.res.Configuration,java.lang.reflect.Field) -> a
+    199:214:java.lang.String activeFlags(android.util.SparseArray,int) -> a
+    225:229:java.lang.String collectConfiguration(android.content.Context) -> a
+org.acra.collector.CrashReportData -> org.acra.b.c:
+    49:49:java.lang.String getProperty(org.acra.ReportField) -> a
+org.acra.collector.CrashReportDataFactory -> org.acra.b.d:
+    android.content.Context context -> a
+    android.content.SharedPreferences prefs -> b
+    java.util.List crashReportFields -> c
+    java.util.Map customParameters -> d
+    android.text.format.Time appStartDate -> e
+    java.lang.String initialConfiguration -> f
+    142:142:java.lang.String putCustomData(java.lang.String,java.lang.String) -> a
+    179:379:org.acra.collector.CrashReportData createCrashData(java.lang.Throwable,boolean,java.lang.Thread) -> a
+    389:397:java.lang.String createCustomInfoString() -> a
+    402:415:java.lang.String getStackTrace(java.lang.Throwable) -> a
+org.acra.collector.DeviceFeaturesCollector -> org.acra.b.e:
+    36:63:java.lang.String getFeatures(android.content.Context) -> a
+org.acra.collector.DropBoxCollector -> org.acra.b.f:
+    java.lang.String[] SYSTEM_TAGS -> a
+    62:133:java.lang.String read(android.content.Context,java.lang.String[]) -> a
+org.acra.collector.DumpSysCollector -> org.acra.b.g:
+    44:67:java.lang.String collectMemInfo() -> a
+org.acra.collector.LogCatCollector -> org.acra.b.h:
+    62:116:java.lang.String collectLogCat(java.lang.String) -> a
+org.acra.collector.LogFileCollector -> org.acra.b.i:
+    56:68:java.lang.String collectLogFile(android.content.Context,java.lang.String,int) -> a
+org.acra.collector.MediaCodecListCollector -> org.acra.b.j:
+    java.lang.String[] MPEG4_TYPES -> a
+    java.lang.String[] AVC_TYPES -> b
+    java.lang.String[] H263_TYPES -> c
+    java.lang.String[] AAC_TYPES -> d
+    java.lang.Class mediaCodecListClass -> e
+    java.lang.reflect.Method getCodecInfoAtMethod -> f
+    java.lang.Class mediaCodecInfoClass -> g
+    java.lang.reflect.Method getNameMethod -> h
+    java.lang.reflect.Method isEncoderMethod -> i
+    java.lang.reflect.Method getSupportedTypesMethod -> j
+    java.lang.reflect.Method getCapabilitiesForTypeMethod -> k
+    java.lang.Class codecCapabilitiesClass -> l
+    java.lang.reflect.Field colorFormatsField -> m
+    java.lang.reflect.Field profileLevelsField -> n
+    java.lang.reflect.Field profileField -> o
+    java.lang.reflect.Field levelField -> p
+    android.util.SparseArray mColorFormatValues -> q
+    android.util.SparseArray mAVCLevelValues -> r
+    android.util.SparseArray mAVCProfileValues -> s
+    android.util.SparseArray mH263LevelValues -> t
+    android.util.SparseArray mH263ProfileValues -> u
+    android.util.SparseArray mMPEG4LevelValues -> v
+    android.util.SparseArray mMPEG4ProfileValues -> w
+    android.util.SparseArray mAACProfileValues -> x
+    139:167:java.lang.String collecMediaCodecList() -> a
+    184:243:java.lang.String collectCapabilitiesForType(java.lang.Object,java.lang.String) -> a
+    257:279:org.acra.collector.MediaCodecListCollector$CodecType identifyCodecType(java.lang.Object) -> a
+org.acra.collector.MediaCodecListCollector$1 -> org.acra.b.k:
+    int[] $SwitchMap$org$acra$collector$MediaCodecListCollector$CodecType -> a
+org.acra.collector.MediaCodecListCollector$CodecType -> org.acra.b.l:
+    org.acra.collector.MediaCodecListCollector$CodecType AVC -> a
+    org.acra.collector.MediaCodecListCollector$CodecType H263 -> b
+    org.acra.collector.MediaCodecListCollector$CodecType MPEG4 -> c
+    org.acra.collector.MediaCodecListCollector$CodecType AAC -> d
+    org.acra.collector.MediaCodecListCollector$CodecType[] $VALUES -> e
+    35:35:org.acra.collector.MediaCodecListCollector$CodecType[] values() -> values
+    35:35:org.acra.collector.MediaCodecListCollector$CodecType valueOf(java.lang.String) -> valueOf
+org.acra.collector.ReflectionCollector -> org.acra.b.m:
+    42:57:java.lang.String collectConstants(java.lang.Class) -> a
+    67:88:java.lang.String collectStaticGettersResults(java.lang.Class) -> b
+org.acra.collector.SettingsCollector -> org.acra.b.n:
+    47:67:java.lang.String collectSystemSettings(android.content.Context) -> a
+    79:96:java.lang.String collectSecureSettings(android.content.Context) -> b
+    100:103:boolean isAuthorized(java.lang.reflect.Field) -> a
+org.acra.collector.SharedPreferencesCollector -> org.acra.b.o:
+    49:83:java.lang.String collect(android.content.Context) -> a
+    95:98:boolean filteredKey(java.lang.String) -> a
+org.acra.collector.ThreadCollector -> org.acra.b.p:
+    35:47:java.lang.String collect(java.lang.Thread) -> a
+org.acra.log.ACRALog -> org.acra.c.a:
+    int d(java.lang.String,java.lang.String) -> a
+org.acra.log.AndroidLogDelegate -> org.acra.c.b:
+    20:20:int d(java.lang.String,java.lang.String) -> a
+org.acra.sender.EmailIntentSender -> org.acra.d.a:
     android.content.Context mContext -> a
-    41:51:void send(org.acra.CrashReportData) -> a
-    54:64:java.lang.String buildBody(org.acra.CrashReportData) -> b
-org.acra.sender.GoogleFormSender -> org.acra.b.b:
+    43:53:void send(org.acra.collector.CrashReportData) -> a
+    56:67:java.lang.String buildBody(org.acra.collector.CrashReportData) -> b
+org.acra.sender.GoogleFormSender -> org.acra.d.b:
     android.net.Uri mFormUri -> a
-    52:67:void send(org.acra.CrashReportData) -> a
-    70:91:java.util.Map remap(java.util.Map) -> a
-org.acra.sender.GoogleFormSender$1 -> org.acra.b.c:
+    68:90:void send(org.acra.collector.CrashReportData) -> a
+    94:115:java.util.Map remap(java.util.Map) -> a
+org.acra.sender.GoogleFormSender$1 -> org.acra.d.c:
     int[] $SwitchMap$org$acra$ReportField -> a
-org.acra.sender.HttpPostSender -> org.acra.b.d:
+org.acra.sender.HttpPostSender -> org.acra.d.d:
     android.net.Uri mFormUri -> a
     java.util.Map mMapping -> b
-    100:109:void send(org.acra.CrashReportData) -> a
-    112:124:java.util.Map remap(java.util.Map) -> a
-org.acra.sender.ReportSender -> org.acra.b.e:
-    void send(org.acra.CrashReportData) -> a
-org.acra.sender.ReportSenderException -> org.acra.b.f:
-org.acra.util.BoundedLinkedList -> org.acra.c.a:
+    121:141:void send(org.acra.collector.CrashReportData) -> a
+    144:144:boolean isNull(java.lang.String) -> a
+    149:162:java.util.Map remap(java.util.Map) -> a
+org.acra.sender.ReportSender -> org.acra.d.e:
+    void send(org.acra.collector.CrashReportData) -> a
+org.acra.sender.ReportSenderException -> org.acra.d.f:
+org.acra.util.BoundedLinkedList -> org.acra.e.a:
     int maxSize -> a
     46:49:boolean add(java.lang.Object) -> add
     59:63:void add(int,java.lang.Object) -> add
@@ -2824,32 +2969,56 @@ org.acra.util.BoundedLinkedList -> org.acra.c.a:
     93:93:boolean addAll(int,java.util.Collection) -> addAll
     104:104:void addFirst(java.lang.Object) -> addFirst
     114:115:void addLast(java.lang.Object) -> addLast
-    124:130:java.lang.String toString() -> toString
-org.acra.util.FakeSocketFactory -> org.acra.c.b:
+    124:128:java.lang.String toString() -> toString
+org.acra.util.FakeSocketFactory -> org.acra.e.b:
     javax.net.ssl.SSLContext sslcontext -> a
-    28:32:javax.net.ssl.SSLContext createEasySSLContext() -> a
-    37:40:javax.net.ssl.SSLContext getSSLContext() -> b
-    46:63:java.net.Socket connectSocket(java.net.Socket,java.lang.String,int,java.net.InetAddress,int,org.apache.http.params.HttpParams) -> connectSocket
-    68:68:java.net.Socket createSocket() -> createSocket
-    73:73:boolean isSecure(java.net.Socket) -> isSecure
-    79:79:java.net.Socket createSocket(java.net.Socket,java.lang.String,int,boolean) -> createSocket
-org.acra.util.HttpRequest -> org.acra.c.c:
-    org.apache.http.impl.client.DefaultHttpClient httpClient -> a
-    org.apache.http.protocol.HttpContext localContext -> b
-    org.apache.http.client.methods.HttpPost httpPost -> c
-    org.apache.http.client.methods.HttpGet httpGet -> d
-    org.apache.http.auth.UsernamePasswordCredentials creds -> e
-    80:80:java.lang.String sendPost(java.lang.String,java.lang.String) -> a
-    85:127:java.lang.String sendPost(java.lang.String,java.lang.String,java.lang.String) -> a
-org.acra.util.HttpUtils -> org.acra.c.d:
-    43:60:void doPost(java.util.Map,java.net.URL,java.lang.String,java.lang.String) -> a
-    63:63:boolean isNull(java.lang.String) -> a
-org.acra.util.Installation -> org.acra.c.e:
+    25:29:javax.net.ssl.SSLContext createEasySSLContext() -> a
+    34:37:javax.net.ssl.SSLContext getSSLContext() -> b
+    42:60:java.net.Socket connectSocket(java.net.Socket,java.lang.String,int,java.net.InetAddress,int,org.apache.http.params.HttpParams) -> connectSocket
+    65:65:java.net.Socket createSocket() -> createSocket
+    70:70:boolean isSecure(java.net.Socket) -> isSecure
+    75:75:java.net.Socket createSocket(java.net.Socket,java.lang.String,int,boolean) -> createSocket
+org.acra.util.HttpRequest -> org.acra.e.c:
+    org.acra.log.ACRALog log -> a
+    java.lang.String login -> b
+    java.lang.String password -> c
+    int connectionTimeOut -> d
+    int socketTimeOut -> e
+    int maxNrRetries -> f
+    99:100:void setLogin(java.lang.String) -> a
+    103:104:void setPassword(java.lang.String) -> b
+    107:108:void setConnectionTimeOut(int) -> a
+    111:112:void setSocketTimeOut(int) -> b
+    120:121:void setMaxNrRetries(int) -> c
+    132:159:void sendPost(java.net.URL,java.util.Map) -> a
+    165:181:org.apache.http.client.HttpClient getHttpClient() -> b
+    188:192:org.apache.http.auth.UsernamePasswordCredentials getCredentials() -> c
+    197:210:org.apache.http.client.methods.HttpPost getHttpPost(java.net.URL,java.util.Map) -> b
+    222:234:java.lang.String getParamsAsString(java.util.Map) -> a
+    41:41:org.acra.log.ACRALog access$000() -> a
+org.acra.util.HttpRequest$1 -> org.acra.e.d:
+org.acra.util.HttpRequest$SocketTimeOutRetryHandler -> org.acra.e.e:
+    org.apache.http.params.HttpParams httpParams -> a
+    int maxNrRetries -> b
+    61:78:boolean retryRequest(java.io.IOException,int,org.apache.http.protocol.HttpContext) -> retryRequest
+org.acra.util.Installation -> org.acra.e.f:
     java.lang.String sID -> a
-    31:41:java.lang.String id(android.content.Context) -> a
-    45:52:java.lang.String readInstallationFile(java.io.File) -> a
-    56:63:void writeInstallationFile(java.io.File) -> b
-org.acra.util.NaiveTrustManager -> org.acra.c.f:
+    35:50:java.lang.String id(android.content.Context) -> a
+    54:61:java.lang.String readInstallationFile(java.io.File) -> a
+    65:72:void writeInstallationFile(java.io.File) -> b
+org.acra.util.NaiveTrustManager -> org.acra.e.g:
     34:34:java.security.cert.X509Certificate[] getAcceptedIssuers() -> getAcceptedIssuers
     47:47:void checkClientTrusted(java.security.cert.X509Certificate[],java.lang.String) -> checkClientTrusted
     59:59:void checkServerTrusted(java.security.cert.X509Certificate[],java.lang.String) -> checkServerTrusted
+org.acra.util.PackageManagerWrapper -> org.acra.e.h:
+    android.content.Context context -> a
+    39:49:boolean hasPermission(java.lang.String) -> a
+    57:70:android.content.pm.PackageInfo getPackageInfo() -> a
+org.acra.util.ReportUtils -> org.acra.e.i:
+    32:36:long getAvailableInternalMemorySize() -> a
+    46:50:long getTotalInternalMemorySize() -> b
+    61:65:java.lang.String getDeviceId(android.content.Context) -> a
+    70:76:java.lang.String getApplicationFilePath(android.content.Context) -> b
+    87:107:java.lang.String getDisplayDetails(android.content.Context) -> c
+org.acra.util.ToastSender -> org.acra.e.j:
+    26:30:void sendToast(android.content.Context,int,int) -> a

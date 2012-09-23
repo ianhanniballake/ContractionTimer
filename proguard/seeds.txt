@@ -341,37 +341,32 @@ com.ianhanniballake.contractiontimer.ui.ViewActivity: ViewActivity()
 org.acra.ACRA
 org.acra.ACRA: boolean DEV_LOGGING
 org.acra.ACRA: java.lang.String LOG_TAG
-org.acra.ACRA: java.lang.String RES_NOTIF_ICON
-org.acra.ACRA: java.lang.String RES_NOTIF_TICKER_TEXT
-org.acra.ACRA: java.lang.String RES_NOTIF_TITLE
-org.acra.ACRA: java.lang.String RES_NOTIF_TEXT
-org.acra.ACRA: java.lang.String RES_DIALOG_ICON
-org.acra.ACRA: java.lang.String RES_DIALOG_TITLE
-org.acra.ACRA: java.lang.String RES_DIALOG_TEXT
-org.acra.ACRA: java.lang.String RES_DIALOG_COMMENT_PROMPT
-org.acra.ACRA: java.lang.String RES_DIALOG_OK_TOAST
-org.acra.ACRA: java.lang.String RES_TOAST_TEXT
-org.acra.ACRA: int NOTIF_CRASH_ID
 org.acra.ACRA: java.lang.String PREF_DISABLE_ACRA
 org.acra.ACRA: java.lang.String PREF_ENABLE_ACRA
 org.acra.ACRA: java.lang.String PREF_ENABLE_SYSTEM_LOGS
 org.acra.ACRA: java.lang.String PREF_ENABLE_DEVICE_ID
 org.acra.ACRA: java.lang.String PREF_USER_EMAIL_ADDRESS
 org.acra.ACRA: java.lang.String PREF_ALWAYS_ACCEPT
+org.acra.ACRA: java.lang.String PREF_LAST_VERSION_NR
 org.acra.ACRA: android.app.Application mApplication
 org.acra.ACRA: org.acra.annotation.ReportsCrashes mReportsCrashes
+org.acra.ACRA: org.acra.ErrorReporter errorReporterSingleton
 org.acra.ACRA: android.content.SharedPreferences$OnSharedPreferenceChangeListener mPrefListener
-org.acra.ACRA: android.text.format.Time mAppStartDate
 org.acra.ACRA: org.acra.ReportField[] DEFAULT_MAIL_REPORT_FIELDS
 org.acra.ACRA: org.acra.ReportField[] DEFAULT_REPORT_FIELDS
-org.acra.ACRA: java.lang.String NULL_VALUE
+org.acra.ACRA: org.acra.ACRAConfiguration configProxy
 org.acra.ACRA: ACRA()
 org.acra.ACRA: void init(android.app.Application)
-org.acra.ACRA: void initAcra()
+org.acra.ACRA: org.acra.ErrorReporter getErrorReporter()
+org.acra.ACRA: boolean shouldDisableACRA(android.content.SharedPreferences)
 org.acra.ACRA: void checkCrashResources()
 org.acra.ACRA: android.content.SharedPreferences getACRASharedPreferences()
-org.acra.ACRA: org.acra.annotation.ReportsCrashes getConfig()
-org.acra.ACRA: void access$000()
+org.acra.ACRA: org.acra.ACRAConfiguration getConfig()
+org.acra.ACRA: void setConfig(org.acra.ACRAConfiguration)
+org.acra.ACRA: org.acra.ACRAConfiguration getNewDefaultConfig(android.app.Application)
+org.acra.ACRA: boolean isDebuggable()
+org.acra.ACRA: android.app.Application getApplication()
+org.acra.ACRA: boolean access$000(android.content.SharedPreferences)
 org.acra.ACRA: void <clinit>()
 org.acra.ErrorReporter
 org.acra.ErrorReporter: void addCustomData(java.lang.String,java.lang.String)
@@ -381,8 +376,11 @@ org.acra.ReportingInteractionMode
 org.acra.ReportingInteractionMode: org.acra.ReportingInteractionMode SILENT
 org.acra.ReportingInteractionMode: org.acra.ReportingInteractionMode NOTIFICATION
 org.acra.ReportingInteractionMode: org.acra.ReportingInteractionMode TOAST
+org.acra.ReportingInteractionMode: org.acra.ReportingInteractionMode DIALOG
 org.acra.ReportingInteractionMode: org.acra.ReportingInteractionMode[] $VALUES
 org.acra.ReportingInteractionMode: org.acra.ReportingInteractionMode[] values()
 org.acra.ReportingInteractionMode: org.acra.ReportingInteractionMode valueOf(java.lang.String)
 org.acra.ReportingInteractionMode: ReportingInteractionMode(java.lang.String,int)
 org.acra.ReportingInteractionMode: void <clinit>()
+org.acra.collector.MediaCodecListCollector$CodecType: org.acra.collector.MediaCodecListCollector$CodecType[] values()
+org.acra.collector.MediaCodecListCollector$CodecType: org.acra.collector.MediaCodecListCollector$CodecType valueOf(java.lang.String)

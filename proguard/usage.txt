@@ -1187,11 +1187,94 @@ com.ianhanniballake.contractiontimer.ui.TimePickerDialogFragment:
     public static final java.lang.String MINUTE_EXTRA
     public static final java.lang.String TIME_ARGUMENT
     public static final java.lang.String TIME_PICKER_CLOSE_ACTION
+org.acra.ACRAConfiguration:
+    101:102:public void setAdditionalDropboxTags(java.lang.String[])
+    109:110:public void setAdditionalSharedPreferences(java.lang.String[])
+    117:118:public void setConnectionTimeout(java.lang.Integer)
+    125:126:public void setCustomReportContent(org.acra.ReportField[])
+    133:134:public void setDeleteUnapprovedReportsOnApplicationStart(java.lang.Boolean)
+    140:141:public void setDeleteOldUnsentReportsOnApplicationStart(java.lang.Boolean)
+    148:149:public void setDropboxCollectionMinutes(java.lang.Integer)
+    156:157:public void setForceCloseDialogAfterToast(java.lang.Boolean)
+    169:170:public void setFormKey(java.lang.String)
+    182:183:public void setFormUri(java.lang.String)
+    190:191:public void setFormUriBasicAuthLogin(java.lang.String)
+    198:199:public void setFormUriBasicAuthPassword(java.lang.String)
+    206:207:public void setIncludeDropboxSystemTags(java.lang.Boolean)
+    214:215:public void setLogcatArguments(java.lang.String[])
+    227:228:public void setMailTo(java.lang.String)
+    235:236:public void setMaxNumberOfRequestRetries(java.lang.Integer)
+    248:250:public void setMode(org.acra.ReportingInteractionMode)
+    262:263:public void setResDialogCommentPrompt(int)
+    275:276:public void setResDialogEmailPrompt(int)
+    287:288:public void setResDialogIcon(int)
+    299:300:public void setResDialogOkToast(int)
+    311:312:public void setResDialogText(int)
+    323:324:public void setResDialogTitle(int)
+    335:336:public void setResNotifIcon(int)
+    347:348:public void setResNotifText(int)
+    360:361:public void setResNotifTickerText(int)
+    372:373:public void setResNotifTitle(int)
+    384:385:public void setResToastText(int)
+    392:393:public void setSharedPreferenceMode(java.lang.Integer)
+    400:401:public void setSharedPreferenceName(java.lang.String)
+    408:409:public void setSocketTimeout(java.lang.Integer)
+    418:419:public void setLogcatFilterByPid(java.lang.Boolean)
+    428:429:public void setSendReportsInDevMode(java.lang.Boolean)
+    439:440:public void setExcludeMatchingSharedPreferencesKeys(java.lang.String[])
+    449:450:public void setApplicationLogFile(java.lang.String)
+    460:461:public void setApplicationLogFileLines(int)
 org.acra.ACRAConfigurationException:
     private static final long serialVersionUID
-org.acra.Compatibility:
-    29:29:public Compatibility()
-org.acra.ConfigurationInspector:
+org.acra.ACRAConstants:
+    public static final java.lang.String REPORTFILE_EXTENSION
+    static final java.lang.String APPROVED_SUFFIX
+    static final int MAX_SEND_REPORTS
+    static final java.lang.String EXTRA_REPORT_FILE_NAME
+    static final int NOTIF_CRASH_ID
+    static final int TOAST_WAIT_DURATION
+    public static final java.lang.String NULL_VALUE
+    public static final boolean DEFAULT_FORCE_CLOSE_DIALOG_AFTER_TOAST
+    public static final int DEFAULT_MAX_NUMBER_OF_REQUEST_RETRIES
+    public static final int DEFAULT_SOCKET_TIMEOUT
+    public static final int DEFAULT_CONNECTION_TIMEOUT
+    public static final boolean DEFAULT_DELETE_UNAPPROVED_REPORTS_ON_APPLICATION_START
+    public static final boolean DEFAULT_DELETE_OLD_UNSENT_REPORTS_ON_APPLICATION_START
+    public static final int DEFAULT_DROPBOX_COLLECTION_MINUTES
+    public static final boolean DEFAULT_INCLUDE_DROPBOX_SYSTEM_TAGS
+    public static final int DEFAULT_SHARED_PREFERENCES_MODE
+    public static final int DEFAULT_NOTIFICATION_ICON
+    public static final int DEFAULT_DIALOG_ICON
+    public static final int DEFAULT_RES_VALUE
+    public static final java.lang.String DEFAULT_STRING_VALUE
+    public static final int DEFAULT_LOGCAT_LINES
+    public static final int DEFAULT_BUFFER_SIZE_IN_BYTES
+    public static final boolean DEFAULT_LOGCAT_FILTER_BY_PID
+    public static final boolean DEFAULT_SEND_REPORTS_IN_DEV_MODE
+    public static final java.lang.String DEFAULT_APPLICATION_LOGFILE
+    public static final int DEFAULT_APPLICATION_LOGFILE_LINES
+    public static final java.lang.String DEFAULT_GOOGLE_FORM_URL_FORMAT
+    28:28:public ACRAConstants()
+org.acra.CrashReportPersister:
+    private static final int NONE
+    private static final int SLASH
+    private static final int UNICODE
+    private static final int CONTINUE
+    private static final int KEY_DONE
+    private static final int IGNORE
+    private static final java.lang.String LINE_SEPARATOR
+org.acra.ErrorReporter:
+    151:151:public static org.acra.ErrorReporter getInstance()
+    189:189:public java.lang.String putCustomData(java.lang.String,java.lang.String)
+    202:202:public java.lang.String removeCustomData(java.lang.String)
+    215:215:public java.lang.String getCustomData(java.lang.String)
+    236:237:public void removeReportSender(org.acra.sender.ReportSender)
+    246:253:public void removeReportSenders(java.lang.Class)
+    496:497:public void handleException(java.lang.Throwable,boolean)
+    509:510:public void handleException(java.lang.Throwable)
+org.acra.collector.Compatibility:
+    29:29:Compatibility()
+org.acra.collector.ConfigurationCollector:
     private static final java.lang.String SUFFIX_MASK
     private static final java.lang.String FIELD_SCREENLAYOUT
     private static final java.lang.String FIELD_UIMODE
@@ -1206,66 +1289,68 @@ org.acra.ConfigurationInspector:
     private static final java.lang.String PREFIX_KEYBOARDHIDDEN
     private static final java.lang.String PREFIX_KEYBOARD
     private static final java.lang.String PREFIX_HARDKEYBOARDHIDDEN
-    39:39:public ConfigurationInspector()
-org.acra.CrashReportData:
+    42:42:public ConfigurationCollector()
+org.acra.collector.CrashReportData:
     private static final long serialVersionUID
-    private static final java.lang.String PROP_DTD_NAME
-    private static final int NONE
-    private static final int SLASH
-    private static final int UNICODE
-    private static final int CONTINUE
-    private static final int KEY_DONE
-    private static final int IGNORE
-    88:90:public CrashReportData(org.acra.CrashReportData)
-    162:169:public java.lang.String getProperty(org.acra.ReportField,java.lang.String)
-    181:205:public void list(java.io.PrintStream)
-    216:240:public void list(java.io.PrintWriter)
-    475:475:private java.util.Enumeration keys()
-    497:500:public void save(java.io.OutputStream,java.lang.String)
-    513:513:public java.lang.Object setProperty(org.acra.ReportField,java.lang.String)
-    568:585:public synchronized void store(java.io.Writer,java.lang.String)
-    700:701:public void storeToXML(java.io.OutputStream,java.lang.String)
-    727:778:public synchronized void storeToXML(java.io.OutputStream,java.lang.String,java.lang.String)
-    786:786:private java.lang.String substitutePredefinedEntries(java.lang.String)
-org.acra.DeviceFeaturesCollector:
-    33:33:public DeviceFeaturesCollector()
-org.acra.DropBoxCollector:
-    37:37:DropBoxCollector()
-org.acra.DumpSysCollector:
-    31:31:DumpSysCollector()
-org.acra.ErrorReporter:
-    public static final java.lang.String REPORTFILE_EXTENSION
-    private static final int MAX_SEND_REPORTS
-    static final java.lang.String APPROVED_SUFFIX
-    static final java.lang.String EXTRA_REPORT_FILE_NAME
-    289:289:public java.lang.String putCustomData(java.lang.String,java.lang.String)
-    302:302:public java.lang.String removeCustomData(java.lang.String)
-    315:315:public java.lang.String getCustomData(java.lang.String)
-    1081:1082:public void deletePendingSilentReports()
-    1234:1235:public void removeReportSender(org.acra.sender.ReportSender)
-    1243:1250:public void removeReportSenders(java.lang.Class)
-    1257:1258:public void removeAllReportSenders()
-    1266:1268:public void setReportSender(org.acra.sender.ReportSender)
-org.acra.LogCatCollector:
+org.acra.collector.CrashReportDataFactory:
+    153:153:public java.lang.String removeCustomData(java.lang.String)
+    164:164:public java.lang.String getCustomData(java.lang.String)
+org.acra.collector.DeviceFeaturesCollector:
+    32:32:DeviceFeaturesCollector()
+org.acra.collector.DropBoxCollector:
+    private static final java.lang.String NO_RESULT
+    40:40:DropBoxCollector()
+org.acra.collector.DumpSysCollector:
+    34:34:DumpSysCollector()
+org.acra.collector.LogCatCollector:
     private static final int DEFAULT_TAIL_COUNT
-    37:37:LogCatCollector()
-org.acra.ReflectionCollector:
-    32:32:public ReflectionCollector()
-org.acra.SettingsCollector:
-    34:34:public SettingsCollector()
-org.acra.SharedPreferencesCollector:
-    10:10:public SharedPreferencesCollector()
-org.acra.util.Base64
-org.acra.util.Base64$Coder
-org.acra.util.Base64$Decoder
-org.acra.util.Base64$Encoder
+    40:40:LogCatCollector()
+org.acra.collector.LogFileCollector:
+    41:42:private LogFileCollector()
+org.acra.collector.MediaCodecListCollector:
+    private static final java.lang.String COLOR_FORMAT_PREFIX
+    34:35:public MediaCodecListCollector()
+org.acra.collector.ReflectionCollector:
+    32:32:ReflectionCollector()
+org.acra.collector.SettingsCollector:
+    36:36:SettingsCollector()
+org.acra.collector.SharedPreferencesCollector:
+    33:33:SharedPreferencesCollector()
+org.acra.collector.ThreadCollector:
+    25:25:public ThreadCollector()
+org.acra.log.ACRALog:
+    public abstract int v(java.lang.String,java.lang.String)
+    public abstract int v(java.lang.String,java.lang.String,java.lang.Throwable)
+    public abstract int d(java.lang.String,java.lang.String,java.lang.Throwable)
+    public abstract int i(java.lang.String,java.lang.String)
+    public abstract int i(java.lang.String,java.lang.String,java.lang.Throwable)
+    public abstract int w(java.lang.String,java.lang.String)
+    public abstract int w(java.lang.String,java.lang.String,java.lang.Throwable)
+    public abstract int w(java.lang.String,java.lang.Throwable)
+    public abstract int e(java.lang.String,java.lang.String)
+    public abstract int e(java.lang.String,java.lang.String,java.lang.Throwable)
+    public abstract java.lang.String getStackTraceString(java.lang.Throwable)
+org.acra.log.AndroidLogDelegate:
+    14:14:public int v(java.lang.String,java.lang.String)
+    17:17:public int v(java.lang.String,java.lang.String,java.lang.Throwable)
+    23:23:public int d(java.lang.String,java.lang.String,java.lang.Throwable)
+    26:26:public int i(java.lang.String,java.lang.String)
+    29:29:public int i(java.lang.String,java.lang.String,java.lang.Throwable)
+    32:32:public int w(java.lang.String,java.lang.String)
+    35:35:public int w(java.lang.String,java.lang.String,java.lang.Throwable)
+    39:39:public int w(java.lang.String,java.lang.Throwable)
+    42:42:public int e(java.lang.String,java.lang.String)
+    45:45:public int e(java.lang.String,java.lang.String,java.lang.Throwable)
+    48:48:public java.lang.String getStackTraceString(java.lang.Throwable)
+org.acra.sender.GoogleFormSender:
+    62:64:public GoogleFormSender(java.lang.String)
 org.acra.util.HttpRequest:
-    65:66:public void clearCookies()
-    70:77:public void abort()
-    131:140:public java.lang.String sendGet(java.lang.String)
-    144:167:public java.io.InputStream getHttpStream(java.lang.String)
-org.acra.util.HttpUtils:
-    29:29:public HttpUtils()
+    89:90:static void setLog(org.acra.log.ACRALog)
 org.acra.util.Installation:
     private static final java.lang.String INSTALLATION
-    26:26:public Installation()
+    29:29:public Installation()
+org.acra.util.ReportUtils:
+    23:23:public ReportUtils()
+    117:136:public static java.lang.String sparseArrayToString(android.util.SparseArray)
+org.acra.util.ToastSender:
+    15:15:public ToastSender()
