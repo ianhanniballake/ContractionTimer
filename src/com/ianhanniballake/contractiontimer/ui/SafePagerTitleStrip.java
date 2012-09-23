@@ -1,6 +1,6 @@
 package com.ianhanniballake.contractiontimer.ui;
 
-import org.acra.ErrorReporter;
+import org.acra.ACRA;
 
 import android.content.Context;
 import android.support.v4.view.PagerTitleStrip;
@@ -55,7 +55,7 @@ public class SafePagerTitleStrip extends PagerTitleStrip
 			{
 				EasyTracker.getTracker().trackException(
 						Thread.currentThread().getName(), e, false);
-				ErrorReporter.getInstance().handleSilentException(e);
+				ACRA.getErrorReporter().handleSilentException(e);
 			}
 		}
 	}

@@ -3,7 +3,6 @@ package com.ianhanniballake.contractiontimer;
 import java.lang.Thread.UncaughtExceptionHandler;
 
 import org.acra.ACRA;
-import org.acra.ErrorReporter;
 import org.acra.annotation.ReportsCrashes;
 import org.acra.sender.HttpPostSender;
 import org.acra.sender.ReportSender;
@@ -20,7 +19,7 @@ import com.ianhanniballake.contractiontimer.strictmode.StrictModeController;
 /**
  * Creates the Contraction Timer application, setting strict mode in debug mode
  */
-@ReportsCrashes(formKey = "dEpZSmw0bUcycDFCcDNBcTRrR29fUkE6MQ")
+@ReportsCrashes(formKey = "dFdXWHJ6SDRJREh2M0FRMFFqdFk2R1E6MQ")
 public class ContractionTimerApplication extends Application
 {
 	/**
@@ -51,7 +50,7 @@ public class ContractionTimerApplication extends Application
 			ACRA.init(this);
 			final ReportSender bugsenseReportSender = new HttpPostSender(
 					"http://www.bugsense.com/api/acra?api_key=6ebe60f4", null);
-			ErrorReporter.getInstance().addReportSender(bugsenseReportSender);
+			ACRA.getErrorReporter().addReportSender(bugsenseReportSender);
 		}
 		PreferenceManager.setDefaultValues(this, R.xml.preferences_settings,
 				false);
