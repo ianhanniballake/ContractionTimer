@@ -5,8 +5,11 @@ import org.acra.ACRA;
 import android.content.ContentUris;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.pm.ActivityInfo;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
@@ -243,6 +246,26 @@ public class ViewActivity extends ActionBarFragmentActivity implements
 				ContentUris.withAppendedId(
 						ContractionContract.Contractions.CONTENT_ID_URI_BASE,
 						newContractionId));
+	}
+
+	@Override
+	protected void onResume()
+	{
+		super.onResume();
+		final SharedPreferences preferences = PreferenceManager
+				.getDefaultSharedPreferences(this);
+		final boolean isLockPortrait = preferences
+				.getBoolean(
+						Preferences.LOCK_PORTRAIT_PREFERENCE_KEY,
+						getResources().getBoolean(
+								R.bool.pref_settings_lock_portrait_default));
+		if (BuildConfig.DEBUG)
+			Log.d(getClass().getSimpleName(), "Lock Portrait: "
+					+ isLockPortrait);
+		if (isLockPortrait)
+			setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+		else
+			setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR);
 	}
 
 	@Override

@@ -4,7 +4,10 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.SharedPreferences;
+import android.content.pm.ActivityInfo;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
@@ -94,6 +97,26 @@ public class EditActivity extends ActionBarFragmentActivity
 			default:
 				return super.onOptionsItemSelected(item);
 		}
+	}
+
+	@Override
+	protected void onResume()
+	{
+		super.onResume();
+		final SharedPreferences preferences = PreferenceManager
+				.getDefaultSharedPreferences(this);
+		final boolean isLockPortrait = preferences
+				.getBoolean(
+						Preferences.LOCK_PORTRAIT_PREFERENCE_KEY,
+						getResources().getBoolean(
+								R.bool.pref_settings_lock_portrait_default));
+		if (BuildConfig.DEBUG)
+			Log.d(getClass().getSimpleName(), "Lock Portrait: "
+					+ isLockPortrait);
+		if (isLockPortrait)
+			setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+		else
+			setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR);
 	}
 
 	@Override

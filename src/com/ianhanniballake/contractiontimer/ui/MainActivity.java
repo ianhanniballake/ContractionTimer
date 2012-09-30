@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
+import android.content.pm.ActivityInfo;
 import android.database.Cursor;
 import android.os.Build;
 import android.os.Bundle;
@@ -243,7 +244,9 @@ public class MainActivity extends ActionBarFragmentActivity implements
 		final SharedPreferences preferences = PreferenceManager
 				.getDefaultSharedPreferences(this);
 		final boolean isKeepScreenOn = preferences.getBoolean(
-				Preferences.KEEP_SCREEN_ON_PREFERENCE_KEY, false);
+				Preferences.KEEP_SCREEN_ON_PREFERENCE_KEY,
+				getResources().getBoolean(
+						R.bool.pref_settings_keep_screen_on_default));
 		if (BuildConfig.DEBUG)
 			Log.d(getClass().getSimpleName(), "Keep Screen On: "
 					+ isKeepScreenOn);
@@ -253,6 +256,18 @@ public class MainActivity extends ActionBarFragmentActivity implements
 		else
 			getWindow().clearFlags(
 					WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+		final boolean isLockPortrait = preferences
+				.getBoolean(
+						Preferences.LOCK_PORTRAIT_PREFERENCE_KEY,
+						getResources().getBoolean(
+								R.bool.pref_settings_lock_portrait_default));
+		if (BuildConfig.DEBUG)
+			Log.d(getClass().getSimpleName(), "Lock Portrait: "
+					+ isLockPortrait);
+		if (isLockPortrait)
+			setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+		else
+			setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR);
 		final boolean averageTimeFrameChanged = preferences.getBoolean(
 				Preferences.AVERAGE_TIME_FRAME_CHANGED_MAIN_PREFERENCE_KEY,
 				false);

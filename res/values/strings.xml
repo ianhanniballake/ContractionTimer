@@ -65,6 +65,8 @@
     <string name="pref_settings_category">Settings</string>
     <string name="pref_settings_keep_screen_on_summary">Keep the screen on when on the main contraction screen</string>
     <string name="pref_settings_keep_screen_on_title">Keep Screen On</string>
+    <string name="pref_settings_lock_portrait_summary">Locks the screen in Portrait orientation, preventing all screens from rotating</string>
+    <string name="pref_settings_lock_portrait_title">Lock in Portrait</string>
     <string name="pref_settings_average_time_frame_title">Averages Time Frame</string>
     <string name="pref_settings_average_time_frame_summary">Average Duration/Frequency Time Frame:</string>
     <string name="pref_settings_average_time_frame_dialog_title">Choose Average Duration/Frequency Time Frame</string>

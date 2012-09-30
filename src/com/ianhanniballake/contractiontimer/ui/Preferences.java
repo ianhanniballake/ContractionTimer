@@ -4,8 +4,10 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
+import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.preference.ListPreference;
+import android.preference.PreferenceManager;
 import android.support.v4.app.NavUtils;
 import android.support.v4.app.TaskStackBuilder;
 import android.util.Log;
@@ -51,6 +53,10 @@ public class Preferences extends ActionBarPreferenceActivity implements
 	 * Keep Screen On preference name
 	 */
 	public static final String KEEP_SCREEN_ON_PREFERENCE_KEY = "keepScreenOn";
+	/**
+	 * Lock Portrait preference name
+	 */
+	public static final String LOCK_PORTRAIT_PREFERENCE_KEY = "lock_portrait";
 	/**
 	 * Reference to the ListPreference corresponding with the Appwidget
 	 * background
@@ -115,6 +121,20 @@ public class Preferences extends ActionBarPreferenceActivity implements
 		super.onResume();
 		getPreferenceScreen().getSharedPreferences()
 				.registerOnSharedPreferenceChangeListener(this);
+		final SharedPreferences preferences = PreferenceManager
+				.getDefaultSharedPreferences(this);
+		final boolean isLockPortrait = preferences
+				.getBoolean(
+						Preferences.LOCK_PORTRAIT_PREFERENCE_KEY,
+						getResources().getBoolean(
+								R.bool.pref_settings_lock_portrait_default));
+		if (BuildConfig.DEBUG)
+			Log.d(getClass().getSimpleName(), "Lock Portrait: "
+					+ isLockPortrait);
+		if (isLockPortrait)
+			setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+		else
+			setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR);
 	}
 
 	@Override
@@ -132,6 +152,22 @@ public class Preferences extends ActionBarPreferenceActivity implements
 						+ newIsKeepScreenOn);
 			EasyTracker.getTracker().trackEvent("Preferences",
 					"Keep Screen On", Boolean.toString(newIsKeepScreenOn), 0L);
+		}
+		else if (key.equals(Preferences.LOCK_PORTRAIT_PREFERENCE_KEY))
+		{
+			final boolean newIsLockPortrait = sharedPreferences.getBoolean(
+					Preferences.LOCK_PORTRAIT_PREFERENCE_KEY,
+					getResources().getBoolean(
+							R.bool.pref_settings_lock_portrait_default));
+			if (BuildConfig.DEBUG)
+				Log.d(getClass().getSimpleName(), "Lock Portrait: "
+						+ newIsLockPortrait);
+			EasyTracker.getTracker().trackEvent("Preferences", "Lock Portrait",
+					Boolean.toString(newIsLockPortrait), 0L);
+			if (newIsLockPortrait)
+				setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+			else
+				setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR);
 		}
 		else if (key.equals(Preferences.APPWIDGET_BACKGROUND_PREFERENCE_KEY))
 		{

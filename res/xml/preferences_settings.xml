@@ -6,6 +6,11 @@
         android:key="keepScreenOn"
         android:summary="@string/pref_settings_keep_screen_on_summary"
         android:title="@string/pref_settings_keep_screen_on_title" />
+    <CheckBoxPreference
+        android:defaultValue="@bool/pref_settings_lock_portrait_default"
+        android:key="lock_portrait"
+        android:summary="@string/pref_settings_lock_portrait_summary"
+        android:title="@string/pref_settings_lock_portrait_title" />
 
     <ListPreference
         android:defaultValue="@string/pref_settings_average_time_frame_default"
