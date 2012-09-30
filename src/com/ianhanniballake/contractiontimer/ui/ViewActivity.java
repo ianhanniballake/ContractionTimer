@@ -1,5 +1,7 @@
 package com.ianhanniballake.contractiontimer.ui;
 
+import org.acra.ACRA;
+
 import android.content.ContentUris;
 import android.content.Context;
 import android.content.Intent;
@@ -157,6 +159,15 @@ public class ViewActivity extends ActionBarFragmentActivity implements
 			contractionId = ContentUris.parseId(getIntent().getData());
 		} catch (final NumberFormatException e)
 		{
+			if (BuildConfig.DEBUG)
+				Log.e(getClass().getSimpleName(),
+						"NumberFormatException in onLoadFinished", e);
+			else
+			{
+				EasyTracker.getTracker().trackException(
+						Thread.currentThread().getName(), e, false);
+				ACRA.getErrorReporter().handleSilentException(e);
+			}
 			finish();
 			return;
 		}
