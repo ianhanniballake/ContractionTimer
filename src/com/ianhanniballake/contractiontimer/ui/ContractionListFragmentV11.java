@@ -1,5 +1,7 @@
 package com.ianhanniballake.contractiontimer.ui;
 
+import org.acra.ACRA;
+
 import android.annotation.TargetApi;
 import android.database.Cursor;
 import android.os.Bundle;
@@ -260,7 +262,24 @@ public class ContractionListFragmentV11 extends ContractionListFragment
 					@Override
 					public void run()
 					{
-						mode.invalidate();
+						try
+						{
+							mode.invalidate();
+						} catch (final NullPointerException e)
+						{
+							if (BuildConfig.DEBUG)
+								Log.e(getClass().getSimpleName(),
+										"NullPointerException in onItemCheckedStateChanged's invalidate",
+										e);
+							else
+							{
+								EasyTracker.getTracker().trackException(
+										Thread.currentThread().getName(), e,
+										false);
+								ACRA.getErrorReporter()
+										.handleSilentException(e);
+							}
+						}
 					}
 				});
 			}
