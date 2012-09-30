@@ -42,6 +42,11 @@ public class ResetDialogFragment extends DialogFragment
 	{
 		final LayoutInflater inflater = getActivity().getLayoutInflater();
 		final View layout = inflater.inflate(R.layout.dialog_reset, null);
+		final AsyncQueryHandler asyncQueryHandler = new AsyncQueryHandler(
+				getActivity().getContentResolver())
+		{
+			// No call backs needed
+		};
 		return new AlertDialog.Builder(getActivity())
 				.setTitle(R.string.reset_dialog_title)
 				.setView(layout)
@@ -59,15 +64,12 @@ public class ResetDialogFragment extends DialogFragment
 											"Received positive event");
 								EasyTracker.getTracker().trackEvent("Reset",
 										"Positive", "", 0L);
-								new AsyncQueryHandler(getActivity()
-										.getContentResolver())
-								{
-									// No call backs needed
-								}.startDelete(
-										0,
-										0,
-										ContractionContract.Contractions.CONTENT_URI,
-										null, null);
+								asyncQueryHandler
+										.startDelete(
+												0,
+												0,
+												ContractionContract.Contractions.CONTENT_URI,
+												null, null);
 							}
 						})
 				.setNegativeButton(R.string.reset_dialog_cancel,

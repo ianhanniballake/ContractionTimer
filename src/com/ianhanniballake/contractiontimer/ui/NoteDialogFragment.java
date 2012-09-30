@@ -72,6 +72,11 @@ public class NoteDialogFragment extends DialogFragment
 		else
 			builder.setTitle(R.string.note_dialog_title_edit);
 		input.setText(existingNote);
+		final AsyncQueryHandler asyncQueryHandler = new AsyncQueryHandler(
+				getActivity().getContentResolver())
+		{
+			// No call backs needed
+		};
 		return builder
 				.setView(layout)
 				.setInverseBackgroundForced(true)
@@ -99,12 +104,8 @@ public class NoteDialogFragment extends DialogFragment
 								values.put(
 										ContractionContract.Contractions.COLUMN_NAME_NOTE,
 										input.getText().toString());
-								new AsyncQueryHandler(getActivity()
-										.getContentResolver())
-								{
-									// No call backs needed
-								}.startUpdate(0, 0, updateUri, values, null,
-										null);
+								asyncQueryHandler.startUpdate(0, 0, updateUri,
+										values, null, null);
 							}
 						})
 				.setNegativeButton(R.string.note_dialog_cancel,
