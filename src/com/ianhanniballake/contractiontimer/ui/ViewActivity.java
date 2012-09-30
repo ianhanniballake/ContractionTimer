@@ -151,7 +151,15 @@ public class ViewActivity extends ActionBarFragmentActivity implements
 		// indeterminate state
 		if (getIntent() == null || getIntent().getData() == null)
 			finish();
-		final long contractionId = ContentUris.parseId(getIntent().getData());
+		final long contractionId;
+		try
+		{
+			contractionId = ContentUris.parseId(getIntent().getData());
+		} catch (final NumberFormatException e)
+		{
+			finish();
+			return;
+		}
 		final int count = adapter.getCount();
 		for (int position = 0; position < count; position++)
 		{
@@ -162,6 +170,8 @@ public class ViewActivity extends ActionBarFragmentActivity implements
 				break;
 			}
 		}
+		if (currentPosition == -1)
+			finish();
 		final ViewPager pager = (ViewPager) findViewById(R.id.pager);
 		pager.setAdapter(pagerAdapter);
 		pager.setCurrentItem(currentPosition, false);
