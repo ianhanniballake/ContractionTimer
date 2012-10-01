@@ -5,7 +5,6 @@ import java.util.Calendar;
 import android.app.Dialog;
 import android.app.TimePickerDialog;
 import android.content.DialogInterface;
-import android.content.DialogInterface.OnDismissListener;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
@@ -20,7 +19,7 @@ import com.ianhanniballake.contractiontimer.BuildConfig;
  * Provides a DialogFragment for selecting a time
  */
 public class TimePickerDialogFragment extends DialogFragment implements
-		TimePickerDialog.OnTimeSetListener, OnDismissListener
+		TimePickerDialog.OnTimeSetListener
 {
 	/**
 	 * Argument key for storing/retrieving the callback action
@@ -63,6 +62,7 @@ public class TimePickerDialogFragment extends DialogFragment implements
 				.getInstance(getActivity());
 		localBroadcastManager
 				.sendBroadcast(new Intent(TIME_PICKER_CLOSE_ACTION));
+		super.onDismiss(dialog);
 	}
 
 	@Override

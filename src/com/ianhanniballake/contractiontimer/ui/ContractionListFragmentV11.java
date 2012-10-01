@@ -56,7 +56,7 @@ public class ContractionListFragmentV11 extends ContractionListFragment
 	/**
 	 * Note associated with the currently selected item
 	 */
-	private String selectedItemNote = null;
+	String selectedItemNote = null;
 
 	@Override
 	protected void bindView(final View view, final Cursor cursor)

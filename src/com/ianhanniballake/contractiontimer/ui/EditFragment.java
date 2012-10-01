@@ -54,6 +54,10 @@ public class EditFragment extends Fragment implements
 	 */
 	private class EndTimeOverlapCheck extends AsyncTask<Void, Void, Boolean>
 	{
+		public EndTimeOverlapCheck()
+		{
+		}
+
 		@Override
 		protected Boolean doInBackground(final Void... params)
 		{
@@ -109,6 +113,10 @@ public class EditFragment extends Fragment implements
 	 */
 	private class StartTimeOverlapCheck extends AsyncTask<Void, Void, Boolean>
 	{
+		public StartTimeOverlapCheck()
+		{
+		}
+
 		@Override
 		protected Boolean doInBackground(final Void... params)
 		{
@@ -164,6 +172,10 @@ public class EditFragment extends Fragment implements
 	 */
 	private class TimeOverlapCheck extends AsyncTask<Void, Void, Boolean>
 	{
+		public TimeOverlapCheck()
+		{
+		}
+
 		@Override
 		protected Boolean doInBackground(final Void... params)
 		{
@@ -284,19 +296,31 @@ public class EditFragment extends Fragment implements
 	/**
 	 * Current end time of the contraction
 	 */
-	private Calendar endTime = null;
+	Calendar endTime = null;
 	/**
 	 * Current note of the contraction
 	 */
-	private String note = "";
-	private boolean passedEndTimeOrderCheck = false;
-	private boolean passedEndTimeOverlapCheck = false;
-	private boolean passedStartTimeOverlapCheck = false;
-	private boolean passedTimeOverlapCheck = false;
+	String note = "";
+	/**
+	 * Whether the End Time Order check passed
+	 */
+	boolean passedEndTimeOrderCheck = false;
+	/**
+	 * Whether the End Time Overlap check passed
+	 */
+	boolean passedEndTimeOverlapCheck = false;
+	/**
+	 * Whether the Start Time Overlap check passed
+	 */
+	boolean passedStartTimeOverlapCheck = false;
+	/**
+	 * Whether the Time Overlap check passed
+	 */
+	boolean passedTimeOverlapCheck = false;
 	/**
 	 * Current start time of the contraction
 	 */
-	private Calendar startTime = null;
+	Calendar startTime = null;
 	/**
 	 * BroadcastReceiver listening for START_TIME_ACTION and END_TIME_ACTION
 	 * actions
@@ -374,7 +398,7 @@ public class EditFragment extends Fragment implements
 	 * 
 	 * @return View created in onCreateView
 	 */
-	private View getFragmentView()
+	View getFragmentView()
 	{
 		final View rootView = getView();
 		return rootView == null ? null : rootView
@@ -705,7 +729,7 @@ public class EditFragment extends Fragment implements
 	/**
 	 * Updates the edit views based on the current internal data
 	 */
-	private void updateViews()
+	void updateViews()
 	{
 		passedEndTimeOverlapCheck = false;
 		passedStartTimeOverlapCheck = false;

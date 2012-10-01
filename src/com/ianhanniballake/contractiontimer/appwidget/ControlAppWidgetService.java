@@ -58,8 +58,6 @@ public class ControlAppWidgetService extends IntentService
 		final Cursor data = getContentResolver().query(
 				ContractionContract.Contractions.CONTENT_URI, projection,
 				selection, selectionArgs, null);
-		final boolean atLeastOneContraction = data != null
-				&& data.moveToFirst();
 		RemoteViews views;
 		final String appwidgetBackground = preferences.getString(
 				Preferences.APPWIDGET_BACKGROUND_PREFERENCE_KEY,
@@ -83,7 +81,7 @@ public class ControlAppWidgetService extends IntentService
 		views.setOnClickPendingIntent(R.id.application_launch,
 				applicationLaunchPendingIntent);
 		// Set the average duration and frequency
-		if (atLeastOneContraction)
+		if (data != null && data.moveToFirst())
 		{
 			double averageDuration = 0;
 			double averageFrequency = 0;

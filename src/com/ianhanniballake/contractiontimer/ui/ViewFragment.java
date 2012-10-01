@@ -74,7 +74,7 @@ public class ViewFragment extends Fragment implements
 	 * indicates that we haven't checked yet, while true or false indicates
 	 * whether the contraction is ongoing
 	 */
-	private Boolean isContractionOngoing = null;
+	Boolean isContractionOngoing = null;
 
 	/**
 	 * We need to find the exact view_fragment view as there is a

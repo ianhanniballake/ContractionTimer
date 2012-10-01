@@ -187,6 +187,8 @@ public class ActionBarHelperBase extends ActionBarHelper
 						case XmlPullParser.END_DOCUMENT:
 							eof = true;
 							break;
+						default:
+							break;
 					}
 					eventType = parser.next();
 				}
@@ -207,7 +209,7 @@ public class ActionBarHelperBase extends ActionBarHelper
 	/**
 	 * Menu ids to be added to the ActionBar
 	 */
-	private final Set<Integer> mActionItemIds = new HashSet<Integer>();
+	final Set<Integer> mActionItemIds = new HashSet<Integer>();
 	/**
 	 * Reference to the created menu
 	 */

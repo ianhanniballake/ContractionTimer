@@ -157,19 +157,19 @@ public abstract class ContractionListFragment extends ListFragment implements
 	/**
 	 * Start time of the current contraction
 	 */
-	private long currentContractionStartTime = 0;
+	long currentContractionStartTime = 0;
 	/**
 	 * View for the header row
 	 */
-	private View headerView = null;
+	View headerView = null;
 	/**
 	 * Handler of live duration updates
 	 */
-	private final Handler liveDurationHandler = new Handler();
+	final Handler liveDurationHandler = new Handler();
 	/**
 	 * Reference to the Runnable live duration updater
 	 */
-	private final Runnable liveDurationUpdate = new Runnable()
+	final Runnable liveDurationUpdate = new Runnable()
 	{
 		/**
 		 * Updates the appropriate duration view to the current elapsed time and
@@ -196,7 +196,7 @@ public abstract class ContractionListFragment extends ListFragment implements
 	/**
 	 * Handler of time since last contraction updates
 	 */
-	private final Handler timeSinceLastHandler = new Handler();
+	final Handler timeSinceLastHandler = new Handler();
 	/**
 	 * Reference to the Runnable time since last contraction updater
 	 */

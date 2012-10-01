@@ -5,7 +5,6 @@ import java.util.Calendar;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
-import android.content.DialogInterface.OnDismissListener;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
@@ -19,7 +18,7 @@ import com.ianhanniballake.contractiontimer.BuildConfig;
  * Provides a DialogFragment for selecting a date
  */
 public class DatePickerDialogFragment extends DialogFragment implements
-		DatePickerDialog.OnDateSetListener, OnDismissListener
+		DatePickerDialog.OnDateSetListener
 {
 	/**
 	 * Argument key for storing/retrieving the callback action
@@ -84,5 +83,6 @@ public class DatePickerDialogFragment extends DialogFragment implements
 				.getInstance(getActivity());
 		localBroadcastManager
 				.sendBroadcast(new Intent(DATE_PICKER_CLOSE_ACTION));
+		super.onDismiss(dialog);
 	}
 }

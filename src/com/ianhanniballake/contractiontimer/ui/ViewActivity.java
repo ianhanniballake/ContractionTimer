@@ -82,11 +82,11 @@ public class ViewActivity extends ActionBarFragmentActivity implements
 	/**
 	 * Adapter for all contractions
 	 */
-	private CursorAdapter adapter = null;
+	CursorAdapter adapter = null;
 	/**
 	 * Currently shown page
 	 */
-	private int currentPosition = -1;
+	int currentPosition = -1;
 	/**
 	 * Pager Adapter to manage view contraction pages
 	 */

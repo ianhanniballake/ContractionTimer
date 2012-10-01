@@ -35,11 +35,11 @@ public class ContractionControlsFragment extends Fragment implements
 	/**
 	 * Cursor Adapter which holds the latest contraction
 	 */
-	private CursorAdapter adapter;
+	CursorAdapter adapter;
 	/**
 	 * Handler for asynchronous inserts/updates of contractions
 	 */
-	private AsyncQueryHandler contractionQueryHandler;
+	AsyncQueryHandler contractionQueryHandler;
 
 	@Override
 	public void onActivityCreated(final Bundle savedInstanceState)
