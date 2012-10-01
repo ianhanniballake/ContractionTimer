@@ -87,7 +87,8 @@ public class ToggleAppWidgetService extends IntentService
 			views.setViewVisibility(R.id.contraction_toggle_on, View.GONE);
 		}
 		// Close the cursor
-		data.close();
+		if (data != null)
+			data.close();
 		// Update the widgets
 		final AppWidgetManager appWidgetManager = AppWidgetManager
 				.getInstance(this);
