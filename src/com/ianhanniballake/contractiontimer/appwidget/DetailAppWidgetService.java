@@ -169,7 +169,7 @@ public class DetailAppWidgetService extends IntentService
 		}
 		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.ICE_CREAM_SANDWICH)
 			setRemoteAdapter(views);
-		else
+		else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB)
 			setRemoteAdapterV11(views);
 		final Intent clickIntentTemplate = new Intent(Intent.ACTION_VIEW)
 				.setClass(this, ViewActivity.class);
