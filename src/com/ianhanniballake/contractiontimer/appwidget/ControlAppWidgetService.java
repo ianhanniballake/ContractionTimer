@@ -58,7 +58,8 @@ public class ControlAppWidgetService extends IntentService
 		final Cursor data = getContentResolver().query(
 				ContractionContract.Contractions.CONTENT_URI, projection,
 				selection, selectionArgs, null);
-		final boolean atLeastOneContraction = data.moveToFirst();
+		final boolean atLeastOneContraction = data != null
+				&& data.moveToFirst();
 		RemoteViews views;
 		final String appwidgetBackground = preferences.getString(
 				Preferences.APPWIDGET_BACKGROUND_PREFERENCE_KEY,
@@ -136,7 +137,8 @@ public class ControlAppWidgetService extends IntentService
 		final Cursor allData = getContentResolver().query(
 				ContractionContract.Contractions.CONTENT_URI, projection, null,
 				null, null);
-		final boolean contractionOngoing = allData.moveToFirst()
+		final boolean contractionOngoing = allData != null
+				&& allData.moveToFirst()
 				&& allData
 						.isNull(allData
 								.getColumnIndex(ContractionContract.Contractions.COLUMN_NAME_END_TIME));
@@ -163,8 +165,10 @@ public class ControlAppWidgetService extends IntentService
 			views.setViewVisibility(R.id.contraction_toggle_on, View.GONE);
 		}
 		// Close the cursors
-		data.close();
-		allData.close();
+		if (data != null)
+			data.close();
+		if (allData != null)
+			allData.close();
 		// Update the widgets
 		final AppWidgetManager appWidgetManager = AppWidgetManager
 				.getInstance(this);
