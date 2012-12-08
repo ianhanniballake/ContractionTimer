@@ -47,16 +47,23 @@ android.support.v4.view.ViewPager: void setPageMarginDrawable(int)
 android.support.v4.view.ViewPager: void setScrollingCacheEnabled(boolean)
 android.support.v4.view.ViewPager$SavedState
 android.support.v4.view.ViewPager$SavedState: android.os.Parcelable$Creator CREATOR
+com.android.vending.billing.IMarketBillingService
+com.android.vending.billing.IMarketBillingService$Stub
+com.android.vending.billing.IMarketBillingService$Stub$Proxy
 com.google.analytics.tracking.android.AdMobInfo$AdMobKey: com.google.analytics.tracking.android.AdMobInfo$AdMobKey[] values()
 com.google.analytics.tracking.android.AdMobInfo$AdMobKey: com.google.analytics.tracking.android.AdMobInfo$AdMobKey valueOf(java.lang.String)
 com.google.analytics.tracking.android.AnalyticsReceiver
 com.google.analytics.tracking.android.AnalyticsReceiver: AnalyticsReceiver()
 com.google.analytics.tracking.android.GAServiceProxy$ConnectState: com.google.analytics.tracking.android.GAServiceProxy$ConnectState[] values()
 com.google.analytics.tracking.android.GAServiceProxy$ConnectState: com.google.analytics.tracking.android.GAServiceProxy$ConnectState valueOf(java.lang.String)
+com.google.analytics.tracking.android.GAUsage$Field: com.google.analytics.tracking.android.GAUsage$Field[] values()
+com.google.analytics.tracking.android.GAUsage$Field: com.google.analytics.tracking.android.GAUsage$Field valueOf(java.lang.String)
 com.google.android.gms.analytics.internal.Command
 com.google.android.gms.analytics.internal.Command: android.os.Parcelable$Creator CREATOR
 com.ianhanniballake.contractiontimer.ContractionTimerApplication
 com.ianhanniballake.contractiontimer.ContractionTimerApplication: ContractionTimerApplication()
+com.ianhanniballake.contractiontimer.R$array: int donate_in_app_name_array
+com.ianhanniballake.contractiontimer.R$array: int donate_in_app_sku_array
 com.ianhanniballake.contractiontimer.R$array: int pref_appwidget_background_entries
 com.ianhanniballake.contractiontimer.R$array: int pref_appwidget_background_entryvalues
 com.ianhanniballake.contractiontimer.R$array: int pref_settings_average_time_frame_entries
@@ -67,6 +74,7 @@ com.ianhanniballake.contractiontimer.R$bool: int detail_appwidget_enabled
 com.ianhanniballake.contractiontimer.R$bool: int ga_anonymizeIp
 com.ianhanniballake.contractiontimer.R$bool: int pref_privacy_analytics_default
 com.ianhanniballake.contractiontimer.R$bool: int pref_settings_keep_screen_on_default
+com.ianhanniballake.contractiontimer.R$bool: int pref_settings_lock_portrait_default
 com.ianhanniballake.contractiontimer.R$color: int actionbar_compat_background
 com.ianhanniballake.contractiontimer.R$color: int average_background
 com.ianhanniballake.contractiontimer.R$color: int detail_appwidget_background_dark
@@ -130,6 +138,8 @@ com.ianhanniballake.contractiontimer.R$id: int creator_link
 com.ianhanniballake.contractiontimer.R$id: int creator_separator
 com.ianhanniballake.contractiontimer.R$id: int description
 com.ianhanniballake.contractiontimer.R$id: int dialog_note_input
+com.ianhanniballake.contractiontimer.R$id: int donate__in_app_button
+com.ianhanniballake.contractiontimer.R$id: int donate_in_app_spinner
 com.ianhanniballake.contractiontimer.R$id: int duration
 com.ianhanniballake.contractiontimer.R$id: int duration_divider
 com.ianhanniballake.contractiontimer.R$id: int edit
@@ -142,6 +152,10 @@ com.ianhanniballake.contractiontimer.R$id: int end_time_error_overlap
 com.ianhanniballake.contractiontimer.R$id: int end_time_label
 com.ianhanniballake.contractiontimer.R$id: int frequency
 com.ianhanniballake.contractiontimer.R$id: int graphics_and_testing_by_label
+com.ianhanniballake.contractiontimer.R$id: int header
+com.ianhanniballake.contractiontimer.R$id: int in_app_description
+com.ianhanniballake.contractiontimer.R$id: int in_app_layout
+com.ianhanniballake.contractiontimer.R$id: int in_app_title
 com.ianhanniballake.contractiontimer.R$id: int list
 com.ianhanniballake.contractiontimer.R$id: int list_header_time_since_last
 com.ianhanniballake.contractiontimer.R$id: int list_item_detail_appwidget
@@ -153,6 +167,7 @@ com.ianhanniballake.contractiontimer.R$id: int menu_context_delete
 com.ianhanniballake.contractiontimer.R$id: int menu_context_note
 com.ianhanniballake.contractiontimer.R$id: int menu_context_view
 com.ianhanniballake.contractiontimer.R$id: int menu_delete
+com.ianhanniballake.contractiontimer.R$id: int menu_donate
 com.ianhanniballake.contractiontimer.R$id: int menu_edit
 com.ianhanniballake.contractiontimer.R$id: int menu_reset
 com.ianhanniballake.contractiontimer.R$id: int menu_save
@@ -163,6 +178,9 @@ com.ianhanniballake.contractiontimer.R$id: int note
 com.ianhanniballake.contractiontimer.R$id: int note_divider
 com.ianhanniballake.contractiontimer.R$id: int note_label
 com.ianhanniballake.contractiontimer.R$id: int pager
+com.ianhanniballake.contractiontimer.R$id: int paypal_button
+com.ianhanniballake.contractiontimer.R$id: int paypal_description
+com.ianhanniballake.contractiontimer.R$id: int paypal_title
 com.ianhanniballake.contractiontimer.R$id: int project
 com.ianhanniballake.contractiontimer.R$id: int project_link
 com.ianhanniballake.contractiontimer.R$id: int show_popup
@@ -182,6 +200,7 @@ com.ianhanniballake.contractiontimer.R$layout: int control_appwidget_light
 com.ianhanniballake.contractiontimer.R$layout: int detail_appwidget_dark
 com.ianhanniballake.contractiontimer.R$layout: int detail_appwidget_light
 com.ianhanniballake.contractiontimer.R$layout: int dialog_about
+com.ianhanniballake.contractiontimer.R$layout: int dialog_donate
 com.ianhanniballake.contractiontimer.R$layout: int dialog_note
 com.ianhanniballake.contractiontimer.R$layout: int dialog_reset
 com.ianhanniballake.contractiontimer.R$layout: int fragment_contraction_average
@@ -229,6 +248,14 @@ com.ianhanniballake.contractiontimer.R$string: int detail_note_label
 com.ianhanniballake.contractiontimer.R$string: int detail_previous_page
 com.ianhanniballake.contractiontimer.R$string: int detail_start_time_label
 com.ianhanniballake.contractiontimer.R$string: int divider
+com.ianhanniballake.contractiontimer.R$string: int donate_header
+com.ianhanniballake.contractiontimer.R$string: int donate_in_app_button
+com.ianhanniballake.contractiontimer.R$string: int donate_in_app_description
+com.ianhanniballake.contractiontimer.R$string: int donate_in_app_spinner_text
+com.ianhanniballake.contractiontimer.R$string: int donate_in_app_title
+com.ianhanniballake.contractiontimer.R$string: int donate_paypal_button
+com.ianhanniballake.contractiontimer.R$string: int donate_paypal_description
+com.ianhanniballake.contractiontimer.R$string: int donate_paypal_title
 com.ianhanniballake.contractiontimer.R$string: int duration_ongoing
 com.ianhanniballake.contractiontimer.R$string: int edit_activity_name
 com.ianhanniballake.contractiontimer.R$string: int edit_end_time_error_order
@@ -250,6 +277,7 @@ com.ianhanniballake.contractiontimer.R$string: int menu_context_action_mode_titl
 com.ianhanniballake.contractiontimer.R$string: int menu_context_view
 com.ianhanniballake.contractiontimer.R$string: int menu_context_view_condensed
 com.ianhanniballake.contractiontimer.R$string: int menu_delete
+com.ianhanniballake.contractiontimer.R$string: int menu_donate
 com.ianhanniballake.contractiontimer.R$string: int menu_edit
 com.ianhanniballake.contractiontimer.R$string: int menu_reset
 com.ianhanniballake.contractiontimer.R$string: int menu_save
@@ -276,6 +304,10 @@ com.ianhanniballake.contractiontimer.R$string: int pref_settings_keep_screen_on_
 com.ianhanniballake.contractiontimer.R$string: int pref_settings_keep_screen_on_summary_off
 com.ianhanniballake.contractiontimer.R$string: int pref_settings_keep_screen_on_summary_on
 com.ianhanniballake.contractiontimer.R$string: int pref_settings_keep_screen_on_title
+com.ianhanniballake.contractiontimer.R$string: int pref_settings_lock_portrait_summary
+com.ianhanniballake.contractiontimer.R$string: int pref_settings_lock_portrait_summary_off
+com.ianhanniballake.contractiontimer.R$string: int pref_settings_lock_portrait_summary_on
+com.ianhanniballake.contractiontimer.R$string: int pref_settings_lock_portrait_title
 com.ianhanniballake.contractiontimer.R$string: int pref_switch_text_off
 com.ianhanniballake.contractiontimer.R$string: int pref_switch_text_on
 com.ianhanniballake.contractiontimer.R$string: int project
@@ -338,9 +370,19 @@ com.ianhanniballake.contractiontimer.ui.SafePagerTitleStrip: SafePagerTitleStrip
 com.ianhanniballake.contractiontimer.ui.SafePagerTitleStrip: SafePagerTitleStrip(android.content.Context,android.util.AttributeSet)
 com.ianhanniballake.contractiontimer.ui.ViewActivity
 com.ianhanniballake.contractiontimer.ui.ViewActivity: ViewActivity()
+net.robotmedia.billing.BillingController$BillingStatus: net.robotmedia.billing.BillingController$BillingStatus[] values()
+net.robotmedia.billing.BillingController$BillingStatus: net.robotmedia.billing.BillingController$BillingStatus valueOf(java.lang.String)
+net.robotmedia.billing.BillingRequest$ResponseCode: net.robotmedia.billing.BillingRequest$ResponseCode[] values()
+net.robotmedia.billing.BillingRequest$ResponseCode: net.robotmedia.billing.BillingRequest$ResponseCode valueOf(java.lang.String)
+net.robotmedia.billing.BillingService$Action: net.robotmedia.billing.BillingService$Action[] values()
+net.robotmedia.billing.BillingService$Action: net.robotmedia.billing.BillingService$Action valueOf(java.lang.String)
+net.robotmedia.billing.R$string: int app_name
+net.robotmedia.billing.model.Transaction$PurchaseState: net.robotmedia.billing.model.Transaction$PurchaseState[] values()
+net.robotmedia.billing.model.Transaction$PurchaseState: net.robotmedia.billing.model.Transaction$PurchaseState valueOf(java.lang.String)
 org.acra.ACRA
 org.acra.ACRA: boolean DEV_LOGGING
 org.acra.ACRA: java.lang.String LOG_TAG
+org.acra.ACRA: org.acra.log.ACRALog log
 org.acra.ACRA: java.lang.String PREF_DISABLE_ACRA
 org.acra.ACRA: java.lang.String PREF_ENABLE_ACRA
 org.acra.ACRA: java.lang.String PREF_ENABLE_SYSTEM_LOGS
@@ -366,6 +408,7 @@ org.acra.ACRA: void setConfig(org.acra.ACRAConfiguration)
 org.acra.ACRA: org.acra.ACRAConfiguration getNewDefaultConfig(android.app.Application)
 org.acra.ACRA: boolean isDebuggable()
 org.acra.ACRA: android.app.Application getApplication()
+org.acra.ACRA: void setLog(org.acra.log.ACRALog)
 org.acra.ACRA: boolean access$000(android.content.SharedPreferences)
 org.acra.ACRA: void <clinit>()
 org.acra.ErrorReporter
