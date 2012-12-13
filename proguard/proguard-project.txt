@@ -50,5 +50,9 @@ public void addCustomData(java.lang.String,java.lang.String);
 public Thread handleSilentException(java.lang.Throwable);
 }
 
+# Keep for AndroidBillingLibrary
+-keep class net.robotmedia.billing.**
+-dontwarn net.robotmedia.billing.**
+
 # Keep for Google Play Billing
 -keep class com.android.vending.billing.**
