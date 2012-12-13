@@ -1442,26 +1442,36 @@ com.android.vending.billing.IMarketBillingService$Stub$Proxy -> com.android.vend
     android.os.IBinder mRemote -> a
     78:78:android.os.IBinder asBinder() -> asBinder
     87:112:android.os.Bundle sendBillingRequest(android.os.Bundle) -> a
-com.google.analytics.tracking.android.AdHitIdGenerator -> com.google.analytics.tracking.android.a:
+com.google.analytics.tracking.android.AdHitIdGenerator -> com.google.analytics.tracking.android.AdHitIdGenerator:
     boolean adMobSdkInstalled -> a
     31:34:int getAdHitId() -> a
-com.google.analytics.tracking.android.AdMobInfo -> com.google.analytics.tracking.android.b:
+com.google.analytics.tracking.android.AdMobInfo -> com.google.analytics.tracking.android.AdMobInfo:
     com.google.analytics.tracking.android.AdMobInfo INSTANCE -> a
     int adHitId -> b
     java.util.Random random -> c
     40:40:com.google.analytics.tracking.android.AdMobInfo getInstance() -> a
     55:56:int generateAdHitId() -> b
-com.google.analytics.tracking.android.Analytics -> com.google.analytics.tracking.android.c:
+com.google.analytics.tracking.android.AdMobInfo$AdMobKey -> com.google.analytics.tracking.android.AdMobInfo$AdMobKey:
+    com.google.analytics.tracking.android.AdMobInfo$AdMobKey CLIENT_ID_KEY -> a
+    com.google.analytics.tracking.android.AdMobInfo$AdMobKey HIT_ID_KEY -> b
+    com.google.analytics.tracking.android.AdMobInfo$AdMobKey PROPERTY_ID_KEY -> c
+    com.google.analytics.tracking.android.AdMobInfo$AdMobKey VISITOR_ID_KEY -> d
+    java.lang.String bowParameter -> e
+    com.google.analytics.tracking.android.AdMobInfo$AdMobKey[] $VALUES -> f
+    67:67:com.google.analytics.tracking.android.AdMobInfo$AdMobKey[] values() -> values
+    67:67:com.google.analytics.tracking.android.AdMobInfo$AdMobKey valueOf(java.lang.String) -> valueOf
+com.google.analytics.tracking.android.Analytics -> com.google.analytics.tracking.android.Analytics:
     void setDebug(boolean) -> a
     com.google.analytics.tracking.android.Tracker getTracker(java.lang.String) -> a
-com.google.analytics.tracking.android.Analytics$AppOptOutCallback -> com.google.analytics.tracking.android.d:
+com.google.analytics.tracking.android.Analytics$AppOptOutCallback -> com.google.analytics.tracking.android.Analytics$AppOptOutCallback:
     void reportAppOptOut(boolean) -> a
-com.google.analytics.tracking.android.AnalyticsClient -> com.google.analytics.tracking.android.e:
+com.google.analytics.tracking.android.AnalyticsClient -> com.google.analytics.tracking.android.AnalyticsClient:
     void sendHit(java.util.Map,long,java.lang.String,java.util.List) -> a
     void clearHits() -> a
     void connect() -> b
     void disconnect() -> c
-com.google.analytics.tracking.android.AnalyticsGmsCoreClient -> com.google.analytics.tracking.android.f:
+com.google.analytics.tracking.android.AnalyticsConstants -> com.google.analytics.tracking.android.AnalyticsConstants:
+com.google.analytics.tracking.android.AnalyticsGmsCoreClient -> com.google.analytics.tracking.android.AnalyticsGmsCoreClient:
     android.content.ServiceConnection connection -> a
     com.google.analytics.tracking.android.AnalyticsGmsCoreClient$OnConnectedListener onConnectedListener -> b
     com.google.analytics.tracking.android.AnalyticsGmsCoreClient$OnConnectionFailedListener onConnectionFailedListener -> c
@@ -1482,24 +1492,24 @@ com.google.analytics.tracking.android.AnalyticsGmsCoreClient -> com.google.analy
     23:23:android.content.ServiceConnection access$302(com.google.analytics.tracking.android.AnalyticsGmsCoreClient,android.content.ServiceConnection) -> a
     23:23:com.google.analytics.tracking.android.AnalyticsGmsCoreClient$OnConnectionFailedListener access$400(com.google.analytics.tracking.android.AnalyticsGmsCoreClient) -> c
     23:23:com.google.analytics.tracking.android.AnalyticsGmsCoreClient$OnConnectedListener access$500(com.google.analytics.tracking.android.AnalyticsGmsCoreClient) -> d
-com.google.analytics.tracking.android.AnalyticsGmsCoreClient$AnalyticsServiceConnection -> com.google.analytics.tracking.android.g:
+com.google.analytics.tracking.android.AnalyticsGmsCoreClient$AnalyticsServiceConnection -> com.google.analytics.tracking.android.AnalyticsGmsCoreClient$AnalyticsServiceConnection:
     com.google.analytics.tracking.android.AnalyticsGmsCoreClient this$0 -> a
     146:166:void onServiceConnected(android.content.ComponentName,android.os.IBinder) -> onServiceConnected
     170:173:void onServiceDisconnected(android.content.ComponentName) -> onServiceDisconnected
-com.google.analytics.tracking.android.AnalyticsGmsCoreClient$OnConnectedListener -> com.google.analytics.tracking.android.h:
+com.google.analytics.tracking.android.AnalyticsGmsCoreClient$OnConnectedListener -> com.google.analytics.tracking.android.AnalyticsGmsCoreClient$OnConnectedListener:
     void onConnected() -> a
     void onDisconnected() -> b
-com.google.analytics.tracking.android.AnalyticsGmsCoreClient$OnConnectionFailedListener -> com.google.analytics.tracking.android.i:
+com.google.analytics.tracking.android.AnalyticsGmsCoreClient$OnConnectionFailedListener -> com.google.analytics.tracking.android.AnalyticsGmsCoreClient$OnConnectionFailedListener:
     void onConnectionFailed(int,android.content.Intent) -> a
 com.google.analytics.tracking.android.AnalyticsReceiver -> com.google.analytics.tracking.android.AnalyticsReceiver:
     29:45:void onReceive(android.content.Context,android.content.Intent) -> onReceive
-com.google.analytics.tracking.android.AnalyticsStore -> com.google.analytics.tracking.android.j:
+com.google.analytics.tracking.android.AnalyticsStore -> com.google.analytics.tracking.android.AnalyticsStore:
     void putHit(java.util.Map,long,java.lang.String,java.util.Collection) -> a
     void clearHits() -> a
     void dispatch() -> b
-com.google.analytics.tracking.android.AnalyticsStoreStateListener -> com.google.analytics.tracking.android.k:
+com.google.analytics.tracking.android.AnalyticsStoreStateListener -> com.google.analytics.tracking.android.AnalyticsStoreStateListener:
     void reportStoreIsEmpty(boolean) -> a
-com.google.analytics.tracking.android.AnalyticsThread -> com.google.analytics.tracking.android.l:
+com.google.analytics.tracking.android.AnalyticsThread -> com.google.analytics.tracking.android.AnalyticsThread:
     void sendHit(java.util.Map) -> a
     void dispatch() -> a
     void setAppOptOut(boolean) -> a
@@ -1507,14 +1517,14 @@ com.google.analytics.tracking.android.AnalyticsThread -> com.google.analytics.tr
     void requestClientId(com.google.analytics.tracking.android.AnalyticsThread$ClientIdCallback) -> a
     java.util.concurrent.LinkedBlockingQueue getQueue() -> b
     java.lang.Thread getThread() -> c
-com.google.analytics.tracking.android.AnalyticsThread$ClientIdCallback -> com.google.analytics.tracking.android.m:
+com.google.analytics.tracking.android.AnalyticsThread$ClientIdCallback -> com.google.analytics.tracking.android.AnalyticsThread$ClientIdCallback:
     void reportClientId(java.lang.String) -> a
-com.google.analytics.tracking.android.Clock -> com.google.analytics.tracking.android.n:
+com.google.analytics.tracking.android.Clock -> com.google.analytics.tracking.android.Clock:
     long currentTimeMillis() -> a
-com.google.analytics.tracking.android.Dispatcher -> com.google.analytics.tracking.android.o:
+com.google.analytics.tracking.android.Dispatcher -> com.google.analytics.tracking.android.Dispatcher:
     int dispatchHits(java.util.List) -> a
     boolean okToDispatch() -> a
-com.google.analytics.tracking.android.EasyTracker -> com.google.analytics.tracking.android.p:
+com.google.analytics.tracking.android.EasyTracker -> com.google.analytics.tracking.android.EasyTracker:
     com.google.analytics.tracking.android.EasyTracker instance -> a
     boolean gaEnabled -> b
     java.lang.String gaTrackingId -> c
@@ -1551,10 +1561,10 @@ com.google.analytics.tracking.android.EasyTracker -> com.google.analytics.tracki
     410:414:void clearExistingTimer() -> e
     426:435:java.lang.String getActivityName(android.app.Activity) -> c
     93:93:boolean access$102(com.google.analytics.tracking.android.EasyTracker,boolean) -> a
-com.google.analytics.tracking.android.EasyTracker$1 -> com.google.analytics.tracking.android.q:
+com.google.analytics.tracking.android.EasyTracker$1 -> com.google.analytics.tracking.android.EasyTracker$1:
     com.google.analytics.tracking.android.EasyTracker this$0 -> a
     99:99:long currentTimeMillis() -> a
-com.google.analytics.tracking.android.EasyTracker$NoopTracker -> com.google.analytics.tracking.android.r:
+com.google.analytics.tracking.android.EasyTracker$NoopTracker -> com.google.analytics.tracking.android.EasyTracker$NoopTracker:
     double sampleRate -> b
     boolean anonymizeIp -> c
     boolean useSecure -> d
@@ -1569,21 +1579,21 @@ com.google.analytics.tracking.android.EasyTracker$NoopTracker -> com.google.anal
     544:545:void setAnonymizeIp(boolean) -> b
     554:555:void setSampleRate(double) -> a
     564:565:void setUseSecure(boolean) -> c
-com.google.analytics.tracking.android.EasyTracker$NotInForegroundTimerTask -> com.google.analytics.tracking.android.s:
+com.google.analytics.tracking.android.EasyTracker$NotInForegroundTimerTask -> com.google.analytics.tracking.android.EasyTracker$NotInForegroundTimerTask:
     com.google.analytics.tracking.android.EasyTracker this$0 -> a
     661:666:void run() -> run
-com.google.analytics.tracking.android.ExceptionParser -> com.google.analytics.tracking.android.t:
+com.google.analytics.tracking.android.ExceptionParser -> com.google.analytics.tracking.android.ExceptionParser:
     java.lang.String getDescription(java.lang.String,java.lang.Throwable) -> a
-com.google.analytics.tracking.android.ExceptionReporter -> com.google.analytics.tracking.android.u:
+com.google.analytics.tracking.android.ExceptionReporter -> com.google.analytics.tracking.android.ExceptionReporter:
     java.lang.Thread$UncaughtExceptionHandler originalHandler -> a
     com.google.analytics.tracking.android.Tracker tracker -> b
     com.google.analytics.tracking.android.ServiceManager serviceManager -> c
     com.google.analytics.tracking.android.ExceptionParser exceptionParser -> d
     64:80:void uncaughtException(java.lang.Thread,java.lang.Throwable) -> uncaughtException
-com.google.analytics.tracking.android.FutureApis -> com.google.analytics.tracking.android.v:
+com.google.analytics.tracking.android.FutureApis -> com.google.analytics.tracking.android.FutureApis:
     26:31:int version() -> a
     39:53:boolean setOwnerOnlyReadWrite(java.lang.String) -> a
-com.google.analytics.tracking.android.GAServiceManager -> com.google.analytics.tracking.android.w:
+com.google.analytics.tracking.android.GAServiceManager -> com.google.analytics.tracking.android.GAServiceManager:
     java.lang.Object MSG_OBJECT -> a
     android.content.Context ctx -> b
     com.google.analytics.tracking.android.AnalyticsStore store -> c
@@ -1605,13 +1615,13 @@ com.google.analytics.tracking.android.GAServiceManager -> com.google.analytics.t
     20:20:int access$100(com.google.analytics.tracking.android.GAServiceManager) -> a
     20:20:boolean access$200(com.google.analytics.tracking.android.GAServiceManager) -> b
     20:20:android.os.Handler access$300(com.google.analytics.tracking.android.GAServiceManager) -> c
-com.google.analytics.tracking.android.GAServiceManager$1 -> com.google.analytics.tracking.android.x:
+com.google.analytics.tracking.android.GAServiceManager$1 -> com.google.analytics.tracking.android.GAServiceManager$1:
     com.google.analytics.tracking.android.GAServiceManager this$0 -> a
     45:46:void reportStoreIsEmpty(boolean) -> a
-com.google.analytics.tracking.android.GAServiceManager$2 -> com.google.analytics.tracking.android.y:
+com.google.analytics.tracking.android.GAServiceManager$2 -> com.google.analytics.tracking.android.GAServiceManager$2:
     com.google.analytics.tracking.android.GAServiceManager this$0 -> a
     80:90:boolean handleMessage(android.os.Message) -> handleMessage
-com.google.analytics.tracking.android.GAServiceProxy -> com.google.analytics.tracking.android.z:
+com.google.analytics.tracking.android.GAServiceProxy -> com.google.analytics.tracking.android.GAServiceProxy:
     long lastRequestTime -> a
     com.google.analytics.tracking.android.GAServiceProxy$ConnectState state -> b
     com.google.analytics.tracking.android.AnalyticsClient client -> c
@@ -1653,15 +1663,15 @@ com.google.analytics.tracking.android.GAServiceProxy -> com.google.analytics.tra
     27:27:com.google.analytics.tracking.android.Clock access$1000(com.google.analytics.tracking.android.GAServiceProxy) -> h
     27:27:void access$1100(com.google.analytics.tracking.android.GAServiceProxy) -> i
     27:27:java.util.Timer access$1200(com.google.analytics.tracking.android.GAServiceProxy) -> j
-com.google.analytics.tracking.android.GAServiceProxy$1 -> com.google.analytics.tracking.android.aa:
+com.google.analytics.tracking.android.GAServiceProxy$1 -> com.google.analytics.tracking.android.GAServiceProxy$1:
     com.google.analytics.tracking.android.GAServiceProxy this$0 -> a
     74:74:long currentTimeMillis() -> a
-com.google.analytics.tracking.android.GAServiceProxy$2 -> com.google.analytics.tracking.android.ab:
+com.google.analytics.tracking.android.GAServiceProxy$2 -> com.google.analytics.tracking.android.GAServiceProxy$2:
     com.google.analytics.tracking.android.GAServiceProxy this$0 -> a
     198:199:void run() -> run
-com.google.analytics.tracking.android.GAServiceProxy$3 -> com.google.analytics.tracking.android.ac:
+com.google.analytics.tracking.android.GAServiceProxy$3 -> com.google.analytics.tracking.android.GAServiceProxy$3:
     int[] $SwitchMap$com$google$analytics$tracking$android$GAServiceProxy$ConnectState -> a
-com.google.analytics.tracking.android.GAServiceProxy$ConnectState -> com.google.analytics.tracking.android.ad:
+com.google.analytics.tracking.android.GAServiceProxy$ConnectState -> com.google.analytics.tracking.android.GAServiceProxy$ConnectState:
     com.google.analytics.tracking.android.GAServiceProxy$ConnectState CONNECTING -> a
     com.google.analytics.tracking.android.GAServiceProxy$ConnectState CONNECTED_SERVICE -> b
     com.google.analytics.tracking.android.GAServiceProxy$ConnectState CONNECTED_LOCAL -> c
@@ -1672,13 +1682,13 @@ com.google.analytics.tracking.android.GAServiceProxy$ConnectState -> com.google.
     com.google.analytics.tracking.android.GAServiceProxy$ConnectState[] $VALUES -> h
     29:29:com.google.analytics.tracking.android.GAServiceProxy$ConnectState[] values() -> values
     29:29:com.google.analytics.tracking.android.GAServiceProxy$ConnectState valueOf(java.lang.String) -> valueOf
-com.google.analytics.tracking.android.GAServiceProxy$DisconnectCheckTask -> com.google.analytics.tracking.android.ae:
+com.google.analytics.tracking.android.GAServiceProxy$DisconnectCheckTask -> com.google.analytics.tracking.android.GAServiceProxy$DisconnectCheckTask:
     com.google.analytics.tracking.android.GAServiceProxy this$0 -> a
     363:371:void run() -> run
-com.google.analytics.tracking.android.GAServiceProxy$FailedConnectTask -> com.google.analytics.tracking.android.af:
+com.google.analytics.tracking.android.GAServiceProxy$FailedConnectTask -> com.google.analytics.tracking.android.GAServiceProxy$FailedConnectTask:
     com.google.analytics.tracking.android.GAServiceProxy this$0 -> a
     346:350:void run() -> run
-com.google.analytics.tracking.android.GAServiceProxy$HitParams -> com.google.analytics.tracking.android.ag:
+com.google.analytics.tracking.android.GAServiceProxy$HitParams -> com.google.analytics.tracking.android.GAServiceProxy$HitParams:
     java.util.Map wireFormatParams -> a
     long hitTimeInMilliseconds -> b
     java.lang.String path -> c
@@ -1687,10 +1697,10 @@ com.google.analytics.tracking.android.GAServiceProxy$HitParams -> com.google.ana
     396:396:long getHitTimeInMilliseconds() -> b
     400:400:java.lang.String getPath() -> c
     404:404:java.util.List getCommands() -> d
-com.google.analytics.tracking.android.GAServiceProxy$ReconnectTask -> com.google.analytics.tracking.android.ah:
+com.google.analytics.tracking.android.GAServiceProxy$ReconnectTask -> com.google.analytics.tracking.android.GAServiceProxy$ReconnectTask:
     com.google.analytics.tracking.android.GAServiceProxy this$0 -> a
     356:357:void run() -> run
-com.google.analytics.tracking.android.GAThread -> com.google.analytics.tracking.android.ai:
+com.google.analytics.tracking.android.GAThread -> com.google.analytics.tracking.android.GAThread:
     java.util.concurrent.LinkedBlockingQueue queue -> a
     boolean disabled -> b
     boolean closed -> c
@@ -1739,27 +1749,27 @@ com.google.analytics.tracking.android.GAThread -> com.google.analytics.tracking.
     35:35:com.google.analytics.tracking.android.ServiceProxy access$1000(com.google.analytics.tracking.android.GAThread) -> f
     35:35:android.content.Context access$1100(com.google.analytics.tracking.android.GAThread) -> g
     35:35:boolean access$002(com.google.analytics.tracking.android.GAThread,boolean) -> a
-com.google.analytics.tracking.android.GAThread$1 -> com.google.analytics.tracking.android.aj:
+com.google.analytics.tracking.android.GAThread$1 -> com.google.analytics.tracking.android.GAThread$1:
     java.util.Map val$hitCopy -> a
     long val$hitTime -> b
     com.google.analytics.tracking.android.GAThread this$0 -> c
     112:125:void run() -> run
-com.google.analytics.tracking.android.GAThread$2 -> com.google.analytics.tracking.android.ak:
+com.google.analytics.tracking.android.GAThread$2 -> com.google.analytics.tracking.android.GAThread$2:
     com.google.analytics.tracking.android.GAThread this$0 -> a
     254:255:void run() -> run
-com.google.analytics.tracking.android.GAThread$3 -> com.google.analytics.tracking.android.al:
+com.google.analytics.tracking.android.GAThread$3 -> com.google.analytics.tracking.android.GAThread$3:
     boolean val$appOptOut -> a
     com.google.analytics.tracking.android.GAThread this$0 -> b
     266:283:void run() -> run
-com.google.analytics.tracking.android.GAThread$4 -> com.google.analytics.tracking.android.am:
+com.google.analytics.tracking.android.GAThread$4 -> com.google.analytics.tracking.android.GAThread$4:
     com.google.analytics.tracking.android.Analytics$AppOptOutCallback val$callback -> a
     com.google.analytics.tracking.android.GAThread this$0 -> b
     295:296:void run() -> run
-com.google.analytics.tracking.android.GAThread$5 -> com.google.analytics.tracking.android.an:
+com.google.analytics.tracking.android.GAThread$5 -> com.google.analytics.tracking.android.GAThread$5:
     com.google.analytics.tracking.android.AnalyticsThread$ClientIdCallback val$callback -> a
     com.google.analytics.tracking.android.GAThread this$0 -> b
     307:308:void run() -> run
-com.google.analytics.tracking.android.GAUsage -> com.google.analytics.tracking.android.ao:
+com.google.analytics.tracking.android.GAUsage -> com.google.analytics.tracking.android.GAUsage:
     java.util.SortedSet usedFields -> a
     java.lang.StringBuilder sequence -> b
     boolean disableUsage -> c
@@ -1769,7 +1779,7 @@ com.google.analytics.tracking.android.GAUsage -> com.google.analytics.tracking.a
     112:116:void setUsage(com.google.analytics.tracking.android.GAUsage$Field) -> a
     125:165:java.lang.String getAndClearUsage() -> b
     177:182:java.lang.String getAndClearSequence() -> c
-com.google.analytics.tracking.android.GAUsage$Field -> com.google.analytics.tracking.android.ap:
+com.google.analytics.tracking.android.GAUsage$Field -> com.google.analytics.tracking.android.GAUsage$Field:
     com.google.analytics.tracking.android.GAUsage$Field TRACK_VIEW -> a
     com.google.analytics.tracking.android.GAUsage$Field TRACK_VIEW_WITH_APPSCREEN -> b
     com.google.analytics.tracking.android.GAUsage$Field TRACK_EVENT -> c
@@ -1827,7 +1837,7 @@ com.google.analytics.tracking.android.GAUsage$Field -> com.google.analytics.trac
     com.google.analytics.tracking.android.GAUsage$Field[] $VALUES -> ac
     31:31:com.google.analytics.tracking.android.GAUsage$Field[] values() -> values
     31:31:com.google.analytics.tracking.android.GAUsage$Field valueOf(java.lang.String) -> valueOf
-com.google.analytics.tracking.android.GoogleAnalytics -> com.google.analytics.tracking.android.aq:
+com.google.analytics.tracking.android.GoogleAnalytics -> com.google.analytics.tracking.android.GoogleAnalytics:
     boolean debug -> a
     com.google.analytics.tracking.android.AnalyticsThread thread -> b
     android.content.Context context -> c
@@ -1845,13 +1855,13 @@ com.google.analytics.tracking.android.GoogleAnalytics -> com.google.analytics.tr
     227:230:void setAppOptOut(boolean) -> b
     23:23:java.lang.Boolean access$002(com.google.analytics.tracking.android.GoogleAnalytics,java.lang.Boolean) -> a
     23:23:java.lang.String access$102(com.google.analytics.tracking.android.GoogleAnalytics,java.lang.String) -> a
-com.google.analytics.tracking.android.GoogleAnalytics$1 -> com.google.analytics.tracking.android.ar:
+com.google.analytics.tracking.android.GoogleAnalytics$1 -> com.google.analytics.tracking.android.GoogleAnalytics$1:
     com.google.analytics.tracking.android.GoogleAnalytics this$0 -> a
     69:70:void reportAppOptOut(boolean) -> a
-com.google.analytics.tracking.android.GoogleAnalytics$2 -> com.google.analytics.tracking.android.as:
+com.google.analytics.tracking.android.GoogleAnalytics$2 -> com.google.analytics.tracking.android.GoogleAnalytics$2:
     com.google.analytics.tracking.android.GoogleAnalytics this$0 -> a
     77:79:void reportClientId(java.lang.String) -> a
-com.google.analytics.tracking.android.GoogleTracker -> com.google.analytics.tracking.android.at:
+com.google.analytics.tracking.android.GoogleTracker -> com.google.analytics.tracking.android.GoogleTracker:
     java.text.DecimalFormat DF -> a
     com.google.analytics.tracking.android.TrackerHandler handler -> b
     com.google.analytics.tracking.android.GoogleTracker$SimpleModel model -> c
@@ -1873,8 +1883,8 @@ com.google.analytics.tracking.android.GoogleTracker -> com.google.analytics.trac
     358:369:void setAppName(java.lang.String) -> a
     376:382:void setAppVersion(java.lang.String) -> b
     422:424:void setUseSecure(boolean) -> c
-com.google.analytics.tracking.android.GoogleTracker$1 -> com.google.analytics.tracking.android.au:
-com.google.analytics.tracking.android.GoogleTracker$SimpleModel -> com.google.analytics.tracking.android.av:
+com.google.analytics.tracking.android.GoogleTracker$1 -> com.google.analytics.tracking.android.GoogleTracker$1:
+com.google.analytics.tracking.android.GoogleTracker$SimpleModel -> com.google.analytics.tracking.android.GoogleTracker$SimpleModel:
     java.util.Map temporaryMap -> a
     java.util.Map permanentMap -> b
     475:476:void setForNextHit(java.lang.String,java.lang.String) -> a
@@ -1882,7 +1892,7 @@ com.google.analytics.tracking.android.GoogleTracker$SimpleModel -> com.google.an
     483:484:void clearTemporaryValues() -> a
     495:500:void setAll(java.util.Map,java.lang.Boolean) -> a
     503:505:java.util.Map getKeysAndValues() -> b
-com.google.analytics.tracking.android.Hit -> com.google.analytics.tracking.android.aw:
+com.google.analytics.tracking.android.Hit -> com.google.analytics.tracking.android.Hit:
     java.lang.String hitString -> a
     long hitId -> b
     long hitTime -> c
@@ -1893,13 +1903,16 @@ com.google.analytics.tracking.android.Hit -> com.google.analytics.tracking.andro
     33:33:long getHitTime() -> c
     43:43:java.lang.String getHitUrl() -> d
     48:49:void setHitUrl(java.lang.String) -> b
-com.google.analytics.tracking.android.HitBuilder -> com.google.analytics.tracking.android.ax:
+com.google.analytics.tracking.android.HitBuilder -> com.google.analytics.tracking.android.HitBuilder:
     25:47:java.util.Map generateHitParams(com.google.analytics.tracking.android.MetaModel,java.util.Map) -> a
     59:78:java.lang.String postProcessHit(com.google.analytics.tracking.android.Hit,long) -> a
     83:85:java.lang.String encode(java.lang.String) -> a
-com.google.analytics.tracking.android.HttpClientFactory -> com.google.analytics.tracking.android.ay:
+com.google.analytics.tracking.android.HttpClientFactory -> com.google.analytics.tracking.android.HttpClientFactory:
     org.apache.http.client.HttpClient newInstance() -> a
-com.google.analytics.tracking.android.Log -> com.google.analytics.tracking.android.az:
+com.google.analytics.tracking.android.Item -> com.google.analytics.tracking.android.Item:
+com.google.analytics.tracking.android.Item$1 -> com.google.analytics.tracking.android.Item$1:
+com.google.analytics.tracking.android.Item$Builder -> com.google.analytics.tracking.android.Item$Builder:
+com.google.analytics.tracking.android.Log -> com.google.analytics.tracking.android.Log:
     boolean debug -> a
     26:27:void setDebug(boolean) -> a
     35:35:boolean debugEnabled() -> a
@@ -1913,41 +1926,45 @@ com.google.analytics.tracking.android.Log -> com.google.analytics.tracking.andro
     146:146:int w(java.lang.String) -> h
     157:160:int wDebug(java.lang.String) -> i
     164:164:java.lang.String formatMessage(java.lang.String) -> j
-com.google.analytics.tracking.android.MetaModel -> com.google.analytics.tracking.android.ba:
+com.google.analytics.tracking.android.MetaModel -> com.google.analytics.tracking.android.MetaModel:
     java.util.Map metaInfos -> a
     20:30:com.google.analytics.tracking.android.MetaModel$MetaInfo getMetaInfo(java.lang.String) -> a
     41:42:void addField(java.lang.String,java.lang.String,java.lang.String,com.google.analytics.tracking.android.MetaModel$Formatter) -> a
-com.google.analytics.tracking.android.MetaModel$Formatter -> com.google.analytics.tracking.android.bb:
+com.google.analytics.tracking.android.MetaModel$Formatter -> com.google.analytics.tracking.android.MetaModel$Formatter:
     java.lang.String format(java.lang.String) -> a
-com.google.analytics.tracking.android.MetaModel$MetaInfo -> com.google.analytics.tracking.android.bc:
+com.google.analytics.tracking.android.MetaModel$MetaInfo -> com.google.analytics.tracking.android.MetaModel$MetaInfo:
     java.lang.String urlParam -> a
     java.lang.String defaultValue -> b
     com.google.analytics.tracking.android.MetaModel$Formatter formatter -> c
     69:86:java.lang.String getUrlParam(java.lang.String) -> a
     91:91:java.lang.String getDefaultValue() -> a
     95:95:com.google.analytics.tracking.android.MetaModel$Formatter getFormatter() -> b
-com.google.analytics.tracking.android.MetaModelInitializer -> com.google.analytics.tracking.android.bd:
+com.google.analytics.tracking.android.MetaModelInitializer -> com.google.analytics.tracking.android.MetaModelInitializer:
     com.google.analytics.tracking.android.MetaModel$Formatter BOOLEAN_FORMATTER -> a
     com.google.analytics.tracking.android.MetaModel$Formatter UP_TO_TWO_DIGIT_FLOAT_FORMATTER -> b
     34:124:void set(com.google.analytics.tracking.android.MetaModel) -> a
-com.google.analytics.tracking.android.MetaModelInitializer$1 -> com.google.analytics.tracking.android.be:
+com.google.analytics.tracking.android.MetaModelInitializer$1 -> com.google.analytics.tracking.android.MetaModelInitializer$1:
     17:17:java.lang.String format(java.lang.String) -> a
-com.google.analytics.tracking.android.MetaModelInitializer$2 -> com.google.analytics.tracking.android.bf:
+com.google.analytics.tracking.android.MetaModelInitializer$2 -> com.google.analytics.tracking.android.MetaModelInitializer$2:
     java.text.DecimalFormat floatFormat -> a
     25:25:java.lang.String format(java.lang.String) -> a
-com.google.analytics.tracking.android.ParameterLoader -> com.google.analytics.tracking.android.bg:
+com.google.analytics.tracking.android.ModelFields -> com.google.analytics.tracking.android.ModelFields:
+com.google.analytics.tracking.android.NoopDispatcher -> com.google.analytics.tracking.android.NoopDispatcher:
+    18:18:boolean okToDispatch() -> a
+    23:46:int dispatchHits(java.util.List) -> a
+com.google.analytics.tracking.android.ParameterLoader -> com.google.analytics.tracking.android.ParameterLoader:
     java.lang.String getString(java.lang.String) -> a
     java.lang.Double getDoubleFromString(java.lang.String) -> b
     boolean getBoolean(java.lang.String) -> c
     int getInt(java.lang.String,int) -> a
-com.google.analytics.tracking.android.ParameterLoaderImpl -> com.google.analytics.tracking.android.bh:
+com.google.analytics.tracking.android.ParameterLoaderImpl -> com.google.analytics.tracking.android.ParameterLoaderImpl:
     android.content.Context ctx -> a
     36:39:int getResourceIdForType(java.lang.String,java.lang.String) -> a
     44:48:java.lang.String getString(java.lang.String) -> a
     54:58:boolean getBoolean(java.lang.String) -> c
     64:72:int getInt(java.lang.String,int) -> a
     84:92:java.lang.Double getDoubleFromString(java.lang.String) -> b
-com.google.analytics.tracking.android.PersistentAnalyticsStore -> com.google.analytics.tracking.android.bi:
+com.google.analytics.tracking.android.PersistentAnalyticsStore -> com.google.analytics.tracking.android.PersistentAnalyticsStore:
     long tokens -> a
     long lastTrackTime -> b
     boolean throttlingEnabled -> c
@@ -1974,10 +1991,10 @@ com.google.analytics.tracking.android.PersistentAnalyticsStore -> com.google.ana
     520:536:boolean tokensAvailable() -> e
     564:571:android.database.sqlite.SQLiteDatabase getWritableDatabase(java.lang.String) -> a
     36:36:java.lang.String access$000() -> f
-com.google.analytics.tracking.android.PersistentAnalyticsStore$1 -> com.google.analytics.tracking.android.bj:
+com.google.analytics.tracking.android.PersistentAnalyticsStore$1 -> com.google.analytics.tracking.android.PersistentAnalyticsStore$1:
     com.google.analytics.tracking.android.PersistentAnalyticsStore this$0 -> a
     128:128:org.apache.http.client.HttpClient newInstance() -> a
-com.google.analytics.tracking.android.PersistentAnalyticsStore$AnalyticsDatabaseHelper -> com.google.analytics.tracking.android.bk:
+com.google.analytics.tracking.android.PersistentAnalyticsStore$AnalyticsDatabaseHelper -> com.google.analytics.tracking.android.PersistentAnalyticsStore$AnalyticsDatabaseHelper:
     boolean badDatabase -> b
     com.google.analytics.tracking.android.PersistentAnalyticsStore this$0 -> a
     604:619:boolean tablePresent(java.lang.String,android.database.sqlite.SQLiteDatabase) -> a
@@ -1985,15 +2002,15 @@ com.google.analytics.tracking.android.PersistentAnalyticsStore$AnalyticsDatabase
     642:650:void onOpen(android.database.sqlite.SQLiteDatabase) -> onOpen
     654:655:void onCreate(android.database.sqlite.SQLiteDatabase) -> onCreate
     663:663:void onUpgrade(android.database.sqlite.SQLiteDatabase,int,int) -> onUpgrade
-com.google.analytics.tracking.android.ServiceManager -> com.google.analytics.tracking.android.bl:
+com.google.analytics.tracking.android.ServiceManager -> com.google.analytics.tracking.android.ServiceManager:
     void dispatch() -> c
     void setDispatchPeriod(int) -> a
-com.google.analytics.tracking.android.ServiceProxy -> com.google.analytics.tracking.android.bm:
+com.google.analytics.tracking.android.ServiceProxy -> com.google.analytics.tracking.android.ServiceProxy:
     void putHit(java.util.Map,long,java.lang.String,java.util.List) -> a
     void clearHits() -> d
     void dispatch() -> c
     void createService() -> e
-com.google.analytics.tracking.android.SimpleNetworkDispatcher -> com.google.analytics.tracking.android.bn:
+com.google.analytics.tracking.android.SimpleNetworkDispatcher -> com.google.analytics.tracking.android.SimpleNetworkDispatcher:
     java.lang.String userAgent -> a
     com.google.analytics.tracking.android.HttpClientFactory httpClientFactory -> b
     android.content.Context ctx -> c
@@ -2003,14 +2020,29 @@ com.google.analytics.tracking.android.SimpleNetworkDispatcher -> com.google.anal
     184:208:void logDebugInformation(boolean,org.apache.http.HttpEntityEnclosingRequest) -> a
     217:217:java.lang.String createUserAgentString(java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String) -> a
     226:235:java.net.URL getUrl(com.google.analytics.tracking.android.Hit) -> a
-com.google.analytics.tracking.android.StandardExceptionParser -> com.google.analytics.tracking.android.bo:
+com.google.analytics.tracking.android.StandardExceptionParser -> com.google.analytics.tracking.android.StandardExceptionParser:
     java.util.TreeSet includedPackages -> a
     57:105:void setIncludedPackages(android.content.Context,java.util.Collection) -> a
     116:120:java.lang.Throwable getCause(java.lang.Throwable) -> a
     131:143:java.lang.StackTraceElement getBestStackTraceElement(java.lang.Throwable) -> b
     155:171:java.lang.String getDescription(java.lang.Throwable,java.lang.StackTraceElement,java.lang.String) -> a
     176:176:java.lang.String getDescription(java.lang.String,java.lang.Throwable) -> a
-com.google.analytics.tracking.android.Tracker -> com.google.analytics.tracking.android.bp:
+com.google.analytics.tracking.android.TrackedActivity -> com.google.analytics.tracking.android.TrackedActivity:
+    23:29:void onStart() -> onStart
+    33:38:void onStop() -> onStop
+com.google.analytics.tracking.android.TrackedExpandableListActivity -> com.google.analytics.tracking.android.TrackedExpandableListActivity:
+    23:29:void onStart() -> onStart
+    33:38:void onStop() -> onStop
+com.google.analytics.tracking.android.TrackedListActivity -> com.google.analytics.tracking.android.TrackedListActivity:
+    22:28:void onStart() -> onStart
+    32:37:void onStop() -> onStop
+com.google.analytics.tracking.android.TrackedPreferenceActivity -> com.google.analytics.tracking.android.TrackedPreferenceActivity:
+    22:28:void onStart() -> onStart
+    32:37:void onStop() -> onStop
+com.google.analytics.tracking.android.TrackedTabActivity -> com.google.analytics.tracking.android.TrackedTabActivity:
+    22:28:void onStart() -> onStart
+    32:37:void onStop() -> onStop
+com.google.analytics.tracking.android.Tracker -> com.google.analytics.tracking.android.Tracker:
     void setStartSession(boolean) -> a
     void setAppName(java.lang.String) -> a
     void setAppVersion(java.lang.String) -> b
@@ -2021,9 +2053,12 @@ com.google.analytics.tracking.android.Tracker -> com.google.analytics.tracking.a
     void setAnonymizeIp(boolean) -> b
     void setSampleRate(double) -> a
     void setUseSecure(boolean) -> c
-com.google.analytics.tracking.android.TrackerHandler -> com.google.analytics.tracking.android.bq:
+com.google.analytics.tracking.android.TrackerHandler -> com.google.analytics.tracking.android.TrackerHandler:
     void sendHit(java.util.Map) -> a
-com.google.analytics.tracking.android.Utils -> com.google.analytics.tracking.android.br:
+com.google.analytics.tracking.android.Transaction -> com.google.analytics.tracking.android.Transaction:
+com.google.analytics.tracking.android.Transaction$1 -> com.google.analytics.tracking.android.Transaction$1:
+com.google.analytics.tracking.android.Transaction$Builder -> com.google.analytics.tracking.android.Transaction$Builder:
+com.google.analytics.tracking.android.Utils -> com.google.analytics.tracking.android.Utils:
     char[] HEXBYTES -> a
     24:34:java.util.Map parseURLParameters(java.lang.String) -> a
     39:45:double safeParseDouble(java.lang.String) -> b
@@ -2044,18 +2079,18 @@ com.google.android.gms.analytics.internal.Command -> com.google.android.gms.anal
     76:76:int describeContents() -> describeContents
     81:84:void writeToParcel(android.os.Parcel,int) -> writeToParcel
     87:90:void readFromParcel(android.os.Parcel) -> a
-com.google.android.gms.analytics.internal.Command$1 -> com.google.android.gms.analytics.internal.a:
+com.google.android.gms.analytics.internal.Command$1 -> com.google.android.gms.analytics.internal.Command$1:
     57:57:com.google.android.gms.analytics.internal.Command createFromParcel(android.os.Parcel) -> a
     62:62:com.google.android.gms.analytics.internal.Command[] newArray(int) -> a
     54:54:java.lang.Object[] newArray(int) -> newArray
     54:54:java.lang.Object createFromParcel(android.os.Parcel) -> createFromParcel
-com.google.android.gms.analytics.internal.IAnalyticsService -> com.google.android.gms.analytics.internal.b:
+com.google.android.gms.analytics.internal.IAnalyticsService -> com.google.android.gms.analytics.internal.IAnalyticsService:
     void sendHit(java.util.Map,long,java.lang.String,java.util.List) -> a
     void clearHits() -> a
-com.google.android.gms.analytics.internal.IAnalyticsService$Stub -> com.google.android.gms.analytics.internal.c:
+com.google.android.gms.analytics.internal.IAnalyticsService$Stub -> com.google.android.gms.analytics.internal.IAnalyticsService$Stub:
     26:33:com.google.android.gms.analytics.internal.IAnalyticsService asInterface(android.os.IBinder) -> a
     41:72:boolean onTransact(int,android.os.Parcel,android.os.Parcel,int) -> onTransact
-com.google.android.gms.analytics.internal.IAnalyticsService$Stub$Proxy -> com.google.android.gms.analytics.internal.d:
+com.google.android.gms.analytics.internal.IAnalyticsService$Stub$Proxy -> com.google.android.gms.analytics.internal.IAnalyticsService$Stub$Proxy:
     android.os.IBinder mRemote -> a
     83:83:android.os.IBinder asBinder() -> asBinder
     102:117:void sendHit(java.util.Map,long,java.lang.String,java.util.List) -> a
@@ -2405,27 +2440,35 @@ com.ianhanniballake.contractiontimer.ui.DonateDialogFragment -> com.ianhanniball
     java.lang.String[] inAppSku -> X
     boolean isBillingSupported -> Y
     net.robotmedia.billing.helper.AbstractBillingObserver mBillingObserver -> Z
-    75:87:void onBillingChecked(boolean) -> e
-    94:96:void onCancel(android.content.DialogInterface) -> onCancel
-    101:256:void onCreate(android.os.Bundle) -> a
-    261:357:android.app.Dialog onCreateDialog(android.os.Bundle) -> c
-    363:366:void onDestroy() -> s
-    372:375:void onDismiss(android.content.DialogInterface) -> onDismiss
+    56:56:byte[] getObfuscationSalt() -> z
+    63:63:java.lang.String getPublicKey() -> A
+    77:88:void onBillingChecked(boolean) -> e
+    95:97:void onCancel(android.content.DialogInterface) -> onCancel
+    102:257:void onCreate(android.os.Bundle) -> a
+    262:358:android.app.Dialog onCreateDialog(android.os.Bundle) -> c
+    364:367:void onDestroy() -> s
+    373:376:void onDismiss(android.content.DialogInterface) -> onDismiss
 com.ianhanniballake.contractiontimer.ui.DonateDialogFragment$1 -> com.ianhanniballake.contractiontimer.ui.v:
     com.ianhanniballake.contractiontimer.ui.DonateDialogFragment this$0 -> a
-    133:134:void onBillingChecked(boolean) -> a
-    247:247:void onSubscriptionChecked(boolean) -> b
+    int[] $SWITCH_TABLE$net$robotmedia$billing$model$Transaction$PurchaseState -> c
+    int[] $SWITCH_TABLE$net$robotmedia$billing$BillingRequest$ResponseCode -> d
+    134:135:void onBillingChecked(boolean) -> a
+    141:178:void onPurchaseStateChanged(java.lang.String,net.robotmedia.billing.model.Transaction$PurchaseState) -> a
+    184:242:void onRequestPurchaseResponse(java.lang.String,net.robotmedia.billing.BillingRequest$ResponseCode) -> a
+    248:248:void onSubscriptionChecked(boolean) -> b
+    129:129:int[] $SWITCH_TABLE$net$robotmedia$billing$model$Transaction$PurchaseState() -> a
+    129:129:int[] $SWITCH_TABLE$net$robotmedia$billing$BillingRequest$ResponseCode() -> b
 com.ianhanniballake.contractiontimer.ui.DonateDialogFragment$2 -> com.ianhanniballake.contractiontimer.ui.w:
     com.ianhanniballake.contractiontimer.ui.DonateDialogFragment this$0 -> a
-    279:281:void onClick(android.content.DialogInterface,int) -> onClick
+    280:282:void onClick(android.content.DialogInterface,int) -> onClick
 com.ianhanniballake.contractiontimer.ui.DonateDialogFragment$3 -> com.ianhanniballake.contractiontimer.ui.x:
     com.ianhanniballake.contractiontimer.ui.DonateDialogFragment this$0 -> a
     android.app.AlertDialog val$alertDialog -> b
-    303:323:void onClick(android.view.View) -> onClick
+    304:324:void onClick(android.view.View) -> onClick
 com.ianhanniballake.contractiontimer.ui.DonateDialogFragment$4 -> com.ianhanniballake.contractiontimer.ui.y:
     com.ianhanniballake.contractiontimer.ui.DonateDialogFragment this$0 -> a
     android.widget.Spinner val$inAppSpinner -> b
-    346:355:void onClick(android.view.View) -> onClick
+    347:356:void onClick(android.view.View) -> onClick
 com.ianhanniballake.contractiontimer.ui.EditActivity -> com.ianhanniballake.contractiontimer.ui.EditActivity:
     android.content.BroadcastReceiver dialogFragmentClosedBroadcastReceiver -> n
     49:59:void onCreate(android.os.Bundle) -> onCreate
@@ -2635,7 +2678,7 @@ com.ianhanniballake.contractiontimer.ui.ViewFragment$2 -> com.ianhanniballake.co
     com.ianhanniballake.contractiontimer.ui.ViewFragment this$0 -> j
     120:167:void bindView(android.view.View,android.content.Context,android.database.Cursor) -> a
     174:174:android.view.View newView(android.content.Context,android.database.Cursor,android.view.ViewGroup) -> a
-net.robotmedia.billing.BillingController -> a.a.a.a:
+net.robotmedia.billing.BillingController -> net.robotmedia.billing.BillingController:
     net.robotmedia.billing.BillingController$BillingStatus billingStatus -> a
     net.robotmedia.billing.BillingController$BillingStatus subscriptionStatus -> b
     java.util.Set automaticConfirmations -> c
@@ -2645,29 +2688,50 @@ net.robotmedia.billing.BillingController -> a.a.a.a:
     java.util.HashMap manualConfirmations -> g
     java.util.Set observers -> h
     java.util.HashMap pendingRequests -> i
+    98:104:void addManualConfirmation(java.lang.String,java.lang.String) -> a
     125:131:net.robotmedia.billing.BillingController$BillingStatus checkBillingSupported(android.content.Context) -> a
+    191:192:void confirmNotifications(android.content.Context,java.lang.String[]) -> a
     211:214:void debug(java.lang.String) -> a
+    229:231:void getPurchaseInformation(android.content.Context,java.lang.String) -> c
+    239:243:byte[] getSalt() -> b
+    300:303:void notifyPurchaseStateChange(java.lang.String,net.robotmedia.billing.model.Transaction$PurchaseState) -> a
+    315:322:void obfuscate(android.content.Context,net.robotmedia.billing.model.Transaction) -> a
     332:341:void onBillingChecked(boolean) -> a
+    351:354:void onNotify(android.content.Context,java.lang.String) -> a
     367:370:void onPurchaseIntent(java.lang.String,android.app.PendingIntent) -> a
+    385:436:void onPurchaseStateChanged(android.content.Context,java.lang.String,java.lang.String) -> a
     447:454:void onRequestSent(long,net.robotmedia.billing.BillingRequest) -> a
+    467:475:void onResponseCode(android.content.Context,long,int) -> a
     485:493:void onSubscriptionChecked(boolean) -> b
+    496:499:void onTransactionsRestored() -> a
+    512:523:java.util.List parsePurchases(org.json.JSONObject) -> a
     536:536:boolean registerObserver(net.robotmedia.billing.IBillingObserver) -> a
-    553:554:void requestPurchase(android.content.Context,java.lang.String) -> a
+    553:554:void requestPurchase(android.content.Context,java.lang.String) -> b
     579:583:void requestPurchase(android.content.Context,java.lang.String,boolean,java.lang.String) -> a
     627:629:void restoreTransactions(android.content.Context) -> b
     638:639:void setConfiguration(net.robotmedia.billing.BillingController$IConfiguration) -> a
     647:648:void setDebug(boolean) -> c
     672:686:void startPurchaseIntent(android.app.Activity,android.app.PendingIntent,android.content.Intent) -> a
+    689:692:void storeTransaction(android.content.Context,net.robotmedia.billing.model.Transaction) -> b
     727:727:boolean unregisterObserver(net.robotmedia.billing.IBillingObserver) -> b
-net.robotmedia.billing.BillingController$BillingStatus -> a.a.a.b:
+    731:736:boolean verifyNonce(org.json.JSONObject) -> b
+    741:744:void onRequestPurchaseResponse(java.lang.String,net.robotmedia.billing.BillingRequest$ResponseCode) -> a
+net.robotmedia.billing.BillingController$BillingStatus -> net.robotmedia.billing.BillingController$BillingStatus:
     net.robotmedia.billing.BillingController$BillingStatus UNKNOWN -> a
     net.robotmedia.billing.BillingController$BillingStatus SUPPORTED -> b
     net.robotmedia.billing.BillingController$BillingStatus UNSUPPORTED -> c
     net.robotmedia.billing.BillingController$BillingStatus[] ENUM$VALUES -> d
     1:1:net.robotmedia.billing.BillingController$BillingStatus[] values() -> values
     1:1:net.robotmedia.billing.BillingController$BillingStatus valueOf(java.lang.String) -> valueOf
-net.robotmedia.billing.BillingController$IConfiguration -> a.a.a.c:
-net.robotmedia.billing.BillingRequest -> a.a.a.d:
+net.robotmedia.billing.BillingController$IConfiguration -> net.robotmedia.billing.BillingController$IConfiguration:
+    byte[] getObfuscationSalt() -> z
+    java.lang.String getPublicKey() -> A
+net.robotmedia.billing.BillingReceiver -> net.robotmedia.billing.BillingReceiver:
+    39:51:void onReceive(android.content.Context,android.content.Intent) -> onReceive
+    54:57:void purchaseStateChanged(android.content.Context,android.content.Intent) -> a
+    60:62:void notify(android.content.Context,android.content.Intent) -> b
+    65:68:void responseCode(android.content.Context,android.content.Intent) -> c
+net.robotmedia.billing.BillingRequest -> net.robotmedia.billing.BillingRequest:
     java.lang.String packageName -> a
     int startId -> b
     boolean success -> c
@@ -2679,38 +2743,40 @@ net.robotmedia.billing.BillingRequest -> a.a.a.d:
     263:263:boolean hasNonce() -> d
     267:267:boolean isSuccess() -> e
     271:278:android.os.Bundle makeRequestBundle() -> f
+    283:283:void onResponseCode(net.robotmedia.billing.BillingRequest$ResponseCode) -> a
     287:287:void processOkResponse(android.os.Bundle) -> b
     290:304:long run(com.android.vending.billing.IMarketBillingService) -> a
     309:310:void setNonce(long) -> a
     313:318:boolean validateResponse(android.os.Bundle) -> c
     322:322:int getStartId() -> g
-net.robotmedia.billing.BillingRequest$CheckBillingSupported -> a.a.a.e:
+net.robotmedia.billing.BillingRequest$CheckBillingSupported -> net.robotmedia.billing.BillingRequest$CheckBillingSupported:
     35:35:java.lang.String getRequestType() -> c
     40:42:void processOkResponse(android.os.Bundle) -> b
-net.robotmedia.billing.BillingRequest$CheckSubscriptionSupported -> a.a.a.f:
+net.robotmedia.billing.BillingRequest$CheckSubscriptionSupported -> net.robotmedia.billing.BillingRequest$CheckSubscriptionSupported:
     54:54:int getAPIVersion() -> a
     59:59:java.lang.String getRequestType() -> c
     64:66:void processOkResponse(android.os.Bundle) -> b
     70:71:void addParams(android.os.Bundle) -> a
-net.robotmedia.billing.BillingRequest$ConfirmNotifications -> a.a.a.g:
+net.robotmedia.billing.BillingRequest$ConfirmNotifications -> net.robotmedia.billing.BillingRequest$ConfirmNotifications:
     java.lang.String[] notifyIds -> a
     88:89:void addParams(android.os.Bundle) -> a
     93:93:java.lang.String getRequestType() -> c
-net.robotmedia.billing.BillingRequest$GetPurchaseInformation -> a.a.a.h:
+net.robotmedia.billing.BillingRequest$GetPurchaseInformation -> net.robotmedia.billing.BillingRequest$GetPurchaseInformation:
     java.lang.String[] notifyIds -> a
     110:111:void addParams(android.os.Bundle) -> a
     115:115:java.lang.String getRequestType() -> c
     118:118:boolean hasNonce() -> d
-net.robotmedia.billing.BillingRequest$RequestPurchase -> a.a.a.i:
+net.robotmedia.billing.BillingRequest$RequestPurchase -> net.robotmedia.billing.BillingRequest$RequestPurchase:
     java.lang.String itemId -> a
     java.lang.String developerPayload -> b
     139:143:void addParams(android.os.Bundle) -> a
     147:147:java.lang.String getRequestType() -> c
+    152:154:void onResponseCode(net.robotmedia.billing.BillingRequest$ResponseCode) -> a
     158:160:void processOkResponse(android.os.Bundle) -> b
-net.robotmedia.billing.BillingRequest$RequestSubscription -> a.a.a.j:
+net.robotmedia.billing.BillingRequest$RequestSubscription -> net.robotmedia.billing.BillingRequest$RequestSubscription:
     172:174:void addParams(android.os.Bundle) -> a
     178:178:int getAPIVersion() -> a
-net.robotmedia.billing.BillingRequest$ResponseCode -> a.a.a.k:
+net.robotmedia.billing.BillingRequest$ResponseCode -> net.robotmedia.billing.BillingRequest$ResponseCode:
     net.robotmedia.billing.BillingRequest$ResponseCode RESULT_OK -> a
     net.robotmedia.billing.BillingRequest$ResponseCode RESULT_USER_CANCELED -> b
     net.robotmedia.billing.BillingRequest$ResponseCode RESULT_SERVICE_UNAVAILABLE -> c
@@ -2723,16 +2789,19 @@ net.robotmedia.billing.BillingRequest$ResponseCode -> a.a.a.k:
     197:201:net.robotmedia.billing.BillingRequest$ResponseCode valueOf(int) -> b
     1:1:net.robotmedia.billing.BillingRequest$ResponseCode[] values() -> values
     1:1:net.robotmedia.billing.BillingRequest$ResponseCode valueOf(java.lang.String) -> valueOf
-net.robotmedia.billing.BillingRequest$RestoreTransactions -> a.a.a.l:
+net.robotmedia.billing.BillingRequest$RestoreTransactions -> net.robotmedia.billing.BillingRequest$RestoreTransactions:
     212:212:java.lang.String getRequestType() -> c
     215:215:boolean hasNonce() -> d
-net.robotmedia.billing.BillingService -> a.a.a.m:
+    219:223:void onResponseCode(net.robotmedia.billing.BillingRequest$ResponseCode) -> a
+net.robotmedia.billing.BillingService -> net.robotmedia.billing.BillingService:
     java.util.LinkedList mPendingRequests -> a
     com.android.vending.billing.IMarketBillingService mService -> b
     int[] $SWITCH_TABLE$net$robotmedia$billing$BillingService$Action -> c
     51:53:void checkBillingSupported(android.content.Context) -> a
+    61:64:void confirmNotifications(android.content.Context,java.lang.String[]) -> a
     67:70:android.content.Intent createIntent(android.content.Context,net.robotmedia.billing.BillingService$Action) -> a
     74:74:java.lang.String getActionForIntent(android.content.Context,net.robotmedia.billing.BillingService$Action) -> b
+    78:82:void getPurchaseInformation(android.content.Context,java.lang.String[],long) -> a
     85:89:void requestPurchase(android.content.Context,java.lang.String,java.lang.String) -> a
     99:103:void restoreTransations(android.content.Context,long) -> a
     107:114:void bindMarketBillingService() -> b
@@ -2755,7 +2824,7 @@ net.robotmedia.billing.BillingService -> a.a.a.m:
     268:274:void runRequestOrQueue(net.robotmedia.billing.BillingRequest) -> b
     278:287:void onDestroy() -> onDestroy
     35:35:int[] $SWITCH_TABLE$net$robotmedia$billing$BillingService$Action() -> a
-net.robotmedia.billing.BillingService$Action -> a.a.a.n:
+net.robotmedia.billing.BillingService$Action -> net.robotmedia.billing.BillingService$Action:
     net.robotmedia.billing.BillingService$Action CHECK_BILLING_SUPPORTED -> a
     net.robotmedia.billing.BillingService$Action CHECK_SUBSCRIPTION_SUPPORTED -> b
     net.robotmedia.billing.BillingService$Action CONFIRM_NOTIFICATIONS -> c
@@ -2766,31 +2835,136 @@ net.robotmedia.billing.BillingService$Action -> a.a.a.n:
     net.robotmedia.billing.BillingService$Action[] ENUM$VALUES -> h
     1:1:net.robotmedia.billing.BillingService$Action[] values() -> values
     1:1:net.robotmedia.billing.BillingService$Action valueOf(java.lang.String) -> valueOf
-net.robotmedia.billing.IBillingObserver -> a.a.a.o:
+net.robotmedia.billing.IBillingObserver -> net.robotmedia.billing.IBillingObserver:
     void onBillingChecked(boolean) -> a
     void onSubscriptionChecked(boolean) -> b
     void onPurchaseIntent(java.lang.String,android.app.PendingIntent) -> a
-net.robotmedia.billing.helper.AbstractBillingObserver -> a.a.a.a.a:
+    void onPurchaseStateChanged(java.lang.String,net.robotmedia.billing.model.Transaction$PurchaseState) -> a
+    void onRequestPurchaseResponse(java.lang.String,net.robotmedia.billing.BillingRequest$ResponseCode) -> a
+    void onTransactionsRestored() -> c
+net.robotmedia.billing.R -> net.robotmedia.billing.R:
+net.robotmedia.billing.R$string -> net.robotmedia.billing.R$string:
+    int app_name -> app_name
+net.robotmedia.billing.helper.AbstractBillingActivity -> net.robotmedia.billing.helper.AbstractBillingActivity:
+    net.robotmedia.billing.helper.AbstractBillingObserver mBillingObserver -> a
+    48:48:net.robotmedia.billing.BillingController$BillingStatus checkBillingSupported() -> a
+    void onBillingChecked(boolean) -> a
+    void onSubscriptionChecked(boolean) -> b
+    80:107:void onCreate(android.os.Bundle) -> onCreate
+    111:117:void onDestroy() -> onDestroy
+    void onPurchaseStateChanged(java.lang.String,net.robotmedia.billing.model.Transaction$PurchaseState) -> a
+    void onRequestPurchaseResponse(java.lang.String,net.robotmedia.billing.BillingRequest$ResponseCode) -> a
+net.robotmedia.billing.helper.AbstractBillingActivity$1 -> net.robotmedia.billing.helper.AbstractBillingActivity$1:
+    net.robotmedia.billing.helper.AbstractBillingActivity this$0 -> a
+    85:86:void onBillingChecked(boolean) -> a
+    89:90:void onSubscriptionChecked(boolean) -> b
+    93:94:void onPurchaseStateChanged(java.lang.String,net.robotmedia.billing.model.Transaction$PurchaseState) -> a
+    97:98:void onRequestPurchaseResponse(java.lang.String,net.robotmedia.billing.BillingRequest$ResponseCode) -> a
+net.robotmedia.billing.helper.AbstractBillingFragment -> net.robotmedia.billing.helper.AbstractBillingFragment:
+    net.robotmedia.billing.helper.AbstractBillingObserver mBillingObserver -> a
+    35:35:net.robotmedia.billing.BillingController$BillingStatus checkBillingSupported() -> a
+    void onBillingChecked(boolean) -> a
+    void onSubscriptionChecked(boolean) -> b
+    67:94:void onCreate(android.os.Bundle) -> onCreate
+    98:104:void onDestroy() -> onDestroy
+    void onPurchaseStateChanged(java.lang.String,net.robotmedia.billing.model.Transaction$PurchaseState) -> a
+    void onRequestPurchaseResponse(java.lang.String,net.robotmedia.billing.BillingRequest$ResponseCode) -> a
+net.robotmedia.billing.helper.AbstractBillingFragment$1 -> net.robotmedia.billing.helper.AbstractBillingFragment$1:
+    net.robotmedia.billing.helper.AbstractBillingFragment this$0 -> a
+    72:73:void onBillingChecked(boolean) -> a
+    76:77:void onSubscriptionChecked(boolean) -> b
+    80:81:void onPurchaseStateChanged(java.lang.String,net.robotmedia.billing.model.Transaction$PurchaseState) -> a
+    84:85:void onRequestPurchaseResponse(java.lang.String,net.robotmedia.billing.BillingRequest$ResponseCode) -> a
+net.robotmedia.billing.helper.AbstractBillingObserver -> net.robotmedia.billing.helper.AbstractBillingObserver:
     android.app.Activity activity -> b
-    43:44:boolean isTransactionsRestored() -> a
+    43:44:boolean isTransactionsRestored() -> d
     57:58:void onPurchaseIntent(java.lang.String,android.app.PendingIntent) -> a
-net.robotmedia.billing.security.ISignatureValidator -> a.a.a.b.a:
-net.robotmedia.billing.utils.AESObfuscator -> a.a.a.c.a:
+    61:65:void onTransactionsRestored() -> c
+net.robotmedia.billing.model.BillingDB -> net.robotmedia.billing.model.BillingDB:
+    java.lang.String[] TABLE_TRANSACTIONS_COLUMNS -> b
+    android.database.sqlite.SQLiteDatabase mDb -> a
+    net.robotmedia.billing.model.BillingDB$DatabaseHelper mDatabaseHelper -> c
+    50:51:void close() -> a
+    54:61:void insert(net.robotmedia.billing.model.Transaction) -> a
+net.robotmedia.billing.model.BillingDB$DatabaseHelper -> net.robotmedia.billing.model.BillingDB$DatabaseHelper:
+    net.robotmedia.billing.model.BillingDB this$0 -> a
+    95:96:void onCreate(android.database.sqlite.SQLiteDatabase) -> onCreate
+    99:105:void createTransactionsTable(android.database.sqlite.SQLiteDatabase) -> a
+    108:108:void onUpgrade(android.database.sqlite.SQLiteDatabase,int,int) -> onUpgrade
+net.robotmedia.billing.model.Transaction -> net.robotmedia.billing.model.Transaction:
+    java.lang.String developerPayload -> a
+    java.lang.String notificationId -> b
+    java.lang.String orderId -> c
+    java.lang.String packageName -> d
+    java.lang.String productId -> e
+    net.robotmedia.billing.model.Transaction$PurchaseState purchaseState -> f
+    long purchaseTime -> g
+    52:61:net.robotmedia.billing.model.Transaction parse(org.json.JSONObject) -> a
+    86:86:net.robotmedia.billing.model.Transaction clone() -> a
+    91:127:boolean equals(java.lang.Object) -> equals
+    132:132:java.lang.String toString() -> toString
+    1:1:java.lang.Object clone() -> clone
+net.robotmedia.billing.model.Transaction$PurchaseState -> net.robotmedia.billing.model.Transaction$PurchaseState:
+    net.robotmedia.billing.model.Transaction$PurchaseState PURCHASED -> a
+    net.robotmedia.billing.model.Transaction$PurchaseState CANCELLED -> b
+    net.robotmedia.billing.model.Transaction$PurchaseState REFUNDED -> c
+    net.robotmedia.billing.model.Transaction$PurchaseState EXPIRED -> d
+    net.robotmedia.billing.model.Transaction$PurchaseState[] ENUM$VALUES -> e
+    35:39:net.robotmedia.billing.model.Transaction$PurchaseState valueOf(int) -> a
+    1:1:net.robotmedia.billing.model.Transaction$PurchaseState[] values() -> values
+    1:1:net.robotmedia.billing.model.Transaction$PurchaseState valueOf(java.lang.String) -> valueOf
+net.robotmedia.billing.model.TransactionManager -> net.robotmedia.billing.model.TransactionManager:
+    28:31:void addTransaction(android.content.Context,net.robotmedia.billing.model.Transaction) -> a
+net.robotmedia.billing.security.DefaultSignatureValidator -> net.robotmedia.billing.security.DefaultSignatureValidator:
+    net.robotmedia.billing.BillingController$IConfiguration configuration -> a
+    49:59:java.security.PublicKey generatePublicKey(java.lang.String) -> a
+    72:89:boolean validate(java.security.PublicKey,java.lang.String,java.lang.String) -> a
+    94:103:boolean validate(java.lang.String,java.lang.String) -> a
+net.robotmedia.billing.security.ISignatureValidator -> net.robotmedia.billing.security.ISignatureValidator:
+    boolean validate(java.lang.String,java.lang.String) -> a
+net.robotmedia.billing.utils.AESObfuscator -> net.robotmedia.billing.utils.AESObfuscator:
     byte[] IV -> a
-net.robotmedia.billing.utils.Compatibility -> a.a.a.c.b:
+    javax.crypto.Cipher mEncryptor -> b
+    javax.crypto.Cipher mDecryptor -> c
+    64:73:java.lang.String obfuscate(java.lang.String) -> a
+net.robotmedia.billing.utils.AESObfuscator$ValidationException -> net.robotmedia.billing.utils.AESObfuscator$ValidationException:
+net.robotmedia.billing.utils.Base64 -> net.robotmedia.billing.utils.Base64:
+    byte[] ALPHABET -> b
+    byte[] WEBSAFE_ALPHABET -> c
+    byte[] DECODABET -> d
+    byte[] WEBSAFE_DECODABET -> e
+    boolean $assertionsDisabled -> a
+    210:234:byte[] encode3to4(byte[],int,int,byte[],int,byte[]) -> a
+    247:247:java.lang.String encode(byte[]) -> a
+    274:286:java.lang.String encode(byte[],int,int,byte[],boolean) -> a
+    301:345:byte[] encode(byte[],int,int,byte[],int) -> a
+    378:406:int decode4to3(byte[],int,byte[],int,byte[]) -> a
+    419:420:byte[] decode(java.lang.String) -> a
+    474:474:byte[] decode(byte[],int,int) -> a
+    504:568:byte[] decode(byte[],int,int,byte[]) -> a
+net.robotmedia.billing.utils.Base64DecoderException -> net.robotmedia.billing.utils.Base64DecoderException:
+net.robotmedia.billing.utils.Compatibility -> net.robotmedia.billing.utils.Compatibility:
     java.lang.reflect.Method startIntentSender -> b
     int START_NOT_STICKY -> a
     java.lang.Class[] START_INTENT_SENDER_SIG -> c
     41:54:void initCompatibility() -> b
     57:70:void startIntentSender(android.app.Activity,android.content.IntentSender,android.content.Intent) -> a
     73:73:boolean isStartIntentSenderSupported() -> a
-net.robotmedia.billing.utils.Security -> a.a.a.c.c:
+net.robotmedia.billing.utils.Installation -> net.robotmedia.billing.utils.Installation:
+    java.lang.String sID -> a
+    31:42:java.lang.String id(android.content.Context) -> a
+    46:50:java.lang.String readInstallationFile(java.io.File) -> a
+    54:58:void writeInstallationFile(java.io.File) -> b
+net.robotmedia.billing.utils.Security -> net.robotmedia.billing.utils.Security:
     java.util.HashSet knownNonces -> a
     java.security.SecureRandom RANDOM -> b
     java.lang.String TAG -> c
     net.robotmedia.billing.utils.AESObfuscator _obfuscator -> d
     35:37:long generateNonce() -> a
-    45:46:void removeNonce(long) -> a
+    41:41:boolean isNonceKnown(long) -> a
+    45:46:void removeNonce(long) -> b
+    49:50:java.lang.String obfuscate(android.content.Context,byte[],java.lang.String) -> a
+    56:62:net.robotmedia.billing.utils.AESObfuscator getObfuscator(android.content.Context,byte[]) -> a
 org.acra.ACRA -> org.acra.ACRA:
     boolean DEV_LOGGING -> DEV_LOGGING
     java.lang.String LOG_TAG -> LOG_TAG

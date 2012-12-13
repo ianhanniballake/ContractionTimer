@@ -899,14 +899,33 @@ com.google.analytics.tracking.android.AdMobInfo:
     49:49:java.util.Map getJoinIds()
     60:61:void setAdHitId(int)
     64:64:int getAdHitId()
-com.google.analytics.tracking.android.AdMobInfo$AdMobKey
+com.google.analytics.tracking.android.AdMobInfo$AdMobKey:
+    80:80:java.lang.String getBowParameter()
 com.google.analytics.tracking.android.Analytics:
     public abstract boolean debugEnabled()
     public abstract com.google.analytics.tracking.android.Tracker getDefaultTracker()
     public abstract void setDefaultTracker(com.google.analytics.tracking.android.Tracker)
     public abstract void setAppOptOut(boolean)
     public abstract void requestAppOptOut(com.google.analytics.tracking.android.Analytics$AppOptOutCallback)
-com.google.analytics.tracking.android.AnalyticsConstants
+com.google.analytics.tracking.android.AnalyticsConstants:
+    static final int MAX_GET_LENGTH
+    static final int MAX_POST_LENGTH
+    static final int MAX_REQUESTS_PER_DISPATCH
+    static final int MAX_NUM_STORED_HITS
+    static final java.lang.String PRODUCT
+    static final java.lang.String VERSION
+    static final java.lang.String INSTALL_DATA_FILE
+    static final java.lang.String CLIENT_ID_FILE
+    static final java.lang.String OPT_OUT_FILE
+    static final java.lang.String OPTOUT_ID
+    static final int OPTOUT_TIME_CHECK_IN_SECONDS
+    static final long MILLISECONDS_PER_MINUTE
+    static final long MILLISECONDS_PER_HOUR
+    static final long MILLISECONDS_PER_DAY
+    static final long MILLISECONDS_PER_MONTH
+    static final java.lang.String ANALYTICS_PATH_INSECURE
+    static final java.lang.String ANALYTICS_PATH_SECURE
+    static final java.lang.String HIT_URL_MODEL_FIELD
 com.google.analytics.tracking.android.AnalyticsGmsCoreClient:
     public static final int BIND_FAILED
     public static final int REMOTE_EXECUTION_FAILED
@@ -965,8 +984,6 @@ com.google.analytics.tracking.android.EasyTracker$NoopTracker:
 com.google.analytics.tracking.android.ExceptionReporter:
     54:54:public com.google.analytics.tracking.android.ExceptionParser getExceptionParser()
     58:59:public void setExceptionParser(com.google.analytics.tracking.android.ExceptionParser)
-com.google.analytics.tracking.android.FutureApis:
-    17:18:private FutureApis()
 com.google.analytics.tracking.android.GAServiceManager:
     private static final int MSG_KEY
     69:73:GAServiceManager(android.content.Context,com.google.analytics.tracking.android.AnalyticsThread,com.google.analytics.tracking.android.AnalyticsStore)
@@ -1037,19 +1054,113 @@ com.google.analytics.tracking.android.GoogleTracker:
     458:468:public void setCustomDimensionsAndMetrics(java.util.Map,java.util.Map)
 com.google.analytics.tracking.android.GoogleTracker$SimpleModel:
     487:491:public synchronized java.lang.String get(java.lang.String)
-com.google.analytics.tracking.android.HitBuilder:
-    15:15:HitBuilder()
-com.google.analytics.tracking.android.Item
-com.google.analytics.tracking.android.Item$1
-com.google.analytics.tracking.android.Item$Builder
+com.google.analytics.tracking.android.Item:
+    private final java.lang.String productSKU
+    private final java.lang.String productName
+    private final java.lang.String productCategory
+    private final long itemPriceInMicros
+    private final long itemQuantity
+    18:24:private Item(com.google.analytics.tracking.android.Item$Builder)
+    27:27:public java.lang.String getProductSKU()
+    31:31:public java.lang.String getProductName()
+    35:35:public java.lang.String getProductCategory()
+    39:39:public long getItemPriceInMicros()
+    43:43:public long getItemQuantity()
+    11:11:synthetic Item(com.google.analytics.tracking.android.Item$Builder,com.google.analytics.tracking.android.Item$1)
+com.google.analytics.tracking.android.Item$Builder:
+    private final java.lang.String productSKU
+    private final long itemPriceInMicros
+    private final long itemQuantity
+    private final java.lang.String productName
+    private java.lang.String productCategory
+    67:78:public Item$Builder(java.lang.String,java.lang.String,long,long)
+    88:89:public com.google.analytics.tracking.android.Item$Builder setProductCategory(java.lang.String)
+    98:98:public com.google.analytics.tracking.android.Item build()
+    49:49:static synthetic java.lang.String access$000(com.google.analytics.tracking.android.Item$Builder)
+    49:49:static synthetic long access$100(com.google.analytics.tracking.android.Item$Builder)
+    49:49:static synthetic long access$200(com.google.analytics.tracking.android.Item$Builder)
+    49:49:static synthetic java.lang.String access$300(com.google.analytics.tracking.android.Item$Builder)
+    49:49:static synthetic java.lang.String access$400(com.google.analytics.tracking.android.Item$Builder)
 com.google.analytics.tracking.android.Log:
     static final java.lang.String LOG_TAG
-    17:18:private Log()
     82:85:static int eDebug(java.lang.String)
-com.google.analytics.tracking.android.MetaModelInitializer:
-    29:30:private MetaModelInitializer()
-com.google.analytics.tracking.android.ModelFields
-com.google.analytics.tracking.android.NoopDispatcher
+com.google.analytics.tracking.android.ModelFields:
+    public static final java.lang.String EVENT
+    public static final java.lang.String ITEM
+    public static final java.lang.String APP_VIEW
+    public static final java.lang.String SOCIAL
+    public static final java.lang.String TIMING
+    public static final java.lang.String TRANSACTION
+    public static final java.lang.String EXCEPTION
+    public static final java.lang.String ANONYMIZE_IP
+    public static final java.lang.String API_VERSION
+    public static final java.lang.String APP_NAME
+    public static final java.lang.String APP_ID
+    public static final java.lang.String APP_INSTALLER_ID
+    public static final java.lang.String TRACKING_ID
+    public static final java.lang.String APP_VERSION
+    static final java.lang.String USAGE
+    public static final java.lang.String DESCRIPTION
+    public static final java.lang.String APP_SCREEN
+    public static final java.lang.String ENCODING
+    public static final java.lang.String CLIENT_ID
+    public static final java.lang.String HIT_TYPE
+    public static final java.lang.String LANGUAGE
+    public static final java.lang.String REFERRER
+    public static final java.lang.String SAMPLE_RATE
+    public static final java.lang.String SCREEN_RESOLUTION
+    public static final java.lang.String SESSION_CONTROL
+    public static final java.lang.String NON_INTERACTION
+    public static final java.lang.String EVENT_CATEGORY
+    public static final java.lang.String EVENT_ACTION
+    public static final java.lang.String EVENT_LABEL
+    public static final java.lang.String EVENT_VALUE
+    public static final java.lang.String ITEM_CODE
+    public static final java.lang.String ITEM_NAME
+    public static final java.lang.String ITEM_PRICE
+    public static final java.lang.String ITEM_QUANTITY
+    public static final java.lang.String ITEM_CATEGORY
+    public static final java.lang.String TRANSACTION_ID
+    public static final java.lang.String TRANSACTION_AFFILIATION
+    public static final java.lang.String TRANSACTION_SHIPPING
+    public static final java.lang.String TRANSACTION_TAX
+    public static final java.lang.String TRANSACTION_TOTAL
+    static final java.lang.String CURRENCY_CODE
+    public static final java.lang.String EX_DESCRIPTION
+    public static final java.lang.String EX_FATAL
+    public static final java.lang.String TIMING_VAR
+    public static final java.lang.String TIMING_VALUE
+    public static final java.lang.String TIMING_CATEGORY
+    public static final java.lang.String TIMING_LABEL
+    public static final java.lang.String SOCIAL_NETWORK
+    public static final java.lang.String SOCIAL_ACTION
+    public static final java.lang.String SOCIAL_TARGET
+    public static final java.lang.String CAMPAIGN_NAME
+    public static final java.lang.String CAMPAIGN_SOURCE
+    public static final java.lang.String CAMPAIGN_MEDIUM
+    public static final java.lang.String CAMPAIGN_KEYWORD
+    public static final java.lang.String CAMPAIGN_CONTENT
+    public static final java.lang.String CAMPAIGN_ID
+    public static final java.lang.String GCLID
+    public static final java.lang.String DCLID
+    public static final java.lang.String GMOB_T
+    static final java.lang.String AD_SENSE_AD_MOB_HIT_ID
+    public static final java.lang.String PAGE
+    public static final java.lang.String SCREEN_COLORS
+    public static final java.lang.String VIEWPORT_SIZE
+    public static final java.lang.String JAVA_ENABLED
+    public static final java.lang.String FLASH_VERSION
+    public static final java.lang.String TITLE
+    public static final java.lang.String HIT_TIME
+    public static final java.lang.String CAMPAIGN
+    public static final java.lang.String QUEUE_TIME
+    public static final java.lang.String CACHE_BUSTER
+    public static final java.lang.String USE_SECURE
+    public static final java.lang.String RAW_EXCEPTION
+    public static final java.lang.String EXCEPTION_THREAD_NAME
+    public static final java.lang.String CUSTOM_DIMENSION
+    public static final java.lang.String CUSTOM_METRIC
+    public static final java.lang.String CONTENT_GROUPING
 com.google.analytics.tracking.android.ParameterLoader:
     public abstract boolean isBooleanKeyPresent(java.lang.String)
 com.google.analytics.tracking.android.ParameterLoaderImpl:
@@ -1076,11 +1187,6 @@ com.google.analytics.tracking.android.PersistentAnalyticsStore$AnalyticsDatabase
     584:584:boolean isBadDatabase()
 com.google.analytics.tracking.android.SimpleNetworkDispatcher:
     private static final java.lang.String USER_AGENT_TEMPLATE
-com.google.analytics.tracking.android.TrackedActivity
-com.google.analytics.tracking.android.TrackedExpandableListActivity
-com.google.analytics.tracking.android.TrackedListActivity
-com.google.analytics.tracking.android.TrackedPreferenceActivity
-com.google.analytics.tracking.android.TrackedTabActivity
 com.google.analytics.tracking.android.Tracker:
     public abstract void setAppScreen(java.lang.String)
     public abstract void trackView()
@@ -1114,11 +1220,44 @@ com.google.analytics.tracking.android.Tracker:
     public abstract java.util.Map constructSocial(java.lang.String,java.lang.String,java.lang.String)
 com.google.analytics.tracking.android.TrackerHandler:
     public abstract void closeTracker(com.google.analytics.tracking.android.Tracker)
-com.google.analytics.tracking.android.Transaction
-com.google.analytics.tracking.android.Transaction$1
-com.google.analytics.tracking.android.Transaction$Builder
+com.google.analytics.tracking.android.Transaction:
+    private final java.lang.String transactionId
+    private final java.lang.String affiliation
+    private final long totalCostInMicros
+    private final long totalTaxInMicros
+    private final long shippingCostInMicros
+    private final java.lang.String currencyCode
+    private final java.util.Map items
+    26:34:private Transaction(com.google.analytics.tracking.android.Transaction$Builder)
+    37:37:public java.lang.String getTransactionId()
+    41:41:public java.lang.String getAffiliation()
+    45:45:public long getTotalCostInMicros()
+    49:49:public long getTotalTaxInMicros()
+    53:53:public long getShippingCostInMicros()
+    57:57:java.lang.String getCurrencyCode()
+    67:68:public void addItem(com.google.analytics.tracking.android.Item)
+    77:77:public java.util.List getItems()
+    17:17:synthetic Transaction(com.google.analytics.tracking.android.Transaction$Builder,com.google.analytics.tracking.android.Transaction$1)
+com.google.analytics.tracking.android.Transaction$Builder:
+    private final java.lang.String transactionId
+    private java.lang.String affiliation
+    private final long totalCostInMicros
+    private long totalTaxInMicros
+    private long shippingCostInMicros
+    private java.lang.String currencyCode
+    98:104:public Transaction$Builder(java.lang.String,long)
+    113:114:public com.google.analytics.tracking.android.Transaction$Builder setAffiliation(java.lang.String)
+    125:126:public com.google.analytics.tracking.android.Transaction$Builder setTotalTaxInMicros(long)
+    137:138:public com.google.analytics.tracking.android.Transaction$Builder setShippingCostInMicros(long)
+    150:151:com.google.analytics.tracking.android.Transaction$Builder setCurrencyCode(java.lang.String)
+    159:159:public com.google.analytics.tracking.android.Transaction build()
+    83:83:static synthetic java.lang.String access$000(com.google.analytics.tracking.android.Transaction$Builder)
+    83:83:static synthetic long access$100(com.google.analytics.tracking.android.Transaction$Builder)
+    83:83:static synthetic java.lang.String access$200(com.google.analytics.tracking.android.Transaction$Builder)
+    83:83:static synthetic long access$300(com.google.analytics.tracking.android.Transaction$Builder)
+    83:83:static synthetic long access$400(com.google.analytics.tracking.android.Transaction$Builder)
+    83:83:static synthetic java.lang.String access$500(com.google.analytics.tracking.android.Transaction$Builder)
 com.google.analytics.tracking.android.Utils:
-    18:18:Utils()
     51:57:public static long safeParseLong(java.lang.String)
     182:182:static java.lang.String getSlottedModelField(java.lang.String,int)
 com.google.android.gms.analytics.internal.Command:
@@ -1129,7 +1268,6 @@ com.google.android.gms.analytics.internal.IAnalyticsService$Stub:
     private static final java.lang.String DESCRIPTOR
     static final int TRANSACTION_sendHit
     static final int TRANSACTION_clearHits
-    17:19:public IAnalyticsService$Stub()
     37:37:public android.os.IBinder asBinder()
 com.google.android.gms.analytics.internal.IAnalyticsService$Stub$Proxy:
     87:87:public java.lang.String getInterfaceDescriptor()
@@ -1196,15 +1334,6 @@ com.ianhanniballake.contractiontimer.ui.DatePickerDialogFragment:
     public static final java.lang.String YEAR_EXTRA
 com.ianhanniballake.contractiontimer.ui.DonateDialogFragment:
     public static final java.lang.String DONATE_CLOSE_ACTION
-    56:56:public byte[] getObfuscationSalt()
-    63:63:public java.lang.String getPublicKey()
-com.ianhanniballake.contractiontimer.ui.DonateDialogFragment$1:
-    private static synthetic int[] $SWITCH_TABLE$net$robotmedia$billing$model$Transaction$PurchaseState
-    private static synthetic int[] $SWITCH_TABLE$net$robotmedia$billing$BillingRequest$ResponseCode
-    140:177:public void onPurchaseStateChanged(java.lang.String,net.robotmedia.billing.model.Transaction$PurchaseState)
-    183:241:public void onRequestPurchaseResponse(java.lang.String,net.robotmedia.billing.BillingRequest$ResponseCode)
-    128:128:static synthetic int[] $SWITCH_TABLE$net$robotmedia$billing$model$Transaction$PurchaseState()
-    128:128:static synthetic int[] $SWITCH_TABLE$net$robotmedia$billing$BillingRequest$ResponseCode()
 com.ianhanniballake.contractiontimer.ui.EditFragment:
     public static final java.lang.String END_DATE_ACTION
     public static final java.lang.String END_TIME_ACTION
@@ -1236,36 +1365,26 @@ net.robotmedia.billing.BillingController:
     private static final java.lang.String JSON_NONCE
     private static final java.lang.String JSON_ORDERS
     public static final java.lang.String LOG_TAG
-    43:43:public BillingController()
-    98:104:private static final void addManualConfirmation(java.lang.String,java.lang.String)
     155:161:public static net.robotmedia.billing.BillingController$BillingStatus checkSubscriptionSupported(android.content.Context)
     174:179:public static boolean confirmNotifications(android.content.Context,java.lang.String)
-    191:192:private static void confirmNotifications(android.content.Context,java.lang.String[])
     205:207:public static int countPurchases(android.content.Context,java.lang.String)
-    229:231:private static void getPurchaseInformation(android.content.Context,java.lang.String)
-    239:243:private static byte[] getSalt()
     254:256:public static java.util.List getTransactions(android.content.Context)
     268:272:public static java.util.List getTransactions(android.content.Context,java.lang.String)
     286:288:public static boolean isPurchased(android.content.Context,java.lang.String)
-    300:303:private static void notifyPurchaseStateChange(java.lang.String,net.robotmedia.billing.model.Transaction$PurchaseState)
-    315:322:static void obfuscate(android.content.Context,net.robotmedia.billing.model.Transaction)
-    351:354:protected static void onNotify(android.content.Context,java.lang.String)
-    385:436:protected static void onPurchaseStateChanged(android.content.Context,java.lang.String,java.lang.String)
-    467:475:protected static void onResponseCode(android.content.Context,long,int)
-    496:499:protected static void onTransactionsRestored()
-    512:523:private static java.util.List parsePurchases(org.json.JSONObject)
     595:596:public static void requestSubscription(android.content.Context,java.lang.String)
     615:619:public static void requestSubscription(android.content.Context,java.lang.String,boolean,java.lang.String)
     660:661:public static void setSignatureValidator(net.robotmedia.billing.security.ISignatureValidator)
-    689:692:static void storeTransaction(android.content.Context,net.robotmedia.billing.model.Transaction)
     695:698:static void unobfuscate(android.content.Context,java.util.List)
     709:716:static void unobfuscate(android.content.Context,net.robotmedia.billing.model.Transaction)
-    731:736:private static boolean verifyNonce(org.json.JSONObject)
-    741:744:protected static void onRequestPurchaseResponse(java.lang.String,net.robotmedia.billing.BillingRequest$ResponseCode)
-net.robotmedia.billing.BillingController$IConfiguration:
-    public abstract byte[] getObfuscationSalt()
-    public abstract java.lang.String getPublicKey()
-net.robotmedia.billing.BillingReceiver
+net.robotmedia.billing.BillingReceiver:
+    static final java.lang.String ACTION_NOTIFY
+    static final java.lang.String ACTION_RESPONSE_CODE
+    static final java.lang.String ACTION_PURCHASE_STATE_CHANGED
+    static final java.lang.String EXTRA_NOTIFICATION_ID
+    static final java.lang.String EXTRA_INAPP_SIGNED_DATA
+    static final java.lang.String EXTRA_INAPP_SIGNATURE
+    static final java.lang.String EXTRA_REQUEST_ID
+    static final java.lang.String EXTRA_RESPONSE_CODE
 net.robotmedia.billing.BillingRequest:
     public static final java.lang.String ITEM_TYPE_SUBSCRIPTION
     private static final java.lang.String KEY_API_VERSION
@@ -1277,7 +1396,6 @@ net.robotmedia.billing.BillingRequest:
     private static final java.lang.String KEY_RESPONSE_CODE
     private static final java.lang.String REQUEST_TYPE_CHECK_BILLING_SUPPORTED
     public static final long IGNORE_REQUEST_ID
-    283:283:public void onResponseCode(net.robotmedia.billing.BillingRequest$ResponseCode)
 net.robotmedia.billing.BillingRequest$ConfirmNotifications:
     private static final java.lang.String KEY_NOTIFY_IDS
 net.robotmedia.billing.BillingRequest$GetPurchaseInformation:
@@ -1286,9 +1404,6 @@ net.robotmedia.billing.BillingRequest$RequestPurchase:
     private static final java.lang.String KEY_ITEM_ID
     private static final java.lang.String KEY_DEVELOPER_PAYLOAD
     private static final java.lang.String KEY_PURCHASE_INTENT
-    152:154:public void onResponseCode(net.robotmedia.billing.BillingRequest$ResponseCode)
-net.robotmedia.billing.BillingRequest$RestoreTransactions:
-    219:223:public void onResponseCode(net.robotmedia.billing.BillingRequest$ResponseCode)
 net.robotmedia.billing.BillingService:
     private static final java.lang.String ACTION_MARKET_BILLING_SERVICE
     private static final java.lang.String EXTRA_DEVELOPER_PAYLOAD
@@ -1296,48 +1411,77 @@ net.robotmedia.billing.BillingService:
     private static final java.lang.String EXTRA_NONCE
     private static final java.lang.String EXTRA_NOTIFY_IDS
     56:58:public static void checkSubscriptionSupported(android.content.Context)
-    61:64:public static void confirmNotifications(android.content.Context,java.lang.String[])
-    78:82:public static void getPurchaseInformation(android.content.Context,java.lang.String[],long)
     92:96:public static void requestSubscription(android.content.Context,java.lang.String,java.lang.String)
-net.robotmedia.billing.IBillingObserver:
-    public abstract void onPurchaseStateChanged(java.lang.String,net.robotmedia.billing.model.Transaction$PurchaseState)
-    public abstract void onRequestPurchaseResponse(java.lang.String,net.robotmedia.billing.BillingRequest$ResponseCode)
-    public abstract void onTransactionsRestored()
-net.robotmedia.billing.R
-net.robotmedia.billing.R$string
-net.robotmedia.billing.helper.AbstractBillingActivity
-net.robotmedia.billing.helper.AbstractBillingActivity$1
-net.robotmedia.billing.helper.AbstractBillingFragment
-net.robotmedia.billing.helper.AbstractBillingFragment$1
+net.robotmedia.billing.helper.AbstractBillingActivity:
+    71:71:public net.robotmedia.billing.BillingController$BillingStatus checkSubscriptionSupported()
+    135:136:public void requestPurchase(java.lang.String)
+    150:151:public void requestSubscription(java.lang.String)
+    157:158:public void restoreTransactions()
+net.robotmedia.billing.helper.AbstractBillingFragment:
+    58:58:public net.robotmedia.billing.BillingController$BillingStatus checkSubscriptionSupported()
+    122:123:public void requestPurchase(java.lang.String)
+    137:138:public void requestSubscription(java.lang.String)
+    144:145:public void restoreTransactions()
 net.robotmedia.billing.helper.AbstractBillingObserver:
     protected static final java.lang.String KEY_TRANSACTIONS_RESTORED
-    61:65:public void onTransactionsRestored()
-net.robotmedia.billing.model.BillingDB
-net.robotmedia.billing.model.BillingDB$DatabaseHelper
-net.robotmedia.billing.model.Transaction
-net.robotmedia.billing.model.Transaction$PurchaseState
-net.robotmedia.billing.model.TransactionManager
-net.robotmedia.billing.security.DefaultSignatureValidator
-net.robotmedia.billing.security.ISignatureValidator:
-    public abstract boolean validate(java.lang.String,java.lang.String)
+net.robotmedia.billing.model.BillingDB:
+    static final java.lang.String DATABASE_NAME
+    static final int DATABASE_VERSION
+    static final java.lang.String TABLE_TRANSACTIONS
+    public static final java.lang.String COLUMN__ID
+    public static final java.lang.String COLUMN_STATE
+    public static final java.lang.String COLUMN_PRODUCT_ID
+    public static final java.lang.String COLUMN_PURCHASE_TIME
+    public static final java.lang.String COLUMN_DEVELOPER_PAYLOAD
+    64:64:public android.database.Cursor queryTransactions()
+    69:69:public android.database.Cursor queryTransactions(java.lang.String)
+    74:74:public android.database.Cursor queryTransactions(java.lang.String,net.robotmedia.billing.model.Transaction$PurchaseState)
+    79:85:protected static final net.robotmedia.billing.model.Transaction createTransaction(android.database.Cursor)
+net.robotmedia.billing.model.Transaction:
+    static final java.lang.String DEVELOPER_PAYLOAD
+    static final java.lang.String NOTIFICATION_ID
+    static final java.lang.String ORDER_ID
+    static final java.lang.String PACKAGE_NAME
+    static final java.lang.String PRODUCT_ID
+    static final java.lang.String PURCHASE_STATE
+    static final java.lang.String PURCHASE_TIME
+net.robotmedia.billing.model.TransactionManager:
+    34:34:public static synchronized boolean isPurchased(android.content.Context,java.lang.String)
+    38:46:public static synchronized int countPurchases(android.content.Context,java.lang.String)
+    50:54:public static synchronized java.util.List getTransactions(android.content.Context)
+    58:66:private static java.util.List cursorToList(android.database.Cursor)
+    70:74:public static synchronized java.util.List getTransactions(android.content.Context,java.lang.String)
+net.robotmedia.billing.security.DefaultSignatureValidator:
+    protected static final java.lang.String KEY_FACTORY_ALGORITHM
+    protected static final java.lang.String SIGNATURE_ALGORITHM
 net.robotmedia.billing.utils.AESObfuscator:
     private static final java.lang.String UTF8
     private static final java.lang.String KEYGEN_ALGORITHM
     private static final java.lang.String CIPHER_ALGORITHM
     private static final java.lang.String header
-    private javax.crypto.Cipher mEncryptor
-    private javax.crypto.Cipher mDecryptor
-    46:61:public AESObfuscator(byte[],java.lang.String)
-    64:73:public java.lang.String obfuscate(java.lang.String)
     78:98:public java.lang.String unobfuscate(java.lang.String)
-net.robotmedia.billing.utils.AESObfuscator$ValidationException
-net.robotmedia.billing.utils.Base64
-net.robotmedia.billing.utils.Base64DecoderException
-net.robotmedia.billing.utils.Installation
+net.robotmedia.billing.utils.AESObfuscator$ValidationException:
+    private static final long serialVersionUID
+    final synthetic net.robotmedia.billing.utils.AESObfuscator this$0
+    103:105:public AESObfuscator$ValidationException(net.robotmedia.billing.utils.AESObfuscator)
+    107:109:public AESObfuscator$ValidationException(net.robotmedia.billing.utils.AESObfuscator,java.lang.String)
+net.robotmedia.billing.utils.Base64:
+    public static final boolean ENCODE
+    public static final boolean DECODE
+    private static final byte EQUALS_SIGN
+    private static final byte NEW_LINE
+    private static final byte WHITE_SPACE_ENC
+    private static final byte EQUALS_SIGN_ENC
+    258:258:public static java.lang.String encodeWebSafe(byte[],boolean)
+    431:432:public static byte[] decodeWebSafe(java.lang.String)
+    445:445:public static byte[] decode(byte[])
+    458:458:public static byte[] decodeWebSafe(byte[])
+    489:489:public static byte[] decodeWebSafe(byte[],int,int)
+net.robotmedia.billing.utils.Base64DecoderException:
+    private static final long serialVersionUID
+net.robotmedia.billing.utils.Installation:
+    private static final java.lang.String INSTALLATION
 net.robotmedia.billing.utils.Security:
-    41:41:public static boolean isNonceKnown(long)
-    49:50:public static java.lang.String obfuscate(android.content.Context,byte[],java.lang.String)
-    56:62:private static net.robotmedia.billing.utils.AESObfuscator getObfuscator(android.content.Context,byte[])
     66:72:public static java.lang.String unobfuscate(android.content.Context,byte[],java.lang.String)
 org.acra.ACRAConfiguration:
     104:105:public void setAdditionalDropboxTags(java.lang.String[])

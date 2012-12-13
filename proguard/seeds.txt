@@ -50,16 +50,105 @@ android.support.v4.view.ViewPager$SavedState: android.os.Parcelable$Creator CREA
 com.android.vending.billing.IMarketBillingService
 com.android.vending.billing.IMarketBillingService$Stub
 com.android.vending.billing.IMarketBillingService$Stub$Proxy
+com.google.analytics.tracking.android.AdHitIdGenerator
+com.google.analytics.tracking.android.AdMobInfo
+com.google.analytics.tracking.android.AdMobInfo$AdMobKey
 com.google.analytics.tracking.android.AdMobInfo$AdMobKey: com.google.analytics.tracking.android.AdMobInfo$AdMobKey[] values()
 com.google.analytics.tracking.android.AdMobInfo$AdMobKey: com.google.analytics.tracking.android.AdMobInfo$AdMobKey valueOf(java.lang.String)
+com.google.analytics.tracking.android.Analytics
+com.google.analytics.tracking.android.Analytics$AppOptOutCallback
+com.google.analytics.tracking.android.AnalyticsClient
+com.google.analytics.tracking.android.AnalyticsConstants
+com.google.analytics.tracking.android.AnalyticsGmsCoreClient
+com.google.analytics.tracking.android.AnalyticsGmsCoreClient$AnalyticsServiceConnection
+com.google.analytics.tracking.android.AnalyticsGmsCoreClient$OnConnectedListener
+com.google.analytics.tracking.android.AnalyticsGmsCoreClient$OnConnectionFailedListener
 com.google.analytics.tracking.android.AnalyticsReceiver
 com.google.analytics.tracking.android.AnalyticsReceiver: AnalyticsReceiver()
+com.google.analytics.tracking.android.AnalyticsStore
+com.google.analytics.tracking.android.AnalyticsStoreStateListener
+com.google.analytics.tracking.android.AnalyticsThread
+com.google.analytics.tracking.android.AnalyticsThread$ClientIdCallback
+com.google.analytics.tracking.android.Clock
+com.google.analytics.tracking.android.Dispatcher
+com.google.analytics.tracking.android.EasyTracker
+com.google.analytics.tracking.android.EasyTracker$1
+com.google.analytics.tracking.android.EasyTracker$NoopTracker
+com.google.analytics.tracking.android.EasyTracker$NotInForegroundTimerTask
+com.google.analytics.tracking.android.ExceptionParser
+com.google.analytics.tracking.android.ExceptionReporter
+com.google.analytics.tracking.android.FutureApis
+com.google.analytics.tracking.android.GAServiceManager
+com.google.analytics.tracking.android.GAServiceManager$1
+com.google.analytics.tracking.android.GAServiceManager$2
+com.google.analytics.tracking.android.GAServiceProxy
+com.google.analytics.tracking.android.GAServiceProxy$1
+com.google.analytics.tracking.android.GAServiceProxy$2
+com.google.analytics.tracking.android.GAServiceProxy$3
+com.google.analytics.tracking.android.GAServiceProxy$ConnectState
 com.google.analytics.tracking.android.GAServiceProxy$ConnectState: com.google.analytics.tracking.android.GAServiceProxy$ConnectState[] values()
 com.google.analytics.tracking.android.GAServiceProxy$ConnectState: com.google.analytics.tracking.android.GAServiceProxy$ConnectState valueOf(java.lang.String)
+com.google.analytics.tracking.android.GAServiceProxy$DisconnectCheckTask
+com.google.analytics.tracking.android.GAServiceProxy$FailedConnectTask
+com.google.analytics.tracking.android.GAServiceProxy$HitParams
+com.google.analytics.tracking.android.GAServiceProxy$ReconnectTask
+com.google.analytics.tracking.android.GAThread
+com.google.analytics.tracking.android.GAThread$1
+com.google.analytics.tracking.android.GAThread$2
+com.google.analytics.tracking.android.GAThread$3
+com.google.analytics.tracking.android.GAThread$4
+com.google.analytics.tracking.android.GAThread$5
+com.google.analytics.tracking.android.GAUsage
+com.google.analytics.tracking.android.GAUsage$Field
 com.google.analytics.tracking.android.GAUsage$Field: com.google.analytics.tracking.android.GAUsage$Field[] values()
 com.google.analytics.tracking.android.GAUsage$Field: com.google.analytics.tracking.android.GAUsage$Field valueOf(java.lang.String)
+com.google.analytics.tracking.android.GoogleAnalytics
+com.google.analytics.tracking.android.GoogleAnalytics$1
+com.google.analytics.tracking.android.GoogleAnalytics$2
+com.google.analytics.tracking.android.GoogleTracker
+com.google.analytics.tracking.android.GoogleTracker$1
+com.google.analytics.tracking.android.GoogleTracker$SimpleModel
+com.google.analytics.tracking.android.Hit
+com.google.analytics.tracking.android.HitBuilder
+com.google.analytics.tracking.android.HttpClientFactory
+com.google.analytics.tracking.android.Item
+com.google.analytics.tracking.android.Item$1
+com.google.analytics.tracking.android.Item$Builder
+com.google.analytics.tracking.android.Log
+com.google.analytics.tracking.android.MetaModel
+com.google.analytics.tracking.android.MetaModel$Formatter
+com.google.analytics.tracking.android.MetaModel$MetaInfo
+com.google.analytics.tracking.android.MetaModelInitializer
+com.google.analytics.tracking.android.MetaModelInitializer$1
+com.google.analytics.tracking.android.MetaModelInitializer$2
+com.google.analytics.tracking.android.ModelFields
+com.google.analytics.tracking.android.NoopDispatcher
+com.google.analytics.tracking.android.ParameterLoader
+com.google.analytics.tracking.android.ParameterLoaderImpl
+com.google.analytics.tracking.android.PersistentAnalyticsStore
+com.google.analytics.tracking.android.PersistentAnalyticsStore$1
+com.google.analytics.tracking.android.PersistentAnalyticsStore$AnalyticsDatabaseHelper
+com.google.analytics.tracking.android.ServiceManager
+com.google.analytics.tracking.android.ServiceProxy
+com.google.analytics.tracking.android.SimpleNetworkDispatcher
+com.google.analytics.tracking.android.StandardExceptionParser
+com.google.analytics.tracking.android.TrackedActivity
+com.google.analytics.tracking.android.TrackedExpandableListActivity
+com.google.analytics.tracking.android.TrackedListActivity
+com.google.analytics.tracking.android.TrackedPreferenceActivity
+com.google.analytics.tracking.android.TrackedTabActivity
+com.google.analytics.tracking.android.Tracker
+com.google.analytics.tracking.android.TrackerHandler
+com.google.analytics.tracking.android.Transaction
+com.google.analytics.tracking.android.Transaction$1
+com.google.analytics.tracking.android.Transaction$Builder
+com.google.analytics.tracking.android.Utils
 com.google.android.gms.analytics.internal.Command
 com.google.android.gms.analytics.internal.Command: android.os.Parcelable$Creator CREATOR
+com.google.android.gms.analytics.internal.Command$1
+com.google.android.gms.analytics.internal.IAnalyticsService
+com.google.android.gms.analytics.internal.IAnalyticsService$Stub
+com.google.android.gms.analytics.internal.IAnalyticsService$Stub$Proxy
 com.ianhanniballake.contractiontimer.ContractionTimerApplication
 com.ianhanniballake.contractiontimer.ContractionTimerApplication: ContractionTimerApplication()
 com.ianhanniballake.contractiontimer.R$array: int donate_in_app_name_array
@@ -370,15 +459,52 @@ com.ianhanniballake.contractiontimer.ui.SafePagerTitleStrip: SafePagerTitleStrip
 com.ianhanniballake.contractiontimer.ui.SafePagerTitleStrip: SafePagerTitleStrip(android.content.Context,android.util.AttributeSet)
 com.ianhanniballake.contractiontimer.ui.ViewActivity
 com.ianhanniballake.contractiontimer.ui.ViewActivity: ViewActivity()
+net.robotmedia.billing.BillingController
+net.robotmedia.billing.BillingController$BillingStatus
 net.robotmedia.billing.BillingController$BillingStatus: net.robotmedia.billing.BillingController$BillingStatus[] values()
 net.robotmedia.billing.BillingController$BillingStatus: net.robotmedia.billing.BillingController$BillingStatus valueOf(java.lang.String)
+net.robotmedia.billing.BillingController$IConfiguration
+net.robotmedia.billing.BillingReceiver
+net.robotmedia.billing.BillingRequest
+net.robotmedia.billing.BillingRequest$CheckBillingSupported
+net.robotmedia.billing.BillingRequest$CheckSubscriptionSupported
+net.robotmedia.billing.BillingRequest$ConfirmNotifications
+net.robotmedia.billing.BillingRequest$GetPurchaseInformation
+net.robotmedia.billing.BillingRequest$RequestPurchase
+net.robotmedia.billing.BillingRequest$RequestSubscription
+net.robotmedia.billing.BillingRequest$ResponseCode
 net.robotmedia.billing.BillingRequest$ResponseCode: net.robotmedia.billing.BillingRequest$ResponseCode[] values()
 net.robotmedia.billing.BillingRequest$ResponseCode: net.robotmedia.billing.BillingRequest$ResponseCode valueOf(java.lang.String)
+net.robotmedia.billing.BillingRequest$RestoreTransactions
+net.robotmedia.billing.BillingService
+net.robotmedia.billing.BillingService$Action
 net.robotmedia.billing.BillingService$Action: net.robotmedia.billing.BillingService$Action[] values()
 net.robotmedia.billing.BillingService$Action: net.robotmedia.billing.BillingService$Action valueOf(java.lang.String)
+net.robotmedia.billing.IBillingObserver
+net.robotmedia.billing.R
+net.robotmedia.billing.R$string
 net.robotmedia.billing.R$string: int app_name
+net.robotmedia.billing.helper.AbstractBillingActivity
+net.robotmedia.billing.helper.AbstractBillingActivity$1
+net.robotmedia.billing.helper.AbstractBillingFragment
+net.robotmedia.billing.helper.AbstractBillingFragment$1
+net.robotmedia.billing.helper.AbstractBillingObserver
+net.robotmedia.billing.model.BillingDB
+net.robotmedia.billing.model.BillingDB$DatabaseHelper
+net.robotmedia.billing.model.Transaction
+net.robotmedia.billing.model.Transaction$PurchaseState
 net.robotmedia.billing.model.Transaction$PurchaseState: net.robotmedia.billing.model.Transaction$PurchaseState[] values()
 net.robotmedia.billing.model.Transaction$PurchaseState: net.robotmedia.billing.model.Transaction$PurchaseState valueOf(java.lang.String)
+net.robotmedia.billing.model.TransactionManager
+net.robotmedia.billing.security.DefaultSignatureValidator
+net.robotmedia.billing.security.ISignatureValidator
+net.robotmedia.billing.utils.AESObfuscator
+net.robotmedia.billing.utils.AESObfuscator$ValidationException
+net.robotmedia.billing.utils.Base64
+net.robotmedia.billing.utils.Base64DecoderException
+net.robotmedia.billing.utils.Compatibility
+net.robotmedia.billing.utils.Installation
+net.robotmedia.billing.utils.Security
 org.acra.ACRA
 org.acra.ACRA: boolean DEV_LOGGING
 org.acra.ACRA: java.lang.String LOG_TAG
