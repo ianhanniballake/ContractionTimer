@@ -4,6 +4,7 @@
     <string name="app_name">Contraction Timer</string>
     <string name="view_activity_name">View Contraction</string>
     <string name="edit_activity_name">Edit Contraction</string>
+    <string name="donate_activity_name">Donate</string>
     <string name="menu_reset">Reset</string>
     <string name="reset_dialog_title">Reset Confirmation</string>
     <string name="reset_dialog_message">Are you sure you want to reset and remove all contractions?</string>
@@ -24,22 +25,12 @@
     <string name="donate_in_app_description">Donate via Google Play In-App Billing. Note that Google takes 30% off every donation</string>
     <string name="donate_in_app_spinner_text">Select a donation amount</string>
     <string name="donate_in_app_button">Donate</string>
-    <string-array name="donate_in_app_name_array">
-        <item>$1 Donation</item>
-        <item>$2 Donation</item>
-        <item>$3 Donation</item>
-        <item>$5 Donation</item>
-        <item>$10 Donation</item>
-        <item>$15 Donation</item>
-    </string-array>
     <string-array name="donate_in_app_sku_array">
-        <item>contractiontimer.donations.1</item>
-        <item>contractiontimer.donations.2</item>
-        <item>contractiontimer.donations.3</item>
-        <item>contractiontimer.donations.5</item>
-        <item>contractiontimer.donations.10</item>
-        <item>contractiontimer.donations.15</item>
+        <item>contractiontimer.donations.small</item>
+        <item>contractiontimer.donations.medium</item>
+        <item>contractiontimer.donations.large</item>
     </string-array>
+    <string name="donate_thank_you">Thank you for your donation!</string>
     <string name="note_dialog_title_add">Add Note</string>
     <string name="note_dialog_title_edit">Edit Note</string>
     <string name="note_dialog_save">Save</string>

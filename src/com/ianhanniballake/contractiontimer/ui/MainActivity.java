@@ -222,13 +222,7 @@ public class MainActivity extends ActionBarFragmentActivity implements
 				if (BuildConfig.DEBUG)
 					Log.d(getClass().getSimpleName(), "Menu selected Donate");
 				EasyTracker.getTracker().trackEvent("Menu", "Donate", "", 0L);
-				final DonateDialogFragment donateDialogFragment = new DonateDialogFragment();
-				if (BuildConfig.DEBUG)
-					Log.d(donateDialogFragment.getClass().getSimpleName(),
-							"Showing Dialog");
-				EasyTracker.getTracker().trackView("Donate");
-				donateDialogFragment
-						.show(getSupportFragmentManager(), "donate");
+				startActivity(new Intent(this, DonateActivity.class));
 				return true;
 			default:
 				return super.onOptionsItemSelected(item);
@@ -313,8 +307,6 @@ public class MainActivity extends ActionBarFragmentActivity implements
 				.getInstance(this);
 		final IntentFilter dialogCloseFilter = new IntentFilter();
 		dialogCloseFilter.addAction(AboutDialogFragment.ABOUT_CLOSE_ACTION);
-		dialogCloseFilter
-				.addAction(DonateDialogFragment.DONATE_CLOSE_ACTION);
 		dialogCloseFilter.addAction(NoteDialogFragment.NOTE_CLOSE_ACTION);
 		dialogCloseFilter.addAction(ResetDialogFragment.RESET_CLOSE_ACTION);
 		localBroadcastManager.registerReceiver(

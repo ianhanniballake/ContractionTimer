@@ -46,7 +46,8 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/paypal_button"
             android:orientation="vertical"
-            android:paddingTop="20dp" >
+            android:paddingTop="20dp"
+            android:visibility="gone" >
 
             <TextView
                 android:id="@+id/in_app_title"

@@ -56,9 +56,5 @@ public Thread handleSilentException(java.lang.Throwable);
 -dontwarn com.google.android.gms.analytics.**
 -dontwarn com.google.analytics.tracking.**
 
-# Keep for AndroidBillingLibrary
--keep class net.robotmedia.billing.**
--dontwarn net.robotmedia.billing.**
-
 # Keep for Google Play Billing
 -keep class com.android.vending.billing.**

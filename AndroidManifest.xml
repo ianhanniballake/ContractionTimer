@@ -7,7 +7,7 @@
     android:versionName="1.9" >
 
     <uses-sdk
-        android:minSdkVersion="7"
+        android:minSdkVersion="8"
         android:targetSdkVersion="16" />
 
     <uses-permission android:name="android.permission.INTERNET" />
@@ -83,6 +83,14 @@
 
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
+
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".ui.MainActivity" />
+        </activity>
+        <activity
+            android:name=".ui.DonateActivity"
+            android:label="@string/donate_activity_name" >
 
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
