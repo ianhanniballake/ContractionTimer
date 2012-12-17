@@ -47,9 +47,9 @@ android.support.v4.view.ViewPager: void setPageMarginDrawable(int)
 android.support.v4.view.ViewPager: void setScrollingCacheEnabled(boolean)
 android.support.v4.view.ViewPager$SavedState
 android.support.v4.view.ViewPager$SavedState: android.os.Parcelable$Creator CREATOR
-com.android.vending.billing.IMarketBillingService
-com.android.vending.billing.IMarketBillingService$Stub
-com.android.vending.billing.IMarketBillingService$Stub$Proxy
+com.android.vending.billing.IInAppBillingService
+com.android.vending.billing.IInAppBillingService$Stub
+com.android.vending.billing.IInAppBillingService$Stub$Proxy
 com.google.analytics.tracking.android.AdHitIdGenerator
 com.google.analytics.tracking.android.AdMobInfo
 com.google.analytics.tracking.android.AdMobInfo$AdMobKey
@@ -151,7 +151,6 @@ com.google.android.gms.analytics.internal.IAnalyticsService$Stub
 com.google.android.gms.analytics.internal.IAnalyticsService$Stub$Proxy
 com.ianhanniballake.contractiontimer.ContractionTimerApplication
 com.ianhanniballake.contractiontimer.ContractionTimerApplication: ContractionTimerApplication()
-com.ianhanniballake.contractiontimer.R$array: int donate_in_app_name_array
 com.ianhanniballake.contractiontimer.R$array: int donate_in_app_sku_array
 com.ianhanniballake.contractiontimer.R$array: int pref_appwidget_background_entries
 com.ianhanniballake.contractiontimer.R$array: int pref_appwidget_background_entryvalues
@@ -281,6 +280,7 @@ com.ianhanniballake.contractiontimer.R$id: int time_error_overlap
 com.ianhanniballake.contractiontimer.R$id: int toggleContraction
 com.ianhanniballake.contractiontimer.R$id: int view_fragment
 com.ianhanniballake.contractiontimer.R$layout: int actionbar_compat
+com.ianhanniballake.contractiontimer.R$layout: int activity_donate
 com.ianhanniballake.contractiontimer.R$layout: int activity_edit
 com.ianhanniballake.contractiontimer.R$layout: int activity_main
 com.ianhanniballake.contractiontimer.R$layout: int activity_view
@@ -289,7 +289,6 @@ com.ianhanniballake.contractiontimer.R$layout: int control_appwidget_light
 com.ianhanniballake.contractiontimer.R$layout: int detail_appwidget_dark
 com.ianhanniballake.contractiontimer.R$layout: int detail_appwidget_light
 com.ianhanniballake.contractiontimer.R$layout: int dialog_about
-com.ianhanniballake.contractiontimer.R$layout: int dialog_donate
 com.ianhanniballake.contractiontimer.R$layout: int dialog_note
 com.ianhanniballake.contractiontimer.R$layout: int dialog_reset
 com.ianhanniballake.contractiontimer.R$layout: int fragment_contraction_average
@@ -337,6 +336,7 @@ com.ianhanniballake.contractiontimer.R$string: int detail_note_label
 com.ianhanniballake.contractiontimer.R$string: int detail_previous_page
 com.ianhanniballake.contractiontimer.R$string: int detail_start_time_label
 com.ianhanniballake.contractiontimer.R$string: int divider
+com.ianhanniballake.contractiontimer.R$string: int donate_activity_name
 com.ianhanniballake.contractiontimer.R$string: int donate_header
 com.ianhanniballake.contractiontimer.R$string: int donate_in_app_button
 com.ianhanniballake.contractiontimer.R$string: int donate_in_app_description
@@ -345,6 +345,7 @@ com.ianhanniballake.contractiontimer.R$string: int donate_in_app_title
 com.ianhanniballake.contractiontimer.R$string: int donate_paypal_button
 com.ianhanniballake.contractiontimer.R$string: int donate_paypal_description
 com.ianhanniballake.contractiontimer.R$string: int donate_paypal_title
+com.ianhanniballake.contractiontimer.R$string: int donate_thank_you
 com.ianhanniballake.contractiontimer.R$string: int duration_ongoing
 com.ianhanniballake.contractiontimer.R$string: int edit_activity_name
 com.ianhanniballake.contractiontimer.R$string: int edit_end_time_error_order
@@ -448,6 +449,8 @@ com.ianhanniballake.contractiontimer.backup.ContractionTimerBackupAgent
 com.ianhanniballake.contractiontimer.backup.ContractionTimerBackupAgent: ContractionTimerBackupAgent()
 com.ianhanniballake.contractiontimer.provider.ContractionProvider
 com.ianhanniballake.contractiontimer.provider.ContractionProvider: ContractionProvider()
+com.ianhanniballake.contractiontimer.ui.DonateActivity
+com.ianhanniballake.contractiontimer.ui.DonateActivity: DonateActivity()
 com.ianhanniballake.contractiontimer.ui.EditActivity
 com.ianhanniballake.contractiontimer.ui.EditActivity: EditActivity()
 com.ianhanniballake.contractiontimer.ui.MainActivity
@@ -459,52 +462,6 @@ com.ianhanniballake.contractiontimer.ui.SafePagerTitleStrip: SafePagerTitleStrip
 com.ianhanniballake.contractiontimer.ui.SafePagerTitleStrip: SafePagerTitleStrip(android.content.Context,android.util.AttributeSet)
 com.ianhanniballake.contractiontimer.ui.ViewActivity
 com.ianhanniballake.contractiontimer.ui.ViewActivity: ViewActivity()
-net.robotmedia.billing.BillingController
-net.robotmedia.billing.BillingController$BillingStatus
-net.robotmedia.billing.BillingController$BillingStatus: net.robotmedia.billing.BillingController$BillingStatus[] values()
-net.robotmedia.billing.BillingController$BillingStatus: net.robotmedia.billing.BillingController$BillingStatus valueOf(java.lang.String)
-net.robotmedia.billing.BillingController$IConfiguration
-net.robotmedia.billing.BillingReceiver
-net.robotmedia.billing.BillingRequest
-net.robotmedia.billing.BillingRequest$CheckBillingSupported
-net.robotmedia.billing.BillingRequest$CheckSubscriptionSupported
-net.robotmedia.billing.BillingRequest$ConfirmNotifications
-net.robotmedia.billing.BillingRequest$GetPurchaseInformation
-net.robotmedia.billing.BillingRequest$RequestPurchase
-net.robotmedia.billing.BillingRequest$RequestSubscription
-net.robotmedia.billing.BillingRequest$ResponseCode
-net.robotmedia.billing.BillingRequest$ResponseCode: net.robotmedia.billing.BillingRequest$ResponseCode[] values()
-net.robotmedia.billing.BillingRequest$ResponseCode: net.robotmedia.billing.BillingRequest$ResponseCode valueOf(java.lang.String)
-net.robotmedia.billing.BillingRequest$RestoreTransactions
-net.robotmedia.billing.BillingService
-net.robotmedia.billing.BillingService$Action
-net.robotmedia.billing.BillingService$Action: net.robotmedia.billing.BillingService$Action[] values()
-net.robotmedia.billing.BillingService$Action: net.robotmedia.billing.BillingService$Action valueOf(java.lang.String)
-net.robotmedia.billing.IBillingObserver
-net.robotmedia.billing.R
-net.robotmedia.billing.R$string
-net.robotmedia.billing.R$string: int app_name
-net.robotmedia.billing.helper.AbstractBillingActivity
-net.robotmedia.billing.helper.AbstractBillingActivity$1
-net.robotmedia.billing.helper.AbstractBillingFragment
-net.robotmedia.billing.helper.AbstractBillingFragment$1
-net.robotmedia.billing.helper.AbstractBillingObserver
-net.robotmedia.billing.model.BillingDB
-net.robotmedia.billing.model.BillingDB$DatabaseHelper
-net.robotmedia.billing.model.Transaction
-net.robotmedia.billing.model.Transaction$PurchaseState
-net.robotmedia.billing.model.Transaction$PurchaseState: net.robotmedia.billing.model.Transaction$PurchaseState[] values()
-net.robotmedia.billing.model.Transaction$PurchaseState: net.robotmedia.billing.model.Transaction$PurchaseState valueOf(java.lang.String)
-net.robotmedia.billing.model.TransactionManager
-net.robotmedia.billing.security.DefaultSignatureValidator
-net.robotmedia.billing.security.ISignatureValidator
-net.robotmedia.billing.utils.AESObfuscator
-net.robotmedia.billing.utils.AESObfuscator$ValidationException
-net.robotmedia.billing.utils.Base64
-net.robotmedia.billing.utils.Base64DecoderException
-net.robotmedia.billing.utils.Compatibility
-net.robotmedia.billing.utils.Installation
-net.robotmedia.billing.utils.Security
 org.acra.ACRA
 org.acra.ACRA: boolean DEV_LOGGING
 org.acra.ACRA: java.lang.String LOG_TAG

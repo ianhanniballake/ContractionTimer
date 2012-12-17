@@ -1,5 +1,3 @@
-android.annotation.SuppressLint
-android.annotation.TargetApi
 android.support.v4.accessibilityservice.AccessibilityServiceInfoCompat
 android.support.v4.accessibilityservice.AccessibilityServiceInfoCompat$AccessibilityServiceInfoIcsImpl
 android.support.v4.accessibilityservice.AccessibilityServiceInfoCompat$AccessibilityServiceInfoStubImpl
@@ -57,6 +55,7 @@ android.support.v4.app.DialogFragment:
     140:145:public int show(android.support.v4.app.FragmentTransaction,java.lang.String)
     155:156:public void dismiss()
     165:166:public void dismissAllowingStateLoss()
+    195:195:public android.app.Dialog getDialog()
     212:214:public void setCancelable(boolean)
     220:220:public boolean isCancelable()
     241:242:public void setShowsDialog(boolean)
@@ -887,12 +886,16 @@ android.support.v4.widget.SearchViewCompatHoneycomb$OnQueryTextListenerCompatBri
 android.support.v4.widget.SimpleCursorAdapter
 android.support.v4.widget.SimpleCursorAdapter$CursorToStringConverter
 android.support.v4.widget.SimpleCursorAdapter$ViewBinder
-com.android.vending.billing.IMarketBillingService$Stub:
+com.android.vending.billing.IInAppBillingService$Stub:
     private static final java.lang.String DESCRIPTOR
-    static final int TRANSACTION_sendBillingRequest
-    34:34:public android.os.IBinder asBinder()
-com.android.vending.billing.IMarketBillingService$Stub$Proxy:
-    82:82:public java.lang.String getInterfaceDescriptor()
+    static final int TRANSACTION_isBillingSupported
+    static final int TRANSACTION_getSkuDetails
+    static final int TRANSACTION_getBuyIntent
+    static final int TRANSACTION_getPurchases
+    static final int TRANSACTION_consumePurchase
+    58:58:public android.os.IBinder asBinder()
+com.android.vending.billing.IInAppBillingService$Stub$Proxy:
+    186:186:public java.lang.String getInterfaceDescriptor()
 com.google.analytics.tracking.android.AdHitIdGenerator:
     22:24:AdHitIdGenerator(boolean)
 com.google.analytics.tracking.android.AdMobInfo:
@@ -1299,6 +1302,78 @@ com.ianhanniballake.contractiontimer.appwidget.DetailAppWidgetService:
     private static final java.lang.String WIDGET_IDENTIFIER
 com.ianhanniballake.contractiontimer.appwidget.ToggleAppWidgetService:
     private static final java.lang.String WIDGET_IDENTIFIER
+com.ianhanniballake.contractiontimer.inappbilling.Base64:
+    public static final boolean DECODE
+    public static final boolean ENCODE
+    private static final byte EQUALS_SIGN
+    private static final byte EQUALS_SIGN_ENC
+    private static final byte NEW_LINE
+    private static final byte WHITE_SPACE_ENC
+    187:187:public static byte[] decode(byte[])
+    389:389:public static byte[] decodeWebSafe(byte[])
+    409:409:public static byte[] decodeWebSafe(byte[],int,int)
+    423:424:public static byte[] decodeWebSafe(java.lang.String)
+    437:437:public static java.lang.String encode(byte[])
+    459:470:public static java.lang.String encode(byte[],int,int,byte[],boolean)
+    491:532:public static byte[] encode(byte[],int,int,byte[],int)
+    576:600:private static byte[] encode3to4(byte[],int,int,byte[],int,byte[])
+    616:616:public static java.lang.String encodeWebSafe(byte[],boolean)
+com.ianhanniballake.contractiontimer.inappbilling.Base64DecoderException:
+    private static final long serialVersionUID
+com.ianhanniballake.contractiontimer.inappbilling.IabHelper:
+    public static final int BILLING_RESPONSE_RESULT_BILLING_UNAVAILABLE
+    public static final int BILLING_RESPONSE_RESULT_DEVELOPER_ERROR
+    public static final int BILLING_RESPONSE_RESULT_ERROR
+    public static final int BILLING_RESPONSE_RESULT_ITEM_ALREADY_OWNED
+    public static final int BILLING_RESPONSE_RESULT_ITEM_NOT_OWNED
+    public static final int BILLING_RESPONSE_RESULT_ITEM_UNAVAILABLE
+    public static final int BILLING_RESPONSE_RESULT_OK
+    public static final int BILLING_RESPONSE_RESULT_USER_CANCELED
+    public static final java.lang.String GET_SKU_DETAILS_ITEM_LIST
+    public static final java.lang.String GET_SKU_DETAILS_ITEM_TYPE_LIST
+    public static final int IABHELPER_BAD_RESPONSE
+    public static final int IABHELPER_ERROR_BASE
+    public static final int IABHELPER_MISSING_TOKEN
+    public static final int IABHELPER_REMOTE_EXCEPTION
+    public static final int IABHELPER_SEND_INTENT_FAILED
+    public static final int IABHELPER_UNKNOWN_ERROR
+    public static final int IABHELPER_UNKNOWN_PURCHASE_RESPONSE
+    public static final int IABHELPER_USER_CANCELLED
+    public static final int IABHELPER_VERIFICATION_FAILED
+    public static final java.lang.String INAPP_CONTINUATION_TOKEN
+    public static final java.lang.String ITEM_TYPE_INAPP
+    public static final java.lang.String RESPONSE_BUY_INTENT
+    public static final java.lang.String RESPONSE_CODE
+    public static final java.lang.String RESPONSE_GET_SKU_DETAILS_LIST
+    public static final java.lang.String RESPONSE_INAPP_ITEM_LIST
+    public static final java.lang.String RESPONSE_INAPP_PURCHASE_DATA
+    public static final java.lang.String RESPONSE_INAPP_PURCHASE_DATA_LIST
+    public static final java.lang.String RESPONSE_INAPP_SIGNATURE
+    public static final java.lang.String RESPONSE_INAPP_SIGNATURE_LIST
+    466:468:public void enableDebugLogging(boolean,java.lang.String)
+    861:862:public void queryInventoryAsync(boolean,com.ianhanniballake.contractiontimer.inappbilling.IabHelper$QueryInventoryFinishedListener)
+    867:868:public void queryInventoryAsync(com.ianhanniballake.contractiontimer.inappbilling.IabHelper$QueryInventoryFinishedListener)
+com.ianhanniballake.contractiontimer.inappbilling.Inventory:
+    55:57:public void erasePurchase(java.lang.String)
+    77:77:public com.ianhanniballake.contractiontimer.inappbilling.Purchase getPurchase(java.lang.String)
+    89:89:public boolean hasDetails(java.lang.String)
+    95:95:public boolean hasPurchase(java.lang.String)
+com.ianhanniballake.contractiontimer.inappbilling.Purchase:
+    52:52:public java.lang.String getDeveloperPayload()
+    57:57:public java.lang.String getOrderId()
+    62:62:public java.lang.String getOriginalJson()
+    67:67:public java.lang.String getPackageName()
+    72:72:public int getPurchaseState()
+    77:77:public long getPurchaseTime()
+    82:82:public java.lang.String getSignature()
+com.ianhanniballake.contractiontimer.inappbilling.Security:
+    private static final java.lang.String KEY_FACTORY_ALGORITHM
+    private static final java.lang.String SIGNATURE_ALGORITHM
+    private static final java.lang.String TAG
+    38:38:public Security()
+com.ianhanniballake.contractiontimer.inappbilling.SkuDetails:
+    60:60:public java.lang.String getTitle()
+    65:65:public java.lang.String getType()
 com.ianhanniballake.contractiontimer.provider.ContractionContract:
     public static final java.lang.String AUTHORITY
     private static final java.lang.String SCHEME
@@ -1332,8 +1407,6 @@ com.ianhanniballake.contractiontimer.ui.DatePickerDialogFragment:
     public static final java.lang.String DAY_OF_MONTH_EXTRA
     public static final java.lang.String MONTH_OF_YEAR_EXTRA
     public static final java.lang.String YEAR_EXTRA
-com.ianhanniballake.contractiontimer.ui.DonateDialogFragment:
-    public static final java.lang.String DONATE_CLOSE_ACTION
 com.ianhanniballake.contractiontimer.ui.EditFragment:
     public static final java.lang.String END_DATE_ACTION
     public static final java.lang.String END_TIME_ACTION
@@ -1361,128 +1434,6 @@ com.ianhanniballake.contractiontimer.ui.TimePickerDialogFragment:
     public static final java.lang.String MINUTE_EXTRA
     public static final java.lang.String TIME_ARGUMENT
     public static final java.lang.String TIME_PICKER_CLOSE_ACTION
-net.robotmedia.billing.BillingController:
-    private static final java.lang.String JSON_NONCE
-    private static final java.lang.String JSON_ORDERS
-    public static final java.lang.String LOG_TAG
-    155:161:public static net.robotmedia.billing.BillingController$BillingStatus checkSubscriptionSupported(android.content.Context)
-    174:179:public static boolean confirmNotifications(android.content.Context,java.lang.String)
-    205:207:public static int countPurchases(android.content.Context,java.lang.String)
-    254:256:public static java.util.List getTransactions(android.content.Context)
-    268:272:public static java.util.List getTransactions(android.content.Context,java.lang.String)
-    286:288:public static boolean isPurchased(android.content.Context,java.lang.String)
-    595:596:public static void requestSubscription(android.content.Context,java.lang.String)
-    615:619:public static void requestSubscription(android.content.Context,java.lang.String,boolean,java.lang.String)
-    660:661:public static void setSignatureValidator(net.robotmedia.billing.security.ISignatureValidator)
-    695:698:static void unobfuscate(android.content.Context,java.util.List)
-    709:716:static void unobfuscate(android.content.Context,net.robotmedia.billing.model.Transaction)
-net.robotmedia.billing.BillingReceiver:
-    static final java.lang.String ACTION_NOTIFY
-    static final java.lang.String ACTION_RESPONSE_CODE
-    static final java.lang.String ACTION_PURCHASE_STATE_CHANGED
-    static final java.lang.String EXTRA_NOTIFICATION_ID
-    static final java.lang.String EXTRA_INAPP_SIGNED_DATA
-    static final java.lang.String EXTRA_INAPP_SIGNATURE
-    static final java.lang.String EXTRA_REQUEST_ID
-    static final java.lang.String EXTRA_RESPONSE_CODE
-net.robotmedia.billing.BillingRequest:
-    public static final java.lang.String ITEM_TYPE_SUBSCRIPTION
-    private static final java.lang.String KEY_API_VERSION
-    private static final java.lang.String KEY_BILLING_REQUEST
-    private static final java.lang.String KEY_ITEM_TYPE
-    private static final java.lang.String KEY_NONCE
-    private static final java.lang.String KEY_PACKAGE_NAME
-    protected static final java.lang.String KEY_REQUEST_ID
-    private static final java.lang.String KEY_RESPONSE_CODE
-    private static final java.lang.String REQUEST_TYPE_CHECK_BILLING_SUPPORTED
-    public static final long IGNORE_REQUEST_ID
-net.robotmedia.billing.BillingRequest$ConfirmNotifications:
-    private static final java.lang.String KEY_NOTIFY_IDS
-net.robotmedia.billing.BillingRequest$GetPurchaseInformation:
-    private static final java.lang.String KEY_NOTIFY_IDS
-net.robotmedia.billing.BillingRequest$RequestPurchase:
-    private static final java.lang.String KEY_ITEM_ID
-    private static final java.lang.String KEY_DEVELOPER_PAYLOAD
-    private static final java.lang.String KEY_PURCHASE_INTENT
-net.robotmedia.billing.BillingService:
-    private static final java.lang.String ACTION_MARKET_BILLING_SERVICE
-    private static final java.lang.String EXTRA_DEVELOPER_PAYLOAD
-    private static final java.lang.String EXTRA_ITEM_ID
-    private static final java.lang.String EXTRA_NONCE
-    private static final java.lang.String EXTRA_NOTIFY_IDS
-    56:58:public static void checkSubscriptionSupported(android.content.Context)
-    92:96:public static void requestSubscription(android.content.Context,java.lang.String,java.lang.String)
-net.robotmedia.billing.helper.AbstractBillingActivity:
-    71:71:public net.robotmedia.billing.BillingController$BillingStatus checkSubscriptionSupported()
-    135:136:public void requestPurchase(java.lang.String)
-    150:151:public void requestSubscription(java.lang.String)
-    157:158:public void restoreTransactions()
-net.robotmedia.billing.helper.AbstractBillingFragment:
-    58:58:public net.robotmedia.billing.BillingController$BillingStatus checkSubscriptionSupported()
-    122:123:public void requestPurchase(java.lang.String)
-    137:138:public void requestSubscription(java.lang.String)
-    144:145:public void restoreTransactions()
-net.robotmedia.billing.helper.AbstractBillingObserver:
-    protected static final java.lang.String KEY_TRANSACTIONS_RESTORED
-net.robotmedia.billing.model.BillingDB:
-    static final java.lang.String DATABASE_NAME
-    static final int DATABASE_VERSION
-    static final java.lang.String TABLE_TRANSACTIONS
-    public static final java.lang.String COLUMN__ID
-    public static final java.lang.String COLUMN_STATE
-    public static final java.lang.String COLUMN_PRODUCT_ID
-    public static final java.lang.String COLUMN_PURCHASE_TIME
-    public static final java.lang.String COLUMN_DEVELOPER_PAYLOAD
-    64:64:public android.database.Cursor queryTransactions()
-    69:69:public android.database.Cursor queryTransactions(java.lang.String)
-    74:74:public android.database.Cursor queryTransactions(java.lang.String,net.robotmedia.billing.model.Transaction$PurchaseState)
-    79:85:protected static final net.robotmedia.billing.model.Transaction createTransaction(android.database.Cursor)
-net.robotmedia.billing.model.Transaction:
-    static final java.lang.String DEVELOPER_PAYLOAD
-    static final java.lang.String NOTIFICATION_ID
-    static final java.lang.String ORDER_ID
-    static final java.lang.String PACKAGE_NAME
-    static final java.lang.String PRODUCT_ID
-    static final java.lang.String PURCHASE_STATE
-    static final java.lang.String PURCHASE_TIME
-net.robotmedia.billing.model.TransactionManager:
-    34:34:public static synchronized boolean isPurchased(android.content.Context,java.lang.String)
-    38:46:public static synchronized int countPurchases(android.content.Context,java.lang.String)
-    50:54:public static synchronized java.util.List getTransactions(android.content.Context)
-    58:66:private static java.util.List cursorToList(android.database.Cursor)
-    70:74:public static synchronized java.util.List getTransactions(android.content.Context,java.lang.String)
-net.robotmedia.billing.security.DefaultSignatureValidator:
-    protected static final java.lang.String KEY_FACTORY_ALGORITHM
-    protected static final java.lang.String SIGNATURE_ALGORITHM
-net.robotmedia.billing.utils.AESObfuscator:
-    private static final java.lang.String UTF8
-    private static final java.lang.String KEYGEN_ALGORITHM
-    private static final java.lang.String CIPHER_ALGORITHM
-    private static final java.lang.String header
-    78:98:public java.lang.String unobfuscate(java.lang.String)
-net.robotmedia.billing.utils.AESObfuscator$ValidationException:
-    private static final long serialVersionUID
-    final synthetic net.robotmedia.billing.utils.AESObfuscator this$0
-    103:105:public AESObfuscator$ValidationException(net.robotmedia.billing.utils.AESObfuscator)
-    107:109:public AESObfuscator$ValidationException(net.robotmedia.billing.utils.AESObfuscator,java.lang.String)
-net.robotmedia.billing.utils.Base64:
-    public static final boolean ENCODE
-    public static final boolean DECODE
-    private static final byte EQUALS_SIGN
-    private static final byte NEW_LINE
-    private static final byte WHITE_SPACE_ENC
-    private static final byte EQUALS_SIGN_ENC
-    258:258:public static java.lang.String encodeWebSafe(byte[],boolean)
-    431:432:public static byte[] decodeWebSafe(java.lang.String)
-    445:445:public static byte[] decode(byte[])
-    458:458:public static byte[] decodeWebSafe(byte[])
-    489:489:public static byte[] decodeWebSafe(byte[],int,int)
-net.robotmedia.billing.utils.Base64DecoderException:
-    private static final long serialVersionUID
-net.robotmedia.billing.utils.Installation:
-    private static final java.lang.String INSTALLATION
-net.robotmedia.billing.utils.Security:
-    66:72:public static java.lang.String unobfuscate(android.content.Context,byte[],java.lang.String)
 org.acra.ACRAConfiguration:
     104:105:public void setAdditionalDropboxTags(java.lang.String[])
     112:113:public void setAdditionalSharedPreferences(java.lang.String[])

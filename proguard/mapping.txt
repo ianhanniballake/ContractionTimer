@@ -77,20 +77,19 @@ android.support.v4.app.DialogFragment -> android.support.v4.app.e:
     boolean mShownByMe -> i
     123:128:void show(android.support.v4.app.FragmentManager,java.lang.String) -> a
     169:192:void dismissInternal(boolean) -> a
-    195:195:android.app.Dialog getDialog() -> a
-    199:199:int getTheme() -> b
+    199:199:int getTheme() -> a
     253:259:void onAttach(android.app.Activity) -> a
-    263:270:void onDetach() -> c
+    263:270:void onDetach() -> b
     274:286:void onCreate(android.os.Bundle) -> a
     291:310:android.view.LayoutInflater getLayoutInflater(android.os.Bundle) -> b
     337:337:android.app.Dialog onCreateDialog(android.os.Bundle) -> c
     341:341:void onCancel(android.content.DialogInterface) -> onCancel
     344:351:void onDismiss(android.content.DialogInterface) -> onDismiss
     355:378:void onActivityCreated(android.os.Bundle) -> d
-    382:387:void onStart() -> d
+    382:387:void onStart() -> c
     391:413:void onSaveInstanceState(android.os.Bundle) -> e
-    417:421:void onStop() -> e
-    428:437:void onDestroyView() -> f
+    417:421:void onStop() -> d
+    428:437:void onDestroyView() -> e
 android.support.v4.app.Fragment -> android.support.v4.app.Fragment:
     java.util.HashMap sClassMap -> a
     int mState -> j
@@ -134,26 +133,26 @@ android.support.v4.app.Fragment -> android.support.v4.app.Fragment:
     boolean mCheckedForLoaderManager -> V
     363:363:android.support.v4.app.Fragment instantiate(android.content.Context,java.lang.String) -> a
     382:403:android.support.v4.app.Fragment instantiate(android.content.Context,java.lang.String,android.os.Bundle) -> a
-    410:414:void restoreViewState() -> g
+    410:414:void restoreViewState() -> f
     417:419:void setIndex(int) -> a
-    422:422:boolean isInBackStack() -> h
+    422:422:boolean isInBackStack() -> g
     429:429:boolean equals(java.lang.Object) -> equals
     436:436:int hashCode() -> hashCode
     441:456:java.lang.String toString() -> toString
     483:487:void setArguments(android.os.Bundle) -> f
-    494:494:android.os.Bundle getArguments() -> i
+    494:494:android.os.Bundle getArguments() -> h
     506:511:void setInitialSavedState(android.support.v4.app.Fragment$SavedState) -> a
-    547:547:android.support.v4.app.FragmentActivity getActivity() -> j
-    554:557:android.content.res.Resources getResources() -> k
+    547:547:android.support.v4.app.FragmentActivity getActivity() -> i
+    554:557:android.content.res.Resources getResources() -> j
     567:567:java.lang.CharSequence getText(int) -> b
     577:577:java.lang.String getString(int) -> c
-    601:601:android.support.v4.app.FragmentManager getFragmentManager() -> l
-    608:608:boolean isAdded() -> m
-    666:666:boolean isHidden() -> n
+    601:601:android.support.v4.app.FragmentManager getFragmentManager() -> k
+    608:608:boolean isAdded() -> l
+    666:666:boolean isHidden() -> m
     677:677:void onHiddenChanged(boolean) -> b
     709:715:void setHasOptionsMenu(boolean) -> c
     727:733:void setMenuVisibility(boolean) -> d
-    768:776:android.support.v4.app.LoaderManager getLoaderManager() -> o
+    768:776:android.support.v4.app.LoaderManager getLoaderManager() -> n
     784:788:void startActivity(android.content.Intent) -> a
     816:816:void onActivityResult(int,int,android.content.Intent) -> a
     824:824:android.view.LayoutInflater getLayoutInflater(android.os.Bundle) -> b
@@ -163,32 +162,32 @@ android.support.v4.app.Fragment -> android.support.v4.app.Fragment:
     903:904:void onCreate(android.os.Bundle) -> a
     927:927:android.view.View onCreateView(android.view.LayoutInflater,android.view.ViewGroup,android.os.Bundle) -> a
     941:941:void onViewCreated(android.view.View,android.os.Bundle) -> a
-    950:950:android.view.View getView() -> p
+    950:950:android.view.View getView() -> o
     967:968:void onActivityCreated(android.os.Bundle) -> d
-    976:988:void onStart() -> d
-    997:998:void onResume() -> q
+    976:988:void onStart() -> c
+    997:998:void onResume() -> p
     1020:1020:void onSaveInstanceState(android.os.Bundle) -> e
     1023:1024:void onConfigurationChanged(android.content.res.Configuration) -> onConfigurationChanged
-    1032:1033:void onPause() -> r
-    1041:1042:void onStop() -> e
+    1032:1033:void onPause() -> q
+    1041:1042:void onStop() -> d
     1045:1046:void onLowMemory() -> onLowMemory
-    1058:1059:void onDestroyView() -> f
-    1066:1076:void onDestroy() -> s
-    1085:1105:void initState() -> t
-    1112:1113:void onDetach() -> c
+    1058:1059:void onDestroyView() -> e
+    1066:1076:void onDestroy() -> r
+    1085:1105:void initState() -> s
+    1112:1113:void onDetach() -> b
     1129:1129:void onCreateOptionsMenu(android.view.Menu,android.view.MenuInflater) -> a
     1146:1146:void onPrepareOptionsMenu(android.view.Menu) -> a
-    1156:1156:void onDestroyOptionsMenu() -> u
+    1156:1156:void onDestroyOptionsMenu() -> t
     1177:1177:boolean onOptionsItemSelected(android.view.MenuItem) -> a
     1188:1188:void onOptionsMenuClosed(android.view.Menu) -> b
     1208:1209:void onCreateContextMenu(android.view.ContextMenu,android.view.View,android.view.ContextMenu$ContextMenuInfo) -> onCreateContextMenu
     1222:1223:void registerForContextMenu(android.view.View) -> a
     1254:1254:boolean onContextItemSelected(android.view.MenuItem) -> b
     1267:1333:void dump(java.lang.String,java.io.FileDescriptor,java.io.PrintWriter,java.lang.String[]) -> a
-    1336:1340:void performStart() -> v
-    1343:1344:void performStop() -> w
-    1347:1361:void performReallyStop() -> x
-    1364:1368:void performDestroyView() -> y
+    1336:1340:void performStart() -> u
+    1343:1344:void performStop() -> v
+    1347:1361:void performReallyStop() -> w
+    1364:1368:void performDestroyView() -> x
 android.support.v4.app.Fragment$InstantiationException -> android.support.v4.app.f:
 android.support.v4.app.Fragment$SavedState -> android.support.v4.app.Fragment$SavedState:
     android.os.Bundle mState -> a
@@ -438,13 +437,13 @@ android.support.v4.app.ListFragment -> android.support.v4.app.v:
     boolean mListShown -> h
     91:136:android.view.View onCreateView(android.view.LayoutInflater,android.view.ViewGroup,android.os.Bundle) -> a
     144:146:void onViewCreated(android.view.View,android.os.Bundle) -> a
-    153:159:void onDestroyView() -> f
+    153:159:void onDestroyView() -> e
     173:173:void onListItemClick(android.widget.ListView,android.view.View,int,long) -> a
     179:189:void setListAdapter(android.widget.ListAdapter) -> a
     222:223:android.widget.ListView getListView() -> a
     232:241:void setEmptyText(java.lang.CharSequence) -> a
     280:313:void setListShown(boolean,boolean) -> a
-    323:374:void ensureList() -> b
+    323:374:void ensureList() -> y
 android.support.v4.app.ListFragment$1 -> android.support.v4.app.w:
     android.support.v4.app.ListFragment this$0 -> a
     51:52:void run() -> run
@@ -1433,15 +1432,23 @@ android.support.v4.widget.EdgeEffectCompatIcs -> android.support.v4.e.k:
     46:47:boolean onPull(java.lang.Object,float) -> a
     51:53:boolean onRelease(java.lang.Object) -> c
     62:62:boolean draw(java.lang.Object,android.graphics.Canvas) -> a
-com.android.vending.billing.IMarketBillingService -> com.android.vending.billing.IMarketBillingService:
-    android.os.Bundle sendBillingRequest(android.os.Bundle) -> a
-com.android.vending.billing.IMarketBillingService$Stub -> com.android.vending.billing.IMarketBillingService$Stub:
-    23:30:com.android.vending.billing.IMarketBillingService asInterface(android.os.IBinder) -> a
-    38:67:boolean onTransact(int,android.os.Parcel,android.os.Parcel,int) -> onTransact
-com.android.vending.billing.IMarketBillingService$Stub$Proxy -> com.android.vending.billing.IMarketBillingService$Stub$Proxy:
+com.android.vending.billing.IInAppBillingService -> com.android.vending.billing.IInAppBillingService:
+    int isBillingSupported(int,java.lang.String,java.lang.String) -> a
+    android.os.Bundle getSkuDetails(int,java.lang.String,java.lang.String,android.os.Bundle) -> a
+    android.os.Bundle getBuyIntent(int,java.lang.String,java.lang.String,java.lang.String,java.lang.String) -> a
+    android.os.Bundle getPurchases(int,java.lang.String,java.lang.String,java.lang.String) -> a
+    int consumePurchase(int,java.lang.String,java.lang.String) -> b
+com.android.vending.billing.IInAppBillingService$Stub -> com.android.vending.billing.IInAppBillingService$Stub:
+    47:54:com.android.vending.billing.IInAppBillingService asInterface(android.os.IBinder) -> a
+    62:171:boolean onTransact(int,android.os.Parcel,android.os.Parcel,int) -> onTransact
+com.android.vending.billing.IInAppBillingService$Stub$Proxy -> com.android.vending.billing.IInAppBillingService$Stub$Proxy:
     android.os.IBinder mRemote -> a
-    78:78:android.os.IBinder asBinder() -> asBinder
-    87:112:android.os.Bundle sendBillingRequest(android.os.Bundle) -> a
+    182:182:android.os.IBinder asBinder() -> asBinder
+    199:215:int isBillingSupported(int,java.lang.String,java.lang.String) -> a
+    235:263:android.os.Bundle getSkuDetails(int,java.lang.String,java.lang.String,android.os.Bundle) -> a
+    297:320:android.os.Bundle getBuyIntent(int,java.lang.String,java.lang.String,java.lang.String,java.lang.String) -> a
+    348:370:android.os.Bundle getPurchases(int,java.lang.String,java.lang.String,java.lang.String) -> a
+    383:399:int consumePurchase(int,java.lang.String,java.lang.String) -> b
 com.google.analytics.tracking.android.AdHitIdGenerator -> com.google.analytics.tracking.android.AdHitIdGenerator:
     boolean adMobSdkInstalled -> a
     31:34:int getAdHitId() -> a
@@ -2303,6 +2310,147 @@ com.ianhanniballake.contractiontimer.backup.BackupControllerV8 -> com.ianhanniba
 com.ianhanniballake.contractiontimer.backup.ContractionTimerBackupAgent -> com.ianhanniballake.contractiontimer.backup.ContractionTimerBackupAgent:
     22:22:java.lang.String getDefaultSharedPreferencesName() -> a
     28:31:void onCreate() -> onCreate
+com.ianhanniballake.contractiontimer.inappbilling.Base64 -> com.ianhanniballake.contractiontimer.b.a:
+    byte[] ALPHABET -> b
+    byte[] DECODABET -> c
+    byte[] WEBSAFE_ALPHABET -> d
+    byte[] WEBSAFE_DECODABET -> e
+    boolean $assertionsDisabled -> a
+    208:208:byte[] decode(byte[],int,int) -> a
+    229:299:byte[] decode(byte[],int,int,byte[]) -> a
+    312:313:byte[] decode(java.lang.String) -> a
+    346:373:int decode4to3(byte[],int,byte[],int,byte[]) -> a
+com.ianhanniballake.contractiontimer.inappbilling.Base64DecoderException -> com.ianhanniballake.contractiontimer.b.b:
+com.ianhanniballake.contractiontimer.inappbilling.IabException -> com.ianhanniballake.contractiontimer.b.c:
+    com.ianhanniballake.contractiontimer.inappbilling.IabResult mResult -> a
+    51:51:com.ianhanniballake.contractiontimer.inappbilling.IabResult getResult() -> a
+com.ianhanniballake.contractiontimer.inappbilling.IabHelper -> com.ianhanniballake.contractiontimer.b.d:
+    boolean mAsyncInProgress -> a
+    java.lang.String mAsyncOperation -> b
+    android.content.Context mContext -> c
+    boolean mDebugLog -> d
+    java.lang.String mDebugTag -> e
+    com.ianhanniballake.contractiontimer.inappbilling.IabHelper$OnIabPurchaseFinishedListener mPurchaseListener -> f
+    int mRequestCode -> g
+    com.android.vending.billing.IInAppBillingService mService -> h
+    android.content.ServiceConnection mServiceConn -> i
+    boolean mSetupDone -> j
+    java.lang.String mSignatureBase64 -> k
+    218:241:java.lang.String getResponseDesc(int) -> a
+    295:303:void checkSetupDone(java.lang.String) -> a
+    318:347:void consume(com.ianhanniballake.contractiontimer.inappbilling.Purchase) -> a
+    362:364:void consumeAsync(java.util.List,com.ianhanniballake.contractiontimer.inappbilling.IabHelper$OnConsumeMultiFinishedListener) -> a
+    381:385:void consumeAsync(com.ianhanniballake.contractiontimer.inappbilling.Purchase,com.ianhanniballake.contractiontimer.inappbilling.IabHelper$OnConsumeFinishedListener) -> a
+    391:433:void consumeAsyncInternal(java.util.List,com.ianhanniballake.contractiontimer.inappbilling.IabHelper$OnConsumeFinishedListener,com.ianhanniballake.contractiontimer.inappbilling.IabHelper$OnConsumeMultiFinishedListener) -> a
+    443:454:void dispose() -> a
+    458:459:void enableDebugLogging(boolean) -> a
+    472:475:void flagEndAsync() -> b
+    479:486:void flagStartAsync(java.lang.String) -> b
+    492:506:int getResponseCodeFromBundle(android.os.Bundle) -> a
+    516:530:int getResponseCodeFromIntent(android.content.Intent) -> a
+    557:656:boolean handleActivityResult(int,int,android.content.Intent) -> a
+    667:668:void launchPurchaseFlow(android.app.Activity,java.lang.String,int,com.ianhanniballake.contractiontimer.inappbilling.IabHelper$OnIabPurchaseFinishedListener) -> a
+    699:744:void launchPurchaseFlow(android.app.Activity,java.lang.String,int,com.ianhanniballake.contractiontimer.inappbilling.IabHelper$OnIabPurchaseFinishedListener,java.lang.String) -> a
+    748:750:void logDebug(java.lang.String) -> c
+    754:755:void logError(java.lang.String) -> d
+    759:760:void logWarn(java.lang.String) -> e
+    780:802:com.ianhanniballake.contractiontimer.inappbilling.Inventory queryInventory(boolean,java.util.List) -> a
+    825:856:void queryInventoryAsync(boolean,java.util.List,com.ianhanniballake.contractiontimer.inappbilling.IabHelper$QueryInventoryFinishedListener) -> a
+    874:935:int queryPurchases(com.ianhanniballake.contractiontimer.inappbilling.Inventory) -> a
+    942:978:int querySkuDetails(com.ianhanniballake.contractiontimer.inappbilling.Inventory,java.util.List) -> a
+    992:1043:void startSetup(com.ianhanniballake.contractiontimer.inappbilling.IabHelper$OnIabSetupFinishedListener) -> a
+com.ianhanniballake.contractiontimer.inappbilling.IabHelper$1 -> com.ianhanniballake.contractiontimer.b.e:
+    com.ianhanniballake.contractiontimer.inappbilling.IabHelper this$0 -> a
+    java.util.List val$purchases -> b
+    com.ianhanniballake.contractiontimer.inappbilling.IabHelper$OnConsumeFinishedListener val$singleListener -> c
+    android.os.Handler val$handler -> d
+    com.ianhanniballake.contractiontimer.inappbilling.IabHelper$OnConsumeMultiFinishedListener val$multiListener -> e
+    398:431:void run() -> run
+com.ianhanniballake.contractiontimer.inappbilling.IabHelper$1$1 -> com.ianhanniballake.contractiontimer.b.f:
+    com.ianhanniballake.contractiontimer.inappbilling.IabHelper$1 this$1 -> a
+    com.ianhanniballake.contractiontimer.inappbilling.IabHelper$OnConsumeFinishedListener val$singleListener -> b
+    java.util.List val$purchases -> c
+    java.util.List val$results -> d
+    417:419:void run() -> run
+com.ianhanniballake.contractiontimer.inappbilling.IabHelper$1$2 -> com.ianhanniballake.contractiontimer.b.g:
+    com.ianhanniballake.contractiontimer.inappbilling.IabHelper$1 this$1 -> a
+    com.ianhanniballake.contractiontimer.inappbilling.IabHelper$OnConsumeMultiFinishedListener val$multiListener -> b
+    java.util.List val$purchases -> c
+    java.util.List val$results -> d
+    427:429:void run() -> run
+com.ianhanniballake.contractiontimer.inappbilling.IabHelper$2 -> com.ianhanniballake.contractiontimer.b.h:
+    com.ianhanniballake.contractiontimer.inappbilling.IabHelper this$0 -> a
+    boolean val$querySkuDetails -> b
+    java.util.List val$moreSkus -> c
+    android.os.Handler val$handler -> d
+    com.ianhanniballake.contractiontimer.inappbilling.IabHelper$QueryInventoryFinishedListener val$listener -> e
+    833:854:void run() -> run
+com.ianhanniballake.contractiontimer.inappbilling.IabHelper$2$1 -> com.ianhanniballake.contractiontimer.b.i:
+    com.ianhanniballake.contractiontimer.inappbilling.IabHelper$2 this$1 -> a
+    com.ianhanniballake.contractiontimer.inappbilling.IabHelper$QueryInventoryFinishedListener val$listener -> b
+    com.ianhanniballake.contractiontimer.inappbilling.IabResult val$result_f -> c
+    com.ianhanniballake.contractiontimer.inappbilling.Inventory val$inv_f -> d
+    851:852:void run() -> run
+com.ianhanniballake.contractiontimer.inappbilling.IabHelper$3 -> com.ianhanniballake.contractiontimer.b.j:
+    com.ianhanniballake.contractiontimer.inappbilling.IabHelper this$0 -> a
+    com.ianhanniballake.contractiontimer.inappbilling.IabHelper$OnIabSetupFinishedListener val$listener -> b
+    1002:1031:void onServiceConnected(android.content.ComponentName,android.os.IBinder) -> onServiceConnected
+    1036:1038:void onServiceDisconnected(android.content.ComponentName) -> onServiceDisconnected
+com.ianhanniballake.contractiontimer.inappbilling.IabHelper$OnConsumeFinishedListener -> com.ianhanniballake.contractiontimer.b.k:
+    void onConsumeFinished(com.ianhanniballake.contractiontimer.inappbilling.Purchase,com.ianhanniballake.contractiontimer.inappbilling.IabResult) -> a
+com.ianhanniballake.contractiontimer.inappbilling.IabHelper$OnConsumeMultiFinishedListener -> com.ianhanniballake.contractiontimer.b.l:
+    void onConsumeMultiFinished(java.util.List,java.util.List) -> a
+com.ianhanniballake.contractiontimer.inappbilling.IabHelper$OnIabPurchaseFinishedListener -> com.ianhanniballake.contractiontimer.b.m:
+    void onIabPurchaseFinished(com.ianhanniballake.contractiontimer.inappbilling.IabResult,com.ianhanniballake.contractiontimer.inappbilling.Purchase) -> a
+com.ianhanniballake.contractiontimer.inappbilling.IabHelper$OnIabSetupFinishedListener -> com.ianhanniballake.contractiontimer.b.n:
+    void onIabSetupFinished(com.ianhanniballake.contractiontimer.inappbilling.IabResult) -> a
+com.ianhanniballake.contractiontimer.inappbilling.IabHelper$QueryInventoryFinishedListener -> com.ianhanniballake.contractiontimer.b.o:
+    void onQueryInventoryFinished(com.ianhanniballake.contractiontimer.inappbilling.IabResult,com.ianhanniballake.contractiontimer.inappbilling.Inventory) -> a
+com.ianhanniballake.contractiontimer.inappbilling.IabResult -> com.ianhanniballake.contractiontimer.b.p:
+    java.lang.String mMessage -> a
+    int mResponse -> b
+    41:41:java.lang.String getMessage() -> a
+    46:46:int getResponse() -> b
+    51:51:boolean isFailure() -> c
+    56:56:boolean isSuccess() -> d
+    62:62:java.lang.String toString() -> toString
+com.ianhanniballake.contractiontimer.inappbilling.Inventory -> com.ianhanniballake.contractiontimer.b.q:
+    java.util.Map mPurchaseMap -> a
+    java.util.Map mSkuMap -> b
+    37:38:void addPurchase(com.ianhanniballake.contractiontimer.inappbilling.Purchase) -> a
+    42:43:void addSkuDetails(com.ianhanniballake.contractiontimer.inappbilling.SkuDetails) -> a
+    62:62:java.util.List getAllOwnedSkus() -> a
+    68:68:java.util.List getAllPurchases() -> b
+    83:83:com.ianhanniballake.contractiontimer.inappbilling.SkuDetails getSkuDetails(java.lang.String) -> a
+    101:101:java.lang.String toString() -> toString
+com.ianhanniballake.contractiontimer.inappbilling.Purchase -> com.ianhanniballake.contractiontimer.b.r:
+    java.lang.String mDeveloperPayload -> a
+    java.lang.String mOrderId -> b
+    java.lang.String mOriginalJson -> c
+    java.lang.String mPackageName -> d
+    int mPurchaseState -> e
+    long mPurchaseTime -> f
+    java.lang.String mSignature -> g
+    java.lang.String mSku -> h
+    java.lang.String mToken -> i
+    87:87:java.lang.String getSku() -> a
+    92:92:java.lang.String getToken() -> b
+    98:98:java.lang.String toString() -> toString
+com.ianhanniballake.contractiontimer.inappbilling.Security -> com.ianhanniballake.contractiontimer.b.s:
+    57:72:java.security.PublicKey generatePublicKey(java.lang.String) -> a
+    94:116:boolean verify(java.security.PublicKey,java.lang.String,java.lang.String) -> a
+    135:151:boolean verifyPurchase(java.lang.String,java.lang.String,java.lang.String) -> a
+com.ianhanniballake.contractiontimer.inappbilling.SkuDetails -> com.ianhanniballake.contractiontimer.b.t:
+    java.lang.String mDescription -> a
+    java.lang.String mJson -> b
+    java.lang.String mPrice -> c
+    java.lang.String mSku -> d
+    java.lang.String mTitle -> e
+    java.lang.String mType -> f
+    45:45:java.lang.String getDescription() -> a
+    50:50:java.lang.String getPrice() -> b
+    55:55:java.lang.String getSku() -> c
+    71:71:java.lang.String toString() -> toString
 com.ianhanniballake.contractiontimer.provider.ContractionContract -> com.ianhanniballake.contractiontimer.provider.a:
 com.ianhanniballake.contractiontimer.provider.ContractionContract$Contractions -> com.ianhanniballake.contractiontimer.provider.b:
     android.net.Uri CONTENT_ID_URI_BASE -> a
@@ -2336,7 +2484,7 @@ com.ianhanniballake.contractiontimer.ui.ContractionAverageFragment -> com.ianhan
     57:57:android.view.View onCreateView(android.view.LayoutInflater,android.view.ViewGroup,android.os.Bundle) -> a
     64:73:void onLoaderReset(android.support.v4.content.Loader) -> a
     78:129:void onLoadFinished(android.support.v4.content.Loader,android.database.Cursor) -> a
-    134:147:void onResume() -> q
+    134:147:void onResume() -> p
     1:1:void onLoadFinished(android.support.v4.content.Loader,java.lang.Object) -> a
 com.ianhanniballake.contractiontimer.ui.ContractionControlsFragment -> com.ianhanniballake.contractiontimer.ui.d:
     android.support.v4.widget.CursorAdapter adapter -> a
@@ -2374,10 +2522,10 @@ com.ianhanniballake.contractiontimer.ui.ContractionListFragment -> com.ianhannib
     298:298:android.view.View onCreateView(android.view.LayoutInflater,android.view.ViewGroup,android.os.Bundle) -> a
     305:307:void onLoaderReset(android.support.v4.content.Loader) -> a
     312:337:void onLoadFinished(android.support.v4.content.Loader,android.database.Cursor) -> a
-    342:345:void onPause() -> r
-    350:369:void onResume() -> q
+    342:345:void onPause() -> q
+    350:369:void onResume() -> p
     374:381:void setEmptyText(java.lang.CharSequence) -> a
-    void setupListView() -> b
+    void setupListView() -> y
     void setupNewView(android.view.View) -> b
     408:421:void showNoteDialog(long,java.lang.String) -> a
     432:438:void viewContraction(long) -> b
@@ -2402,7 +2550,7 @@ com.ianhanniballake.contractiontimer.ui.ContractionListFragmentBase -> com.ianha
     28:28:void bindView(android.view.View,android.database.Cursor) -> a
     33:67:boolean onContextItemSelected(android.view.MenuItem) -> b
     75:94:void onCreateContextMenu(android.view.ContextMenu,android.view.View,android.view.ContextMenu$ContextMenuInfo) -> onCreateContextMenu
-    102:105:void setupListView() -> b
+    102:105:void setupListView() -> y
     111:111:void setupNewView(android.view.View) -> b
 com.ianhanniballake.contractiontimer.ui.ContractionListFragmentV11 -> com.ianhanniballake.contractiontimer.ui.o:
     java.lang.String selectedItemNote -> aa
@@ -2410,7 +2558,7 @@ com.ianhanniballake.contractiontimer.ui.ContractionListFragmentV11 -> com.ianhan
     88:92:void onActivityCreated(android.os.Bundle) -> d
     97:156:void onClick(android.view.View) -> onClick
     161:164:void onSaveInstanceState(android.os.Bundle) -> e
-    173:340:void setupListView() -> b
+    173:340:void setupListView() -> y
     345:347:void setupNewView(android.view.View) -> b
 com.ianhanniballake.contractiontimer.ui.ContractionListFragmentV11$1 -> com.ianhanniballake.contractiontimer.ui.p:
     com.ianhanniballake.contractiontimer.ui.ContractionListFragmentV11 this$0 -> a
@@ -2435,40 +2583,32 @@ com.ianhanniballake.contractiontimer.ui.DatePickerDialogFragment -> com.ianhanni
     51:57:android.app.Dialog onCreateDialog(android.os.Bundle) -> c
     64:77:void onDateSet(android.widget.DatePicker,int,int,int) -> onDateSet
     83:87:void onDismiss(android.content.DialogInterface) -> onDismiss
-com.ianhanniballake.contractiontimer.ui.DonateDialogFragment -> com.ianhanniballake.contractiontimer.ui.u:
-    java.lang.String[] inAppName -> W
-    java.lang.String[] inAppSku -> X
-    boolean isBillingSupported -> Y
-    net.robotmedia.billing.helper.AbstractBillingObserver mBillingObserver -> Z
-    56:56:byte[] getObfuscationSalt() -> z
-    63:63:java.lang.String getPublicKey() -> A
-    77:88:void onBillingChecked(boolean) -> e
-    95:97:void onCancel(android.content.DialogInterface) -> onCancel
-    102:257:void onCreate(android.os.Bundle) -> a
-    262:358:android.app.Dialog onCreateDialog(android.os.Bundle) -> c
-    364:367:void onDestroy() -> s
-    373:376:void onDismiss(android.content.DialogInterface) -> onDismiss
-com.ianhanniballake.contractiontimer.ui.DonateDialogFragment$1 -> com.ianhanniballake.contractiontimer.ui.v:
-    com.ianhanniballake.contractiontimer.ui.DonateDialogFragment this$0 -> a
-    int[] $SWITCH_TABLE$net$robotmedia$billing$model$Transaction$PurchaseState -> c
-    int[] $SWITCH_TABLE$net$robotmedia$billing$BillingRequest$ResponseCode -> d
-    134:135:void onBillingChecked(boolean) -> a
-    141:178:void onPurchaseStateChanged(java.lang.String,net.robotmedia.billing.model.Transaction$PurchaseState) -> a
-    184:242:void onRequestPurchaseResponse(java.lang.String,net.robotmedia.billing.BillingRequest$ResponseCode) -> a
-    248:248:void onSubscriptionChecked(boolean) -> b
-    129:129:int[] $SWITCH_TABLE$net$robotmedia$billing$model$Transaction$PurchaseState() -> a
-    129:129:int[] $SWITCH_TABLE$net$robotmedia$billing$BillingRequest$ResponseCode() -> b
-com.ianhanniballake.contractiontimer.ui.DonateDialogFragment$2 -> com.ianhanniballake.contractiontimer.ui.w:
-    com.ianhanniballake.contractiontimer.ui.DonateDialogFragment this$0 -> a
-    280:282:void onClick(android.content.DialogInterface,int) -> onClick
-com.ianhanniballake.contractiontimer.ui.DonateDialogFragment$3 -> com.ianhanniballake.contractiontimer.ui.x:
-    com.ianhanniballake.contractiontimer.ui.DonateDialogFragment this$0 -> a
-    android.app.AlertDialog val$alertDialog -> b
-    304:324:void onClick(android.view.View) -> onClick
-com.ianhanniballake.contractiontimer.ui.DonateDialogFragment$4 -> com.ianhanniballake.contractiontimer.ui.y:
-    com.ianhanniballake.contractiontimer.ui.DonateDialogFragment this$0 -> a
-    android.widget.Spinner val$inAppSpinner -> b
-    347:356:void onClick(android.view.View) -> onClick
+com.ianhanniballake.contractiontimer.ui.DonateActivity -> com.ianhanniballake.contractiontimer.ui.DonateActivity:
+    com.ianhanniballake.contractiontimer.inappbilling.IabHelper iabHelper -> n
+    java.lang.String publicKey -> q
+    java.lang.String PURCHASED_SKU -> r
+    java.lang.String purchasedSku -> o
+    java.lang.String[] skus -> p
+    62:64:void onActivityResult(int,int,android.content.Intent) -> onActivityResult
+    73:81:void onConsumeFinished(com.ianhanniballake.contractiontimer.inappbilling.Purchase,com.ianhanniballake.contractiontimer.inappbilling.IabResult) -> a
+    86:167:void onCreate(android.os.Bundle) -> onCreate
+    172:176:void onDestroy() -> onDestroy
+    189:206:void onIabPurchaseFinished(com.ianhanniballake.contractiontimer.inappbilling.IabResult,com.ianhanniballake.contractiontimer.inappbilling.Purchase) -> a
+    214:219:void onIabSetupFinished(com.ianhanniballake.contractiontimer.inappbilling.IabResult) -> a
+    230:262:void onQueryInventoryFinished(com.ianhanniballake.contractiontimer.inappbilling.IabResult,com.ianhanniballake.contractiontimer.inappbilling.Inventory) -> a
+    267:270:void onRestoreInstanceState(android.os.Bundle) -> onRestoreInstanceState
+    275:290:void onResume() -> onResume
+    295:297:void onSaveInstanceState(android.os.Bundle) -> onSaveInstanceState
+    302:306:void onStart() -> onStart
+    311:313:void onStop() -> onStop
+com.ianhanniballake.contractiontimer.ui.DonateActivity$1 -> com.ianhanniballake.contractiontimer.ui.u:
+    com.ianhanniballake.contractiontimer.ui.DonateActivity this$0 -> a
+    120:140:void onClick(android.view.View) -> onClick
+com.ianhanniballake.contractiontimer.ui.DonateActivity$2 -> com.ianhanniballake.contractiontimer.ui.v:
+    int RC_REQUEST -> b
+    com.ianhanniballake.contractiontimer.ui.DonateActivity this$0 -> a
+    android.widget.Spinner val$inAppSpinner -> c
+    151:161:void onClick(android.view.View) -> onClick
 com.ianhanniballake.contractiontimer.ui.EditActivity -> com.ianhanniballake.contractiontimer.ui.EditActivity:
     android.content.BroadcastReceiver dialogFragmentClosedBroadcastReceiver -> n
     49:59:void onCreate(android.os.Bundle) -> onCreate
@@ -2478,10 +2618,10 @@ com.ianhanniballake.contractiontimer.ui.EditActivity -> com.ianhanniballake.cont
     125:141:void onStart() -> onStart
     146:152:void onStop() -> onStop
     159:167:void showFragment() -> h
-com.ianhanniballake.contractiontimer.ui.EditActivity$1 -> com.ianhanniballake.contractiontimer.ui.z:
+com.ianhanniballake.contractiontimer.ui.EditActivity$1 -> com.ianhanniballake.contractiontimer.ui.w:
     com.ianhanniballake.contractiontimer.ui.EditActivity this$0 -> a
     39:43:void onReceive(android.content.Context,android.content.Intent) -> onReceive
-com.ianhanniballake.contractiontimer.ui.EditFragment -> com.ianhanniballake.contractiontimer.ui.aa:
+com.ianhanniballake.contractiontimer.ui.EditFragment -> com.ianhanniballake.contractiontimer.ui.x:
     android.support.v4.widget.CursorAdapter adapter -> h
     android.content.AsyncQueryHandler contractionQueryHandler -> i
     android.content.BroadcastReceiver dateSetBroadcastReceiver -> W
@@ -2504,55 +2644,55 @@ com.ianhanniballake.contractiontimer.ui.EditFragment -> com.ianhanniballake.cont
     644:650:void onLoadFinished(android.support.v4.content.Loader,android.database.Cursor) -> a
     655:684:boolean onOptionsItemSelected(android.view.MenuItem) -> a
     691:699:void onSaveInstanceState(android.os.Bundle) -> e
-    704:717:void onStart() -> d
-    722:727:void onStop() -> e
-    734:792:void updateViews() -> b
+    704:717:void onStart() -> c
+    722:727:void onStop() -> d
+    734:792:void updateViews() -> y
     1:1:void onLoadFinished(android.support.v4.content.Loader,java.lang.Object) -> a
-com.ianhanniballake.contractiontimer.ui.EditFragment$1 -> com.ianhanniballake.contractiontimer.ui.ab:
+com.ianhanniballake.contractiontimer.ui.EditFragment$1 -> com.ianhanniballake.contractiontimer.ui.y:
     com.ianhanniballake.contractiontimer.ui.EditFragment this$0 -> a
     263:294:void onReceive(android.content.Context,android.content.Intent) -> onReceive
-com.ianhanniballake.contractiontimer.ui.EditFragment$2 -> com.ianhanniballake.contractiontimer.ui.ac:
+com.ianhanniballake.contractiontimer.ui.EditFragment$2 -> com.ianhanniballake.contractiontimer.ui.z:
     com.ianhanniballake.contractiontimer.ui.EditFragment this$0 -> a
     333:363:void onReceive(android.content.Context,android.content.Intent) -> onReceive
-com.ianhanniballake.contractiontimer.ui.EditFragment$3 -> com.ianhanniballake.contractiontimer.ui.ad:
+com.ianhanniballake.contractiontimer.ui.EditFragment$3 -> com.ianhanniballake.contractiontimer.ui.aa:
     com.ianhanniballake.contractiontimer.ui.EditFragment this$0 -> a
     android.content.Context val$applicationContext -> b
     422:427:void onInsertComplete(int,java.lang.Object,android.net.Uri) -> onInsertComplete
     433:438:void onUpdateComplete(int,java.lang.Object,int) -> onUpdateComplete
-com.ianhanniballake.contractiontimer.ui.EditFragment$4 -> com.ianhanniballake.contractiontimer.ui.ae:
+com.ianhanniballake.contractiontimer.ui.EditFragment$4 -> com.ianhanniballake.contractiontimer.ui.ab:
     com.ianhanniballake.contractiontimer.ui.EditFragment this$0 -> j
     446:462:void bindView(android.view.View,android.content.Context,android.database.Cursor) -> a
     469:469:android.view.View newView(android.content.Context,android.database.Cursor,android.view.ViewGroup) -> a
-com.ianhanniballake.contractiontimer.ui.EditFragment$5 -> com.ianhanniballake.contractiontimer.ui.af:
+com.ianhanniballake.contractiontimer.ui.EditFragment$5 -> com.ianhanniballake.contractiontimer.ui.ac:
     com.ianhanniballake.contractiontimer.ui.EditFragment this$0 -> a
     532:544:void onClick(android.view.View) -> onClick
-com.ianhanniballake.contractiontimer.ui.EditFragment$6 -> com.ianhanniballake.contractiontimer.ui.ag:
+com.ianhanniballake.contractiontimer.ui.EditFragment$6 -> com.ianhanniballake.contractiontimer.ui.ad:
     com.ianhanniballake.contractiontimer.ui.EditFragment this$0 -> a
     553:565:void onClick(android.view.View) -> onClick
-com.ianhanniballake.contractiontimer.ui.EditFragment$7 -> com.ianhanniballake.contractiontimer.ui.ah:
+com.ianhanniballake.contractiontimer.ui.EditFragment$7 -> com.ianhanniballake.contractiontimer.ui.ae:
     com.ianhanniballake.contractiontimer.ui.EditFragment this$0 -> a
     574:586:void onClick(android.view.View) -> onClick
-com.ianhanniballake.contractiontimer.ui.EditFragment$8 -> com.ianhanniballake.contractiontimer.ui.ai:
+com.ianhanniballake.contractiontimer.ui.EditFragment$8 -> com.ianhanniballake.contractiontimer.ui.af:
     com.ianhanniballake.contractiontimer.ui.EditFragment this$0 -> a
     595:607:void onClick(android.view.View) -> onClick
-com.ianhanniballake.contractiontimer.ui.EditFragment$9 -> com.ianhanniballake.contractiontimer.ui.aj:
+com.ianhanniballake.contractiontimer.ui.EditFragment$9 -> com.ianhanniballake.contractiontimer.ui.ag:
     com.ianhanniballake.contractiontimer.ui.EditFragment this$0 -> a
     615:616:void afterTextChanged(android.text.Editable) -> afterTextChanged
     623:623:void beforeTextChanged(java.lang.CharSequence,int,int,int) -> beforeTextChanged
     630:630:void onTextChanged(java.lang.CharSequence,int,int,int) -> onTextChanged
-com.ianhanniballake.contractiontimer.ui.EditFragment$EndTimeOverlapCheck -> com.ianhanniballake.contractiontimer.ui.ak:
+com.ianhanniballake.contractiontimer.ui.EditFragment$EndTimeOverlapCheck -> com.ianhanniballake.contractiontimer.ui.ah:
     com.ianhanniballake.contractiontimer.ui.EditFragment this$0 -> a
     64:85:java.lang.Boolean doInBackground(java.lang.Void[]) -> a
     94:107:void onPostExecute(java.lang.Boolean) -> a
     1:1:void onPostExecute(java.lang.Object) -> onPostExecute
     1:1:java.lang.Object doInBackground(java.lang.Object[]) -> doInBackground
-com.ianhanniballake.contractiontimer.ui.EditFragment$StartTimeOverlapCheck -> com.ianhanniballake.contractiontimer.ui.al:
+com.ianhanniballake.contractiontimer.ui.EditFragment$StartTimeOverlapCheck -> com.ianhanniballake.contractiontimer.ui.ai:
     com.ianhanniballake.contractiontimer.ui.EditFragment this$0 -> a
     123:144:java.lang.Boolean doInBackground(java.lang.Void[]) -> a
     153:166:void onPostExecute(java.lang.Boolean) -> a
     1:1:void onPostExecute(java.lang.Object) -> onPostExecute
     1:1:java.lang.Object doInBackground(java.lang.Object[]) -> doInBackground
-com.ianhanniballake.contractiontimer.ui.EditFragment$TimeOverlapCheck -> com.ianhanniballake.contractiontimer.ui.am:
+com.ianhanniballake.contractiontimer.ui.EditFragment$TimeOverlapCheck -> com.ianhanniballake.contractiontimer.ui.aj:
     com.ianhanniballake.contractiontimer.ui.EditFragment this$0 -> a
     182:205:java.lang.Boolean doInBackground(java.lang.Void[]) -> a
     214:227:void onPostExecute(java.lang.Boolean) -> a
@@ -2567,36 +2707,36 @@ com.ianhanniballake.contractiontimer.ui.MainActivity -> com.ianhanniballake.cont
     151:152:boolean onCreateOptionsMenu(android.view.Menu) -> onCreateOptionsMenu
     158:159:void onLoaderReset(android.support.v4.content.Loader) -> a
     164:165:void onLoadFinished(android.support.v4.content.Loader,android.database.Cursor) -> a
-    170:234:boolean onOptionsItemSelected(android.view.MenuItem) -> onOptionsItemSelected
-    241:249:boolean onPrepareOptionsMenu(android.view.Menu) -> onPrepareOptionsMenu
-    255:293:void onResume() -> onResume
-    298:322:void onStart() -> onStart
-    327:333:void onStop() -> onStop
-    340:413:void shareAll() -> i
-    420:429:void shareAverages() -> j
-    436:452:void showFragments() -> k
+    170:228:boolean onOptionsItemSelected(android.view.MenuItem) -> onOptionsItemSelected
+    235:243:boolean onPrepareOptionsMenu(android.view.Menu) -> onPrepareOptionsMenu
+    249:287:void onResume() -> onResume
+    292:314:void onStart() -> onStart
+    319:325:void onStop() -> onStop
+    332:405:void shareAll() -> i
+    412:421:void shareAverages() -> j
+    428:444:void showFragments() -> k
     1:1:void onLoadFinished(android.support.v4.content.Loader,java.lang.Object) -> a
-com.ianhanniballake.contractiontimer.ui.MainActivity$1 -> com.ianhanniballake.contractiontimer.ui.an:
+com.ianhanniballake.contractiontimer.ui.MainActivity$1 -> com.ianhanniballake.contractiontimer.ui.ak:
     com.ianhanniballake.contractiontimer.ui.MainActivity this$0 -> a
     66:67:void onReceive(android.content.Context,android.content.Intent) -> onReceive
-com.ianhanniballake.contractiontimer.ui.MainActivity$2 -> com.ianhanniballake.contractiontimer.ui.ao:
+com.ianhanniballake.contractiontimer.ui.MainActivity$2 -> com.ianhanniballake.contractiontimer.ui.al:
     com.ianhanniballake.contractiontimer.ui.MainActivity this$0 -> j
     116:116:void bindView(android.view.View,android.content.Context,android.database.Cursor) -> a
     122:122:android.view.View newView(android.content.Context,android.database.Cursor,android.view.ViewGroup) -> a
-com.ianhanniballake.contractiontimer.ui.NoteDialogFragment -> com.ianhanniballake.contractiontimer.ui.ap:
+com.ianhanniballake.contractiontimer.ui.NoteDialogFragment -> com.ianhanniballake.contractiontimer.ui.am:
     50:55:void onCancel(android.content.DialogInterface) -> onCancel
     60:80:android.app.Dialog onCreateDialog(android.os.Bundle) -> c
     135:138:void onDismiss(android.content.DialogInterface) -> onDismiss
-com.ianhanniballake.contractiontimer.ui.NoteDialogFragment$1 -> com.ianhanniballake.contractiontimer.ui.aq:
+com.ianhanniballake.contractiontimer.ui.NoteDialogFragment$1 -> com.ianhanniballake.contractiontimer.ui.an:
     com.ianhanniballake.contractiontimer.ui.NoteDialogFragment this$0 -> a
-com.ianhanniballake.contractiontimer.ui.NoteDialogFragment$2 -> com.ianhanniballake.contractiontimer.ui.ar:
+com.ianhanniballake.contractiontimer.ui.NoteDialogFragment$2 -> com.ianhanniballake.contractiontimer.ui.ao:
     com.ianhanniballake.contractiontimer.ui.NoteDialogFragment this$0 -> a
     java.lang.String val$existingNote -> b
     long val$contractionId -> c
     android.widget.EditText val$input -> d
     android.content.AsyncQueryHandler val$asyncQueryHandler -> e
     94:109:void onClick(android.content.DialogInterface,int) -> onClick
-com.ianhanniballake.contractiontimer.ui.NoteDialogFragment$3 -> com.ianhanniballake.contractiontimer.ui.as:
+com.ianhanniballake.contractiontimer.ui.NoteDialogFragment$3 -> com.ianhanniballake.contractiontimer.ui.ap:
     com.ianhanniballake.contractiontimer.ui.NoteDialogFragment this$0 -> a
     java.lang.String val$existingNote -> b
     122:127:void onClick(android.content.DialogInterface,int) -> onClick
@@ -2610,22 +2750,22 @@ com.ianhanniballake.contractiontimer.ui.Preferences -> com.ianhanniballake.contr
     144:220:void onSharedPreferenceChanged(android.content.SharedPreferences,java.lang.String) -> onSharedPreferenceChanged
     225:229:void onStart() -> onStart
     234:236:void onStop() -> onStop
-com.ianhanniballake.contractiontimer.ui.ResetDialogFragment -> com.ianhanniballake.contractiontimer.ui.at:
+com.ianhanniballake.contractiontimer.ui.ResetDialogFragment -> com.ianhanniballake.contractiontimer.ui.aq:
     36:38:void onCancel(android.content.DialogInterface) -> onCancel
     43:50:android.app.Dialog onCreateDialog(android.os.Bundle) -> c
     96:99:void onDismiss(android.content.DialogInterface) -> onDismiss
-com.ianhanniballake.contractiontimer.ui.ResetDialogFragment$1 -> com.ianhanniballake.contractiontimer.ui.au:
+com.ianhanniballake.contractiontimer.ui.ResetDialogFragment$1 -> com.ianhanniballake.contractiontimer.ui.ar:
     com.ianhanniballake.contractiontimer.ui.ResetDialogFragment this$0 -> a
-com.ianhanniballake.contractiontimer.ui.ResetDialogFragment$2 -> com.ianhanniballake.contractiontimer.ui.av:
+com.ianhanniballake.contractiontimer.ui.ResetDialogFragment$2 -> com.ianhanniballake.contractiontimer.ui.as:
     com.ianhanniballake.contractiontimer.ui.ResetDialogFragment this$0 -> a
     android.content.AsyncQueryHandler val$asyncQueryHandler -> b
     65:73:void onClick(android.content.DialogInterface,int) -> onClick
-com.ianhanniballake.contractiontimer.ui.ResetDialogFragment$3 -> com.ianhanniballake.contractiontimer.ui.aw:
+com.ianhanniballake.contractiontimer.ui.ResetDialogFragment$3 -> com.ianhanniballake.contractiontimer.ui.at:
     com.ianhanniballake.contractiontimer.ui.ResetDialogFragment this$0 -> a
     86:88:void onClick(android.content.DialogInterface,int) -> onClick
 com.ianhanniballake.contractiontimer.ui.SafePagerTitleStrip -> com.ianhanniballake.contractiontimer.ui.SafePagerTitleStrip:
     48:61:void onDetachedFromWindow() -> onDetachedFromWindow
-com.ianhanniballake.contractiontimer.ui.TimePickerDialogFragment -> com.ianhanniballake.contractiontimer.ui.ax:
+com.ianhanniballake.contractiontimer.ui.TimePickerDialogFragment -> com.ianhanniballake.contractiontimer.ui.au:
     48:55:android.app.Dialog onCreateDialog(android.os.Bundle) -> c
     62:66:void onDismiss(android.content.DialogInterface) -> onDismiss
     72:83:void onTimeSet(android.widget.TimePicker,int,int) -> onTimeSet
@@ -2646,16 +2786,16 @@ com.ianhanniballake.contractiontimer.ui.ViewActivity -> com.ianhanniballake.cont
     274:289:void onStart() -> onStart
     294:296:void onStop() -> onStop
     1:1:void onLoadFinished(android.support.v4.content.Loader,java.lang.Object) -> a
-com.ianhanniballake.contractiontimer.ui.ViewActivity$1 -> com.ianhanniballake.contractiontimer.ui.ay:
+com.ianhanniballake.contractiontimer.ui.ViewActivity$1 -> com.ianhanniballake.contractiontimer.ui.av:
     com.ianhanniballake.contractiontimer.ui.ViewActivity this$0 -> j
     113:113:void bindView(android.view.View,android.content.Context,android.database.Cursor) -> a
     119:119:android.view.View newView(android.content.Context,android.database.Cursor,android.view.ViewGroup) -> a
-com.ianhanniballake.contractiontimer.ui.ViewActivity$ViewFragmentPagerAdapter -> com.ianhanniballake.contractiontimer.ui.az:
+com.ianhanniballake.contractiontimer.ui.ViewActivity$ViewFragmentPagerAdapter -> com.ianhanniballake.contractiontimer.ui.aw:
     com.ianhanniballake.contractiontimer.ui.ViewActivity this$0 -> a
     61:61:int getCount() -> b
     67:67:android.support.v4.app.Fragment getItem(int) -> a
     73:78:java.lang.CharSequence getPageTitle(int) -> b
-com.ianhanniballake.contractiontimer.ui.ViewFragment -> com.ianhanniballake.contractiontimer.ui.ba:
+com.ianhanniballake.contractiontimer.ui.ViewFragment -> com.ianhanniballake.contractiontimer.ui.ax:
     android.support.v4.widget.CursorAdapter adapter -> b
     long contractionId -> c
     android.content.AsyncQueryHandler contractionQueryHandler -> d
@@ -2670,301 +2810,14 @@ com.ianhanniballake.contractiontimer.ui.ViewFragment -> com.ianhanniballake.cont
     225:229:void onLoadFinished(android.support.v4.content.Loader,android.database.Cursor) -> a
     235:261:boolean onOptionsItemSelected(android.view.MenuItem) -> a
     1:1:void onLoadFinished(android.support.v4.content.Loader,java.lang.Object) -> a
-com.ianhanniballake.contractiontimer.ui.ViewFragment$1 -> com.ianhanniballake.contractiontimer.ui.bb:
+com.ianhanniballake.contractiontimer.ui.ViewFragment$1 -> com.ianhanniballake.contractiontimer.ui.ay:
     com.ianhanniballake.contractiontimer.ui.ViewFragment this$0 -> a
     android.content.Context val$applicationContext -> b
     107:112:void onDeleteComplete(int,java.lang.Object,int) -> onDeleteComplete
-com.ianhanniballake.contractiontimer.ui.ViewFragment$2 -> com.ianhanniballake.contractiontimer.ui.bc:
+com.ianhanniballake.contractiontimer.ui.ViewFragment$2 -> com.ianhanniballake.contractiontimer.ui.az:
     com.ianhanniballake.contractiontimer.ui.ViewFragment this$0 -> j
     120:167:void bindView(android.view.View,android.content.Context,android.database.Cursor) -> a
     174:174:android.view.View newView(android.content.Context,android.database.Cursor,android.view.ViewGroup) -> a
-net.robotmedia.billing.BillingController -> net.robotmedia.billing.BillingController:
-    net.robotmedia.billing.BillingController$BillingStatus billingStatus -> a
-    net.robotmedia.billing.BillingController$BillingStatus subscriptionStatus -> b
-    java.util.Set automaticConfirmations -> c
-    net.robotmedia.billing.BillingController$IConfiguration configuration -> d
-    boolean debug -> e
-    net.robotmedia.billing.security.ISignatureValidator validator -> f
-    java.util.HashMap manualConfirmations -> g
-    java.util.Set observers -> h
-    java.util.HashMap pendingRequests -> i
-    98:104:void addManualConfirmation(java.lang.String,java.lang.String) -> a
-    125:131:net.robotmedia.billing.BillingController$BillingStatus checkBillingSupported(android.content.Context) -> a
-    191:192:void confirmNotifications(android.content.Context,java.lang.String[]) -> a
-    211:214:void debug(java.lang.String) -> a
-    229:231:void getPurchaseInformation(android.content.Context,java.lang.String) -> c
-    239:243:byte[] getSalt() -> b
-    300:303:void notifyPurchaseStateChange(java.lang.String,net.robotmedia.billing.model.Transaction$PurchaseState) -> a
-    315:322:void obfuscate(android.content.Context,net.robotmedia.billing.model.Transaction) -> a
-    332:341:void onBillingChecked(boolean) -> a
-    351:354:void onNotify(android.content.Context,java.lang.String) -> a
-    367:370:void onPurchaseIntent(java.lang.String,android.app.PendingIntent) -> a
-    385:436:void onPurchaseStateChanged(android.content.Context,java.lang.String,java.lang.String) -> a
-    447:454:void onRequestSent(long,net.robotmedia.billing.BillingRequest) -> a
-    467:475:void onResponseCode(android.content.Context,long,int) -> a
-    485:493:void onSubscriptionChecked(boolean) -> b
-    496:499:void onTransactionsRestored() -> a
-    512:523:java.util.List parsePurchases(org.json.JSONObject) -> a
-    536:536:boolean registerObserver(net.robotmedia.billing.IBillingObserver) -> a
-    553:554:void requestPurchase(android.content.Context,java.lang.String) -> b
-    579:583:void requestPurchase(android.content.Context,java.lang.String,boolean,java.lang.String) -> a
-    627:629:void restoreTransactions(android.content.Context) -> b
-    638:639:void setConfiguration(net.robotmedia.billing.BillingController$IConfiguration) -> a
-    647:648:void setDebug(boolean) -> c
-    672:686:void startPurchaseIntent(android.app.Activity,android.app.PendingIntent,android.content.Intent) -> a
-    689:692:void storeTransaction(android.content.Context,net.robotmedia.billing.model.Transaction) -> b
-    727:727:boolean unregisterObserver(net.robotmedia.billing.IBillingObserver) -> b
-    731:736:boolean verifyNonce(org.json.JSONObject) -> b
-    741:744:void onRequestPurchaseResponse(java.lang.String,net.robotmedia.billing.BillingRequest$ResponseCode) -> a
-net.robotmedia.billing.BillingController$BillingStatus -> net.robotmedia.billing.BillingController$BillingStatus:
-    net.robotmedia.billing.BillingController$BillingStatus UNKNOWN -> a
-    net.robotmedia.billing.BillingController$BillingStatus SUPPORTED -> b
-    net.robotmedia.billing.BillingController$BillingStatus UNSUPPORTED -> c
-    net.robotmedia.billing.BillingController$BillingStatus[] ENUM$VALUES -> d
-    1:1:net.robotmedia.billing.BillingController$BillingStatus[] values() -> values
-    1:1:net.robotmedia.billing.BillingController$BillingStatus valueOf(java.lang.String) -> valueOf
-net.robotmedia.billing.BillingController$IConfiguration -> net.robotmedia.billing.BillingController$IConfiguration:
-    byte[] getObfuscationSalt() -> z
-    java.lang.String getPublicKey() -> A
-net.robotmedia.billing.BillingReceiver -> net.robotmedia.billing.BillingReceiver:
-    39:51:void onReceive(android.content.Context,android.content.Intent) -> onReceive
-    54:57:void purchaseStateChanged(android.content.Context,android.content.Intent) -> a
-    60:62:void notify(android.content.Context,android.content.Intent) -> b
-    65:68:void responseCode(android.content.Context,android.content.Intent) -> c
-net.robotmedia.billing.BillingRequest -> net.robotmedia.billing.BillingRequest:
-    java.lang.String packageName -> a
-    int startId -> b
-    boolean success -> c
-    long nonce -> d
-    250:250:void addParams(android.os.Bundle) -> a
-    253:253:int getAPIVersion() -> a
-    257:257:long getNonce() -> b
-    java.lang.String getRequestType() -> c
-    263:263:boolean hasNonce() -> d
-    267:267:boolean isSuccess() -> e
-    271:278:android.os.Bundle makeRequestBundle() -> f
-    283:283:void onResponseCode(net.robotmedia.billing.BillingRequest$ResponseCode) -> a
-    287:287:void processOkResponse(android.os.Bundle) -> b
-    290:304:long run(com.android.vending.billing.IMarketBillingService) -> a
-    309:310:void setNonce(long) -> a
-    313:318:boolean validateResponse(android.os.Bundle) -> c
-    322:322:int getStartId() -> g
-net.robotmedia.billing.BillingRequest$CheckBillingSupported -> net.robotmedia.billing.BillingRequest$CheckBillingSupported:
-    35:35:java.lang.String getRequestType() -> c
-    40:42:void processOkResponse(android.os.Bundle) -> b
-net.robotmedia.billing.BillingRequest$CheckSubscriptionSupported -> net.robotmedia.billing.BillingRequest$CheckSubscriptionSupported:
-    54:54:int getAPIVersion() -> a
-    59:59:java.lang.String getRequestType() -> c
-    64:66:void processOkResponse(android.os.Bundle) -> b
-    70:71:void addParams(android.os.Bundle) -> a
-net.robotmedia.billing.BillingRequest$ConfirmNotifications -> net.robotmedia.billing.BillingRequest$ConfirmNotifications:
-    java.lang.String[] notifyIds -> a
-    88:89:void addParams(android.os.Bundle) -> a
-    93:93:java.lang.String getRequestType() -> c
-net.robotmedia.billing.BillingRequest$GetPurchaseInformation -> net.robotmedia.billing.BillingRequest$GetPurchaseInformation:
-    java.lang.String[] notifyIds -> a
-    110:111:void addParams(android.os.Bundle) -> a
-    115:115:java.lang.String getRequestType() -> c
-    118:118:boolean hasNonce() -> d
-net.robotmedia.billing.BillingRequest$RequestPurchase -> net.robotmedia.billing.BillingRequest$RequestPurchase:
-    java.lang.String itemId -> a
-    java.lang.String developerPayload -> b
-    139:143:void addParams(android.os.Bundle) -> a
-    147:147:java.lang.String getRequestType() -> c
-    152:154:void onResponseCode(net.robotmedia.billing.BillingRequest$ResponseCode) -> a
-    158:160:void processOkResponse(android.os.Bundle) -> b
-net.robotmedia.billing.BillingRequest$RequestSubscription -> net.robotmedia.billing.BillingRequest$RequestSubscription:
-    172:174:void addParams(android.os.Bundle) -> a
-    178:178:int getAPIVersion() -> a
-net.robotmedia.billing.BillingRequest$ResponseCode -> net.robotmedia.billing.BillingRequest$ResponseCode:
-    net.robotmedia.billing.BillingRequest$ResponseCode RESULT_OK -> a
-    net.robotmedia.billing.BillingRequest$ResponseCode RESULT_USER_CANCELED -> b
-    net.robotmedia.billing.BillingRequest$ResponseCode RESULT_SERVICE_UNAVAILABLE -> c
-    net.robotmedia.billing.BillingRequest$ResponseCode RESULT_BILLING_UNAVAILABLE -> d
-    net.robotmedia.billing.BillingRequest$ResponseCode RESULT_ITEM_UNAVAILABLE -> e
-    net.robotmedia.billing.BillingRequest$ResponseCode RESULT_DEVELOPER_ERROR -> f
-    net.robotmedia.billing.BillingRequest$ResponseCode RESULT_ERROR -> g
-    net.robotmedia.billing.BillingRequest$ResponseCode[] ENUM$VALUES -> h
-    192:192:boolean isResponseOk(int) -> a
-    197:201:net.robotmedia.billing.BillingRequest$ResponseCode valueOf(int) -> b
-    1:1:net.robotmedia.billing.BillingRequest$ResponseCode[] values() -> values
-    1:1:net.robotmedia.billing.BillingRequest$ResponseCode valueOf(java.lang.String) -> valueOf
-net.robotmedia.billing.BillingRequest$RestoreTransactions -> net.robotmedia.billing.BillingRequest$RestoreTransactions:
-    212:212:java.lang.String getRequestType() -> c
-    215:215:boolean hasNonce() -> d
-    219:223:void onResponseCode(net.robotmedia.billing.BillingRequest$ResponseCode) -> a
-net.robotmedia.billing.BillingService -> net.robotmedia.billing.BillingService:
-    java.util.LinkedList mPendingRequests -> a
-    com.android.vending.billing.IMarketBillingService mService -> b
-    int[] $SWITCH_TABLE$net$robotmedia$billing$BillingService$Action -> c
-    51:53:void checkBillingSupported(android.content.Context) -> a
-    61:64:void confirmNotifications(android.content.Context,java.lang.String[]) -> a
-    67:70:android.content.Intent createIntent(android.content.Context,net.robotmedia.billing.BillingService$Action) -> a
-    74:74:java.lang.String getActionForIntent(android.content.Context,net.robotmedia.billing.BillingService$Action) -> b
-    78:82:void getPurchaseInformation(android.content.Context,java.lang.String[],long) -> a
-    85:89:void requestPurchase(android.content.Context,java.lang.String,java.lang.String) -> a
-    99:103:void restoreTransations(android.content.Context,long) -> a
-    107:114:void bindMarketBillingService() -> b
-    117:120:void checkBillingSupported(int) -> a
-    123:126:void checkSubscriptionSupported(int) -> b
-    129:133:void confirmNotifications(android.content.Intent,int) -> a
-    136:144:net.robotmedia.billing.BillingService$Action getActionFromIntent(android.content.Intent) -> a
-    148:154:void getPurchaseInformation(android.content.Intent,int) -> b
-    158:158:android.os.IBinder onBind(android.content.Intent) -> onBind
-    162:164:void onServiceConnected(android.content.ComponentName,android.os.IBinder) -> onServiceConnected
-    167:168:void onServiceDisconnected(android.content.ComponentName) -> onServiceDisconnected
-    175:176:void onStart(android.content.Intent,int) -> onStart
-    180:181:int onStartCommand(android.content.Intent,int,int) -> onStartCommand
-    185:211:void handleCommand(android.content.Intent,int) -> c
-    214:219:void requestPurchase(android.content.Intent,int) -> d
-    222:227:void requestSubscription(android.content.Intent,int) -> e
-    230:235:void restoreTransactions(android.content.Intent,int) -> f
-    239:255:void runPendingRequests() -> c
-    259:265:void runRequest(net.robotmedia.billing.BillingRequest) -> a
-    268:274:void runRequestOrQueue(net.robotmedia.billing.BillingRequest) -> b
-    278:287:void onDestroy() -> onDestroy
-    35:35:int[] $SWITCH_TABLE$net$robotmedia$billing$BillingService$Action() -> a
-net.robotmedia.billing.BillingService$Action -> net.robotmedia.billing.BillingService$Action:
-    net.robotmedia.billing.BillingService$Action CHECK_BILLING_SUPPORTED -> a
-    net.robotmedia.billing.BillingService$Action CHECK_SUBSCRIPTION_SUPPORTED -> b
-    net.robotmedia.billing.BillingService$Action CONFIRM_NOTIFICATIONS -> c
-    net.robotmedia.billing.BillingService$Action GET_PURCHASE_INFORMATION -> d
-    net.robotmedia.billing.BillingService$Action REQUEST_PURCHASE -> e
-    net.robotmedia.billing.BillingService$Action REQUEST_SUBSCRIPTION -> f
-    net.robotmedia.billing.BillingService$Action RESTORE_TRANSACTIONS -> g
-    net.robotmedia.billing.BillingService$Action[] ENUM$VALUES -> h
-    1:1:net.robotmedia.billing.BillingService$Action[] values() -> values
-    1:1:net.robotmedia.billing.BillingService$Action valueOf(java.lang.String) -> valueOf
-net.robotmedia.billing.IBillingObserver -> net.robotmedia.billing.IBillingObserver:
-    void onBillingChecked(boolean) -> a
-    void onSubscriptionChecked(boolean) -> b
-    void onPurchaseIntent(java.lang.String,android.app.PendingIntent) -> a
-    void onPurchaseStateChanged(java.lang.String,net.robotmedia.billing.model.Transaction$PurchaseState) -> a
-    void onRequestPurchaseResponse(java.lang.String,net.robotmedia.billing.BillingRequest$ResponseCode) -> a
-    void onTransactionsRestored() -> c
-net.robotmedia.billing.R -> net.robotmedia.billing.R:
-net.robotmedia.billing.R$string -> net.robotmedia.billing.R$string:
-    int app_name -> app_name
-net.robotmedia.billing.helper.AbstractBillingActivity -> net.robotmedia.billing.helper.AbstractBillingActivity:
-    net.robotmedia.billing.helper.AbstractBillingObserver mBillingObserver -> a
-    48:48:net.robotmedia.billing.BillingController$BillingStatus checkBillingSupported() -> a
-    void onBillingChecked(boolean) -> a
-    void onSubscriptionChecked(boolean) -> b
-    80:107:void onCreate(android.os.Bundle) -> onCreate
-    111:117:void onDestroy() -> onDestroy
-    void onPurchaseStateChanged(java.lang.String,net.robotmedia.billing.model.Transaction$PurchaseState) -> a
-    void onRequestPurchaseResponse(java.lang.String,net.robotmedia.billing.BillingRequest$ResponseCode) -> a
-net.robotmedia.billing.helper.AbstractBillingActivity$1 -> net.robotmedia.billing.helper.AbstractBillingActivity$1:
-    net.robotmedia.billing.helper.AbstractBillingActivity this$0 -> a
-    85:86:void onBillingChecked(boolean) -> a
-    89:90:void onSubscriptionChecked(boolean) -> b
-    93:94:void onPurchaseStateChanged(java.lang.String,net.robotmedia.billing.model.Transaction$PurchaseState) -> a
-    97:98:void onRequestPurchaseResponse(java.lang.String,net.robotmedia.billing.BillingRequest$ResponseCode) -> a
-net.robotmedia.billing.helper.AbstractBillingFragment -> net.robotmedia.billing.helper.AbstractBillingFragment:
-    net.robotmedia.billing.helper.AbstractBillingObserver mBillingObserver -> a
-    35:35:net.robotmedia.billing.BillingController$BillingStatus checkBillingSupported() -> a
-    void onBillingChecked(boolean) -> a
-    void onSubscriptionChecked(boolean) -> b
-    67:94:void onCreate(android.os.Bundle) -> onCreate
-    98:104:void onDestroy() -> onDestroy
-    void onPurchaseStateChanged(java.lang.String,net.robotmedia.billing.model.Transaction$PurchaseState) -> a
-    void onRequestPurchaseResponse(java.lang.String,net.robotmedia.billing.BillingRequest$ResponseCode) -> a
-net.robotmedia.billing.helper.AbstractBillingFragment$1 -> net.robotmedia.billing.helper.AbstractBillingFragment$1:
-    net.robotmedia.billing.helper.AbstractBillingFragment this$0 -> a
-    72:73:void onBillingChecked(boolean) -> a
-    76:77:void onSubscriptionChecked(boolean) -> b
-    80:81:void onPurchaseStateChanged(java.lang.String,net.robotmedia.billing.model.Transaction$PurchaseState) -> a
-    84:85:void onRequestPurchaseResponse(java.lang.String,net.robotmedia.billing.BillingRequest$ResponseCode) -> a
-net.robotmedia.billing.helper.AbstractBillingObserver -> net.robotmedia.billing.helper.AbstractBillingObserver:
-    android.app.Activity activity -> b
-    43:44:boolean isTransactionsRestored() -> d
-    57:58:void onPurchaseIntent(java.lang.String,android.app.PendingIntent) -> a
-    61:65:void onTransactionsRestored() -> c
-net.robotmedia.billing.model.BillingDB -> net.robotmedia.billing.model.BillingDB:
-    java.lang.String[] TABLE_TRANSACTIONS_COLUMNS -> b
-    android.database.sqlite.SQLiteDatabase mDb -> a
-    net.robotmedia.billing.model.BillingDB$DatabaseHelper mDatabaseHelper -> c
-    50:51:void close() -> a
-    54:61:void insert(net.robotmedia.billing.model.Transaction) -> a
-net.robotmedia.billing.model.BillingDB$DatabaseHelper -> net.robotmedia.billing.model.BillingDB$DatabaseHelper:
-    net.robotmedia.billing.model.BillingDB this$0 -> a
-    95:96:void onCreate(android.database.sqlite.SQLiteDatabase) -> onCreate
-    99:105:void createTransactionsTable(android.database.sqlite.SQLiteDatabase) -> a
-    108:108:void onUpgrade(android.database.sqlite.SQLiteDatabase,int,int) -> onUpgrade
-net.robotmedia.billing.model.Transaction -> net.robotmedia.billing.model.Transaction:
-    java.lang.String developerPayload -> a
-    java.lang.String notificationId -> b
-    java.lang.String orderId -> c
-    java.lang.String packageName -> d
-    java.lang.String productId -> e
-    net.robotmedia.billing.model.Transaction$PurchaseState purchaseState -> f
-    long purchaseTime -> g
-    52:61:net.robotmedia.billing.model.Transaction parse(org.json.JSONObject) -> a
-    86:86:net.robotmedia.billing.model.Transaction clone() -> a
-    91:127:boolean equals(java.lang.Object) -> equals
-    132:132:java.lang.String toString() -> toString
-    1:1:java.lang.Object clone() -> clone
-net.robotmedia.billing.model.Transaction$PurchaseState -> net.robotmedia.billing.model.Transaction$PurchaseState:
-    net.robotmedia.billing.model.Transaction$PurchaseState PURCHASED -> a
-    net.robotmedia.billing.model.Transaction$PurchaseState CANCELLED -> b
-    net.robotmedia.billing.model.Transaction$PurchaseState REFUNDED -> c
-    net.robotmedia.billing.model.Transaction$PurchaseState EXPIRED -> d
-    net.robotmedia.billing.model.Transaction$PurchaseState[] ENUM$VALUES -> e
-    35:39:net.robotmedia.billing.model.Transaction$PurchaseState valueOf(int) -> a
-    1:1:net.robotmedia.billing.model.Transaction$PurchaseState[] values() -> values
-    1:1:net.robotmedia.billing.model.Transaction$PurchaseState valueOf(java.lang.String) -> valueOf
-net.robotmedia.billing.model.TransactionManager -> net.robotmedia.billing.model.TransactionManager:
-    28:31:void addTransaction(android.content.Context,net.robotmedia.billing.model.Transaction) -> a
-net.robotmedia.billing.security.DefaultSignatureValidator -> net.robotmedia.billing.security.DefaultSignatureValidator:
-    net.robotmedia.billing.BillingController$IConfiguration configuration -> a
-    49:59:java.security.PublicKey generatePublicKey(java.lang.String) -> a
-    72:89:boolean validate(java.security.PublicKey,java.lang.String,java.lang.String) -> a
-    94:103:boolean validate(java.lang.String,java.lang.String) -> a
-net.robotmedia.billing.security.ISignatureValidator -> net.robotmedia.billing.security.ISignatureValidator:
-    boolean validate(java.lang.String,java.lang.String) -> a
-net.robotmedia.billing.utils.AESObfuscator -> net.robotmedia.billing.utils.AESObfuscator:
-    byte[] IV -> a
-    javax.crypto.Cipher mEncryptor -> b
-    javax.crypto.Cipher mDecryptor -> c
-    64:73:java.lang.String obfuscate(java.lang.String) -> a
-net.robotmedia.billing.utils.AESObfuscator$ValidationException -> net.robotmedia.billing.utils.AESObfuscator$ValidationException:
-net.robotmedia.billing.utils.Base64 -> net.robotmedia.billing.utils.Base64:
-    byte[] ALPHABET -> b
-    byte[] WEBSAFE_ALPHABET -> c
-    byte[] DECODABET -> d
-    byte[] WEBSAFE_DECODABET -> e
-    boolean $assertionsDisabled -> a
-    210:234:byte[] encode3to4(byte[],int,int,byte[],int,byte[]) -> a
-    247:247:java.lang.String encode(byte[]) -> a
-    274:286:java.lang.String encode(byte[],int,int,byte[],boolean) -> a
-    301:345:byte[] encode(byte[],int,int,byte[],int) -> a
-    378:406:int decode4to3(byte[],int,byte[],int,byte[]) -> a
-    419:420:byte[] decode(java.lang.String) -> a
-    474:474:byte[] decode(byte[],int,int) -> a
-    504:568:byte[] decode(byte[],int,int,byte[]) -> a
-net.robotmedia.billing.utils.Base64DecoderException -> net.robotmedia.billing.utils.Base64DecoderException:
-net.robotmedia.billing.utils.Compatibility -> net.robotmedia.billing.utils.Compatibility:
-    java.lang.reflect.Method startIntentSender -> b
-    int START_NOT_STICKY -> a
-    java.lang.Class[] START_INTENT_SENDER_SIG -> c
-    41:54:void initCompatibility() -> b
-    57:70:void startIntentSender(android.app.Activity,android.content.IntentSender,android.content.Intent) -> a
-    73:73:boolean isStartIntentSenderSupported() -> a
-net.robotmedia.billing.utils.Installation -> net.robotmedia.billing.utils.Installation:
-    java.lang.String sID -> a
-    31:42:java.lang.String id(android.content.Context) -> a
-    46:50:java.lang.String readInstallationFile(java.io.File) -> a
-    54:58:void writeInstallationFile(java.io.File) -> b
-net.robotmedia.billing.utils.Security -> net.robotmedia.billing.utils.Security:
-    java.util.HashSet knownNonces -> a
-    java.security.SecureRandom RANDOM -> b
-    java.lang.String TAG -> c
-    net.robotmedia.billing.utils.AESObfuscator _obfuscator -> d
-    35:37:long generateNonce() -> a
-    41:41:boolean isNonceKnown(long) -> a
-    45:46:void removeNonce(long) -> b
-    49:50:java.lang.String obfuscate(android.content.Context,byte[],java.lang.String) -> a
-    56:62:net.robotmedia.billing.utils.AESObfuscator getObfuscator(android.content.Context,byte[]) -> a
 org.acra.ACRA -> org.acra.ACRA:
     boolean DEV_LOGGING -> DEV_LOGGING
     java.lang.String LOG_TAG -> LOG_TAG
