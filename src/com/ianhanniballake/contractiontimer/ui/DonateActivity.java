@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.util.Log;
@@ -160,10 +161,13 @@ public class DonateActivity extends ActionBarFragmentActivity implements
 						RC_REQUEST, DonateActivity.this);
 			}
 		});
-		// Start the In-App Billing process
-		iabHelper = new IabHelper(this, publicKey);
-		iabHelper.enableDebugLogging(BuildConfig.DEBUG);
-		iabHelper.startSetup(this);
+		// Start the In-App Billing process, only if on Froyo or higher
+		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.FROYO)
+		{
+			iabHelper = new IabHelper(this, publicKey);
+			iabHelper.enableDebugLogging(BuildConfig.DEBUG);
+			iabHelper.startSetup(this);
+		}
 	}
 
 	@Override
@@ -190,10 +194,6 @@ public class DonateActivity extends ActionBarFragmentActivity implements
 		{
 			case IabHelper.BILLING_RESPONSE_RESULT_USER_CANCELED:
 				EasyTracker.getTracker().trackEvent("Donate", "Canceled",
-						purchasedSku, 0L);
-				break;
-			case IabHelper.BILLING_RESPONSE_RESULT_OK:
-				EasyTracker.getTracker().trackEvent("Donate", "Purchased",
 						purchasedSku, 0L);
 				break;
 			default:

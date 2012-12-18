@@ -19,6 +19,8 @@
 #   public *;
 #}
 
+-keep public class * extends android.app.Service
+
 # We need line numbers in our stack traces otherwise they are pretty useless
 -renamesourcefileattribute SourceFile
 -keepattributes SourceFile,LineNumberTable

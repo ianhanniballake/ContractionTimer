@@ -2589,11 +2589,11 @@ com.ianhanniballake.contractiontimer.ui.DonateActivity -> com.ianhanniballake.co
     java.lang.String PURCHASED_SKU -> r
     java.lang.String purchasedSku -> o
     java.lang.String[] skus -> p
-    62:64:void onActivityResult(int,int,android.content.Intent) -> onActivityResult
-    73:81:void onConsumeFinished(com.ianhanniballake.contractiontimer.inappbilling.Purchase,com.ianhanniballake.contractiontimer.inappbilling.IabResult) -> a
-    86:167:void onCreate(android.os.Bundle) -> onCreate
-    172:176:void onDestroy() -> onDestroy
-    189:206:void onIabPurchaseFinished(com.ianhanniballake.contractiontimer.inappbilling.IabResult,com.ianhanniballake.contractiontimer.inappbilling.Purchase) -> a
+    63:65:void onActivityResult(int,int,android.content.Intent) -> onActivityResult
+    74:82:void onConsumeFinished(com.ianhanniballake.contractiontimer.inappbilling.Purchase,com.ianhanniballake.contractiontimer.inappbilling.IabResult) -> a
+    87:171:void onCreate(android.os.Bundle) -> onCreate
+    176:180:void onDestroy() -> onDestroy
+    193:206:void onIabPurchaseFinished(com.ianhanniballake.contractiontimer.inappbilling.IabResult,com.ianhanniballake.contractiontimer.inappbilling.Purchase) -> a
     214:219:void onIabSetupFinished(com.ianhanniballake.contractiontimer.inappbilling.IabResult) -> a
     230:262:void onQueryInventoryFinished(com.ianhanniballake.contractiontimer.inappbilling.IabResult,com.ianhanniballake.contractiontimer.inappbilling.Inventory) -> a
     267:270:void onRestoreInstanceState(android.os.Bundle) -> onRestoreInstanceState
@@ -2603,12 +2603,12 @@ com.ianhanniballake.contractiontimer.ui.DonateActivity -> com.ianhanniballake.co
     311:313:void onStop() -> onStop
 com.ianhanniballake.contractiontimer.ui.DonateActivity$1 -> com.ianhanniballake.contractiontimer.ui.u:
     com.ianhanniballake.contractiontimer.ui.DonateActivity this$0 -> a
-    120:140:void onClick(android.view.View) -> onClick
+    121:141:void onClick(android.view.View) -> onClick
 com.ianhanniballake.contractiontimer.ui.DonateActivity$2 -> com.ianhanniballake.contractiontimer.ui.v:
     int RC_REQUEST -> b
     com.ianhanniballake.contractiontimer.ui.DonateActivity this$0 -> a
     android.widget.Spinner val$inAppSpinner -> c
-    151:161:void onClick(android.view.View) -> onClick
+    152:162:void onClick(android.view.View) -> onClick
 com.ianhanniballake.contractiontimer.ui.EditActivity -> com.ianhanniballake.contractiontimer.ui.EditActivity:
     android.content.BroadcastReceiver dialogFragmentClosedBroadcastReceiver -> n
     49:59:void onCreate(android.os.Bundle) -> onCreate
