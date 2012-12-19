@@ -21,6 +21,7 @@ package com.ianhanniballake.contractiontimer.inappbilling;
  * respectively. You can also inquire whether a result is a success or a failure
  * by calling {@link #isSuccess()} and {@link #isFailure()}.
  */
+@SuppressWarnings("javadoc")
 public class IabResult
 {
 	String mMessage;

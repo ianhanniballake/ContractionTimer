@@ -20,6 +20,7 @@ import org.json.JSONObject;
 /**
  * Represents an in-app product's listing details.
  */
+@SuppressWarnings("javadoc")
 public class SkuDetails
 {
 	String mDescription;

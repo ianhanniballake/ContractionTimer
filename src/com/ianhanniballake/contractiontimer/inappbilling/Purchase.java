@@ -20,6 +20,7 @@ import org.json.JSONObject;
 /**
  * Represents an in-app billing purchase.
  */
+@SuppressWarnings("javadoc")
 public class Purchase
 {
 	String mDeveloperPayload;

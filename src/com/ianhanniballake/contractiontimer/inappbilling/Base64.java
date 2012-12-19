@@ -36,6 +36,7 @@ package com.ianhanniballake.contractiontimer.inappbilling;
  * <p>
  * Note {@link CharBase64} is a GWT-compatible implementation of this class.
  */
+@SuppressWarnings("javadoc")
 public class Base64
 {
 	/**

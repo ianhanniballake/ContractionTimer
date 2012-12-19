@@ -19,6 +19,7 @@ package com.ianhanniballake.contractiontimer.inappbilling;
  * IabException has an associated IabResult (an error). To get the IAB result
  * that caused this exception to be thrown, call {@link #getResult()}.
  */
+@SuppressWarnings("javadoc")
 public class IabException extends Exception
 {
 	IabResult mResult;

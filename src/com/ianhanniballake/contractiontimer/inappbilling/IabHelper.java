@@ -83,6 +83,7 @@ import com.android.vending.billing.IInAppBillingService;
  * @author Bruno Oliveira (Google)
  * 
  */
+@SuppressWarnings("javadoc")
 public class IabHelper
 {
 	/**
@@ -232,8 +233,7 @@ public class IabHelper
 			final int index = IABHELPER_ERROR_BASE - code;
 			if (index >= 0 && index < iabhelper_msgs.length)
 				return iabhelper_msgs[index];
-			else
-				return String.valueOf(code) + ":Unknown IAB Helper Error";
+			return String.valueOf(code) + ":Unknown IAB Helper Error";
 		}
 		else if (code < 0 || code >= iab_msgs.length)
 			return String.valueOf(code) + ":Unknown";
@@ -961,11 +961,8 @@ public class IabHelper
 				logDebug("getSkuDetails() failed: " + getResponseDesc(response));
 				return response;
 			}
-			else
-			{
-				logError("getSkuDetails() returned a bundle with neither an error nor a detail list.");
-				return IABHELPER_BAD_RESPONSE;
-			}
+			logError("getSkuDetails() returned a bundle with neither an error nor a detail list.");
+			return IABHELPER_BAD_RESPONSE;
 		}
 		final ArrayList<String> responseList = skuDetails
 				.getStringArrayList(RESPONSE_GET_SKU_DETAILS_LIST);

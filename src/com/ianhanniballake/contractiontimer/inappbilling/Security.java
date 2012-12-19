@@ -35,6 +35,7 @@ import android.util.Log;
  * an attacker to replace the code with stubs that treat all purchases as
  * verified.
  */
+@SuppressWarnings("javadoc")
 public class Security
 {
 	private static final String KEY_FACTORY_ALGORITHM = "RSA";
