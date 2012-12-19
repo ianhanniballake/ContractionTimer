@@ -218,6 +218,12 @@ public class MainActivity extends ActionBarFragmentActivity implements
 				EasyTracker.getTracker().trackView("About");
 				aboutDialogFragment.show(getSupportFragmentManager(), "about");
 				return true;
+			case R.id.menu_donate:
+				if (BuildConfig.DEBUG)
+					Log.d(getClass().getSimpleName(), "Menu selected Donate");
+				EasyTracker.getTracker().trackEvent("Menu", "Donate", "", 0L);
+				startActivity(new Intent(this, DonateActivity.class));
+				return true;
 			default:
 				return super.onOptionsItemSelected(item);
 		}

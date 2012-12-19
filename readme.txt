@@ -3,6 +3,8 @@ Contraction Timer tracks and stores all of your contraction data.
 
 Project is set up for use in Eclipse, but should work in any Android development environment.
 
+Uses https://github.com/robotmedia/AndroidBillingLibrary for in-app billing.
+
 Virtual Device Setup:
 
 Target: Android 2.2 - API Level 8

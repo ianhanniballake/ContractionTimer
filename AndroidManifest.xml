@@ -3,8 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.ianhanniballake.contractiontimer"
     android:installLocation="auto"
-    android:versionCode="7161890"
-    android:versionName="1.8.9" >
+    android:versionCode="78161900"
+    android:versionName="1.9" >
 
     <uses-sdk
         android:minSdkVersion="7"
@@ -12,6 +12,7 @@
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="com.android.vending.BILLING" />
 
     <application
         android:name="ContractionTimerApplication"
@@ -83,6 +84,14 @@
 
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
+
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".ui.MainActivity" />
+        </activity>
+        <activity
+            android:name=".ui.DonateActivity"
+            android:label="@string/donate_activity_name" >
 
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
