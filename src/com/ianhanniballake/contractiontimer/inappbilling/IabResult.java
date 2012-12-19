@@ -60,6 +60,6 @@ public class IabResult
 	@Override
 	public String toString()
 	{
-		return "IabResult: " + getMessage();
+		return "IabResult: " + mMessage;
 	}
 }
