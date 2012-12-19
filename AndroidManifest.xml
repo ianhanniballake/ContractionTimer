@@ -24,7 +24,8 @@
         <provider
             android:name=".provider.ContractionProvider"
             android:authorities="com.ianhanniballake.contractiontimer"
-            tools:ignore="ExportedContentProvider" >
+            tools:ignore="ExportedContentProvider"
+            android:exported="true" >
             <grant-uri-permission android:pathPattern=".*" />
         </provider>
 
