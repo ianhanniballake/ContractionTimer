@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.ianhanniballake.contractiontimer"
     android:installLocation="auto"
-    android:versionCode="78171900"
+    android:versionCode="7171900"
     android:versionName="1.9" >
 
     <uses-sdk
