@@ -426,10 +426,15 @@ public class EditFragment extends Fragment implements LoaderManager.LoaderCallba
 			endTime = (Calendar) savedInstanceState
 					.getSerializable(ContractionContract.Contractions.COLUMN_NAME_END_TIME);
 			note = savedInstanceState.getString(ContractionContract.Contractions.COLUMN_NAME_NOTE);
-			// No longer need the loader as we'll use our local (possibly
-			// changed) copies from now on
-			getLoaderManager().destroyLoader(0);
-			updateViews();
+			if (startTime == null)
+				// The user may have paused before the loader completed so re-query
+				getLoaderManager().initLoader(0, null, this);
+			else
+			{
+				// No longer need the loader as we have valid local copies (which may have changes) from now on
+				getLoaderManager().destroyLoader(0);
+				updateViews();
+			}
 		}
 		else if (Intent.ACTION_EDIT.equals(getActivity().getIntent().getAction()))
 			getLoaderManager().initLoader(0, null, this);
