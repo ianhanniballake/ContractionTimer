@@ -33,9 +33,8 @@ import com.ianhanniballake.contractiontimer.inappbilling.SkuDetails;
 /**
  * Activity controlling donations, including Paypal and In-App Billing
  */
-public class DonateActivity extends ActionBarFragmentActivity implements
-		QueryInventoryFinishedListener, IabHelper.OnIabSetupFinishedListener,
-		IabHelper.OnIabPurchaseFinishedListener,
+public class DonateActivity extends ActionBarFragmentActivity implements QueryInventoryFinishedListener,
+		IabHelper.OnIabSetupFinishedListener, IabHelper.OnIabPurchaseFinishedListener,
 		IabHelper.OnConsumeFinishedListener
 {
 	/**
@@ -54,29 +53,23 @@ public class DonateActivity extends ActionBarFragmentActivity implements
 	String[] skus;
 
 	@Override
-	protected void onActivityResult(final int requestCode,
-			final int resultCode, final Intent data)
+	protected void onActivityResult(final int requestCode, final int resultCode, final Intent data)
 	{
 		if (BuildConfig.DEBUG)
-			Log.d(getClass().getSimpleName(), "onActivityResult(" + requestCode
-					+ "," + resultCode + "," + data + ")");
+			Log.d(getClass().getSimpleName(), "onActivityResult(" + requestCode + "," + resultCode + "," + data + ")");
 		if (!iabHelper.handleActivityResult(requestCode, resultCode, data))
 			super.onActivityResult(requestCode, resultCode, data);
 	}
 
 	@Override
-	public void onConsumeFinished(final Purchase purchase,
-			final IabResult result)
+	public void onConsumeFinished(final Purchase purchase, final IabResult result)
 	{
 		if (BuildConfig.DEBUG)
-			Log.d(getClass().getSimpleName(),
-					"Consume Completed: " + result.getMessage());
+			Log.d(getClass().getSimpleName(), "Consume Completed: " + result.getMessage());
 		if (result.isSuccess())
 		{
-			EasyTracker.getTracker().trackEvent("Donate", "Purchased",
-					purchase.getSku(), 0L);
-			Toast.makeText(this, R.string.donate_thank_you, Toast.LENGTH_LONG)
-					.show();
+			EasyTracker.getTracker().trackEvent("Donate", "Purchased", purchase.getSku(), 0L);
+			Toast.makeText(this, R.string.donate_thank_you, Toast.LENGTH_LONG).show();
 			finish();
 		}
 	}
@@ -94,8 +87,7 @@ public class DonateActivity extends ActionBarFragmentActivity implements
 			allSkus.add("android.test.refunded");
 			allSkus.add("android.test.item_unavailable");
 		}
-		allSkus.addAll(Arrays.asList(getResources().getStringArray(
-				R.array.donate_in_app_sku_array)));
+		allSkus.addAll(Arrays.asList(getResources().getStringArray(R.array.donate_in_app_sku_array)));
 		skus = allSkus.toArray(new String[allSkus.size()]);
 		// Set up the UI
 		setContentView(R.layout.activity_donate);
@@ -103,10 +95,8 @@ public class DonateActivity extends ActionBarFragmentActivity implements
 		paypal_button.setOnClickListener(new View.OnClickListener()
 		{
 			/**
-			 * Donate button with PayPal by opening browser with defined URL For
-			 * possible parameters see:
-			 * https://cms.paypal.com/us/cgi-bin/?cmd=_render
-			 * -content&content_ID=
+			 * Donate button with PayPal by opening browser with defined URL For possible parameters see:
+			 * https://cms.paypal.com/us/cgi-bin/?cmd=_render -content&content_ID=
 			 * developer/e_howto_html_Appx_websitestandard_htmlvariables
 			 * 
 			 * @param v
@@ -116,25 +106,20 @@ public class DonateActivity extends ActionBarFragmentActivity implements
 			public void onClick(final View v)
 			{
 				if (BuildConfig.DEBUG)
-					Log.d(DonateActivity.this.getClass().getSimpleName(),
-							"Clicked Paypal");
+					Log.d(DonateActivity.this.getClass().getSimpleName(), "Clicked Paypal");
 				EasyTracker.getTracker().trackEvent("Donate", "Paypal", "", 0L);
 				final Uri.Builder uriBuilder = new Uri.Builder();
-				uriBuilder.scheme("https").authority("www.paypal.com")
-						.path("cgi-bin/webscr");
+				uriBuilder.scheme("https").authority("www.paypal.com").path("cgi-bin/webscr");
 				uriBuilder.appendQueryParameter("cmd", "_donations");
-				uriBuilder.appendQueryParameter("business",
-						"ian.hannibal.lake@gmail.com");
+				uriBuilder.appendQueryParameter("business", "ian.hannibal.lake@gmail.com");
 				uriBuilder.appendQueryParameter("lc", "US");
-				uriBuilder.appendQueryParameter("item_name",
-						"Contraction Timer Donation");
+				uriBuilder.appendQueryParameter("item_name", "Contraction Timer Donation");
 				uriBuilder.appendQueryParameter("no_note", "1");
 				uriBuilder.appendQueryParameter("no_shipping", "1");
 				uriBuilder.appendQueryParameter("currency_code", "USD");
 				final Uri payPalUri = uriBuilder.build();
 				// Start your favorite browser
-				final Intent viewIntent = new Intent(Intent.ACTION_VIEW,
-						payPalUri);
+				final Intent viewIntent = new Intent(Intent.ACTION_VIEW, payPalUri);
 				startActivity(viewIntent);
 				// Close this activity
 				finish();
@@ -149,16 +134,12 @@ public class DonateActivity extends ActionBarFragmentActivity implements
 			@Override
 			public void onClick(final View v)
 			{
-				final int selectedInAppAmount = inAppSpinner
-						.getSelectedItemPosition();
+				final int selectedInAppAmount = inAppSpinner.getSelectedItemPosition();
 				purchasedSku = skus[selectedInAppAmount];
 				if (BuildConfig.DEBUG)
-					Log.d(DonateActivity.this.getClass().getSimpleName(),
-							"Clicked " + purchasedSku);
-				EasyTracker.getTracker().trackEvent("Donate", "Click",
-						purchasedSku, 0L);
-				iabHelper.launchPurchaseFlow(DonateActivity.this, purchasedSku,
-						RC_REQUEST, DonateActivity.this);
+					Log.d(DonateActivity.this.getClass().getSimpleName(), "Clicked " + purchasedSku);
+				EasyTracker.getTracker().trackEvent("Donate", "Click", purchasedSku, 0L);
+				iabHelper.launchPurchaseFlow(DonateActivity.this, purchasedSku, RC_REQUEST, DonateActivity.this);
 			}
 		});
 		// Start the In-App Billing process, only if on Froyo or higher
@@ -180,25 +161,20 @@ public class DonateActivity extends ActionBarFragmentActivity implements
 	}
 
 	/**
-	 * Called when a purchase is completed. Immediately attempts to consume the
-	 * donation to ready for the next donation
+	 * Called when a purchase is completed. Immediately attempts to consume the donation to ready for the next donation
 	 */
 	@Override
-	public void onIabPurchaseFinished(final IabResult result,
-			final Purchase info)
+	public void onIabPurchaseFinished(final IabResult result, final Purchase info)
 	{
 		if (BuildConfig.DEBUG)
-			Log.d(getClass().getSimpleName(),
-					"Purchase Completed: " + result.getMessage());
+			Log.d(getClass().getSimpleName(), "Purchase Completed: " + result.getMessage());
 		switch (result.getResponse())
 		{
 			case IabHelper.BILLING_RESPONSE_RESULT_USER_CANCELED:
-				EasyTracker.getTracker().trackEvent("Donate", "Canceled",
-						purchasedSku, 0L);
+				EasyTracker.getTracker().trackEvent("Donate", "Canceled", purchasedSku, 0L);
 				break;
 			default:
-				EasyTracker.getTracker().trackEvent("Donate", "Error",
-						purchasedSku, 0L);
+				EasyTracker.getTracker().trackEvent("Donate", "Error", purchasedSku, 0L);
 				break;
 		}
 		if (result.isSuccess())
@@ -209,22 +185,18 @@ public class DonateActivity extends ActionBarFragmentActivity implements
 	public void onIabSetupFinished(final IabResult result)
 	{
 		if (BuildConfig.DEBUG)
-			Log.d(getClass().getSimpleName(),
-					"Billing supported: " + result.getMessage());
+			Log.d(getClass().getSimpleName(), "Billing supported: " + result.getMessage());
 		if (result.isSuccess())
-			iabHelper.queryInventoryAsync(true, Arrays.asList(skus),
-					DonateActivity.this);
+			iabHelper.queryInventoryAsync(true, Arrays.asList(skus), DonateActivity.this);
 		// In-App Billing UI is hidden by default, so nothing to do if it wasn't
 		// successful
 	}
 
 	@Override
-	public void onQueryInventoryFinished(final IabResult result,
-			final Inventory inv)
+	public void onQueryInventoryFinished(final IabResult result, final Inventory inv)
 	{
 		if (BuildConfig.DEBUG)
-			Log.d(getClass().getSimpleName(),
-					"Inventory Returned: " + result.getMessage() + ": " + inv);
+			Log.d(getClass().getSimpleName(), "Inventory Returned: " + result.getMessage() + ": " + inv);
 		// If we failed to get the inventory, then leave the in-app billing UI
 		// hidden
 		if (result.isFailure())
@@ -246,12 +218,11 @@ public class DonateActivity extends ActionBarFragmentActivity implements
 		{
 			final String currentSku = skus[h];
 			final SkuDetails sku = inv.getSkuDetails(currentSku);
-			inAppName[h + offset] = sku.getDescription() + " ("
-					+ sku.getPrice() + ")";
+			inAppName[h + offset] = sku.getDescription() + " (" + sku.getPrice() + ")";
 		}
 		final Spinner inAppSpinner = (Spinner) findViewById(R.id.donate_in_app_spinner);
-		final ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
-				android.R.layout.simple_spinner_item, inAppName);
+		final ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item,
+				inAppName);
 		// Specify the layout to use when the list of choices appears
 		adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 		// Apply the adapter to the spinner
@@ -265,24 +236,18 @@ public class DonateActivity extends ActionBarFragmentActivity implements
 	protected void onRestoreInstanceState(final Bundle savedInstanceState)
 	{
 		super.onRestoreInstanceState(savedInstanceState);
-		purchasedSku = savedInstanceState.containsKey(PURCHASED_SKU) ? savedInstanceState
-				.getString(PURCHASED_SKU) : "";
+		purchasedSku = savedInstanceState.containsKey(PURCHASED_SKU) ? savedInstanceState.getString(PURCHASED_SKU) : "";
 	}
 
 	@Override
 	protected void onResume()
 	{
 		super.onResume();
-		final SharedPreferences preferences = PreferenceManager
-				.getDefaultSharedPreferences(this);
-		final boolean isLockPortrait = preferences
-				.getBoolean(
-						Preferences.LOCK_PORTRAIT_PREFERENCE_KEY,
-						getResources().getBoolean(
-								R.bool.pref_settings_lock_portrait_default));
+		final SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+		final boolean isLockPortrait = preferences.getBoolean(Preferences.LOCK_PORTRAIT_PREFERENCE_KEY, getResources()
+				.getBoolean(R.bool.pref_settings_lock_portrait_default));
 		if (BuildConfig.DEBUG)
-			Log.d(getClass().getSimpleName(), "Lock Portrait: "
-					+ isLockPortrait);
+			Log.d(getClass().getSimpleName(), "Lock Portrait: " + isLockPortrait);
 		if (isLockPortrait)
 			setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 		else

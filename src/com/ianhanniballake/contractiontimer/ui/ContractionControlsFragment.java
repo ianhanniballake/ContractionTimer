@@ -29,8 +29,7 @@ import com.ianhanniballake.contractiontimer.provider.ContractionContract;
 /**
  * Fragment which controls starting and stopping the contraction timer
  */
-public class ContractionControlsFragment extends Fragment implements
-		LoaderManager.LoaderCallbacks<Cursor>
+public class ContractionControlsFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor>
 {
 	/**
 	 * Cursor Adapter which holds the latest contraction
@@ -48,15 +47,13 @@ public class ContractionControlsFragment extends Fragment implements
 		adapter = new CursorAdapter(getActivity(), null, 0)
 		{
 			@Override
-			public void bindView(final View view, final Context context,
-					final Cursor cursor)
+			public void bindView(final View view, final Context context, final Cursor cursor)
 			{
 				// Nothing to do
 			}
 
 			@Override
-			public View newView(final Context context, final Cursor cursor,
-					final ViewGroup parent)
+			public View newView(final Context context, final Cursor cursor, final ViewGroup parent)
 			{
 				return null;
 			}
@@ -68,8 +65,7 @@ public class ContractionControlsFragment extends Fragment implements
 	public void onCreate(final Bundle savedInstanceState)
 	{
 		super.onCreate(savedInstanceState);
-		contractionQueryHandler = new AsyncQueryHandler(getActivity()
-				.getContentResolver())
+		contractionQueryHandler = new AsyncQueryHandler(getActivity().getContentResolver())
 		{
 			// No call backs needed
 		};
@@ -78,21 +74,16 @@ public class ContractionControlsFragment extends Fragment implements
 	@Override
 	public Loader<Cursor> onCreateLoader(final int id, final Bundle args)
 	{
-		final String[] projection = { BaseColumns._ID,
-				ContractionContract.Contractions.COLUMN_NAME_START_TIME,
+		final String[] projection = { BaseColumns._ID, ContractionContract.Contractions.COLUMN_NAME_START_TIME,
 				ContractionContract.Contractions.COLUMN_NAME_END_TIME };
-		return new CursorLoader(getActivity(), getActivity().getIntent()
-				.getData(), projection, null, null, null);
+		return new CursorLoader(getActivity(), getActivity().getIntent().getData(), projection, null, null, null);
 	}
 
 	@Override
-	public View onCreateView(final LayoutInflater inflater,
-			final ViewGroup container, final Bundle savedInstanceState)
+	public View onCreateView(final LayoutInflater inflater, final ViewGroup container, final Bundle savedInstanceState)
 	{
-		final View view = inflater.inflate(
-				R.layout.fragment_contraction_controls, container, false);
-		final ToggleButton toggleContraction = (ToggleButton) view
-				.findViewById(R.id.toggleContraction);
+		final View view = inflater.inflate(R.layout.fragment_contraction_controls, container, false);
+		final ToggleButton toggleContraction = (ToggleButton) view.findViewById(R.id.toggleContraction);
 		toggleContraction.setOnClickListener(new OnClickListener()
 		{
 			@Override
@@ -104,34 +95,24 @@ public class ContractionControlsFragment extends Fragment implements
 				if (toggleContraction.isChecked())
 				{
 					if (BuildConfig.DEBUG)
-						Log.d(ContractionControlsFragment.this.getClass()
-								.getSimpleName(), "Starting contraction");
-					EasyTracker.getTracker().trackEvent("Controls", "Start",
-							"", 0L);
+						Log.d(ContractionControlsFragment.this.getClass().getSimpleName(), "Starting contraction");
+					EasyTracker.getTracker().trackEvent("Controls", "Start", "", 0L);
 					// Start a new contraction
-					contractionQueryHandler.startInsert(0, null,
-							ContractionContract.Contractions.CONTENT_URI,
+					contractionQueryHandler.startInsert(0, null, ContractionContract.Contractions.CONTENT_URI,
 							new ContentValues());
 				}
 				else
 				{
 					if (BuildConfig.DEBUG)
-						Log.d(ContractionControlsFragment.this.getClass()
-								.getSimpleName(), "Stopping contraction");
-					EasyTracker.getTracker().trackEvent("Controls", "Stop", "",
-							0L);
+						Log.d(ContractionControlsFragment.this.getClass().getSimpleName(), "Stopping contraction");
+					EasyTracker.getTracker().trackEvent("Controls", "Stop", "", 0L);
 					final ContentValues newEndTime = new ContentValues();
-					newEndTime
-							.put(ContractionContract.Contractions.COLUMN_NAME_END_TIME,
-									System.currentTimeMillis());
+					newEndTime.put(ContractionContract.Contractions.COLUMN_NAME_END_TIME, System.currentTimeMillis());
 					final long latestContractionId = adapter.getItemId(0);
-					final Uri updateUri = ContentUris
-							.withAppendedId(
-									ContractionContract.Contractions.CONTENT_ID_URI_BASE,
-									latestContractionId);
+					final Uri updateUri = ContentUris.withAppendedId(
+							ContractionContract.Contractions.CONTENT_ID_URI_BASE, latestContractionId);
 					// Add the new end time to the last contraction
-					contractionQueryHandler.startUpdate(0, 0, updateUri,
-							newEndTime, null, null);
+					contractionQueryHandler.startUpdate(0, 0, updateUri, newEndTime, null, null);
 				}
 			}
 		});
@@ -145,8 +126,7 @@ public class ContractionControlsFragment extends Fragment implements
 		final View view = getView();
 		if (view == null)
 			return;
-		final ToggleButton toggleContraction = (ToggleButton) view
-				.findViewById(R.id.toggleContraction);
+		final ToggleButton toggleContraction = (ToggleButton) view.findViewById(R.id.toggleContraction);
 		toggleContraction.setChecked(false);
 	}
 
@@ -157,13 +137,10 @@ public class ContractionControlsFragment extends Fragment implements
 		final View view = getView();
 		if (view == null)
 			return;
-		final ToggleButton toggleContraction = (ToggleButton) view
-				.findViewById(R.id.toggleContraction);
+		final ToggleButton toggleContraction = (ToggleButton) view.findViewById(R.id.toggleContraction);
 		toggleContraction.setEnabled(true);
-		final boolean contractionOngoing = data != null
-				&& data.moveToFirst()
-				&& data.isNull(data
-						.getColumnIndex(ContractionContract.Contractions.COLUMN_NAME_END_TIME));
+		final boolean contractionOngoing = data != null && data.moveToFirst()
+				&& data.isNull(data.getColumnIndex(ContractionContract.Contractions.COLUMN_NAME_END_TIME));
 		toggleContraction.setChecked(contractionOngoing);
 		AppWidgetUpdateHandler.createInstance().updateAllWidgets(getActivity());
 	}

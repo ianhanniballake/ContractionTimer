@@ -39,12 +39,10 @@ import com.ianhanniballake.contractiontimer.provider.ContractionContract;
 /**
  * Main Activity for managing contractions
  */
-public class MainActivity extends ActionBarFragmentActivity implements
-		LoaderManager.LoaderCallbacks<Cursor>
+public class MainActivity extends ActionBarFragmentActivity implements LoaderManager.LoaderCallbacks<Cursor>
 {
 	/**
-	 * Intent extra used to signify that this activity was launched from a
-	 * widget
+	 * Intent extra used to signify that this activity was launched from a widget
 	 */
 	public final static String LAUNCHED_FROM_WIDGET_EXTRA = "com.ianhanniballake.contractiontimer.LaunchedFromWidget";
 	/**
@@ -52,8 +50,7 @@ public class MainActivity extends ActionBarFragmentActivity implements
 	 */
 	private CursorAdapter adapter;
 	/**
-	 * BroadcastReceiver listening for ABOUT_CLOSE_ACTION, NOTE_CLOSE_ACTION,
-	 * and RESET_CLOSE_ACTION actions
+	 * BroadcastReceiver listening for ABOUT_CLOSE_ACTION, NOTE_CLOSE_ACTION, and RESET_CLOSE_ACTION actions
 	 */
 	private final BroadcastReceiver dialogFragmentClosedBroadcastReceiver = new BroadcastReceiver()
 	{
@@ -68,8 +65,7 @@ public class MainActivity extends ActionBarFragmentActivity implements
 	};
 
 	/**
-	 * Builds a string representing a user friendly formatting of the average
-	 * duration / frequency information
+	 * Builds a string representing a user friendly formatting of the average duration / frequency information
 	 * 
 	 * @return The formatted average data
 	 */
@@ -79,19 +75,17 @@ public class MainActivity extends ActionBarFragmentActivity implements
 		final TextView averageFrequencyView = (TextView) findViewById(R.id.average_frequency);
 		final Cursor data = adapter.getCursor();
 		data.moveToLast();
-		final int startTimeColumnIndex = data
-				.getColumnIndex(ContractionContract.Contractions.COLUMN_NAME_START_TIME);
+		final int startTimeColumnIndex = data.getColumnIndex(ContractionContract.Contractions.COLUMN_NAME_START_TIME);
 		final long lastStartTime = data.getLong(startTimeColumnIndex);
 		final int count = adapter.getCount();
-		final CharSequence relativeTimeSpan = DateUtils
-				.getRelativeTimeSpanString(lastStartTime,
-						System.currentTimeMillis(), 0);
-		return getResources().getQuantityString(
-				R.plurals.share_average,
-				count,
-				new Object[] { relativeTimeSpan, count,
-						averageDurationView.getText(),
-						averageFrequencyView.getText() });
+		final CharSequence relativeTimeSpan = DateUtils.getRelativeTimeSpanString(lastStartTime,
+				System.currentTimeMillis(), 0);
+		return getResources()
+				.getQuantityString(
+						R.plurals.share_average,
+						count,
+						new Object[] { relativeTimeSpan, count, averageDurationView.getText(),
+								averageFrequencyView.getText() });
 	}
 
 	@Override
@@ -109,15 +103,13 @@ public class MainActivity extends ActionBarFragmentActivity implements
 		adapter = new CursorAdapter(this, null, 0)
 		{
 			@Override
-			public void bindView(final View view, final Context context,
-					final Cursor cursor)
+			public void bindView(final View view, final Context context, final Cursor cursor)
 			{
 				// Nothing to do
 			}
 
 			@Override
-			public View newView(final Context context, final Cursor cursor,
-					final ViewGroup parent)
+			public View newView(final Context context, final Cursor cursor, final ViewGroup parent)
 			{
 				return null;
 			}
@@ -128,21 +120,17 @@ public class MainActivity extends ActionBarFragmentActivity implements
 	@Override
 	public Loader<Cursor> onCreateLoader(final int id, final Bundle args)
 	{
-		final String[] projection = { BaseColumns._ID,
-				ContractionContract.Contractions.COLUMN_NAME_START_TIME,
+		final String[] projection = { BaseColumns._ID, ContractionContract.Contractions.COLUMN_NAME_START_TIME,
 				ContractionContract.Contractions.COLUMN_NAME_END_TIME,
 				ContractionContract.Contractions.COLUMN_NAME_NOTE };
-		final String selection = ContractionContract.Contractions.COLUMN_NAME_START_TIME
-				+ ">?";
-		final SharedPreferences preferences = PreferenceManager
-				.getDefaultSharedPreferences(this);
+		final String selection = ContractionContract.Contractions.COLUMN_NAME_START_TIME + ">?";
+		final SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
 		final long averagesTimeFrame = Long.parseLong(preferences.getString(
 				Preferences.AVERAGE_TIME_FRAME_PREFERENCE_KEY,
 				getString(R.string.pref_settings_average_time_frame_default)));
 		final long timeCutoff = System.currentTimeMillis() - averagesTimeFrame;
 		final String[] selectionArgs = { Long.toString(timeCutoff) };
-		return new CursorLoader(this, getIntent().getData(), projection,
-				selection, selectionArgs, null);
+		return new CursorLoader(this, getIntent().getData(), projection, selection, selectionArgs, null);
 	}
 
 	@Override
@@ -172,12 +160,10 @@ public class MainActivity extends ActionBarFragmentActivity implements
 			case R.id.menu_reset:
 				if (BuildConfig.DEBUG)
 					Log.d(getClass().getSimpleName(), "Menu selected Reset");
-				EasyTracker.getTracker().trackEvent("Menu", "Reset", "",
-						(long) adapter.getCount());
+				EasyTracker.getTracker().trackEvent("Menu", "Reset", "", (long) adapter.getCount());
 				final ResetDialogFragment resetDialogFragment = new ResetDialogFragment();
 				if (BuildConfig.DEBUG)
-					Log.d(resetDialogFragment.getClass().getSimpleName(),
-							"Showing Dialog");
+					Log.d(resetDialogFragment.getClass().getSimpleName(), "Showing Dialog");
 				EasyTracker.getTracker().trackView("Reset");
 				resetDialogFragment.show(getSupportFragmentManager(), "reset");
 				return true;
@@ -185,23 +171,19 @@ public class MainActivity extends ActionBarFragmentActivity implements
 				if (BuildConfig.DEBUG)
 					Log.d(getClass().getSimpleName(), "Menu selected Add");
 				EasyTracker.getTracker().trackEvent("Menu", "Add", "", 0L);
-				final Intent addIntent = new Intent(Intent.ACTION_INSERT,
-						getIntent().getData());
+				final Intent addIntent = new Intent(Intent.ACTION_INSERT, getIntent().getData());
 				startActivity(addIntent);
 				return true;
 			case R.id.menu_share_averages:
 				if (BuildConfig.DEBUG)
-					Log.d(getClass().getSimpleName(),
-							"Menu selected Share Averages");
-				EasyTracker.getTracker().trackEvent("Menu", "Share",
-						"Averages", (long) adapter.getCount());
+					Log.d(getClass().getSimpleName(), "Menu selected Share Averages");
+				EasyTracker.getTracker().trackEvent("Menu", "Share", "Averages", (long) adapter.getCount());
 				shareAverages();
 				return true;
 			case R.id.menu_share_all:
 				if (BuildConfig.DEBUG)
 					Log.d(getClass().getSimpleName(), "Menu selected Share All");
-				EasyTracker.getTracker().trackEvent("Menu", "Share", "All",
-						(long) adapter.getCount());
+				EasyTracker.getTracker().trackEvent("Menu", "Share", "All", (long) adapter.getCount());
 				shareAll();
 				return true;
 			case R.id.menu_settings:
@@ -213,8 +195,7 @@ public class MainActivity extends ActionBarFragmentActivity implements
 				EasyTracker.getTracker().trackEvent("Menu", "About", "", 0L);
 				final AboutDialogFragment aboutDialogFragment = new AboutDialogFragment();
 				if (BuildConfig.DEBUG)
-					Log.d(aboutDialogFragment.getClass().getSimpleName(),
-							"Showing Dialog");
+					Log.d(aboutDialogFragment.getClass().getSimpleName(), "Showing Dialog");
 				EasyTracker.getTracker().trackView("About");
 				aboutDialogFragment.show(getSupportFragmentManager(), "about");
 				return true;
@@ -247,36 +228,25 @@ public class MainActivity extends ActionBarFragmentActivity implements
 	protected void onResume()
 	{
 		super.onResume();
-		final SharedPreferences preferences = PreferenceManager
-				.getDefaultSharedPreferences(this);
-		final boolean isKeepScreenOn = preferences.getBoolean(
-				Preferences.KEEP_SCREEN_ON_PREFERENCE_KEY,
-				getResources().getBoolean(
-						R.bool.pref_settings_keep_screen_on_default));
+		final SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+		final boolean isKeepScreenOn = preferences.getBoolean(Preferences.KEEP_SCREEN_ON_PREFERENCE_KEY, getResources()
+				.getBoolean(R.bool.pref_settings_keep_screen_on_default));
 		if (BuildConfig.DEBUG)
-			Log.d(getClass().getSimpleName(), "Keep Screen On: "
-					+ isKeepScreenOn);
+			Log.d(getClass().getSimpleName(), "Keep Screen On: " + isKeepScreenOn);
 		if (isKeepScreenOn)
-			getWindow()
-					.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+			getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 		else
-			getWindow().clearFlags(
-					WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
-		final boolean isLockPortrait = preferences
-				.getBoolean(
-						Preferences.LOCK_PORTRAIT_PREFERENCE_KEY,
-						getResources().getBoolean(
-								R.bool.pref_settings_lock_portrait_default));
+			getWindow().clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+		final boolean isLockPortrait = preferences.getBoolean(Preferences.LOCK_PORTRAIT_PREFERENCE_KEY, getResources()
+				.getBoolean(R.bool.pref_settings_lock_portrait_default));
 		if (BuildConfig.DEBUG)
-			Log.d(getClass().getSimpleName(), "Lock Portrait: "
-					+ isLockPortrait);
+			Log.d(getClass().getSimpleName(), "Lock Portrait: " + isLockPortrait);
 		if (isLockPortrait)
 			setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 		else
 			setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR);
 		final boolean averageTimeFrameChanged = preferences.getBoolean(
-				Preferences.AVERAGE_TIME_FRAME_CHANGED_MAIN_PREFERENCE_KEY,
-				false);
+				Preferences.AVERAGE_TIME_FRAME_CHANGED_MAIN_PREFERENCE_KEY, false);
 		if (averageTimeFrameChanged)
 		{
 			final Editor editor = preferences.edit();
@@ -292,25 +262,20 @@ public class MainActivity extends ActionBarFragmentActivity implements
 		super.onStart();
 		if (getIntent().hasExtra(MainActivity.LAUNCHED_FROM_WIDGET_EXTRA))
 		{
-			final String widgetIdentifier = getIntent().getExtras().getString(
-					MainActivity.LAUNCHED_FROM_WIDGET_EXTRA);
+			final String widgetIdentifier = getIntent().getExtras().getString(MainActivity.LAUNCHED_FROM_WIDGET_EXTRA);
 			if (BuildConfig.DEBUG)
-				Log.d(getClass().getSimpleName(), "Launched from "
-						+ widgetIdentifier);
-			EasyTracker.getTracker().trackEvent(widgetIdentifier, "Launch", "",
-					0L);
+				Log.d(getClass().getSimpleName(), "Launched from " + widgetIdentifier);
+			EasyTracker.getTracker().trackEvent(widgetIdentifier, "Launch", "", 0L);
 			getIntent().removeExtra(MainActivity.LAUNCHED_FROM_WIDGET_EXTRA);
 		}
 		EasyTracker.getInstance().activityStart(this);
 		EasyTracker.getTracker().trackView("Main");
-		final LocalBroadcastManager localBroadcastManager = LocalBroadcastManager
-				.getInstance(this);
+		final LocalBroadcastManager localBroadcastManager = LocalBroadcastManager.getInstance(this);
 		final IntentFilter dialogCloseFilter = new IntentFilter();
 		dialogCloseFilter.addAction(AboutDialogFragment.ABOUT_CLOSE_ACTION);
 		dialogCloseFilter.addAction(NoteDialogFragment.NOTE_CLOSE_ACTION);
 		dialogCloseFilter.addAction(ResetDialogFragment.RESET_CLOSE_ACTION);
-		localBroadcastManager.registerReceiver(
-				dialogFragmentClosedBroadcastReceiver, dialogCloseFilter);
+		localBroadcastManager.registerReceiver(dialogFragmentClosedBroadcastReceiver, dialogCloseFilter);
 	}
 
 	@Override
@@ -318,10 +283,8 @@ public class MainActivity extends ActionBarFragmentActivity implements
 	{
 		super.onStop();
 		EasyTracker.getInstance().activityStop(this);
-		final LocalBroadcastManager localBroadcastManager = LocalBroadcastManager
-				.getInstance(this);
-		localBroadcastManager
-				.unregisterReceiver(dialogFragmentClosedBroadcastReceiver);
+		final LocalBroadcastManager localBroadcastManager = LocalBroadcastManager.getInstance(this);
+		localBroadcastManager.unregisterReceiver(dialogFragmentClosedBroadcastReceiver);
 	}
 
 	/**
@@ -345,28 +308,22 @@ public class MainActivity extends ActionBarFragmentActivity implements
 			final int startTimeColumnIndex = data
 					.getColumnIndex(ContractionContract.Contractions.COLUMN_NAME_START_TIME);
 			final long startTime = data.getLong(startTimeColumnIndex);
-			final CharSequence formattedStartTime = DateFormat.format(
-					timeFormat, startTime);
-			final int endTimeColumnIndex = data
-					.getColumnIndex(ContractionContract.Contractions.COLUMN_NAME_END_TIME);
+			final CharSequence formattedStartTime = DateFormat.format(timeFormat, startTime);
+			final int endTimeColumnIndex = data.getColumnIndex(ContractionContract.Contractions.COLUMN_NAME_END_TIME);
 			if (data.isNull(endTimeColumnIndex))
 			{
 				final String detailTimeOngoingFormat = getString(R.string.share_detail_time_ongoing);
-				formattedData.append(String.format(detailTimeOngoingFormat,
-						formattedStartTime));
+				formattedData.append(String.format(detailTimeOngoingFormat, formattedStartTime));
 			}
 			else
 			{
 				final String detailTimeFormat = getString(R.string.share_detail_time_finished);
 				final long endTime = data.getLong(endTimeColumnIndex);
-				final CharSequence formattedEndTime = DateFormat.format(
-						timeFormat, endTime);
+				final CharSequence formattedEndTime = DateFormat.format(timeFormat, endTime);
 				final long durationInSeconds = (endTime - startTime) / 1000;
-				final CharSequence formattedDuration = DateUtils
-						.formatElapsedTime(durationInSeconds);
-				formattedData.append(String
-						.format(detailTimeFormat, formattedStartTime,
-								formattedEndTime, formattedDuration));
+				final CharSequence formattedDuration = DateUtils.formatElapsedTime(durationInSeconds);
+				formattedData.append(String.format(detailTimeFormat, formattedStartTime, formattedEndTime,
+						formattedDuration));
 			}
 			// If we aren't the last entry, move to the next (previous in time)
 			// contraction to get its start time to compute the frequency
@@ -375,19 +332,15 @@ public class MainActivity extends ActionBarFragmentActivity implements
 				final String detailFrequencyFormat = getString(R.string.share_detail_frequency);
 				final int prevContractionStartTimeColumnIndex = data
 						.getColumnIndex(ContractionContract.Contractions.COLUMN_NAME_START_TIME);
-				final long prevContractionStartTime = data
-						.getLong(prevContractionStartTimeColumnIndex);
+				final long prevContractionStartTime = data.getLong(prevContractionStartTimeColumnIndex);
 				final long frequencyInSeconds = (startTime - prevContractionStartTime) / 1000;
-				final CharSequence formattedFrequency = DateUtils
-						.formatElapsedTime(frequencyInSeconds);
+				final CharSequence formattedFrequency = DateUtils.formatElapsedTime(frequencyInSeconds);
 				formattedData.append(" ");
-				formattedData.append(String.format(detailFrequencyFormat,
-						formattedFrequency));
+				formattedData.append(String.format(detailFrequencyFormat, formattedFrequency));
 				// Go back to the previous spot
 				data.moveToPrevious();
 			}
-			final int noteColumnIndex = data
-					.getColumnIndex(ContractionContract.Contractions.COLUMN_NAME_NOTE);
+			final int noteColumnIndex = data.getColumnIndex(ContractionContract.Contractions.COLUMN_NAME_NOTE);
 			final String note = data.getString(noteColumnIndex);
 			if (!note.equals(""))
 			{
@@ -396,12 +349,9 @@ public class MainActivity extends ActionBarFragmentActivity implements
 			}
 			formattedData.append("<br />");
 		}
-		ShareCompat.IntentBuilder.from(this)
-				.setSubject(getText(R.string.share_subject).toString())
-				.setType("text/html")
-				.setText(Html.fromHtml(formattedData.toString()))
-				.setChooserTitle(R.string.share_pick_application)
-				.startChooser();
+		ShareCompat.IntentBuilder.from(this).setSubject(getText(R.string.share_subject).toString())
+				.setType("text/html").setText(Html.fromHtml(formattedData.toString()))
+				.setChooserTitle(R.string.share_pick_application).startChooser();
 	}
 
 	/**
@@ -413,10 +363,8 @@ public class MainActivity extends ActionBarFragmentActivity implements
 		if (data.getCount() == 0)
 			return;
 		final String formattedData = getAverageData();
-		ShareCompat.IntentBuilder.from(this)
-				.setSubject(getText(R.string.share_subject).toString())
-				.setType("text/plain").setText(formattedData)
-				.setChooserTitle(R.string.share_pick_application)
+		ShareCompat.IntentBuilder.from(this).setSubject(getText(R.string.share_subject).toString())
+				.setType("text/plain").setText(formattedData).setChooserTitle(R.string.share_pick_application)
 				.startChooser();
 	}
 
@@ -434,8 +382,7 @@ public class MainActivity extends ActionBarFragmentActivity implements
 		final ContractionAverageFragment averageFragment = new ContractionAverageFragment();
 		// Execute a transaction, replacing any existing fragment
 		// with this one inside the frame.
-		final FragmentTransaction ft = getSupportFragmentManager()
-				.beginTransaction();
+		final FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
 		ft.replace(R.id.controls, controlsFragment);
 		ft.replace(R.id.list, listFragment);
 		ft.replace(R.id.averages, averageFragment);

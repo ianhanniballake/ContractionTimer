@@ -25,8 +25,7 @@ import com.ianhanniballake.contractiontimer.backup.BackupController;
 /**
  * Activity managing the various application preferences
  */
-public class Preferences extends ActionBarPreferenceActivity implements
-		OnSharedPreferenceChangeListener
+public class Preferences extends ActionBarPreferenceActivity implements OnSharedPreferenceChangeListener
 {
 	/**
 	 * Analytics preference name
@@ -37,8 +36,7 @@ public class Preferences extends ActionBarPreferenceActivity implements
 	 */
 	public static final String APPWIDGET_BACKGROUND_PREFERENCE_KEY = "appwidget_background";
 	/**
-	 * Average Time Frame recently changed for ContractionAverageFragment
-	 * preference name
+	 * Average Time Frame recently changed for ContractionAverageFragment preference name
 	 */
 	public static final String AVERAGE_TIME_FRAME_CHANGED_FRAGMENT_PREFERENCE_KEY = "average_time_frame_changed_fragment";
 	/**
@@ -58,8 +56,7 @@ public class Preferences extends ActionBarPreferenceActivity implements
 	 */
 	public static final String LOCK_PORTRAIT_PREFERENCE_KEY = "lock_portrait";
 	/**
-	 * Reference to the ListPreference corresponding with the Appwidget
-	 * background
+	 * Reference to the ListPreference corresponding with the Appwidget background
 	 */
 	private ListPreference appwidgetBackgroundListPreference;
 	/**
@@ -73,15 +70,13 @@ public class Preferences extends ActionBarPreferenceActivity implements
 	{
 		super.onCreate(savedInstanceState);
 		addPreferencesFromResource(R.xml.preferences_settings);
-		appwidgetBackgroundListPreference = (ListPreference) getPreferenceScreen()
-				.findPreference(Preferences.APPWIDGET_BACKGROUND_PREFERENCE_KEY);
-		appwidgetBackgroundListPreference
-				.setSummary(appwidgetBackgroundListPreference.getEntry());
-		averageTimeFrameListPreference = (ListPreference) getPreferenceScreen()
-				.findPreference(Preferences.AVERAGE_TIME_FRAME_PREFERENCE_KEY);
-		averageTimeFrameListPreference
-				.setSummary(getString(R.string.pref_settings_average_time_frame_summary)
-						+ "\n" + averageTimeFrameListPreference.getEntry());
+		appwidgetBackgroundListPreference = (ListPreference) getPreferenceScreen().findPreference(
+				Preferences.APPWIDGET_BACKGROUND_PREFERENCE_KEY);
+		appwidgetBackgroundListPreference.setSummary(appwidgetBackgroundListPreference.getEntry());
+		averageTimeFrameListPreference = (ListPreference) getPreferenceScreen().findPreference(
+				Preferences.AVERAGE_TIME_FRAME_PREFERENCE_KEY);
+		averageTimeFrameListPreference.setSummary(getString(R.string.pref_settings_average_time_frame_summary) + "\n"
+				+ averageTimeFrameListPreference.getEntry());
 	}
 
 	@Override
@@ -93,8 +88,7 @@ public class Preferences extends ActionBarPreferenceActivity implements
 				final Intent upIntent = NavUtils.getParentActivityIntent(this);
 				if (NavUtils.shouldUpRecreateTask(this, upIntent))
 				{
-					TaskStackBuilder.create(this).addParentStack(this)
-							.startActivities();
+					TaskStackBuilder.create(this).addParentStack(this).startActivities();
 					finish();
 				}
 				else
@@ -110,8 +104,7 @@ public class Preferences extends ActionBarPreferenceActivity implements
 	public void onPause()
 	{
 		super.onPause();
-		getPreferenceScreen().getSharedPreferences()
-				.unregisterOnSharedPreferenceChangeListener(this);
+		getPreferenceScreen().getSharedPreferences().unregisterOnSharedPreferenceChangeListener(this);
 	}
 
 	@SuppressWarnings("deprecation")
@@ -119,18 +112,12 @@ public class Preferences extends ActionBarPreferenceActivity implements
 	public void onResume()
 	{
 		super.onResume();
-		getPreferenceScreen().getSharedPreferences()
-				.registerOnSharedPreferenceChangeListener(this);
-		final SharedPreferences preferences = PreferenceManager
-				.getDefaultSharedPreferences(this);
-		final boolean isLockPortrait = preferences
-				.getBoolean(
-						Preferences.LOCK_PORTRAIT_PREFERENCE_KEY,
-						getResources().getBoolean(
-								R.bool.pref_settings_lock_portrait_default));
+		getPreferenceScreen().getSharedPreferences().registerOnSharedPreferenceChangeListener(this);
+		final SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+		final boolean isLockPortrait = preferences.getBoolean(Preferences.LOCK_PORTRAIT_PREFERENCE_KEY, getResources()
+				.getBoolean(R.bool.pref_settings_lock_portrait_default));
 		if (BuildConfig.DEBUG)
-			Log.d(getClass().getSimpleName(), "Lock Portrait: "
-					+ isLockPortrait);
+			Log.d(getClass().getSimpleName(), "Lock Portrait: " + isLockPortrait);
 		if (isLockPortrait)
 			setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 		else
@@ -138,32 +125,25 @@ public class Preferences extends ActionBarPreferenceActivity implements
 	}
 
 	@Override
-	public void onSharedPreferenceChanged(
-			final SharedPreferences sharedPreferences, final String key)
+	public void onSharedPreferenceChanged(final SharedPreferences sharedPreferences, final String key)
 	{
 		if (key.equals(Preferences.KEEP_SCREEN_ON_PREFERENCE_KEY))
 		{
-			final boolean newIsKeepScreenOn = sharedPreferences.getBoolean(
-					Preferences.KEEP_SCREEN_ON_PREFERENCE_KEY,
-					getResources().getBoolean(
-							R.bool.pref_settings_keep_screen_on_default));
+			final boolean newIsKeepScreenOn = sharedPreferences.getBoolean(Preferences.KEEP_SCREEN_ON_PREFERENCE_KEY,
+					getResources().getBoolean(R.bool.pref_settings_keep_screen_on_default));
 			if (BuildConfig.DEBUG)
-				Log.d(getClass().getSimpleName(), "Keep Screen On: "
-						+ newIsKeepScreenOn);
-			EasyTracker.getTracker().trackEvent("Preferences",
-					"Keep Screen On", Boolean.toString(newIsKeepScreenOn), 0L);
+				Log.d(getClass().getSimpleName(), "Keep Screen On: " + newIsKeepScreenOn);
+			EasyTracker.getTracker().trackEvent("Preferences", "Keep Screen On", Boolean.toString(newIsKeepScreenOn),
+					0L);
 		}
 		else if (key.equals(Preferences.LOCK_PORTRAIT_PREFERENCE_KEY))
 		{
-			final boolean newIsLockPortrait = sharedPreferences.getBoolean(
-					Preferences.LOCK_PORTRAIT_PREFERENCE_KEY,
-					getResources().getBoolean(
-							R.bool.pref_settings_lock_portrait_default));
+			final boolean newIsLockPortrait = sharedPreferences.getBoolean(Preferences.LOCK_PORTRAIT_PREFERENCE_KEY,
+					getResources().getBoolean(R.bool.pref_settings_lock_portrait_default));
 			if (BuildConfig.DEBUG)
-				Log.d(getClass().getSimpleName(), "Lock Portrait: "
-						+ newIsLockPortrait);
-			EasyTracker.getTracker().trackEvent("Preferences", "Lock Portrait",
-					Boolean.toString(newIsLockPortrait), 0L);
+				Log.d(getClass().getSimpleName(), "Lock Portrait: " + newIsLockPortrait);
+			EasyTracker.getTracker()
+					.trackEvent("Preferences", "Lock Portrait", Boolean.toString(newIsLockPortrait), 0L);
 			if (newIsLockPortrait)
 				setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 			else
@@ -171,48 +151,33 @@ public class Preferences extends ActionBarPreferenceActivity implements
 		}
 		else if (key.equals(Preferences.APPWIDGET_BACKGROUND_PREFERENCE_KEY))
 		{
-			final String newAppwidgetBackground = appwidgetBackgroundListPreference
-					.getValue();
+			final String newAppwidgetBackground = appwidgetBackgroundListPreference.getValue();
 			if (BuildConfig.DEBUG)
-				Log.d(getClass().getSimpleName(), "Appwidget Background: "
-						+ newAppwidgetBackground);
-			EasyTracker.getTracker().trackEvent("Preferences",
-					"Appwidget Background", newAppwidgetBackground, 0L);
-			appwidgetBackgroundListPreference
-					.setSummary(appwidgetBackgroundListPreference.getEntry());
+				Log.d(getClass().getSimpleName(), "Appwidget Background: " + newAppwidgetBackground);
+			EasyTracker.getTracker().trackEvent("Preferences", "Appwidget Background", newAppwidgetBackground, 0L);
+			appwidgetBackgroundListPreference.setSummary(appwidgetBackgroundListPreference.getEntry());
 			AppWidgetUpdateHandler.createInstance().updateAllWidgets(this);
 		}
 		else if (key.equals(Preferences.AVERAGE_TIME_FRAME_PREFERENCE_KEY))
 		{
-			final String newAverageTimeFrame = averageTimeFrameListPreference
-					.getValue();
+			final String newAverageTimeFrame = averageTimeFrameListPreference.getValue();
 			if (BuildConfig.DEBUG)
-				Log.d(getClass().getSimpleName(), "Average Time Frame: "
-						+ newAverageTimeFrame);
-			EasyTracker.getTracker().trackEvent("Preferences",
-					"Average Time Frame", newAverageTimeFrame, 0L);
+				Log.d(getClass().getSimpleName(), "Average Time Frame: " + newAverageTimeFrame);
+			EasyTracker.getTracker().trackEvent("Preferences", "Average Time Frame", newAverageTimeFrame, 0L);
 			final Editor editor = sharedPreferences.edit();
-			editor.putBoolean(
-					Preferences.AVERAGE_TIME_FRAME_CHANGED_MAIN_PREFERENCE_KEY,
-					true);
-			editor.putBoolean(
-					Preferences.AVERAGE_TIME_FRAME_CHANGED_FRAGMENT_PREFERENCE_KEY,
-					true);
+			editor.putBoolean(Preferences.AVERAGE_TIME_FRAME_CHANGED_MAIN_PREFERENCE_KEY, true);
+			editor.putBoolean(Preferences.AVERAGE_TIME_FRAME_CHANGED_FRAGMENT_PREFERENCE_KEY, true);
 			editor.commit();
-			averageTimeFrameListPreference
-					.setSummary(getString(R.string.pref_settings_average_time_frame_summary)
-							+ "\n" + averageTimeFrameListPreference.getEntry());
+			averageTimeFrameListPreference.setSummary(getString(R.string.pref_settings_average_time_frame_summary)
+					+ "\n" + averageTimeFrameListPreference.getEntry());
 		}
 		else if (key.equals(Preferences.ANALYTICS_PREFERENCE_KEY))
 		{
-			final boolean newCollectAnalytics = sharedPreferences.getBoolean(
-					Preferences.ANALYTICS_PREFERENCE_KEY, getResources()
-							.getBoolean(R.bool.pref_privacy_analytics_default));
+			final boolean newCollectAnalytics = sharedPreferences.getBoolean(Preferences.ANALYTICS_PREFERENCE_KEY,
+					getResources().getBoolean(R.bool.pref_privacy_analytics_default));
 			if (BuildConfig.DEBUG)
-				Log.d(getClass().getSimpleName(), "Analytics: "
-						+ newCollectAnalytics);
-			EasyTracker.getTracker().trackEvent("Preferences", "Analytics",
-					Boolean.toString(newCollectAnalytics), 0L);
+				Log.d(getClass().getSimpleName(), "Analytics: " + newCollectAnalytics);
+			EasyTracker.getTracker().trackEvent("Preferences", "Analytics", Boolean.toString(newCollectAnalytics), 0L);
 			GAServiceManager.getInstance().dispatch();
 			GoogleAnalytics.getInstance(this).setAppOptOut(newCollectAnalytics);
 		}

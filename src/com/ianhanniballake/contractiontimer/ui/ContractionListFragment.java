@@ -33,8 +33,7 @@ import com.ianhanniballake.contractiontimer.provider.ContractionContract;
 /**
  * Fragment to list contractions entered by the user
  */
-public abstract class ContractionListFragment extends ListFragment implements
-		LoaderManager.LoaderCallbacks<Cursor>
+public abstract class ContractionListFragment extends ListFragment implements LoaderManager.LoaderCallbacks<Cursor>
 {
 	/**
 	 * Cursor Adapter for creating and binding contraction list view items
@@ -48,27 +47,21 @@ public abstract class ContractionListFragment extends ListFragment implements
 
 		/**
 		 * @param context
-		 *            The context where the ListView associated with this
-		 *            SimpleListItemFactory is running
+		 *            The context where the ListView associated with this SimpleListItemFactory is running
 		 * @param c
-		 *            The database cursor. Can be null if the cursor is not
-		 *            available yet.
+		 *            The database cursor. Can be null if the cursor is not available yet.
 		 * @param flags
-		 *            Flags used to determine the behavior of the adapter, as
-		 *            per
+		 *            Flags used to determine the behavior of the adapter, as per
 		 *            {@link CursorAdapter#CursorAdapter(Context, Cursor, int)}.
 		 */
-		public ContractionListCursorAdapter(final Context context,
-				final Cursor c, final int flags)
+		public ContractionListCursorAdapter(final Context context, final Cursor c, final int flags)
 		{
 			super(context, c, flags);
-			inflater = (LayoutInflater) context
-					.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+			inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		}
 
 		@Override
-		public void bindView(final View view, final Context context,
-				final Cursor cursor)
+		public void bindView(final View view, final Context context, final Cursor cursor)
 		{
 			String timeFormat = "hh:mm:ssaa";
 			if (DateFormat.is24HourFormat(context))
@@ -76,17 +69,12 @@ public abstract class ContractionListFragment extends ListFragment implements
 			final int startTimeColumnIndex = cursor
 					.getColumnIndex(ContractionContract.Contractions.COLUMN_NAME_START_TIME);
 			final long startTime = cursor.getLong(startTimeColumnIndex);
-			final TextView startTimeView = (TextView) view
-					.findViewById(R.id.start_time);
+			final TextView startTimeView = (TextView) view.findViewById(R.id.start_time);
 			startTimeView.setText(DateFormat.format(timeFormat, startTime));
-			final int endTimeColumnIndex = cursor
-					.getColumnIndex(ContractionContract.Contractions.COLUMN_NAME_END_TIME);
-			final boolean isContractionOngoing = cursor
-					.isNull(endTimeColumnIndex);
-			final TextView endTimeView = (TextView) view
-					.findViewById(R.id.end_time);
-			final TextView durationView = (TextView) view
-					.findViewById(R.id.duration);
+			final int endTimeColumnIndex = cursor.getColumnIndex(ContractionContract.Contractions.COLUMN_NAME_END_TIME);
+			final boolean isContractionOngoing = cursor.isNull(endTimeColumnIndex);
+			final TextView endTimeView = (TextView) view.findViewById(R.id.end_time);
+			final TextView durationView = (TextView) view.findViewById(R.id.duration);
 			if (isContractionOngoing)
 			{
 				endTimeView.setText(" ");
@@ -102,29 +90,24 @@ public abstract class ContractionListFragment extends ListFragment implements
 				endTimeView.setText(DateFormat.format(timeFormat, endTime));
 				durationView.setTag("");
 				final long durationInSeconds = (endTime - startTime) / 1000;
-				durationView.setText(DateUtils
-						.formatElapsedTime(durationInSeconds));
+				durationView.setText(DateUtils.formatElapsedTime(durationInSeconds));
 			}
-			final TextView frequencyView = (TextView) view
-					.findViewById(R.id.frequency);
+			final TextView frequencyView = (TextView) view.findViewById(R.id.frequency);
 			// If we aren't the last entry, move to the next (previous in time)
 			// contraction to get its start time to compute the frequency
 			if (!cursor.isLast() && cursor.moveToNext())
 			{
 				final int prevContractionStartTimeColumnIndex = cursor
 						.getColumnIndex(ContractionContract.Contractions.COLUMN_NAME_START_TIME);
-				final long prevContractionStartTime = cursor
-						.getLong(prevContractionStartTimeColumnIndex);
+				final long prevContractionStartTime = cursor.getLong(prevContractionStartTimeColumnIndex);
 				final long frequencyInSeconds = (startTime - prevContractionStartTime) / 1000;
-				frequencyView.setText(DateUtils
-						.formatElapsedTime(frequencyInSeconds));
+				frequencyView.setText(DateUtils.formatElapsedTime(frequencyInSeconds));
 				// Go back to the previous spot
 				cursor.moveToPrevious();
 			}
 			else
 				frequencyView.setText("");
-			final int noteColumnIndex = cursor
-					.getColumnIndex(ContractionContract.Contractions.COLUMN_NAME_NOTE);
+			final int noteColumnIndex = cursor.getColumnIndex(ContractionContract.Contractions.COLUMN_NAME_NOTE);
 			final String note = cursor.getString(noteColumnIndex);
 			final TextView noteView = (TextView) view.findViewById(R.id.note);
 			noteView.setText(note);
@@ -136,11 +119,9 @@ public abstract class ContractionListFragment extends ListFragment implements
 		}
 
 		@Override
-		public View newView(final Context context, final Cursor cursor,
-				final ViewGroup parent)
+		public View newView(final Context context, final Cursor cursor, final ViewGroup parent)
 		{
-			final View view = inflater.inflate(R.layout.list_item_contraction,
-					parent, false);
+			final View view = inflater.inflate(R.layout.list_item_contraction, parent, false);
 			setupNewView(view);
 			return view;
 		}
@@ -172,8 +153,7 @@ public abstract class ContractionListFragment extends ListFragment implements
 	final Runnable liveDurationUpdate = new Runnable()
 	{
 		/**
-		 * Updates the appropriate duration view to the current elapsed time and
-		 * schedules this to rerun in 1 second
+		 * Updates the appropriate duration view to the current elapsed time and schedules this to rerun in 1 second
 		 */
 		@Override
 		public void run()
@@ -181,13 +161,11 @@ public abstract class ContractionListFragment extends ListFragment implements
 			final View rootView = getView();
 			if (rootView != null)
 			{
-				final TextView currentContractionDurationView = (TextView) rootView
-						.findViewWithTag("durationView");
+				final TextView currentContractionDurationView = (TextView) rootView.findViewWithTag("durationView");
 				if (currentContractionDurationView != null)
 				{
 					final long durationInSeconds = (System.currentTimeMillis() - currentContractionStartTime) / 1000;
-					currentContractionDurationView.setText(DateUtils
-							.formatElapsedTime(durationInSeconds));
+					currentContractionDurationView.setText(DateUtils.formatElapsedTime(durationInSeconds));
 				}
 			}
 			liveDurationHandler.postDelayed(this, 1000);
@@ -203,23 +181,18 @@ public abstract class ContractionListFragment extends ListFragment implements
 	private final Runnable timeSinceLastUpdate = new Runnable()
 	{
 		/**
-		 * Updates the time since last contraction and schedules this to rerun
-		 * in 1 second
+		 * Updates the time since last contraction and schedules this to rerun in 1 second
 		 */
 		@Override
 		public void run()
 		{
 			if (headerView != null)
 			{
-				final TextView timeSinceLastView = (TextView) headerView
-						.findViewById(R.id.list_header_time_since_last);
-				if (timeSinceLastView != null
-						&& currentContractionStartTime != 0)
+				final TextView timeSinceLastView = (TextView) headerView.findViewById(R.id.list_header_time_since_last);
+				if (timeSinceLastView != null && currentContractionStartTime != 0)
 				{
-					final long timeSinceLastInSeconds = (System
-							.currentTimeMillis() - currentContractionStartTime) / 1000;
-					timeSinceLastView.setText(DateUtils
-							.formatElapsedTime(timeSinceLastInSeconds));
+					final long timeSinceLastInSeconds = (System.currentTimeMillis() - currentContractionStartTime) / 1000;
+					timeSinceLastView.setText(DateUtils.formatElapsedTime(timeSinceLastInSeconds));
 				}
 			}
 			timeSinceLastHandler.postDelayed(this, 1000);
@@ -247,11 +220,9 @@ public abstract class ContractionListFragment extends ListFragment implements
 		// Ensure we don't attempt to delete contractions with invalid ids
 		if (id < 0)
 			return;
-		final Uri deleteUri = ContentUris.withAppendedId(
-				ContractionContract.Contractions.CONTENT_ID_URI_BASE, id);
+		final Uri deleteUri = ContentUris.withAppendedId(ContractionContract.Contractions.CONTENT_ID_URI_BASE, id);
 		if (contractionQueryHandler == null)
-			contractionQueryHandler = new AsyncQueryHandler(getActivity()
-					.getContentResolver())
+			contractionQueryHandler = new AsyncQueryHandler(getActivity().getContentResolver())
 			{
 				// No call backs needed
 			};
@@ -264,8 +235,7 @@ public abstract class ContractionListFragment extends ListFragment implements
 		super.onActivityCreated(savedInstanceState);
 		setEmptyText(getText(R.string.list_loading));
 		final ListView listView = getListView();
-		headerView = getLayoutInflater(savedInstanceState).inflate(
-				R.layout.list_header, listView, false);
+		headerView = getLayoutInflater(savedInstanceState).inflate(R.layout.list_header, listView, false);
 		final FrameLayout headerFrame = new FrameLayout(getActivity());
 		headerFrame.addView(headerView);
 		listView.addHeaderView(headerFrame, null, false);
@@ -275,8 +245,7 @@ public abstract class ContractionListFragment extends ListFragment implements
 		listView.setOnItemClickListener(new OnItemClickListener()
 		{
 			@Override
-			public void onItemClick(final AdapterView<?> parent,
-					final View view, final int position, final long id)
+			public void onItemClick(final AdapterView<?> parent, final View view, final int position, final long id)
 			{
 				viewContraction(id);
 			}
@@ -287,16 +256,13 @@ public abstract class ContractionListFragment extends ListFragment implements
 	@Override
 	public Loader<Cursor> onCreateLoader(final int id, final Bundle args)
 	{
-		return new CursorLoader(getActivity(), getActivity().getIntent()
-				.getData(), null, null, null, null);
+		return new CursorLoader(getActivity(), getActivity().getIntent().getData(), null, null, null, null);
 	}
 
 	@Override
-	public View onCreateView(final LayoutInflater inflater,
-			final ViewGroup container, final Bundle savedInstanceState)
+	public View onCreateView(final LayoutInflater inflater, final ViewGroup container, final Bundle savedInstanceState)
 	{
-		return inflater.inflate(R.layout.fragment_contraction_list, container,
-				false);
+		return inflater.inflate(R.layout.fragment_contraction_list, container, false);
 	}
 
 	@Override
@@ -318,18 +284,15 @@ public abstract class ContractionListFragment extends ListFragment implements
 		{
 			getListView().setSelection(0);
 			data.moveToFirst();
-			final int endTimeColumnIndex = data
-					.getColumnIndex(ContractionContract.Contractions.COLUMN_NAME_END_TIME);
-			final boolean isContractionOngoing = data
-					.isNull(endTimeColumnIndex);
+			final int endTimeColumnIndex = data.getColumnIndex(ContractionContract.Contractions.COLUMN_NAME_END_TIME);
+			final boolean isContractionOngoing = data.isNull(endTimeColumnIndex);
 			if (isContractionOngoing)
 				headerView.setVisibility(View.GONE);
 			else
 			{
 				final int startTimeColumnIndex = data
 						.getColumnIndex(ContractionContract.Contractions.COLUMN_NAME_START_TIME);
-				currentContractionStartTime = data
-						.getLong(startTimeColumnIndex);
+				currentContractionStartTime = data.getLong(startTimeColumnIndex);
 				timeSinceLastHandler.post(timeSinceLastUpdate);
 				headerView.setVisibility(View.VISIBLE);
 			}
@@ -351,8 +314,7 @@ public abstract class ContractionListFragment extends ListFragment implements
 		final View rootView = getView();
 		if (rootView != null)
 		{
-			final TextView currentContractionDurationView = (TextView) rootView
-					.findViewWithTag("durationView");
+			final TextView currentContractionDurationView = (TextView) rootView.findViewWithTag("durationView");
 			if (currentContractionDurationView != null)
 			{
 				// Ensures the live duration update is running
@@ -413,10 +375,8 @@ public abstract class ContractionListFragment extends ListFragment implements
 		args.putString(NoteDialogFragment.EXISTING_NOTE_ARGUMENT, existingNote);
 		noteDialogFragment.setArguments(args);
 		if (BuildConfig.DEBUG)
-			Log.d(noteDialogFragment.getClass().getSimpleName(),
-					"Showing Dialog");
-		EasyTracker.getTracker().trackView(
-				"".equals(existingNote) ? "NoteAdd" : "NoteEdit");
+			Log.d(noteDialogFragment.getClass().getSimpleName(), "Showing Dialog");
+		EasyTracker.getTracker().trackView("".equals(existingNote) ? "NoteAdd" : "NoteEdit");
 		noteDialogFragment.show(getFragmentManager(), "note");
 	}
 
@@ -431,8 +391,7 @@ public abstract class ContractionListFragment extends ListFragment implements
 		// Ensure we don't attempt to view contractions with invalid ids
 		if (id < 0)
 			return;
-		final Uri contractionUri = ContentUris.withAppendedId(
-				ContractionContract.Contractions.CONTENT_ID_URI_BASE, id);
+		final Uri contractionUri = ContentUris.withAppendedId(ContractionContract.Contractions.CONTENT_ID_URI_BASE, id);
 		final Intent intent = new Intent(Intent.ACTION_VIEW, contractionUri);
 		startActivity(intent);
 	}

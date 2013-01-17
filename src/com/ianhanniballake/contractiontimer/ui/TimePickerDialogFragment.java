@@ -18,8 +18,7 @@ import com.ianhanniballake.contractiontimer.BuildConfig;
 /**
  * Provides a DialogFragment for selecting a time
  */
-public class TimePickerDialogFragment extends DialogFragment implements
-		TimePickerDialog.OnTimeSetListener
+public class TimePickerDialogFragment extends DialogFragment implements TimePickerDialog.OnTimeSetListener
 {
 	/**
 	 * Argument key for storing/retrieving the callback action
@@ -45,12 +44,9 @@ public class TimePickerDialogFragment extends DialogFragment implements
 	@Override
 	public Dialog onCreateDialog(final Bundle savedInstanceState)
 	{
-		final Calendar date = (Calendar) getArguments().getSerializable(
-				TimePickerDialogFragment.TIME_ARGUMENT);
-		final TimePickerDialog dialog = new TimePickerDialog(getActivity(),
-				this, date.get(Calendar.HOUR_OF_DAY),
-				date.get(Calendar.MINUTE),
-				DateFormat.is24HourFormat(getActivity()));
+		final Calendar date = (Calendar) getArguments().getSerializable(TimePickerDialogFragment.TIME_ARGUMENT);
+		final TimePickerDialog dialog = new TimePickerDialog(getActivity(), this, date.get(Calendar.HOUR_OF_DAY),
+				date.get(Calendar.MINUTE), DateFormat.is24HourFormat(getActivity()));
 		dialog.setOnDismissListener(this);
 		return dialog;
 	}
@@ -58,27 +54,21 @@ public class TimePickerDialogFragment extends DialogFragment implements
 	@Override
 	public void onDismiss(final DialogInterface dialog)
 	{
-		final LocalBroadcastManager localBroadcastManager = LocalBroadcastManager
-				.getInstance(getActivity());
-		localBroadcastManager
-				.sendBroadcast(new Intent(TIME_PICKER_CLOSE_ACTION));
+		final LocalBroadcastManager localBroadcastManager = LocalBroadcastManager.getInstance(getActivity());
+		localBroadcastManager.sendBroadcast(new Intent(TIME_PICKER_CLOSE_ACTION));
 		super.onDismiss(dialog);
 	}
 
 	@Override
-	public void onTimeSet(final TimePicker view, final int hourOfDay,
-			final int minute)
+	public void onTimeSet(final TimePicker view, final int hourOfDay, final int minute)
 	{
-		final String action = getArguments().getString(
-				TimePickerDialogFragment.CALLBACK_ACTION);
+		final String action = getArguments().getString(TimePickerDialogFragment.CALLBACK_ACTION);
 		if (BuildConfig.DEBUG)
 			Log.d(getClass().getSimpleName(), "onTimeSet: " + action);
 		final Intent broadcast = new Intent(action);
-		broadcast.putExtra(TimePickerDialogFragment.HOUR_OF_DAY_EXTRA,
-				hourOfDay);
+		broadcast.putExtra(TimePickerDialogFragment.HOUR_OF_DAY_EXTRA, hourOfDay);
 		broadcast.putExtra(TimePickerDialogFragment.MINUTE_EXTRA, minute);
-		final LocalBroadcastManager localBroadcastManager = LocalBroadcastManager
-				.getInstance(getActivity());
+		final LocalBroadcastManager localBroadcastManager = LocalBroadcastManager.getInstance(getActivity());
 		localBroadcastManager.sendBroadcast(broadcast);
 	}
 }

@@ -22,19 +22,15 @@ public class AppWidgetUpdateHandlerV11 extends AppWidgetUpdateHandlerBase
 	 *            AppWidgetManager instance
 	 */
 	@TargetApi(11)
-	private static void updateDetailWidgets(final Context context,
-			final AppWidgetManager appWidgetManager)
+	private static void updateDetailWidgets(final Context context, final AppWidgetManager appWidgetManager)
 	{
-		final int[] detailAppWidgetIds = appWidgetManager
-				.getAppWidgetIds(new ComponentName(context,
-						DetailAppWidgetProvider.class));
+		final int[] detailAppWidgetIds = appWidgetManager.getAppWidgetIds(new ComponentName(context,
+				DetailAppWidgetProvider.class));
 		final boolean detailWidgetsExist = detailAppWidgetIds.length > 0;
 		if (detailWidgetsExist)
 		{
-			context.startService(new Intent(context,
-					DetailAppWidgetService.class));
-			appWidgetManager.notifyAppWidgetViewDataChanged(detailAppWidgetIds,
-					R.id.list_view);
+			context.startService(new Intent(context, DetailAppWidgetService.class));
+			appWidgetManager.notifyAppWidgetViewDataChanged(detailAppWidgetIds, R.id.list_view);
 		}
 	}
 
@@ -42,9 +38,7 @@ public class AppWidgetUpdateHandlerV11 extends AppWidgetUpdateHandlerBase
 	public void updateAllWidgets(final Context context)
 	{
 		super.updateAllWidgets(context);
-		final AppWidgetManager appWidgetManager = AppWidgetManager
-				.getInstance(context);
-		AppWidgetUpdateHandlerV11
-				.updateDetailWidgets(context, appWidgetManager);
+		final AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(context);
+		AppWidgetUpdateHandlerV11.updateDetailWidgets(context, appWidgetManager);
 	}
 }

@@ -21,8 +21,7 @@ public abstract class AppWidgetUpdateHandler
 	}
 
 	/**
-	 * Updates all App Widgets with the latest information. This should be
-	 * called whenever a contraction is updated
+	 * Updates all App Widgets with the latest information. This should be called whenever a contraction is updated
 	 * 
 	 * @param context
 	 *            Context used to trigger updates, must not be null

@@ -10,10 +10,9 @@ import android.view.SubMenu;
 import android.view.View;
 
 /**
- * A <em>really</em> dumb implementation of the {@link android.view.MenuItem}
- * interface, that's only useful for our actionbar-compat purposes. See
- * <code>com.android.internal.view.menu.MenuItemImpl</code> in AOSP for a more
- * complete implementation.
+ * A <em>really</em> dumb implementation of the {@link android.view.MenuItem} interface, that's only useful for our
+ * actionbar-compat purposes. See <code>com.android.internal.view.menu.MenuItemImpl</code> in AOSP for a more complete
+ * implementation.
  */
 public class SimpleMenuItem implements MenuItem
 {
@@ -80,8 +79,8 @@ public class SimpleMenuItem implements MenuItem
 	 * @param actionBarHelper
 	 *            ActionBarHelper for enable state change callbacks
 	 */
-	public SimpleMenuItem(final SimpleMenu menu, final int id, final int order,
-			final CharSequence title, final ActionBarHelper actionBarHelper)
+	public SimpleMenuItem(final SimpleMenu menu, final int id, final int order, final CharSequence title,
+			final ActionBarHelper actionBarHelper)
 	{
 		mMenu = menu;
 		mId = id;
@@ -318,16 +317,14 @@ public class SimpleMenuItem implements MenuItem
 
 	@TargetApi(14)
 	@Override
-	public MenuItem setOnActionExpandListener(
-			final OnActionExpandListener onActionExpandListener)
+	public MenuItem setOnActionExpandListener(final OnActionExpandListener onActionExpandListener)
 	{
 		// Noop
 		return this;
 	}
 
 	@Override
-	public MenuItem setOnMenuItemClickListener(
-			final OnMenuItemClickListener onMenuItemClickListener)
+	public MenuItem setOnMenuItemClickListener(final OnMenuItemClickListener onMenuItemClickListener)
 	{
 		// Noop
 		return this;

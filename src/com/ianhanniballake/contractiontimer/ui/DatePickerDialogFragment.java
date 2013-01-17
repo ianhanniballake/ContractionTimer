@@ -17,8 +17,7 @@ import com.ianhanniballake.contractiontimer.BuildConfig;
 /**
  * Provides a DialogFragment for selecting a date
  */
-public class DatePickerDialogFragment extends DialogFragment implements
-		DatePickerDialog.OnDateSetListener
+public class DatePickerDialogFragment extends DialogFragment implements DatePickerDialog.OnDateSetListener
 {
 	/**
 	 * Argument key for storing/retrieving the callback action
@@ -48,41 +47,32 @@ public class DatePickerDialogFragment extends DialogFragment implements
 	@Override
 	public Dialog onCreateDialog(final Bundle savedInstanceState)
 	{
-		final Calendar date = (Calendar) getArguments().getSerializable(
-				DatePickerDialogFragment.DATE_ARGUMENT);
-		final DatePickerDialog dialog = new DatePickerDialog(getActivity(),
-				this, date.get(Calendar.YEAR), date.get(Calendar.MONTH),
-				date.get(Calendar.DAY_OF_MONTH));
+		final Calendar date = (Calendar) getArguments().getSerializable(DatePickerDialogFragment.DATE_ARGUMENT);
+		final DatePickerDialog dialog = new DatePickerDialog(getActivity(), this, date.get(Calendar.YEAR),
+				date.get(Calendar.MONTH), date.get(Calendar.DAY_OF_MONTH));
 		dialog.setOnDismissListener(this);
 		return dialog;
 	}
 
 	@Override
-	public void onDateSet(final DatePicker view, final int year,
-			final int monthOfYear, final int dayOfMonth)
+	public void onDateSet(final DatePicker view, final int year, final int monthOfYear, final int dayOfMonth)
 	{
-		final String action = getArguments().getString(
-				DatePickerDialogFragment.CALLBACK_ACTION);
+		final String action = getArguments().getString(DatePickerDialogFragment.CALLBACK_ACTION);
 		if (BuildConfig.DEBUG)
 			Log.d(getClass().getSimpleName(), "onDateSet: " + action);
 		final Intent broadcast = new Intent(action);
 		broadcast.putExtra(DatePickerDialogFragment.YEAR_EXTRA, year);
-		broadcast.putExtra(DatePickerDialogFragment.MONTH_OF_YEAR_EXTRA,
-				monthOfYear);
-		broadcast.putExtra(DatePickerDialogFragment.DAY_OF_MONTH_EXTRA,
-				dayOfMonth);
-		final LocalBroadcastManager localBroadcastManager = LocalBroadcastManager
-				.getInstance(getActivity());
+		broadcast.putExtra(DatePickerDialogFragment.MONTH_OF_YEAR_EXTRA, monthOfYear);
+		broadcast.putExtra(DatePickerDialogFragment.DAY_OF_MONTH_EXTRA, dayOfMonth);
+		final LocalBroadcastManager localBroadcastManager = LocalBroadcastManager.getInstance(getActivity());
 		localBroadcastManager.sendBroadcast(broadcast);
 	}
 
 	@Override
 	public void onDismiss(final DialogInterface dialog)
 	{
-		final LocalBroadcastManager localBroadcastManager = LocalBroadcastManager
-				.getInstance(getActivity());
-		localBroadcastManager
-				.sendBroadcast(new Intent(DATE_PICKER_CLOSE_ACTION));
+		final LocalBroadcastManager localBroadcastManager = LocalBroadcastManager.getInstance(getActivity());
+		localBroadcastManager.sendBroadcast(new Intent(DATE_PICKER_CLOSE_ACTION));
 		super.onDismiss(dialog);
 	}
 }

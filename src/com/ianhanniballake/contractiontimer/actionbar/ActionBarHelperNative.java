@@ -7,8 +7,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 
 /**
- * An extension of {@link ActionBarHelper} that provides access to the native
- * ActionBar in Android 3.0+ devices
+ * An extension of {@link ActionBarHelper} that provides access to the native ActionBar in Android 3.0+ devices
  */
 @TargetApi(11)
 public class ActionBarHelperNative extends ActionBarHelper

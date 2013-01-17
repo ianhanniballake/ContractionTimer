@@ -21,8 +21,7 @@ import com.ianhanniballake.contractiontimer.provider.ContractionContract;
 /**
  * Fragment which displays the average duration and frequency
  */
-public class ContractionAverageFragment extends Fragment implements
-		LoaderManager.LoaderCallbacks<Cursor>
+public class ContractionAverageFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor>
 {
 	@Override
 	public void onActivityCreated(final Bundle savedInstanceState)
@@ -34,28 +33,23 @@ public class ContractionAverageFragment extends Fragment implements
 	@Override
 	public Loader<Cursor> onCreateLoader(final int id, final Bundle args)
 	{
-		final String[] projection = {
-				ContractionContract.Contractions.COLUMN_NAME_START_TIME,
+		final String[] projection = { ContractionContract.Contractions.COLUMN_NAME_START_TIME,
 				ContractionContract.Contractions.COLUMN_NAME_END_TIME };
-		final String selection = ContractionContract.Contractions.COLUMN_NAME_START_TIME
-				+ ">?";
-		final SharedPreferences preferences = PreferenceManager
-				.getDefaultSharedPreferences(getActivity());
+		final String selection = ContractionContract.Contractions.COLUMN_NAME_START_TIME + ">?";
+		final SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
 		final long averagesTimeFrame = Long.parseLong(preferences.getString(
 				Preferences.AVERAGE_TIME_FRAME_PREFERENCE_KEY,
 				getString(R.string.pref_settings_average_time_frame_default)));
 		final long timeCutoff = System.currentTimeMillis() - averagesTimeFrame;
 		final String[] selectionArgs = { Long.toString(timeCutoff) };
-		return new CursorLoader(getActivity(), getActivity().getIntent()
-				.getData(), projection, selection, selectionArgs, null);
+		return new CursorLoader(getActivity(), getActivity().getIntent().getData(), projection, selection,
+				selectionArgs, null);
 	}
 
 	@Override
-	public View onCreateView(final LayoutInflater inflater,
-			final ViewGroup container, final Bundle savedInstanceState)
+	public View onCreateView(final LayoutInflater inflater, final ViewGroup container, final Bundle savedInstanceState)
 	{
-		return inflater.inflate(R.layout.fragment_contraction_average,
-				container, false);
+		return inflater.inflate(R.layout.fragment_contraction_average, container, false);
 	}
 
 	@Override
@@ -64,10 +58,8 @@ public class ContractionAverageFragment extends Fragment implements
 		final View view = getView();
 		if (view == null)
 			return;
-		final TextView averageDurationView = (TextView) view
-				.findViewById(R.id.average_duration);
-		final TextView averageFrequencyView = (TextView) view
-				.findViewById(R.id.average_frequency);
+		final TextView averageDurationView = (TextView) view.findViewById(R.id.average_duration);
+		final TextView averageFrequencyView = (TextView) view.findViewById(R.id.average_frequency);
 		averageDurationView.setText("");
 		averageFrequencyView.setText("");
 	}
@@ -78,10 +70,8 @@ public class ContractionAverageFragment extends Fragment implements
 		final View view = getView();
 		if (view == null)
 			return;
-		final TextView averageDurationView = (TextView) view
-				.findViewById(R.id.average_duration);
-		final TextView averageFrequencyView = (TextView) view
-				.findViewById(R.id.average_frequency);
+		final TextView averageDurationView = (TextView) view.findViewById(R.id.average_duration);
+		final TextView averageFrequencyView = (TextView) view.findViewById(R.id.average_frequency);
 		if (data == null || !data.moveToFirst())
 		{
 			averageDurationView.setText("");
@@ -97,46 +87,37 @@ public class ContractionAverageFragment extends Fragment implements
 			final int startTimeColumnIndex = data
 					.getColumnIndex(ContractionContract.Contractions.COLUMN_NAME_START_TIME);
 			final long startTime = data.getLong(startTimeColumnIndex);
-			final int endTimeColumnIndex = data
-					.getColumnIndex(ContractionContract.Contractions.COLUMN_NAME_END_TIME);
+			final int endTimeColumnIndex = data.getColumnIndex(ContractionContract.Contractions.COLUMN_NAME_END_TIME);
 			if (!data.isNull(endTimeColumnIndex))
 			{
 				final long endTime = data.getLong(endTimeColumnIndex);
 				final long curDuration = endTime - startTime;
-				averageDuration = (curDuration + numDurations * averageDuration)
-						/ (numDurations + 1);
+				averageDuration = (curDuration + numDurations * averageDuration) / (numDurations + 1);
 				numDurations++;
 			}
 			if (data.moveToNext())
 			{
 				final int prevContractionStartTimeColumnIndex = data
 						.getColumnIndex(ContractionContract.Contractions.COLUMN_NAME_START_TIME);
-				final long prevContractionStartTime = data
-						.getLong(prevContractionStartTimeColumnIndex);
+				final long prevContractionStartTime = data.getLong(prevContractionStartTimeColumnIndex);
 				final long curFrequency = startTime - prevContractionStartTime;
-				averageFrequency = (curFrequency + numFrequencies
-						* averageFrequency)
-						/ (numFrequencies + 1);
+				averageFrequency = (curFrequency + numFrequencies * averageFrequency) / (numFrequencies + 1);
 				numFrequencies++;
 			}
 		}
 		final long averageDurationInSeconds = (long) (averageDuration / 1000);
-		averageDurationView.setText(DateUtils
-				.formatElapsedTime(averageDurationInSeconds));
+		averageDurationView.setText(DateUtils.formatElapsedTime(averageDurationInSeconds));
 		final long averageFrequencyInSeconds = (long) (averageFrequency / 1000);
-		averageFrequencyView.setText(DateUtils
-				.formatElapsedTime(averageFrequencyInSeconds));
+		averageFrequencyView.setText(DateUtils.formatElapsedTime(averageFrequencyInSeconds));
 	}
 
 	@Override
 	public void onResume()
 	{
 		super.onResume();
-		final SharedPreferences preferences = PreferenceManager
-				.getDefaultSharedPreferences(getActivity());
+		final SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
 		final boolean averageTimeFrameChanged = preferences.getBoolean(
-				Preferences.AVERAGE_TIME_FRAME_CHANGED_FRAGMENT_PREFERENCE_KEY,
-				false);
+				Preferences.AVERAGE_TIME_FRAME_CHANGED_FRAGMENT_PREFERENCE_KEY, false);
 		if (averageTimeFrameChanged)
 		{
 			final Editor editor = preferences.edit();

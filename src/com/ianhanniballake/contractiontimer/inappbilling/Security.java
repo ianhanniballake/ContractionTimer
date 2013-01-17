@@ -27,13 +27,10 @@ import android.text.TextUtils;
 import android.util.Log;
 
 /**
- * Security-related methods. For a secure implementation, all of this code
- * should be implemented on a server that communicates with the application on
- * the device. For the sake of simplicity and clarity of this example, this code
- * is included here and is executed on the device. If you must verify the
- * purchases on the phone, you should obfuscate this code to make it harder for
- * an attacker to replace the code with stubs that treat all purchases as
- * verified.
+ * Security-related methods. For a secure implementation, all of this code should be implemented on a server that
+ * communicates with the application on the device. For the sake of simplicity and clarity of this example, this code is
+ * included here and is executed on the device. If you must verify the purchases on the phone, you should obfuscate this
+ * code to make it harder for an attacker to replace the code with stubs that treat all purchases as verified.
  */
 @SuppressWarnings("javadoc")
 public class Security
@@ -43,8 +40,7 @@ public class Security
 	private static final String TAG = "IABUtil/Security";
 
 	/**
-	 * Generates a PublicKey instance from a string containing the
-	 * Base64-encoded public key.
+	 * Generates a PublicKey instance from a string containing the Base64-encoded public key.
 	 * 
 	 * @param encodedPublicKey
 	 *            Base64-encoded public key
@@ -56,10 +52,8 @@ public class Security
 		try
 		{
 			final byte[] decodedKey = Base64.decode(encodedPublicKey);
-			final KeyFactory keyFactory = KeyFactory
-					.getInstance(KEY_FACTORY_ALGORITHM);
-			return keyFactory
-					.generatePublic(new X509EncodedKeySpec(decodedKey));
+			final KeyFactory keyFactory = KeyFactory.getInstance(KEY_FACTORY_ALGORITHM);
+			return keyFactory.generatePublic(new X509EncodedKeySpec(decodedKey));
 		} catch (final NoSuchAlgorithmException e)
 		{
 			throw new RuntimeException(e);
@@ -75,8 +69,8 @@ public class Security
 	}
 
 	/**
-	 * Verifies that the signature from the server matches the computed
-	 * signature on the data. Returns true if the data is correctly signed.
+	 * Verifies that the signature from the server matches the computed signature on the data. Returns true if the data
+	 * is correctly signed.
 	 * 
 	 * @param publicKey
 	 *            public key associated with the developer account
@@ -86,8 +80,7 @@ public class Security
 	 *            server signature
 	 * @return true if the data and signature match
 	 */
-	public static boolean verify(final PublicKey publicKey,
-			final String signedData, final String signature)
+	public static boolean verify(final PublicKey publicKey, final String signedData, final String signature)
 	{
 		Signature sig;
 		try
@@ -118,10 +111,9 @@ public class Security
 	}
 
 	/**
-	 * Verifies that the data was signed with the given signature, and returns
-	 * the verified purchase. The data is in JSON format and signed with a
-	 * private key. The data also contains the {@link PurchaseState} and product
-	 * ID of the purchase.
+	 * Verifies that the data was signed with the given signature, and returns the verified purchase. The data is in
+	 * JSON format and signed with a private key. The data also contains the {@link PurchaseState} and product ID of the
+	 * purchase.
 	 * 
 	 * @param base64PublicKey
 	 *            the base64-encoded public key to use for verifying.
@@ -130,8 +122,7 @@ public class Security
 	 * @param signature
 	 *            the signature for the data, signed with the private key
 	 */
-	public static boolean verifyPurchase(final String base64PublicKey,
-			final String signedData, final String signature)
+	public static boolean verifyPurchase(final String base64PublicKey, final String signedData, final String signature)
 	{
 		if (signedData == null)
 		{

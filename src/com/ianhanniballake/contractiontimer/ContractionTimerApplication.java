@@ -43,17 +43,15 @@ public class ContractionTimerApplication extends Application
 		{
 			GAServiceManager.getInstance().setDispatchPeriod(120);
 			// Initialize Google Analytics Error Handling first
-			final UncaughtExceptionHandler myHandler = new ExceptionReporter(
-					EasyTracker.getTracker(), GAServiceManager.getInstance(),
-					Thread.getDefaultUncaughtExceptionHandler());
+			final UncaughtExceptionHandler myHandler = new ExceptionReporter(EasyTracker.getTracker(),
+					GAServiceManager.getInstance(), Thread.getDefaultUncaughtExceptionHandler());
 			Thread.setDefaultUncaughtExceptionHandler(myHandler);
 			ACRA.init(this);
 			final ReportSender bugsenseReportSender = new HttpPostSender(
 					"http://www.bugsense.com/api/acra?api_key=6ebe60f4", null);
 			ACRA.getErrorReporter().addReportSender(bugsenseReportSender);
 		}
-		PreferenceManager.setDefaultValues(this, R.xml.preferences_settings,
-				false);
+		PreferenceManager.setDefaultValues(this, R.xml.preferences_settings, false);
 		super.onCreate();
 	}
 }

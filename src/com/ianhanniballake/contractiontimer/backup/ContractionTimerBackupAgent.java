@@ -11,11 +11,9 @@ import android.app.backup.SharedPreferencesBackupHelper;
 public class ContractionTimerBackupAgent extends BackupAgentHelper
 {
 	/**
-	 * Gets the name associated with PreferenceManager.getDefaultPreferences(),
-	 * as given by the Android source code
+	 * Gets the name associated with PreferenceManager.getDefaultPreferences(), as given by the Android source code
 	 * 
-	 * @return The name associated with
-	 *         PreferenceManager.getDefaultPreferences()
+	 * @return The name associated with PreferenceManager.getDefaultPreferences()
 	 */
 	public String getDefaultSharedPreferencesName()
 	{
@@ -25,8 +23,8 @@ public class ContractionTimerBackupAgent extends BackupAgentHelper
 	@Override
 	public void onCreate()
 	{
-		final SharedPreferencesBackupHelper helper = new SharedPreferencesBackupHelper(
-				this, getDefaultSharedPreferencesName());
+		final SharedPreferencesBackupHelper helper = new SharedPreferencesBackupHelper(this,
+				getDefaultSharedPreferencesName());
 		addHelper("preferences", helper);
 	}
 }

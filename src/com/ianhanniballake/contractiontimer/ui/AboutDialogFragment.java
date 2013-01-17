@@ -40,33 +40,24 @@ public class AboutDialogFragment extends DialogFragment
 	{
 		final LayoutInflater inflater = getActivity().getLayoutInflater();
 		final View layout = inflater.inflate(R.layout.dialog_about, null);
-		return new AlertDialog.Builder(getActivity())
-				.setTitle(R.string.app_name)
-				.setIcon(R.drawable.icon)
-				.setView(layout)
-				.setInverseBackgroundForced(true)
-				.setNeutralButton(getText(R.string.close),
-						new OnClickListener()
-						{
-							@Override
-							public void onClick(final DialogInterface dialog,
-									final int which)
-							{
-								if (BuildConfig.DEBUG)
-									Log.d(AboutDialogFragment.this.getClass()
-											.getSimpleName(),
-											"Received neutral event");
-								EasyTracker.getTracker().trackEvent("About",
-										"Neutral", "", 0L);
-							}
-						}).create();
+		return new AlertDialog.Builder(getActivity()).setTitle(R.string.app_name).setIcon(R.drawable.icon)
+				.setView(layout).setInverseBackgroundForced(true)
+				.setNeutralButton(getText(R.string.close), new OnClickListener()
+				{
+					@Override
+					public void onClick(final DialogInterface dialog, final int which)
+					{
+						if (BuildConfig.DEBUG)
+							Log.d(AboutDialogFragment.this.getClass().getSimpleName(), "Received neutral event");
+						EasyTracker.getTracker().trackEvent("About", "Neutral", "", 0L);
+					}
+				}).create();
 	}
 
 	@Override
 	public void onDismiss(final DialogInterface dialog)
 	{
-		final LocalBroadcastManager localBroadcastManager = LocalBroadcastManager
-				.getInstance(getActivity());
+		final LocalBroadcastManager localBroadcastManager = LocalBroadcastManager.getInstance(getActivity());
 		localBroadcastManager.sendBroadcast(new Intent(ABOUT_CLOSE_ACTION));
 		super.onDismiss(dialog);
 	}

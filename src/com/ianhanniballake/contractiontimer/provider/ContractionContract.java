@@ -4,11 +4,10 @@ import android.net.Uri;
 import android.provider.BaseColumns;
 
 /**
- * Defines a contract between the Contraction content provider and its clients.
- * A contract defines the information that a client needs to access the provider
- * as one or more data tables. A contract is a public, non-extendable (final)
- * class that contains constants defining column names and URIs. A well-written
- * client depends only on the constants in the contract.
+ * Defines a contract between the Contraction content provider and its clients. A contract defines the information that
+ * a client needs to access the provider as one or more data tables. A contract is a public, non-extendable (final)
+ * class that contains constants defining column names and URIs. A well-written client depends only on the constants in
+ * the contract.
  */
 public final class ContractionContract
 {
@@ -39,43 +38,34 @@ public final class ContractionContract
 		 */
 		public static final String COLUMN_NAME_START_TIME = "start_time";
 		/**
-		 * The content URI base for a single contraction. Callers must append a
-		 * numeric contraction id to this Uri to retrieve a contraction
+		 * The content URI base for a single contraction. Callers must append a numeric contraction id to this Uri to
+		 * retrieve a contraction
 		 */
-		public static final Uri CONTENT_ID_URI_BASE = Uri
-				.parse(ContractionContract.SCHEME
-						+ ContractionContract.AUTHORITY + "/"
-						+ Contractions.TABLE_NAME + "/");
+		public static final Uri CONTENT_ID_URI_BASE = Uri.parse(ContractionContract.SCHEME
+				+ ContractionContract.AUTHORITY + "/" + Contractions.TABLE_NAME + "/");
 		/**
-		 * The content URI match pattern for a single contraction, specified by
-		 * its ID. Use this to match incoming URIs or to construct an Intent.
+		 * The content URI match pattern for a single contraction, specified by its ID. Use this to match incoming URIs
+		 * or to construct an Intent.
 		 */
-		public static final Uri CONTENT_ID_URI_PATTERN = Uri
-				.parse(ContractionContract.SCHEME
-						+ ContractionContract.AUTHORITY + "/"
-						+ Contractions.TABLE_NAME + "/#");
+		public static final Uri CONTENT_ID_URI_PATTERN = Uri.parse(ContractionContract.SCHEME
+				+ ContractionContract.AUTHORITY + "/" + Contractions.TABLE_NAME + "/#");
 		/**
-		 * The MIME type of a {@link #CONTENT_URI} sub-directory of a single
-		 * contraction.
+		 * The MIME type of a {@link #CONTENT_URI} sub-directory of a single contraction.
 		 */
 		public static final String CONTENT_ITEM_TYPE = "vnd.android.cursor.item/vnd.ianhanniballake.contraction";
 		/**
-		 * The MIME type of {@link #CONTENT_URI} providing a directory of
-		 * contractions.
+		 * The MIME type of {@link #CONTENT_URI} providing a directory of contractions.
 		 */
 		public static final String CONTENT_TYPE = "vnd.android.cursor.dir/vnd.ianhanniballake.contraction";
 		/**
 		 * The content:// style URL for this table
 		 */
-		public static final Uri CONTENT_URI = Uri
-				.parse(ContractionContract.SCHEME
-						+ ContractionContract.AUTHORITY + "/"
-						+ Contractions.TABLE_NAME);
+		public static final Uri CONTENT_URI = Uri.parse(ContractionContract.SCHEME + ContractionContract.AUTHORITY
+				+ "/" + Contractions.TABLE_NAME);
 		/**
 		 * The default sort order for this table
 		 */
-		public static final String DEFAULT_SORT_ORDER = Contractions.COLUMN_NAME_START_TIME
-				+ " DESC";
+		public static final String DEFAULT_SORT_ORDER = Contractions.COLUMN_NAME_START_TIME + " DESC";
 		/**
 		 * The table name offered by this provider
 		 */

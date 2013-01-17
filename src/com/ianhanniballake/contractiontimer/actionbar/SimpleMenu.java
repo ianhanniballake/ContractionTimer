@@ -12,16 +12,14 @@ import android.view.MenuItem;
 import android.view.SubMenu;
 
 /**
- * A <em>really</em> dumb implementation of the {@link android.view.Menu}
- * interface, that's only useful for our actionbar-compat purposes. See
- * <code>com.android.internal.view.menu.MenuBuilder</code> in AOSP for a more
- * complete implementation.
+ * A <em>really</em> dumb implementation of the {@link android.view.Menu} interface, that's only useful for our
+ * actionbar-compat purposes. See <code>com.android.internal.view.menu.MenuBuilder</code> in AOSP for a more complete
+ * implementation.
  */
 public class SimpleMenu implements Menu
 {
 	/**
-	 * Determines what index new menu items should be added at based on the
-	 * order
+	 * Determines what index new menu items should be added at based on the order
 	 * 
 	 * @param items
 	 *            Existing menu items
@@ -29,8 +27,7 @@ public class SimpleMenu implements Menu
 	 *            Order of the new menu item
 	 * @return Index that the new item should be inserted at
 	 */
-	private static int findInsertIndex(
-			final ArrayList<? extends MenuItem> items, final int order)
+	private static int findInsertIndex(final ArrayList<? extends MenuItem> items, final int order)
 	{
 		for (int i = items.size() - 1; i >= 0; i--)
 		{
@@ -66,8 +63,7 @@ public class SimpleMenu implements Menu
 	 * @param actionBarHelper
 	 *            ActionBarHelper for state change callbacks
 	 */
-	public SimpleMenu(final Context context,
-			final ActionBarHelper actionBarHelper)
+	public SimpleMenu(final Context context, final ActionBarHelper actionBarHelper)
 	{
 		mContext = context;
 		mResources = context.getResources();
@@ -88,26 +84,22 @@ public class SimpleMenu implements Menu
 	}
 
 	@Override
-	public MenuItem add(final int groupId, final int itemId, final int order,
-			final CharSequence title)
+	public MenuItem add(final int groupId, final int itemId, final int order, final CharSequence title)
 	{
 		return addInternal(itemId, order, title);
 	}
 
 	@Override
-	public MenuItem add(final int groupId, final int itemId, final int order,
-			final int titleRes)
+	public MenuItem add(final int groupId, final int itemId, final int order, final int titleRes)
 	{
 		return addInternal(itemId, order, mResources.getString(titleRes));
 	}
 
 	@Override
-	public int addIntentOptions(final int i, final int i1, final int i2,
-			final ComponentName componentName, final Intent[] intents,
-			final Intent intent, final int i3, final MenuItem[] menuItems)
+	public int addIntentOptions(final int i, final int i1, final int i2, final ComponentName componentName,
+			final Intent[] intents, final Intent intent, final int i3, final MenuItem[] menuItems)
 	{
-		throw new UnsupportedOperationException(
-				"This operation is not supported for SimpleMenu");
+		throw new UnsupportedOperationException("This operation is not supported for SimpleMenu");
 	}
 
 	/**
@@ -121,11 +113,9 @@ public class SimpleMenu implements Menu
 	 *            CharSequence title of the menu item
 	 * @return The newly added MenuItem
 	 */
-	private MenuItem addInternal(final int itemId, final int order,
-			final CharSequence title)
+	private MenuItem addInternal(final int itemId, final int order, final CharSequence title)
 	{
-		final SimpleMenuItem item = new SimpleMenuItem(this, itemId, order,
-				title, mActionBarHelper);
+		final SimpleMenuItem item = new SimpleMenuItem(this, itemId, order, title, mActionBarHelper);
 		mItems.add(SimpleMenu.findInsertIndex(mItems, order), item);
 		return item;
 	}
@@ -133,31 +123,25 @@ public class SimpleMenu implements Menu
 	@Override
 	public SubMenu addSubMenu(final CharSequence charSequence)
 	{
-		throw new UnsupportedOperationException(
-				"This operation is not supported for SimpleMenu");
+		throw new UnsupportedOperationException("This operation is not supported for SimpleMenu");
 	}
 
 	@Override
 	public SubMenu addSubMenu(final int titleRes)
 	{
-		throw new UnsupportedOperationException(
-				"This operation is not supported for SimpleMenu");
+		throw new UnsupportedOperationException("This operation is not supported for SimpleMenu");
 	}
 
 	@Override
-	public SubMenu addSubMenu(final int groupId, final int itemId,
-			final int order, final CharSequence title)
+	public SubMenu addSubMenu(final int groupId, final int itemId, final int order, final CharSequence title)
 	{
-		throw new UnsupportedOperationException(
-				"This operation is not supported for SimpleMenu");
+		throw new UnsupportedOperationException("This operation is not supported for SimpleMenu");
 	}
 
 	@Override
-	public SubMenu addSubMenu(final int groupId, final int itemId,
-			final int order, final int titleRes)
+	public SubMenu addSubMenu(final int groupId, final int itemId, final int order, final int titleRes)
 	{
-		throw new UnsupportedOperationException(
-				"This operation is not supported for SimpleMenu");
+		throw new UnsupportedOperationException("This operation is not supported for SimpleMenu");
 	}
 
 	@Override
@@ -169,8 +153,7 @@ public class SimpleMenu implements Menu
 	@Override
 	public void close()
 	{
-		throw new UnsupportedOperationException(
-				"This operation is not supported for SimpleMenu");
+		throw new UnsupportedOperationException("This operation is not supported for SimpleMenu");
 	}
 
 	@Override
@@ -243,30 +226,25 @@ public class SimpleMenu implements Menu
 	@Override
 	public boolean isShortcutKey(final int i, final KeyEvent keyEvent)
 	{
-		throw new UnsupportedOperationException(
-				"This operation is not supported for SimpleMenu");
+		throw new UnsupportedOperationException("This operation is not supported for SimpleMenu");
 	}
 
 	@Override
 	public boolean performIdentifierAction(final int i, final int i1)
 	{
-		throw new UnsupportedOperationException(
-				"This operation is not supported for SimpleMenu");
+		throw new UnsupportedOperationException("This operation is not supported for SimpleMenu");
 	}
 
 	@Override
-	public boolean performShortcut(final int i, final KeyEvent keyEvent,
-			final int i1)
+	public boolean performShortcut(final int i, final KeyEvent keyEvent, final int i1)
 	{
-		throw new UnsupportedOperationException(
-				"This operation is not supported for SimpleMenu");
+		throw new UnsupportedOperationException("This operation is not supported for SimpleMenu");
 	}
 
 	@Override
 	public void removeGroup(final int i)
 	{
-		throw new UnsupportedOperationException(
-				"This operation is not supported for SimpleMenu");
+		throw new UnsupportedOperationException("This operation is not supported for SimpleMenu");
 	}
 
 	@Override
@@ -278,29 +256,25 @@ public class SimpleMenu implements Menu
 	@Override
 	public void setGroupCheckable(final int i, final boolean b, final boolean b1)
 	{
-		throw new UnsupportedOperationException(
-				"This operation is not supported for SimpleMenu");
+		throw new UnsupportedOperationException("This operation is not supported for SimpleMenu");
 	}
 
 	@Override
 	public void setGroupEnabled(final int i, final boolean b)
 	{
-		throw new UnsupportedOperationException(
-				"This operation is not supported for SimpleMenu");
+		throw new UnsupportedOperationException("This operation is not supported for SimpleMenu");
 	}
 
 	@Override
 	public void setGroupVisible(final int i, final boolean b)
 	{
-		throw new UnsupportedOperationException(
-				"This operation is not supported for SimpleMenu");
+		throw new UnsupportedOperationException("This operation is not supported for SimpleMenu");
 	}
 
 	@Override
 	public void setQwertyMode(final boolean b)
 	{
-		throw new UnsupportedOperationException(
-				"This operation is not supported for SimpleMenu");
+		throw new UnsupportedOperationException("This operation is not supported for SimpleMenu");
 	}
 
 	@Override

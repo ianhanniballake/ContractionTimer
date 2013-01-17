@@ -25,8 +25,7 @@ import com.ianhanniballake.contractiontimer.actionbar.ActionBarFragmentActivity;
 public class EditActivity extends ActionBarFragmentActivity
 {
 	/**
-	 * BroadcastReceiver listening for TIME_PICKER_CLOSE_ACTION and
-	 * DATE_PICKER_CLOSE_ACTION actions
+	 * BroadcastReceiver listening for TIME_PICKER_CLOSE_ACTION and DATE_PICKER_CLOSE_ACTION actions
 	 */
 	private final BroadcastReceiver dialogFragmentClosedBroadcastReceiver = new BroadcastReceiver()
 	{
@@ -87,8 +86,7 @@ public class EditActivity extends ActionBarFragmentActivity
 					if (BuildConfig.DEBUG)
 						Log.d(getClass().getSimpleName(), "Edit selected home");
 					EasyTracker.getTracker().trackEvent("Edit", "Home", "", 0L);
-					intent = new Intent(Intent.ACTION_VIEW, getIntent()
-							.getData()).setClass(this, ViewActivity.class);
+					intent = new Intent(Intent.ACTION_VIEW, getIntent().getData()).setClass(this, ViewActivity.class);
 				}
 				intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 				startActivity(intent);
@@ -103,16 +101,11 @@ public class EditActivity extends ActionBarFragmentActivity
 	protected void onResume()
 	{
 		super.onResume();
-		final SharedPreferences preferences = PreferenceManager
-				.getDefaultSharedPreferences(this);
-		final boolean isLockPortrait = preferences
-				.getBoolean(
-						Preferences.LOCK_PORTRAIT_PREFERENCE_KEY,
-						getResources().getBoolean(
-								R.bool.pref_settings_lock_portrait_default));
+		final SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+		final boolean isLockPortrait = preferences.getBoolean(Preferences.LOCK_PORTRAIT_PREFERENCE_KEY, getResources()
+				.getBoolean(R.bool.pref_settings_lock_portrait_default));
 		if (BuildConfig.DEBUG)
-			Log.d(getClass().getSimpleName(), "Lock Portrait: "
-					+ isLockPortrait);
+			Log.d(getClass().getSimpleName(), "Lock Portrait: " + isLockPortrait);
 		if (isLockPortrait)
 			setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 		else
@@ -129,15 +122,11 @@ public class EditActivity extends ActionBarFragmentActivity
 			EasyTracker.getTracker().trackView("Add");
 		else
 			EasyTracker.getTracker().trackView("Edit");
-		final LocalBroadcastManager localBroadcastManager = LocalBroadcastManager
-				.getInstance(this);
+		final LocalBroadcastManager localBroadcastManager = LocalBroadcastManager.getInstance(this);
 		final IntentFilter dialogCloseFilter = new IntentFilter();
-		dialogCloseFilter
-				.addAction(TimePickerDialogFragment.TIME_PICKER_CLOSE_ACTION);
-		dialogCloseFilter
-				.addAction(DatePickerDialogFragment.DATE_PICKER_CLOSE_ACTION);
-		localBroadcastManager.registerReceiver(
-				dialogFragmentClosedBroadcastReceiver, dialogCloseFilter);
+		dialogCloseFilter.addAction(TimePickerDialogFragment.TIME_PICKER_CLOSE_ACTION);
+		dialogCloseFilter.addAction(DatePickerDialogFragment.DATE_PICKER_CLOSE_ACTION);
+		localBroadcastManager.registerReceiver(dialogFragmentClosedBroadcastReceiver, dialogCloseFilter);
 	}
 
 	@Override
@@ -145,10 +134,8 @@ public class EditActivity extends ActionBarFragmentActivity
 	{
 		super.onStop();
 		EasyTracker.getInstance().activityStop(this);
-		final LocalBroadcastManager localBroadcastManager = LocalBroadcastManager
-				.getInstance(this);
-		localBroadcastManager
-				.unregisterReceiver(dialogFragmentClosedBroadcastReceiver);
+		final LocalBroadcastManager localBroadcastManager = LocalBroadcastManager.getInstance(this);
+		localBroadcastManager.unregisterReceiver(dialogFragmentClosedBroadcastReceiver);
 	}
 
 	/**
@@ -159,8 +146,7 @@ public class EditActivity extends ActionBarFragmentActivity
 		final EditFragment viewFragment = new EditFragment();
 		// Execute a transaction, replacing any existing fragment
 		// with this one inside the frame.
-		final FragmentTransaction ft = getSupportFragmentManager()
-				.beginTransaction();
+		final FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
 		ft.replace(R.id.edit, viewFragment);
 		ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
 		ft.commit();

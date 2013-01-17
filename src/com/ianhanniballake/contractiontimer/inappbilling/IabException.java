@@ -15,9 +15,8 @@
 package com.ianhanniballake.contractiontimer.inappbilling;
 
 /**
- * Exception thrown when something went wrong with in-app billing. An
- * IabException has an associated IabResult (an error). To get the IAB result
- * that caused this exception to be thrown, call {@link #getResult()}.
+ * Exception thrown when something went wrong with in-app billing. An IabException has an associated IabResult (an
+ * error). To get the IAB result that caused this exception to be thrown, call {@link #getResult()}.
  */
 @SuppressWarnings("javadoc")
 public class IabException extends Exception
@@ -40,8 +39,7 @@ public class IabException extends Exception
 		this(new IabResult(response, message));
 	}
 
-	public IabException(final int response, final String message,
-			final Exception cause)
+	public IabException(final int response, final String message, final Exception cause)
 	{
 		this(new IabResult(response, message), cause);
 	}

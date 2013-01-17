@@ -15,11 +15,10 @@
 package com.ianhanniballake.contractiontimer.inappbilling;
 
 /**
- * Represents the result of an in-app billing operation. A result is composed of
- * a response code (an integer) and possibly a message (String). You can get
- * those by calling {@link #getResponse} and {@link #getMessage()},
- * respectively. You can also inquire whether a result is a success or a failure
- * by calling {@link #isSuccess()} and {@link #isFailure()}.
+ * Represents the result of an in-app billing operation. A result is composed of a response code (an integer) and
+ * possibly a message (String). You can get those by calling {@link #getResponse} and {@link #getMessage()},
+ * respectively. You can also inquire whether a result is a success or a failure by calling {@link #isSuccess()} and
+ * {@link #isFailure()}.
  */
 @SuppressWarnings("javadoc")
 public class IabResult
@@ -33,8 +32,7 @@ public class IabResult
 		if (message == null || message.trim().length() == 0)
 			mMessage = IabHelper.getResponseDesc(response);
 		else
-			mMessage = message + " (response: "
-					+ IabHelper.getResponseDesc(response) + ")";
+			mMessage = message + " (response: " + IabHelper.getResponseDesc(response) + ")";
 	}
 
 	public String getMessage()

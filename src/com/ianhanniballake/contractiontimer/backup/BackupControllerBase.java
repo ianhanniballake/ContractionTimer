@@ -3,8 +3,7 @@ package com.ianhanniballake.contractiontimer.backup;
 import android.content.Context;
 
 /**
- * BackupController for pre-Froyo devices that do not have access to the Backup
- * API
+ * BackupController for pre-Froyo devices that do not have access to the Backup API
  */
 public class BackupControllerBase extends BackupController
 {

@@ -11,8 +11,7 @@ import com.google.analytics.tracking.android.EasyTracker;
 import com.ianhanniballake.contractiontimer.BuildConfig;
 
 /**
- * PagerTitleStrip that ensures that onDetachedFromWindow does not propagate
- * NullPointerExceptions
+ * PagerTitleStrip that ensures that onDetachedFromWindow does not propagate NullPointerExceptions
  */
 public class SafePagerTitleStrip extends PagerTitleStrip
 {
@@ -49,12 +48,10 @@ public class SafePagerTitleStrip extends PagerTitleStrip
 		} catch (final NullPointerException e)
 		{
 			if (BuildConfig.DEBUG)
-				Log.e(getClass().getSimpleName(),
-						"NullPointerException in onDetachedFromWindow", e);
+				Log.e(getClass().getSimpleName(), "NullPointerException in onDetachedFromWindow", e);
 			else
 			{
-				EasyTracker.getTracker().trackException(
-						Thread.currentThread().getName(), e, false);
+				EasyTracker.getTracker().trackException(Thread.currentThread().getName(), e, false);
 				ACRA.getErrorReporter().handleSilentException(e);
 			}
 		}

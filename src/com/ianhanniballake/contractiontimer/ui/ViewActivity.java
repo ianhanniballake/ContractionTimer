@@ -36,8 +36,8 @@ import com.ianhanniballake.contractiontimer.provider.ContractionContract.Contrac
 /**
  * Stand alone activity used to view the details of an individual contraction
  */
-public class ViewActivity extends ActionBarFragmentActivity implements
-		LoaderManager.LoaderCallbacks<Cursor>, ViewPager.OnPageChangeListener
+public class ViewActivity extends ActionBarFragmentActivity implements LoaderManager.LoaderCallbacks<Cursor>,
+		ViewPager.OnPageChangeListener
 {
 	/**
 	 * Creates ViewFragments as necessary
@@ -106,15 +106,13 @@ public class ViewActivity extends ActionBarFragmentActivity implements
 		adapter = new CursorAdapter(this, null, 0)
 		{
 			@Override
-			public void bindView(final View view, final Context context,
-					final Cursor cursor)
+			public void bindView(final View view, final Context context, final Cursor cursor)
 			{
 				// Nothing to do
 			}
 
 			@Override
-			public View newView(final Context context, final Cursor cursor,
-					final ViewGroup parent)
+			public View newView(final Context context, final Cursor cursor, final ViewGroup parent)
 			{
 				return null;
 			}
@@ -128,8 +126,7 @@ public class ViewActivity extends ActionBarFragmentActivity implements
 	@Override
 	public Loader<Cursor> onCreateLoader(final int id, final Bundle args)
 	{
-		return new CursorLoader(this,
-				ContractionContract.Contractions.CONTENT_URI, null, null, null,
+		return new CursorLoader(this, ContractionContract.Contractions.CONTENT_URI, null, null, null,
 				Contractions.COLUMN_NAME_START_TIME);
 	}
 
@@ -163,12 +160,10 @@ public class ViewActivity extends ActionBarFragmentActivity implements
 		} catch (final NumberFormatException e)
 		{
 			if (BuildConfig.DEBUG)
-				Log.e(getClass().getSimpleName(),
-						"NumberFormatException in onLoadFinished", e);
+				Log.e(getClass().getSimpleName(), "NumberFormatException in onLoadFinished", e);
 			else
 			{
-				EasyTracker.getTracker().trackException(
-						Thread.currentThread().getName(), e, false);
+				EasyTracker.getTracker().trackException(Thread.currentThread().getName(), e, false);
 				ACRA.getErrorReporter().handleSilentException(e);
 			}
 			finish();
@@ -203,8 +198,7 @@ public class ViewActivity extends ActionBarFragmentActivity implements
 				final Intent upIntent = NavUtils.getParentActivityIntent(this);
 				if (NavUtils.shouldUpRecreateTask(this, upIntent))
 				{
-					TaskStackBuilder.create(this).addParentStack(this)
-							.startActivities();
+					TaskStackBuilder.create(this).addParentStack(this).startActivities();
 					finish();
 				}
 				else
@@ -216,8 +210,7 @@ public class ViewActivity extends ActionBarFragmentActivity implements
 	}
 
 	@Override
-	public void onPageScrolled(final int position, final float positionOffset,
-			final int positionOffsetPixels)
+	public void onPageScrolled(final int position, final float positionOffset, final int positionOffsetPixels)
 	{
 		// Nothing to do
 	}
@@ -235,33 +228,24 @@ public class ViewActivity extends ActionBarFragmentActivity implements
 			Log.d(getClass().getSimpleName(), "Swapped to " + position);
 		if (currentPosition != -1)
 			if (position > currentPosition)
-				EasyTracker.getTracker().trackEvent("View", "Scroll", "Next",
-						(long) position);
+				EasyTracker.getTracker().trackEvent("View", "Scroll", "Next", (long) position);
 			else
-				EasyTracker.getTracker().trackEvent("View", "Scroll",
-						"Previous", (long) position);
+				EasyTracker.getTracker().trackEvent("View", "Scroll", "Previous", (long) position);
 		currentPosition = position;
 		final long newContractionId = adapter.getItemId(position);
 		getIntent().setData(
-				ContentUris.withAppendedId(
-						ContractionContract.Contractions.CONTENT_ID_URI_BASE,
-						newContractionId));
+				ContentUris.withAppendedId(ContractionContract.Contractions.CONTENT_ID_URI_BASE, newContractionId));
 	}
 
 	@Override
 	protected void onResume()
 	{
 		super.onResume();
-		final SharedPreferences preferences = PreferenceManager
-				.getDefaultSharedPreferences(this);
-		final boolean isLockPortrait = preferences
-				.getBoolean(
-						Preferences.LOCK_PORTRAIT_PREFERENCE_KEY,
-						getResources().getBoolean(
-								R.bool.pref_settings_lock_portrait_default));
+		final SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+		final boolean isLockPortrait = preferences.getBoolean(Preferences.LOCK_PORTRAIT_PREFERENCE_KEY, getResources()
+				.getBoolean(R.bool.pref_settings_lock_portrait_default));
 		if (BuildConfig.DEBUG)
-			Log.d(getClass().getSimpleName(), "Lock Portrait: "
-					+ isLockPortrait);
+			Log.d(getClass().getSimpleName(), "Lock Portrait: " + isLockPortrait);
 		if (isLockPortrait)
 			setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 		else
@@ -275,13 +259,10 @@ public class ViewActivity extends ActionBarFragmentActivity implements
 		getActionBarHelper().setDisplayHomeAsUpEnabled(true);
 		if (getIntent().hasExtra(MainActivity.LAUNCHED_FROM_WIDGET_EXTRA))
 		{
-			final String widgetIdentifier = getIntent().getExtras().getString(
-					MainActivity.LAUNCHED_FROM_WIDGET_EXTRA);
+			final String widgetIdentifier = getIntent().getExtras().getString(MainActivity.LAUNCHED_FROM_WIDGET_EXTRA);
 			if (BuildConfig.DEBUG)
-				Log.d(getClass().getSimpleName(), "Launched from "
-						+ widgetIdentifier);
-			EasyTracker.getTracker().trackEvent(widgetIdentifier, "LaunchView",
-					"", 0L);
+				Log.d(getClass().getSimpleName(), "Launched from " + widgetIdentifier);
+			EasyTracker.getTracker().trackEvent(widgetIdentifier, "LaunchView", "", 0L);
 			getIntent().removeExtra(MainActivity.LAUNCHED_FROM_WIDGET_EXTRA);
 		}
 		EasyTracker.getInstance().activityStart(this);

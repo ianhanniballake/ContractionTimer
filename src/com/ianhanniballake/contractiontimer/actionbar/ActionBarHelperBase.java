@@ -46,42 +46,34 @@ public class ActionBarHelperBase extends ActionBarHelper
 			super(context);
 			setId(android.R.id.home);
 			setContentDescription(mActivity.getString(R.string.app_name));
-			final ImageButton upCaretButton = new ImageButton(mActivity, null,
-					R.attr.actionbarCompatItemStyle);
-			final int upCaretButtonWidth = (int) mActivity.getResources()
-					.getDimension(
-							R.dimen.actionbar_compat_button_up_caret_width);
-			upCaretButton.setLayoutParams(new ViewGroup.LayoutParams(
-					upCaretButtonWidth, ViewGroup.LayoutParams.MATCH_PARENT));
+			final ImageButton upCaretButton = new ImageButton(mActivity, null, R.attr.actionbarCompatItemStyle);
+			final int upCaretButtonWidth = (int) mActivity.getResources().getDimension(
+					R.dimen.actionbar_compat_button_up_caret_width);
+			upCaretButton.setLayoutParams(new ViewGroup.LayoutParams(upCaretButtonWidth,
+					ViewGroup.LayoutParams.MATCH_PARENT));
 			upCaretButton.setScaleType(ImageView.ScaleType.CENTER);
 			upCaretButton.setDuplicateParentStateEnabled(true);
 			upCaretButton.setClickable(false);
 			addView(upCaretButton);
-			final ImageButton homeButton = new ImageButton(mActivity, null,
-					R.attr.actionbarCompatItemStyle);
-			final int homeButtonWidth = (int) mActivity.getResources()
-					.getDimension(R.dimen.actionbar_compat_button_home_width);
-			homeButton.setLayoutParams(new ViewGroup.LayoutParams(
-					homeButtonWidth, ViewGroup.LayoutParams.MATCH_PARENT));
-			homeButton.setImageDrawable(mActivity.getResources().getDrawable(
-					R.drawable.icon));
+			final ImageButton homeButton = new ImageButton(mActivity, null, R.attr.actionbarCompatItemStyle);
+			final int homeButtonWidth = (int) mActivity.getResources().getDimension(
+					R.dimen.actionbar_compat_button_home_width);
+			homeButton
+					.setLayoutParams(new ViewGroup.LayoutParams(homeButtonWidth, ViewGroup.LayoutParams.MATCH_PARENT));
+			homeButton.setImageDrawable(mActivity.getResources().getDrawable(R.drawable.icon));
 			homeButton.setScaleType(ImageView.ScaleType.CENTER);
 			homeButton.setDuplicateParentStateEnabled(true);
 			homeButton.setClickable(false);
 			addView(homeButton);
-			final SimpleMenu tempMenu = new SimpleMenu(mActivity,
-					ActionBarHelperBase.this);
-			final SimpleMenuItem homeItem = new SimpleMenuItem(tempMenu,
-					android.R.id.home, 0,
-					mActivity.getString(R.string.app_name),
-					ActionBarHelperBase.this);
+			final SimpleMenu tempMenu = new SimpleMenu(mActivity, ActionBarHelperBase.this);
+			final SimpleMenuItem homeItem = new SimpleMenuItem(tempMenu, android.R.id.home, 0,
+					mActivity.getString(R.string.app_name), ActionBarHelperBase.this);
 			setOnClickListener(new View.OnClickListener()
 			{
 				@Override
 				public void onClick(final View view)
 				{
-					mActivity.onMenuItemSelected(Window.FEATURE_OPTIONS_PANEL,
-							homeItem);
+					mActivity.onMenuItemSelected(Window.FEATURE_OPTIONS_PANEL, homeItem);
 				}
 			});
 		}
@@ -94,8 +86,7 @@ public class ActionBarHelperBase extends ActionBarHelper
 			if (clickable)
 			{
 				final Resources resources = mActivity.getResources();
-				upCaretButton.setImageDrawable(resources
-						.getDrawable(R.drawable.actionbar_up_caret));
+				upCaretButton.setImageDrawable(resources.getDrawable(R.drawable.actionbar_up_caret));
 			}
 			else
 				upCaretButton.setImageDrawable(null);
@@ -130,8 +121,7 @@ public class ActionBarHelperBase extends ActionBarHelper
 		 * @param inflater
 		 *            Default menu inflater
 		 */
-		public WrappedMenuInflater(final Context context,
-				final MenuInflater inflater)
+		public WrappedMenuInflater(final Context context, final MenuInflater inflater)
 		{
 			super(context);
 			mInflater = inflater;
@@ -145,9 +135,8 @@ public class ActionBarHelperBase extends ActionBarHelper
 		}
 
 		/**
-		 * Loads action bar metadata from a menu resource, storing a list of
-		 * menu item IDs that should be shown on-screen (i.e. those with
-		 * showAsAction set to always or ifRoom).
+		 * Loads action bar metadata from a menu resource, storing a list of menu item IDs that should be shown
+		 * on-screen (i.e. those with showAsAction set to always or ifRoom).
 		 * 
 		 * @param menuResId
 		 *            Menu (by resource id) to parse for ActionBar metadata
@@ -169,16 +158,12 @@ public class ActionBarHelperBase extends ActionBarHelper
 						case XmlPullParser.START_TAG:
 							if (!parser.getName().equals("item"))
 								break;
-							itemId = parser.getAttributeResourceValue(
-									WrappedMenuInflater.MENU_RES_NAMESPACE,
+							itemId = parser.getAttributeResourceValue(WrappedMenuInflater.MENU_RES_NAMESPACE,
 									WrappedMenuInflater.MENU_ATTR_ID, 0);
 							if (itemId == 0)
 								break;
-							showAsAction = parser
-									.getAttributeIntValue(
-											WrappedMenuInflater.MENU_RES_NAMESPACE,
-											WrappedMenuInflater.MENU_ATTR_SHOW_AS_ACTION,
-											0);
+							showAsAction = parser.getAttributeIntValue(WrappedMenuInflater.MENU_RES_NAMESPACE,
+									WrappedMenuInflater.MENU_ATTR_SHOW_AS_ACTION, 0);
 							final boolean containsAlways = (MenuItem.SHOW_AS_ACTION_ALWAYS & showAsAction) > 0;
 							final boolean containsIfRoom = (MenuItem.SHOW_AS_ACTION_IF_ROOM & showAsAction) > 0;
 							if (containsAlways || containsIfRoom)
@@ -233,8 +218,8 @@ public class ActionBarHelperBase extends ActionBarHelper
 	}
 
 	/**
-	 * Adds an action button to the compatibility action bar, using menu
-	 * information from a {@link android.view.MenuItem}.
+	 * Adds an action button to the compatibility action bar, using menu information from a
+	 * {@link android.view.MenuItem}.
 	 * 
 	 * @param item
 	 *            MenuItem to create as ActionBar icon
@@ -246,13 +231,10 @@ public class ActionBarHelperBase extends ActionBarHelper
 		if (actionBar == null)
 			return;
 		// Create the button
-		final ImageButton actionButton = new ImageButton(mActivity, null,
-				R.attr.actionbarCompatItemStyle);
+		final ImageButton actionButton = new ImageButton(mActivity, null, R.attr.actionbarCompatItemStyle);
 		actionButton.setId(itemId);
-		final int buttonWidth = (int) mActivity.getResources().getDimension(
-				R.dimen.actionbar_compat_button_width);
-		actionButton.setLayoutParams(new ViewGroup.LayoutParams(buttonWidth,
-				ViewGroup.LayoutParams.MATCH_PARENT));
+		final int buttonWidth = (int) mActivity.getResources().getDimension(R.dimen.actionbar_compat_button_width);
+		actionButton.setLayoutParams(new ViewGroup.LayoutParams(buttonWidth, ViewGroup.LayoutParams.MATCH_PARENT));
 		actionButton.setImageDrawable(item.getIcon());
 		actionButton.setScaleType(ImageView.ScaleType.CENTER);
 		actionButton.setContentDescription(item.getTitle());
@@ -261,16 +243,14 @@ public class ActionBarHelperBase extends ActionBarHelper
 			@Override
 			public void onClick(final View view)
 			{
-				mActivity
-						.onMenuItemSelected(Window.FEATURE_OPTIONS_PANEL, item);
+				mActivity.onMenuItemSelected(Window.FEATURE_OPTIONS_PANEL, item);
 			}
 		});
 		actionBar.addView(actionButton);
 	}
 
 	/**
-	 * Returns the {@link android.view.ViewGroup} for the action bar on phones
-	 * (compatibility action bar).
+	 * Returns the {@link android.view.ViewGroup} for the action bar on phones (compatibility action bar).
 	 * 
 	 * @return ViewGroup representing the ActionBar
 	 */
@@ -280,8 +260,7 @@ public class ActionBarHelperBase extends ActionBarHelper
 	}
 
 	/**
-	 * Returns a {@link android.view.MenuInflater} that can read action bar
-	 * metadata on pre-Honeycomb devices.
+	 * Returns a {@link android.view.MenuInflater} that can read action bar metadata on pre-Honeycomb devices.
 	 */
 	@Override
 	public MenuInflater getMenuInflater(final MenuInflater superMenuInflater)
@@ -297,8 +276,7 @@ public class ActionBarHelperBase extends ActionBarHelper
 	}
 
 	/**
-	 * Action bar helper code to be run in
-	 * {@link Activity#onCreateOptionsMenu(android.view.Menu)}.
+	 * Action bar helper code to be run in {@link Activity#onCreateOptionsMenu(android.view.Menu)}.
 	 * 
 	 * NOTE: This code will mark on-screen menu items as invisible.
 	 */
@@ -322,8 +300,7 @@ public class ActionBarHelperBase extends ActionBarHelper
 	@Override
 	public void onPostCreate()
 	{
-		mActivity.getWindow().setFeatureInt(Window.FEATURE_CUSTOM_TITLE,
-				R.layout.actionbar_compat);
+		mActivity.getWindow().setFeatureInt(Window.FEATURE_CUSTOM_TITLE, R.layout.actionbar_compat);
 		setupActionBar();
 		final SimpleMenu menu = new SimpleMenu(mActivity, this);
 		mActivity.onCreatePanelMenu(Window.FEATURE_OPTIONS_PANEL, menu);
@@ -369,17 +346,15 @@ public class ActionBarHelperBase extends ActionBarHelper
 		final ViewGroup actionBarCompat = getActionBarCompat();
 		if (actionBarCompat == null)
 			return;
-		final LinearLayout.LayoutParams springLayoutParams = new LinearLayout.LayoutParams(
-				0, ViewGroup.LayoutParams.MATCH_PARENT);
+		final LinearLayout.LayoutParams springLayoutParams = new LinearLayout.LayoutParams(0,
+				ViewGroup.LayoutParams.MATCH_PARENT);
 		springLayoutParams.weight = 1;
 		// Add Home button
-		final HomeButtonLayout homeButtonLayout = new HomeButtonLayout(
-				mActivity);
+		final HomeButtonLayout homeButtonLayout = new HomeButtonLayout(mActivity);
 		homeButtonLayout.setClickable(showHomeAsUp);
 		actionBarCompat.addView(homeButtonLayout);
 		// Add title text
-		final TextView titleText = new TextView(mActivity, null,
-				R.attr.actionbarCompatTitleStyle);
+		final TextView titleText = new TextView(mActivity, null, R.attr.actionbarCompatTitleStyle);
 		titleText.setLayoutParams(springLayoutParams);
 		titleText.setText(mActivity.getTitle());
 		actionBarCompat.addView(titleText);

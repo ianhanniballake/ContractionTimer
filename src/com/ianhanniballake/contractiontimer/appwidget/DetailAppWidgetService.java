@@ -33,8 +33,7 @@ import com.ianhanniballake.contractiontimer.ui.ViewActivity;
 public class DetailAppWidgetService extends IntentService
 {
 	/**
-	 * Identifier for the keyguard (lockscreen) version of this widget to be
-	 * used in Google Analytics
+	 * Identifier for the keyguard (lockscreen) version of this widget to be used in Google Analytics
 	 */
 	private final static String KEYGUARD_WIDGET_IDENTIFIER = "DetailWidgetKeyguard";
 	/**
@@ -43,13 +42,10 @@ public class DetailAppWidgetService extends IntentService
 	private final static String WIDGET_IDENTIFIER = "DetailWidget";
 
 	@TargetApi(Build.VERSION_CODES.JELLY_BEAN)
-	private static String getWidgetIdentifier(
-			final AppWidgetManager appWidgetManager, final int appWidgetId)
+	private static String getWidgetIdentifier(final AppWidgetManager appWidgetManager, final int appWidgetId)
 	{
-		final Bundle myOptions = appWidgetManager
-				.getAppWidgetOptions(appWidgetId);
-		final int category = myOptions.getInt(
-				AppWidgetManager.OPTION_APPWIDGET_HOST_CATEGORY,
+		final Bundle myOptions = appWidgetManager.getAppWidgetOptions(appWidgetId);
+		final int category = myOptions.getInt(AppWidgetManager.OPTION_APPWIDGET_HOST_CATEGORY,
 				AppWidgetProviderInfo.WIDGET_CATEGORY_HOME_SCREEN);
 		if (category == AppWidgetProviderInfo.WIDGET_CATEGORY_KEYGUARD)
 			return KEYGUARD_WIDGET_IDENTIFIER;
@@ -69,23 +65,18 @@ public class DetailAppWidgetService extends IntentService
 	{
 		if (BuildConfig.DEBUG)
 			Log.d(getClass().getSimpleName(), "Updating Detail App Widgets");
-		final String[] projection = { BaseColumns._ID,
-				ContractionContract.Contractions.COLUMN_NAME_START_TIME,
+		final String[] projection = { BaseColumns._ID, ContractionContract.Contractions.COLUMN_NAME_START_TIME,
 				ContractionContract.Contractions.COLUMN_NAME_END_TIME };
-		final String selection = ContractionContract.Contractions.COLUMN_NAME_START_TIME
-				+ ">?";
-		final SharedPreferences preferences = PreferenceManager
-				.getDefaultSharedPreferences(this);
+		final String selection = ContractionContract.Contractions.COLUMN_NAME_START_TIME + ">?";
+		final SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
 		final long averagesTimeFrame = Long.parseLong(preferences.getString(
 				Preferences.AVERAGE_TIME_FRAME_PREFERENCE_KEY,
 				getString(R.string.pref_settings_average_time_frame_default)));
 		final long timeCutoff = System.currentTimeMillis() - averagesTimeFrame;
 		final String[] selectionArgs = { Long.toString(timeCutoff) };
-		final Cursor data = getContentResolver().query(
-				ContractionContract.Contractions.CONTENT_URI, projection,
+		final Cursor data = getContentResolver().query(ContractionContract.Contractions.CONTENT_URI, projection,
 				selection, selectionArgs, null);
-		final String appwidgetBackground = preferences.getString(
-				Preferences.APPWIDGET_BACKGROUND_PREFERENCE_KEY,
+		final String appwidgetBackground = preferences.getString(Preferences.APPWIDGET_BACKGROUND_PREFERENCE_KEY,
 				getString(R.string.pref_appwidget_background_default));
 		// Set the average duration and frequency
 		String formattedAverageDuration = "";
@@ -107,59 +98,44 @@ public class DetailAppWidgetService extends IntentService
 				{
 					final long endTime = data.getLong(endTimeColumnIndex);
 					final long curDuration = endTime - startTime;
-					averageDuration = (curDuration + numDurations
-							* averageDuration)
-							/ (numDurations + 1);
+					averageDuration = (curDuration + numDurations * averageDuration) / (numDurations + 1);
 					numDurations++;
 				}
 				if (data.moveToNext())
 				{
 					final int prevContractionStartTimeColumnIndex = data
 							.getColumnIndex(ContractionContract.Contractions.COLUMN_NAME_START_TIME);
-					final long prevContractionStartTime = data
-							.getLong(prevContractionStartTimeColumnIndex);
-					final long curFrequency = startTime
-							- prevContractionStartTime;
-					averageFrequency = (curFrequency + numFrequencies
-							* averageFrequency)
-							/ (numFrequencies + 1);
+					final long prevContractionStartTime = data.getLong(prevContractionStartTimeColumnIndex);
+					final long curFrequency = startTime - prevContractionStartTime;
+					averageFrequency = (curFrequency + numFrequencies * averageFrequency) / (numFrequencies + 1);
 					numFrequencies++;
 				}
 			}
 			final long averageDurationInSeconds = (long) (averageDuration / 1000);
-			formattedAverageDuration = DateUtils
-					.formatElapsedTime(averageDurationInSeconds);
+			formattedAverageDuration = DateUtils.formatElapsedTime(averageDurationInSeconds);
 			final long averageFrequencyInSeconds = (long) (averageFrequency / 1000);
-			formattedAverageFrequency = DateUtils
-					.formatElapsedTime(averageFrequencyInSeconds);
+			formattedAverageFrequency = DateUtils.formatElapsedTime(averageFrequencyInSeconds);
 		}
 		// Determine whether a contraction is currently ongoing
 		// Need to use a separate cursor as there could be running contractions
 		// outside of the average time frame
-		final Cursor allData = getContentResolver().query(
-				ContractionContract.Contractions.CONTENT_URI, projection, null,
-				null, null);
-		final boolean contractionOngoing = allData != null
-				&& allData.moveToFirst()
-				&& allData
-						.isNull(allData
-								.getColumnIndex(ContractionContract.Contractions.COLUMN_NAME_END_TIME));
+		final Cursor allData = getContentResolver().query(ContractionContract.Contractions.CONTENT_URI, projection,
+				null, null, null);
+		final boolean contractionOngoing = allData != null && allData.moveToFirst()
+				&& allData.isNull(allData.getColumnIndex(ContractionContract.Contractions.COLUMN_NAME_END_TIME));
 		// Close the cursors
 		if (data != null)
 			data.close();
 		if (allData != null)
 			allData.close();
 		// Get the list of app widgets to update
-		final AppWidgetManager appWidgetManager = AppWidgetManager
-				.getInstance(this);
+		final AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(this);
 		final int[] detailAppWidgetIds;
 		if (intent.hasExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS))
-			detailAppWidgetIds = intent
-					.getIntArrayExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS);
+			detailAppWidgetIds = intent.getIntArrayExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS);
 		else
 			detailAppWidgetIds = appWidgetManager
-					.getAppWidgetIds(new ComponentName(this,
-							DetailAppWidgetProvider.class));
+					.getAppWidgetIds(new ComponentName(this, DetailAppWidgetProvider.class));
 		// Build and update the views for each widget
 		// We need to do it widget by widget to allow changes for keyguard vs
 		// home screen widgets
@@ -169,59 +145,42 @@ public class DetailAppWidgetService extends IntentService
 			// widget for Analytics purposes
 			String widgetIdentifier;
 			if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN)
-				widgetIdentifier = getWidgetIdentifier(appWidgetManager,
-						appWidgetId);
+				widgetIdentifier = getWidgetIdentifier(appWidgetManager, appWidgetId);
 			else
 				widgetIdentifier = WIDGET_IDENTIFIER;
 			if (BuildConfig.DEBUG)
-				Log.d(getClass().getSimpleName(), "Updating "
-						+ widgetIdentifier + " with id " + appWidgetId);
+				Log.d(getClass().getSimpleName(), "Updating " + widgetIdentifier + " with id " + appWidgetId);
 			// Note that all widgets share the same theme
 			RemoteViews views;
 			if (appwidgetBackground.equals("light"))
-				views = new RemoteViews(getPackageName(),
-						R.layout.detail_appwidget_light);
+				views = new RemoteViews(getPackageName(), R.layout.detail_appwidget_light);
 			else
-				views = new RemoteViews(getPackageName(),
-						R.layout.detail_appwidget_dark);
+				views = new RemoteViews(getPackageName(), R.layout.detail_appwidget_dark);
 			// Add the intent to the Application Launch button
-			final Intent applicationLaunchIntent = new Intent(this,
-					MainActivity.class);
-			applicationLaunchIntent.putExtra(
-					MainActivity.LAUNCHED_FROM_WIDGET_EXTRA, widgetIdentifier);
+			final Intent applicationLaunchIntent = new Intent(this, MainActivity.class);
+			applicationLaunchIntent.putExtra(MainActivity.LAUNCHED_FROM_WIDGET_EXTRA, widgetIdentifier);
 			applicationLaunchIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-			final PendingIntent applicationLaunchPendingIntent = PendingIntent
-					.getActivity(this, 0, applicationLaunchIntent,
-							PendingIntent.FLAG_UPDATE_CURRENT);
-			views.setOnClickPendingIntent(R.id.application_launch,
-					applicationLaunchPendingIntent);
+			final PendingIntent applicationLaunchPendingIntent = PendingIntent.getActivity(this, 0,
+					applicationLaunchIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+			views.setOnClickPendingIntent(R.id.application_launch, applicationLaunchPendingIntent);
 			// Add in the averages
-			views.setTextViewText(R.id.average_duration,
-					formattedAverageDuration);
-			views.setTextViewText(R.id.average_frequency,
-					formattedAverageFrequency);
+			views.setTextViewText(R.id.average_duration, formattedAverageDuration);
+			views.setTextViewText(R.id.average_frequency, formattedAverageFrequency);
 			// Add the intent for the toggle button
-			final Intent toggleContractionIntent = new Intent(this,
-					AppWidgetToggleService.class);
-			toggleContractionIntent.putExtra(
-					AppWidgetToggleService.WIDGET_NAME_EXTRA, widgetIdentifier);
-			final PendingIntent toggleContractionPendingIntent = PendingIntent
-					.getService(this, 0, toggleContractionIntent,
-							PendingIntent.FLAG_UPDATE_CURRENT);
+			final Intent toggleContractionIntent = new Intent(this, AppWidgetToggleService.class);
+			toggleContractionIntent.putExtra(AppWidgetToggleService.WIDGET_NAME_EXTRA, widgetIdentifier);
+			final PendingIntent toggleContractionPendingIntent = PendingIntent.getService(this, 0,
+					toggleContractionIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 			if (contractionOngoing)
 			{
-				views.setViewVisibility(R.id.contraction_toggle_on,
-						View.VISIBLE);
-				views.setOnClickPendingIntent(R.id.contraction_toggle_on,
-						toggleContractionPendingIntent);
+				views.setViewVisibility(R.id.contraction_toggle_on, View.VISIBLE);
+				views.setOnClickPendingIntent(R.id.contraction_toggle_on, toggleContractionPendingIntent);
 				views.setViewVisibility(R.id.contraction_toggle_off, View.GONE);
 			}
 			else
 			{
-				views.setViewVisibility(R.id.contraction_toggle_off,
-						View.VISIBLE);
-				views.setOnClickPendingIntent(R.id.contraction_toggle_off,
-						toggleContractionPendingIntent);
+				views.setViewVisibility(R.id.contraction_toggle_off, View.VISIBLE);
+				views.setOnClickPendingIntent(R.id.contraction_toggle_off, toggleContractionPendingIntent);
 				views.setViewVisibility(R.id.contraction_toggle_on, View.GONE);
 			}
 			// Set up the collection
@@ -229,16 +188,12 @@ public class DetailAppWidgetService extends IntentService
 				setRemoteAdapter(views);
 			else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB)
 				setRemoteAdapterV11(views);
-			final Intent clickIntentTemplate = new Intent(Intent.ACTION_VIEW)
-					.setClass(this, ViewActivity.class);
-			clickIntentTemplate.putExtra(
-					MainActivity.LAUNCHED_FROM_WIDGET_EXTRA, widgetIdentifier);
-			final PendingIntent clickPendingIntentTemplate = TaskStackBuilder
-					.create(this).addParentStack(ViewActivity.class)
-					.addNextIntent(clickIntentTemplate)
+			final Intent clickIntentTemplate = new Intent(Intent.ACTION_VIEW).setClass(this, ViewActivity.class);
+			clickIntentTemplate.putExtra(MainActivity.LAUNCHED_FROM_WIDGET_EXTRA, widgetIdentifier);
+			final PendingIntent clickPendingIntentTemplate = TaskStackBuilder.create(this)
+					.addParentStack(ViewActivity.class).addNextIntent(clickIntentTemplate)
 					.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
-			views.setPendingIntentTemplate(R.id.list_view,
-					clickPendingIntentTemplate);
+			views.setPendingIntentTemplate(R.id.list_view, clickPendingIntentTemplate);
 			views.setEmptyView(R.id.list_view, R.id.empty_view);
 			appWidgetManager.updateAppWidget(appWidgetId, views);
 		}
@@ -253,8 +208,7 @@ public class DetailAppWidgetService extends IntentService
 	@TargetApi(14)
 	private void setRemoteAdapter(final RemoteViews views)
 	{
-		views.setRemoteAdapter(R.id.list_view, new Intent(this,
-				DetailAppWidgetRemoteViewsService.class));
+		views.setRemoteAdapter(R.id.list_view, new Intent(this, DetailAppWidgetRemoteViewsService.class));
 	}
 
 	/**
@@ -266,7 +220,6 @@ public class DetailAppWidgetService extends IntentService
 	@SuppressWarnings("deprecation")
 	private void setRemoteAdapterV11(final RemoteViews views)
 	{
-		views.setRemoteAdapter(0, R.id.list_view, new Intent(this,
-				DetailAppWidgetRemoteViewsService.class));
+		views.setRemoteAdapter(0, R.id.list_view, new Intent(this, DetailAppWidgetRemoteViewsService.class));
 	}
 }

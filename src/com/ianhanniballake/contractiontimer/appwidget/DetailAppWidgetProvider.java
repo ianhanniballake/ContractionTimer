@@ -14,8 +14,7 @@ import com.ianhanniballake.contractiontimer.BuildConfig;
 public class DetailAppWidgetProvider extends AppWidgetProvider
 {
 	@Override
-	public void onUpdate(final Context context,
-			final AppWidgetManager appWidgetManager, final int[] appWidgetIds)
+	public void onUpdate(final Context context, final AppWidgetManager appWidgetManager, final int[] appWidgetIds)
 	{
 		if (BuildConfig.DEBUG)
 			Log.d(getClass().getSimpleName(), "Updating Detail App Widgets");

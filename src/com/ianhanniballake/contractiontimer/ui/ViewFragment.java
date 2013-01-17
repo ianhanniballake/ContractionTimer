@@ -38,8 +38,7 @@ import com.ianhanniballake.contractiontimer.provider.ContractionContract;
 /**
  * Fragment showing the details of an individual contraction
  */
-public class ViewFragment extends Fragment implements
-		LoaderManager.LoaderCallbacks<Cursor>
+public class ViewFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor>
 {
 	/**
 	 * Creates a new Fragment to display the given contraction
@@ -70,24 +69,21 @@ public class ViewFragment extends Fragment implements
 	 */
 	private AsyncQueryHandler contractionQueryHandler;
 	/**
-	 * Whether the current contraction is ongoing (i.e., not yet ended). Null
-	 * indicates that we haven't checked yet, while true or false indicates
-	 * whether the contraction is ongoing
+	 * Whether the current contraction is ongoing (i.e., not yet ended). Null indicates that we haven't checked yet,
+	 * while true or false indicates whether the contraction is ongoing
 	 */
 	Boolean isContractionOngoing = null;
 
 	/**
-	 * We need to find the exact view_fragment view as there is a
-	 * NoSaveStateFrameLayout view inserted in between the parent and the view
-	 * we created in onCreateView
+	 * We need to find the exact view_fragment view as there is a NoSaveStateFrameLayout view inserted in between the
+	 * parent and the view we created in onCreateView
 	 * 
 	 * @return View created in onCreateView
 	 */
 	private View getFragmentView()
 	{
 		final View rootView = getView();
-		return rootView == null ? null : rootView
-				.findViewById(R.id.view_fragment);
+		return rootView == null ? null : rootView.findViewById(R.id.view_fragment);
 	}
 
 	@Override
@@ -95,17 +91,13 @@ public class ViewFragment extends Fragment implements
 	{
 		super.onActivityCreated(savedInstanceState);
 		setHasOptionsMenu(true);
-		final Context applicationContext = getActivity()
-				.getApplicationContext();
-		contractionQueryHandler = new AsyncQueryHandler(getActivity()
-				.getContentResolver())
+		final Context applicationContext = getActivity().getApplicationContext();
+		contractionQueryHandler = new AsyncQueryHandler(getActivity().getContentResolver())
 		{
 			@Override
-			protected void onDeleteComplete(final int token,
-					final Object cookie, final int result)
+			protected void onDeleteComplete(final int token, final Object cookie, final int result)
 			{
-				AppWidgetUpdateHandler.createInstance().updateAllWidgets(
-						applicationContext);
+				AppWidgetUpdateHandler.createInstance().updateAllWidgets(applicationContext);
 				final Activity activity = getActivity();
 				if (activity != null)
 					activity.finish();
@@ -114,11 +106,9 @@ public class ViewFragment extends Fragment implements
 		adapter = new CursorAdapter(getActivity(), null, 0)
 		{
 			@Override
-			public void bindView(final View view, final Context context,
-					final Cursor cursor)
+			public void bindView(final View view, final Context context, final Cursor cursor)
 			{
-				final TextView startTimeView = (TextView) view
-						.findViewById(R.id.start_time);
+				final TextView startTimeView = (TextView) view.findViewById(R.id.start_time);
 				String timeFormat = "hh:mm:ssaa";
 				if (DateFormat.is24HourFormat(context))
 					timeFormat = "kk:mm:ss";
@@ -126,17 +116,12 @@ public class ViewFragment extends Fragment implements
 						.getColumnIndex(ContractionContract.Contractions.COLUMN_NAME_START_TIME);
 				final long startTime = cursor.getLong(startTimeColumnIndex);
 				startTimeView.setText(DateFormat.format(timeFormat, startTime));
-				final TextView startDateView = (TextView) view
-						.findViewById(R.id.start_date);
+				final TextView startDateView = (TextView) view.findViewById(R.id.start_date);
 				final Date startDate = new Date(startTime);
-				startDateView.setText(DateFormat.getDateFormat(getActivity())
-						.format(startDate));
-				final TextView endTimeView = (TextView) view
-						.findViewById(R.id.end_time);
-				final TextView endDateView = (TextView) view
-						.findViewById(R.id.end_date);
-				final TextView durationView = (TextView) view
-						.findViewById(R.id.duration);
+				startDateView.setText(DateFormat.getDateFormat(getActivity()).format(startDate));
+				final TextView endTimeView = (TextView) view.findViewById(R.id.end_time);
+				final TextView endDateView = (TextView) view.findViewById(R.id.end_date);
+				final TextView durationView = (TextView) view.findViewById(R.id.duration);
 				final int endTimeColumnIndex = cursor
 						.getColumnIndex(ContractionContract.Contractions.COLUMN_NAME_END_TIME);
 				isContractionOngoing = cursor.isNull(endTimeColumnIndex);
@@ -151,24 +136,19 @@ public class ViewFragment extends Fragment implements
 					final long endTime = cursor.getLong(endTimeColumnIndex);
 					endTimeView.setText(DateFormat.format(timeFormat, endTime));
 					final Date endDate = new Date(endTime);
-					endDateView.setText(DateFormat.getDateFormat(getActivity())
-							.format(endDate));
+					endDateView.setText(DateFormat.getDateFormat(getActivity()).format(endDate));
 					final long durationInSeconds = (endTime - startTime) / 1000;
-					durationView.setText(DateUtils
-							.formatElapsedTime(durationInSeconds));
+					durationView.setText(DateUtils.formatElapsedTime(durationInSeconds));
 				}
 				getActivity().supportInvalidateOptionsMenu();
-				final TextView noteView = (TextView) view
-						.findViewById(R.id.note);
-				final int noteColumnIndex = cursor
-						.getColumnIndex(ContractionContract.Contractions.COLUMN_NAME_NOTE);
+				final TextView noteView = (TextView) view.findViewById(R.id.note);
+				final int noteColumnIndex = cursor.getColumnIndex(ContractionContract.Contractions.COLUMN_NAME_NOTE);
 				final String note = cursor.getString(noteColumnIndex);
 				noteView.setText(note);
 			}
 
 			@Override
-			public View newView(final Context context, final Cursor cursor,
-					final ViewGroup parent)
+			public View newView(final Context context, final Cursor cursor, final ViewGroup parent)
 			{
 				// View is already inflated in onCreateView
 				return null;
@@ -185,11 +165,9 @@ public class ViewFragment extends Fragment implements
 	@Override
 	public Loader<Cursor> onCreateLoader(final int id, final Bundle args)
 	{
-		final Uri contractionUri = ContentUris.withAppendedId(
-				ContractionContract.Contractions.CONTENT_ID_URI_PATTERN,
+		final Uri contractionUri = ContentUris.withAppendedId(ContractionContract.Contractions.CONTENT_ID_URI_PATTERN,
 				contractionId);
-		return new CursorLoader(getActivity(), contractionUri, null, null,
-				null, null);
+		return new CursorLoader(getActivity(), contractionUri, null, null, null, null);
 	}
 
 	@Override
@@ -197,8 +175,7 @@ public class ViewFragment extends Fragment implements
 	{
 		super.onCreateOptionsMenu(menu, inflater);
 		// Only allow editing contractions that have already finished
-		final boolean showEdit = isContractionOngoing != null
-				&& !isContractionOngoing;
+		final boolean showEdit = isContractionOngoing != null && !isContractionOngoing;
 		final MenuItem editItem = menu.findItem(R.id.menu_edit);
 		editItem.setEnabled(showEdit);
 		// Don't directly set visibility unless it is one of our SimpleMenuItems
@@ -207,8 +184,7 @@ public class ViewFragment extends Fragment implements
 	}
 
 	@Override
-	public View onCreateView(final LayoutInflater inflater,
-			final ViewGroup container, final Bundle savedInstanceState)
+	public View onCreateView(final LayoutInflater inflater, final ViewGroup container, final Bundle savedInstanceState)
 	{
 		return inflater.inflate(R.layout.fragment_view, container, false);
 	}
@@ -231,9 +207,7 @@ public class ViewFragment extends Fragment implements
 	@Override
 	public boolean onOptionsItemSelected(final MenuItem item)
 	{
-		final Uri uri = ContentUris.withAppendedId(
-				ContractionContract.Contractions.CONTENT_ID_URI_BASE,
-				contractionId);
+		final Uri uri = ContentUris.withAppendedId(ContractionContract.Contractions.CONTENT_ID_URI_BASE, contractionId);
 		switch (item.getItemId())
 		{
 			case R.id.menu_edit:
@@ -243,11 +217,9 @@ public class ViewFragment extends Fragment implements
 					return true;
 				if (BuildConfig.DEBUG)
 					Log.d(getClass().getSimpleName(), "View selected edit");
-				EasyTracker.getTracker().trackEvent("View", "Edit",
-						Boolean.toString(isContractionOngoing), 0L);
+				EasyTracker.getTracker().trackEvent("View", "Edit", Boolean.toString(isContractionOngoing), 0L);
 				if (isContractionOngoing)
-					Toast.makeText(getActivity(), R.string.edit_ongoing_error,
-							Toast.LENGTH_SHORT).show();
+					Toast.makeText(getActivity(), R.string.edit_ongoing_error, Toast.LENGTH_SHORT).show();
 				else
 					startActivity(new Intent(Intent.ACTION_EDIT, uri));
 				return true;

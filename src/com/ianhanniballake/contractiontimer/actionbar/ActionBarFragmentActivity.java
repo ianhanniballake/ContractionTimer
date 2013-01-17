@@ -7,17 +7,14 @@ import android.view.Menu;
 import android.view.MenuInflater;
 
 /**
- * A base activity that defers common functionality across app activities to an
- * {@link ActionBarHelper}.
+ * A base activity that defers common functionality across app activities to an {@link ActionBarHelper}.
  */
 public abstract class ActionBarFragmentActivity extends FragmentActivity
 {
 	/**
-	 * Instance of the ActionBarHelper appropriate to the current Android
-	 * version
+	 * Instance of the ActionBarHelper appropriate to the current Android version
 	 */
-	final ActionBarHelper mActionBarHelper = ActionBarHelper
-			.createInstance(this);
+	final ActionBarHelper mActionBarHelper = ActionBarHelper.createInstance(this);
 
 	/**
 	 * Returns the {@link ActionBarHelper} for this activity.
@@ -45,8 +42,7 @@ public abstract class ActionBarFragmentActivity extends FragmentActivity
 	}
 
 	/**
-	 * Base action bar-aware implementation for
-	 * {@link Activity#onCreateOptionsMenu(android.view.Menu)}.
+	 * Base action bar-aware implementation for {@link Activity#onCreateOptionsMenu(android.view.Menu)}.
 	 */
 	@Override
 	public boolean onCreateOptionsMenu(final Menu menu)
@@ -65,8 +61,7 @@ public abstract class ActionBarFragmentActivity extends FragmentActivity
 	}
 
 	/**
-	 * Base action bar-aware implementation for
-	 * {@link FragmentActivity#supportInvalidateOptionsMenu()}.
+	 * Base action bar-aware implementation for {@link FragmentActivity#supportInvalidateOptionsMenu()}.
 	 */
 	@Override
 	public void supportInvalidateOptionsMenu()

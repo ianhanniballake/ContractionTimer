@@ -30,12 +30,10 @@ import com.ianhanniballake.contractiontimer.provider.ContractionContract;
  * Fragment to list contractions entered by the user
  */
 @TargetApi(11)
-public class ContractionListFragmentV11 extends ContractionListFragment
-		implements OnClickListener
+public class ContractionListFragmentV11 extends ContractionListFragment implements OnClickListener
 {
 	/**
-	 * Helper class used to store temporary information to aid in handling
-	 * PopupMenu item selection
+	 * Helper class used to store temporary information to aid in handling PopupMenu item selection
 	 */
 	static class PopupHolder
 	{
@@ -73,8 +71,7 @@ public class ContractionListFragmentV11 extends ContractionListFragment
 			popupHolder = (PopupHolder) showPopupTag;
 		final int idColumnIndex = cursor.getColumnIndex(BaseColumns._ID);
 		popupHolder.id = cursor.getLong(idColumnIndex);
-		final int noteColumnIndex = cursor
-				.getColumnIndex(ContractionContract.Contractions.COLUMN_NAME_NOTE);
+		final int noteColumnIndex = cursor.getColumnIndex(ContractionContract.Contractions.COLUMN_NAME_NOTE);
 		final String note = cursor.getString(noteColumnIndex);
 		popupHolder.existingNote = note;
 		// Don't allow popup menu while the Contextual Action Bar is
@@ -86,8 +83,7 @@ public class ContractionListFragmentV11 extends ContractionListFragment
 	public void onActivityCreated(final Bundle savedInstanceState)
 	{
 		if (savedInstanceState != null)
-			selectedItemNote = savedInstanceState
-					.getString(ContractionListFragmentV11.SELECTED_ITEM_NOTE_KEY);
+			selectedItemNote = savedInstanceState.getString(ContractionListFragmentV11.SELECTED_ITEM_NOTE_KEY);
 		super.onActivityCreated(savedInstanceState);
 	}
 
@@ -98,16 +94,13 @@ public class ContractionListFragmentV11 extends ContractionListFragment
 		final MenuInflater inflater = popup.getMenuInflater();
 		inflater.inflate(R.menu.list_context, popup.getMenu());
 		final PopupHolder popupHolder = (PopupHolder) v.getTag();
-		final MenuItem noteItem = popup.getMenu().findItem(
-				R.id.menu_context_note);
+		final MenuItem noteItem = popup.getMenu().findItem(R.id.menu_context_note);
 		if (popupHolder.existingNote.equals(""))
 			noteItem.setTitle(R.string.note_dialog_title_add);
 		else
 			noteItem.setTitle(R.string.note_dialog_title_edit);
-		final MenuItem deleteItem = popup.getMenu().findItem(
-				R.id.menu_context_delete);
-		deleteItem.setTitle(getResources().getQuantityText(
-				R.plurals.menu_context_delete, 1));
+		final MenuItem deleteItem = popup.getMenu().findItem(R.id.menu_context_delete);
+		deleteItem.setTitle(getResources().getQuantityText(R.plurals.menu_context_delete, 1));
 		popup.setOnMenuItemClickListener(new OnMenuItemClickListener()
 		{
 			@Override
@@ -117,34 +110,23 @@ public class ContractionListFragmentV11 extends ContractionListFragment
 				{
 					case R.id.menu_context_view:
 						if (BuildConfig.DEBUG)
-							Log.d(getClass().getSimpleName(),
-									"Popup Menu selected view");
-						EasyTracker.getTracker().trackEvent("PopupMenu",
-								"View", "", 0L);
+							Log.d(getClass().getSimpleName(), "Popup Menu selected view");
+						EasyTracker.getTracker().trackEvent("PopupMenu", "View", "", 0L);
 						viewContraction(popupHolder.id);
 						return true;
 					case R.id.menu_context_note:
 						if (BuildConfig.DEBUG)
 							Log.d(getClass().getSimpleName(),
 									"Popup Menu selected "
-											+ (popupHolder.existingNote
-													.equals("") ? "Add Note"
-													: "Edit Note"));
-						EasyTracker
-								.getTracker()
-								.trackEvent(
-										"PopupMenu",
-										"Note",
-										popupHolder.existingNote.equals("") ? "Add Note"
-												: "Edit Note", 0L);
+											+ (popupHolder.existingNote.equals("") ? "Add Note" : "Edit Note"));
+						EasyTracker.getTracker().trackEvent("PopupMenu", "Note",
+								popupHolder.existingNote.equals("") ? "Add Note" : "Edit Note", 0L);
 						showNoteDialog(popupHolder.id, popupHolder.existingNote);
 						return true;
 					case R.id.menu_context_delete:
 						if (BuildConfig.DEBUG)
-							Log.d(getClass().getSimpleName(),
-									"Popup Menu selected delete");
-						EasyTracker.getTracker().trackEvent("PopupMenu",
-								"Delete", "", 0L);
+							Log.d(getClass().getSimpleName(), "Popup Menu selected delete");
+						EasyTracker.getTracker().trackEvent("PopupMenu", "Delete", "", 0L);
 						deleteContraction(popupHolder.id);
 						return true;
 					default:
@@ -159,13 +141,11 @@ public class ContractionListFragmentV11 extends ContractionListFragment
 	public void onSaveInstanceState(final Bundle outState)
 	{
 		super.onSaveInstanceState(outState);
-		outState.putString(ContractionListFragmentV11.SELECTED_ITEM_NOTE_KEY,
-				selectedItemNote);
+		outState.putString(ContractionListFragmentV11.SELECTED_ITEM_NOTE_KEY, selectedItemNote);
 	}
 
 	/**
-	 * Sets up the ListView for multiple item selection with the Contextual
-	 * Action Bar
+	 * Sets up the ListView for multiple item selection with the Contextual Action Bar
 	 */
 	@Override
 	protected void setupListView()
@@ -176,50 +156,38 @@ public class ContractionListFragmentV11 extends ContractionListFragment
 		listView.setMultiChoiceModeListener(new MultiChoiceModeListener()
 		{
 			@Override
-			public boolean onActionItemClicked(final ActionMode mode,
-					final MenuItem item)
+			public boolean onActionItemClicked(final ActionMode mode, final MenuItem item)
 			{
 				final long contractionId = listView.getCheckedItemIds()[0];
 				switch (item.getItemId())
 				{
 					case R.id.menu_context_view:
 						if (BuildConfig.DEBUG)
-							Log.d(getClass().getSimpleName(),
-									"Context Action Mode selected view");
-						EasyTracker.getTracker().trackEvent("ContextActionBar",
-								"View", "", 0L);
+							Log.d(getClass().getSimpleName(), "Context Action Mode selected view");
+						EasyTracker.getTracker().trackEvent("ContextActionBar", "View", "", 0L);
 						viewContraction(contractionId);
 						return true;
 					case R.id.menu_context_note:
-						final int position = listView.getCheckedItemPositions()
-								.keyAt(0);
-						final Cursor cursor = (Cursor) listView.getAdapter()
-								.getItem(position);
+						final int position = listView.getCheckedItemPositions().keyAt(0);
+						final Cursor cursor = (Cursor) listView.getAdapter().getItem(position);
 						final int noteColumnIndex = cursor
 								.getColumnIndex(ContractionContract.Contractions.COLUMN_NAME_NOTE);
-						final String existingNote = cursor
-								.getString(noteColumnIndex);
+						final String existingNote = cursor.getString(noteColumnIndex);
 						if (BuildConfig.DEBUG)
 							Log.d(getClass().getSimpleName(),
 									"Context Action Mode selected "
-											+ (existingNote.equals("") ? "Add Note"
-													: "Edit Note"));
-						EasyTracker.getTracker().trackEvent(
-								"ContextActionBar",
-								"Note",
-								existingNote.equals("") ? "Add Note"
-										: "Edit Note", (long) position);
+											+ (existingNote.equals("") ? "Add Note" : "Edit Note"));
+						EasyTracker.getTracker().trackEvent("ContextActionBar", "Note",
+								existingNote.equals("") ? "Add Note" : "Edit Note", (long) position);
 						showNoteDialog(contractionId, existingNote);
 						mode.finish();
 						return true;
 					case R.id.menu_context_delete:
-						final long[] selectedIds = getListView()
-								.getCheckedItemIds();
+						final long[] selectedIds = getListView().getCheckedItemIds();
 						if (BuildConfig.DEBUG)
-							Log.d(getClass().getSimpleName(),
-									"Context Action Mode selected delete");
-						EasyTracker.getTracker().trackEvent("ContextActionBar",
-								"Delete", "", (long) selectedIds.length);
+							Log.d(getClass().getSimpleName(), "Context Action Mode selected delete");
+						EasyTracker.getTracker()
+								.trackEvent("ContextActionBar", "Delete", "", (long) selectedIds.length);
 						for (final long id : selectedIds)
 							deleteContraction(id);
 						mode.finish();
@@ -230,8 +198,7 @@ public class ContractionListFragmentV11 extends ContractionListFragment
 			}
 
 			@Override
-			public boolean onCreateActionMode(final ActionMode mode,
-					final Menu menu)
+			public boolean onCreateActionMode(final ActionMode mode, final Menu menu)
 			{
 				final MenuInflater inflater = mode.getMenuInflater();
 				inflater.inflate(R.menu.list_context, menu);
@@ -245,8 +212,8 @@ public class ContractionListFragmentV11 extends ContractionListFragment
 			}
 
 			@Override
-			public void onItemCheckedStateChanged(final ActionMode mode,
-					final int position, final long id, final boolean checked)
+			public void onItemCheckedStateChanged(final ActionMode mode, final int position, final long id,
+					final boolean checked)
 			{
 				final int selectedItemsSize = listView.getCheckedItemCount();
 				if (selectedItemsSize == 0)
@@ -269,15 +236,11 @@ public class ContractionListFragmentV11 extends ContractionListFragment
 						{
 							if (BuildConfig.DEBUG)
 								Log.e(getClass().getSimpleName(),
-										"NullPointerException in onItemCheckedStateChanged's invalidate",
-										e);
+										"NullPointerException in onItemCheckedStateChanged's invalidate", e);
 							else
 							{
-								EasyTracker.getTracker().trackException(
-										Thread.currentThread().getName(), e,
-										false);
-								ACRA.getErrorReporter()
-										.handleSilentException(e);
+								EasyTracker.getTracker().trackException(Thread.currentThread().getName(), e, false);
+								ACRA.getErrorReporter().handleSilentException(e);
 							}
 						}
 					}
@@ -285,8 +248,7 @@ public class ContractionListFragmentV11 extends ContractionListFragment
 			}
 
 			@Override
-			public boolean onPrepareActionMode(final ActionMode mode,
-					final Menu menu)
+			public boolean onPrepareActionMode(final ActionMode mode, final Menu menu)
 			{
 				final int selectedItemsSize = listView.getCheckedItemCount();
 				// Show or hide the view menu item
@@ -299,12 +261,10 @@ public class ContractionListFragmentV11 extends ContractionListFragment
 				// Set the title of the note menu item
 				if (showNoteItem)
 				{
-					final int position = listView.getCheckedItemPositions()
-							.keyAt(0);
+					final int position = listView.getCheckedItemPositions().keyAt(0);
 					final ListAdapter adapter = listView.getAdapter();
 					@SuppressWarnings("resource")
-					final Cursor cursor = position < adapter.getCount() ? (Cursor) adapter
-							.getItem(position) : null;
+					final Cursor cursor = position < adapter.getCount() ? (Cursor) adapter.getItem(position) : null;
 					// The cursor will be null when first resuming the Fragment
 					// so we'll used the selectedItemNote loaded from the Bundle
 					if (cursor != null)
@@ -320,21 +280,18 @@ public class ContractionListFragmentV11 extends ContractionListFragment
 				}
 				noteItem.setVisible(showNoteItem);
 				// Set the title of the delete menu item
-				final MenuItem deleteItem = menu
-						.findItem(R.id.menu_context_delete);
+				final MenuItem deleteItem = menu.findItem(R.id.menu_context_delete);
 				final CharSequence currentTitle = deleteItem.getTitle();
-				final CharSequence newTitle = getResources().getQuantityText(
-						R.plurals.menu_context_delete, selectedItemsSize);
+				final CharSequence newTitle = getResources().getQuantityText(R.plurals.menu_context_delete,
+						selectedItemsSize);
 				deleteItem.setTitle(newTitle);
 				// Set the Contextual Action Bar title with the new item
 				// size
 				final CharSequence modeTitle = mode.getTitle();
-				final CharSequence newModeTitle = String.format(
-						getString(R.string.menu_context_action_mode_title),
+				final CharSequence newModeTitle = String.format(getString(R.string.menu_context_action_mode_title),
 						selectedItemsSize);
 				mode.setTitle(newModeTitle);
-				return !newModeTitle.equals(modeTitle)
-						|| !newTitle.equals(currentTitle);
+				return !newModeTitle.equals(modeTitle) || !newTitle.equals(currentTitle);
 			}
 		});
 	}

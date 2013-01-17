@@ -33,8 +33,7 @@ public class Purchase
 	String mSku;
 	String mToken;
 
-	public Purchase(final String jsonPurchaseInfo, final String signature)
-			throws JSONException
+	public Purchase(final String jsonPurchaseInfo, final String signature) throws JSONException
 	{
 		mOriginalJson = jsonPurchaseInfo;
 		final JSONObject o = new JSONObject(mOriginalJson);

@@ -7,14 +7,13 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 
 /**
- * An abstract base class for supporting ActionBar implementations on both
- * pre-3.0 devices and 3.0+ devices
+ * An abstract base class for supporting ActionBar implementations on both pre-3.0 devices and 3.0+ devices
  */
 public abstract class ActionBarHelper
 {
 	/**
-	 * Factory method for creating {@link ActionBarHelper} objects for a given
-	 * activity based on the current Android version
+	 * Factory method for creating {@link ActionBarHelper} objects for a given activity based on the current Android
+	 * version
 	 * 
 	 * @param activity
 	 *            Activity to decorate with ActionBar
@@ -42,27 +41,23 @@ public abstract class ActionBarHelper
 	}
 
 	/**
-	 * Returns a {@link MenuInflater} for use when inflating menus. The
-	 * implementation of this method in {@link ActionBarHelperBase} returns a
-	 * wrapped menu inflater that can read action bar metadata from a menu
+	 * Returns a {@link MenuInflater} for use when inflating menus. The implementation of this method in
+	 * {@link ActionBarHelperBase} returns a wrapped menu inflater that can read action bar metadata from a menu
 	 * resource pre-Honeycomb.
 	 * 
 	 * @param superMenuInflater
 	 *            default activity menu inflater
 	 * @return ActionBar compatible menu inflater
 	 */
-	public abstract MenuInflater getMenuInflater(
-			final MenuInflater superMenuInflater);
+	public abstract MenuInflater getMenuInflater(final MenuInflater superMenuInflater);
 
 	/**
-	 * Action bar helper code to be run during the activity's onCreate lifecycle
-	 * phase.
+	 * Action bar helper code to be run during the activity's onCreate lifecycle phase.
 	 */
 	public abstract void onCreate();
 
 	/**
-	 * Action bar helper code to be run during the activity's
-	 * onCreateOptionsMenu.
+	 * Action bar helper code to be run during the activity's onCreateOptionsMenu.
 	 * 
 	 * @param menu
 	 *            Menu to set up
@@ -71,8 +66,7 @@ public abstract class ActionBarHelper
 	public abstract boolean onCreateOptionsMenu(final Menu menu);
 
 	/**
-	 * Action bar helper code to be run during the activity's onPostCreate
-	 * lifecycle phase.
+	 * Action bar helper code to be run during the activity's onPostCreate lifecycle phase.
 	 */
 	public abstract void onPostCreate();
 
