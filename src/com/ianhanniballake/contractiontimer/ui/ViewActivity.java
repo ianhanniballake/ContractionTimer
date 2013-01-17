@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
 import android.database.Cursor;
+import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
@@ -149,14 +150,17 @@ public class ViewActivity extends ActionBarFragmentActivity implements LoaderMan
 	{
 		adapter.swapCursor(data);
 		pagerAdapter.notifyDataSetChanged();
-		// A null intent/data means we should cancel out as we are in an
-		// indeterminate state
-		if (getIntent() == null || getIntent().getData() == null)
+		// A null content uri means we should cancel out as we are in an indeterminate state
+		final Uri contentUri = getIntent() == null ? null : getIntent().getData();
+		if (contentUri == null)
+		{
 			finish();
+			return;
+		}
 		final long contractionId;
 		try
 		{
-			contractionId = ContentUris.parseId(getIntent().getData());
+			contractionId = ContentUris.parseId(contentUri);
 		} catch (final NumberFormatException e)
 		{
 			if (BuildConfig.DEBUG)
