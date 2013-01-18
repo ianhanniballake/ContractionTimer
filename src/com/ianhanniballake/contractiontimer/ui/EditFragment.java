@@ -61,7 +61,7 @@ public class EditFragment extends Fragment implements LoaderManager.LoaderCallba
 		protected Boolean doInBackground(final Void... params)
 		{
 			final Activity activity = getActivity();
-			if (activity == null)
+			if (activity == null || endTime == null)
 				return false;
 			final String[] projection = { BaseColumns._ID };
 			final String selection = BaseColumns._ID + "<>? AND "
@@ -112,7 +112,7 @@ public class EditFragment extends Fragment implements LoaderManager.LoaderCallba
 		protected Boolean doInBackground(final Void... params)
 		{
 			final Activity activity = getActivity();
-			if (activity == null)
+			if (activity == null || startTime == null)
 				return false;
 			final String[] projection = { BaseColumns._ID };
 			final String selection = BaseColumns._ID + "<>? AND "
@@ -164,7 +164,7 @@ public class EditFragment extends Fragment implements LoaderManager.LoaderCallba
 		protected Boolean doInBackground(final Void... params)
 		{
 			final Activity activity = getActivity();
-			if (activity == null)
+			if (activity == null || startTime == null || endTime == null)
 				return false;
 			final String[] projection = { BaseColumns._ID };
 			final String selection = BaseColumns._ID + "<>? AND "
