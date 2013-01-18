@@ -1,12 +1,11 @@
 package com.ianhanniballake.contractiontimer.ui;
 
-import org.acra.ACRA;
-
 import android.annotation.TargetApi;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.provider.BaseColumns;
 import android.util.Log;
+import android.util.SparseBooleanArray;
 import android.view.ActionMode;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -218,33 +217,21 @@ public class ContractionListFragmentV11 extends ContractionListFragment implemen
 				final int selectedItemsSize = listView.getCheckedItemCount();
 				if (selectedItemsSize == 0)
 					return;
-				// This is called in the middle of the ListView's selected items
-				// being refreshed (in a state where the getCheckedItemCount
-				// call returns the new number of items, but the
-				// getCheckedItemPositions() call returns the old items.
-				// Therefore to give the ListView some time to stabilize, we
-				// post this call to invalidate
-				getView().post(new Runnable()
+				else if (selectedItemsSize == 1)
 				{
-					@Override
-					public void run()
-					{
-						try
-						{
-							mode.invalidate();
-						} catch (final NullPointerException e)
-						{
-							if (BuildConfig.DEBUG)
-								Log.e(getClass().getSimpleName(),
-										"NullPointerException in onItemCheckedStateChanged's invalidate", e);
-							else
-							{
-								EasyTracker.getTracker().trackException(Thread.currentThread().getName(), e, false);
-								ACRA.getErrorReporter().handleSilentException(e);
-							}
-						}
-					}
-				});
+					final SparseBooleanArray checkedItems = listView.getCheckedItemPositions();
+					int selectedPosition = checkedItems.keyAt(0);
+					// The checked item positions sometime contain both the old and new items. We need to make sure we
+					// pick the remaining selected item, rather than the recently de-selected item.
+					if (selectedPosition == position && !checked)
+						selectedPosition = checkedItems.keyAt(1);
+					final ListAdapter adapter = listView.getAdapter();
+					final Cursor cursor = (Cursor) adapter.getItem(selectedPosition);
+					final int noteColumnIndex = cursor
+							.getColumnIndex(ContractionContract.Contractions.COLUMN_NAME_NOTE);
+					selectedItemNote = cursor.getString(noteColumnIndex);
+				}
+				mode.invalidate();
 			}
 
 			@Override
@@ -260,24 +247,10 @@ public class ContractionListFragmentV11 extends ContractionListFragment implemen
 				final boolean showNoteItem = selectedItemsSize == 1;
 				// Set the title of the note menu item
 				if (showNoteItem)
-				{
-					final int position = listView.getCheckedItemPositions().keyAt(0);
-					final ListAdapter adapter = listView.getAdapter();
-					@SuppressWarnings("resource")
-					final Cursor cursor = position < adapter.getCount() ? (Cursor) adapter.getItem(position) : null;
-					// The cursor will be null when first resuming the Fragment
-					// so we'll used the selectedItemNote loaded from the Bundle
-					if (cursor != null)
-					{
-						final int noteColumnIndex = cursor
-								.getColumnIndex(ContractionContract.Contractions.COLUMN_NAME_NOTE);
-						selectedItemNote = cursor.getString(noteColumnIndex);
-					}
 					if ("".equals(selectedItemNote))
 						noteItem.setTitle(R.string.note_dialog_title_add);
 					else
 						noteItem.setTitle(R.string.note_dialog_title_edit);
-				}
 				noteItem.setVisible(showNoteItem);
 				// Set the title of the delete menu item
 				final MenuItem deleteItem = menu.findItem(R.id.menu_context_delete);
@@ -285,8 +258,7 @@ public class ContractionListFragmentV11 extends ContractionListFragment implemen
 				final CharSequence newTitle = getResources().getQuantityText(R.plurals.menu_context_delete,
 						selectedItemsSize);
 				deleteItem.setTitle(newTitle);
-				// Set the Contextual Action Bar title with the new item
-				// size
+				// Set the Contextual Action Bar title with the new item size
 				final CharSequence modeTitle = mode.getTitle();
 				final CharSequence newModeTitle = String.format(getString(R.string.menu_context_action_mode_title),
 						selectedItemsSize);
