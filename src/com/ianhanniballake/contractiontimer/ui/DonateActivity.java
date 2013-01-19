@@ -50,7 +50,7 @@ public class DonateActivity extends ActionBarFragmentActivity implements QueryIn
 	/**
 	 * List of valid SKUs
 	 */
-	String[] skus;
+	String[] skus = new String[0];
 
 	@Override
 	protected void onActivityResult(final int requestCode, final int resultCode, final Intent data)
@@ -187,7 +187,7 @@ public class DonateActivity extends ActionBarFragmentActivity implements QueryIn
 		if (BuildConfig.DEBUG)
 			Log.d(getClass().getSimpleName(), "Billing supported: " + result.getMessage());
 		if (result.isSuccess())
-			iabHelper.queryInventoryAsync(true, Arrays.asList(skus), DonateActivity.this);
+			iabHelper.queryInventoryAsync(true, Arrays.asList(skus), this);
 		// In-App Billing UI is hidden by default, so nothing to do if it wasn't
 		// successful
 	}
