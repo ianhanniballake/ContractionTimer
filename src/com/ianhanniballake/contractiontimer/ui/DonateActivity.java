@@ -2,6 +2,7 @@ package com.ianhanniballake.contractiontimer.ui;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 
 import android.content.Intent;
@@ -20,6 +21,8 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.google.analytics.tracking.android.EasyTracker;
+import com.google.analytics.tracking.android.Item;
+import com.google.analytics.tracking.android.Transaction;
 import com.ianhanniballake.contractiontimer.BuildConfig;
 import com.ianhanniballake.contractiontimer.R;
 import com.ianhanniballake.contractiontimer.actionbar.ActionBarFragmentActivity;
@@ -48,6 +51,14 @@ public class DonateActivity extends ActionBarFragmentActivity implements QueryIn
 	 */
 	String purchasedSku = "";
 	/**
+	 * SKU Product Names
+	 */
+	HashMap<String, String> skuNames = new HashMap<String, String>();
+	/**
+	 * US Prices for SKUs in micro-currency
+	 */
+	HashMap<String, Long> skuPrices = new HashMap<String, Long>();
+	/**
 	 * List of valid SKUs
 	 */
 	String[] skus = new String[0];
@@ -68,7 +79,15 @@ public class DonateActivity extends ActionBarFragmentActivity implements QueryIn
 			Log.d(getClass().getSimpleName(), "Consume Completed: " + result.getMessage());
 		if (result.isSuccess())
 		{
-			EasyTracker.getTracker().trackEvent("Donate", "Purchased", purchase.getSku(), 0L);
+			EasyTracker.getTracker().trackEvent("Donate", "Purchased", purchasedSku, 0L);
+			final long purchasedPriceMicro = skuPrices.containsKey(purchasedSku) ? skuPrices.get(purchasedSku)
+					.longValue() : 0;
+			final String purchasedName = skuNames.containsKey(purchasedSku) ? skuNames.get(purchasedSku) : purchasedSku;
+			final Transaction transaction = new Transaction.Builder(purchase.getOrderId(), purchasedPriceMicro)
+					.setAffiliation("Google Play").build();
+			transaction.addItem(new Item.Builder(purchasedSku, purchasedName, purchasedPriceMicro, 1L)
+					.setProductCategory("Donation").build());
+			EasyTracker.getTracker().trackTransaction(transaction);
 			Toast.makeText(this, R.string.donate_thank_you, Toast.LENGTH_LONG).show();
 			finish();
 		}
@@ -87,8 +106,12 @@ public class DonateActivity extends ActionBarFragmentActivity implements QueryIn
 			allSkus.add("android.test.refunded");
 			allSkus.add("android.test.item_unavailable");
 		}
-		allSkus.addAll(Arrays.asList(getResources().getStringArray(R.array.donate_in_app_sku_array)));
+		final String[] skuArray = getResources().getStringArray(R.array.donate_in_app_sku_array);
+		allSkus.addAll(Arrays.asList(skuArray));
 		skus = allSkus.toArray(new String[allSkus.size()]);
+		final int[] skuPriceArray = getResources().getIntArray(R.array.donate_in_app_price_array);
+		for (int h = 0; h < skuPriceArray.length; h++)
+			skuPrices.put(skuArray[h], (long) skuPriceArray[h]);
 		// Set up the UI
 		setContentView(R.layout.activity_donate);
 		final Button paypal_button = (Button) findViewById(R.id.paypal_button);
@@ -211,6 +234,7 @@ public class DonateActivity extends ActionBarFragmentActivity implements QueryIn
 		{
 			final String currentSku = skus[h];
 			final SkuDetails sku = inv.getSkuDetails(currentSku);
+			skuNames.put(currentSku, sku.getTitle());
 			inAppName[h + offset] = sku.getDescription() + " (" + sku.getPrice() + ")";
 		}
 		final Spinner inAppSpinner = (Spinner) findViewById(R.id.donate_in_app_spinner);
