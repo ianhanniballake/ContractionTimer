@@ -1310,15 +1310,15 @@ com.ianhanniballake.contractiontimer.inappbilling.Base64:
     private static final byte EQUALS_SIGN_ENC
     private static final byte NEW_LINE
     private static final byte WHITE_SPACE_ENC
-    188:188:public static byte[] decode(byte[])
-    390:390:public static byte[] decodeWebSafe(byte[])
-    410:410:public static byte[] decodeWebSafe(byte[],int,int)
-    424:425:public static byte[] decodeWebSafe(java.lang.String)
-    438:438:public static java.lang.String encode(byte[])
-    460:471:public static java.lang.String encode(byte[],int,int,byte[],boolean)
-    492:533:public static byte[] encode(byte[],int,int,byte[],int)
-    577:601:private static byte[] encode3to4(byte[],int,int,byte[],int,byte[])
-    617:617:public static java.lang.String encodeWebSafe(byte[],boolean)
+    164:164:public static byte[] decode(byte[])
+    345:345:public static byte[] decodeWebSafe(byte[])
+    363:363:public static byte[] decodeWebSafe(byte[],int,int)
+    375:376:public static byte[] decodeWebSafe(java.lang.String)
+    388:388:public static java.lang.String encode(byte[])
+    409:419:public static java.lang.String encode(byte[],int,int,byte[],boolean)
+    440:480:public static byte[] encode(byte[],int,int,byte[],int)
+    520:544:private static byte[] encode3to4(byte[],int,int,byte[],int,byte[])
+    558:558:public static java.lang.String encodeWebSafe(byte[],boolean)
 com.ianhanniballake.contractiontimer.inappbilling.Base64DecoderException:
     private static final long serialVersionUID
 com.ianhanniballake.contractiontimer.inappbilling.IabHelper:
@@ -1351,34 +1351,34 @@ com.ianhanniballake.contractiontimer.inappbilling.IabHelper:
     public static final java.lang.String RESPONSE_INAPP_PURCHASE_DATA_LIST
     public static final java.lang.String RESPONSE_INAPP_SIGNATURE
     public static final java.lang.String RESPONSE_INAPP_SIGNATURE_LIST
-    466:468:public void enableDebugLogging(boolean,java.lang.String)
-    861:862:public void queryInventoryAsync(boolean,com.ianhanniballake.contractiontimer.inappbilling.IabHelper$QueryInventoryFinishedListener)
-    867:868:public void queryInventoryAsync(com.ianhanniballake.contractiontimer.inappbilling.IabHelper$QueryInventoryFinishedListener)
+    429:431:public void enableDebugLogging(boolean,java.lang.String)
+    781:782:public void queryInventoryAsync(boolean,com.ianhanniballake.contractiontimer.inappbilling.IabHelper$QueryInventoryFinishedListener)
+    786:787:public void queryInventoryAsync(com.ianhanniballake.contractiontimer.inappbilling.IabHelper$QueryInventoryFinishedListener)
 com.ianhanniballake.contractiontimer.inappbilling.Inventory:
-    56:58:public void erasePurchase(java.lang.String)
-    78:78:public com.ianhanniballake.contractiontimer.inappbilling.Purchase getPurchase(java.lang.String)
-    90:90:public boolean hasDetails(java.lang.String)
-    96:96:public boolean hasPurchase(java.lang.String)
+    54:56:public void erasePurchase(java.lang.String)
+    75:75:public com.ianhanniballake.contractiontimer.inappbilling.Purchase getPurchase(java.lang.String)
+    87:87:public boolean hasDetails(java.lang.String)
+    93:93:public boolean hasPurchase(java.lang.String)
 com.ianhanniballake.contractiontimer.inappbilling.Purchase:
-    53:53:public java.lang.String getDeveloperPayload()
-    58:58:public java.lang.String getOrderId()
-    63:63:public java.lang.String getOriginalJson()
-    68:68:public java.lang.String getPackageName()
-    73:73:public int getPurchaseState()
-    78:78:public long getPurchaseTime()
-    83:83:public java.lang.String getSignature()
+    52:52:public java.lang.String getDeveloperPayload()
+    57:57:public java.lang.String getOrderId()
+    62:62:public java.lang.String getOriginalJson()
+    67:67:public java.lang.String getPackageName()
+    72:72:public int getPurchaseState()
+    77:77:public long getPurchaseTime()
+    82:82:public java.lang.String getSignature()
 com.ianhanniballake.contractiontimer.inappbilling.Security:
     private static final java.lang.String KEY_FACTORY_ALGORITHM
     private static final java.lang.String SIGNATURE_ALGORITHM
     private static final java.lang.String TAG
-    39:39:public Security()
+    36:36:public Security()
 com.ianhanniballake.contractiontimer.inappbilling.SkuDetails:
     61:61:public java.lang.String getTitle()
     66:66:public java.lang.String getType()
 com.ianhanniballake.contractiontimer.provider.ContractionContract:
     public static final java.lang.String AUTHORITY
     private static final java.lang.String SCHEME
-    104:106:private ContractionContract()
+    94:96:private ContractionContract()
 com.ianhanniballake.contractiontimer.provider.ContractionContract$Contractions:
     public static final java.lang.String COLUMN_NAME_END_TIME
     public static final java.lang.String COLUMN_NAME_NOTE
@@ -1387,7 +1387,7 @@ com.ianhanniballake.contractiontimer.provider.ContractionContract$Contractions:
     public static final java.lang.String CONTENT_TYPE
     public static final java.lang.String DEFAULT_SORT_ORDER
     public static final java.lang.String TABLE_NAME
-    87:89:private ContractionContract$Contractions()
+    77:79:private ContractionContract$Contractions()
 com.ianhanniballake.contractiontimer.provider.ContractionProvider:
     private static final int CONTRACTION_ID
     private static final int CONTRACTIONS
