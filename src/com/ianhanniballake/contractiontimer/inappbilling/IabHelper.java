@@ -846,8 +846,11 @@ public class IabHelper
 		return verificationFailed ? IABHELPER_VERIFICATION_FAILED : BILLING_RESPONSE_RESULT_OK;
 	}
 
-	int querySkuDetails(final Inventory inv, final List<String> moreSkus) throws RemoteException, JSONException
+	int querySkuDetails(final Inventory inv, final List<String> moreSkus) throws RemoteException, JSONException,
+			IabException
 	{
+		if (!checkSetupDone("querySkuDetails"))
+			throw new IabException(IABHELPER_UNKNOWN_ERROR, "Error querying sku details");
 		logDebug("Querying SKU details.");
 		final ArrayList<String> skuList = new ArrayList<String>();
 		skuList.addAll(inv.getAllOwnedSkus());
