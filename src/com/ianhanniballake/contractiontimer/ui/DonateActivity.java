@@ -168,17 +168,12 @@ public class DonateActivity extends ActionBarFragmentActivity implements QueryIn
 	{
 		if (BuildConfig.DEBUG)
 			Log.d(getClass().getSimpleName(), "Purchase Completed: " + result.getMessage());
-		switch (result.getResponse())
-		{
-			case IabHelper.BILLING_RESPONSE_RESULT_USER_CANCELED:
-				EasyTracker.getTracker().trackEvent("Donate", "Canceled", purchasedSku, 0L);
-				break;
-			default:
-				EasyTracker.getTracker().trackEvent("Donate", "Error", purchasedSku, 0L);
-				break;
-		}
 		if (result.isSuccess())
 			iabHelper.consumeAsync(info, this);
+		else if (result.getResponse() == IabHelper.BILLING_RESPONSE_RESULT_USER_CANCELED)
+			EasyTracker.getTracker().trackEvent("Donate", "Canceled", purchasedSku, 0L);
+		else
+			EasyTracker.getTracker().trackEvent("Donate", "Error", purchasedSku, (long) result.getResponse());
 	}
 
 	@Override
