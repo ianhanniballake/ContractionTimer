@@ -17,6 +17,7 @@ package com.ianhanniballake.contractiontimer.inappbilling;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.acra.ACRA;
 import org.json.JSONException;
 
 import android.app.Activity;
@@ -34,6 +35,7 @@ import android.text.TextUtils;
 import android.util.Log;
 
 import com.android.vending.billing.IInAppBillingService;
+import com.google.analytics.tracking.android.EasyTracker;
 
 /**
  * Provides convenience methods for in-app billing. Create one instance of this class for your application and use it to
@@ -263,14 +265,18 @@ public class IabHelper
 		logDebug("IAB helper created.");
 	}
 
-	// Checks that setup was done; if not, throws an exception.
-	void checkSetupDone(final String operation)
+	// Checks that setup was done
+	boolean checkSetupDone(final String operation)
 	{
 		if (!mSetupDone)
 		{
 			logError("Illegal state for operation (" + operation + "): IAB helper is not set up.");
-			throw new IllegalStateException("IAB helper is not set up. Can't perform operation: " + operation);
+			final Exception e = new IllegalStateException("IAB helper is not set up. Can't perform operation: "
+					+ operation);
+			EasyTracker.getTracker().trackException(Thread.currentThread().getName(), e, false);
+			ACRA.getErrorReporter().handleSilentException(e);
 		}
+		return mSetupDone;
 	}
 
 	/**
@@ -285,7 +291,8 @@ public class IabHelper
 	 */
 	void consume(final Purchase itemInfo) throws IabException
 	{
-		checkSetupDone("consume");
+		if (!checkSetupDone("consume"))
+			return;
 		try
 		{
 			final String token = itemInfo.getToken();
@@ -322,7 +329,8 @@ public class IabHelper
 	 */
 	public void consumeAsync(final List<Purchase> purchases, final OnConsumeMultiFinishedListener listener)
 	{
-		checkSetupDone("consume");
+		if (!checkSetupDone("consume"))
+			return;
 		consumeAsyncInternal(purchases, null, listener);
 	}
 
@@ -337,7 +345,8 @@ public class IabHelper
 	 */
 	public void consumeAsync(final Purchase purchase, final OnConsumeFinishedListener listener)
 	{
-		checkSetupDone("consume");
+		if (!checkSetupDone("consume"))
+			return;
 		final List<Purchase> purchases = new ArrayList<Purchase>();
 		purchases.add(purchase);
 		consumeAsyncInternal(purchases, listener, null);
@@ -504,9 +513,10 @@ public class IabHelper
 		IabResult result;
 		if (requestCode != mRequestCode)
 			return false;
-		checkSetupDone("handleActivityResult");
 		// end of async purchase operation
 		flagEndAsync();
+		if (!checkSetupDone("handleActivityResult"))
+			return false;
 		if (data == null)
 		{
 			logError("Null data in IAB activity result.");
@@ -623,7 +633,8 @@ public class IabHelper
 	public void launchPurchaseFlow(final Activity act, final String sku, final int requestCode,
 			final OnIabPurchaseFinishedListener listener, final String extraData)
 	{
-		checkSetupDone("launchPurchaseFlow");
+		if (!checkSetupDone("launchPurchaseFlow"))
+			return;
 		flagStartAsync("launchPurchaseFlow");
 		IabResult result;
 		try
@@ -693,7 +704,8 @@ public class IabHelper
 	 */
 	public Inventory queryInventory(final boolean querySkuDetails, final List<String> moreSkus) throws IabException
 	{
-		checkSetupDone("queryInventory");
+		if (!checkSetupDone("queryInventory"))
+			throw new IabException(IABHELPER_UNKNOWN_ERROR, "Error refreshing inventory (querying owned items).");
 		try
 		{
 			final Inventory inv = new Inventory();
@@ -732,7 +744,8 @@ public class IabHelper
 			final QueryInventoryFinishedListener listener)
 	{
 		final Handler handler = new Handler();
-		checkSetupDone("queryInventory");
+		if (!checkSetupDone("queryInventory"))
+			return;
 		flagStartAsync("refresh inventory");
 		new Thread(new Runnable()
 		{
