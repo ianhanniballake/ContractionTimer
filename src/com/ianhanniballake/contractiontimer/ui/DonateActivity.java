@@ -188,8 +188,7 @@ public class DonateActivity extends ActionBarFragmentActivity implements QueryIn
 			Log.d(getClass().getSimpleName(), "Billing supported: " + result.getMessage());
 		if (result.isSuccess())
 			iabHelper.queryInventoryAsync(true, Arrays.asList(skus), this);
-		// In-App Billing UI is hidden by default, so nothing to do if it wasn't
-		// successful
+		// In-App Billing UI is hidden by default, so nothing to do if it wasn't successful
 	}
 
 	@Override
@@ -197,8 +196,7 @@ public class DonateActivity extends ActionBarFragmentActivity implements QueryIn
 	{
 		if (BuildConfig.DEBUG)
 			Log.d(getClass().getSimpleName(), "Inventory Returned: " + result.getMessage() + ": " + inv);
-		// If we failed to get the inventory, then leave the in-app billing UI
-		// hidden
+		// If we failed to get the inventory, then leave the in-app billing UI hidden
 		if (result.isFailure())
 			return;
 		// Make sure we've consumed any previous purchases
