@@ -41,7 +41,7 @@ public class DetailAppWidgetService extends IntentService
 	 */
 	private final static String WIDGET_IDENTIFIER = "DetailWidget";
 
-	@TargetApi(Build.VERSION_CODES.JELLY_BEAN)
+	@TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
 	private static String getWidgetIdentifier(final AppWidgetManager appWidgetManager, final int appWidgetId)
 	{
 		final Bundle myOptions = appWidgetManager.getAppWidgetOptions(appWidgetId);
@@ -144,7 +144,7 @@ public class DetailAppWidgetService extends IntentService
 			// Need to determine if this widget is a keyguard or home screen
 			// widget for Analytics purposes
 			String widgetIdentifier;
-			if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN)
+			if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1)
 				widgetIdentifier = getWidgetIdentifier(appWidgetManager, appWidgetId);
 			else
 				widgetIdentifier = WIDGET_IDENTIFIER;

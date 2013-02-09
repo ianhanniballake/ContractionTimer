@@ -7,6 +7,7 @@ import java.util.Set;
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.res.Resources;
@@ -41,6 +42,7 @@ public class ActionBarHelperBase extends ActionBarHelper
 		 * @param context
 		 *            Context used to create the layout
 		 */
+		@SuppressLint("InlinedApi")
 		public HomeButtonLayout(final Context context)
 		{
 			super(context);
@@ -141,6 +143,7 @@ public class ActionBarHelperBase extends ActionBarHelper
 		 * @param menuResId
 		 *            Menu (by resource id) to parse for ActionBar metadata
 		 */
+		@SuppressLint("InlinedApi")
 		private void loadActionBarMetadata(final int menuResId)
 		{
 			XmlResourceParser parser = null;
@@ -313,6 +316,7 @@ public class ActionBarHelperBase extends ActionBarHelper
 		}
 	}
 
+	@SuppressLint("InlinedApi")
 	@Override
 	public void setDisplayHomeAsUpEnabled(final boolean showHomeAsUp)
 	{

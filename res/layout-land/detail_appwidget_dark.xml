@@ -36,13 +36,15 @@
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_toRightOf="@id/average_duration_label"
-            android:textColor="@android:color/primary_text_dark" />
+            android:textColor="@android:color/primary_text_dark"
+            android:textIsSelectable="false" />
 
         <TextView
             android:id="@+id/average_center_mark"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:layout_centerInParent="true" />
+            android:layout_centerInParent="true"
+            android:textIsSelectable="false" />
 
         <TextView
             android:id="@+id/average_frequency_label"
@@ -61,7 +63,8 @@
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_toRightOf="@id/average_frequency_label"
-            android:textColor="@android:color/primary_text_dark" />
+            android:textColor="@android:color/primary_text_dark"
+            android:textIsSelectable="false" />
 
         <Button
             android:id="@+id/contraction_toggle_off"

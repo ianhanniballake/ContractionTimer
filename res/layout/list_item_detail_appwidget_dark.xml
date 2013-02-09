@@ -21,7 +21,8 @@
             android:gravity="left"
             android:paddingBottom="1dp"
             android:textAppearance="?android:attr/textAppearanceSmall"
-            android:textColor="@android:color/primary_text_dark" />
+            android:textColor="@android:color/primary_text_dark"
+            android:textIsSelectable="false" />
 
         <TextView
             android:id="@+id/start_time"
@@ -30,7 +31,8 @@
             android:gravity="left"
             android:paddingTop="1dp"
             android:textAppearance="?android:attr/textAppearanceSmall"
-            android:textColor="@android:color/primary_text_dark" />
+            android:textColor="@android:color/primary_text_dark"
+            android:textIsSelectable="false" />
     </LinearLayout>
 
     <TextView
@@ -40,7 +42,8 @@
         android:layout_weight="1"
         android:gravity="center"
         android:textAppearance="?android:attr/textAppearanceLarge"
-        android:textColor="@android:color/primary_text_dark" />
+        android:textColor="@android:color/primary_text_dark"
+        android:textIsSelectable="false" />
 
     <TextView
         android:id="@+id/frequency"
@@ -49,6 +52,7 @@
         android:layout_weight="1"
         android:gravity="center"
         android:textAppearance="?android:attr/textAppearanceLarge"
-        android:textColor="@android:color/primary_text_dark" />
+        android:textColor="@android:color/primary_text_dark"
+        android:textIsSelectable="false" />
 
 </LinearLayout>

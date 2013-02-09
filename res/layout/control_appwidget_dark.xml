@@ -36,7 +36,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_toRightOf="@id/average_duration_label"
-            android:textColor="@android:color/primary_text_dark" />
+            android:textColor="@android:color/primary_text_dark"
+            android:textIsSelectable="false" />
 
         <TextView
             android:id="@+id/average_frequency_label"
@@ -53,7 +54,8 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/average_duration"
             android:layout_toRightOf="@id/average_frequency_label"
-            android:textColor="@android:color/primary_text_dark" />
+            android:textColor="@android:color/primary_text_dark"
+            android:textIsSelectable="false" />
     </RelativeLayout>
 
     <Button

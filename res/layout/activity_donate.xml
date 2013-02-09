@@ -5,7 +5,6 @@
     android:layout_height="fill_parent" >
 
     <RelativeLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:padding="@dimen/dialog_padding" >
@@ -14,7 +13,8 @@
             android:id="@+id/header"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/donate_header" />
+            android:text="@string/donate_header"
+            android:textIsSelectable="false" />
 
         <TextView
             android:id="@+id/paypal_title"
@@ -23,7 +23,8 @@
             android:layout_below="@id/header"
             android:paddingTop="10dp"
             android:text="@string/donate_paypal_title"
-            android:textAppearance="?android:attr/textAppearanceMedium" />
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textIsSelectable="false" />
 
         <TextView
             android:id="@+id/paypal_description"
@@ -31,7 +32,8 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/paypal_title"
             android:text="@string/donate_paypal_description"
-            android:textAppearance="?android:attr/textAppearanceSmall" />
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:textIsSelectable="false" />
 
         <Button
             android:id="@+id/paypal_button"
@@ -54,7 +56,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/donate_in_app_title"
-                android:textAppearance="?android:attr/textAppearanceMedium" />
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textIsSelectable="false" />
 
             <TextView
                 android:id="@+id/in_app_description"
@@ -62,7 +65,8 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@id/in_app_title"
                 android:text="@string/donate_in_app_description"
-                android:textAppearance="?android:attr/textAppearanceSmall" />
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:textIsSelectable="false" />
 
             <LinearLayout
                 android:layout_width="fill_parent"
