@@ -43,6 +43,16 @@ public class Inventory
 		mSkuMap.put(d.getSku(), d);
 	}
 
+	/** Returns a list of all owned product IDs of a given type */
+	List<String> getAllOwnedSkus(final String itemType)
+	{
+		final List<String> result = new ArrayList<String>();
+		for (final Purchase p : mPurchaseMap.values())
+			if (p.getItemType().equals(itemType))
+				result.add(p.getSku());
+		return result;
+	}
+
 	/**
 	 * Erase a purchase (locally) from the inventory, given its product ID. This just modifies the Inventory object
 	 * locally and has no effect on the server! This is useful when you have an existing Inventory object which you know

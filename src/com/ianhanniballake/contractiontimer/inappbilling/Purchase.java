@@ -24,6 +24,7 @@ import org.json.JSONObject;
 public class Purchase
 {
 	String mDeveloperPayload;
+	String mItemType; // ITEM_TYPE_INAPP or ITEM_TYPE_SUBS
 	String mOrderId;
 	String mOriginalJson;
 	String mPackageName;
@@ -33,8 +34,9 @@ public class Purchase
 	String mSku;
 	String mToken;
 
-	public Purchase(final String jsonPurchaseInfo, final String signature) throws JSONException
+	public Purchase(final String itemType, final String jsonPurchaseInfo, final String signature) throws JSONException
 	{
+		mItemType = itemType;
 		mOriginalJson = jsonPurchaseInfo;
 		final JSONObject o = new JSONObject(mOriginalJson);
 		mOrderId = o.optString("orderId");
@@ -50,6 +52,11 @@ public class Purchase
 	public String getDeveloperPayload()
 	{
 		return mDeveloperPayload;
+	}
+
+	public String getItemType()
+	{
+		return mItemType;
 	}
 
 	public String getOrderId()
@@ -95,6 +102,6 @@ public class Purchase
 	@Override
 	public String toString()
 	{
-		return "PurchaseInfo:" + mOriginalJson;
+		return "PurchaseInfo(type:" + mItemType + "):" + mOriginalJson;
 	}
 }

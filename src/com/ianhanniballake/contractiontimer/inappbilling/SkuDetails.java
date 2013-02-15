@@ -24,6 +24,7 @@ import org.json.JSONObject;
 public class SkuDetails
 {
 	String mDescription;
+	String mItemType;
 	String mJson;
 	String mPrice;
 	String mSku;
@@ -32,6 +33,12 @@ public class SkuDetails
 
 	public SkuDetails(final String jsonSkuDetails) throws JSONException
 	{
+		this(IabHelper.ITEM_TYPE_INAPP, jsonSkuDetails);
+	}
+
+	public SkuDetails(final String itemType, final String jsonSkuDetails) throws JSONException
+	{
+		mItemType = itemType;
 		mJson = jsonSkuDetails;
 		final JSONObject o = new JSONObject(mJson);
 		mSku = o.optString("productId");
