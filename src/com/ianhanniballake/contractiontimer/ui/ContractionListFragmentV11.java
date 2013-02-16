@@ -226,6 +226,8 @@ public class ContractionListFragmentV11 extends ContractionListFragment implemen
 					if (selectedPosition == position && !checked)
 						selectedPosition = checkedItems.keyAt(1);
 					final ListAdapter adapter = listView.getAdapter();
+					if (adapter.isEmpty()) // onLoaderReset swapped in a null cursor
+						return;
 					final Cursor cursor = (Cursor) adapter.getItem(selectedPosition);
 					final int noteColumnIndex = cursor
 							.getColumnIndex(ContractionContract.Contractions.COLUMN_NAME_NOTE);
