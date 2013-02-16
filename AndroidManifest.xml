@@ -24,8 +24,8 @@
         <provider
             android:name=".provider.ContractionProvider"
             android:authorities="com.ianhanniballake.contractiontimer"
-            tools:ignore="ExportedContentProvider"
-            android:exported="true" >
+            android:exported="true"
+            tools:ignore="ExportedContentProvider" >
             <grant-uri-permission android:pathPattern=".*" />
         </provider>
 
@@ -93,7 +93,6 @@
         <activity
             android:name=".ui.DonateActivity"
             android:label="@string/donate_activity_name" >
-
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".ui.MainActivity" />
@@ -105,6 +104,7 @@
         <service android:name=".appwidget.DetailAppWidgetService" />
         <service
             android:name=".appwidget.DetailAppWidgetRemoteViewsService"
+            android:enabled="@bool/detail_appwidget_enabled"
             android:exported="false"
             android:permission="android.permission.BIND_REMOTEVIEWS" />
 
