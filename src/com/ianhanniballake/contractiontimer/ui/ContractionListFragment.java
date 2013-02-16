@@ -391,6 +391,8 @@ public abstract class ContractionListFragment extends ListFragment implements Lo
 		// Ensure we don't attempt to view contractions with invalid ids
 		if (id < 0)
 			return;
+		if (isDetached()) // Can't startActivity if we are detached
+			return;
 		final Uri contractionUri = ContentUris.withAppendedId(ContractionContract.Contractions.CONTENT_ID_URI_BASE, id);
 		final Intent intent = new Intent(Intent.ACTION_VIEW, contractionUri);
 		startActivity(intent);
