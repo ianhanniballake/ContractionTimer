@@ -151,6 +151,7 @@ com.google.android.gms.analytics.internal.IAnalyticsService$Stub
 com.google.android.gms.analytics.internal.IAnalyticsService$Stub$Proxy
 com.ianhanniballake.contractiontimer.ContractionTimerApplication
 com.ianhanniballake.contractiontimer.ContractionTimerApplication: ContractionTimerApplication()
+com.ianhanniballake.contractiontimer.R$array: int donate_in_app_price_array
 com.ianhanniballake.contractiontimer.R$array: int donate_in_app_sku_array
 com.ianhanniballake.contractiontimer.R$array: int pref_appwidget_background_entries
 com.ianhanniballake.contractiontimer.R$array: int pref_appwidget_background_entryvalues

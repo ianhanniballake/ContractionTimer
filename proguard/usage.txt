@@ -73,7 +73,6 @@ android.support.v4.app.Fragment:
     533:533:public final android.support.v4.app.Fragment getTargetFragment()
     540:540:public final int getTargetRequestCode()
     590:590:public final varargs java.lang.String getString(int,java.lang.Object[])
-    617:617:public final boolean isDetached()
     626:626:public final boolean isRemoving()
     637:637:public final boolean isInLayout()
     645:645:public final boolean isResumed()
@@ -956,7 +955,6 @@ com.google.analytics.tracking.android.EasyTracker$NoopTracker:
     private com.google.analytics.tracking.android.ExceptionParser exceptionParser
     485:485:public void setAppScreen(java.lang.String)
     489:489:public void trackView()
-    501:501:public void trackTransaction(com.google.analytics.tracking.android.Transaction)
     514:514:public void trackTiming(java.lang.String,long,java.lang.String,java.lang.String)
     518:518:public void trackSocial(java.lang.String,java.lang.String,java.lang.String)
     522:522:public void close()
@@ -1029,12 +1027,8 @@ com.google.analytics.tracking.android.GoogleTracker:
     66:69:public void send(java.lang.String,java.util.Map)
     91:94:public void setAppScreen(java.lang.String)
     98:104:public void trackView()
-    128:137:public void trackTransaction(com.google.analytics.tracking.android.Transaction)
     174:180:public void trackTiming(java.lang.String,long,java.lang.String,java.lang.String)
     184:189:public void trackSocial(java.lang.String,java.lang.String,java.lang.String)
-    207:207:private static java.lang.String microsToCurrencyString(long)
-    212:223:public java.util.Map constructTransaction(com.google.analytics.tracking.android.Transaction)
-    227:237:java.util.Map constructItem(com.google.analytics.tracking.android.Item,com.google.analytics.tracking.android.Transaction)
     272:279:public java.util.Map constructTiming(java.lang.String,long,java.lang.String,java.lang.String)
     284:290:public java.util.Map constructSocial(java.lang.String,java.lang.String,java.lang.String)
     295:297:public void close()
@@ -1057,33 +1051,6 @@ com.google.analytics.tracking.android.GoogleTracker:
     458:468:public void setCustomDimensionsAndMetrics(java.util.Map,java.util.Map)
 com.google.analytics.tracking.android.GoogleTracker$SimpleModel:
     487:491:public synchronized java.lang.String get(java.lang.String)
-com.google.analytics.tracking.android.Item:
-    private final java.lang.String productSKU
-    private final java.lang.String productName
-    private final java.lang.String productCategory
-    private final long itemPriceInMicros
-    private final long itemQuantity
-    18:24:private Item(com.google.analytics.tracking.android.Item$Builder)
-    27:27:public java.lang.String getProductSKU()
-    31:31:public java.lang.String getProductName()
-    35:35:public java.lang.String getProductCategory()
-    39:39:public long getItemPriceInMicros()
-    43:43:public long getItemQuantity()
-    11:11:synthetic Item(com.google.analytics.tracking.android.Item$Builder,com.google.analytics.tracking.android.Item$1)
-com.google.analytics.tracking.android.Item$Builder:
-    private final java.lang.String productSKU
-    private final long itemPriceInMicros
-    private final long itemQuantity
-    private final java.lang.String productName
-    private java.lang.String productCategory
-    67:78:public Item$Builder(java.lang.String,java.lang.String,long,long)
-    88:89:public com.google.analytics.tracking.android.Item$Builder setProductCategory(java.lang.String)
-    98:98:public com.google.analytics.tracking.android.Item build()
-    49:49:static synthetic java.lang.String access$000(com.google.analytics.tracking.android.Item$Builder)
-    49:49:static synthetic long access$100(com.google.analytics.tracking.android.Item$Builder)
-    49:49:static synthetic long access$200(com.google.analytics.tracking.android.Item$Builder)
-    49:49:static synthetic java.lang.String access$300(com.google.analytics.tracking.android.Item$Builder)
-    49:49:static synthetic java.lang.String access$400(com.google.analytics.tracking.android.Item$Builder)
 com.google.analytics.tracking.android.Log:
     static final java.lang.String LOG_TAG
     82:85:static int eDebug(java.lang.String)
@@ -1193,7 +1160,6 @@ com.google.analytics.tracking.android.SimpleNetworkDispatcher:
 com.google.analytics.tracking.android.Tracker:
     public abstract void setAppScreen(java.lang.String)
     public abstract void trackView()
-    public abstract void trackTransaction(com.google.analytics.tracking.android.Transaction)
     public abstract void trackTiming(java.lang.String,long,java.lang.String,java.lang.String)
     public abstract void trackSocial(java.lang.String,java.lang.String,java.lang.String)
     public abstract void close()
@@ -1223,43 +1189,10 @@ com.google.analytics.tracking.android.Tracker:
     public abstract java.util.Map constructSocial(java.lang.String,java.lang.String,java.lang.String)
 com.google.analytics.tracking.android.TrackerHandler:
     public abstract void closeTracker(com.google.analytics.tracking.android.Tracker)
-com.google.analytics.tracking.android.Transaction:
-    private final java.lang.String transactionId
-    private final java.lang.String affiliation
-    private final long totalCostInMicros
-    private final long totalTaxInMicros
-    private final long shippingCostInMicros
-    private final java.lang.String currencyCode
-    private final java.util.Map items
-    26:34:private Transaction(com.google.analytics.tracking.android.Transaction$Builder)
-    37:37:public java.lang.String getTransactionId()
-    41:41:public java.lang.String getAffiliation()
-    45:45:public long getTotalCostInMicros()
-    49:49:public long getTotalTaxInMicros()
-    53:53:public long getShippingCostInMicros()
-    57:57:java.lang.String getCurrencyCode()
-    67:68:public void addItem(com.google.analytics.tracking.android.Item)
-    77:77:public java.util.List getItems()
-    17:17:synthetic Transaction(com.google.analytics.tracking.android.Transaction$Builder,com.google.analytics.tracking.android.Transaction$1)
 com.google.analytics.tracking.android.Transaction$Builder:
-    private final java.lang.String transactionId
-    private java.lang.String affiliation
-    private final long totalCostInMicros
-    private long totalTaxInMicros
-    private long shippingCostInMicros
-    private java.lang.String currencyCode
-    98:104:public Transaction$Builder(java.lang.String,long)
-    113:114:public com.google.analytics.tracking.android.Transaction$Builder setAffiliation(java.lang.String)
     125:126:public com.google.analytics.tracking.android.Transaction$Builder setTotalTaxInMicros(long)
     137:138:public com.google.analytics.tracking.android.Transaction$Builder setShippingCostInMicros(long)
     150:151:com.google.analytics.tracking.android.Transaction$Builder setCurrencyCode(java.lang.String)
-    159:159:public com.google.analytics.tracking.android.Transaction build()
-    83:83:static synthetic java.lang.String access$000(com.google.analytics.tracking.android.Transaction$Builder)
-    83:83:static synthetic long access$100(com.google.analytics.tracking.android.Transaction$Builder)
-    83:83:static synthetic java.lang.String access$200(com.google.analytics.tracking.android.Transaction$Builder)
-    83:83:static synthetic long access$300(com.google.analytics.tracking.android.Transaction$Builder)
-    83:83:static synthetic long access$400(com.google.analytics.tracking.android.Transaction$Builder)
-    83:83:static synthetic java.lang.String access$500(com.google.analytics.tracking.android.Transaction$Builder)
 com.google.analytics.tracking.android.Utils:
     51:57:public static long safeParseLong(java.lang.String)
     182:182:static java.lang.String getSlottedModelField(java.lang.String,int)
@@ -1334,15 +1267,18 @@ com.ianhanniballake.contractiontimer.inappbilling.IabHelper:
     public static final java.lang.String GET_SKU_DETAILS_ITEM_TYPE_LIST
     public static final int IABHELPER_BAD_RESPONSE
     public static final int IABHELPER_ERROR_BASE
+    public static final int IABHELPER_INVALID_CONSUMPTION
     public static final int IABHELPER_MISSING_TOKEN
     public static final int IABHELPER_REMOTE_EXCEPTION
     public static final int IABHELPER_SEND_INTENT_FAILED
+    public static final int IABHELPER_SUBSCRIPTIONS_NOT_AVAILABLE
     public static final int IABHELPER_UNKNOWN_ERROR
     public static final int IABHELPER_UNKNOWN_PURCHASE_RESPONSE
     public static final int IABHELPER_USER_CANCELLED
     public static final int IABHELPER_VERIFICATION_FAILED
     public static final java.lang.String INAPP_CONTINUATION_TOKEN
     public static final java.lang.String ITEM_TYPE_INAPP
+    public static final java.lang.String ITEM_TYPE_SUBS
     public static final java.lang.String RESPONSE_BUY_INTENT
     public static final java.lang.String RESPONSE_CODE
     public static final java.lang.String RESPONSE_GET_SKU_DETAILS_LIST
@@ -1351,30 +1287,33 @@ com.ianhanniballake.contractiontimer.inappbilling.IabHelper:
     public static final java.lang.String RESPONSE_INAPP_PURCHASE_DATA_LIST
     public static final java.lang.String RESPONSE_INAPP_SIGNATURE
     public static final java.lang.String RESPONSE_INAPP_SIGNATURE_LIST
-    429:431:public void enableDebugLogging(boolean,java.lang.String)
-    781:782:public void queryInventoryAsync(boolean,com.ianhanniballake.contractiontimer.inappbilling.IabHelper$QueryInventoryFinishedListener)
-    786:787:public void queryInventoryAsync(com.ianhanniballake.contractiontimer.inappbilling.IabHelper$QueryInventoryFinishedListener)
+    424:426:public void enableDebugLogging(boolean,java.lang.String)
+    683:684:public void launchSubscriptionPurchaseFlow(android.app.Activity,java.lang.String,int,com.ianhanniballake.contractiontimer.inappbilling.IabHelper$OnIabPurchaseFinishedListener)
+    689:690:public void launchSubscriptionPurchaseFlow(android.app.Activity,java.lang.String,int,com.ianhanniballake.contractiontimer.inappbilling.IabHelper$OnIabPurchaseFinishedListener,java.lang.String)
+    819:820:public void queryInventoryAsync(boolean,com.ianhanniballake.contractiontimer.inappbilling.IabHelper$QueryInventoryFinishedListener)
+    824:825:public void queryInventoryAsync(com.ianhanniballake.contractiontimer.inappbilling.IabHelper$QueryInventoryFinishedListener)
+    1004:1004:public boolean subscriptionsSupported()
 com.ianhanniballake.contractiontimer.inappbilling.Inventory:
-    54:56:public void erasePurchase(java.lang.String)
-    75:75:public com.ianhanniballake.contractiontimer.inappbilling.Purchase getPurchase(java.lang.String)
-    87:87:public boolean hasDetails(java.lang.String)
-    93:93:public boolean hasPurchase(java.lang.String)
+    64:66:public void erasePurchase(java.lang.String)
+    71:71:public java.util.List getAllOwnedSkus()
+    85:85:public com.ianhanniballake.contractiontimer.inappbilling.Purchase getPurchase(java.lang.String)
+    97:97:public boolean hasDetails(java.lang.String)
+    103:103:public boolean hasPurchase(java.lang.String)
 com.ianhanniballake.contractiontimer.inappbilling.Purchase:
-    52:52:public java.lang.String getDeveloperPayload()
-    57:57:public java.lang.String getOrderId()
-    62:62:public java.lang.String getOriginalJson()
-    67:67:public java.lang.String getPackageName()
-    72:72:public int getPurchaseState()
-    77:77:public long getPurchaseTime()
-    82:82:public java.lang.String getSignature()
+    54:54:public java.lang.String getDeveloperPayload()
+    69:69:public java.lang.String getOriginalJson()
+    74:74:public java.lang.String getPackageName()
+    79:79:public int getPurchaseState()
+    84:84:public long getPurchaseTime()
+    89:89:public java.lang.String getSignature()
 com.ianhanniballake.contractiontimer.inappbilling.Security:
     private static final java.lang.String KEY_FACTORY_ALGORITHM
     private static final java.lang.String SIGNATURE_ALGORITHM
     private static final java.lang.String TAG
     36:36:public Security()
 com.ianhanniballake.contractiontimer.inappbilling.SkuDetails:
-    61:61:public java.lang.String getTitle()
-    66:66:public java.lang.String getType()
+    36:37:public SkuDetails(java.lang.String)
+    73:73:public java.lang.String getType()
 com.ianhanniballake.contractiontimer.provider.ContractionContract:
     public static final java.lang.String AUTHORITY
     private static final java.lang.String SCHEME
