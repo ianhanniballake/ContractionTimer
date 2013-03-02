@@ -36,6 +36,7 @@ import android.util.Log;
 
 import com.android.vending.billing.IInAppBillingService;
 import com.google.analytics.tracking.android.EasyTracker;
+import com.ianhanniballake.contractiontimer.BuildConfig;
 
 /**
  * Provides convenience methods for in-app billing. You can create one instance of this class for your application and
@@ -266,7 +267,8 @@ public class IabHelper
 			final Exception e = new IllegalStateException("IAB helper is not set up. Can't perform operation: "
 					+ operation);
 			EasyTracker.getTracker().trackException(Thread.currentThread().getName(), e, false);
-			ACRA.getErrorReporter().handleSilentException(e);
+			if (!BuildConfig.DEBUG)
+				ACRA.getErrorReporter().handleSilentException(e);
 		}
 		return mSetupDone;
 	}
