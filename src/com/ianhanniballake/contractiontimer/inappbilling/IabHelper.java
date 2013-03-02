@@ -301,6 +301,8 @@ public class IabHelper
 						+ itemInfo);
 			}
 			logDebug("Consuming sku: " + sku + ", token: " + token);
+			if (mService == null)
+				throw new IabException(IABHELPER_UNKNOWN_ERROR, "Service is null");
 			final int response = mService.consumePurchase(3, mContext.getPackageName(), token);
 			if (response == BILLING_RESPONSE_RESULT_OK)
 				logDebug("Successfully consumed sku: " + sku);
@@ -644,6 +646,13 @@ public class IabHelper
 		try
 		{
 			logDebug("Constructing buy intent for " + sku + ", item type: " + itemType);
+			if (mService == null)
+			{
+				result = new IabResult(IABHELPER_UNKNOWN_ERROR, "Service is null");
+				if (listener != null)
+					listener.onIabPurchaseFinished(result, null);
+				return;
+			}
 			final Bundle buyIntentBundle = mService
 					.getBuyIntent(3, mContext.getPackageName(), sku, itemType, extraData);
 			final int response = getResponseCodeFromBundle(buyIntentBundle);
@@ -836,6 +845,8 @@ public class IabHelper
 		do
 		{
 			logDebug("Calling getPurchases with continuation token: " + continueToken);
+			if (mService == null)
+				return IABHELPER_UNKNOWN_ERROR;
 			final Bundle ownedItems = mService.getPurchases(3, mContext.getPackageName(), itemType, continueToken);
 			final int response = getResponseCodeFromBundle(ownedItems);
 			logDebug("Owned items response: " + String.valueOf(response));
@@ -902,6 +913,8 @@ public class IabHelper
 		}
 		final Bundle querySkus = new Bundle();
 		querySkus.putStringArrayList(GET_SKU_DETAILS_ITEM_LIST, skuList);
+		if (mService == null)
+			throw new IabException(IABHELPER_UNKNOWN_ERROR, "Service is null");
 		final Bundle skuDetails = mService.getSkuDetails(3, mContext.getPackageName(), itemType, querySkus);
 		if (!skuDetails.containsKey(RESPONSE_GET_SKU_DETAILS_LIST))
 		{
