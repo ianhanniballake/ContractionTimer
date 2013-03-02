@@ -221,21 +221,13 @@ public class DonateActivity extends ActionBarFragmentActivity implements QueryIn
 		final List<Purchase> purchases = inv.getAllPurchases();
 		if (!purchases.isEmpty())
 			iabHelper.consumeAsync(purchases, null);
-		final int offset = BuildConfig.DEBUG ? 4 : 0;
-		final String[] inAppName = new String[offset + skus.length];
-		if (BuildConfig.DEBUG)
-		{
-			inAppName[0] = "android.test.purchased";
-			inAppName[1] = "android.test.canceled";
-			inAppName[2] = "android.test.refunded";
-			inAppName[3] = "android.test.item_unavailable";
-		}
+		final String[] inAppName = new String[skus.length];
 		for (int h = 0; h < skus.length; h++)
 		{
 			final String currentSku = skus[h];
 			final SkuDetails sku = inv.getSkuDetails(currentSku);
 			skuNames.put(currentSku, sku.getTitle());
-			inAppName[h + offset] = sku.getDescription() + " (" + sku.getPrice() + ")";
+			inAppName[h] = sku.getDescription() + " (" + sku.getPrice() + ")";
 		}
 		final Spinner inAppSpinner = (Spinner) findViewById(R.id.donate_in_app_spinner);
 		final ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item,
