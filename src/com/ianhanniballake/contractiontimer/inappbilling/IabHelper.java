@@ -273,6 +273,19 @@ public class IabHelper
 		return mSetupDone;
 	}
 
+	private boolean checkValidService()
+	{
+		if (mService == null)
+		{
+			logError("IAB helper service is null");
+			final Exception e = new IllegalStateException("IAB helper service is null");
+			EasyTracker.getTracker().trackException(Thread.currentThread().getName(), e, false);
+			if (!BuildConfig.DEBUG)
+				ACRA.getErrorReporter().handleSilentException(e);
+		}
+		return mService != null;
+	}
+
 	/**
 	 * Consumes a given in-app product. Consuming can only be done on an item that's owned, and as a result of
 	 * consumption, the user will no longer own it. This method may block or take long to return. Do not call from the
@@ -301,7 +314,7 @@ public class IabHelper
 						+ itemInfo);
 			}
 			logDebug("Consuming sku: " + sku + ", token: " + token);
-			if (mService == null)
+			if (!checkValidService())
 				throw new IabException(IABHELPER_UNKNOWN_ERROR, "Service is null");
 			final int response = mService.consumePurchase(3, mContext.getPackageName(), token);
 			if (response == BILLING_RESPONSE_RESULT_OK)
@@ -646,7 +659,7 @@ public class IabHelper
 		try
 		{
 			logDebug("Constructing buy intent for " + sku + ", item type: " + itemType);
-			if (mService == null)
+			if (!checkValidService())
 			{
 				result = new IabResult(IABHELPER_UNKNOWN_ERROR, "Service is null");
 				if (listener != null)
@@ -845,7 +858,7 @@ public class IabHelper
 		do
 		{
 			logDebug("Calling getPurchases with continuation token: " + continueToken);
-			if (mService == null)
+			if (!checkValidService())
 				return IABHELPER_UNKNOWN_ERROR;
 			final Bundle ownedItems = mService.getPurchases(3, mContext.getPackageName(), itemType, continueToken);
 			final int response = getResponseCodeFromBundle(ownedItems);
@@ -913,7 +926,7 @@ public class IabHelper
 		}
 		final Bundle querySkus = new Bundle();
 		querySkus.putStringArrayList(GET_SKU_DETAILS_ITEM_LIST, skuList);
-		if (mService == null)
+		if (!checkValidService())
 			throw new IabException(IABHELPER_UNKNOWN_ERROR, "Service is null");
 		final Bundle skuDetails = mService.getSkuDetails(3, mContext.getPackageName(), itemType, querySkus);
 		if (!skuDetails.containsKey(RESPONSE_GET_SKU_DETAILS_LIST))
