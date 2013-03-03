@@ -2397,68 +2397,69 @@ com.ianhanniballake.contractiontimer.inappbilling.IabHelper -> com.ianhanniballa
     boolean mSetupDone -> k
     java.lang.String mSignatureBase64 -> l
     boolean mSubscriptionsSupported -> m
-    196:213:java.lang.String getResponseDesc(int) -> a
-    263:271:boolean checkSetupDone(java.lang.String) -> a
-    286:315:void consume(com.ianhanniballake.contractiontimer.inappbilling.Purchase) -> a
-    327:330:void consumeAsync(java.util.List,com.ianhanniballake.contractiontimer.inappbilling.IabHelper$OnConsumeMultiFinishedListener) -> a
-    343:348:void consumeAsync(com.ianhanniballake.contractiontimer.inappbilling.Purchase,com.ianhanniballake.contractiontimer.inappbilling.IabHelper$OnConsumeFinishedListener) -> a
-    353:392:void consumeAsyncInternal(java.util.List,com.ianhanniballake.contractiontimer.inappbilling.IabHelper$OnConsumeFinishedListener,com.ianhanniballake.contractiontimer.inappbilling.IabHelper$OnConsumeMultiFinishedListener) -> a
-    401:412:void dispose() -> a
-    416:417:void enableDebugLogging(boolean) -> a
-    430:433:void flagEndAsync() -> b
-    437:443:void flagStartAsync(java.lang.String) -> b
-    448:462:int getResponseCodeFromBundle(android.os.Bundle) -> a
-    469:483:int getResponseCodeFromIntent(android.content.Intent) -> a
-    504:590:boolean handleActivityResult(int,int,android.content.Intent) -> a
-    596:597:void launchPurchaseFlow(android.app.Activity,java.lang.String,int,com.ianhanniballake.contractiontimer.inappbilling.IabHelper$OnIabPurchaseFinishedListener) -> a
-    602:603:void launchPurchaseFlow(android.app.Activity,java.lang.String,int,com.ianhanniballake.contractiontimer.inappbilling.IabHelper$OnIabPurchaseFinishedListener,java.lang.String) -> a
-    631:678:void launchPurchaseFlow(android.app.Activity,java.lang.String,java.lang.String,int,com.ianhanniballake.contractiontimer.inappbilling.IabHelper$OnIabPurchaseFinishedListener,java.lang.String) -> a
-    694:696:void logDebug(java.lang.String) -> c
-    700:701:void logError(java.lang.String) -> d
-    705:706:void logWarn(java.lang.String) -> e
-    710:710:com.ianhanniballake.contractiontimer.inappbilling.Inventory queryInventory(boolean,java.util.List) -> a
-    732:765:com.ianhanniballake.contractiontimer.inappbilling.Inventory queryInventory(boolean,java.util.List,java.util.List) -> a
-    784:815:void queryInventoryAsync(boolean,java.util.List,com.ianhanniballake.contractiontimer.inappbilling.IabHelper$QueryInventoryFinishedListener) -> a
-    830:883:int queryPurchases(com.ianhanniballake.contractiontimer.inappbilling.Inventory,java.lang.String) -> a
-    889:922:int querySkuDetails(java.lang.String,com.ianhanniballake.contractiontimer.inappbilling.Inventory,java.util.List) -> a
-    935:999:void startSetup(com.ianhanniballake.contractiontimer.inappbilling.IabHelper$OnIabSetupFinishedListener) -> a
+    197:214:java.lang.String getResponseDesc(int) -> a
+    264:273:boolean checkSetupDone(java.lang.String) -> a
+    278:286:boolean checkValidService() -> c
+    301:332:void consume(com.ianhanniballake.contractiontimer.inappbilling.Purchase) -> a
+    344:347:void consumeAsync(java.util.List,com.ianhanniballake.contractiontimer.inappbilling.IabHelper$OnConsumeMultiFinishedListener) -> a
+    360:365:void consumeAsync(com.ianhanniballake.contractiontimer.inappbilling.Purchase,com.ianhanniballake.contractiontimer.inappbilling.IabHelper$OnConsumeFinishedListener) -> a
+    370:409:void consumeAsyncInternal(java.util.List,com.ianhanniballake.contractiontimer.inappbilling.IabHelper$OnConsumeFinishedListener,com.ianhanniballake.contractiontimer.inappbilling.IabHelper$OnConsumeMultiFinishedListener) -> a
+    418:439:void dispose() -> a
+    443:444:void enableDebugLogging(boolean) -> a
+    457:460:void flagEndAsync() -> b
+    464:470:void flagStartAsync(java.lang.String) -> b
+    475:489:int getResponseCodeFromBundle(android.os.Bundle) -> a
+    496:510:int getResponseCodeFromIntent(android.content.Intent) -> a
+    531:617:boolean handleActivityResult(int,int,android.content.Intent) -> a
+    623:624:void launchPurchaseFlow(android.app.Activity,java.lang.String,int,com.ianhanniballake.contractiontimer.inappbilling.IabHelper$OnIabPurchaseFinishedListener) -> a
+    629:630:void launchPurchaseFlow(android.app.Activity,java.lang.String,int,com.ianhanniballake.contractiontimer.inappbilling.IabHelper$OnIabPurchaseFinishedListener,java.lang.String) -> a
+    658:712:void launchPurchaseFlow(android.app.Activity,java.lang.String,java.lang.String,int,com.ianhanniballake.contractiontimer.inappbilling.IabHelper$OnIabPurchaseFinishedListener,java.lang.String) -> a
+    728:730:void logDebug(java.lang.String) -> c
+    734:735:void logError(java.lang.String) -> d
+    739:740:void logWarn(java.lang.String) -> e
+    744:744:com.ianhanniballake.contractiontimer.inappbilling.Inventory queryInventory(boolean,java.util.List) -> a
+    766:799:com.ianhanniballake.contractiontimer.inappbilling.Inventory queryInventory(boolean,java.util.List,java.util.List) -> a
+    818:849:void queryInventoryAsync(boolean,java.util.List,com.ianhanniballake.contractiontimer.inappbilling.IabHelper$QueryInventoryFinishedListener) -> a
+    864:919:int queryPurchases(com.ianhanniballake.contractiontimer.inappbilling.Inventory,java.lang.String) -> a
+    925:960:int querySkuDetails(java.lang.String,com.ianhanniballake.contractiontimer.inappbilling.Inventory,java.util.List) -> a
+    973:1037:void startSetup(com.ianhanniballake.contractiontimer.inappbilling.IabHelper$OnIabSetupFinishedListener) -> a
 com.ianhanniballake.contractiontimer.inappbilling.IabHelper$1 -> com.ianhanniballake.contractiontimer.b.e:
     com.ianhanniballake.contractiontimer.inappbilling.IabHelper this$0 -> a
     java.util.List val$purchases -> b
     com.ianhanniballake.contractiontimer.inappbilling.IabHelper$OnConsumeFinishedListener val$singleListener -> c
     android.os.Handler val$handler -> d
     com.ianhanniballake.contractiontimer.inappbilling.IabHelper$OnConsumeMultiFinishedListener val$multiListener -> e
-    360:390:void run() -> run
+    377:407:void run() -> run
 com.ianhanniballake.contractiontimer.inappbilling.IabHelper$1$1 -> com.ianhanniballake.contractiontimer.b.f:
     com.ianhanniballake.contractiontimer.inappbilling.IabHelper$1 this$1 -> a
     com.ianhanniballake.contractiontimer.inappbilling.IabHelper$OnConsumeFinishedListener val$singleListener -> b
     java.util.List val$purchases -> c
     java.util.List val$results -> d
-    378:379:void run() -> run
+    395:396:void run() -> run
 com.ianhanniballake.contractiontimer.inappbilling.IabHelper$1$2 -> com.ianhanniballake.contractiontimer.b.g:
     com.ianhanniballake.contractiontimer.inappbilling.IabHelper$1 this$1 -> a
     com.ianhanniballake.contractiontimer.inappbilling.IabHelper$OnConsumeMultiFinishedListener val$multiListener -> b
     java.util.List val$purchases -> c
     java.util.List val$results -> d
-    387:388:void run() -> run
+    404:405:void run() -> run
 com.ianhanniballake.contractiontimer.inappbilling.IabHelper$2 -> com.ianhanniballake.contractiontimer.b.h:
     com.ianhanniballake.contractiontimer.inappbilling.IabHelper this$0 -> a
     boolean val$querySkuDetails -> b
     java.util.List val$moreSkus -> c
     android.os.Handler val$handler -> d
     com.ianhanniballake.contractiontimer.inappbilling.IabHelper$QueryInventoryFinishedListener val$listener -> e
-    793:813:void run() -> run
+    827:847:void run() -> run
 com.ianhanniballake.contractiontimer.inappbilling.IabHelper$2$1 -> com.ianhanniballake.contractiontimer.b.i:
     com.ianhanniballake.contractiontimer.inappbilling.IabHelper$2 this$1 -> a
     com.ianhanniballake.contractiontimer.inappbilling.IabHelper$QueryInventoryFinishedListener val$listener -> b
     com.ianhanniballake.contractiontimer.inappbilling.IabResult val$result_f -> c
     com.ianhanniballake.contractiontimer.inappbilling.Inventory val$inv_f -> d
-    810:811:void run() -> run
+    844:845:void run() -> run
 com.ianhanniballake.contractiontimer.inappbilling.IabHelper$3 -> com.ianhanniballake.contractiontimer.b.j:
     com.ianhanniballake.contractiontimer.inappbilling.IabHelper this$0 -> a
     com.ianhanniballake.contractiontimer.inappbilling.IabHelper$OnIabSetupFinishedListener val$listener -> b
-    944:982:void onServiceConnected(android.content.ComponentName,android.os.IBinder) -> onServiceConnected
-    987:989:void onServiceDisconnected(android.content.ComponentName) -> onServiceDisconnected
+    982:1020:void onServiceConnected(android.content.ComponentName,android.os.IBinder) -> onServiceConnected
+    1025:1027:void onServiceDisconnected(android.content.ComponentName) -> onServiceDisconnected
 com.ianhanniballake.contractiontimer.inappbilling.IabHelper$OnConsumeFinishedListener -> com.ianhanniballake.contractiontimer.b.k:
     void onConsumeFinished(com.ianhanniballake.contractiontimer.inappbilling.Purchase,com.ianhanniballake.contractiontimer.inappbilling.IabResult) -> a
 com.ianhanniballake.contractiontimer.inappbilling.IabHelper$OnConsumeMultiFinishedListener -> com.ianhanniballake.contractiontimer.b.l:
@@ -2655,26 +2656,27 @@ com.ianhanniballake.contractiontimer.ui.DonateActivity -> com.ianhanniballake.co
     java.util.HashMap skuNames -> p
     java.util.HashMap skuPrices -> q
     java.lang.String[] skus -> r
-    71:73:void onActivityResult(int,int,android.content.Intent) -> onActivityResult
-    80:94:void onConsumeFinished(com.ianhanniballake.contractiontimer.inappbilling.Purchase,com.ianhanniballake.contractiontimer.inappbilling.IabResult) -> a
-    99:175:void onCreate(android.os.Bundle) -> onCreate
-    180:184:void onDestroy() -> onDestroy
-    194:200:void onIabPurchaseFinished(com.ianhanniballake.contractiontimer.inappbilling.IabResult,com.ianhanniballake.contractiontimer.inappbilling.Purchase) -> a
-    207:210:void onIabSetupFinished(com.ianhanniballake.contractiontimer.inappbilling.IabResult) -> a
-    218:250:void onQueryInventoryFinished(com.ianhanniballake.contractiontimer.inappbilling.IabResult,com.ianhanniballake.contractiontimer.inappbilling.Inventory) -> a
-    255:257:void onRestoreInstanceState(android.os.Bundle) -> onRestoreInstanceState
-    262:272:void onResume() -> onResume
-    277:279:void onSaveInstanceState(android.os.Bundle) -> onSaveInstanceState
-    284:288:void onStart() -> onStart
-    293:295:void onStop() -> onStop
+    75:84:boolean checkIabHelper() -> h
+    92:94:void onActivityResult(int,int,android.content.Intent) -> onActivityResult
+    101:115:void onConsumeFinished(com.ianhanniballake.contractiontimer.inappbilling.Purchase,com.ianhanniballake.contractiontimer.inappbilling.IabResult) -> a
+    120:197:void onCreate(android.os.Bundle) -> onCreate
+    202:206:void onDestroy() -> onDestroy
+    216:222:void onIabPurchaseFinished(com.ianhanniballake.contractiontimer.inappbilling.IabResult,com.ianhanniballake.contractiontimer.inappbilling.Purchase) -> a
+    229:232:void onIabSetupFinished(com.ianhanniballake.contractiontimer.inappbilling.IabResult) -> a
+    240:264:void onQueryInventoryFinished(com.ianhanniballake.contractiontimer.inappbilling.IabResult,com.ianhanniballake.contractiontimer.inappbilling.Inventory) -> a
+    269:271:void onRestoreInstanceState(android.os.Bundle) -> onRestoreInstanceState
+    276:286:void onResume() -> onResume
+    291:293:void onSaveInstanceState(android.os.Bundle) -> onSaveInstanceState
+    298:302:void onStart() -> onStart
+    307:309:void onStop() -> onStop
 com.ianhanniballake.contractiontimer.ui.DonateActivity$1 -> com.ianhanniballake.contractiontimer.ui.t:
     com.ianhanniballake.contractiontimer.ui.DonateActivity this$0 -> a
-    133:149:void onClick(android.view.View) -> onClick
+    154:170:void onClick(android.view.View) -> onClick
 com.ianhanniballake.contractiontimer.ui.DonateActivity$2 -> com.ianhanniballake.contractiontimer.ui.u:
     int RC_REQUEST -> b
     com.ianhanniballake.contractiontimer.ui.DonateActivity this$0 -> a
     android.widget.Spinner val$inAppSpinner -> c
-    160:166:void onClick(android.view.View) -> onClick
+    181:188:void onClick(android.view.View) -> onClick
 com.ianhanniballake.contractiontimer.ui.EditActivity -> com.ianhanniballake.contractiontimer.ui.EditActivity:
     android.content.BroadcastReceiver dialogFragmentClosedBroadcastReceiver -> n
     48:58:void onCreate(android.os.Bundle) -> onCreate

@@ -1287,12 +1287,12 @@ com.ianhanniballake.contractiontimer.inappbilling.IabHelper:
     public static final java.lang.String RESPONSE_INAPP_PURCHASE_DATA_LIST
     public static final java.lang.String RESPONSE_INAPP_SIGNATURE
     public static final java.lang.String RESPONSE_INAPP_SIGNATURE_LIST
-    424:426:public void enableDebugLogging(boolean,java.lang.String)
-    683:684:public void launchSubscriptionPurchaseFlow(android.app.Activity,java.lang.String,int,com.ianhanniballake.contractiontimer.inappbilling.IabHelper$OnIabPurchaseFinishedListener)
-    689:690:public void launchSubscriptionPurchaseFlow(android.app.Activity,java.lang.String,int,com.ianhanniballake.contractiontimer.inappbilling.IabHelper$OnIabPurchaseFinishedListener,java.lang.String)
-    819:820:public void queryInventoryAsync(boolean,com.ianhanniballake.contractiontimer.inappbilling.IabHelper$QueryInventoryFinishedListener)
-    824:825:public void queryInventoryAsync(com.ianhanniballake.contractiontimer.inappbilling.IabHelper$QueryInventoryFinishedListener)
-    1004:1004:public boolean subscriptionsSupported()
+    451:453:public void enableDebugLogging(boolean,java.lang.String)
+    717:718:public void launchSubscriptionPurchaseFlow(android.app.Activity,java.lang.String,int,com.ianhanniballake.contractiontimer.inappbilling.IabHelper$OnIabPurchaseFinishedListener)
+    723:724:public void launchSubscriptionPurchaseFlow(android.app.Activity,java.lang.String,int,com.ianhanniballake.contractiontimer.inappbilling.IabHelper$OnIabPurchaseFinishedListener,java.lang.String)
+    853:854:public void queryInventoryAsync(boolean,com.ianhanniballake.contractiontimer.inappbilling.IabHelper$QueryInventoryFinishedListener)
+    858:859:public void queryInventoryAsync(com.ianhanniballake.contractiontimer.inappbilling.IabHelper$QueryInventoryFinishedListener)
+    1042:1042:public boolean subscriptionsSupported()
 com.ianhanniballake.contractiontimer.inappbilling.Inventory:
     64:66:public void erasePurchase(java.lang.String)
     71:71:public java.util.List getAllOwnedSkus()
