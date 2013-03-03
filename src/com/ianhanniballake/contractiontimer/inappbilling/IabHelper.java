@@ -421,7 +421,17 @@ public class IabHelper
 		{
 			logDebug("Unbinding from service.");
 			if (mContext != null)
-				mContext.unbindService(mServiceConn);
+				try
+				{
+					mContext.unbindService(mServiceConn);
+				} catch (final IllegalArgumentException e)
+				{
+					// Assume the service has already been unbinded, so only log that it happened
+					logError("on unbindService: " + e.getMessage());
+					EasyTracker.getTracker().trackException(Thread.currentThread().getName(), e, false);
+					if (!BuildConfig.DEBUG)
+						ACRA.getErrorReporter().handleSilentException(e);
+				}
 			mServiceConn = null;
 			mService = null;
 			mPurchaseListener = null;
