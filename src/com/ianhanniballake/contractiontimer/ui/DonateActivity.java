@@ -5,6 +5,8 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
+import org.acra.ACRA;
+
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
@@ -63,12 +65,31 @@ public class DonateActivity extends ActionBarFragmentActivity implements QueryIn
 	 */
 	String[] skus = new String[0];
 
+	/**
+	 * Checks to ensure that the IAB Helper is not null
+	 * 
+	 * @return If the IAB Helper is valid
+	 */
+	boolean checkIabHelper()
+	{
+		if (iabHelper == null)
+		{
+			if (BuildConfig.DEBUG)
+				Log.e(getClass().getSimpleName(), "IAB helper is null");
+			final Exception e = new IllegalStateException("IAB helper is null");
+			EasyTracker.getTracker().trackException(Thread.currentThread().getName(), e, false);
+			if (!BuildConfig.DEBUG)
+				ACRA.getErrorReporter().handleSilentException(e);
+		}
+		return iabHelper != null;
+	}
+
 	@Override
 	protected void onActivityResult(final int requestCode, final int resultCode, final Intent data)
 	{
 		if (BuildConfig.DEBUG)
 			Log.d(getClass().getSimpleName(), "onActivityResult(" + requestCode + "," + resultCode + "," + data + ")");
-		if (!iabHelper.handleActivityResult(requestCode, resultCode, data))
+		if (checkIabHelper() && !iabHelper.handleActivityResult(requestCode, resultCode, data))
 			super.onActivityResult(requestCode, resultCode, data);
 	}
 
@@ -162,7 +183,8 @@ public class DonateActivity extends ActionBarFragmentActivity implements QueryIn
 				if (BuildConfig.DEBUG)
 					Log.d(DonateActivity.this.getClass().getSimpleName(), "Clicked " + purchasedSku);
 				EasyTracker.getTracker().trackEvent("Donate", "Click", purchasedSku, 0L);
-				iabHelper.launchPurchaseFlow(DonateActivity.this, purchasedSku, RC_REQUEST, DonateActivity.this);
+				if (checkIabHelper())
+					iabHelper.launchPurchaseFlow(DonateActivity.this, purchasedSku, RC_REQUEST, DonateActivity.this);
 			}
 		});
 		// Start the In-App Billing process, only if on Froyo or higher
@@ -191,7 +213,7 @@ public class DonateActivity extends ActionBarFragmentActivity implements QueryIn
 	{
 		if (BuildConfig.DEBUG)
 			Log.d(getClass().getSimpleName(), "Purchase Completed: " + result.getMessage());
-		if (result.isSuccess())
+		if (result.isSuccess() && checkIabHelper())
 			iabHelper.consumeAsync(info, this);
 		else if (result.getResponse() == IabHelper.BILLING_RESPONSE_RESULT_USER_CANCELED)
 			EasyTracker.getTracker().trackEvent("Donate", "Canceled", purchasedSku, 0L);
@@ -204,7 +226,7 @@ public class DonateActivity extends ActionBarFragmentActivity implements QueryIn
 	{
 		if (BuildConfig.DEBUG)
 			Log.d(getClass().getSimpleName(), "Billing supported: " + result.getMessage());
-		if (result.isSuccess() && iabHelper != null)
+		if (result.isSuccess() && checkIabHelper())
 			iabHelper.queryInventoryAsync(true, Arrays.asList(skus), this);
 		// In-App Billing UI is hidden by default, so nothing to do if it wasn't successful
 	}
@@ -215,7 +237,7 @@ public class DonateActivity extends ActionBarFragmentActivity implements QueryIn
 		if (BuildConfig.DEBUG)
 			Log.d(getClass().getSimpleName(), "Inventory Returned: " + result.getMessage() + ": " + inv);
 		// If we failed to get the inventory, then leave the in-app billing UI hidden
-		if (result.isFailure())
+		if (result.isFailure() || !checkIabHelper())
 			return;
 		// Make sure we've consumed any previous purchases
 		final List<Purchase> purchases = inv.getAllPurchases();
