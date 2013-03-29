@@ -109,8 +109,9 @@
             android:permission="android.permission.BIND_REMOTEVIEWS" />
 
         <receiver
-            android:name=".appwidget.ToggleAppWidgetProvider"
-            android:label="@string/toggle_appwidget_label"
+            android:name=".appwidget.DetailAppWidgetProvider"
+            android:enabled="@bool/detail_appwidget_enabled"
+            android:label="@string/detail_appwidget_label"
             tools:ignore="ExportedReceiver" >
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
@@ -118,7 +119,7 @@
 
             <meta-data
                 android:name="android.appwidget.provider"
-                android:resource="@xml/toggle_appwidget_info" />
+                android:resource="@xml/detail_appwidget_info" />
         </receiver>
         <receiver
             android:name=".appwidget.ControlAppWidgetProvider"
@@ -133,9 +134,8 @@
                 android:resource="@xml/control_appwidget_info" />
         </receiver>
         <receiver
-            android:name=".appwidget.DetailAppWidgetProvider"
-            android:enabled="@bool/detail_appwidget_enabled"
-            android:label="@string/detail_appwidget_label"
+            android:name=".appwidget.ToggleAppWidgetProvider"
+            android:label="@string/toggle_appwidget_label"
             tools:ignore="ExportedReceiver" >
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
@@ -143,7 +143,7 @@
 
             <meta-data
                 android:name="android.appwidget.provider"
-                android:resource="@xml/detail_appwidget_info" />
+                android:resource="@xml/toggle_appwidget_info" />
         </receiver>
         <receiver
             android:name="com.google.analytics.tracking.android.AnalyticsReceiver"

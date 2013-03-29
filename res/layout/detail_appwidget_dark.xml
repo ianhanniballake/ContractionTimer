@@ -38,14 +38,6 @@
                 android:textColor="@android:color/primary_text_dark" />
 
             <TextView
-                android:id="@+id/average_duration"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_toRightOf="@id/average_duration_label"
-                android:textColor="@android:color/primary_text_dark"
-                android:textIsSelectable="false" />
-
-            <TextView
                 android:id="@+id/average_frequency_label"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -53,6 +45,14 @@
                 android:paddingRight="10dp"
                 android:text="@string/average_frequency_label"
                 android:textColor="@android:color/primary_text_dark" />
+
+            <TextView
+                android:id="@+id/average_duration"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@id/average_frequency_label"
+                android:textColor="@android:color/primary_text_dark"
+                android:textIsSelectable="false" />
 
             <TextView
                 android:id="@+id/average_frequency"
