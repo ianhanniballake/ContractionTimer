@@ -19,7 +19,6 @@ import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.widget.CursorAdapter;
-import android.text.Html;
 import android.text.format.DateFormat;
 import android.text.format.DateUtils;
 import android.util.Log;
@@ -296,9 +295,9 @@ public class MainActivity extends ActionBarFragmentActivity implements LoaderMan
 		if (data.getCount() == 0)
 			return;
 		final StringBuffer formattedData = new StringBuffer(getAverageData());
-		formattedData.append("<br /><br />");
+		formattedData.append("\n\n");
 		formattedData.append(getText(R.string.share_details_header));
-		formattedData.append(":<br /><br />");
+		formattedData.append(":\n\n");
 		data.moveToPosition(-1);
 		while (data.moveToNext())
 		{
@@ -347,10 +346,10 @@ public class MainActivity extends ActionBarFragmentActivity implements LoaderMan
 				formattedData.append(": ");
 				formattedData.append(note);
 			}
-			formattedData.append("<br />");
+			formattedData.append("\n");
 		}
 		ShareCompat.IntentBuilder.from(this).setSubject(getText(R.string.share_subject).toString())
-				.setType("text/html").setText(Html.fromHtml(formattedData.toString()))
+				.setType("text/plain").setText(formattedData.toString())
 				.setChooserTitle(R.string.share_pick_application).startChooser();
 	}
 
