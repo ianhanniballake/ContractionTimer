@@ -1,5 +1,7 @@
 package com.ianhanniballake.contractiontimer.ui;
 
+import java.util.Calendar;
+
 import android.content.AsyncQueryHandler;
 import android.content.ContentUris;
 import android.content.Context;
@@ -66,18 +68,25 @@ public abstract class ContractionListFragment extends ListFragment implements Lo
 			String timeFormat = "hh:mm:ssaa";
 			if (DateFormat.is24HourFormat(context))
 				timeFormat = "kk:mm:ss";
+			final char[] dateFormatOrder = DateFormat.getDateFormatOrder(mContext);
+			final char[] dateFormatArray = { dateFormatOrder[0], dateFormatOrder[0], '/', dateFormatOrder[1],
+					dateFormatOrder[1] };
+			final String dateFormat = new String(dateFormatArray);
 			final int startTimeColumnIndex = cursor
 					.getColumnIndex(ContractionContract.Contractions.COLUMN_NAME_START_TIME);
 			final long startTime = cursor.getLong(startTimeColumnIndex);
+			final Calendar startCal = Calendar.getInstance();
+			startCal.setTimeInMillis(startTime);
+			boolean showDateOnStartTime = false;
 			final TextView startTimeView = (TextView) view.findViewById(R.id.start_time);
-			startTimeView.setText(DateFormat.format(timeFormat, startTime));
 			final int endTimeColumnIndex = cursor.getColumnIndex(ContractionContract.Contractions.COLUMN_NAME_END_TIME);
 			final boolean isContractionOngoing = cursor.isNull(endTimeColumnIndex);
 			final TextView endTimeView = (TextView) view.findViewById(R.id.end_time);
 			final TextView durationView = (TextView) view.findViewById(R.id.duration);
+			final Calendar endCal = Calendar.getInstance();
+			boolean showDateOnEndTime = false;
 			if (isContractionOngoing)
 			{
-				endTimeView.setText(" ");
 				durationView.setText("");
 				currentContractionStartTime = startTime;
 				durationView.setTag("durationView");
@@ -87,11 +96,14 @@ public abstract class ContractionListFragment extends ListFragment implements Lo
 			else
 			{
 				final long endTime = cursor.getLong(endTimeColumnIndex);
-				endTimeView.setText(DateFormat.format(timeFormat, endTime));
+				endCal.setTimeInMillis(endTime);
 				durationView.setTag("");
 				final long durationInSeconds = (endTime - startTime) / 1000;
 				durationView.setText(DateUtils.formatElapsedTime(durationInSeconds));
 			}
+			if (startCal.get(Calendar.YEAR) != endCal.get(Calendar.YEAR)
+					|| startCal.get(Calendar.DAY_OF_YEAR) != endCal.get(Calendar.DAY_OF_YEAR))
+				showDateOnEndTime = true;
 			final TextView frequencyView = (TextView) view.findViewById(R.id.frequency);
 			// If we aren't the last entry, move to the next (previous in time)
 			// contraction to get its start time to compute the frequency
@@ -102,11 +114,31 @@ public abstract class ContractionListFragment extends ListFragment implements Lo
 				final long prevContractionStartTime = cursor.getLong(prevContractionStartTimeColumnIndex);
 				final long frequencyInSeconds = (startTime - prevContractionStartTime) / 1000;
 				frequencyView.setText(DateUtils.formatElapsedTime(frequencyInSeconds));
+				// Check to see if the date changed between Contractions
+				final int prevContractionEndTimeColumnIndex = cursor
+						.getColumnIndex(ContractionContract.Contractions.COLUMN_NAME_END_TIME);
+				final long prevContractionEndTime = cursor.getLong(prevContractionEndTimeColumnIndex);
+				final Calendar prevEndCal = Calendar.getInstance();
+				prevEndCal.setTimeInMillis(prevContractionEndTime);
+				if (startCal.get(Calendar.YEAR) != prevEndCal.get(Calendar.YEAR)
+						|| startCal.get(Calendar.DAY_OF_YEAR) != prevEndCal.get(Calendar.DAY_OF_YEAR))
+					showDateOnStartTime = true;
 				// Go back to the previous spot
 				cursor.moveToPrevious();
 			}
 			else
+			{
 				frequencyView.setText("");
+				// Always show the date on the very first start time
+				showDateOnStartTime = true;
+			}
+			startTimeView.setText(DateFormat.format(timeFormat, startCal)
+					+ (showDateOnStartTime ? " " + DateFormat.format(dateFormat, startCal) : ""));
+			if (isContractionOngoing)
+				endTimeView.setText(" ");
+			else
+				endTimeView.setText(DateFormat.format(timeFormat, endCal)
+						+ (showDateOnEndTime ? " " + DateFormat.format(dateFormat, endCal) : ""));
 			final int noteColumnIndex = cursor.getColumnIndex(ContractionContract.Contractions.COLUMN_NAME_NOTE);
 			final String note = cursor.getString(noteColumnIndex);
 			final TextView noteView = (TextView) view.findViewById(R.id.note);
