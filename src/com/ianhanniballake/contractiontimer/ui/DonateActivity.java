@@ -70,14 +70,18 @@ public class DonateActivity extends ActionBarFragmentActivity
 					final String token = purchase.getToken();
 					if (TextUtils.isEmpty(token))
 					{
-						Log.e(DonateActivity.class.getSimpleName(), "Invalid consume token: " + token);
-						EasyTracker.getTracker().trackEvent("Donate", "Invalid consume", purchase.getSku(), -1L);
+						Log.e(DonateActivity.class.getSimpleName(), "Invalid consume token " + token);
+						EasyTracker.getTracker().trackEvent("Donate", "Invalid consume token", purchase.getSku(), -1L);
+						break;
 					}
 					final int response = mService.consumePurchase(3, getPackageName(), token);
 					if (response == 0)
 						consumedPurchases.add(purchase);
 					else
+					{
+						Log.e(DonateActivity.class.getSimpleName(), "Bad consume response " + response);
 						EasyTracker.getTracker().trackEvent("Donate", "Bad consume response", purchase.getSku(), -1L);
+					}
 				} catch (final RemoteException e)
 				{
 					Log.e(DonateActivity.class.getSimpleName(), "Error consuming " + purchase.getSku(), e);
@@ -93,6 +97,9 @@ public class DonateActivity extends ActionBarFragmentActivity
 				return;
 			for (final Purchase purchase : result)
 			{
+				final String purchasedSku = purchase.getSku();
+				if (BuildConfig.DEBUG)
+					Log.d(DonateActivity.class.getSimpleName(), "Consume completed successfully " + purchasedSku);
 				EasyTracker.getTracker().trackEvent("Donate", "Purchased", purchasedSku, 0L);
 				final long purchasedPriceMicro = skuPrices.containsKey(purchasedSku) ? skuPrices.get(purchasedSku)
 						.longValue() : 0;
@@ -134,15 +141,15 @@ public class DonateActivity extends ActionBarFragmentActivity
 			} catch (final RemoteException e)
 			{
 				Log.e(DonateActivity.class.getSimpleName(), "Error loading inventory", e);
-				EasyTracker.getTracker().trackEvent("Donate", "Remote Exception inventory", purchasedSku, -1L);
+				EasyTracker.getTracker().trackEvent("Donate", "Remote Exception inventory", "", -1L);
 			} catch (final JSONException e)
 			{
 				Log.e(DonateActivity.class.getSimpleName(), "Error parsing inventory", e);
-				EasyTracker.getTracker().trackEvent("Donate", "Bad inventory response", purchasedSku, -1L);
+				EasyTracker.getTracker().trackEvent("Donate", "Bad inventory response", "", -1L);
 			} catch (final IabException e)
 			{
 				Log.e(DonateActivity.class.getSimpleName(), "Error parsing inventory", e);
-				EasyTracker.getTracker().trackEvent("Donate", "Error loading inventory", purchasedSku, -1L);
+				EasyTracker.getTracker().trackEvent("Donate", "Error loading inventory", "", -1L);
 			}
 			return null;
 		}
@@ -190,6 +197,7 @@ public class DonateActivity extends ActionBarFragmentActivity
 				final int response = getResponseCodeFromBundle(ownedItems);
 				if (response != 0)
 				{
+					Log.e(getClass().getSimpleName(), "Bad purchases response " + response);
 					EasyTracker.getTracker().trackEvent("Donate", "Bad purchases response", "", -1L);
 					return response;
 				}
@@ -197,6 +205,7 @@ public class DonateActivity extends ActionBarFragmentActivity
 						|| !ownedItems.containsKey(RESPONSE_INAPP_PURCHASE_DATA_LIST)
 						|| !ownedItems.containsKey(RESPONSE_INAPP_SIGNATURE_LIST))
 				{
+					Log.e(getClass().getSimpleName(), "Bad purchases response: invalid data");
 					EasyTracker.getTracker().trackEvent("Donate", "Bad purchases response", "", -1L);
 					return -1;
 				}
@@ -239,6 +248,7 @@ public class DonateActivity extends ActionBarFragmentActivity
 				final int response = getResponseCodeFromBundle(skuDetails);
 				if (response != 0)
 				{
+					Log.e(getClass().getSimpleName(), "Bad sku details response " + response);
 					EasyTracker.getTracker().trackEvent("Donate", "Bad sku details response", "", -1L);
 					return response;
 				}
@@ -323,6 +333,7 @@ public class DonateActivity extends ActionBarFragmentActivity
 		}
 		if (data == null)
 		{
+			Log.e(getClass().getSimpleName(), "Bad purchase response: null Intent");
 			EasyTracker.getTracker().trackEvent("Donate", "Bad purchase response", purchasedSku, -1L);
 			return;
 		}
@@ -333,6 +344,7 @@ public class DonateActivity extends ActionBarFragmentActivity
 		{
 			if (purchaseData == null || dataSignature == null)
 			{
+				Log.e(getClass().getSimpleName(), "Invalid purchase response: null data fields");
 				EasyTracker.getTracker().trackEvent("Donate", "Invalid purchase response", purchasedSku, -1L);
 				return;
 			}
@@ -344,22 +356,34 @@ public class DonateActivity extends ActionBarFragmentActivity
 				// Verify signature
 				if (!Security.verifyPurchase(publicKey, purchaseData, dataSignature))
 				{
+					Log.e(getClass().getSimpleName(), "Signature verification failed " + sku);
 					EasyTracker.getTracker().trackEvent("Donate", "Signature verification failed", sku, -1L);
 					return;
 				}
 			} catch (final JSONException e)
 			{
+				Log.e(getClass().getSimpleName(), "Bad purchase response", e);
 				EasyTracker.getTracker().trackEvent("Donate", "Bad purchase response", purchasedSku, -1L);
 				return;
 			}
 			new ConsumeAsyncTask(false).execute(purchase);
 		}
 		else if (resultCode == Activity.RESULT_OK)
+		{
+			Log.e(getClass().getSimpleName(), "Purchase error " + responseCode);
 			EasyTracker.getTracker().trackEvent("Donate", "Purchase error " + responseCode, purchasedSku, -1L);
+		}
 		else if (resultCode == Activity.RESULT_CANCELED)
+		{
+			if (BuildConfig.DEBUG)
+				Log.d(getClass().getSimpleName(), "Purchase canceled");
 			EasyTracker.getTracker().trackEvent("Donate", "Canceled", purchasedSku, 0L);
+		}
 		else
+		{
+			Log.w(getClass().getSimpleName(), "Unknown purchase response");
 			EasyTracker.getTracker().trackEvent("Donate", "Unknown purchase response", purchasedSku, -1L);
+		}
 	}
 
 	@Override
@@ -427,7 +451,7 @@ public class DonateActivity extends ActionBarFragmentActivity
 				final int selectedInAppAmount = inAppSpinner.getSelectedItemPosition();
 				purchasedSku = skus[selectedInAppAmount];
 				if (BuildConfig.DEBUG)
-					Log.d(DonateActivity.this.getClass().getSimpleName(), "Clicked " + purchasedSku);
+					Log.d(DonateActivity.class.getSimpleName(), "Clicked " + purchasedSku);
 				EasyTracker.getTracker().trackEvent("Donate", "Click", purchasedSku, 0L);
 				try
 				{
@@ -436,6 +460,7 @@ public class DonateActivity extends ActionBarFragmentActivity
 					final int response = getResponseCodeFromBundle(buyIntentBundle);
 					if (response != 0)
 					{
+						Log.e(getClass().getSimpleName(), "Purchase error " + response);
 						EasyTracker.getTracker().trackEvent("Donate", "Purchase error " + response, purchasedSku, -1L);
 						return;
 					}
@@ -471,9 +496,13 @@ public class DonateActivity extends ActionBarFragmentActivity
 						if (response == 0)
 							new InventoryQueryAsyncTask().execute(skus);
 						else
+						{
+							Log.w(getClass().getSimpleName(), "In app not supported");
 							EasyTracker.getTracker().trackEvent("Donate", "In app not supported", "", -1L);
+						}
 					} catch (final RemoteException e)
 					{
+						Log.e(getClass().getSimpleName(), "Error during initialization", e);
 						EasyTracker.getTracker()
 								.trackEvent("Donate", "Remote exception during initialization", "", -1L);
 						return;
@@ -491,8 +520,11 @@ public class DonateActivity extends ActionBarFragmentActivity
 				// service available to handle that Intent
 				bindService(serviceIntent, mServiceConn, Context.BIND_AUTO_CREATE);
 			else
+			{
 				// no service available to handle that Intent
+				Log.w(getClass().getSimpleName(), "Billing unavailable");
 				EasyTracker.getTracker().trackEvent("Donate", "Billing Unavailable", "", -1L);
+			}
 		}
 	}
 
@@ -508,6 +540,7 @@ public class DonateActivity extends ActionBarFragmentActivity
 			} catch (final IllegalArgumentException e)
 			{
 				// Assume the service has already been unbinded, so only log that it happened
+				Log.e(getClass().getSimpleName(), "Error unbinding service", e);
 				EasyTracker.getTracker().trackException(Thread.currentThread().getName(), e, false);
 				if (!BuildConfig.DEBUG)
 					ACRA.getErrorReporter().handleSilentException(e);
