@@ -29,22 +29,22 @@ public class Inventory
 	Map<String, Purchase> mPurchaseMap = new HashMap<String, Purchase>();
 	Map<String, SkuDetails> mSkuMap = new HashMap<String, SkuDetails>();
 
-	Inventory()
+	public Inventory()
 	{
 	}
 
-	void addPurchase(final Purchase p)
+	public void addPurchase(final Purchase p)
 	{
 		mPurchaseMap.put(p.getSku(), p);
 	}
 
-	void addSkuDetails(final SkuDetails d)
+	public void addSkuDetails(final SkuDetails d)
 	{
 		mSkuMap.put(d.getSku(), d);
 	}
 
 	/** Returns a list of all owned product IDs of a given type */
-	List<String> getAllOwnedSkus(final String itemType)
+	public List<String> getAllOwnedSkus(final String itemType)
 	{
 		final List<String> result = new ArrayList<String>();
 		for (final Purchase p : mPurchaseMap.values())
