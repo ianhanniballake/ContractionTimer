@@ -1254,45 +1254,6 @@ com.ianhanniballake.contractiontimer.inappbilling.Base64:
     558:558:public static java.lang.String encodeWebSafe(byte[],boolean)
 com.ianhanniballake.contractiontimer.inappbilling.Base64DecoderException:
     private static final long serialVersionUID
-com.ianhanniballake.contractiontimer.inappbilling.IabHelper:
-    public static final int BILLING_RESPONSE_RESULT_BILLING_UNAVAILABLE
-    public static final int BILLING_RESPONSE_RESULT_DEVELOPER_ERROR
-    public static final int BILLING_RESPONSE_RESULT_ERROR
-    public static final int BILLING_RESPONSE_RESULT_ITEM_ALREADY_OWNED
-    public static final int BILLING_RESPONSE_RESULT_ITEM_NOT_OWNED
-    public static final int BILLING_RESPONSE_RESULT_ITEM_UNAVAILABLE
-    public static final int BILLING_RESPONSE_RESULT_OK
-    public static final int BILLING_RESPONSE_RESULT_USER_CANCELED
-    public static final java.lang.String GET_SKU_DETAILS_ITEM_LIST
-    public static final java.lang.String GET_SKU_DETAILS_ITEM_TYPE_LIST
-    public static final int IABHELPER_BAD_RESPONSE
-    public static final int IABHELPER_ERROR_BASE
-    public static final int IABHELPER_INVALID_CONSUMPTION
-    public static final int IABHELPER_MISSING_TOKEN
-    public static final int IABHELPER_REMOTE_EXCEPTION
-    public static final int IABHELPER_SEND_INTENT_FAILED
-    public static final int IABHELPER_SUBSCRIPTIONS_NOT_AVAILABLE
-    public static final int IABHELPER_UNKNOWN_ERROR
-    public static final int IABHELPER_UNKNOWN_PURCHASE_RESPONSE
-    public static final int IABHELPER_USER_CANCELLED
-    public static final int IABHELPER_VERIFICATION_FAILED
-    public static final java.lang.String INAPP_CONTINUATION_TOKEN
-    public static final java.lang.String ITEM_TYPE_INAPP
-    public static final java.lang.String ITEM_TYPE_SUBS
-    public static final java.lang.String RESPONSE_BUY_INTENT
-    public static final java.lang.String RESPONSE_CODE
-    public static final java.lang.String RESPONSE_GET_SKU_DETAILS_LIST
-    public static final java.lang.String RESPONSE_INAPP_ITEM_LIST
-    public static final java.lang.String RESPONSE_INAPP_PURCHASE_DATA
-    public static final java.lang.String RESPONSE_INAPP_PURCHASE_DATA_LIST
-    public static final java.lang.String RESPONSE_INAPP_SIGNATURE
-    public static final java.lang.String RESPONSE_INAPP_SIGNATURE_LIST
-    451:453:public void enableDebugLogging(boolean,java.lang.String)
-    717:718:public void launchSubscriptionPurchaseFlow(android.app.Activity,java.lang.String,int,com.ianhanniballake.contractiontimer.inappbilling.IabHelper$OnIabPurchaseFinishedListener)
-    723:724:public void launchSubscriptionPurchaseFlow(android.app.Activity,java.lang.String,int,com.ianhanniballake.contractiontimer.inappbilling.IabHelper$OnIabPurchaseFinishedListener,java.lang.String)
-    853:854:public void queryInventoryAsync(boolean,com.ianhanniballake.contractiontimer.inappbilling.IabHelper$QueryInventoryFinishedListener)
-    858:859:public void queryInventoryAsync(com.ianhanniballake.contractiontimer.inappbilling.IabHelper$QueryInventoryFinishedListener)
-    1042:1042:public boolean subscriptionsSupported()
 com.ianhanniballake.contractiontimer.inappbilling.Inventory:
     64:66:public void erasePurchase(java.lang.String)
     71:71:public java.util.List getAllOwnedSkus()
@@ -1312,8 +1273,7 @@ com.ianhanniballake.contractiontimer.inappbilling.Security:
     private static final java.lang.String TAG
     36:36:public Security()
 com.ianhanniballake.contractiontimer.inappbilling.SkuDetails:
-    36:37:public SkuDetails(java.lang.String)
-    73:73:public java.lang.String getType()
+    68:68:public java.lang.String getType()
 com.ianhanniballake.contractiontimer.provider.ContractionContract:
     public static final java.lang.String AUTHORITY
     private static final java.lang.String SCHEME
@@ -1347,6 +1307,16 @@ com.ianhanniballake.contractiontimer.ui.DatePickerDialogFragment:
     public static final java.lang.String DAY_OF_MONTH_EXTRA
     public static final java.lang.String MONTH_OF_YEAR_EXTRA
     public static final java.lang.String YEAR_EXTRA
+com.ianhanniballake.contractiontimer.ui.DonateActivity:
+    private static final java.lang.String ITEM_TYPE_INAPP
+    private static final java.lang.String publicKey
+    private static final java.lang.String PURCHASED_SKU
+    private static final int RC_REQUEST
+    private static final java.lang.String RESPONSE_CODE
+    private static final java.lang.String RESPONSE_GET_SKU_DETAILS_LIST
+    private static final java.lang.String RESPONSE_INAPP_ITEM_LIST
+    private static final java.lang.String RESPONSE_INAPP_PURCHASE_DATA_LIST
+    private static final java.lang.String RESPONSE_INAPP_SIGNATURE_LIST
 com.ianhanniballake.contractiontimer.ui.EditFragment:
     public static final java.lang.String END_DATE_ACTION
     public static final java.lang.String END_TIME_ACTION
