@@ -1,5 +1,6 @@
 package com.ianhanniballake.contractiontimer.ui;
 
+import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -54,15 +55,19 @@ public class DonateActivity extends ActionBarFragmentActivity
 	private class ConsumeAsyncTask extends AsyncTask<Purchase, Void, List<Purchase>>
 	{
 		private final boolean finishActivity;
+		private final WeakReference<IInAppBillingService> mBillingService;
 
-		ConsumeAsyncTask(final boolean finishActivity)
+		ConsumeAsyncTask(final IInAppBillingService service, final boolean finishActivity)
 		{
+			mBillingService = new WeakReference<IInAppBillingService>(service);
 			this.finishActivity = finishActivity;
 		}
 
 		@Override
 		protected List<Purchase> doInBackground(final Purchase... purchases)
 		{
+			if (BuildConfig.DEBUG)
+				Log.d(DonateActivity.class.getSimpleName(), "Starting Consume of " + Arrays.toString(purchases));
 			final List<Purchase> consumedPurchases = new ArrayList<Purchase>();
 			for (final Purchase purchase : purchases)
 				try
@@ -74,7 +79,13 @@ public class DonateActivity extends ActionBarFragmentActivity
 						EasyTracker.getTracker().trackEvent("Donate", "Invalid consume token", purchase.getSku(), -1L);
 						break;
 					}
-					final int response = mService.consumePurchase(3, getPackageName(), token);
+					final IInAppBillingService service = mBillingService.get();
+					if (service == null)
+					{
+						Log.w(DonateActivity.class.getSimpleName(), "Billing service is null");
+						break;
+					}
+					final int response = service.consumePurchase(3, getPackageName(), token);
 					if (response == 0)
 						consumedPurchases.add(purchase);
 					else
@@ -94,26 +105,29 @@ public class DonateActivity extends ActionBarFragmentActivity
 		protected void onPostExecute(final List<Purchase> result)
 		{
 			if (result == null || result.isEmpty())
+			{
+				Log.w(DonateActivity.class.getSimpleName(), "No purchases consumed");
 				return;
+			}
 			for (final Purchase purchase : result)
 			{
-				final String purchasedSku = purchase.getSku();
+				final String sku = purchase.getSku();
 				if (BuildConfig.DEBUG)
-					Log.d(DonateActivity.class.getSimpleName(), "Consume completed successfully " + purchasedSku);
-				EasyTracker.getTracker().trackEvent("Donate", "Purchased", purchasedSku, 0L);
-				final long purchasedPriceMicro = skuPrices.containsKey(purchasedSku) ? skuPrices.get(purchasedSku)
-						.longValue() : 0;
-				final String purchasedName = skuNames.containsKey(purchasedSku) ? skuNames.get(purchasedSku)
-						: purchasedSku;
+					Log.d(DonateActivity.class.getSimpleName(), "Consume completed successfully " + sku);
+				EasyTracker.getTracker().trackEvent("Donate", "Purchased", sku, 0L);
+				final long purchasedPriceMicro = skuPrices.containsKey(sku) ? skuPrices.get(sku).longValue() : 0;
+				final String purchasedName = skuNames.containsKey(sku) ? skuNames.get(sku) : sku;
 				final Transaction transaction = new Transaction.Builder(purchase.getOrderId(), purchasedPriceMicro)
 						.setAffiliation("Google Play").build();
-				transaction.addItem(new Item.Builder(purchasedSku, purchasedName, purchasedPriceMicro, 1L)
-						.setProductCategory("Donation").build());
+				transaction.addItem(new Item.Builder(sku, purchasedName, purchasedPriceMicro, 1L).setProductCategory(
+						"Donation").build());
 				EasyTracker.getTracker().trackTransaction(transaction);
 			}
+			Toast.makeText(DonateActivity.this, R.string.donate_thank_you, Toast.LENGTH_LONG).show();
 			if (finishActivity)
 			{
-				Toast.makeText(DonateActivity.this, R.string.donate_thank_you, Toast.LENGTH_LONG).show();
+				if (BuildConfig.DEBUG)
+					Log.d(DonateActivity.class.getSimpleName(), "Finishing Donate Activity");
 				finish();
 			}
 		}
@@ -121,8 +135,11 @@ public class DonateActivity extends ActionBarFragmentActivity
 
 	private class InventoryQueryAsyncTask extends AsyncTask<String, Void, Inventory>
 	{
-		public InventoryQueryAsyncTask()
+		private final WeakReference<IInAppBillingService> mBillingService;
+
+		public InventoryQueryAsyncTask(final IInAppBillingService service)
 		{
+			mBillingService = new WeakReference<IInAppBillingService>(service);
 		}
 
 		@Override
@@ -131,9 +148,13 @@ public class DonateActivity extends ActionBarFragmentActivity
 			try
 			{
 				final Inventory inv = new Inventory();
+				if (BuildConfig.DEBUG)
+					Log.d(DonateActivity.class.getSimpleName(), "Starting query inventory");
 				int r = queryPurchases(inv);
 				if (r != 0)
 					throw new IabException(r, "Error refreshing inventory (querying owned items).");
+				if (BuildConfig.DEBUG)
+					Log.d(DonateActivity.class.getSimpleName(), "Starting sku details query");
 				r = querySkuDetails(inv, moreSkus);
 				if (r != 0)
 					throw new IabException(r, "Error refreshing inventory (querying prices of items).");
@@ -165,7 +186,13 @@ public class DonateActivity extends ActionBarFragmentActivity
 			// Make sure we've consumed any previous purchases
 			final List<Purchase> purchases = inv.getAllPurchases();
 			if (!purchases.isEmpty())
-				new ConsumeAsyncTask(false).execute(purchases.toArray(new Purchase[0]));
+			{
+				final IInAppBillingService service = mBillingService.get();
+				if (service != null)
+					new ConsumeAsyncTask(service, false).execute(purchases.toArray(new Purchase[0]));
+				else
+					Log.w(DonateActivity.class.getSimpleName(), "Billing service is null");
+			}
 			final String[] inAppName = new String[skus.length];
 			for (int h = 0; h < skus.length; h++)
 			{
@@ -193,7 +220,13 @@ public class DonateActivity extends ActionBarFragmentActivity
 			String continueToken = null;
 			do
 			{
-				final Bundle ownedItems = mService.getPurchases(3, getPackageName(), ITEM_TYPE_INAPP, continueToken);
+				final IInAppBillingService service = mBillingService.get();
+				if (service == null)
+				{
+					Log.w(DonateActivity.class.getSimpleName(), "Billing service is null");
+					return -1;
+				}
+				final Bundle ownedItems = service.getPurchases(3, getPackageName(), ITEM_TYPE_INAPP, continueToken);
 				final int response = getResponseCodeFromBundle(ownedItems);
 				if (response != 0)
 				{
@@ -242,7 +275,13 @@ public class DonateActivity extends ActionBarFragmentActivity
 				return 0;
 			final Bundle querySkus = new Bundle();
 			querySkus.putStringArrayList("ITEM_ID_LIST", skuList);
-			final Bundle skuDetails = mService.getSkuDetails(3, getPackageName(), ITEM_TYPE_INAPP, querySkus);
+			final IInAppBillingService service = mBillingService.get();
+			if (service == null)
+			{
+				Log.w(DonateActivity.class.getSimpleName(), "Billing service is null");
+				return -1;
+			}
+			final Bundle skuDetails = service.getSkuDetails(3, getPackageName(), ITEM_TYPE_INAPP, querySkus);
 			if (!skuDetails.containsKey(RESPONSE_GET_SKU_DETAILS_LIST))
 			{
 				final int response = getResponseCodeFromBundle(skuDetails);
@@ -265,6 +304,9 @@ public class DonateActivity extends ActionBarFragmentActivity
 	}
 
 	private final static String ITEM_TYPE_INAPP = "inapp";
+	private final static String publicKey = "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEApmwDry4kZ8n3DulD1UxcJ89+TRI/DGSvFbhtjNkO1yWki16Q3MzOHwZ4Opyykn3cfiuexMNQYWZfQBqrvkdWWXf+iwBmG6PlOPzgYHV/0ohQhADCUb71SPihmf2WX2zejyNt71sMMUuIklB9HgXukO2uspdWYjKy8CkaMSHK+pQZdG2reACtLjgLMIm1tOlU2C7kGbsL+xodGyh29bO/6cn1/IPrnLZVgAfMm3UDGrqrK2PlgRlLZsoVQKvdi2vbQ8e4LH90rYlXrqEHHgRQw4ozXsj0QmaUx2b2EzRu4q17yvKvhmlFzZSShCkAJgPCOLds0A2SBbOAAX15lB8RmQIDAQAB";
+	private final static String PURCHASED_SKU = "com.ianhanniballake.contractiontimer.PURCHASED_SKU";
+	private final static int RC_REQUEST = 1;
 	private static final String RESPONSE_CODE = "RESPONSE_CODE";
 	private static final String RESPONSE_GET_SKU_DETAILS_LIST = "DETAILS_LIST";
 	private static final String RESPONSE_INAPP_ITEM_LIST = "INAPP_PURCHASE_ITEM_LIST";
@@ -301,13 +343,10 @@ public class DonateActivity extends ActionBarFragmentActivity
 
 	IInAppBillingService mService;
 	private ServiceConnection mServiceConn;
-	private final String publicKey = "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEApmwDry4kZ8n3DulD1UxcJ89+TRI/DGSvFbhtjNkO1yWki16Q3MzOHwZ4Opyykn3cfiuexMNQYWZfQBqrvkdWWXf+iwBmG6PlOPzgYHV/0ohQhADCUb71SPihmf2WX2zejyNt71sMMUuIklB9HgXukO2uspdWYjKy8CkaMSHK+pQZdG2reACtLjgLMIm1tOlU2C7kGbsL+xodGyh29bO/6cn1/IPrnLZVgAfMm3UDGrqrK2PlgRlLZsoVQKvdi2vbQ8e4LH90rYlXrqEHHgRQw4ozXsj0QmaUx2b2EzRu4q17yvKvhmlFzZSShCkAJgPCOLds0A2SBbOAAX15lB8RmQIDAQAB";
-	private final String PURCHASED_SKU = "com.ianhanniballake.contractiontimer.PURCHASED_SKU";
 	/**
 	 * Recently purchased SKU, if any. Should be saved in the instance state
 	 */
 	String purchasedSku = "";
-	private final int RC_REQUEST = 1;
 	/**
 	 * SKU Product Names
 	 */
@@ -366,7 +405,7 @@ public class DonateActivity extends ActionBarFragmentActivity
 				EasyTracker.getTracker().trackEvent("Donate", "Bad purchase response", purchasedSku, -1L);
 				return;
 			}
-			new ConsumeAsyncTask(false).execute(purchase);
+			new ConsumeAsyncTask(mService, true).execute(purchase);
 		}
 		else if (resultCode == Activity.RESULT_OK)
 		{
@@ -494,7 +533,7 @@ public class DonateActivity extends ActionBarFragmentActivity
 						// check for in-app billing v3 support
 						final int response = mService.isBillingSupported(3, packageName, ITEM_TYPE_INAPP);
 						if (response == 0)
-							new InventoryQueryAsyncTask().execute(skus);
+							new InventoryQueryAsyncTask(mService).execute(skus);
 						else
 						{
 							Log.w(getClass().getSimpleName(), "In app not supported");
