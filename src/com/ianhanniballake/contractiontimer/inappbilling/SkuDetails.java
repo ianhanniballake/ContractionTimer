@@ -31,11 +31,6 @@ public class SkuDetails
 	String mTitle;
 	String mType;
 
-	public SkuDetails(final String jsonSkuDetails) throws JSONException
-	{
-		this(IabHelper.ITEM_TYPE_INAPP, jsonSkuDetails);
-	}
-
 	public SkuDetails(final String itemType, final String jsonSkuDetails) throws JSONException
 	{
 		mItemType = itemType;

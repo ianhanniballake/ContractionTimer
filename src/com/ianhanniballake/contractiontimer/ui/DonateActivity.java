@@ -41,7 +41,6 @@ import com.google.analytics.tracking.android.Transaction;
 import com.ianhanniballake.contractiontimer.BuildConfig;
 import com.ianhanniballake.contractiontimer.R;
 import com.ianhanniballake.contractiontimer.actionbar.ActionBarFragmentActivity;
-import com.ianhanniballake.contractiontimer.inappbilling.IabException;
 import com.ianhanniballake.contractiontimer.inappbilling.Inventory;
 import com.ianhanniballake.contractiontimer.inappbilling.Purchase;
 import com.ianhanniballake.contractiontimer.inappbilling.Security;
@@ -137,7 +136,7 @@ public class DonateActivity extends ActionBarFragmentActivity
 	{
 		private final WeakReference<IInAppBillingService> mBillingService;
 
-		public InventoryQueryAsyncTask(final IInAppBillingService service)
+		InventoryQueryAsyncTask(final IInAppBillingService service)
 		{
 			mBillingService = new WeakReference<IInAppBillingService>(service);
 		}
@@ -152,12 +151,12 @@ public class DonateActivity extends ActionBarFragmentActivity
 					Log.d(DonateActivity.class.getSimpleName(), "Starting query inventory");
 				int r = queryPurchases(inv);
 				if (r != 0)
-					throw new IabException(r, "Error refreshing inventory (querying owned items).");
+					return null;
 				if (BuildConfig.DEBUG)
 					Log.d(DonateActivity.class.getSimpleName(), "Starting sku details query");
 				r = querySkuDetails(inv, moreSkus);
 				if (r != 0)
-					throw new IabException(r, "Error refreshing inventory (querying prices of items).");
+					return null;
 				return inv;
 			} catch (final RemoteException e)
 			{
@@ -167,10 +166,6 @@ public class DonateActivity extends ActionBarFragmentActivity
 			{
 				Log.e(DonateActivity.class.getSimpleName(), "Error parsing inventory", e);
 				EasyTracker.getTracker().trackEvent("Donate", "Bad inventory response", "", -1L);
-			} catch (final IabException e)
-			{
-				Log.e(DonateActivity.class.getSimpleName(), "Error parsing inventory", e);
-				EasyTracker.getTracker().trackEvent("Donate", "Error loading inventory", "", -1L);
 			}
 			return null;
 		}
@@ -313,7 +308,14 @@ public class DonateActivity extends ActionBarFragmentActivity
 	private static final String RESPONSE_INAPP_PURCHASE_DATA_LIST = "INAPP_PURCHASE_DATA_LIST";
 	private static final String RESPONSE_INAPP_SIGNATURE_LIST = "INAPP_DATA_SIGNATURE_LIST";
 
-	// Workaround to bug where sometimes response codes come as Long instead of Integer
+	/**
+	 * Gets the response code from the given Bundle. Workaround to bug where sometimes response codes come as Long
+	 * instead of Integer
+	 * 
+	 * @param b
+	 *            Bundle to get response code
+	 * @return response code
+	 */
 	static int getResponseCodeFromBundle(final Bundle b)
 	{
 		final Object o = b.get(RESPONSE_CODE);
@@ -327,7 +329,14 @@ public class DonateActivity extends ActionBarFragmentActivity
 			throw new RuntimeException("Unexpected type for bundle response code: " + o.getClass().getName());
 	}
 
-	// Workaround to bug where sometimes response codes come as Long instead of Integer
+	/**
+	 * Gets the response code from the given Intent. Workaround to bug where sometimes response codes come as Long
+	 * instead of Integer
+	 * 
+	 * @param i
+	 *            Intent to get response code
+	 * @return response code
+	 */
 	static int getResponseCodeFromIntent(final Intent i)
 	{
 		final Object o = i.getExtras().get(RESPONSE_CODE);
@@ -341,6 +350,9 @@ public class DonateActivity extends ActionBarFragmentActivity
 			throw new RuntimeException("Unexpected type for intent response code: " + o.getClass().getName());
 	}
 
+	/**
+	 * InAppBillingService connection
+	 */
 	IInAppBillingService mService;
 	private ServiceConnection mServiceConn;
 	/**
