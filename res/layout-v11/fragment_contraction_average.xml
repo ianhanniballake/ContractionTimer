@@ -4,7 +4,10 @@
     android:layout_height="wrap_content"
     android:background="@color/average_background"
     android:orientation="horizontal"
-    android:padding="@dimen/outer_padding" >
+    android:paddingBottom="5dp"
+    android:paddingLeft="@dimen/outer_padding"
+    android:paddingRight="@dimen/outer_padding"
+    android:paddingTop="5dp" >
 
     <TextView
         android:layout_width="0dp"
