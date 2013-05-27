@@ -31,7 +31,7 @@ public class AboutDialogFragment extends DialogFragment
 	{
 		if (BuildConfig.DEBUG)
 			Log.d(getClass().getSimpleName(), "Received cancelation event");
-		EasyTracker.getTracker().trackEvent("About", "Cancel", "", 0L);
+		EasyTracker.getTracker().sendEvent("About", "Cancel", "", 0L);
 		super.onCancel(dialog);
 	}
 
@@ -49,7 +49,7 @@ public class AboutDialogFragment extends DialogFragment
 					{
 						if (BuildConfig.DEBUG)
 							Log.d(AboutDialogFragment.this.getClass().getSimpleName(), "Received neutral event");
-						EasyTracker.getTracker().trackEvent("About", "Neutral", "", 0L);
+						EasyTracker.getTracker().sendEvent("About", "Neutral", "", 0L);
 					}
 				}).create();
 	}

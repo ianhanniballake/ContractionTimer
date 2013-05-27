@@ -36,7 +36,7 @@ public class ContractionListFragmentBase extends ContractionListFragment
 			case R.id.menu_context_view:
 				if (BuildConfig.DEBUG)
 					Log.d(getClass().getSimpleName(), "Context Menu selected view");
-				EasyTracker.getTracker().trackEvent("ContextMenu", "View", "", 0L);
+				EasyTracker.getTracker().sendEvent("ContextMenu", "View", "", 0L);
 				viewContraction(info.id);
 				return true;
 			case R.id.menu_context_note:
@@ -45,14 +45,14 @@ public class ContractionListFragmentBase extends ContractionListFragment
 				if (BuildConfig.DEBUG)
 					Log.d(getClass().getSimpleName(), "Context Menu selected "
 							+ (existingNote.equals("") ? "Add Note" : "Edit Note"));
-				EasyTracker.getTracker().trackEvent("ContextMenu", "Note",
+				EasyTracker.getTracker().sendEvent("ContextMenu", "Note",
 						existingNote.equals("") ? "Add Note" : "Edit Note", (long) info.position);
 				showNoteDialog(info.id, existingNote);
 				return true;
 			case R.id.menu_context_delete:
 				if (BuildConfig.DEBUG)
 					Log.d(getClass().getSimpleName(), "Context Menu selected delete");
-				EasyTracker.getTracker().trackEvent("ContextMenu", "Delete", "", (long) info.position);
+				EasyTracker.getTracker().sendEvent("ContextMenu", "Delete", "", (long) info.position);
 				deleteContraction(info.id);
 				return true;
 			default:
@@ -78,7 +78,7 @@ public class ContractionListFragmentBase extends ContractionListFragment
 		deleteItem.setTitle(getResources().getQuantityText(R.plurals.menu_context_delete, 1));
 		if (BuildConfig.DEBUG)
 			Log.d(getClass().getSimpleName(), "Context Menu Opened");
-		EasyTracker.getTracker().trackEvent("ContextMenu", "Open", note.equals("") ? "Add Note" : "Edit Note", 0L);
+		EasyTracker.getTracker().sendEvent("ContextMenu", "Open", note.equals("") ? "Add Note" : "Edit Note", 0L);
 	}
 
 	/**

@@ -46,7 +46,7 @@ public class AppWidgetToggleService extends IntentService
 		{
 			if (BuildConfig.DEBUG)
 				Log.d(AppWidgetToggleService.this.getClass().getSimpleName(), "Stopping contraction");
-			EasyTracker.getTracker().trackEvent(widgetName, "Stop", "", 0L);
+			EasyTracker.getTracker().sendEvent(widgetName, "Stop", "", 0L);
 			final ContentValues newEndTime = new ContentValues();
 			newEndTime.put(ContractionContract.Contractions.COLUMN_NAME_END_TIME, System.currentTimeMillis());
 			final long latestContractionId = data.getInt(data.getColumnIndex(BaseColumns._ID));
@@ -59,7 +59,7 @@ public class AppWidgetToggleService extends IntentService
 		{
 			if (BuildConfig.DEBUG)
 				Log.d(AppWidgetToggleService.this.getClass().getSimpleName(), "Starting contraction");
-			EasyTracker.getTracker().trackEvent(widgetName, "Start", "", 0L);
+			EasyTracker.getTracker().sendEvent(widgetName, "Start", "", 0L);
 			// Start a new contraction
 			contentResolver.insert(ContractionContract.Contractions.CONTENT_URI, new ContentValues());
 		}

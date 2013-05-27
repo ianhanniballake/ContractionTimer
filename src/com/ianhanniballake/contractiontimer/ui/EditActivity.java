@@ -36,9 +36,9 @@ public class EditActivity extends ActionBarFragmentActivity
 				Log.d(EditActivity.this.getClass().getSimpleName(),
 						"DialogFragmentClosedBR Received " + intent.getAction());
 			if (Intent.ACTION_INSERT.equals(getIntent().getAction()))
-				EasyTracker.getTracker().trackView("Add");
+				EasyTracker.getTracker().sendView("Add");
 			else
-				EasyTracker.getTracker().trackView("Edit");
+				EasyTracker.getTracker().sendView("Edit");
 		}
 	};
 
@@ -78,14 +78,14 @@ public class EditActivity extends ActionBarFragmentActivity
 				{
 					if (BuildConfig.DEBUG)
 						Log.d(getClass().getSimpleName(), "Add selected home");
-					EasyTracker.getTracker().trackEvent("Add", "Home", "", 0L);
+					EasyTracker.getTracker().sendEvent("Add", "Home", "", 0L);
 					intent = new Intent(this, MainActivity.class);
 				}
 				else
 				{
 					if (BuildConfig.DEBUG)
 						Log.d(getClass().getSimpleName(), "Edit selected home");
-					EasyTracker.getTracker().trackEvent("Edit", "Home", "", 0L);
+					EasyTracker.getTracker().sendEvent("Edit", "Home", "", 0L);
 					intent = new Intent(Intent.ACTION_VIEW, getIntent().getData()).setClass(this, ViewActivity.class);
 				}
 				intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
@@ -119,9 +119,9 @@ public class EditActivity extends ActionBarFragmentActivity
 		getActionBarHelper().setDisplayHomeAsUpEnabled(true);
 		EasyTracker.getInstance().activityStart(this);
 		if (Intent.ACTION_INSERT.equals(getIntent().getAction()))
-			EasyTracker.getTracker().trackView("Add");
+			EasyTracker.getTracker().sendView("Add");
 		else
-			EasyTracker.getTracker().trackView("Edit");
+			EasyTracker.getTracker().sendView("Edit");
 		final LocalBroadcastManager localBroadcastManager = LocalBroadcastManager.getInstance(this);
 		final IntentFilter dialogCloseFilter = new IntentFilter();
 		dialogCloseFilter.addAction(TimePickerDialogFragment.TIME_PICKER_CLOSE_ACTION);

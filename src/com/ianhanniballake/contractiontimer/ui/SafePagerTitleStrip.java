@@ -51,7 +51,7 @@ public class SafePagerTitleStrip extends PagerTitleStrip
 				Log.e(getClass().getSimpleName(), "NullPointerException in onDetachedFromWindow", e);
 			else
 			{
-				EasyTracker.getTracker().trackException(Thread.currentThread().getName(), e, false);
+				EasyTracker.getTracker().sendException(Thread.currentThread().getName(), e, false);
 				ACRA.getErrorReporter().handleSilentException(e);
 			}
 		}

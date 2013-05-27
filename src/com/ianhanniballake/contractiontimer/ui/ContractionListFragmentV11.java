@@ -110,7 +110,7 @@ public class ContractionListFragmentV11 extends ContractionListFragment implemen
 					case R.id.menu_context_view:
 						if (BuildConfig.DEBUG)
 							Log.d(getClass().getSimpleName(), "Popup Menu selected view");
-						EasyTracker.getTracker().trackEvent("PopupMenu", "View", "", 0L);
+						EasyTracker.getTracker().sendEvent("PopupMenu", "View", "", 0L);
 						viewContraction(popupHolder.id);
 						return true;
 					case R.id.menu_context_note:
@@ -118,14 +118,14 @@ public class ContractionListFragmentV11 extends ContractionListFragment implemen
 							Log.d(getClass().getSimpleName(),
 									"Popup Menu selected "
 											+ (popupHolder.existingNote.equals("") ? "Add Note" : "Edit Note"));
-						EasyTracker.getTracker().trackEvent("PopupMenu", "Note",
+						EasyTracker.getTracker().sendEvent("PopupMenu", "Note",
 								popupHolder.existingNote.equals("") ? "Add Note" : "Edit Note", 0L);
 						showNoteDialog(popupHolder.id, popupHolder.existingNote);
 						return true;
 					case R.id.menu_context_delete:
 						if (BuildConfig.DEBUG)
 							Log.d(getClass().getSimpleName(), "Popup Menu selected delete");
-						EasyTracker.getTracker().trackEvent("PopupMenu", "Delete", "", 0L);
+						EasyTracker.getTracker().sendEvent("PopupMenu", "Delete", "", 0L);
 						deleteContraction(popupHolder.id);
 						return true;
 					default:
@@ -163,7 +163,7 @@ public class ContractionListFragmentV11 extends ContractionListFragment implemen
 					case R.id.menu_context_view:
 						if (BuildConfig.DEBUG)
 							Log.d(getClass().getSimpleName(), "Context Action Mode selected view");
-						EasyTracker.getTracker().trackEvent("ContextActionBar", "View", "", 0L);
+						EasyTracker.getTracker().sendEvent("ContextActionBar", "View", "", 0L);
 						viewContraction(contractionId);
 						return true;
 					case R.id.menu_context_note:
@@ -176,7 +176,7 @@ public class ContractionListFragmentV11 extends ContractionListFragment implemen
 							Log.d(getClass().getSimpleName(),
 									"Context Action Mode selected "
 											+ (existingNote.equals("") ? "Add Note" : "Edit Note"));
-						EasyTracker.getTracker().trackEvent("ContextActionBar", "Note",
+						EasyTracker.getTracker().sendEvent("ContextActionBar", "Note",
 								existingNote.equals("") ? "Add Note" : "Edit Note", (long) position);
 						showNoteDialog(contractionId, existingNote);
 						mode.finish();
@@ -185,8 +185,7 @@ public class ContractionListFragmentV11 extends ContractionListFragment implemen
 						final long[] selectedIds = getListView().getCheckedItemIds();
 						if (BuildConfig.DEBUG)
 							Log.d(getClass().getSimpleName(), "Context Action Mode selected delete");
-						EasyTracker.getTracker()
-								.trackEvent("ContextActionBar", "Delete", "", (long) selectedIds.length);
+						EasyTracker.getTracker().sendEvent("ContextActionBar", "Delete", "", (long) selectedIds.length);
 						for (final long id : selectedIds)
 							deleteContraction(id);
 						mode.finish();

@@ -59,7 +59,7 @@ public class MainActivity extends ActionBarFragmentActivity implements LoaderMan
 			if (BuildConfig.DEBUG)
 				Log.d(MainActivity.this.getClass().getSimpleName(),
 						"DialogFragmentClosedBR Received " + intent.getAction());
-			EasyTracker.getTracker().trackView("Main");
+			EasyTracker.getTracker().sendView("Main");
 		}
 	};
 
@@ -159,30 +159,30 @@ public class MainActivity extends ActionBarFragmentActivity implements LoaderMan
 			case R.id.menu_reset:
 				if (BuildConfig.DEBUG)
 					Log.d(getClass().getSimpleName(), "Menu selected Reset");
-				EasyTracker.getTracker().trackEvent("Menu", "Reset", "", (long) adapter.getCount());
+				EasyTracker.getTracker().sendEvent("Menu", "Reset", "", (long) adapter.getCount());
 				final ResetDialogFragment resetDialogFragment = new ResetDialogFragment();
 				if (BuildConfig.DEBUG)
 					Log.d(resetDialogFragment.getClass().getSimpleName(), "Showing Dialog");
-				EasyTracker.getTracker().trackView("Reset");
+				EasyTracker.getTracker().sendView("Reset");
 				resetDialogFragment.show(getSupportFragmentManager(), "reset");
 				return true;
 			case R.id.menu_add:
 				if (BuildConfig.DEBUG)
 					Log.d(getClass().getSimpleName(), "Menu selected Add");
-				EasyTracker.getTracker().trackEvent("Menu", "Add", "", 0L);
+				EasyTracker.getTracker().sendEvent("Menu", "Add", "", 0L);
 				final Intent addIntent = new Intent(Intent.ACTION_INSERT, getIntent().getData());
 				startActivity(addIntent);
 				return true;
 			case R.id.menu_share_averages:
 				if (BuildConfig.DEBUG)
 					Log.d(getClass().getSimpleName(), "Menu selected Share Averages");
-				EasyTracker.getTracker().trackEvent("Menu", "Share", "Averages", (long) adapter.getCount());
+				EasyTracker.getTracker().sendEvent("Menu", "Share", "Averages", (long) adapter.getCount());
 				shareAverages();
 				return true;
 			case R.id.menu_share_all:
 				if (BuildConfig.DEBUG)
 					Log.d(getClass().getSimpleName(), "Menu selected Share All");
-				EasyTracker.getTracker().trackEvent("Menu", "Share", "All", (long) adapter.getCount());
+				EasyTracker.getTracker().sendEvent("Menu", "Share", "All", (long) adapter.getCount());
 				shareAll();
 				return true;
 			case R.id.menu_settings:
@@ -191,17 +191,17 @@ public class MainActivity extends ActionBarFragmentActivity implements LoaderMan
 			case R.id.menu_about:
 				if (BuildConfig.DEBUG)
 					Log.d(getClass().getSimpleName(), "Menu selected About");
-				EasyTracker.getTracker().trackEvent("Menu", "About", "", 0L);
+				EasyTracker.getTracker().sendEvent("Menu", "About", "", 0L);
 				final AboutDialogFragment aboutDialogFragment = new AboutDialogFragment();
 				if (BuildConfig.DEBUG)
 					Log.d(aboutDialogFragment.getClass().getSimpleName(), "Showing Dialog");
-				EasyTracker.getTracker().trackView("About");
+				EasyTracker.getTracker().sendView("About");
 				aboutDialogFragment.show(getSupportFragmentManager(), "about");
 				return true;
 			case R.id.menu_donate:
 				if (BuildConfig.DEBUG)
 					Log.d(getClass().getSimpleName(), "Menu selected Donate");
-				EasyTracker.getTracker().trackEvent("Menu", "Donate", "", 0L);
+				EasyTracker.getTracker().sendEvent("Menu", "Donate", "", 0L);
 				startActivity(new Intent(this, DonateActivity.class));
 				return true;
 			default:
@@ -264,11 +264,11 @@ public class MainActivity extends ActionBarFragmentActivity implements LoaderMan
 			final String widgetIdentifier = getIntent().getExtras().getString(MainActivity.LAUNCHED_FROM_WIDGET_EXTRA);
 			if (BuildConfig.DEBUG)
 				Log.d(getClass().getSimpleName(), "Launched from " + widgetIdentifier);
-			EasyTracker.getTracker().trackEvent(widgetIdentifier, "Launch", "", 0L);
+			EasyTracker.getTracker().sendEvent(widgetIdentifier, "Launch", "", 0L);
 			getIntent().removeExtra(MainActivity.LAUNCHED_FROM_WIDGET_EXTRA);
 		}
 		EasyTracker.getInstance().activityStart(this);
-		EasyTracker.getTracker().trackView("Main");
+		EasyTracker.getTracker().sendView("Main");
 		final LocalBroadcastManager localBroadcastManager = LocalBroadcastManager.getInstance(this);
 		final IntentFilter dialogCloseFilter = new IntentFilter();
 		dialogCloseFilter.addAction(AboutDialogFragment.ABOUT_CLOSE_ACTION);

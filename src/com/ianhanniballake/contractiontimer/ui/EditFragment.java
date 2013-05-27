@@ -482,7 +482,7 @@ public class EditFragment extends Fragment implements LoaderManager.LoaderCallba
 				timePicker.setArguments(args);
 				if (BuildConfig.DEBUG)
 					Log.d(timePicker.getClass().getSimpleName(), "Showing Start Time Dialog");
-				EasyTracker.getTracker().trackView("PickTimeStart");
+				EasyTracker.getTracker().sendView("PickTimeStart");
 				timePicker.show(getFragmentManager(), "startTime");
 			}
 		});
@@ -499,7 +499,7 @@ public class EditFragment extends Fragment implements LoaderManager.LoaderCallba
 				datePicker.setArguments(args);
 				if (BuildConfig.DEBUG)
 					Log.d(datePicker.getClass().getSimpleName(), "Showing Start Date Dialog");
-				EasyTracker.getTracker().trackView("PickDateStart");
+				EasyTracker.getTracker().sendView("PickDateStart");
 				datePicker.show(getFragmentManager(), "startDate");
 			}
 		});
@@ -516,7 +516,7 @@ public class EditFragment extends Fragment implements LoaderManager.LoaderCallba
 				timePicker.setArguments(args);
 				if (BuildConfig.DEBUG)
 					Log.d(timePicker.getClass().getSimpleName(), "Showing End Time Dialog");
-				EasyTracker.getTracker().trackView("PickTimeEnd");
+				EasyTracker.getTracker().sendView("PickTimeEnd");
 				timePicker.show(getFragmentManager(), "endTime");
 			}
 		});
@@ -533,7 +533,7 @@ public class EditFragment extends Fragment implements LoaderManager.LoaderCallba
 				datePicker.setArguments(args);
 				if (BuildConfig.DEBUG)
 					Log.d(datePicker.getClass().getSimpleName(), "Showing End Date Dialog");
-				EasyTracker.getTracker().trackView("PickDateEnd");
+				EasyTracker.getTracker().sendView("PickDateEnd");
 				datePicker.show(getFragmentManager(), "endDate");
 			}
 		});
@@ -589,14 +589,14 @@ public class EditFragment extends Fragment implements LoaderManager.LoaderCallba
 				{
 					if (BuildConfig.DEBUG)
 						Log.d(getClass().getSimpleName(), "Add selected save");
-					EasyTracker.getTracker().trackEvent("Add", "Save", "", 0L);
+					EasyTracker.getTracker().sendEvent("Add", "Save", "", 0L);
 					contractionQueryHandler.startInsert(0, null, getActivity().getIntent().getData(), values);
 				}
 				else
 				{
 					if (BuildConfig.DEBUG)
 						Log.d(getClass().getSimpleName(), "Edit selected save");
-					EasyTracker.getTracker().trackEvent("Edit", "Save", "", 0L);
+					EasyTracker.getTracker().sendEvent("Edit", "Save", "", 0L);
 					contractionQueryHandler.startUpdate(0, null, getActivity().getIntent().getData(), values, null,
 							null);
 				}
@@ -604,7 +604,7 @@ public class EditFragment extends Fragment implements LoaderManager.LoaderCallba
 			case R.id.menu_cancel:
 				if (BuildConfig.DEBUG)
 					Log.d(getClass().getSimpleName(), "Edit selected cancel");
-				EasyTracker.getTracker().trackEvent("Edit", "Cancel", "", 0L);
+				EasyTracker.getTracker().sendEvent("Edit", "Cancel", "", 0L);
 				getActivity().finish();
 				return true;
 			default:

@@ -167,7 +167,7 @@ public class ViewActivity extends ActionBarFragmentActivity implements LoaderMan
 				Log.e(getClass().getSimpleName(), "NumberFormatException in onLoadFinished", e);
 			else
 			{
-				EasyTracker.getTracker().trackException(Thread.currentThread().getName(), e, false);
+				EasyTracker.getTracker().sendException(Thread.currentThread().getName(), e, false);
 				ACRA.getErrorReporter().handleSilentException(e);
 			}
 			finish();
@@ -198,7 +198,7 @@ public class ViewActivity extends ActionBarFragmentActivity implements LoaderMan
 			case android.R.id.home:
 				if (BuildConfig.DEBUG)
 					Log.d(getClass().getSimpleName(), "View selected home");
-				EasyTracker.getTracker().trackEvent("View", "Home", "", 0L);
+				EasyTracker.getTracker().sendEvent("View", "Home", "", 0L);
 				final Intent upIntent = NavUtils.getParentActivityIntent(this);
 				if (NavUtils.shouldUpRecreateTask(this, upIntent))
 				{
@@ -232,9 +232,9 @@ public class ViewActivity extends ActionBarFragmentActivity implements LoaderMan
 			Log.d(getClass().getSimpleName(), "Swapped to " + position);
 		if (currentPosition != -1)
 			if (position > currentPosition)
-				EasyTracker.getTracker().trackEvent("View", "Scroll", "Next", (long) position);
+				EasyTracker.getTracker().sendEvent("View", "Scroll", "Next", (long) position);
 			else
-				EasyTracker.getTracker().trackEvent("View", "Scroll", "Previous", (long) position);
+				EasyTracker.getTracker().sendEvent("View", "Scroll", "Previous", (long) position);
 		currentPosition = position;
 		final long newContractionId = adapter.getItemId(position);
 		getIntent().setData(
@@ -266,11 +266,11 @@ public class ViewActivity extends ActionBarFragmentActivity implements LoaderMan
 			final String widgetIdentifier = getIntent().getExtras().getString(MainActivity.LAUNCHED_FROM_WIDGET_EXTRA);
 			if (BuildConfig.DEBUG)
 				Log.d(getClass().getSimpleName(), "Launched from " + widgetIdentifier);
-			EasyTracker.getTracker().trackEvent(widgetIdentifier, "LaunchView", "", 0L);
+			EasyTracker.getTracker().sendEvent(widgetIdentifier, "LaunchView", "", 0L);
 			getIntent().removeExtra(MainActivity.LAUNCHED_FROM_WIDGET_EXTRA);
 		}
 		EasyTracker.getInstance().activityStart(this);
-		EasyTracker.getTracker().trackView("View");
+		EasyTracker.getTracker().sendView("View");
 	}
 
 	@Override

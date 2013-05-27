@@ -96,7 +96,7 @@ public class ContractionControlsFragment extends Fragment implements LoaderManag
 				{
 					if (BuildConfig.DEBUG)
 						Log.d(ContractionControlsFragment.this.getClass().getSimpleName(), "Starting contraction");
-					EasyTracker.getTracker().trackEvent("Controls", "Start", "", 0L);
+					EasyTracker.getTracker().sendEvent("Controls", "Start", "", 0L);
 					// Start a new contraction
 					contractionQueryHandler.startInsert(0, null, ContractionContract.Contractions.CONTENT_URI,
 							new ContentValues());
@@ -105,7 +105,7 @@ public class ContractionControlsFragment extends Fragment implements LoaderManag
 				{
 					if (BuildConfig.DEBUG)
 						Log.d(ContractionControlsFragment.this.getClass().getSimpleName(), "Stopping contraction");
-					EasyTracker.getTracker().trackEvent("Controls", "Stop", "", 0L);
+					EasyTracker.getTracker().sendEvent("Controls", "Stop", "", 0L);
 					final ContentValues newEndTime = new ContentValues();
 					newEndTime.put(ContractionContract.Contractions.COLUMN_NAME_END_TIME, System.currentTimeMillis());
 					final long latestContractionId = adapter.getItemId(0);

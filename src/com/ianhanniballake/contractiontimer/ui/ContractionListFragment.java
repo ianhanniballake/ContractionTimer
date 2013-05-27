@@ -408,7 +408,7 @@ public abstract class ContractionListFragment extends ListFragment implements Lo
 		noteDialogFragment.setArguments(args);
 		if (BuildConfig.DEBUG)
 			Log.d(noteDialogFragment.getClass().getSimpleName(), "Showing Dialog");
-		EasyTracker.getTracker().trackView("".equals(existingNote) ? "NoteAdd" : "NoteEdit");
+		EasyTracker.getTracker().sendView("".equals(existingNote) ? "NoteAdd" : "NoteEdit");
 		noteDialogFragment.show(getFragmentManager(), "note");
 	}
 

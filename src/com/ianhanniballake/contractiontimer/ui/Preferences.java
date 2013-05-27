@@ -133,7 +133,7 @@ public class Preferences extends ActionBarPreferenceActivity implements OnShared
 					getResources().getBoolean(R.bool.pref_settings_keep_screen_on_default));
 			if (BuildConfig.DEBUG)
 				Log.d(getClass().getSimpleName(), "Keep Screen On: " + newIsKeepScreenOn);
-			EasyTracker.getTracker().trackEvent("Preferences", "Keep Screen On", Boolean.toString(newIsKeepScreenOn),
+			EasyTracker.getTracker().sendEvent("Preferences", "Keep Screen On", Boolean.toString(newIsKeepScreenOn),
 					0L);
 		}
 		else if (key.equals(Preferences.LOCK_PORTRAIT_PREFERENCE_KEY))
@@ -143,7 +143,7 @@ public class Preferences extends ActionBarPreferenceActivity implements OnShared
 			if (BuildConfig.DEBUG)
 				Log.d(getClass().getSimpleName(), "Lock Portrait: " + newIsLockPortrait);
 			EasyTracker.getTracker()
-					.trackEvent("Preferences", "Lock Portrait", Boolean.toString(newIsLockPortrait), 0L);
+					.sendEvent("Preferences", "Lock Portrait", Boolean.toString(newIsLockPortrait), 0L);
 			if (newIsLockPortrait)
 				setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 			else
@@ -154,7 +154,7 @@ public class Preferences extends ActionBarPreferenceActivity implements OnShared
 			final String newAppwidgetBackground = appwidgetBackgroundListPreference.getValue();
 			if (BuildConfig.DEBUG)
 				Log.d(getClass().getSimpleName(), "Appwidget Background: " + newAppwidgetBackground);
-			EasyTracker.getTracker().trackEvent("Preferences", "Appwidget Background", newAppwidgetBackground, 0L);
+			EasyTracker.getTracker().sendEvent("Preferences", "Appwidget Background", newAppwidgetBackground, 0L);
 			appwidgetBackgroundListPreference.setSummary(appwidgetBackgroundListPreference.getEntry());
 			AppWidgetUpdateHandler.createInstance().updateAllWidgets(this);
 		}
@@ -163,7 +163,7 @@ public class Preferences extends ActionBarPreferenceActivity implements OnShared
 			final String newAverageTimeFrame = averageTimeFrameListPreference.getValue();
 			if (BuildConfig.DEBUG)
 				Log.d(getClass().getSimpleName(), "Average Time Frame: " + newAverageTimeFrame);
-			EasyTracker.getTracker().trackEvent("Preferences", "Average Time Frame", newAverageTimeFrame, 0L);
+			EasyTracker.getTracker().sendEvent("Preferences", "Average Time Frame", newAverageTimeFrame, 0L);
 			final Editor editor = sharedPreferences.edit();
 			editor.putBoolean(Preferences.AVERAGE_TIME_FRAME_CHANGED_MAIN_PREFERENCE_KEY, true);
 			editor.putBoolean(Preferences.AVERAGE_TIME_FRAME_CHANGED_FRAGMENT_PREFERENCE_KEY, true);
@@ -177,7 +177,7 @@ public class Preferences extends ActionBarPreferenceActivity implements OnShared
 					getResources().getBoolean(R.bool.pref_privacy_analytics_default));
 			if (BuildConfig.DEBUG)
 				Log.d(getClass().getSimpleName(), "Analytics: " + newCollectAnalytics);
-			EasyTracker.getTracker().trackEvent("Preferences", "Analytics", Boolean.toString(newCollectAnalytics), 0L);
+			EasyTracker.getTracker().sendEvent("Preferences", "Analytics", Boolean.toString(newCollectAnalytics), 0L);
 			GAServiceManager.getInstance().dispatch();
 			GoogleAnalytics.getInstance(this).setAppOptOut(newCollectAnalytics);
 		}
@@ -190,7 +190,7 @@ public class Preferences extends ActionBarPreferenceActivity implements OnShared
 		super.onStart();
 		getActionBarHelper().setDisplayHomeAsUpEnabled(true);
 		EasyTracker.getInstance().activityStart(this);
-		EasyTracker.getTracker().trackView("Preferences");
+		EasyTracker.getTracker().sendView("Preferences");
 	}
 
 	@Override

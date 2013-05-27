@@ -46,7 +46,7 @@ public class NoteDialogFragment extends DialogFragment
 		if (BuildConfig.DEBUG)
 			Log.d(getClass().getSimpleName(), "Received cancelation event");
 		final String existingNote = getArguments().getString(NoteDialogFragment.EXISTING_NOTE_ARGUMENT);
-		EasyTracker.getTracker().trackEvent("Note", "Cancel", existingNote.equals("") ? "Add Note" : "Edit Note", 0L);
+		EasyTracker.getTracker().sendEvent("Note", "Cancel", existingNote.equals("") ? "Add Note" : "Edit Note", 0L);
 		super.onCancel(dialog);
 	}
 
@@ -76,7 +76,7 @@ public class NoteDialogFragment extends DialogFragment
 					{
 						if (BuildConfig.DEBUG)
 							Log.d(NoteDialogFragment.this.getClass().getSimpleName(), "Received positive event");
-						EasyTracker.getTracker().trackEvent("Note", "Positive",
+						EasyTracker.getTracker().sendEvent("Note", "Positive",
 								existingNote.equals("") ? "Add Note" : "Edit Note", 0L);
 						final Uri updateUri = ContentUris.withAppendedId(
 								ContractionContract.Contractions.CONTENT_ID_URI_BASE, contractionId);
@@ -91,7 +91,7 @@ public class NoteDialogFragment extends DialogFragment
 					{
 						if (BuildConfig.DEBUG)
 							Log.d(NoteDialogFragment.this.getClass().getSimpleName(), "Received negative event");
-						EasyTracker.getTracker().trackEvent("Note", "Negative",
+						EasyTracker.getTracker().sendEvent("Note", "Negative",
 								existingNote.equals("") ? "Add Note" : "Edit Note", 0L);
 					}
 				}).create();

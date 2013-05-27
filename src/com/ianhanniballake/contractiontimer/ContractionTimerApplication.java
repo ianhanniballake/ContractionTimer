@@ -44,7 +44,7 @@ public class ContractionTimerApplication extends Application
 			GAServiceManager.getInstance().setDispatchPeriod(120);
 			// Initialize Google Analytics Error Handling first
 			final UncaughtExceptionHandler myHandler = new ExceptionReporter(EasyTracker.getTracker(),
-					GAServiceManager.getInstance(), Thread.getDefaultUncaughtExceptionHandler());
+					GAServiceManager.getInstance(), Thread.getDefaultUncaughtExceptionHandler(), this);
 			Thread.setDefaultUncaughtExceptionHandler(myHandler);
 			ACRA.init(this);
 			final ReportSender bugsenseReportSender = new HttpPostSender(

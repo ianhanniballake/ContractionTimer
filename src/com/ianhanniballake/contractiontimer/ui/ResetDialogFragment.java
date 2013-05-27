@@ -33,7 +33,7 @@ public class ResetDialogFragment extends DialogFragment
 	{
 		if (BuildConfig.DEBUG)
 			Log.d(getClass().getSimpleName(), "Received cancelation event");
-		EasyTracker.getTracker().trackEvent("Note", "Cancel", "", 0L);
+		EasyTracker.getTracker().sendEvent("Note", "Cancel", "", 0L);
 		super.onCancel(dialog);
 	}
 
@@ -55,7 +55,7 @@ public class ResetDialogFragment extends DialogFragment
 					{
 						if (BuildConfig.DEBUG)
 							Log.d(ResetDialogFragment.this.getClass().getSimpleName(), "Received positive event");
-						EasyTracker.getTracker().trackEvent("Reset", "Positive", "", 0L);
+						EasyTracker.getTracker().sendEvent("Reset", "Positive", "", 0L);
 						asyncQueryHandler.startDelete(0, 0, ContractionContract.Contractions.CONTENT_URI, null, null);
 					}
 				}).setNegativeButton(R.string.reset_dialog_cancel, new OnClickListener()
@@ -65,7 +65,7 @@ public class ResetDialogFragment extends DialogFragment
 					{
 						if (BuildConfig.DEBUG)
 							Log.d(ResetDialogFragment.this.getClass().getSimpleName(), "Received negative event");
-						EasyTracker.getTracker().trackEvent("Reset", "Negative", "", 0L);
+						EasyTracker.getTracker().sendEvent("Reset", "Negative", "", 0L);
 					}
 				}).create();
 	}
