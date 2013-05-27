@@ -145,8 +145,11 @@
                 android:name="android.appwidget.provider"
                 android:resource="@xml/toggle_appwidget_info" />
         </receiver>
+
+        <service android:name="com.google.analytics.tracking.android.CampaignTrackingService" />
+
         <receiver
-            android:name="com.google.analytics.tracking.android.AnalyticsReceiver"
+            android:name="com.google.analytics.tracking.android.CampaignTrackingService"
             android:exported="true"
             tools:ignore="ExportedReceiver" >
             <intent-filter>
