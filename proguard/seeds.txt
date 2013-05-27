@@ -7,6 +7,9 @@ android.support.v4.app.FragmentManagerState
 android.support.v4.app.FragmentManagerState: android.os.Parcelable$Creator CREATOR
 android.support.v4.app.FragmentState
 android.support.v4.app.FragmentState: android.os.Parcelable$Creator CREATOR
+android.support.v4.app.FragmentTabHost: void setOnTabChangedListener(android.widget.TabHost$OnTabChangeListener)
+android.support.v4.app.FragmentTabHost$SavedState
+android.support.v4.app.FragmentTabHost$SavedState: android.os.Parcelable$Creator CREATOR
 android.support.v4.content.ModernAsyncTask$Status: android.support.v4.content.ModernAsyncTask$Status[] values()
 android.support.v4.content.ModernAsyncTask$Status: android.support.v4.content.ModernAsyncTask$Status valueOf(java.lang.String)
 android.support.v4.view.PagerTabStrip: void setTabIndicatorColor(int)
@@ -19,6 +22,7 @@ android.support.v4.view.PagerTabStrip: void setBackgroundResource(int)
 android.support.v4.view.PagerTabStrip: void setDrawFullUnderline(boolean)
 android.support.v4.view.PagerTabStrip: boolean getDrawFullUnderline()
 android.support.v4.view.PagerTabStrip: int getMinHeight()
+android.support.v4.view.PagerTitleStrip
 android.support.v4.view.PagerTitleStrip: void setSingleLineAllCaps(android.widget.TextView)
 android.support.v4.view.PagerTitleStrip: PagerTitleStrip(android.content.Context)
 android.support.v4.view.PagerTitleStrip: PagerTitleStrip(android.content.Context,android.util.AttributeSet)
@@ -35,9 +39,11 @@ android.support.v4.view.ViewPager: void setScrollState(int)
 android.support.v4.view.ViewPager: void setAdapter(android.support.v4.view.PagerAdapter)
 android.support.v4.view.ViewPager: android.support.v4.view.PagerAdapter getAdapter()
 android.support.v4.view.ViewPager: void setOnAdapterChangeListener(android.support.v4.view.ViewPager$OnAdapterChangeListener)
+android.support.v4.view.ViewPager: int getClientWidth()
 android.support.v4.view.ViewPager: void setCurrentItem(int)
 android.support.v4.view.ViewPager: int getCurrentItem()
 android.support.v4.view.ViewPager: void setOnPageChangeListener(android.support.v4.view.ViewPager$OnPageChangeListener)
+android.support.v4.view.ViewPager: void setChildrenDrawingOrderEnabledCompat(boolean)
 android.support.v4.view.ViewPager: int getOffscreenPageLimit()
 android.support.v4.view.ViewPager: void setOffscreenPageLimit(int)
 android.support.v4.view.ViewPager: void setPageMargin(int)
@@ -47,6 +53,22 @@ android.support.v4.view.ViewPager: void setPageMarginDrawable(int)
 android.support.v4.view.ViewPager: void setScrollingCacheEnabled(boolean)
 android.support.v4.view.ViewPager$SavedState
 android.support.v4.view.ViewPager$SavedState: android.os.Parcelable$Creator CREATOR
+android.support.v4.widget.DrawerLayout: void setScrimColor(int)
+android.support.v4.widget.DrawerLayout: void setDrawerListener(android.support.v4.widget.DrawerLayout$DrawerListener)
+android.support.v4.widget.DrawerLayout: void setDrawerLockMode(int)
+android.support.v4.widget.DrawerLayout$SavedState
+android.support.v4.widget.DrawerLayout$SavedState: android.os.Parcelable$Creator CREATOR
+android.support.v4.widget.SlidingPaneLayout: void setParallaxDistance(int)
+android.support.v4.widget.SlidingPaneLayout: int getParallaxDistance()
+android.support.v4.widget.SlidingPaneLayout: void setSliderFadeColor(int)
+android.support.v4.widget.SlidingPaneLayout: int getSliderFadeColor()
+android.support.v4.widget.SlidingPaneLayout: void setCoveredFadeColor(int)
+android.support.v4.widget.SlidingPaneLayout: int getCoveredFadeColor()
+android.support.v4.widget.SlidingPaneLayout: void setPanelSlideListener(android.support.v4.widget.SlidingPaneLayout$PanelSlideListener)
+android.support.v4.widget.SlidingPaneLayout: void setShadowDrawable(android.graphics.drawable.Drawable)
+android.support.v4.widget.SlidingPaneLayout: void setShadowResource(int)
+android.support.v4.widget.SlidingPaneLayout$SavedState
+android.support.v4.widget.SlidingPaneLayout$SavedState: android.os.Parcelable$Creator CREATOR
 com.android.vending.billing.IInAppBillingService
 com.android.vending.billing.IInAppBillingService$Stub
 com.android.vending.billing.IInAppBillingService$Stub$Proxy
@@ -55,20 +77,20 @@ com.google.analytics.tracking.android.AdMobInfo
 com.google.analytics.tracking.android.AdMobInfo$AdMobKey
 com.google.analytics.tracking.android.AdMobInfo$AdMobKey: com.google.analytics.tracking.android.AdMobInfo$AdMobKey[] values()
 com.google.analytics.tracking.android.AdMobInfo$AdMobKey: com.google.analytics.tracking.android.AdMobInfo$AdMobKey valueOf(java.lang.String)
-com.google.analytics.tracking.android.Analytics
-com.google.analytics.tracking.android.Analytics$AppOptOutCallback
 com.google.analytics.tracking.android.AnalyticsClient
 com.google.analytics.tracking.android.AnalyticsConstants
 com.google.analytics.tracking.android.AnalyticsGmsCoreClient
 com.google.analytics.tracking.android.AnalyticsGmsCoreClient$AnalyticsServiceConnection
 com.google.analytics.tracking.android.AnalyticsGmsCoreClient$OnConnectedListener
 com.google.analytics.tracking.android.AnalyticsGmsCoreClient$OnConnectionFailedListener
-com.google.analytics.tracking.android.AnalyticsReceiver
-com.google.analytics.tracking.android.AnalyticsReceiver: AnalyticsReceiver()
 com.google.analytics.tracking.android.AnalyticsStore
 com.google.analytics.tracking.android.AnalyticsStoreStateListener
 com.google.analytics.tracking.android.AnalyticsThread
 com.google.analytics.tracking.android.AnalyticsThread$ClientIdCallback
+com.google.analytics.tracking.android.CampaignTrackingReceiver
+com.google.analytics.tracking.android.CampaignTrackingService
+com.google.analytics.tracking.android.CampaignTrackingService: CampaignTrackingService(java.lang.String)
+com.google.analytics.tracking.android.CampaignTrackingService: CampaignTrackingService()
 com.google.analytics.tracking.android.Clock
 com.google.analytics.tracking.android.Dispatcher
 com.google.analytics.tracking.android.EasyTracker
@@ -78,6 +100,7 @@ com.google.analytics.tracking.android.EasyTracker$NotInForegroundTimerTask
 com.google.analytics.tracking.android.ExceptionParser
 com.google.analytics.tracking.android.ExceptionReporter
 com.google.analytics.tracking.android.FutureApis
+com.google.analytics.tracking.android.GANetworkReceiver
 com.google.analytics.tracking.android.GAServiceManager
 com.google.analytics.tracking.android.GAServiceManager$1
 com.google.analytics.tracking.android.GAServiceManager$2
@@ -105,15 +128,10 @@ com.google.analytics.tracking.android.GAUsage$Field: com.google.analytics.tracki
 com.google.analytics.tracking.android.GoogleAnalytics
 com.google.analytics.tracking.android.GoogleAnalytics$1
 com.google.analytics.tracking.android.GoogleAnalytics$2
-com.google.analytics.tracking.android.GoogleTracker
-com.google.analytics.tracking.android.GoogleTracker$1
-com.google.analytics.tracking.android.GoogleTracker$SimpleModel
+com.google.analytics.tracking.android.GoogleAnalytics$AppOptOutCallback
 com.google.analytics.tracking.android.Hit
 com.google.analytics.tracking.android.HitBuilder
 com.google.analytics.tracking.android.HttpClientFactory
-com.google.analytics.tracking.android.Item
-com.google.analytics.tracking.android.Item$1
-com.google.analytics.tracking.android.Item$Builder
 com.google.analytics.tracking.android.Log
 com.google.analytics.tracking.android.MetaModel
 com.google.analytics.tracking.android.MetaModel$Formatter
@@ -127,21 +145,21 @@ com.google.analytics.tracking.android.ParameterLoader
 com.google.analytics.tracking.android.ParameterLoaderImpl
 com.google.analytics.tracking.android.PersistentAnalyticsStore
 com.google.analytics.tracking.android.PersistentAnalyticsStore$1
+com.google.analytics.tracking.android.PersistentAnalyticsStore$2
 com.google.analytics.tracking.android.PersistentAnalyticsStore$AnalyticsDatabaseHelper
 com.google.analytics.tracking.android.ServiceManager
 com.google.analytics.tracking.android.ServiceProxy
 com.google.analytics.tracking.android.SimpleNetworkDispatcher
 com.google.analytics.tracking.android.StandardExceptionParser
-com.google.analytics.tracking.android.TrackedActivity
-com.google.analytics.tracking.android.TrackedExpandableListActivity
-com.google.analytics.tracking.android.TrackedListActivity
-com.google.analytics.tracking.android.TrackedPreferenceActivity
-com.google.analytics.tracking.android.TrackedTabActivity
 com.google.analytics.tracking.android.Tracker
+com.google.analytics.tracking.android.Tracker$1
+com.google.analytics.tracking.android.Tracker$SimpleModel
 com.google.analytics.tracking.android.TrackerHandler
 com.google.analytics.tracking.android.Transaction
 com.google.analytics.tracking.android.Transaction$1
 com.google.analytics.tracking.android.Transaction$Builder
+com.google.analytics.tracking.android.Transaction$Item
+com.google.analytics.tracking.android.Transaction$Item$Builder
 com.google.analytics.tracking.android.Utils
 com.google.android.gms.analytics.internal.Command
 com.google.android.gms.analytics.internal.Command: android.os.Parcelable$Creator CREATOR
@@ -458,9 +476,6 @@ com.ianhanniballake.contractiontimer.ui.MainActivity
 com.ianhanniballake.contractiontimer.ui.MainActivity: MainActivity()
 com.ianhanniballake.contractiontimer.ui.Preferences
 com.ianhanniballake.contractiontimer.ui.Preferences: Preferences()
-com.ianhanniballake.contractiontimer.ui.SafePagerTitleStrip
-com.ianhanniballake.contractiontimer.ui.SafePagerTitleStrip: SafePagerTitleStrip(android.content.Context)
-com.ianhanniballake.contractiontimer.ui.SafePagerTitleStrip: SafePagerTitleStrip(android.content.Context,android.util.AttributeSet)
 com.ianhanniballake.contractiontimer.ui.ViewActivity
 com.ianhanniballake.contractiontimer.ui.ViewActivity: ViewActivity()
 org.acra.ACRA
