@@ -6,7 +6,6 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
-import org.acra.ACRA;
 import org.json.JSONException;
 
 import android.app.Activity;
@@ -592,10 +591,7 @@ public class DonateActivity extends ActionBarFragmentActivity
 			} catch (final IllegalArgumentException e)
 			{
 				// Assume the service has already been unbinded, so only log that it happened
-				Log.e(getClass().getSimpleName(), "Error unbinding service", e);
-				EasyTracker.getTracker().sendException(Thread.currentThread().getName(), e, false);
-				if (!BuildConfig.DEBUG)
-					ACRA.getErrorReporter().handleSilentException(e);
+				Log.w(getClass().getSimpleName(), "Error unbinding service", e);
 			}
 			mServiceConn = null;
 			mService = null;
