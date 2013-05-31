@@ -88,6 +88,7 @@ com.google.analytics.tracking.android.AnalyticsStoreStateListener
 com.google.analytics.tracking.android.AnalyticsThread
 com.google.analytics.tracking.android.AnalyticsThread$ClientIdCallback
 com.google.analytics.tracking.android.CampaignTrackingReceiver
+com.google.analytics.tracking.android.CampaignTrackingReceiver: CampaignTrackingReceiver()
 com.google.analytics.tracking.android.CampaignTrackingService
 com.google.analytics.tracking.android.CampaignTrackingService: CampaignTrackingService(java.lang.String)
 com.google.analytics.tracking.android.CampaignTrackingService: CampaignTrackingService()
