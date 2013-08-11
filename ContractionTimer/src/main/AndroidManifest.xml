@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    package="com.ianhanniballake.contractiontimer"
+    android:installLocation="auto"
+    android:versionCode="7171933"
+    android:versionName="1.9.3.3" >
+
+    <uses-sdk
+        android:minSdkVersion="7"
+        android:targetSdkVersion="17" />
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="com.android.vending.BILLING" />
+
+    <application
+        android:name="ContractionTimerApplication"
+        android:allowBackup="true"
+        android:backupAgent=".backup.ContractionTimerBackupAgent"
+        android:icon="@drawable/icon"
+        android:label="@string/app_name"
+        android:theme="@style/AppTheme" >
+        <provider
+            android:name=".provider.ContractionProvider"
+            android:authorities="com.ianhanniballake.contractiontimer"
+            android:exported="true"
+            tools:ignore="ExportedContentProvider" >
+            <grant-uri-permission android:pathPattern=".*" />
+        </provider>
+
+        <activity
+            android:name=".ui.MainActivity"
+            android:label="@string/app_name" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".ui.ViewActivity"
+            android:label="@string/view_activity_name"
+            android:launchMode="singleTop"
+            tools:ignore="ExportedActivity" >
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+
+                <data android:mimeType="vnd.android.cursor.item/vnd.ianhanniballake.contraction" />
+            </intent-filter>
+
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".ui.MainActivity" />
+        </activity>
+        <activity
+            android:name=".ui.EditActivity"
+            android:label="@string/edit_activity_name"
+            android:launchMode="singleTop"
+            tools:ignore="ExportedActivity" >
+            <intent-filter>
+                <action android:name="android.intent.action.EDIT" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+
+                <data android:mimeType="vnd.android.cursor.item/vnd.ianhanniballake.contraction" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.INSERT" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+
+                <data android:mimeType="vnd.android.cursor.dir/vnd.ianhanniballake.contraction" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".ui.Preferences"
+            android:label="@string/settings"
+            android:launchMode="singleTop"
+            tools:ignore="ExportedActivity" >
+            <intent-filter>
+                <action android:name="android.intent.action.MANAGE_NETWORK_USAGE" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".ui.MainActivity" />
+        </activity>
+        <activity
+            android:name=".ui.DonateActivity"
+            android:label="@string/donate_activity_name" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".ui.MainActivity" />
+        </activity>
+
+        <service android:name=".appwidget.AppWidgetToggleService" />
+        <service android:name=".appwidget.ToggleAppWidgetService" />
+        <service android:name=".appwidget.ControlAppWidgetService" />
+        <service android:name=".appwidget.DetailAppWidgetService" />
+        <service
+            android:name=".appwidget.DetailAppWidgetRemoteViewsService"
+            android:enabled="@bool/detail_appwidget_enabled"
+            android:exported="false"
+            android:permission="android.permission.BIND_REMOTEVIEWS" />
+
+        <receiver
+            android:name=".appwidget.DetailAppWidgetProvider"
+            android:enabled="@bool/detail_appwidget_enabled"
+            android:label="@string/detail_appwidget_label"
+            tools:ignore="ExportedReceiver" >
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/detail_appwidget_info" />
+        </receiver>
+        <receiver
+            android:name=".appwidget.ControlAppWidgetProvider"
+            android:label="@string/control_appwidget_label"
+            tools:ignore="ExportedReceiver" >
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/control_appwidget_info" />
+        </receiver>
+        <receiver
+            android:name=".appwidget.ToggleAppWidgetProvider"
+            android:label="@string/toggle_appwidget_label"
+            tools:ignore="ExportedReceiver" >
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/toggle_appwidget_info" />
+        </receiver>
+
+        <service android:name="com.google.analytics.tracking.android.CampaignTrackingService" />
+
+        <receiver
+            android:name="com.google.analytics.tracking.android.CampaignTrackingReceiver"
+            android:exported="true"
+            tools:ignore="ExportedReceiver" >
+            <intent-filter>
+                <action android:name="com.android.vending.INSTALL_REFERRER" />
+            </intent-filter>
+        </receiver>
+
+        <meta-data
+            android:name="com.google.android.backup.api_key"
+            android:value="AEdPqrEAAAAIRsoSdYXUOINwTp56paLoddxnEcWbM1ZH42Y_wQ" />
+    </application>
+
+</manifest>
