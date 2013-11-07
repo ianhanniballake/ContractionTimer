@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android" >
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
         android:id="@+id/menu_reset"
@@ -9,26 +9,32 @@
     <item
         android:id="@+id/menu_share_averages"
         android:icon="@android:drawable/ic_menu_share"
+        android:showAsAction="never"
         android:title="@string/menu_share_averages"/>
     <item
         android:id="@+id/menu_share_all"
         android:icon="@android:drawable/ic_menu_share"
+        android:showAsAction="never"
         android:title="@string/menu_share_all"/>
     <item
         android:id="@+id/menu_add"
         android:icon="@android:drawable/ic_menu_add"
+        android:showAsAction="never"
         android:title="@string/menu_add"/>
     <item
         android:id="@+id/menu_settings"
         android:icon="@android:drawable/ic_menu_manage"
+        android:showAsAction="never"
         android:title="@string/menu_settings"/>
     <item
         android:id="@+id/menu_about"
         android:icon="@android:drawable/ic_menu_info_details"
+        android:showAsAction="never"
         android:title="@string/menu_about"/>
     <item
         android:id="@+id/menu_donate"
         android:icon="@android:drawable/ic_menu_more"
+        android:showAsAction="never"
         android:title="@string/menu_donate"/>
 
 </menu>
