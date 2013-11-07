@@ -49,220 +49,6 @@ import java.util.List;
  * Activity controlling donations, including Paypal and In-App Billing
  */
 public class DonateActivity extends ActionBarFragmentActivity {
-    private class ConsumeAsyncTask extends AsyncTask<Purchase, Void, List<Purchase>> {
-        private final boolean finishActivity;
-        private final WeakReference<IInAppBillingService> mBillingService;
-
-        ConsumeAsyncTask(final IInAppBillingService service, final boolean finishActivity) {
-            mBillingService = new WeakReference<IInAppBillingService>(service);
-            this.finishActivity = finishActivity;
-        }
-
-        @Override
-        protected List<Purchase> doInBackground(final Purchase... purchases) {
-            if (BuildConfig.DEBUG)
-                Log.d(DonateActivity.class.getSimpleName(), "Starting Consume of " + Arrays.toString(purchases));
-            final List<Purchase> consumedPurchases = new ArrayList<Purchase>();
-            for (final Purchase purchase : purchases) {
-                final String sku = purchase.getSku();
-                try {
-                    final String token = purchase.getToken();
-                    if (TextUtils.isEmpty(token)) {
-                        Log.e(DonateActivity.class.getSimpleName(), "Consume: Invalid token " + token);
-                        EasyTracker.getTracker().sendEvent("Donate", "Consume invalid token", sku, -1L);
-                        break;
-                    }
-                    final IInAppBillingService service = mBillingService.get();
-                    if (service == null) {
-                        Log.w(DonateActivity.class.getSimpleName(), "Consume: Billing service is null");
-                        break;
-                    }
-                    final int response = service.consumePurchase(3, getPackageName(), token);
-                    if (response == 0)
-                        consumedPurchases.add(purchase);
-                    else {
-                        Log.e(DonateActivity.class.getSimpleName(), "Consume: Bad response " + response);
-                        EasyTracker.getTracker().sendEvent("Donate", "Consume bad response " + response, sku, -1L);
-                    }
-                } catch (final RemoteException e) {
-                    Log.e(DonateActivity.class.getSimpleName(), "Consume: Remote exception " + sku, e);
-                    EasyTracker.getTracker().sendEvent("Donate", "Consume remote exception", sku, -1L);
-                }
-            }
-            return consumedPurchases;
-        }
-
-        @Override
-        protected void onPostExecute(final List<Purchase> result) {
-            if (result == null || result.isEmpty()) {
-                Log.w(DonateActivity.class.getSimpleName(), "Consume: No purchases consumed");
-                return;
-            }
-            for (final Purchase purchase : result) {
-                final String sku = purchase.getSku();
-                if (BuildConfig.DEBUG)
-                    Log.d(DonateActivity.class.getSimpleName(), "Consume completed successfully " + sku);
-                EasyTracker.getTracker().sendEvent("Donate", "Purchased", sku, 1L);
-                final long purchasedPriceMicro = skuPrices.containsKey(sku) ? skuPrices.get(sku).longValue() : 0;
-                final String purchasedName = skuNames.containsKey(sku) ? skuNames.get(sku) : sku;
-                final Transaction transaction = new Transaction.Builder(purchase.getOrderId(), purchasedPriceMicro)
-                        .setAffiliation("Google Play").build();
-                transaction.addItem(new Item.Builder(sku, purchasedName, purchasedPriceMicro, 1L).setProductCategory(
-                        "Donation").build());
-                EasyTracker.getTracker().sendTransaction(transaction);
-            }
-            Toast.makeText(DonateActivity.this, R.string.donate_thank_you, Toast.LENGTH_LONG).show();
-            if (finishActivity) {
-                if (BuildConfig.DEBUG)
-                    Log.d(DonateActivity.class.getSimpleName(), "Finishing Donate Activity");
-                finish();
-            }
-        }
-    }
-
-    private class InventoryQueryAsyncTask extends AsyncTask<String, Void, Inventory> {
-        private final WeakReference<IInAppBillingService> mBillingService;
-
-        InventoryQueryAsyncTask(final IInAppBillingService service) {
-            mBillingService = new WeakReference<IInAppBillingService>(service);
-        }
-
-        @Override
-        protected Inventory doInBackground(final String... moreSkus) {
-            try {
-                final Inventory inv = new Inventory();
-                if (BuildConfig.DEBUG)
-                    Log.d(DonateActivity.class.getSimpleName(), "Starting query inventory");
-                int r = queryPurchases(inv);
-                if (r != 0)
-                    return null;
-                if (BuildConfig.DEBUG)
-                    Log.d(DonateActivity.class.getSimpleName(), "Starting sku details query");
-                r = querySkuDetails(inv, moreSkus);
-                if (r != 0)
-                    return null;
-                return inv;
-            } catch (final RemoteException e) {
-                Log.e(DonateActivity.class.getSimpleName(), "Inventory: Remote exception", e);
-                EasyTracker.getTracker().sendEvent("Donate", "Inventory remote exception", "", -1L);
-            } catch (final JSONException e) {
-                Log.e(DonateActivity.class.getSimpleName(), "Inventory: Parsing error", e);
-                EasyTracker.getTracker().sendEvent("Donate", "Inventory parsing error", "", -1L);
-            }
-            return null;
-        }
-
-        @Override
-        protected void onPostExecute(final Inventory inv) {
-            if (BuildConfig.DEBUG)
-                Log.d(getClass().getSimpleName(), "Inventory Returned: " + inv);
-            // If we failed to get the inventory, then leave the in-app billing UI hidden
-            if (inv == null)
-                return;
-            // Make sure we've consumed any previous purchases
-            final List<Purchase> purchases = inv.getAllPurchases();
-            if (!purchases.isEmpty()) {
-                final IInAppBillingService service = mBillingService.get();
-                if (service != null)
-                    new ConsumeAsyncTask(service, false).execute(purchases.toArray(new Purchase[0]));
-                else
-                    Log.w(DonateActivity.class.getSimpleName(), "Inventory: Billing service is null");
-            }
-            final String[] inAppName = new String[skus.length];
-            for (int h = 0; h < skus.length; h++) {
-                final String currentSku = skus[h];
-                final SkuDetails sku = inv.getSkuDetails(currentSku);
-                skuNames.put(currentSku, sku.getTitle());
-                inAppName[h] = sku.getDescription() + " (" + sku.getPrice() + ")";
-            }
-            final Spinner inAppSpinner = (Spinner) findViewById(R.id.donate_in_app_spinner);
-            final ArrayAdapter<String> adapter = new ArrayAdapter<String>(DonateActivity.this,
-                    android.R.layout.simple_spinner_item, inAppName);
-            // Specify the layout to use when the list of choices appears
-            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-            // Apply the adapter to the spinner
-            inAppSpinner.setAdapter(adapter);
-            // And finally show the In-App Billing UI
-            final RelativeLayout inAppLayout = (RelativeLayout) findViewById(R.id.in_app_layout);
-            inAppLayout.setVisibility(View.VISIBLE);
-        }
-
-        int queryPurchases(final Inventory inv) throws JSONException, RemoteException {
-            // Query purchases
-            boolean verificationFailed = false;
-            String continueToken = null;
-            do {
-                final IInAppBillingService service = mBillingService.get();
-                if (service == null) {
-                    Log.w(DonateActivity.class.getSimpleName(), "Purchases: Billing service is null");
-                    return -1;
-                }
-                final Bundle ownedItems = service.getPurchases(3, getPackageName(), ITEM_TYPE_INAPP, continueToken);
-                final int response = getResponseCodeFromBundle(ownedItems);
-                if (response != 0) {
-                    Log.e(getClass().getSimpleName(), "Purchases: Bad response " + response);
-                    EasyTracker.getTracker().sendEvent("Donate", "Purchases bad response " + response, "", -1L);
-                    return response;
-                }
-                if (!ownedItems.containsKey(RESPONSE_INAPP_ITEM_LIST)
-                        || !ownedItems.containsKey(RESPONSE_INAPP_PURCHASE_DATA_LIST)
-                        || !ownedItems.containsKey(RESPONSE_INAPP_SIGNATURE_LIST)) {
-                    Log.e(getClass().getSimpleName(), "Purchases: Invalid data");
-                    EasyTracker.getTracker().sendEvent("Donate", "Purchases invalid data", "", -1L);
-                    return -1;
-                }
-                final ArrayList<String> ownedSkus = ownedItems.getStringArrayList(RESPONSE_INAPP_ITEM_LIST);
-                final ArrayList<String> purchaseDataList = ownedItems
-                        .getStringArrayList(RESPONSE_INAPP_PURCHASE_DATA_LIST);
-                final ArrayList<String> signatureList = ownedItems.getStringArrayList(RESPONSE_INAPP_SIGNATURE_LIST);
-                for (int i = 0; i < purchaseDataList.size(); ++i) {
-                    final String purchaseData = purchaseDataList.get(i);
-                    final String signature = signatureList.get(i);
-                    final Purchase purchase = new Purchase(ITEM_TYPE_INAPP, purchaseData, signature);
-                    if (purchase.getSku().startsWith("android.test") || Security.verifyPurchase(publicKey, purchaseData, signature)) {
-                        // Record ownership and token
-                        inv.addPurchase(purchase);
-                    } else
-                        verificationFailed = true;
-                }
-                continueToken = ownedItems.getString("INAPP_CONTINUATION_TOKEN");
-            } while (!TextUtils.isEmpty(continueToken));
-            return verificationFailed ? -1 : 0;
-        }
-
-        int querySkuDetails(final Inventory inv, final String[] moreSkus) throws RemoteException, JSONException {
-            final ArrayList<String> skuList = new ArrayList<String>();
-            skuList.addAll(inv.getAllOwnedSkus(ITEM_TYPE_INAPP));
-            if (moreSkus != null)
-                skuList.addAll(Arrays.asList(moreSkus));
-            if (skuList.size() == 0)
-                return 0;
-            final Bundle querySkus = new Bundle();
-            querySkus.putStringArrayList("ITEM_ID_LIST", skuList);
-            final IInAppBillingService service = mBillingService.get();
-            if (service == null) {
-                Log.w(DonateActivity.class.getSimpleName(), "SkuDetails: Billing service is null");
-                return -1;
-            }
-            final Bundle skuDetails = service.getSkuDetails(3, getPackageName(), ITEM_TYPE_INAPP, querySkus);
-            if (!skuDetails.containsKey(RESPONSE_GET_SKU_DETAILS_LIST)) {
-                final int response = getResponseCodeFromBundle(skuDetails);
-                if (response != 0) {
-                    Log.e(getClass().getSimpleName(), "SkuDetails: Bad response " + response);
-                    EasyTracker.getTracker().sendEvent("Donate", "SkuDetails bad response " + response, "", -1L);
-                    return response;
-                }
-                return -1;
-            }
-            final ArrayList<String> responseList = skuDetails.getStringArrayList(RESPONSE_GET_SKU_DETAILS_LIST);
-            for (final String thisResponse : responseList) {
-                final SkuDetails d = new SkuDetails(ITEM_TYPE_INAPP, thisResponse);
-                inv.addSkuDetails(d);
-            }
-            return 0;
-        }
-    }
-
     private final static String ITEM_TYPE_INAPP = "inapp";
     private final static String publicKey = "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEApmwDry4kZ8n3DulD1UxcJ89+TRI/DGSvFbhtjNkO1yWki16Q3MzOHwZ4Opyykn3cfiuexMNQYWZfQBqrvkdWWXf+iwBmG6PlOPzgYHV/0ohQhADCUb71SPihmf2WX2zejyNt71sMMUuIklB9HgXukO2uspdWYjKy8CkaMSHK+pQZdG2reACtLjgLMIm1tOlU2C7kGbsL+xodGyh29bO/6cn1/IPrnLZVgAfMm3UDGrqrK2PlgRlLZsoVQKvdi2vbQ8e4LH90rYlXrqEHHgRQw4ozXsj0QmaUx2b2EzRu4q17yvKvhmlFzZSShCkAJgPCOLds0A2SBbOAAX15lB8RmQIDAQAB";
     private final static String PURCHASED_SKU = "com.ianhanniballake.contractiontimer.PURCHASED_SKU";
@@ -272,6 +58,27 @@ public class DonateActivity extends ActionBarFragmentActivity {
     private static final String RESPONSE_INAPP_ITEM_LIST = "INAPP_PURCHASE_ITEM_LIST";
     private static final String RESPONSE_INAPP_PURCHASE_DATA_LIST = "INAPP_PURCHASE_DATA_LIST";
     private static final String RESPONSE_INAPP_SIGNATURE_LIST = "INAPP_DATA_SIGNATURE_LIST";
+    /**
+     * InAppBillingService connection
+     */
+    IInAppBillingService mService;
+    /**
+     * Recently purchased SKU, if any. Should be saved in the instance state
+     */
+    String purchasedSku = "";
+    /**
+     * SKU Product Names
+     */
+    HashMap<String, String> skuNames = new HashMap<String, String>();
+    /**
+     * US Prices for SKUs in micro-currency
+     */
+    HashMap<String, Long> skuPrices = new HashMap<String, Long>();
+    /**
+     * List of valid SKUs
+     */
+    String[] skus = new String[0];
+    private ServiceConnection mServiceConn;
 
     /**
      * Gets the response code from the given Bundle. Workaround to bug where sometimes response codes come as Long
@@ -310,28 +117,6 @@ public class DonateActivity extends ActionBarFragmentActivity {
         else
             throw new RuntimeException("Unexpected type for intent response code: " + o.getClass().getName());
     }
-
-    /**
-     * InAppBillingService connection
-     */
-    IInAppBillingService mService;
-    private ServiceConnection mServiceConn;
-    /**
-     * Recently purchased SKU, if any. Should be saved in the instance state
-     */
-    String purchasedSku = "";
-    /**
-     * SKU Product Names
-     */
-    HashMap<String, String> skuNames = new HashMap<String, String>();
-    /**
-     * US Prices for SKUs in micro-currency
-     */
-    HashMap<String, Long> skuPrices = new HashMap<String, Long>();
-    /**
-     * List of valid SKUs
-     */
-    String[] skus = new String[0];
 
     @Override
     protected void onActivityResult(final int requestCode, final int resultCode, final Intent data) {
@@ -560,5 +345,219 @@ public class DonateActivity extends ActionBarFragmentActivity {
     protected void onStop() {
         super.onStop();
         EasyTracker.getInstance().activityStop(this);
+    }
+
+    private class ConsumeAsyncTask extends AsyncTask<Purchase, Void, List<Purchase>> {
+        private final boolean finishActivity;
+        private final WeakReference<IInAppBillingService> mBillingService;
+
+        ConsumeAsyncTask(final IInAppBillingService service, final boolean finishActivity) {
+            mBillingService = new WeakReference<IInAppBillingService>(service);
+            this.finishActivity = finishActivity;
+        }
+
+        @Override
+        protected List<Purchase> doInBackground(final Purchase... purchases) {
+            if (BuildConfig.DEBUG)
+                Log.d(DonateActivity.class.getSimpleName(), "Starting Consume of " + Arrays.toString(purchases));
+            final List<Purchase> consumedPurchases = new ArrayList<Purchase>();
+            for (final Purchase purchase : purchases) {
+                final String sku = purchase.getSku();
+                try {
+                    final String token = purchase.getToken();
+                    if (TextUtils.isEmpty(token)) {
+                        Log.e(DonateActivity.class.getSimpleName(), "Consume: Invalid token " + token);
+                        EasyTracker.getTracker().sendEvent("Donate", "Consume invalid token", sku, -1L);
+                        break;
+                    }
+                    final IInAppBillingService service = mBillingService.get();
+                    if (service == null) {
+                        Log.w(DonateActivity.class.getSimpleName(), "Consume: Billing service is null");
+                        break;
+                    }
+                    final int response = service.consumePurchase(3, getPackageName(), token);
+                    if (response == 0)
+                        consumedPurchases.add(purchase);
+                    else {
+                        Log.e(DonateActivity.class.getSimpleName(), "Consume: Bad response " + response);
+                        EasyTracker.getTracker().sendEvent("Donate", "Consume bad response " + response, sku, -1L);
+                    }
+                } catch (final RemoteException e) {
+                    Log.e(DonateActivity.class.getSimpleName(), "Consume: Remote exception " + sku, e);
+                    EasyTracker.getTracker().sendEvent("Donate", "Consume remote exception", sku, -1L);
+                }
+            }
+            return consumedPurchases;
+        }
+
+        @Override
+        protected void onPostExecute(final List<Purchase> result) {
+            if (result == null || result.isEmpty()) {
+                Log.w(DonateActivity.class.getSimpleName(), "Consume: No purchases consumed");
+                return;
+            }
+            for (final Purchase purchase : result) {
+                final String sku = purchase.getSku();
+                if (BuildConfig.DEBUG)
+                    Log.d(DonateActivity.class.getSimpleName(), "Consume completed successfully " + sku);
+                EasyTracker.getTracker().sendEvent("Donate", "Purchased", sku, 1L);
+                final long purchasedPriceMicro = skuPrices.containsKey(sku) ? skuPrices.get(sku).longValue() : 0;
+                final String purchasedName = skuNames.containsKey(sku) ? skuNames.get(sku) : sku;
+                final Transaction transaction = new Transaction.Builder(purchase.getOrderId(), purchasedPriceMicro)
+                        .setAffiliation("Google Play").build();
+                transaction.addItem(new Item.Builder(sku, purchasedName, purchasedPriceMicro, 1L).setProductCategory(
+                        "Donation").build());
+                EasyTracker.getTracker().sendTransaction(transaction);
+            }
+            Toast.makeText(DonateActivity.this, R.string.donate_thank_you, Toast.LENGTH_LONG).show();
+            if (finishActivity) {
+                if (BuildConfig.DEBUG)
+                    Log.d(DonateActivity.class.getSimpleName(), "Finishing Donate Activity");
+                finish();
+            }
+        }
+    }
+
+    private class InventoryQueryAsyncTask extends AsyncTask<String, Void, Inventory> {
+        private final WeakReference<IInAppBillingService> mBillingService;
+
+        InventoryQueryAsyncTask(final IInAppBillingService service) {
+            mBillingService = new WeakReference<IInAppBillingService>(service);
+        }
+
+        @Override
+        protected Inventory doInBackground(final String... moreSkus) {
+            try {
+                final Inventory inv = new Inventory();
+                if (BuildConfig.DEBUG)
+                    Log.d(DonateActivity.class.getSimpleName(), "Starting query inventory");
+                int r = queryPurchases(inv);
+                if (r != 0)
+                    return null;
+                if (BuildConfig.DEBUG)
+                    Log.d(DonateActivity.class.getSimpleName(), "Starting sku details query");
+                r = querySkuDetails(inv, moreSkus);
+                if (r != 0)
+                    return null;
+                return inv;
+            } catch (final RemoteException e) {
+                Log.e(DonateActivity.class.getSimpleName(), "Inventory: Remote exception", e);
+                EasyTracker.getTracker().sendEvent("Donate", "Inventory remote exception", "", -1L);
+            } catch (final JSONException e) {
+                Log.e(DonateActivity.class.getSimpleName(), "Inventory: Parsing error", e);
+                EasyTracker.getTracker().sendEvent("Donate", "Inventory parsing error", "", -1L);
+            }
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(final Inventory inv) {
+            if (BuildConfig.DEBUG)
+                Log.d(getClass().getSimpleName(), "Inventory Returned: " + inv);
+            // If we failed to get the inventory, then leave the in-app billing UI hidden
+            if (inv == null)
+                return;
+            // Make sure we've consumed any previous purchases
+            final List<Purchase> purchases = inv.getAllPurchases();
+            if (!purchases.isEmpty()) {
+                final IInAppBillingService service = mBillingService.get();
+                if (service != null)
+                    new ConsumeAsyncTask(service, false).execute(purchases.toArray(new Purchase[0]));
+                else
+                    Log.w(DonateActivity.class.getSimpleName(), "Inventory: Billing service is null");
+            }
+            final String[] inAppName = new String[skus.length];
+            for (int h = 0; h < skus.length; h++) {
+                final String currentSku = skus[h];
+                final SkuDetails sku = inv.getSkuDetails(currentSku);
+                skuNames.put(currentSku, sku.getTitle());
+                inAppName[h] = sku.getDescription() + " (" + sku.getPrice() + ")";
+            }
+            final Spinner inAppSpinner = (Spinner) findViewById(R.id.donate_in_app_spinner);
+            final ArrayAdapter<String> adapter = new ArrayAdapter<String>(DonateActivity.this,
+                    android.R.layout.simple_spinner_item, inAppName);
+            // Specify the layout to use when the list of choices appears
+            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+            // Apply the adapter to the spinner
+            inAppSpinner.setAdapter(adapter);
+            // And finally show the In-App Billing UI
+            final RelativeLayout inAppLayout = (RelativeLayout) findViewById(R.id.in_app_layout);
+            inAppLayout.setVisibility(View.VISIBLE);
+        }
+
+        int queryPurchases(final Inventory inv) throws JSONException, RemoteException {
+            // Query purchases
+            boolean verificationFailed = false;
+            String continueToken = null;
+            do {
+                final IInAppBillingService service = mBillingService.get();
+                if (service == null) {
+                    Log.w(DonateActivity.class.getSimpleName(), "Purchases: Billing service is null");
+                    return -1;
+                }
+                final Bundle ownedItems = service.getPurchases(3, getPackageName(), ITEM_TYPE_INAPP, continueToken);
+                final int response = getResponseCodeFromBundle(ownedItems);
+                if (response != 0) {
+                    Log.e(getClass().getSimpleName(), "Purchases: Bad response " + response);
+                    EasyTracker.getTracker().sendEvent("Donate", "Purchases bad response " + response, "", -1L);
+                    return response;
+                }
+                if (!ownedItems.containsKey(RESPONSE_INAPP_ITEM_LIST)
+                        || !ownedItems.containsKey(RESPONSE_INAPP_PURCHASE_DATA_LIST)
+                        || !ownedItems.containsKey(RESPONSE_INAPP_SIGNATURE_LIST)) {
+                    Log.e(getClass().getSimpleName(), "Purchases: Invalid data");
+                    EasyTracker.getTracker().sendEvent("Donate", "Purchases invalid data", "", -1L);
+                    return -1;
+                }
+                final ArrayList<String> ownedSkus = ownedItems.getStringArrayList(RESPONSE_INAPP_ITEM_LIST);
+                final ArrayList<String> purchaseDataList = ownedItems
+                        .getStringArrayList(RESPONSE_INAPP_PURCHASE_DATA_LIST);
+                final ArrayList<String> signatureList = ownedItems.getStringArrayList(RESPONSE_INAPP_SIGNATURE_LIST);
+                for (int i = 0; i < purchaseDataList.size(); ++i) {
+                    final String purchaseData = purchaseDataList.get(i);
+                    final String signature = signatureList.get(i);
+                    final Purchase purchase = new Purchase(ITEM_TYPE_INAPP, purchaseData, signature);
+                    if (purchase.getSku().startsWith("android.test") || Security.verifyPurchase(publicKey, purchaseData, signature)) {
+                        // Record ownership and token
+                        inv.addPurchase(purchase);
+                    } else
+                        verificationFailed = true;
+                }
+                continueToken = ownedItems.getString("INAPP_CONTINUATION_TOKEN");
+            } while (!TextUtils.isEmpty(continueToken));
+            return verificationFailed ? -1 : 0;
+        }
+
+        int querySkuDetails(final Inventory inv, final String[] moreSkus) throws RemoteException, JSONException {
+            final ArrayList<String> skuList = new ArrayList<String>();
+            skuList.addAll(inv.getAllOwnedSkus(ITEM_TYPE_INAPP));
+            if (moreSkus != null)
+                skuList.addAll(Arrays.asList(moreSkus));
+            if (skuList.size() == 0)
+                return 0;
+            final Bundle querySkus = new Bundle();
+            querySkus.putStringArrayList("ITEM_ID_LIST", skuList);
+            final IInAppBillingService service = mBillingService.get();
+            if (service == null) {
+                Log.w(DonateActivity.class.getSimpleName(), "SkuDetails: Billing service is null");
+                return -1;
+            }
+            final Bundle skuDetails = service.getSkuDetails(3, getPackageName(), ITEM_TYPE_INAPP, querySkus);
+            if (!skuDetails.containsKey(RESPONSE_GET_SKU_DETAILS_LIST)) {
+                final int response = getResponseCodeFromBundle(skuDetails);
+                if (response != 0) {
+                    Log.e(getClass().getSimpleName(), "SkuDetails: Bad response " + response);
+                    EasyTracker.getTracker().sendEvent("Donate", "SkuDetails bad response " + response, "", -1L);
+                    return response;
+                }
+                return -1;
+            }
+            final ArrayList<String> responseList = skuDetails.getStringArrayList(RESPONSE_GET_SKU_DETAILS_LIST);
+            for (final String thisResponse : responseList) {
+                final SkuDetails d = new SkuDetails(ITEM_TYPE_INAPP, thisResponse);
+                inv.addSkuDetails(d);
+            }
+            return 0;
+        }
     }
 }

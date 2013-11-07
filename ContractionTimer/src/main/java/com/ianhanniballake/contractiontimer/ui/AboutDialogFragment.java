@@ -19,46 +19,40 @@ import com.ianhanniballake.contractiontimer.R;
 /**
  * About Dialog for the application
  */
-public class AboutDialogFragment extends DialogFragment
-{
-	/**
-	 * Action associated with this fragment closing
-	 */
-	public final static String ABOUT_CLOSE_ACTION = "com.ianhanniballake.contractiontimer.ABOUT_CLOSE";
+public class AboutDialogFragment extends DialogFragment {
+    /**
+     * Action associated with this fragment closing
+     */
+    public final static String ABOUT_CLOSE_ACTION = "com.ianhanniballake.contractiontimer.ABOUT_CLOSE";
 
-	@Override
-	public void onCancel(final DialogInterface dialog)
-	{
-		if (BuildConfig.DEBUG)
-			Log.d(getClass().getSimpleName(), "Received cancelation event");
-		EasyTracker.getTracker().sendEvent("About", "Cancel", "", 0L);
-		super.onCancel(dialog);
-	}
+    @Override
+    public void onCancel(final DialogInterface dialog) {
+        if (BuildConfig.DEBUG)
+            Log.d(getClass().getSimpleName(), "Received cancelation event");
+        EasyTracker.getTracker().sendEvent("About", "Cancel", "", 0L);
+        super.onCancel(dialog);
+    }
 
-	@Override
-	public Dialog onCreateDialog(final Bundle savedInstanceState)
-	{
-		final LayoutInflater inflater = getActivity().getLayoutInflater();
-		final View layout = inflater.inflate(R.layout.dialog_about, null);
-		return new AlertDialog.Builder(getActivity()).setTitle(R.string.app_name).setIcon(R.drawable.icon)
-				.setView(layout).setInverseBackgroundForced(true)
-				.setNeutralButton(getText(R.string.close), new OnClickListener()
-				{
-					@Override
-					public void onClick(final DialogInterface dialog, final int which)
-					{
-						if (BuildConfig.DEBUG)
-							Log.d(AboutDialogFragment.this.getClass().getSimpleName(), "Received neutral event");
-						EasyTracker.getTracker().sendEvent("About", "Neutral", "", 0L);
-					}
-				}).create();
-	}
+    @Override
+    public Dialog onCreateDialog(final Bundle savedInstanceState) {
+        final LayoutInflater inflater = getActivity().getLayoutInflater();
+        final View layout = inflater.inflate(R.layout.dialog_about, null);
+        return new AlertDialog.Builder(getActivity()).setTitle(R.string.app_name).setIcon(R.drawable.icon)
+                .setView(layout).setInverseBackgroundForced(true)
+                .setNeutralButton(getText(R.string.close), new OnClickListener() {
+                    @Override
+                    public void onClick(final DialogInterface dialog, final int which) {
+                        if (BuildConfig.DEBUG)
+                            Log.d(AboutDialogFragment.this.getClass().getSimpleName(), "Received neutral event");
+                        EasyTracker.getTracker().sendEvent("About", "Neutral", "", 0L);
+                    }
+                }).create();
+    }
 
-	@Override
-	public void onDismiss(final DialogInterface dialog)
-	{
-		final LocalBroadcastManager localBroadcastManager = LocalBroadcastManager.getInstance(getActivity());
-		localBroadcastManager.sendBroadcast(new Intent(ABOUT_CLOSE_ACTION));
-		super.onDismiss(dialog);
-	}
+    @Override
+    public void onDismiss(final DialogInterface dialog) {
+        final LocalBroadcastManager localBroadcastManager = LocalBroadcastManager.getInstance(getActivity());
+        localBroadcastManager.sendBroadcast(new Intent(ABOUT_CLOSE_ACTION));
+        super.onDismiss(dialog);
+    }
 }
