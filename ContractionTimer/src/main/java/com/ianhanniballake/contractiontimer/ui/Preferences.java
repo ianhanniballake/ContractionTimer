@@ -1,17 +1,33 @@
 package com.ianhanniballake.contractiontimer.ui;
 
+import android.annotation.TargetApi;
+import android.content.ContentProviderOperation;
+import android.content.ContentResolver;
+import android.content.ContentUris;
+import android.content.ContentValues;
 import android.content.Intent;
+import android.content.OperationApplicationException;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
 import android.content.pm.ActivityInfo;
+import android.database.Cursor;
+import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
+import android.os.RemoteException;
 import android.preference.ListPreference;
 import android.preference.PreferenceManager;
+import android.provider.BaseColumns;
 import android.support.v4.app.NavUtils;
 import android.support.v4.app.TaskStackBuilder;
+import android.text.TextUtils;
 import android.util.Log;
+import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.AdapterView;
+import android.widget.Toast;
 
 import com.google.analytics.tracking.android.EasyTracker;
 import com.google.analytics.tracking.android.GAServiceManager;
@@ -21,6 +37,19 @@ import com.ianhanniballake.contractiontimer.R;
 import com.ianhanniballake.contractiontimer.actionbar.ActionBarPreferenceActivity;
 import com.ianhanniballake.contractiontimer.appwidget.AppWidgetUpdateHandler;
 import com.ianhanniballake.contractiontimer.backup.BackupController;
+import com.ianhanniballake.contractiontimer.provider.ContractionContract;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.BufferedOutputStream;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Scanner;
 
 /**
  * Activity managing the various application preferences
@@ -78,6 +107,14 @@ public class Preferences extends ActionBarPreferenceActivity implements OnShared
     }
 
     @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        super.onCreateOptionsMenu(menu);
+        getMenuInflater().inflate(R.menu.activity_settings, menu);
+        // Only show export/import options on Froyo+ devices
+        return Build.VERSION.SDK_INT >= Build.VERSION_CODES.FROYO;
+    }
+
+    @Override
     public boolean onOptionsItemSelected(final MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
@@ -87,6 +124,14 @@ public class Preferences extends ActionBarPreferenceActivity implements OnShared
                     finish();
                 } else
                     NavUtils.navigateUpTo(this, upIntent);
+                return true;
+            case R.id.menu_export:
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.FROYO)
+                    new ExportContractionsAsyncTask().execute();
+                return true;
+            case R.id.menu_import:
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.FROYO)
+                    new ImportContractionsAsyncTask().execute();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -178,5 +223,148 @@ public class Preferences extends ActionBarPreferenceActivity implements OnShared
     protected void onStop() {
         super.onStop();
         EasyTracker.getInstance().activityStop(this);
+    }
+
+    @TargetApi(8)
+    private class ExportContractionsAsyncTask extends AsyncTask<Void, Void, Boolean> {
+        @Override
+        protected Boolean doInBackground(Void... params) {
+            ArrayList<JSONObject> contractions = new ArrayList<JSONObject>();
+            Cursor data = getContentResolver().query(ContractionContract.Contractions.CONTENT_URI, null, null, null,
+                    null);
+            if (data != null) {
+                while (data.moveToNext()) {
+                    try {
+                        JSONObject contraction = new JSONObject();
+                        final int startTimeColumnIndex = data.getColumnIndex(ContractionContract.Contractions
+                                .COLUMN_NAME_START_TIME);
+                        final long startTime = data.getLong(startTimeColumnIndex);
+                        contraction.put(ContractionContract.Contractions.COLUMN_NAME_START_TIME, startTime);
+                        final int endTimeColumnIndex = data.getColumnIndex(ContractionContract.Contractions
+                                .COLUMN_NAME_END_TIME);
+                        if (!data.isNull(endTimeColumnIndex)) {
+                            final long endTime = data.getLong(endTimeColumnIndex);
+                            contraction.put(ContractionContract.Contractions.COLUMN_NAME_END_TIME, endTime);
+                        } else
+                            contraction.put(ContractionContract.Contractions.COLUMN_NAME_END_TIME, null);
+                        final int noteColumnIndex = data.getColumnIndex(ContractionContract.Contractions
+                                .COLUMN_NAME_NOTE);
+                        if (!data.isNull(noteColumnIndex)) {
+                            final String note = data.getString(noteColumnIndex);
+                            if (!TextUtils.isEmpty(note))
+                                contraction.put(ContractionContract.Contractions.COLUMN_NAME_NOTE, note);
+                        }
+                        contractions.add(contraction);
+                    } catch (JSONException e) {
+                        Log.e(Preferences.class.getSimpleName(), "Error creating JSON", e);
+                        return false;
+                    }
+                }
+                data.close();
+            }
+            File path = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS);
+            if (path == null)
+                return false;
+            File output = new File(path, "Contractions.json");
+            BufferedOutputStream os = null;
+            try {
+                os = new BufferedOutputStream(new FileOutputStream(output));
+                os.write(new JSONArray(contractions).toString().getBytes());
+            } catch (IOException e) {
+                Log.e(Preferences.class.getSimpleName(), "Error writing contractions", e);
+                return false;
+            } finally {
+                if (os != null)
+                    try {
+                        os.close();
+                    } catch (IOException e) {
+                        Log.e(Preferences.class.getSimpleName(), "Error closing output stream", e);
+                    }
+            }
+            return true;
+        }
+
+        @Override
+        protected void onPostExecute(Boolean result) {
+            if (result)
+                Toast.makeText(Preferences.this, "Export to Downloads successful", Toast.LENGTH_LONG).show();
+            else
+                Toast.makeText(Preferences.this, "Export failed", Toast.LENGTH_LONG).show();
+        }
+    }
+
+    @TargetApi(8)
+    private class ImportContractionsAsyncTask extends AsyncTask<Void, Void, Boolean> {
+        @Override
+        protected Boolean doInBackground(Void... params) {
+            File path = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS);
+            if (path == null)
+                return false;
+            File input = new File(path, "Contractions.json");
+            if (!input.exists())
+                return false;
+            ArrayList<ContentProviderOperation> operations = new ArrayList<ContentProviderOperation>();
+            try {
+                Scanner scanner = new Scanner(input);
+                JSONArray contractions = new JSONArray(scanner.useDelimiter("\\Z").next());
+                scanner.close();
+                final int size = contractions.length();
+                ContentResolver resolver = getContentResolver();
+                String[] projection = new String[]{BaseColumns._ID};
+                for (int index = 0; index < size; index++) {
+                    JSONObject contraction = contractions.getJSONObject(index);
+                    ContentValues values = new ContentValues();
+                    final long startTime = contraction.getLong(ContractionContract.Contractions
+                            .COLUMN_NAME_START_TIME);
+                    values.put(ContractionContract.Contractions.COLUMN_NAME_START_TIME,
+                            startTime);
+                    if (contraction.has(ContractionContract.Contractions.COLUMN_NAME_END_TIME))
+                        values.put(ContractionContract.Contractions.COLUMN_NAME_END_TIME,
+                                contraction.getLong(ContractionContract.Contractions.COLUMN_NAME_END_TIME));
+                    if (contraction.has(ContractionContract.Contractions.COLUMN_NAME_NOTE))
+                        values.put(ContractionContract.Contractions.COLUMN_NAME_NOTE,
+                                contraction.getString(ContractionContract.Contractions.COLUMN_NAME_NOTE));
+                    Cursor existingRow = resolver.query(ContractionContract.Contractions.CONTENT_URI,
+                            projection, ContractionContract.Contractions.COLUMN_NAME_START_TIME
+                            + "=?", new String[]{Long.toString(startTime)}, null);
+                    long existingRowId = AdapterView.INVALID_ROW_ID;
+                    if (existingRow != null) {
+                        existingRowId = existingRow.moveToFirst() ? existingRow.getLong(0) : AdapterView.INVALID_ROW_ID;
+                        existingRow.close();
+                    }
+                    if (existingRowId == AdapterView.INVALID_ROW_ID)
+                        operations.add(ContentProviderOperation.newInsert(ContractionContract.Contractions.CONTENT_URI)
+                                .withValues(values).build());
+                    else
+                        operations.add(ContentProviderOperation.newUpdate(ContentUris.withAppendedId
+                                (ContractionContract.Contractions.CONTENT_ID_URI_BASE,
+                                        existingRowId)).withValues(values).build());
+                }
+            } catch (FileNotFoundException e) {
+                Log.e(Preferences.class.getSimpleName(), "Could not find file", e);
+                return false;
+            } catch (JSONException e) {
+                Log.e(Preferences.class.getSimpleName(), "Error reading file", e);
+                return false;
+            }
+            try {
+                getContentResolver().applyBatch(ContractionContract.AUTHORITY, operations);
+            } catch (RemoteException e) {
+                Log.e(Preferences.class.getSimpleName(), "Error applying contractions", e);
+                return false;
+            } catch (OperationApplicationException e) {
+                Log.e(Preferences.class.getSimpleName(), "Error applying contractions", e);
+                return false;
+            }
+            return true;
+        }
+
+        @Override
+        protected void onPostExecute(Boolean result) {
+            if (result)
+                Toast.makeText(Preferences.this, "Import successful", Toast.LENGTH_LONG).show();
+            else
+                Toast.makeText(Preferences.this, "Import failed", Toast.LENGTH_LONG).show();
+        }
     }
 }

@@ -78,6 +78,8 @@
     <string name="detail_appwidget_label">Contraction Details</string>
     <string name="duration_ongoing">Timing</string>
     <string name="settings">Settings</string>
+    <string name="menu_export">Export Contractions</string>
+    <string name="menu_import">Import Contractions</string>
     <string name="pref_settings_category">Settings</string>
     <string name="pref_settings_keep_screen_on_summary">Keep the screen on when on the main contraction screen</string>
     <string name="pref_settings_keep_screen_on_title">Keep Screen On</string>
