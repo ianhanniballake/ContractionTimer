@@ -19,11 +19,21 @@ android {
         targetSdkVersion 18
     }
 
+    signingConfigs {
+        releaseConfig {
+            storeFile file(System.getenv("KEYSTORE"))
+            storePassword System.getenv("KEYSTORE_PASSWORD")
+            keyAlias System.getenv("CONTRACTION_TIMER_ALIAS")
+            keyPassword System.getenv("CONTRACTION_TIMER_PASSWORD")
+        }
+    }
+
     buildTypes {
         release {
             runProguard true
             proguardFile getDefaultProguardFile('proguard-android.txt')
             proguardFile 'proguard-project.txt'
+            signingConfig signingConfigs.releaseConfig
         }
     }
 }
