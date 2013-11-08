@@ -83,6 +83,7 @@ public class Preferences extends ActionBarPreferenceActivity implements OnShared
      * Lock Portrait preference name
      */
     public static final String LOCK_PORTRAIT_PREFERENCE_KEY = "lock_portrait";
+    private static final String CONTRACTIONS_FILE_NAME = "Contractions.json";
     /**
      * Reference to the ListPreference corresponding with the Appwidget background
      */
@@ -226,9 +227,9 @@ public class Preferences extends ActionBarPreferenceActivity implements OnShared
     }
 
     @TargetApi(8)
-    private class ExportContractionsAsyncTask extends AsyncTask<Void, Void, Boolean> {
+    private class ExportContractionsAsyncTask extends AsyncTask<Void, Void, String> {
         @Override
-        protected Boolean doInBackground(Void... params) {
+        protected String doInBackground(Void... params) {
             ArrayList<JSONObject> contractions = new ArrayList<JSONObject>();
             Cursor data = getContentResolver().query(ContractionContract.Contractions.CONTENT_URI, null, null, null,
                     null);
@@ -257,22 +258,22 @@ public class Preferences extends ActionBarPreferenceActivity implements OnShared
                         contractions.add(contraction);
                     } catch (JSONException e) {
                         Log.e(Preferences.class.getSimpleName(), "Error creating JSON", e);
-                        return false;
+                        return "Error creating JSON";
                     }
                 }
                 data.close();
             }
             File path = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS);
             if (path == null)
-                return false;
-            File output = new File(path, "Contractions.json");
+                return "Could not access external storage";
+            File output = new File(path, CONTRACTIONS_FILE_NAME);
             BufferedOutputStream os = null;
             try {
                 os = new BufferedOutputStream(new FileOutputStream(output));
                 os.write(new JSONArray(contractions).toString().getBytes());
             } catch (IOException e) {
                 Log.e(Preferences.class.getSimpleName(), "Error writing contractions", e);
-                return false;
+                return "Error writing contractions";
             } finally {
                 if (os != null)
                     try {
@@ -281,28 +282,27 @@ public class Preferences extends ActionBarPreferenceActivity implements OnShared
                         Log.e(Preferences.class.getSimpleName(), "Error closing output stream", e);
                     }
             }
-            return true;
+            return null;
         }
 
         @Override
-        protected void onPostExecute(Boolean result) {
-            if (result)
-                Toast.makeText(Preferences.this, "Export to Downloads successful", Toast.LENGTH_LONG).show();
+        protected void onPostExecute(String error) {
+            if (TextUtils.isEmpty(error))
+                Toast.makeText(Preferences.this, "Export of " + CONTRACTIONS_FILE_NAME +
+                        " to Download folder successful", Toast.LENGTH_LONG).show();
             else
-                Toast.makeText(Preferences.this, "Export failed", Toast.LENGTH_LONG).show();
+                Toast.makeText(Preferences.this, "Export failed: " + error, Toast.LENGTH_LONG).show();
         }
     }
 
     @TargetApi(8)
-    private class ImportContractionsAsyncTask extends AsyncTask<Void, Void, Boolean> {
+    private class ImportContractionsAsyncTask extends AsyncTask<Void, Void, String> {
         @Override
-        protected Boolean doInBackground(Void... params) {
+        protected String doInBackground(Void... params) {
             File path = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS);
             if (path == null)
-                return false;
-            File input = new File(path, "Contractions.json");
-            if (!input.exists())
-                return false;
+                return "Could not access external storage";
+            File input = new File(path, CONTRACTIONS_FILE_NAME);
             ArrayList<ContentProviderOperation> operations = new ArrayList<ContentProviderOperation>();
             try {
                 Scanner scanner = new Scanner(input);
@@ -342,29 +342,29 @@ public class Preferences extends ActionBarPreferenceActivity implements OnShared
                 }
             } catch (FileNotFoundException e) {
                 Log.e(Preferences.class.getSimpleName(), "Could not find file", e);
-                return false;
+                return "Could not find " + CONTRACTIONS_FILE_NAME + " in Download folder";
             } catch (JSONException e) {
-                Log.e(Preferences.class.getSimpleName(), "Error reading file", e);
-                return false;
+                Log.e(Preferences.class.getSimpleName(), "Error parsing file", e);
+                return "Error parsing file";
             }
             try {
                 getContentResolver().applyBatch(ContractionContract.AUTHORITY, operations);
             } catch (RemoteException e) {
-                Log.e(Preferences.class.getSimpleName(), "Error applying contractions", e);
-                return false;
+                Log.e(Preferences.class.getSimpleName(), "Error saving contractions", e);
+                return "Error saving contractions";
             } catch (OperationApplicationException e) {
-                Log.e(Preferences.class.getSimpleName(), "Error applying contractions", e);
-                return false;
+                Log.e(Preferences.class.getSimpleName(), "Error saving contractions", e);
+                return "Error saving contractions";
             }
-            return true;
+            return null;
         }
 
         @Override
-        protected void onPostExecute(Boolean result) {
-            if (result)
+        protected void onPostExecute(String error) {
+            if (TextUtils.isEmpty(error))
                 Toast.makeText(Preferences.this, "Import successful", Toast.LENGTH_LONG).show();
             else
-                Toast.makeText(Preferences.this, "Import failed", Toast.LENGTH_LONG).show();
+                Toast.makeText(Preferences.this, "Import failed: " + error, Toast.LENGTH_LONG).show();
         }
     }
 }
