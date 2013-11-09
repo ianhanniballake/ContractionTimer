@@ -306,7 +306,7 @@ public class Preferences extends ActionBarPreferenceActivity implements OnShared
             ArrayList<ContentProviderOperation> operations = new ArrayList<ContentProviderOperation>();
             try {
                 Scanner scanner = new Scanner(input);
-                JSONArray contractions = new JSONArray(scanner.useDelimiter("\\Z").next());
+                JSONArray contractions = new JSONArray(scanner.useDelimiter("\\A").next());
                 scanner.close();
                 final int size = contractions.length();
                 ContentResolver resolver = getContentResolver();
