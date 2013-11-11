@@ -1,15 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android" >
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+      xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
         android:id="@+id/menu_save"
         android:icon="@android:drawable/ic_menu_save"
-        android:showAsAction="always|withText"
-        android:title="@string/menu_save"/>
+        android:title="@string/menu_save"
+        app:showAsAction="always|withText"/>
     <item
         android:id="@+id/menu_cancel"
         android:icon="@android:drawable/ic_menu_close_clear_cancel"
-        android:showAsAction="ifRoom|withText"
-        android:title="@string/menu_cancel"/>
+        android:title="@string/menu_cancel"
+        app:showAsAction="ifRoom|withText"/>
 
 </menu>

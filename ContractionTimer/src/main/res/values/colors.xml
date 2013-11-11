@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <color name="actionbar_compat_background">#EEE</color>
     <color name="pagerstrip_background">#D8F6CE</color>
     <color name="average_background">#D8F6CE</color>
     <color name="error_background">#F78181</color>

@@ -1,35 +1,6 @@
 <resources>
 
-    <style name="AppTheme" parent="android:style/Theme.Light">
-        <item name="android:windowTitleSize">@dimen/actionbar_compat_height</item>
-        <item name="android:windowTitleBackgroundStyle">@style/ActionBarCompat</item>
-        <item name="android:windowContentOverlay">@drawable/actionbar_shadow</item>
-
-        <!-- for programmatic instantiation -->
-        <item name="actionbarCompatTitleStyle">@style/ActionBarCompatTitle</item>
-        <item name="actionbarCompatItemStyle">@style/ActionBarCompatItem</item>
-    </style>
-
-    <style name="ActionBarCompat">
-        <item name="android:background">@color/actionbar_compat_background</item>
-    </style>
-
-    <style name="ActionBarCompatItem">
-
-        <!-- layout_width/height must be set in code -->
-        <item name="android:scaleType">center</item>
-        <item name="android:background">@drawable/actionbar_compat_item</item>
-    </style>
-
-    <style name="ActionBarCompatTitle">
-        <item name="android:id">@+id/actionbar_compat_title</item>
-        <!-- layout_width/height/weight must be set in code -->
-        <item name="android:gravity">center_vertical</item>
-        <item name="android:textSize">@dimen/actionbar_compat_title_textsize</item>
-        <item name="android:paddingLeft">@dimen/actionbar_compat_padding</item>
-        <item name="android:paddingRight">@dimen/actionbar_compat_padding</item>
-        <item name="android:singleLine">true</item>
-        <item name="android:ellipsize">marquee</item>
+    <style name="AppTheme" parent="@style/Theme.AppCompat.Light">
     </style>
 
 </resources>

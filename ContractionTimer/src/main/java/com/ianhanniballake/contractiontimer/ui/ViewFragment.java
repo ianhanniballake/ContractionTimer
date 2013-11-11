@@ -29,7 +29,6 @@ import android.widget.Toast;
 import com.google.analytics.tracking.android.EasyTracker;
 import com.ianhanniballake.contractiontimer.BuildConfig;
 import com.ianhanniballake.contractiontimer.R;
-import com.ianhanniballake.contractiontimer.actionbar.SimpleMenuItem;
 import com.ianhanniballake.contractiontimer.appwidget.AppWidgetUpdateHandler;
 import com.ianhanniballake.contractiontimer.provider.ContractionContract;
 
@@ -162,10 +161,7 @@ public class ViewFragment extends Fragment implements LoaderManager.LoaderCallba
         // Only allow editing contractions that have already finished
         final boolean showEdit = isContractionOngoing != null && !isContractionOngoing;
         final MenuItem editItem = menu.findItem(R.id.menu_edit);
-        editItem.setEnabled(showEdit);
-        // Don't directly set visibility unless it is one of our SimpleMenuItems
-        if (editItem instanceof SimpleMenuItem)
-            editItem.setVisible(showEdit);
+        editItem.setVisible(showEdit);
     }
 
     @Override

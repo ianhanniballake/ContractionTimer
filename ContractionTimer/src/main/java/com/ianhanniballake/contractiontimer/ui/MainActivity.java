@@ -19,6 +19,7 @@ import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.widget.CursorAdapter;
+import android.support.v7.app.ActionBarActivity;
 import android.text.format.DateFormat;
 import android.text.format.DateUtils;
 import android.util.Log;
@@ -32,13 +33,12 @@ import android.widget.TextView;
 import com.google.analytics.tracking.android.EasyTracker;
 import com.ianhanniballake.contractiontimer.BuildConfig;
 import com.ianhanniballake.contractiontimer.R;
-import com.ianhanniballake.contractiontimer.actionbar.ActionBarFragmentActivity;
 import com.ianhanniballake.contractiontimer.provider.ContractionContract;
 
 /**
  * Main Activity for managing contractions
  */
-public class MainActivity extends ActionBarFragmentActivity implements LoaderManager.LoaderCallbacks<Cursor> {
+public class MainActivity extends ActionBarActivity implements LoaderManager.LoaderCallbacks<Cursor> {
     /**
      * Intent extra used to signify that this activity was launched from a widget
      */

@@ -5,7 +5,6 @@ import android.content.ContentProviderOperation;
 import android.content.ContentResolver;
 import android.content.ContentUris;
 import android.content.ContentValues;
-import android.content.Intent;
 import android.content.OperationApplicationException;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
@@ -18,10 +17,9 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.os.RemoteException;
 import android.preference.ListPreference;
+import android.preference.PreferenceActivity;
 import android.preference.PreferenceManager;
 import android.provider.BaseColumns;
-import android.support.v4.app.NavUtils;
-import android.support.v4.app.TaskStackBuilder;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.Menu;
@@ -34,7 +32,6 @@ import com.google.analytics.tracking.android.GAServiceManager;
 import com.google.analytics.tracking.android.GoogleAnalytics;
 import com.ianhanniballake.contractiontimer.BuildConfig;
 import com.ianhanniballake.contractiontimer.R;
-import com.ianhanniballake.contractiontimer.actionbar.ActionBarPreferenceActivity;
 import com.ianhanniballake.contractiontimer.appwidget.AppWidgetUpdateHandler;
 import com.ianhanniballake.contractiontimer.backup.BackupController;
 import com.ianhanniballake.contractiontimer.provider.ContractionContract;
@@ -54,7 +51,7 @@ import java.util.Scanner;
 /**
  * Activity managing the various application preferences
  */
-public class Preferences extends ActionBarPreferenceActivity implements OnSharedPreferenceChangeListener {
+public class Preferences extends PreferenceActivity implements OnSharedPreferenceChangeListener {
     /**
      * Analytics preference name
      */
@@ -118,14 +115,6 @@ public class Preferences extends ActionBarPreferenceActivity implements OnShared
     @Override
     public boolean onOptionsItemSelected(final MenuItem item) {
         switch (item.getItemId()) {
-            case android.R.id.home:
-                final Intent upIntent = NavUtils.getParentActivityIntent(this);
-                if (NavUtils.shouldUpRecreateTask(this, upIntent)) {
-                    TaskStackBuilder.create(this).addParentStack(this).startActivities();
-                    finish();
-                } else
-                    NavUtils.navigateUpTo(this, upIntent);
-                return true;
             case R.id.menu_export:
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.FROYO)
                     new ExportContractionsAsyncTask().execute();
@@ -215,7 +204,6 @@ public class Preferences extends ActionBarPreferenceActivity implements OnShared
     @Override
     protected void onStart() {
         super.onStart();
-        getActionBarHelper().setDisplayHomeAsUpEnabled(true);
         EasyTracker.getInstance().activityStart(this);
         EasyTracker.getTracker().sendView("Preferences");
     }

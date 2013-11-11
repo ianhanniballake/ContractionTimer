@@ -1,21 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android" xmlns:tools="http://schemas.android.com/tools">
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+      xmlns:app="http://schemas.android.com/apk/res-auto"
+      xmlns:tools="http://schemas.android.com/tools">
 
     <item
         android:id="@+id/menu_context_view"
         android:icon="@android:drawable/ic_menu_view"
-        android:showAsAction="ifRoom|withText"
         android:title="@string/menu_context_view"
-        android:titleCondensed="@string/menu_context_view_condensed"/>
+        android:titleCondensed="@string/menu_context_view_condensed"
+        app:showAsAction="ifRoom|withText"/>
     <item
         android:id="@+id/menu_context_note"
         android:icon="@android:drawable/ic_menu_edit"
-        android:showAsAction="ifRoom|withText"
-        android:title="@string/note_dialog_title_add"/>
+        android:title="@string/note_dialog_title_add"
+        app:showAsAction="ifRoom|withText"/>
     <item
         android:id="@+id/menu_context_delete"
         android:icon="@android:drawable/ic_menu_delete"
-        android:showAsAction="ifRoom|withText"
+        app:showAsAction="ifRoom|withText"
         tools:ignore="MenuTitle"/>
 
 </menu>

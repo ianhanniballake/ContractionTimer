@@ -1,40 +1,41 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android">
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+      xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
         android:id="@+id/menu_reset"
         android:icon="@android:drawable/ic_menu_delete"
-        android:showAsAction="ifRoom|withText"
-        android:title="@string/menu_reset"/>
+        android:title="@string/menu_reset"
+        app:showAsAction="ifRoom|withText"/>
     <item
         android:id="@+id/menu_share_averages"
         android:icon="@android:drawable/ic_menu_share"
-        android:showAsAction="never"
-        android:title="@string/menu_share_averages"/>
+        android:title="@string/menu_share_averages"
+        app:showAsAction="never"/>
     <item
         android:id="@+id/menu_share_all"
         android:icon="@android:drawable/ic_menu_share"
-        android:showAsAction="never"
-        android:title="@string/menu_share_all"/>
+        android:title="@string/menu_share_all"
+        app:showAsAction="never"/>
     <item
         android:id="@+id/menu_add"
         android:icon="@android:drawable/ic_menu_add"
-        android:showAsAction="never"
-        android:title="@string/menu_add"/>
+        android:title="@string/menu_add"
+        app:showAsAction="never"/>
     <item
         android:id="@+id/menu_settings"
         android:icon="@android:drawable/ic_menu_manage"
-        android:showAsAction="never"
-        android:title="@string/menu_settings"/>
+        android:title="@string/menu_settings"
+        app:showAsAction="never"/>
     <item
         android:id="@+id/menu_about"
         android:icon="@android:drawable/ic_menu_info_details"
-        android:showAsAction="never"
-        android:title="@string/menu_about"/>
+        android:title="@string/menu_about"
+        app:showAsAction="never"/>
     <item
         android:id="@+id/menu_donate"
         android:icon="@android:drawable/ic_menu_more"
-        android:showAsAction="never"
-        android:title="@string/menu_donate"/>
+        android:title="@string/menu_donate"
+        app:showAsAction="never"/>
 
 </menu>

@@ -2,7 +2,6 @@ package com.ianhanniballake.contractiontimer.ui;
 
 import android.content.ContentUris;
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
 import android.database.Cursor;
@@ -13,12 +12,11 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.app.LoaderManager;
-import android.support.v4.app.NavUtils;
-import android.support.v4.app.TaskStackBuilder;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.CursorAdapter;
+import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -28,7 +26,6 @@ import android.view.ViewGroup;
 import com.google.analytics.tracking.android.EasyTracker;
 import com.ianhanniballake.contractiontimer.BuildConfig;
 import com.ianhanniballake.contractiontimer.R;
-import com.ianhanniballake.contractiontimer.actionbar.ActionBarFragmentActivity;
 import com.ianhanniballake.contractiontimer.provider.ContractionContract;
 import com.ianhanniballake.contractiontimer.provider.ContractionContract.Contractions;
 
@@ -37,7 +34,7 @@ import org.acra.ACRA;
 /**
  * Stand alone activity used to view the details of an individual contraction
  */
-public class ViewActivity extends ActionBarFragmentActivity implements LoaderManager.LoaderCallbacks<Cursor>,
+public class ViewActivity extends ActionBarActivity implements LoaderManager.LoaderCallbacks<Cursor>,
         ViewPager.OnPageChangeListener {
     /**
      * Adapter for all contractions
@@ -141,13 +138,7 @@ public class ViewActivity extends ActionBarFragmentActivity implements LoaderMan
                 if (BuildConfig.DEBUG)
                     Log.d(getClass().getSimpleName(), "View selected home");
                 EasyTracker.getTracker().sendEvent("View", "Home", "", 0L);
-                final Intent upIntent = NavUtils.getParentActivityIntent(this);
-                if (NavUtils.shouldUpRecreateTask(this, upIntent)) {
-                    TaskStackBuilder.create(this).addParentStack(this).startActivities();
-                    finish();
-                } else
-                    NavUtils.navigateUpTo(this, upIntent);
-                return true;
+                return false;
             default:
                 return super.onOptionsItemSelected(item);
         }
@@ -195,7 +186,7 @@ public class ViewActivity extends ActionBarFragmentActivity implements LoaderMan
     @Override
     protected void onStart() {
         super.onStart();
-        getActionBarHelper().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         if (getIntent().hasExtra(MainActivity.LAUNCHED_FROM_WIDGET_EXTRA)) {
             final String widgetIdentifier = getIntent().getExtras().getString(MainActivity.LAUNCHED_FROM_WIDGET_EXTRA);
             if (BuildConfig.DEBUG)

@@ -16,6 +16,7 @@ import android.os.Bundle;
 import android.os.IBinder;
 import android.os.RemoteException;
 import android.preference.PreferenceManager;
+import android.support.v7.app.ActionBarActivity;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
@@ -31,7 +32,6 @@ import com.google.analytics.tracking.android.Transaction;
 import com.google.analytics.tracking.android.Transaction.Item;
 import com.ianhanniballake.contractiontimer.BuildConfig;
 import com.ianhanniballake.contractiontimer.R;
-import com.ianhanniballake.contractiontimer.actionbar.ActionBarFragmentActivity;
 import com.ianhanniballake.contractiontimer.inappbilling.Inventory;
 import com.ianhanniballake.contractiontimer.inappbilling.Purchase;
 import com.ianhanniballake.contractiontimer.inappbilling.Security;
@@ -48,7 +48,7 @@ import java.util.List;
 /**
  * Activity controlling donations, including Paypal and In-App Billing
  */
-public class DonateActivity extends ActionBarFragmentActivity {
+public class DonateActivity extends ActionBarActivity {
     private final static String ITEM_TYPE_INAPP = "inapp";
     private final static String publicKey = "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEApmwDry4kZ8n3DulD1UxcJ89+TRI/DGSvFbhtjNkO1yWki16Q3MzOHwZ4Opyykn3cfiuexMNQYWZfQBqrvkdWWXf+iwBmG6PlOPzgYHV/0ohQhADCUb71SPihmf2WX2zejyNt71sMMUuIklB9HgXukO2uspdWYjKy8CkaMSHK+pQZdG2reACtLjgLMIm1tOlU2C7kGbsL+xodGyh29bO/6cn1/IPrnLZVgAfMm3UDGrqrK2PlgRlLZsoVQKvdi2vbQ8e4LH90rYlXrqEHHgRQw4ozXsj0QmaUx2b2EzRu4q17yvKvhmlFzZSShCkAJgPCOLds0A2SBbOAAX15lB8RmQIDAQAB";
     private final static String PURCHASED_SKU = "com.ianhanniballake.contractiontimer.PURCHASED_SKU";
@@ -336,7 +336,7 @@ public class DonateActivity extends ActionBarFragmentActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        getActionBarHelper().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         EasyTracker.getInstance().activityStart(this);
         EasyTracker.getTracker().sendView("Donate");
     }

@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.LocalBroadcastManager;
+import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -17,12 +18,11 @@ import android.view.MenuItem;
 import com.google.analytics.tracking.android.EasyTracker;
 import com.ianhanniballake.contractiontimer.BuildConfig;
 import com.ianhanniballake.contractiontimer.R;
-import com.ianhanniballake.contractiontimer.actionbar.ActionBarFragmentActivity;
 
 /**
  * Stand alone activity used to view the details of an individual contraction
  */
-public class EditActivity extends ActionBarFragmentActivity {
+public class EditActivity extends ActionBarActivity {
     /**
      * BroadcastReceiver listening for TIME_PICKER_CLOSE_ACTION and DATE_PICKER_CLOSE_ACTION actions
      */
@@ -103,7 +103,7 @@ public class EditActivity extends ActionBarFragmentActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        getActionBarHelper().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         EasyTracker.getInstance().activityStart(this);
         if (Intent.ACTION_INSERT.equals(getIntent().getAction()))
             EasyTracker.getTracker().sendView("Add");
