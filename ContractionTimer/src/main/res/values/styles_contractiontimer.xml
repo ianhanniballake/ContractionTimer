@@ -21,10 +21,10 @@
 
     <style name="Theme.ContractionTimer" parent="@style/Theme.AppCompat.Light">
         <item name="actionBarItemBackground">@drawable/selectable_background_contractiontimer</item>
+        <item name="popupMenuStyle">@style/PopupMenu.ContractionTimer</item>
+        <item name="dropDownListViewStyle">@style/DropDownListView.ContractionTimer</item>
+        <item name="actionDropDownStyle">@style/DropDownNav.ContractionTimer</item>
         <item name="actionBarStyle">@style/ActionBar.Solid.ContractionTimer</item>
-        <item name="popupMenuStyle">@style/PopupMenu.Contractiontimer</item>
-        <item name="dropDownListViewStyle">@style/DropDownListView.Contractiontimer</item>
-        <item name="actionDropDownStyle">@style/DropDownNav.Contractiontimer</item>
         <item name="actionModeBackground">@drawable/cab_background_top_contractiontimer</item>
         <item name="actionModeCloseButtonStyle">@style/ActionButton.CloseMode.ContractionTimer</item>
     </style>
@@ -33,15 +33,15 @@
         <item name="background">@drawable/ab_solid_contractiontimer</item>
     </style>
 
-    <style parent="@style/Widget.AppCompat.Light.PopupMenu" name="PopupMenu.Contractiontimer">
+    <style name="PopupMenu.ContractionTimer" parent="@style/Widget.AppCompat.Light.PopupMenu">
         <item name="android:popupBackground">@drawable/menu_dropdown_panel_contractiontimer</item>
     </style>
 
-    <style parent="@style/Widget.AppCompat.Light.ListView.DropDown" name="DropDownListView.Contractiontimer">
+    <style name="DropDownListView.ContractionTimer" parent="@style/Widget.AppCompat.Light.ListView.DropDown">
         <item name="android:listSelector">@drawable/selectable_background_contractiontimer</item>
     </style>
 
-    <style parent="@style/Widget.AppCompat.Light.Spinner.DropDown.ActionBar" name="DropDownNav.Contractiontimer">
+    <style name="DropDownNav.ContractionTimer" parent="@style/Widget.AppCompat.Light.Spinner.DropDown.ActionBar">
         <item name="android:background">@drawable/spinner_background_ab_contractiontimer</item>
         <item name="android:popupBackground">@drawable/menu_dropdown_panel_contractiontimer</item>
         <item name="android:dropDownSelector">@drawable/selectable_background_contractiontimer</item>

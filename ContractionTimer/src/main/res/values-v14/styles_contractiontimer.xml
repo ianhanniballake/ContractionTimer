@@ -21,12 +21,14 @@
 
     <style name="Theme.ContractionTimer" parent="@style/Theme.AppCompat.Light">
         <item name="android:actionBarItemBackground">@drawable/selectable_background_contractiontimer</item>
-        <item name="android:popupMenuStyle">@style/PopupMenu.Contractiontimer</item>
-        <item name="android:dropDownListViewStyle">@style/DropDownListView.Contractiontimer</item>
-        <item name="android:actionDropDownStyle">@style/DropDownNav.Contractiontimer</item>
+        <item name="android:popupMenuStyle">@style/PopupMenu.ContractionTimer</item>
+        <item name="android:dropDownListViewStyle">@style/DropDownListView.ContractionTimer</item>
+        <item name="android:actionDropDownStyle">@style/DropDownNav.ContractionTimer</item>
         <item name="android:actionBarStyle">@style/ActionBar.Solid.ContractionTimer</item>
         <item name="android:actionModeBackground">@drawable/cab_background_top_contractiontimer</item>
         <item name="android:actionModeCloseButtonStyle">@style/ActionButton.CloseMode.ContractionTimer</item>
+
+
     </style>
 
     <style name="ActionBar.Solid.ContractionTimer" parent="@style/Widget.AppCompat.Light.ActionBar.Solid">

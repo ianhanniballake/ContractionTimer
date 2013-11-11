@@ -11,6 +11,11 @@
         <item name="android:background">@drawable/btn_default_holo_light</item>
     </style>
 
+    <style name="SpinnerAppTheme" parent="android:Widget.Holo.Light.Spinner">
+        <item name="android:background">@drawable/spinner_background_holo_light</item>
+        <item name="android:dropDownSelector">@drawable/list_selector_holo_light</item>
+    </style>
+
     <style name="ToggleAppTheme" parent="android:Widget.Holo.Light.Button.Toggle">
         <item name="android:background">@drawable/btn_toggle_holo_light</item>
     </style>
