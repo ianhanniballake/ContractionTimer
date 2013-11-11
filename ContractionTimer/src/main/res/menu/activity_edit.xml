@@ -9,7 +9,7 @@
         app:showAsAction="always|withText"/>
     <item
         android:id="@+id/menu_cancel"
-        android:icon="@android:drawable/ic_menu_close_clear_cancel"
+        android:icon="@drawable/ic_action_cancel"
         android:title="@string/menu_cancel"
         app:showAsAction="ifRoom|withText"/>
 
