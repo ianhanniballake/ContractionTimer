@@ -2,7 +2,7 @@
 
 <resources xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <style name="AppTheme" parent="@style/Theme.ContractionTimer">
+    <style name="AppTheme" parent="@style/Theme.Appcompat">
         <item name="android:editTextStyle">@style/EditTextAppTheme</item>
         <item name="android:checkboxStyle">@style/CheckBoxAppTheme</item>
         <item name="android:radioButtonStyle">@style/RadioButtonAppTheme</item>

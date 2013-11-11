@@ -2,7 +2,7 @@
 
 <resources xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <style name="AppTheme" parent="@style/Theme.ContractionTimer">
+    <style name="AppTheme" parent="@style/Theme.Appcompat">
         <item name="android:editTextBackground">@drawable/edit_text_holo_light</item>
         <item name="android:listChoiceIndicatorMultiple">@drawable/btn_check_holo_light</item>
         <item name="android:listChoiceIndicatorSingle">@drawable/btn_radio_holo_light</item>

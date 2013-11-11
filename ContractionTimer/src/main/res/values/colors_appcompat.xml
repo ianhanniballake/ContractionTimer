@@ -17,14 +17,6 @@
      limitations under the License.
 -->
 
-<selector xmlns:android="http://schemas.android.com/apk/res/android">
-
-    <item android:state_enabled="false"
-          android:drawable="@drawable/spinner_ab_disabled_contractiontimer"/>
-    <item android:state_pressed="true"
-          android:drawable="@drawable/spinner_ab_pressed_contractiontimer"/>
-    <item android:state_pressed="false" android:state_focused="true"
-          android:drawable="@drawable/spinner_ab_focused_contractiontimer"/>
-    <item android:drawable="@drawable/spinner_ab_default_contractiontimer"/>
-
-</selector>
+<resources>
+    <color name="pressed_appcompat">#CC84BF70</color>
+</resources>

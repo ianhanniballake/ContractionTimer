@@ -17,8 +17,7 @@
      limitations under the License.
 -->
 
-<resources>
-
-    <color name="pressed_contractiontimer">#CC97F279</color>
-
-</resources>
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+       android:shape="rectangle">
+    <solid android:color="@color/pressed_appcompat"/>
+</shape>
