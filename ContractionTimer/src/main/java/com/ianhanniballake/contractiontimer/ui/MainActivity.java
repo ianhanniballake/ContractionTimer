@@ -20,6 +20,7 @@ import android.support.v4.content.Loader;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.widget.CursorAdapter;
 import android.support.v7.app.ActionBarActivity;
+import android.text.TextUtils;
 import android.text.format.DateFormat;
 import android.text.format.DateUtils;
 import android.util.Log;
@@ -273,7 +274,7 @@ public class MainActivity extends ActionBarActivity implements LoaderManager.Loa
         final Cursor data = adapter.getCursor();
         if (data.getCount() == 0)
             return;
-        final StringBuffer formattedData = new StringBuffer(getAverageData());
+        final StringBuilder formattedData = new StringBuilder(getAverageData());
         formattedData.append("\n\n");
         formattedData.append(getText(R.string.share_details_header));
         formattedData.append(":\n\n");
@@ -315,7 +316,7 @@ public class MainActivity extends ActionBarActivity implements LoaderManager.Loa
             }
             final int noteColumnIndex = data.getColumnIndex(ContractionContract.Contractions.COLUMN_NAME_NOTE);
             final String note = data.getString(noteColumnIndex);
-            if (!note.equals("")) {
+            if (!TextUtils.isEmpty(note)) {
                 formattedData.append(": ");
                 formattedData.append(note);
             }

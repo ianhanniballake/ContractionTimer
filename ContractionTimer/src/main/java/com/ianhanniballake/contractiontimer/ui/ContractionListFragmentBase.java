@@ -1,6 +1,7 @@
 package com.ianhanniballake.contractiontimer.ui;
 
 import android.database.Cursor;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
@@ -65,7 +66,7 @@ public class ContractionListFragmentBase extends ContractionListFragment {
         final TextView noteView = (TextView) info.targetView.findViewById(R.id.note);
         final CharSequence note = noteView.getText();
         final MenuItem noteItem = menu.findItem(R.id.menu_context_note);
-        if (note.equals(""))
+        if (TextUtils.isEmpty(note))
             noteItem.setTitle(R.string.note_dialog_title_add);
         else
             noteItem.setTitle(R.string.note_dialog_title_edit);
@@ -73,7 +74,7 @@ public class ContractionListFragmentBase extends ContractionListFragment {
         deleteItem.setTitle(getResources().getQuantityText(R.plurals.menu_context_delete, 1));
         if (BuildConfig.DEBUG)
             Log.d(getClass().getSimpleName(), "Context Menu Opened");
-        EasyTracker.getTracker().sendEvent("ContextMenu", "Open", note.equals("") ? "Add Note" : "Edit Note", 0L);
+        EasyTracker.getTracker().sendEvent("ContextMenu", "Open", TextUtils.isEmpty(note) ? "Add Note" : "Edit Note", 0L);
     }
 
     /**

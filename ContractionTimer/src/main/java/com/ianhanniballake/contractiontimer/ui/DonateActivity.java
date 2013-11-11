@@ -69,11 +69,11 @@ public class DonateActivity extends ActionBarActivity {
     /**
      * SKU Product Names
      */
-    HashMap<String, String> skuNames = new HashMap<String, String>();
+    final HashMap<String, String> skuNames = new HashMap<String, String>();
     /**
      * US Prices for SKUs in micro-currency
      */
-    HashMap<String, Long> skuPrices = new HashMap<String, Long>();
+    final HashMap<String, Long> skuPrices = new HashMap<String, Long>();
     /**
      * List of valid SKUs
      */
@@ -92,9 +92,9 @@ public class DonateActivity extends ActionBarActivity {
         if (o == null)
             return 0;
         else if (o instanceof Integer)
-            return ((Integer) o).intValue();
+            return (Integer) o;
         else if (o instanceof Long)
-            return (int) ((Long) o).longValue();
+            return ((Long) o).intValue();
         else
             throw new RuntimeException("Unexpected type for bundle response code: " + o.getClass().getName());
     }
@@ -107,13 +107,13 @@ public class DonateActivity extends ActionBarActivity {
      * @return response code
      */
     static int getResponseCodeFromIntent(final Intent i) {
-        final Object o = i.getExtras().get(RESPONSE_CODE);
+        final Object o = i.getExtras() == null ? null : i.getExtras().get(RESPONSE_CODE);
         if (o == null)
             return 0;
         else if (o instanceof Integer)
-            return ((Integer) o).intValue();
+            return (Integer) o;
         else if (o instanceof Long)
-            return (int) ((Long) o).longValue();
+            return ((Long) o).intValue();
         else
             throw new RuntimeException("Unexpected type for intent response code: " + o.getClass().getName());
     }
@@ -240,8 +240,7 @@ public class DonateActivity extends ActionBarActivity {
                         return;
                     }
                     final PendingIntent pendingIntent = buyIntentBundle.getParcelable("BUY_INTENT");
-                    startIntentSenderForResult(pendingIntent.getIntentSender(), RC_REQUEST, new Intent(),
-                            Integer.valueOf(0), Integer.valueOf(0), Integer.valueOf(0));
+                    startIntentSenderForResult(pendingIntent.getIntentSender(), RC_REQUEST, new Intent(), 0, 0, 0);
                 } catch (final SendIntentException e) {
                     Log.e(DonateActivity.class.getSimpleName(), "Buy: Send intent failed", e);
                     EasyTracker.getTracker().sendEvent("Donate", "Buy send intent failed", purchasedSku, -1L);
@@ -270,7 +269,6 @@ public class DonateActivity extends ActionBarActivity {
                     } catch (final RemoteException e) {
                         Log.e(getClass().getSimpleName(), "Initialize: Remote exception", e);
                         EasyTracker.getTracker().sendEvent("Donate", "Initialize remote exception", "", -1L);
-                        return;
                     }
                 }
 
@@ -401,7 +399,7 @@ public class DonateActivity extends ActionBarActivity {
                 if (BuildConfig.DEBUG)
                     Log.d(DonateActivity.class.getSimpleName(), "Consume completed successfully " + sku);
                 EasyTracker.getTracker().sendEvent("Donate", "Purchased", sku, 1L);
-                final long purchasedPriceMicro = skuPrices.containsKey(sku) ? skuPrices.get(sku).longValue() : 0;
+                final long purchasedPriceMicro = skuPrices.containsKey(sku) ? skuPrices.get(sku) : 0;
                 final String purchasedName = skuNames.containsKey(sku) ? skuNames.get(sku) : sku;
                 final Transaction transaction = new Transaction.Builder(purchase.getOrderId(), purchasedPriceMicro)
                         .setAffiliation("Google Play").build();
@@ -462,7 +460,7 @@ public class DonateActivity extends ActionBarActivity {
             if (!purchases.isEmpty()) {
                 final IInAppBillingService service = mBillingService.get();
                 if (service != null)
-                    new ConsumeAsyncTask(service, false).execute(purchases.toArray(new Purchase[0]));
+                    new ConsumeAsyncTask(service, false).execute(purchases.toArray(new Purchase[purchases.size()]));
                 else
                     Log.w(DonateActivity.class.getSimpleName(), "Inventory: Billing service is null");
             }

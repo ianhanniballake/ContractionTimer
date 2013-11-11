@@ -4,6 +4,7 @@ import android.annotation.TargetApi;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.provider.BaseColumns;
+import android.text.TextUtils;
 import android.util.Log;
 import android.util.SparseBooleanArray;
 import android.view.ActionMode;
@@ -52,8 +53,7 @@ public class ContractionListFragmentV11 extends ContractionListFragment implemen
         final int idColumnIndex = cursor.getColumnIndex(BaseColumns._ID);
         popupHolder.id = cursor.getLong(idColumnIndex);
         final int noteColumnIndex = cursor.getColumnIndex(ContractionContract.Contractions.COLUMN_NAME_NOTE);
-        final String note = cursor.getString(noteColumnIndex);
-        popupHolder.existingNote = note;
+        popupHolder.existingNote = cursor.getString(noteColumnIndex);
         // Don't allow popup menu while the Contextual Action Bar is
         // present
         showPopupView.setEnabled(getListView().getCheckedItemCount() == 0);
@@ -146,9 +146,9 @@ public class ContractionListFragmentV11 extends ContractionListFragment implemen
                         if (BuildConfig.DEBUG)
                             Log.d(getClass().getSimpleName(),
                                     "Context Action Mode selected "
-                                            + (existingNote.equals("") ? "Add Note" : "Edit Note"));
+                                            + (TextUtils.isEmpty(existingNote) ? "Add Note" : "Edit Note"));
                         EasyTracker.getTracker().sendEvent("ContextActionBar", "Note",
-                                existingNote.equals("") ? "Add Note" : "Edit Note", (long) position);
+                                TextUtils.isEmpty(existingNote) ? "Add Note" : "Edit Note", (long) position);
                         showNoteDialog(contractionId, existingNote);
                         mode.finish();
                         return true;

@@ -13,6 +13,7 @@ import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
 import android.support.v4.widget.CursorAdapter;
+import android.text.TextUtils;
 import android.text.format.DateFormat;
 import android.text.format.DateUtils;
 import android.util.Log;
@@ -134,7 +135,7 @@ public abstract class ContractionListFragment extends ListFragment implements Lo
         final FrameLayout headerFrame = new FrameLayout(getActivity());
         headerFrame.addView(headerView);
         listView.addHeaderView(headerFrame, null, false);
-        adapter = new ContractionListCursorAdapter(getActivity(), null, 0);
+        adapter = new ContractionListCursorAdapter(getActivity());
         setListAdapter(adapter);
         setupListView();
         listView.setOnItemClickListener(new OnItemClickListener() {
@@ -283,13 +284,10 @@ public abstract class ContractionListFragment extends ListFragment implements Lo
         private final LayoutInflater inflater;
 
         /**
-         * @param context The context where the ListView associated with this SimpleListItemFactory is running
-         * @param c       The database cursor. Can be null if the cursor is not available yet.
-         * @param flags   Flags used to determine the behavior of the adapter, as per
-         *                {@link CursorAdapter#CursorAdapter(Context, Cursor, int)}.
+         * @param context The context where the ListView associated with this Adapter
          */
-        public ContractionListCursorAdapter(final Context context, final Cursor c, final int flags) {
-            super(context, c, flags);
+        public ContractionListCursorAdapter(final Context context) {
+            super(context, null, 0);
             inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         }
 
@@ -367,7 +365,7 @@ public abstract class ContractionListFragment extends ListFragment implements Lo
             final String note = cursor.getString(noteColumnIndex);
             final TextView noteView = (TextView) view.findViewById(R.id.note);
             noteView.setText(note);
-            if (note.equals(""))
+            if (TextUtils.isEmpty(note))
                 noteView.setVisibility(View.GONE);
             else
                 noteView.setVisibility(View.VISIBLE);

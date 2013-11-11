@@ -12,6 +12,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.content.LocalBroadcastManager;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -44,7 +45,7 @@ public class NoteDialogFragment extends DialogFragment {
         if (BuildConfig.DEBUG)
             Log.d(getClass().getSimpleName(), "Received cancelation event");
         final String existingNote = getArguments().getString(NoteDialogFragment.EXISTING_NOTE_ARGUMENT);
-        EasyTracker.getTracker().sendEvent("Note", "Cancel", existingNote.equals("") ? "Add Note" : "Edit Note", 0L);
+        EasyTracker.getTracker().sendEvent("Note", "Cancel", TextUtils.isEmpty(existingNote) ? "Add Note" : "Edit Note", 0L);
         super.onCancel(dialog);
     }
 
@@ -56,7 +57,7 @@ public class NoteDialogFragment extends DialogFragment {
         final LayoutInflater inflater = getActivity().getLayoutInflater();
         final View layout = inflater.inflate(R.layout.dialog_note, null);
         final EditText input = (EditText) layout.findViewById(R.id.dialog_note_input);
-        if (existingNote.equals(""))
+        if (TextUtils.isEmpty(existingNote))
             builder.setTitle(R.string.note_dialog_title_add);
         else
             builder.setTitle(R.string.note_dialog_title_edit);
@@ -71,7 +72,7 @@ public class NoteDialogFragment extends DialogFragment {
                         if (BuildConfig.DEBUG)
                             Log.d(NoteDialogFragment.this.getClass().getSimpleName(), "Received positive event");
                         EasyTracker.getTracker().sendEvent("Note", "Positive",
-                                existingNote.equals("") ? "Add Note" : "Edit Note", 0L);
+                                TextUtils.isEmpty(existingNote) ? "Add Note" : "Edit Note", 0L);
                         final Uri updateUri = ContentUris.withAppendedId(
                                 ContractionContract.Contractions.CONTENT_ID_URI_BASE, contractionId);
                         final ContentValues values = new ContentValues();
@@ -84,7 +85,7 @@ public class NoteDialogFragment extends DialogFragment {
                         if (BuildConfig.DEBUG)
                             Log.d(NoteDialogFragment.this.getClass().getSimpleName(), "Received negative event");
                         EasyTracker.getTracker().sendEvent("Note", "Negative",
-                                existingNote.equals("") ? "Add Note" : "Edit Note", 0L);
+                                TextUtils.isEmpty(existingNote) ? "Add Note" : "Edit Note", 0L);
                     }
                 }).create();
     }
