@@ -5,18 +5,18 @@
 
     <item
         android:id="@+id/menu_context_view"
-        android:icon="@android:drawable/ic_menu_view"
+        android:icon="@drawable/ic_action_info"
         android:title="@string/menu_context_view"
         android:titleCondensed="@string/menu_context_view_condensed"
         app:showAsAction="ifRoom|withText"/>
     <item
         android:id="@+id/menu_context_note"
-        android:icon="@android:drawable/ic_menu_edit"
+        android:icon="@drawable/ic_action_edit"
         android:title="@string/note_dialog_title_add"
         app:showAsAction="ifRoom|withText"/>
     <item
         android:id="@+id/menu_context_delete"
-        android:icon="@android:drawable/ic_menu_delete"
+        android:icon="@drawable/ic_action_trash"
         app:showAsAction="ifRoom|withText"
         tools:ignore="MenuTitle"/>
 
