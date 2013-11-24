@@ -1,23 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="fill_parent"
-    android:layout_height="wrap_content"
-    android:orientation="horizontal"
-    android:paddingLeft="@dimen/outer_padding"
-    android:paddingRight="@dimen/outer_padding" >
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:orientation="horizontal"
+              android:paddingLeft="@dimen/outer_padding"
+              android:paddingRight="@dimen/outer_padding">
 
     <TextView
         android:layout_width="0dp"
-        android:layout_height="fill_parent"
-        android:layout_weight="2" />
+        android:layout_height="match_parent"
+        android:layout_weight="2"/>
 
     <TextView
         android:id="@+id/list_header_time_since_last"
         android:layout_width="0dp"
-        android:layout_height="fill_parent"
+        android:layout_height="match_parent"
         android:layout_weight="1"
         android:gravity="center_horizontal"
         android:textAppearance="?android:attr/textAppearanceLarge"
-        android:textIsSelectable="false" />
+        android:textIsSelectable="false"/>
 
 </LinearLayout>

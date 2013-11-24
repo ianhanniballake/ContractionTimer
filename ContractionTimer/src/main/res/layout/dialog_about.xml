@@ -1,18 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent" >
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
 
     <RelativeLayout
-        android:layout_width="fill_parent"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="@dimen/dialog_padding" >
+        android:padding="@dimen/dialog_padding">
 
         <TextView
             android:id="@+id/description"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/description" />
+            android:text="@string/description"/>
 
         <TextView
             android:id="@+id/project"
@@ -20,7 +20,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/description"
             android:paddingTop="10dp"
-            android:text="@string/project" />
+            android:text="@string/project"/>
 
         <TextView
             android:id="@+id/project_link"
@@ -29,7 +29,7 @@
             android:layout_below="@id/project"
             android:autoLink="web"
             android:paddingLeft="10dp"
-            android:text="@string/project_link" />
+            android:text="@string/project_link"/>
 
         <TextView
             android:id="@+id/created_by_label"
@@ -37,7 +37,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/project_link"
             android:paddingTop="20dp"
-            android:text="@string/created_by_label" />
+            android:text="@string/created_by_label"/>
 
         <TextView
             android:id="@+id/creator"
@@ -46,7 +46,7 @@
             android:layout_alignLeft="@id/created_by_label"
             android:layout_below="@id/created_by_label"
             android:paddingLeft="15dp"
-            android:text="@string/creator" />
+            android:text="@string/creator"/>
 
         <TextView
             android:id="@+id/creator_link"
@@ -55,14 +55,14 @@
             android:layout_below="@id/creator"
             android:autoLink="web"
             android:paddingLeft="15dp"
-            android:text="@string/creator_link" />
+            android:text="@string/creator_link"/>
 
         <TextView
             android:id="@+id/graphics_and_testing_by_label"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/creator_link"
-            android:text="@string/graphics_and_testing_by_label" />
+            android:text="@string/graphics_and_testing_by_label"/>
 
         <TextView
             android:id="@+id/artist_and_tester"
@@ -71,7 +71,7 @@
             android:layout_alignLeft="@id/graphics_and_testing_by_label"
             android:layout_below="@id/graphics_and_testing_by_label"
             android:paddingLeft="15dp"
-            android:text="@string/artist_and_tester" />
+            android:text="@string/artist_and_tester"/>
 
         <TextView
             android:layout_width="wrap_content"
@@ -79,7 +79,7 @@
             android:layout_below="@id/artist_and_tester"
             android:autoLink="web"
             android:paddingLeft="15dp"
-            android:text="@string/artist_and_tester_link" />
+            android:text="@string/artist_and_tester_link"/>
     </RelativeLayout>
 
 </ScrollView>
