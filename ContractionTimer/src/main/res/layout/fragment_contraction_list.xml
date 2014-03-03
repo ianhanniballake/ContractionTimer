@@ -8,7 +8,10 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:padding="5dp">
+        android:paddingBottom="5dp"
+        android:paddingLeft="@dimen/outer_padding"
+        android:paddingRight="@dimen/outer_padding"
+        android:paddingTop="5dp">
 
         <TextView
             android:layout_width="0dp"
@@ -30,15 +33,18 @@
             android:gravity="center_horizontal"
             android:text="@string/list_header_frequency"
             android:textAppearance="?android:attr/textAppearanceMedium"/>
+
+        <android.support.v7.widget.Space
+            android:layout_width="48dp"
+            android:layout_height="match_parent"
+            android:focusable="false"/>
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
-        android:orientation="vertical"
-        android:padding="5dp"
-        android:clipToPadding="false">
+        android:orientation="vertical">
 
         <ListView
             android:id="@id/android:list"

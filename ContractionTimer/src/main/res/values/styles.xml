@@ -9,6 +9,7 @@
         <item name="android:buttonStyle">@style/ButtonAppTheme</item>
         <item name="android:imageButtonStyle">@style/ImageButtonAppTheme</item>
         <item name="android:spinnerStyle">@style/SpinnerAppTheme</item>
+        <item name="android:selectableItemBackground">@drawable/list_selector_holo_light</item>
         <item name="android:spinnerDropDownItemStyle">@style/SpinnerDropDownItemAppTheme</item>
         <item name="android:buttonStyleToggle">@style/ToggleAppTheme</item>
         <item name="android:listViewStyle">@style/ListViewAppTheme</item>

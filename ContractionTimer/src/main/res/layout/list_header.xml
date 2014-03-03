@@ -3,8 +3,7 @@
               android:layout_width="match_parent"
               android:layout_height="wrap_content"
               android:orientation="horizontal"
-              android:paddingLeft="@dimen/outer_padding"
-              android:paddingRight="@dimen/outer_padding">
+              android:paddingLeft="@dimen/outer_padding">
 
     <TextView
         android:layout_width="0dp"
@@ -19,5 +18,10 @@
         android:gravity="center_horizontal"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:textIsSelectable="false"/>
+
+    <android.support.v7.widget.Space
+        android:layout_width="48dp"
+        android:layout_height="match_parent"
+        android:focusable="false"/>
 
 </LinearLayout>

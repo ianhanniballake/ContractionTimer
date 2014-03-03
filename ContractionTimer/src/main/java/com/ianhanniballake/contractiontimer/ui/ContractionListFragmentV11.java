@@ -3,7 +3,6 @@ package com.ianhanniballake.contractiontimer.ui;
 import android.annotation.TargetApi;
 import android.database.Cursor;
 import android.os.Bundle;
-import android.provider.BaseColumns;
 import android.text.TextUtils;
 import android.util.Log;
 import android.util.SparseBooleanArray;
@@ -12,14 +11,10 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.widget.AbsListView;
 import android.widget.AbsListView.MultiChoiceModeListener;
-import android.widget.Button;
 import android.widget.ListAdapter;
 import android.widget.ListView;
-import android.widget.PopupMenu;
-import android.widget.PopupMenu.OnMenuItemClickListener;
 
 import com.google.analytics.tracking.android.EasyTracker;
 import com.ianhanniballake.contractiontimer.BuildConfig;
@@ -30,7 +25,7 @@ import com.ianhanniballake.contractiontimer.provider.ContractionContract;
  * Fragment to list contractions entered by the user
  */
 @TargetApi(11)
-public class ContractionListFragmentV11 extends ContractionListFragment implements OnClickListener {
+public class ContractionListFragmentV11 extends ContractionListFragment {
     /**
      * Key used to store the selected item note in the bundle
      */
@@ -43,17 +38,6 @@ public class ContractionListFragmentV11 extends ContractionListFragment implemen
     @Override
     protected void bindView(final View view, final Cursor cursor) {
         final View showPopupView = view.findViewById(R.id.show_popup);
-        final Object showPopupTag = showPopupView.getTag();
-        PopupHolder popupHolder;
-        if (showPopupTag == null) {
-            popupHolder = new PopupHolder();
-            showPopupView.setTag(popupHolder);
-        } else
-            popupHolder = (PopupHolder) showPopupTag;
-        final int idColumnIndex = cursor.getColumnIndex(BaseColumns._ID);
-        popupHolder.id = cursor.getLong(idColumnIndex);
-        final int noteColumnIndex = cursor.getColumnIndex(ContractionContract.Contractions.COLUMN_NAME_NOTE);
-        popupHolder.existingNote = cursor.getString(noteColumnIndex);
         // Don't allow popup menu while the Contextual Action Bar is
         // present
         showPopupView.setEnabled(getListView().getCheckedItemCount() == 0);
@@ -64,52 +48,6 @@ public class ContractionListFragmentV11 extends ContractionListFragment implemen
         if (savedInstanceState != null)
             selectedItemNote = savedInstanceState.getString(ContractionListFragmentV11.SELECTED_ITEM_NOTE_KEY);
         super.onActivityCreated(savedInstanceState);
-    }
-
-    @Override
-    public void onClick(final View v) {
-        final PopupMenu popup = new PopupMenu(getActivity(), v);
-        final MenuInflater inflater = popup.getMenuInflater();
-        inflater.inflate(R.menu.list_context, popup.getMenu());
-        final PopupHolder popupHolder = (PopupHolder) v.getTag();
-        final MenuItem noteItem = popup.getMenu().findItem(R.id.menu_context_note);
-        if (popupHolder.existingNote.equals(""))
-            noteItem.setTitle(R.string.note_dialog_title_add);
-        else
-            noteItem.setTitle(R.string.note_dialog_title_edit);
-        final MenuItem deleteItem = popup.getMenu().findItem(R.id.menu_context_delete);
-        deleteItem.setTitle(getResources().getQuantityText(R.plurals.menu_context_delete, 1));
-        popup.setOnMenuItemClickListener(new OnMenuItemClickListener() {
-            @Override
-            public boolean onMenuItemClick(final MenuItem item) {
-                switch (item.getItemId()) {
-                    case R.id.menu_context_view:
-                        if (BuildConfig.DEBUG)
-                            Log.d(getClass().getSimpleName(), "Popup Menu selected view");
-                        EasyTracker.getTracker().sendEvent("PopupMenu", "View", "", 0L);
-                        viewContraction(popupHolder.id);
-                        return true;
-                    case R.id.menu_context_note:
-                        if (BuildConfig.DEBUG)
-                            Log.d(getClass().getSimpleName(),
-                                    "Popup Menu selected "
-                                            + (popupHolder.existingNote.equals("") ? "Add Note" : "Edit Note"));
-                        EasyTracker.getTracker().sendEvent("PopupMenu", "Note",
-                                popupHolder.existingNote.equals("") ? "Add Note" : "Edit Note", 0L);
-                        showNoteDialog(popupHolder.id, popupHolder.existingNote);
-                        return true;
-                    case R.id.menu_context_delete:
-                        if (BuildConfig.DEBUG)
-                            Log.d(getClass().getSimpleName(), "Popup Menu selected delete");
-                        EasyTracker.getTracker().sendEvent("PopupMenu", "Delete", "", 0L);
-                        deleteContraction(popupHolder.id);
-                        return true;
-                    default:
-                        return false;
-                }
-            }
-        });
-        popup.show();
     }
 
     @Override
@@ -239,21 +177,5 @@ public class ContractionListFragmentV11 extends ContractionListFragment implemen
 
     @Override
     protected void setupNewView(final View view) {
-        final Button showPopup = (Button) view.findViewById(R.id.show_popup);
-        showPopup.setOnClickListener(this);
-    }
-
-    /**
-     * Helper class used to store temporary information to aid in handling PopupMenu item selection
-     */
-    static class PopupHolder {
-        /**
-         * A contraction's note, if any
-         */
-        String existingNote;
-        /**
-         * Cursor id for the contraction
-         */
-        long id;
     }
 }

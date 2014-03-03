@@ -8,21 +8,27 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
+import android.provider.BaseColumns;
 import android.support.v4.app.ListFragment;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
 import android.support.v4.widget.CursorAdapter;
+import android.support.v7.widget.PopupMenu;
 import android.text.TextUtils;
 import android.text.format.DateFormat;
 import android.text.format.DateUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.FrameLayout;
+import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -36,7 +42,8 @@ import java.util.Calendar;
 /**
  * Fragment to list contractions entered by the user
  */
-public abstract class ContractionListFragment extends ListFragment implements LoaderManager.LoaderCallbacks<Cursor> {
+public abstract class ContractionListFragment extends ListFragment implements LoaderManager.LoaderCallbacks<Cursor>,
+        OnClickListener {
     /**
      * Handler of live duration updates
      */
@@ -145,6 +152,52 @@ public abstract class ContractionListFragment extends ListFragment implements Lo
             }
         });
         getLoaderManager().initLoader(0, null, this);
+    }
+
+    @Override
+    public void onClick(final View v) {
+        final PopupMenu popup = new PopupMenu(getActivity(), v);
+        final MenuInflater inflater = popup.getMenuInflater();
+        inflater.inflate(R.menu.list_context, popup.getMenu());
+        final PopupHolder popupHolder = (PopupHolder) v.getTag();
+        final MenuItem noteItem = popup.getMenu().findItem(R.id.menu_context_note);
+        if (popupHolder.existingNote.equals(""))
+            noteItem.setTitle(R.string.note_dialog_title_add);
+        else
+            noteItem.setTitle(R.string.note_dialog_title_edit);
+        final MenuItem deleteItem = popup.getMenu().findItem(R.id.menu_context_delete);
+        deleteItem.setTitle(getResources().getQuantityText(R.plurals.menu_context_delete, 1));
+        popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(final MenuItem item) {
+                switch (item.getItemId()) {
+                    case R.id.menu_context_view:
+                        if (BuildConfig.DEBUG)
+                            Log.d(getClass().getSimpleName(), "Popup Menu selected view");
+                        EasyTracker.getTracker().sendEvent("PopupMenu", "View", "", 0L);
+                        viewContraction(popupHolder.id);
+                        return true;
+                    case R.id.menu_context_note:
+                        if (BuildConfig.DEBUG)
+                            Log.d(getClass().getSimpleName(),
+                                    "Popup Menu selected "
+                                            + (popupHolder.existingNote.equals("") ? "Add Note" : "Edit Note"));
+                        EasyTracker.getTracker().sendEvent("PopupMenu", "Note",
+                                popupHolder.existingNote.equals("") ? "Add Note" : "Edit Note", 0L);
+                        showNoteDialog(popupHolder.id, popupHolder.existingNote);
+                        return true;
+                    case R.id.menu_context_delete:
+                        if (BuildConfig.DEBUG)
+                            Log.d(getClass().getSimpleName(), "Popup Menu selected delete");
+                        EasyTracker.getTracker().sendEvent("PopupMenu", "Delete", "", 0L);
+                        deleteContraction(popupHolder.id);
+                        return true;
+                    default:
+                        return false;
+                }
+            }
+        });
+        popup.show();
     }
 
     @Override
@@ -369,14 +422,41 @@ public abstract class ContractionListFragment extends ListFragment implements Lo
                 noteView.setVisibility(View.GONE);
             else
                 noteView.setVisibility(View.VISIBLE);
+            final View showPopupView = view.findViewById(R.id.show_popup);
+            final Object showPopupTag = showPopupView.getTag();
+            PopupHolder popupHolder;
+            if (showPopupTag == null) {
+                popupHolder = new PopupHolder();
+                showPopupView.setTag(popupHolder);
+            } else
+                popupHolder = (PopupHolder) showPopupTag;
+            final int idColumnIndex = cursor.getColumnIndex(BaseColumns._ID);
+            popupHolder.id = cursor.getLong(idColumnIndex);
+            popupHolder.existingNote = note;
             ContractionListFragment.this.bindView(view, cursor);
         }
 
         @Override
         public View newView(final Context context, final Cursor cursor, final ViewGroup parent) {
             final View view = inflater.inflate(R.layout.list_item_contraction, parent, false);
+            final ImageButton showPopup = (ImageButton) view.findViewById(R.id.show_popup);
+            showPopup.setOnClickListener(ContractionListFragment.this);
             setupNewView(view);
             return view;
         }
+    }
+
+    /**
+     * Helper class used to store temporary information to aid in handling PopupMenu item selection
+     */
+    static class PopupHolder {
+        /**
+         * A contraction's note, if any
+         */
+        String existingNote;
+        /**
+         * Cursor id for the contraction
+         */
+        long id;
     }
 }
