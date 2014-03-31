@@ -5,19 +5,26 @@ repositories {
 }
 
 dependencies {
-    compile "com.android.support:appcompat-v7:19.0.+"
+    compile "com.android.support:appcompat-v7:19.1.+"
     compile "com.android.support:gridlayout-v7:19.0.+"
     compile 'ch.acra:acra:4.4.0'
     compile fileTree(dir: 'libs', include: '*.jar')
 }
 
+def versionMajor = 2
+def versionMinor = 0
+def versionPatch = 0
+def versionBuild = 0
+
 android {
-    compileSdkVersion 18
+    compileSdkVersion 19
     buildToolsVersion "19.0.3"
 
     defaultConfig {
         minSdkVersion 8
-        targetSdkVersion 18
+        targetSdkVersion 19
+        versionCode versionMajor * 10000000 + versionMinor * 100000 + versionPatch * 1000 + versionBuild
+        versionName "${versionMajor}.${versionMinor}.${versionPatch}"
     }
 
     signingConfigs {

@@ -3,13 +3,7 @@
     package="com.ianhanniballake.contractiontimer"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:installLocation="auto"
-    android:versionCode="7171941"
-    android:versionName="1.9.4.1">
-
-    <uses-sdk
-        android:minSdkVersion="7"
-        android:targetSdkVersion="17"/>
+    android:installLocation="auto">
 
     <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
