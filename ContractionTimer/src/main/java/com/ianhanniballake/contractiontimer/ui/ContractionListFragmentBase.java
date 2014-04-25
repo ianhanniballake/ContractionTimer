@@ -35,7 +35,7 @@ public class ContractionListFragmentBase extends ContractionListFragment {
         switch (item.getItemId()) {
             case R.id.menu_context_view:
                 if (BuildConfig.DEBUG)
-                    Log.d(getClass().getSimpleName(), "Context Menu selected view");
+                    Log.d(ContractionListFragmentBase.class.getSimpleName(), "Context Menu selected view");
                 gtmManager.pushEvent("View");
                 viewContraction(info.id);
                 return true;
@@ -43,7 +43,7 @@ public class ContractionListFragmentBase extends ContractionListFragment {
                 final TextView noteView = (TextView) info.targetView.findViewById(R.id.note);
                 final String existingNote = noteView.getText().toString();
                 if (BuildConfig.DEBUG)
-                    Log.d(getClass().getSimpleName(), "Context Menu selected "
+                    Log.d(ContractionListFragmentBase.class.getSimpleName(), "Context Menu selected "
                             + (TextUtils.isEmpty(existingNote) ? "Add Note" : "Edit Note"));
                 gtmManager.pushEvent("Note", DataLayer.mapOf("type",
                         TextUtils.isEmpty(existingNote) ? "Add Note" : "Edit Note"));
@@ -51,7 +51,7 @@ public class ContractionListFragmentBase extends ContractionListFragment {
                 return true;
             case R.id.menu_context_delete:
                 if (BuildConfig.DEBUG)
-                    Log.d(getClass().getSimpleName(), "Context Menu selected delete");
+                    Log.d(ContractionListFragmentBase.class.getSimpleName(), "Context Menu selected delete");
                 gtmManager.pushEvent("Delete", DataLayer.mapOf("count", 1));
                 deleteContraction(info.id);
                 return true;
@@ -76,7 +76,7 @@ public class ContractionListFragmentBase extends ContractionListFragment {
         final MenuItem deleteItem = menu.findItem(R.id.menu_context_delete);
         deleteItem.setTitle(getResources().getQuantityText(R.plurals.menu_context_delete, 1));
         if (BuildConfig.DEBUG)
-            Log.d(getClass().getSimpleName(), "Context Menu Opened");
+            Log.d(ContractionListFragmentBase.class.getSimpleName(), "Context Menu Opened");
         GtmManager.getInstance(this).pushEvent("Open", DataLayer.mapOf(
                 "menu", "ContextMenu", "type", "count", DataLayer.OBJECT_NOT_PRESENT,
                 TextUtils.isEmpty(note) ? "Add Note" : "Edit Note"));

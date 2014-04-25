@@ -142,7 +142,7 @@ public class Preferences extends PreferenceActivity implements OnSharedPreferenc
         final boolean isLockPortrait = preferences.getBoolean(Preferences.LOCK_PORTRAIT_PREFERENCE_KEY, getResources()
                 .getBoolean(R.bool.pref_settings_lock_portrait_default));
         if (BuildConfig.DEBUG)
-            Log.d(getClass().getSimpleName(), "Lock Portrait: " + isLockPortrait);
+            Log.d(Preferences.class.getSimpleName(), "Lock Portrait: " + isLockPortrait);
         if (isLockPortrait)
             setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         else
@@ -156,13 +156,13 @@ public class Preferences extends PreferenceActivity implements OnSharedPreferenc
             final boolean newIsKeepScreenOn = sharedPreferences.getBoolean(Preferences.KEEP_SCREEN_ON_PREFERENCE_KEY,
                     getResources().getBoolean(R.bool.pref_settings_keep_screen_on_default));
             if (BuildConfig.DEBUG)
-                Log.d(getClass().getSimpleName(), "Keep Screen On: " + newIsKeepScreenOn);
+                Log.d(Preferences.class.getSimpleName(), "Keep Screen On: " + newIsKeepScreenOn);
             gtmManager.pushPreferenceChanged("Keep Screen On", newIsKeepScreenOn);
         } else if (key.equals(Preferences.LOCK_PORTRAIT_PREFERENCE_KEY)) {
             final boolean newIsLockPortrait = sharedPreferences.getBoolean(Preferences.LOCK_PORTRAIT_PREFERENCE_KEY,
                     getResources().getBoolean(R.bool.pref_settings_lock_portrait_default));
             if (BuildConfig.DEBUG)
-                Log.d(getClass().getSimpleName(), "Lock Portrait: " + newIsLockPortrait);
+                Log.d(Preferences.class.getSimpleName(), "Lock Portrait: " + newIsLockPortrait);
             gtmManager.pushPreferenceChanged("Lock Portrait", newIsLockPortrait);
             if (newIsLockPortrait)
                 setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
@@ -171,14 +171,14 @@ public class Preferences extends PreferenceActivity implements OnSharedPreferenc
         } else if (key.equals(Preferences.APPWIDGET_BACKGROUND_PREFERENCE_KEY)) {
             final String newAppwidgetBackground = appwidgetBackgroundListPreference.getValue();
             if (BuildConfig.DEBUG)
-                Log.d(getClass().getSimpleName(), "Appwidget Background: " + newAppwidgetBackground);
+                Log.d(Preferences.class.getSimpleName(), "Appwidget Background: " + newAppwidgetBackground);
             gtmManager.pushPreferenceChanged("Appwidget Background", newAppwidgetBackground);
             appwidgetBackgroundListPreference.setSummary(appwidgetBackgroundListPreference.getEntry());
             AppWidgetUpdateHandler.createInstance().updateAllWidgets(this);
         } else if (key.equals(Preferences.AVERAGE_TIME_FRAME_PREFERENCE_KEY)) {
             final String newAverageTimeFrame = averageTimeFrameListPreference.getValue();
             if (BuildConfig.DEBUG)
-                Log.d(getClass().getSimpleName(), "Average Time Frame: " + newAverageTimeFrame);
+                Log.d(Preferences.class.getSimpleName(), "Average Time Frame: " + newAverageTimeFrame);
             gtmManager.pushPreferenceChanged("Average Time Frame", newAverageTimeFrame);
             final Editor editor = sharedPreferences.edit();
             editor.putBoolean(Preferences.AVERAGE_TIME_FRAME_CHANGED_MAIN_PREFERENCE_KEY, true);
@@ -190,7 +190,7 @@ public class Preferences extends PreferenceActivity implements OnSharedPreferenc
             final boolean newCollectAnalytics = sharedPreferences.getBoolean(Preferences.ANALYTICS_PREFERENCE_KEY,
                     getResources().getBoolean(R.bool.pref_privacy_analytics_default));
             if (BuildConfig.DEBUG)
-                Log.d(getClass().getSimpleName(), "Analytics: " + newCollectAnalytics);
+                Log.d(Preferences.class.getSimpleName(), "Analytics: " + newCollectAnalytics);
             gtmManager.pushPreferenceChanged("Analytics", newCollectAnalytics);
             gtmManager.push("optOut", newCollectAnalytics);
         }

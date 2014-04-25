@@ -43,7 +43,7 @@ public class NoteDialogFragment extends DialogFragment {
     @Override
     public void onCancel(final DialogInterface dialog) {
         if (BuildConfig.DEBUG)
-            Log.d(getClass().getSimpleName(), "Received cancelation event");
+            Log.d(NoteDialogFragment.class.getSimpleName(), "Received cancelation event");
         GtmManager.getInstance(this).pushEvent("Cancel");
         super.onCancel(dialog);
     }
@@ -71,7 +71,7 @@ public class NoteDialogFragment extends DialogFragment {
                     @Override
                     public void onClick(final DialogInterface dialog, final int which) {
                         if (BuildConfig.DEBUG)
-                            Log.d(NoteDialogFragment.this.getClass().getSimpleName(), "Received positive event");
+                            Log.d(NoteDialogFragment.class.getSimpleName(), "Received positive event");
                         gtmManager.pushEvent("Positive");
                         final Uri updateUri = ContentUris.withAppendedId(
                                 ContractionContract.Contractions.CONTENT_ID_URI_BASE, contractionId);
@@ -83,7 +83,7 @@ public class NoteDialogFragment extends DialogFragment {
                     @Override
                     public void onClick(final DialogInterface dialog, final int which) {
                         if (BuildConfig.DEBUG)
-                            Log.d(NoteDialogFragment.this.getClass().getSimpleName(), "Received negative event");
+                            Log.d(NoteDialogFragment.class.getSimpleName(), "Received negative event");
                         gtmManager.pushEvent("Negative");
                     }
                 }).create();

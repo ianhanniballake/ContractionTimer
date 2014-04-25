@@ -30,7 +30,7 @@ public class EditActivity extends ActionBarActivity {
         @Override
         public void onReceive(final Context context, final Intent intent) {
             if (BuildConfig.DEBUG)
-                Log.d(EditActivity.this.getClass().getSimpleName(),
+                Log.d(EditActivity.class.getSimpleName(),
                         "DialogFragmentClosedBR Received " + intent.getAction());
             final String screenName = Intent.ACTION_INSERT.equals(getIntent().getAction()) ? "Add" : "Edit";
             GtmManager.getInstance(EditActivity.this).pushOpenScreen(screenName);
@@ -67,11 +67,11 @@ public class EditActivity extends ActionBarActivity {
                 Intent intent;
                 if (Intent.ACTION_INSERT.equals(getIntent().getAction())) {
                     if (BuildConfig.DEBUG)
-                        Log.d(getClass().getSimpleName(), "Add selected home");
+                        Log.d(EditActivity.class.getSimpleName(), "Add selected home");
                     intent = new Intent(this, MainActivity.class);
                 } else {
                     if (BuildConfig.DEBUG)
-                        Log.d(getClass().getSimpleName(), "Edit selected home");
+                        Log.d(EditActivity.class.getSimpleName(), "Edit selected home");
                     intent = new Intent(Intent.ACTION_VIEW, getIntent().getData()).setClass(this, ViewActivity.class);
                 }
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
@@ -90,7 +90,7 @@ public class EditActivity extends ActionBarActivity {
         final boolean isLockPortrait = preferences.getBoolean(Preferences.LOCK_PORTRAIT_PREFERENCE_KEY, getResources()
                 .getBoolean(R.bool.pref_settings_lock_portrait_default));
         if (BuildConfig.DEBUG)
-            Log.d(getClass().getSimpleName(), "Lock Portrait: " + isLockPortrait);
+            Log.d(EditActivity.class.getSimpleName(), "Lock Portrait: " + isLockPortrait);
         if (isLockPortrait)
             setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         else

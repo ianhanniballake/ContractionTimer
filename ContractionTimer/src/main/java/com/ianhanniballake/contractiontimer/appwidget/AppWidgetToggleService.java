@@ -43,7 +43,7 @@ public class AppWidgetToggleService extends IntentService {
         gtmManager.push("control", widgetName);
         if (contractionOngoing) {
             if (BuildConfig.DEBUG)
-                Log.d(AppWidgetToggleService.this.getClass().getSimpleName(), "Stopping contraction");
+                Log.d(AppWidgetToggleService.class.getSimpleName(), "Stopping contraction");
             gtmManager.pushEvent("Stop");
             final ContentValues newEndTime = new ContentValues();
             newEndTime.put(ContractionContract.Contractions.COLUMN_NAME_END_TIME, System.currentTimeMillis());
@@ -54,7 +54,7 @@ public class AppWidgetToggleService extends IntentService {
             contentResolver.update(updateUri, newEndTime, null, null);
         } else {
             if (BuildConfig.DEBUG)
-                Log.d(AppWidgetToggleService.this.getClass().getSimpleName(), "Starting contraction");
+                Log.d(AppWidgetToggleService.class.getSimpleName(), "Starting contraction");
             gtmManager.pushEvent("Start");
             // Start a new contraction
             contentResolver.insert(ContractionContract.Contractions.CONTENT_URI, new ContentValues());

@@ -85,14 +85,14 @@ public class ContractionControlsFragment extends Fragment implements LoaderManag
                 gtmManager.push("control", "Controls");
                 if (toggleContraction.isChecked()) {
                     if (BuildConfig.DEBUG)
-                        Log.d(ContractionControlsFragment.this.getClass().getSimpleName(), "Starting contraction");
+                        Log.d(ContractionControlsFragment.class.getSimpleName(), "Starting contraction");
                     gtmManager.pushEvent("Start");
                     // Start a new contraction
                     contractionQueryHandler.startInsert(0, null, ContractionContract.Contractions.CONTENT_URI,
                             new ContentValues());
                 } else {
                     if (BuildConfig.DEBUG)
-                        Log.d(ContractionControlsFragment.this.getClass().getSimpleName(), "Stopping contraction");
+                        Log.d(ContractionControlsFragment.class.getSimpleName(), "Stopping contraction");
                     gtmManager.pushEvent("Stop");
                     final ContentValues newEndTime = new ContentValues();
                     newEndTime.put(ContractionContract.Contractions.COLUMN_NAME_END_TIME, System.currentTimeMillis());

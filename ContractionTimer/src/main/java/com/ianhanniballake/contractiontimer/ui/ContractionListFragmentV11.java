@@ -74,7 +74,8 @@ public class ContractionListFragmentV11 extends ContractionListFragment {
                 switch (item.getItemId()) {
                     case R.id.menu_context_view:
                         if (BuildConfig.DEBUG)
-                            Log.d(getClass().getSimpleName(), "Context Action Mode selected view");
+                            Log.d(ContractionListFragmentV11.class.getSimpleName(),
+                                    "Context Action Mode selected view");
                         gtmManager.pushEvent("View");
                         viewContraction(contractionId);
                         return true;
@@ -85,7 +86,7 @@ public class ContractionListFragmentV11 extends ContractionListFragment {
                                 .getColumnIndex(ContractionContract.Contractions.COLUMN_NAME_NOTE);
                         final String existingNote = cursor.getString(noteColumnIndex);
                         if (BuildConfig.DEBUG)
-                            Log.d(getClass().getSimpleName(),
+                            Log.d(ContractionListFragmentV11.class.getSimpleName(),
                                     "Context Action Mode selected "
                                             + (TextUtils.isEmpty(existingNote) ? "Add Note" : "Edit Note")
                             );
@@ -97,7 +98,8 @@ public class ContractionListFragmentV11 extends ContractionListFragment {
                     case R.id.menu_context_delete:
                         final long[] selectedIds = getListView().getCheckedItemIds();
                         if (BuildConfig.DEBUG)
-                            Log.d(getClass().getSimpleName(), "Context Action Mode selected delete");
+                            Log.d(ContractionListFragmentV11.class.getSimpleName(),
+                                    "Context Action Mode selected delete");
                         gtmManager.pushEvent("Delete", DataLayer.mapOf("count", selectedIds.length));
                         for (final long id : selectedIds)
                             deleteContraction(id);

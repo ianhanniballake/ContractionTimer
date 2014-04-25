@@ -195,7 +195,7 @@ public class ViewFragment extends Fragment implements LoaderManager.LoaderCallba
                 if (isContractionOngoing == null)
                     return true;
                 if (BuildConfig.DEBUG)
-                    Log.d(getClass().getSimpleName(), "View selected edit");
+                    Log.d(ViewFragment.class.getSimpleName(), "View selected edit");
                 gtmManager.pushEvent("Edit", DataLayer.mapOf("ongoing", isContractionOngoing));
                 if (isContractionOngoing)
                     Toast.makeText(getActivity(), R.string.edit_ongoing_error, Toast.LENGTH_SHORT).show();
@@ -204,7 +204,7 @@ public class ViewFragment extends Fragment implements LoaderManager.LoaderCallba
                 return true;
             case R.id.menu_delete:
                 if (BuildConfig.DEBUG)
-                    Log.d(getClass().getSimpleName(), "View selected delete");
+                    Log.d(ViewFragment.class.getSimpleName(), "View selected delete");
                 gtmManager.pushEvent("Delete", DataLayer.mapOf("count", 1));
                 contractionQueryHandler.startDelete(0, 0, uri, null, null);
                 return true;

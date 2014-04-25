@@ -50,6 +50,14 @@ public abstract class ContractionListFragment extends ListFragment implements Lo
      */
     final Handler liveDurationHandler = new Handler();
     /**
+     * Handler of time since last contraction updates
+     */
+    final Handler timeSinceLastHandler = new Handler();
+    /**
+     * Start time of the current contraction
+     */
+    long currentContractionStartTime = 0;
+    /**
      * Reference to the Runnable live duration updater
      */
     final Runnable liveDurationUpdate = new Runnable() {
@@ -70,9 +78,9 @@ public abstract class ContractionListFragment extends ListFragment implements Lo
         }
     };
     /**
-     * Handler of time since last contraction updates
+     * View for the header row
      */
-    final Handler timeSinceLastHandler = new Handler();
+    View headerView = null;
     /**
      * Reference to the Runnable time since last contraction updater
      */
@@ -92,14 +100,6 @@ public abstract class ContractionListFragment extends ListFragment implements Lo
             timeSinceLastHandler.postDelayed(this, 1000);
         }
     };
-    /**
-     * Start time of the current contraction
-     */
-    long currentContractionStartTime = 0;
-    /**
-     * View for the header row
-     */
-    View headerView = null;
     /**
      * Adapter to display the list's data
      */
@@ -176,13 +176,13 @@ public abstract class ContractionListFragment extends ListFragment implements Lo
                 switch (item.getItemId()) {
                     case R.id.menu_context_view:
                         if (BuildConfig.DEBUG)
-                            Log.d(getClass().getSimpleName(), "Popup Menu selected view");
+                            Log.d(ContractionListFragment.class.getSimpleName(), "Popup Menu selected view");
                         gtmManager.pushEvent("View");
                         viewContraction(popupHolder.id);
                         return true;
                     case R.id.menu_context_note:
                         if (BuildConfig.DEBUG)
-                            Log.d(getClass().getSimpleName(),
+                            Log.d(ContractionListFragment.class.getSimpleName(),
                                     "Popup Menu selected "
                                             + (popupHolder.existingNote.equals("") ? "Add Note" : "Edit Note")
                             );
@@ -193,7 +193,7 @@ public abstract class ContractionListFragment extends ListFragment implements Lo
                         return true;
                     case R.id.menu_context_delete:
                         if (BuildConfig.DEBUG)
-                            Log.d(getClass().getSimpleName(), "Popup Menu selected delete");
+                            Log.d(ContractionListFragment.class.getSimpleName(), "Popup Menu selected delete");
                         gtmManager.pushEvent("Delete", DataLayer.mapOf("count", 1));
                         deleteContraction(popupHolder.id);
                         return true;
@@ -311,7 +311,7 @@ public abstract class ContractionListFragment extends ListFragment implements Lo
         args.putString(NoteDialogFragment.EXISTING_NOTE_ARGUMENT, existingNote);
         noteDialogFragment.setArguments(args);
         if (BuildConfig.DEBUG)
-            Log.d(noteDialogFragment.getClass().getSimpleName(), "Showing Dialog");
+            Log.d(ContractionListFragment.class.getSimpleName(), "Showing Dialog");
         GtmManager.getInstance(this).pushOpenScreen(TextUtils.isEmpty(existingNote) ? "NoteAdd" : "NoteEdit");
         noteDialogFragment.show(getFragmentManager(), "note");
     }
@@ -330,6 +330,20 @@ public abstract class ContractionListFragment extends ListFragment implements Lo
         final Uri contractionUri = ContentUris.withAppendedId(ContractionContract.Contractions.CONTENT_ID_URI_BASE, id);
         final Intent intent = new Intent(Intent.ACTION_VIEW, contractionUri);
         startActivity(intent);
+    }
+
+    /**
+     * Helper class used to store temporary information to aid in handling PopupMenu item selection
+     */
+    static class PopupHolder {
+        /**
+         * A contraction's note, if any
+         */
+        String existingNote;
+        /**
+         * Cursor id for the contraction
+         */
+        long id;
     }
 
     /**
@@ -449,19 +463,5 @@ public abstract class ContractionListFragment extends ListFragment implements Lo
             setupNewView(view);
             return view;
         }
-    }
-
-    /**
-     * Helper class used to store temporary information to aid in handling PopupMenu item selection
-     */
-    static class PopupHolder {
-        /**
-         * A contraction's note, if any
-         */
-        String existingNote;
-        /**
-         * Cursor id for the contraction
-         */
-        long id;
     }
 }

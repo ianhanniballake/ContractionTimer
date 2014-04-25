@@ -60,7 +60,7 @@ public class TimePickerDialogFragment extends DialogFragment implements TimePick
     public void onTimeSet(final TimePicker view, final int hourOfDay, final int minute) {
         final String action = getArguments().getString(TimePickerDialogFragment.CALLBACK_ACTION);
         if (BuildConfig.DEBUG)
-            Log.d(getClass().getSimpleName(), "onTimeSet: " + action);
+            Log.d(TimePickerDialogFragment.class.getSimpleName(), "onTimeSet: " + action);
         final Intent broadcast = new Intent(action);
         broadcast.putExtra(TimePickerDialogFragment.HOUR_OF_DAY_EXTRA, hourOfDay);
         broadcast.putExtra(TimePickerDialogFragment.MINUTE_EXTRA, minute);

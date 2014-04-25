@@ -76,7 +76,7 @@ public class EditFragment extends Fragment implements LoaderManager.LoaderCallba
             final int dayOfMonth = intent.getIntExtra(DatePickerDialogFragment.DAY_OF_MONTH_EXTRA,
                     startTime.get(Calendar.DAY_OF_MONTH));
             if (BuildConfig.DEBUG)
-                Log.d(EditFragment.this.getClass().getSimpleName(), "Date Receive: " + action + "; " + year + "-"
+                Log.d(EditFragment.class.getSimpleName(), "Date Receive: " + action + "; " + year + "-"
                         + monthOfYear + "-" + dayOfMonth);
             if (EditFragment.START_DATE_ACTION.equals(action)) {
                 final long oldStartTime = startTime.getTimeInMillis();
@@ -105,7 +105,7 @@ public class EditFragment extends Fragment implements LoaderManager.LoaderCallba
             final int minute = intent
                     .getIntExtra(TimePickerDialogFragment.MINUTE_EXTRA, startTime.get(Calendar.MINUTE));
             if (BuildConfig.DEBUG)
-                Log.d(EditFragment.this.getClass().getSimpleName(), "Time Receive: " + action + "; " + hourOfDay + ", "
+                Log.d(EditFragment.class.getSimpleName(), "Time Receive: " + action + "; " + hourOfDay + ", "
                         + minute);
             if (EditFragment.START_TIME_ACTION.equals(action)) {
                 final long oldStartTime = startTime.getTimeInMillis();
@@ -277,7 +277,7 @@ public class EditFragment extends Fragment implements LoaderManager.LoaderCallba
         final boolean allErrorCheckPassed = passedEndTimeOverlapCheck && passedStartTimeOverlapCheck
                 && passedTimeOverlapCheck && passedEndTimeOrderCheck;
         if (BuildConfig.DEBUG)
-            Log.d(getClass().getSimpleName(), "EndTimeOverlap Pass: " + passedEndTimeOverlapCheck
+            Log.d(EditFragment.class.getSimpleName(), "EndTimeOverlap Pass: " + passedEndTimeOverlapCheck
                     + ", StartTimeOverlap Pass: " + passedStartTimeOverlapCheck + ", TimeOverlap Pass: "
                     + passedStartTimeOverlapCheck + ", EndTimeOrder Pass: " + passedEndTimeOrderCheck
                     + ". Allow save: " + allErrorCheckPassed);
@@ -297,7 +297,7 @@ public class EditFragment extends Fragment implements LoaderManager.LoaderCallba
                 args.putSerializable(TimePickerDialogFragment.TIME_ARGUMENT, startTime);
                 timePicker.setArguments(args);
                 if (BuildConfig.DEBUG)
-                    Log.d(timePicker.getClass().getSimpleName(), "Showing Start Time Dialog");
+                    Log.d(EditFragment.class.getSimpleName(), "Showing Start Time Dialog");
                 GtmManager.getInstance(EditFragment.this).pushOpenScreen("PickTimeStart");
                 timePicker.show(getFragmentManager(), "startTime");
             }
@@ -312,7 +312,7 @@ public class EditFragment extends Fragment implements LoaderManager.LoaderCallba
                 args.putSerializable(DatePickerDialogFragment.DATE_ARGUMENT, startTime);
                 datePicker.setArguments(args);
                 if (BuildConfig.DEBUG)
-                    Log.d(datePicker.getClass().getSimpleName(), "Showing Start Date Dialog");
+                    Log.d(EditFragment.class.getSimpleName(), "Showing Start Date Dialog");
                 GtmManager.getInstance(EditFragment.this).pushOpenScreen("PickDateStart");
                 datePicker.show(getFragmentManager(), "startDate");
             }
@@ -327,7 +327,7 @@ public class EditFragment extends Fragment implements LoaderManager.LoaderCallba
                 args.putSerializable(TimePickerDialogFragment.TIME_ARGUMENT, endTime);
                 timePicker.setArguments(args);
                 if (BuildConfig.DEBUG)
-                    Log.d(timePicker.getClass().getSimpleName(), "Showing End Time Dialog");
+                    Log.d(EditFragment.class.getSimpleName(), "Showing End Time Dialog");
                 GtmManager.getInstance(EditFragment.this).pushOpenScreen("PickTimeEnd");
                 timePicker.show(getFragmentManager(), "endTime");
             }
@@ -342,7 +342,7 @@ public class EditFragment extends Fragment implements LoaderManager.LoaderCallba
                 args.putSerializable(DatePickerDialogFragment.DATE_ARGUMENT, endTime);
                 datePicker.setArguments(args);
                 if (BuildConfig.DEBUG)
-                    Log.d(datePicker.getClass().getSimpleName(), "Showing End Date Dialog");
+                    Log.d(EditFragment.class.getSimpleName(), "Showing End Date Dialog");
                 GtmManager.getInstance(EditFragment.this).pushOpenScreen("PickDateEnd");
                 datePicker.show(getFragmentManager(), "endDate");
             }
@@ -390,18 +390,18 @@ public class EditFragment extends Fragment implements LoaderManager.LoaderCallba
                 final ContentValues values = getContentValues();
                 if (Intent.ACTION_INSERT.equals(getActivity().getIntent().getAction())) {
                     if (BuildConfig.DEBUG)
-                        Log.d(getClass().getSimpleName(), "Add selected save");
+                        Log.d(EditFragment.class.getSimpleName(), "Add selected save");
                     contractionQueryHandler.startInsert(0, null, getActivity().getIntent().getData(), values);
                 } else {
                     if (BuildConfig.DEBUG)
-                        Log.d(getClass().getSimpleName(), "Edit selected save");
+                        Log.d(EditFragment.class.getSimpleName(), "Edit selected save");
                     contractionQueryHandler.startUpdate(0, null, getActivity().getIntent().getData(), values, null,
                             null);
                 }
                 return true;
             case R.id.menu_cancel:
                 if (BuildConfig.DEBUG)
-                    Log.d(getClass().getSimpleName(), "Edit selected cancel");
+                    Log.d(EditFragment.class.getSimpleName(), "Edit selected cancel");
                 GtmManager.getInstance(this).pushEvent("Cancel", DataLayer.mapOf("type", DataLayer.OBJECT_NOT_PRESENT));
                 getActivity().finish();
                 return true;
@@ -519,7 +519,7 @@ public class EditFragment extends Fragment implements LoaderManager.LoaderCallba
         @Override
         protected void onPostExecute(final Boolean overlapExists) {
             if (BuildConfig.DEBUG)
-                Log.d(EditFragment.this.getClass().getSimpleName(), "End time overlap: " + overlapExists);
+                Log.d(EditFragment.class.getSimpleName(), "End time overlap: " + overlapExists);
             final View view = getFragmentView();
             if (view == null)
                 return;
@@ -567,7 +567,7 @@ public class EditFragment extends Fragment implements LoaderManager.LoaderCallba
         @Override
         protected void onPostExecute(final Boolean overlapExists) {
             if (BuildConfig.DEBUG)
-                Log.d(EditFragment.this.getClass().getSimpleName(), "Start time overlap: " + overlapExists);
+                Log.d(EditFragment.class.getSimpleName(), "Start time overlap: " + overlapExists);
             final View view = getFragmentView();
             if (view == null)
                 return;
@@ -615,7 +615,7 @@ public class EditFragment extends Fragment implements LoaderManager.LoaderCallba
         @Override
         protected void onPostExecute(final Boolean overlapExists) {
             if (BuildConfig.DEBUG)
-                Log.d(EditFragment.this.getClass().getSimpleName(), "Time overlap: " + overlapExists);
+                Log.d(EditFragment.class.getSimpleName(), "Time overlap: " + overlapExists);
             final View view = getFragmentView();
             if (view == null)
                 return;

@@ -31,7 +31,7 @@ public class ResetDialogFragment extends DialogFragment {
     @Override
     public void onCancel(final DialogInterface dialog) {
         if (BuildConfig.DEBUG)
-            Log.d(getClass().getSimpleName(), "Received cancelation event");
+            Log.d(ResetDialogFragment.class.getSimpleName(), "Received cancelation event");
         GtmManager.getInstance(this).pushEvent("Cancel");
         super.onCancel(dialog);
     }
@@ -51,7 +51,7 @@ public class ResetDialogFragment extends DialogFragment {
                     @Override
                     public void onClick(final DialogInterface dialog, final int which) {
                         if (BuildConfig.DEBUG)
-                            Log.d(ResetDialogFragment.this.getClass().getSimpleName(), "Received positive event");
+                            Log.d(ResetDialogFragment.class.getSimpleName(), "Received positive event");
                         gtmManager.pushEvent("Positive");
                         asyncQueryHandler.startDelete(0, 0, ContractionContract.Contractions.CONTENT_URI, null, null);
                     }
@@ -59,7 +59,7 @@ public class ResetDialogFragment extends DialogFragment {
                     @Override
                     public void onClick(final DialogInterface dialog, final int which) {
                         if (BuildConfig.DEBUG)
-                            Log.d(ResetDialogFragment.this.getClass().getSimpleName(), "Received negative event");
+                            Log.d(ResetDialogFragment.class.getSimpleName(), "Received negative event");
                         gtmManager.pushEvent("Negative");
                     }
                 }).create();

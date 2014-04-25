@@ -37,7 +37,7 @@ public class ToggleAppWidgetService extends IntentService {
     @Override
     protected void onHandleIntent(final Intent intent) {
         if (BuildConfig.DEBUG)
-            Log.d(getClass().getSimpleName(), "Updating Toggle App Widgets");
+            Log.d(ToggleAppWidgetService.class.getSimpleName(), "Updating Toggle App Widgets");
         final String[] projection = {BaseColumns._ID, ContractionContract.Contractions.COLUMN_NAME_START_TIME,
                 ContractionContract.Contractions.COLUMN_NAME_END_TIME};
         final Cursor data = getContentResolver().query(ContractionContract.Contractions.CONTENT_URI, projection, null,

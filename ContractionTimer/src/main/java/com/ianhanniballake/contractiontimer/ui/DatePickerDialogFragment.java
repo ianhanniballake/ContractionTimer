@@ -56,7 +56,7 @@ public class DatePickerDialogFragment extends DialogFragment implements DatePick
     public void onDateSet(final DatePicker view, final int year, final int monthOfYear, final int dayOfMonth) {
         final String action = getArguments().getString(DatePickerDialogFragment.CALLBACK_ACTION);
         if (BuildConfig.DEBUG)
-            Log.d(getClass().getSimpleName(), "onDateSet: " + action);
+            Log.d(DatePickerDialogFragment.class.getSimpleName(), "onDateSet: " + action);
         final Intent broadcast = new Intent(action);
         broadcast.putExtra(DatePickerDialogFragment.YEAR_EXTRA, year);
         broadcast.putExtra(DatePickerDialogFragment.MONTH_OF_YEAR_EXTRA, monthOfYear);

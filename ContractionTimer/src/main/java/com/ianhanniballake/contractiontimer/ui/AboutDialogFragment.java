@@ -29,7 +29,7 @@ public class AboutDialogFragment extends DialogFragment {
     @Override
     public void onCancel(final DialogInterface dialog) {
         if (BuildConfig.DEBUG)
-            Log.d(getClass().getSimpleName(), "Received cancelation event");
+            Log.d(AboutDialogFragment.class.getSimpleName(), "Received cancelation event");
         GtmManager.getInstance(this).pushEvent("Cancel");
         super.onCancel(dialog);
     }
@@ -46,7 +46,7 @@ public class AboutDialogFragment extends DialogFragment {
                     @Override
                     public void onClick(final DialogInterface dialog, final int which) {
                         if (BuildConfig.DEBUG)
-                            Log.d(AboutDialogFragment.this.getClass().getSimpleName(), "Received neutral event");
+                            Log.d(AboutDialogFragment.class.getSimpleName(), "Received neutral event");
                         gtmManager.pushEvent("Neutral");
                     }
                 }).create();

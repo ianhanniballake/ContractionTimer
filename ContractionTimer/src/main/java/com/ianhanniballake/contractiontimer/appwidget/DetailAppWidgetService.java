@@ -60,7 +60,7 @@ public class DetailAppWidgetService extends IntentService {
     @Override
     protected void onHandleIntent(final Intent intent) {
         if (BuildConfig.DEBUG)
-            Log.d(getClass().getSimpleName(), "Updating Detail App Widgets");
+            Log.d(DetailAppWidgetService.class.getSimpleName(), "Updating Detail App Widgets");
         final String[] projection = {BaseColumns._ID, ContractionContract.Contractions.COLUMN_NAME_START_TIME,
                 ContractionContract.Contractions.COLUMN_NAME_END_TIME};
         final String selection = ContractionContract.Contractions.COLUMN_NAME_START_TIME + ">?";
@@ -140,7 +140,8 @@ public class DetailAppWidgetService extends IntentService {
             else
                 widgetIdentifier = WIDGET_IDENTIFIER;
             if (BuildConfig.DEBUG)
-                Log.d(getClass().getSimpleName(), "Updating " + widgetIdentifier + " with id " + appWidgetId);
+                Log.d(DetailAppWidgetService.class.getSimpleName(), "Updating " + widgetIdentifier +
+                        " with id " + appWidgetId);
             // Note that all widgets share the same theme
             RemoteViews views;
             if (appwidgetBackground.equals("light"))
