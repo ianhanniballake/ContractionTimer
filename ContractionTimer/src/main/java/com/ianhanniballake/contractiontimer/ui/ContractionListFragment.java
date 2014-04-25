@@ -32,10 +32,11 @@ import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.google.analytics.tracking.android.EasyTracker;
+import com.google.android.gms.tagmanager.DataLayer;
 import com.ianhanniballake.contractiontimer.BuildConfig;
 import com.ianhanniballake.contractiontimer.R;
 import com.ianhanniballake.contractiontimer.provider.ContractionContract;
+import com.ianhanniballake.contractiontimer.tagmanager.GtmManager;
 
 import java.util.Calendar;
 
@@ -170,26 +171,30 @@ public abstract class ContractionListFragment extends ListFragment implements Lo
         popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(final MenuItem item) {
+                GtmManager gtmManager = GtmManager.getInstance(ContractionListFragment.this);
+                gtmManager.push("menu", "PopupMenu");
                 switch (item.getItemId()) {
                     case R.id.menu_context_view:
                         if (BuildConfig.DEBUG)
                             Log.d(getClass().getSimpleName(), "Popup Menu selected view");
-                        EasyTracker.getTracker().sendEvent("PopupMenu", "View", "", 0L);
+                        gtmManager.pushEvent("View");
                         viewContraction(popupHolder.id);
                         return true;
                     case R.id.menu_context_note:
                         if (BuildConfig.DEBUG)
                             Log.d(getClass().getSimpleName(),
                                     "Popup Menu selected "
-                                            + (popupHolder.existingNote.equals("") ? "Add Note" : "Edit Note"));
-                        EasyTracker.getTracker().sendEvent("PopupMenu", "Note",
-                                popupHolder.existingNote.equals("") ? "Add Note" : "Edit Note", 0L);
+                                            + (popupHolder.existingNote.equals("") ? "Add Note" : "Edit Note")
+                            );
+                        gtmManager.pushEvent("Note", DataLayer.mapOf("type",
+                                TextUtils.isEmpty(popupHolder.existingNote) ? "Add Note" : "Edit Note",
+                                "position", DataLayer.OBJECT_NOT_PRESENT));
                         showNoteDialog(popupHolder.id, popupHolder.existingNote);
                         return true;
                     case R.id.menu_context_delete:
                         if (BuildConfig.DEBUG)
                             Log.d(getClass().getSimpleName(), "Popup Menu selected delete");
-                        EasyTracker.getTracker().sendEvent("PopupMenu", "Delete", "", 0L);
+                        gtmManager.pushEvent("Delete", DataLayer.mapOf("count", 1));
                         deleteContraction(popupHolder.id);
                         return true;
                     default:
@@ -307,7 +312,7 @@ public abstract class ContractionListFragment extends ListFragment implements Lo
         noteDialogFragment.setArguments(args);
         if (BuildConfig.DEBUG)
             Log.d(noteDialogFragment.getClass().getSimpleName(), "Showing Dialog");
-        EasyTracker.getTracker().sendView("".equals(existingNote) ? "NoteAdd" : "NoteEdit");
+        GtmManager.getInstance(this).pushOpenScreen(TextUtils.isEmpty(existingNote) ? "NoteAdd" : "NoteEdit");
         noteDialogFragment.show(getFragmentManager(), "note");
     }
 

@@ -15,9 +15,9 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import com.google.analytics.tracking.android.EasyTracker;
 import com.ianhanniballake.contractiontimer.BuildConfig;
 import com.ianhanniballake.contractiontimer.R;
+import com.ianhanniballake.contractiontimer.tagmanager.GtmManager;
 
 /**
  * Stand alone activity used to view the details of an individual contraction
@@ -32,10 +32,8 @@ public class EditActivity extends ActionBarActivity {
             if (BuildConfig.DEBUG)
                 Log.d(EditActivity.this.getClass().getSimpleName(),
                         "DialogFragmentClosedBR Received " + intent.getAction());
-            if (Intent.ACTION_INSERT.equals(getIntent().getAction()))
-                EasyTracker.getTracker().sendView("Add");
-            else
-                EasyTracker.getTracker().sendView("Edit");
+            final String screenName = Intent.ACTION_INSERT.equals(getIntent().getAction()) ? "Add" : "Edit";
+            GtmManager.getInstance(EditActivity.this).pushOpenScreen(screenName);
         }
     };
 
@@ -65,16 +63,15 @@ public class EditActivity extends ActionBarActivity {
     public boolean onOptionsItemSelected(final MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
+                GtmManager.getInstance(this).pushEvent("Home");
                 Intent intent;
                 if (Intent.ACTION_INSERT.equals(getIntent().getAction())) {
                     if (BuildConfig.DEBUG)
                         Log.d(getClass().getSimpleName(), "Add selected home");
-                    EasyTracker.getTracker().sendEvent("Add", "Home", "", 0L);
                     intent = new Intent(this, MainActivity.class);
                 } else {
                     if (BuildConfig.DEBUG)
                         Log.d(getClass().getSimpleName(), "Edit selected home");
-                    EasyTracker.getTracker().sendEvent("Edit", "Home", "", 0L);
                     intent = new Intent(Intent.ACTION_VIEW, getIntent().getData()).setClass(this, ViewActivity.class);
                 }
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
@@ -104,11 +101,8 @@ public class EditActivity extends ActionBarActivity {
     protected void onStart() {
         super.onStart();
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        EasyTracker.getInstance().activityStart(this);
-        if (Intent.ACTION_INSERT.equals(getIntent().getAction()))
-            EasyTracker.getTracker().sendView("Add");
-        else
-            EasyTracker.getTracker().sendView("Edit");
+        String screenName = Intent.ACTION_INSERT.equals(getIntent().getAction()) ? "Add" : "Edit";
+        GtmManager.getInstance(this).pushOpenScreen(screenName);
         final LocalBroadcastManager localBroadcastManager = LocalBroadcastManager.getInstance(this);
         final IntentFilter dialogCloseFilter = new IntentFilter();
         dialogCloseFilter.addAction(TimePickerDialogFragment.TIME_PICKER_CLOSE_ACTION);
@@ -119,7 +113,6 @@ public class EditActivity extends ActionBarActivity {
     @Override
     protected void onStop() {
         super.onStop();
-        EasyTracker.getInstance().activityStop(this);
         final LocalBroadcastManager localBroadcastManager = LocalBroadcastManager.getInstance(this);
         localBroadcastManager.unregisterReceiver(dialogFragmentClosedBroadcastReceiver);
     }

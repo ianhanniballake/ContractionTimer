@@ -27,14 +27,12 @@ import android.view.MenuItem;
 import android.widget.AdapterView;
 import android.widget.Toast;
 
-import com.google.analytics.tracking.android.EasyTracker;
-import com.google.analytics.tracking.android.GAServiceManager;
-import com.google.analytics.tracking.android.GoogleAnalytics;
 import com.ianhanniballake.contractiontimer.BuildConfig;
 import com.ianhanniballake.contractiontimer.R;
 import com.ianhanniballake.contractiontimer.appwidget.AppWidgetUpdateHandler;
 import com.ianhanniballake.contractiontimer.backup.BackupController;
 import com.ianhanniballake.contractiontimer.provider.ContractionContract;
+import com.ianhanniballake.contractiontimer.tagmanager.GtmManager;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -153,20 +151,19 @@ public class Preferences extends PreferenceActivity implements OnSharedPreferenc
 
     @Override
     public void onSharedPreferenceChanged(final SharedPreferences sharedPreferences, final String key) {
+        GtmManager gtmManager = GtmManager.getInstance(this);
         if (key.equals(Preferences.KEEP_SCREEN_ON_PREFERENCE_KEY)) {
             final boolean newIsKeepScreenOn = sharedPreferences.getBoolean(Preferences.KEEP_SCREEN_ON_PREFERENCE_KEY,
                     getResources().getBoolean(R.bool.pref_settings_keep_screen_on_default));
             if (BuildConfig.DEBUG)
                 Log.d(getClass().getSimpleName(), "Keep Screen On: " + newIsKeepScreenOn);
-            EasyTracker.getTracker().sendEvent("Preferences", "Keep Screen On", Boolean.toString(newIsKeepScreenOn),
-                    0L);
+            gtmManager.pushPreferenceChanged("Keep Screen On", newIsKeepScreenOn);
         } else if (key.equals(Preferences.LOCK_PORTRAIT_PREFERENCE_KEY)) {
             final boolean newIsLockPortrait = sharedPreferences.getBoolean(Preferences.LOCK_PORTRAIT_PREFERENCE_KEY,
                     getResources().getBoolean(R.bool.pref_settings_lock_portrait_default));
             if (BuildConfig.DEBUG)
                 Log.d(getClass().getSimpleName(), "Lock Portrait: " + newIsLockPortrait);
-            EasyTracker.getTracker()
-                    .sendEvent("Preferences", "Lock Portrait", Boolean.toString(newIsLockPortrait), 0L);
+            gtmManager.pushPreferenceChanged("Lock Portrait", newIsLockPortrait);
             if (newIsLockPortrait)
                 setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
             else
@@ -175,14 +172,14 @@ public class Preferences extends PreferenceActivity implements OnSharedPreferenc
             final String newAppwidgetBackground = appwidgetBackgroundListPreference.getValue();
             if (BuildConfig.DEBUG)
                 Log.d(getClass().getSimpleName(), "Appwidget Background: " + newAppwidgetBackground);
-            EasyTracker.getTracker().sendEvent("Preferences", "Appwidget Background", newAppwidgetBackground, 0L);
+            gtmManager.pushPreferenceChanged("Appwidget Background", newAppwidgetBackground);
             appwidgetBackgroundListPreference.setSummary(appwidgetBackgroundListPreference.getEntry());
             AppWidgetUpdateHandler.createInstance().updateAllWidgets(this);
         } else if (key.equals(Preferences.AVERAGE_TIME_FRAME_PREFERENCE_KEY)) {
             final String newAverageTimeFrame = averageTimeFrameListPreference.getValue();
             if (BuildConfig.DEBUG)
                 Log.d(getClass().getSimpleName(), "Average Time Frame: " + newAverageTimeFrame);
-            EasyTracker.getTracker().sendEvent("Preferences", "Average Time Frame", newAverageTimeFrame, 0L);
+            gtmManager.pushPreferenceChanged("Average Time Frame", newAverageTimeFrame);
             final Editor editor = sharedPreferences.edit();
             editor.putBoolean(Preferences.AVERAGE_TIME_FRAME_CHANGED_MAIN_PREFERENCE_KEY, true);
             editor.putBoolean(Preferences.AVERAGE_TIME_FRAME_CHANGED_FRAGMENT_PREFERENCE_KEY, true);
@@ -194,9 +191,8 @@ public class Preferences extends PreferenceActivity implements OnSharedPreferenc
                     getResources().getBoolean(R.bool.pref_privacy_analytics_default));
             if (BuildConfig.DEBUG)
                 Log.d(getClass().getSimpleName(), "Analytics: " + newCollectAnalytics);
-            EasyTracker.getTracker().sendEvent("Preferences", "Analytics", Boolean.toString(newCollectAnalytics), 0L);
-            GAServiceManager.getInstance().dispatch();
-            GoogleAnalytics.getInstance(this).setAppOptOut(newCollectAnalytics);
+            gtmManager.pushPreferenceChanged("Analytics", newCollectAnalytics);
+            gtmManager.push("optOut", newCollectAnalytics);
         }
         BackupController.createInstance().dataChanged(this);
     }
@@ -204,14 +200,7 @@ public class Preferences extends PreferenceActivity implements OnSharedPreferenc
     @Override
     protected void onStart() {
         super.onStart();
-        EasyTracker.getInstance().activityStart(this);
-        EasyTracker.getTracker().sendView("Preferences");
-    }
-
-    @Override
-    protected void onStop() {
-        super.onStop();
-        EasyTracker.getInstance().activityStop(this);
+        GtmManager.getInstance(this).pushOpenScreen("Preferences");
     }
 
     @TargetApi(8)
@@ -314,7 +303,8 @@ public class Preferences extends PreferenceActivity implements OnSharedPreferenc
                                 contraction.getString(ContractionContract.Contractions.COLUMN_NAME_NOTE));
                     Cursor existingRow = resolver.query(ContractionContract.Contractions.CONTENT_URI,
                             projection, ContractionContract.Contractions.COLUMN_NAME_START_TIME
-                            + "=?", new String[]{Long.toString(startTime)}, null);
+                                    + "=?", new String[]{Long.toString(startTime)}, null
+                    );
                     long existingRowId = AdapterView.INVALID_ROW_ID;
                     if (existingRow != null) {
                         existingRowId = existingRow.moveToFirst() ? existingRow.getLong(0) : AdapterView.INVALID_ROW_ID;

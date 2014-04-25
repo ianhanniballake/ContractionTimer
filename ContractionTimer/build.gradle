@@ -7,8 +7,8 @@ repositories {
 dependencies {
     compile "com.android.support:appcompat-v7:19.1.+"
     compile "com.android.support:gridlayout-v7:19.0.+"
+    compile 'com.google.android.gms:play-services:4.3.23'
     compile 'ch.acra:acra:4.4.0'
-    compile fileTree(dir: 'libs', include: '*.jar')
 }
 
 def versionMajor = 2
@@ -21,7 +21,7 @@ android {
     buildToolsVersion "19.0.3"
 
     defaultConfig {
-        minSdkVersion 8
+        minSdkVersion 9
         targetSdkVersion 19
         versionCode versionMajor * 10000000 + versionMinor * 100000 + versionPatch * 1000 + versionBuild
         versionName "${versionMajor}.${versionMinor}.${versionPatch}"

@@ -13,9 +13,10 @@ import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.google.analytics.tracking.android.EasyTracker;
+import com.google.android.gms.tagmanager.DataLayer;
 import com.ianhanniballake.contractiontimer.BuildConfig;
 import com.ianhanniballake.contractiontimer.R;
+import com.ianhanniballake.contractiontimer.tagmanager.GtmManager;
 
 /**
  * Fragment to list contractions entered by the user
@@ -29,11 +30,13 @@ public class ContractionListFragmentBase extends ContractionListFragment {
     @Override
     public boolean onContextItemSelected(final MenuItem item) {
         final AdapterContextMenuInfo info = (AdapterContextMenuInfo) item.getMenuInfo();
+        GtmManager gtmManager = GtmManager.getInstance(this);
+        gtmManager.push(DataLayer.mapOf("menu", "ContextMenu", "position", info.position));
         switch (item.getItemId()) {
             case R.id.menu_context_view:
                 if (BuildConfig.DEBUG)
                     Log.d(getClass().getSimpleName(), "Context Menu selected view");
-                EasyTracker.getTracker().sendEvent("ContextMenu", "View", "", 0L);
+                gtmManager.pushEvent("View");
                 viewContraction(info.id);
                 return true;
             case R.id.menu_context_note:
@@ -41,15 +44,15 @@ public class ContractionListFragmentBase extends ContractionListFragment {
                 final String existingNote = noteView.getText().toString();
                 if (BuildConfig.DEBUG)
                     Log.d(getClass().getSimpleName(), "Context Menu selected "
-                            + (existingNote.equals("") ? "Add Note" : "Edit Note"));
-                EasyTracker.getTracker().sendEvent("ContextMenu", "Note",
-                        existingNote.equals("") ? "Add Note" : "Edit Note", (long) info.position);
+                            + (TextUtils.isEmpty(existingNote) ? "Add Note" : "Edit Note"));
+                gtmManager.pushEvent("Note", DataLayer.mapOf("type",
+                        TextUtils.isEmpty(existingNote) ? "Add Note" : "Edit Note"));
                 showNoteDialog(info.id, existingNote);
                 return true;
             case R.id.menu_context_delete:
                 if (BuildConfig.DEBUG)
                     Log.d(getClass().getSimpleName(), "Context Menu selected delete");
-                EasyTracker.getTracker().sendEvent("ContextMenu", "Delete", "", (long) info.position);
+                gtmManager.pushEvent("Delete", DataLayer.mapOf("count", 1));
                 deleteContraction(info.id);
                 return true;
             default:
@@ -74,7 +77,9 @@ public class ContractionListFragmentBase extends ContractionListFragment {
         deleteItem.setTitle(getResources().getQuantityText(R.plurals.menu_context_delete, 1));
         if (BuildConfig.DEBUG)
             Log.d(getClass().getSimpleName(), "Context Menu Opened");
-        EasyTracker.getTracker().sendEvent("ContextMenu", "Open", TextUtils.isEmpty(note) ? "Add Note" : "Edit Note", 0L);
+        GtmManager.getInstance(this).pushEvent("Open", DataLayer.mapOf(
+                "menu", "ContextMenu", "type", "count", DataLayer.OBJECT_NOT_PRESENT,
+                TextUtils.isEmpty(note) ? "Add Note" : "Edit Note"));
     }
 
     /**

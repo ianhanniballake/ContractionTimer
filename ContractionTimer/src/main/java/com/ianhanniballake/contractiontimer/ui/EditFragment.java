@@ -34,11 +34,12 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import com.google.analytics.tracking.android.EasyTracker;
+import com.google.android.gms.tagmanager.DataLayer;
 import com.ianhanniballake.contractiontimer.BuildConfig;
 import com.ianhanniballake.contractiontimer.R;
 import com.ianhanniballake.contractiontimer.appwidget.AppWidgetUpdateHandler;
 import com.ianhanniballake.contractiontimer.provider.ContractionContract;
+import com.ianhanniballake.contractiontimer.tagmanager.GtmManager;
 
 import java.util.Calendar;
 
@@ -297,7 +298,7 @@ public class EditFragment extends Fragment implements LoaderManager.LoaderCallba
                 timePicker.setArguments(args);
                 if (BuildConfig.DEBUG)
                     Log.d(timePicker.getClass().getSimpleName(), "Showing Start Time Dialog");
-                EasyTracker.getTracker().sendView("PickTimeStart");
+                GtmManager.getInstance(EditFragment.this).pushOpenScreen("PickTimeStart");
                 timePicker.show(getFragmentManager(), "startTime");
             }
         });
@@ -312,7 +313,7 @@ public class EditFragment extends Fragment implements LoaderManager.LoaderCallba
                 datePicker.setArguments(args);
                 if (BuildConfig.DEBUG)
                     Log.d(datePicker.getClass().getSimpleName(), "Showing Start Date Dialog");
-                EasyTracker.getTracker().sendView("PickDateStart");
+                GtmManager.getInstance(EditFragment.this).pushOpenScreen("PickDateStart");
                 datePicker.show(getFragmentManager(), "startDate");
             }
         });
@@ -327,7 +328,7 @@ public class EditFragment extends Fragment implements LoaderManager.LoaderCallba
                 timePicker.setArguments(args);
                 if (BuildConfig.DEBUG)
                     Log.d(timePicker.getClass().getSimpleName(), "Showing End Time Dialog");
-                EasyTracker.getTracker().sendView("PickTimeEnd");
+                GtmManager.getInstance(EditFragment.this).pushOpenScreen("PickTimeEnd");
                 timePicker.show(getFragmentManager(), "endTime");
             }
         });
@@ -342,7 +343,7 @@ public class EditFragment extends Fragment implements LoaderManager.LoaderCallba
                 datePicker.setArguments(args);
                 if (BuildConfig.DEBUG)
                     Log.d(datePicker.getClass().getSimpleName(), "Showing End Date Dialog");
-                EasyTracker.getTracker().sendView("PickDateEnd");
+                GtmManager.getInstance(EditFragment.this).pushOpenScreen("PickDateEnd");
                 datePicker.show(getFragmentManager(), "endDate");
             }
         });
@@ -385,16 +386,15 @@ public class EditFragment extends Fragment implements LoaderManager.LoaderCallba
     public boolean onOptionsItemSelected(final MenuItem item) {
         switch (item.getItemId()) {
             case R.id.menu_save:
+                GtmManager.getInstance(this).pushEvent("Save");
                 final ContentValues values = getContentValues();
                 if (Intent.ACTION_INSERT.equals(getActivity().getIntent().getAction())) {
                     if (BuildConfig.DEBUG)
                         Log.d(getClass().getSimpleName(), "Add selected save");
-                    EasyTracker.getTracker().sendEvent("Add", "Save", "", 0L);
                     contractionQueryHandler.startInsert(0, null, getActivity().getIntent().getData(), values);
                 } else {
                     if (BuildConfig.DEBUG)
                         Log.d(getClass().getSimpleName(), "Edit selected save");
-                    EasyTracker.getTracker().sendEvent("Edit", "Save", "", 0L);
                     contractionQueryHandler.startUpdate(0, null, getActivity().getIntent().getData(), values, null,
                             null);
                 }
@@ -402,7 +402,7 @@ public class EditFragment extends Fragment implements LoaderManager.LoaderCallba
             case R.id.menu_cancel:
                 if (BuildConfig.DEBUG)
                     Log.d(getClass().getSimpleName(), "Edit selected cancel");
-                EasyTracker.getTracker().sendEvent("Edit", "Cancel", "", 0L);
+                GtmManager.getInstance(this).pushEvent("Cancel", DataLayer.mapOf("type", DataLayer.OBJECT_NOT_PRESENT));
                 getActivity().finish();
                 return true;
             default:

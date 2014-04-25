@@ -145,10 +145,10 @@
                 android:resource="@xml/toggle_appwidget_info"/>
         </receiver>
 
-        <service android:name="com.google.analytics.tracking.android.CampaignTrackingService"/>
-
+        <!-- Used for install referrer tracking-->
+        <service android:name="com.google.android.gms.tagmanager.InstallReferrerService"/>
         <receiver
-            android:name="com.google.analytics.tracking.android.CampaignTrackingReceiver"
+            android:name="com.google.android.gms.tagmanager.InstallReferrerReceiver"
             android:exported="true"
             tools:ignore="ExportedReceiver">
             <intent-filter>
@@ -159,6 +159,9 @@
         <meta-data
             android:name="com.google.android.backup.api_key"
             android:value="AEdPqrEAAAAIRsoSdYXUOINwTp56paLoddxnEcWbM1ZH42Y_wQ"/>
+        <meta-data
+            android:name="com.google.android.gms.version"
+            android:value="@integer/google_play_services_version"/>
     </application>
 
 </manifest>

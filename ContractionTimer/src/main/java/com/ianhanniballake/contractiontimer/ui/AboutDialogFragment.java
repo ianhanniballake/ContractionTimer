@@ -12,9 +12,10 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 
-import com.google.analytics.tracking.android.EasyTracker;
+import com.google.android.gms.tagmanager.DataLayer;
 import com.ianhanniballake.contractiontimer.BuildConfig;
 import com.ianhanniballake.contractiontimer.R;
+import com.ianhanniballake.contractiontimer.tagmanager.GtmManager;
 
 /**
  * About Dialog for the application
@@ -29,7 +30,7 @@ public class AboutDialogFragment extends DialogFragment {
     public void onCancel(final DialogInterface dialog) {
         if (BuildConfig.DEBUG)
             Log.d(getClass().getSimpleName(), "Received cancelation event");
-        EasyTracker.getTracker().sendEvent("About", "Cancel", "", 0L);
+        GtmManager.getInstance(this).pushEvent("Cancel");
         super.onCancel(dialog);
     }
 
@@ -37,6 +38,8 @@ public class AboutDialogFragment extends DialogFragment {
     public Dialog onCreateDialog(final Bundle savedInstanceState) {
         final LayoutInflater inflater = getActivity().getLayoutInflater();
         final View layout = inflater.inflate(R.layout.dialog_about, null);
+        final GtmManager gtmManager = GtmManager.getInstance(this);
+        gtmManager.push("type", DataLayer.OBJECT_NOT_PRESENT);
         return new AlertDialog.Builder(getActivity()).setTitle(R.string.app_name).setIcon(R.drawable.icon)
                 .setView(layout).setInverseBackgroundForced(true)
                 .setNeutralButton(getText(R.string.close), new OnClickListener() {
@@ -44,7 +47,7 @@ public class AboutDialogFragment extends DialogFragment {
                     public void onClick(final DialogInterface dialog, final int which) {
                         if (BuildConfig.DEBUG)
                             Log.d(AboutDialogFragment.this.getClass().getSimpleName(), "Received neutral event");
-                        EasyTracker.getTracker().sendEvent("About", "Neutral", "", 0L);
+                        gtmManager.pushEvent("Neutral");
                     }
                 }).create();
     }

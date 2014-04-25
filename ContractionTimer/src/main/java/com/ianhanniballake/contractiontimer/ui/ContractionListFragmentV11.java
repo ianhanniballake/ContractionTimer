@@ -16,10 +16,11 @@ import android.widget.AbsListView.MultiChoiceModeListener;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 
-import com.google.analytics.tracking.android.EasyTracker;
+import com.google.android.gms.tagmanager.DataLayer;
 import com.ianhanniballake.contractiontimer.BuildConfig;
 import com.ianhanniballake.contractiontimer.R;
 import com.ianhanniballake.contractiontimer.provider.ContractionContract;
+import com.ianhanniballake.contractiontimer.tagmanager.GtmManager;
 
 /**
  * Fragment to list contractions entered by the user
@@ -67,12 +68,14 @@ public class ContractionListFragmentV11 extends ContractionListFragment {
         listView.setMultiChoiceModeListener(new MultiChoiceModeListener() {
             @Override
             public boolean onActionItemClicked(final ActionMode mode, final MenuItem item) {
+                GtmManager gtmManager = GtmManager.getInstance(getActivity());
+                gtmManager.push("menu", "ContextActionBar");
                 final long contractionId = listView.getCheckedItemIds()[0];
                 switch (item.getItemId()) {
                     case R.id.menu_context_view:
                         if (BuildConfig.DEBUG)
                             Log.d(getClass().getSimpleName(), "Context Action Mode selected view");
-                        EasyTracker.getTracker().sendEvent("ContextActionBar", "View", "", 0L);
+                        gtmManager.pushEvent("View");
                         viewContraction(contractionId);
                         return true;
                     case R.id.menu_context_note:
@@ -84,9 +87,10 @@ public class ContractionListFragmentV11 extends ContractionListFragment {
                         if (BuildConfig.DEBUG)
                             Log.d(getClass().getSimpleName(),
                                     "Context Action Mode selected "
-                                            + (TextUtils.isEmpty(existingNote) ? "Add Note" : "Edit Note"));
-                        EasyTracker.getTracker().sendEvent("ContextActionBar", "Note",
-                                TextUtils.isEmpty(existingNote) ? "Add Note" : "Edit Note", (long) position);
+                                            + (TextUtils.isEmpty(existingNote) ? "Add Note" : "Edit Note")
+                            );
+                        gtmManager.pushEvent("Note", DataLayer.mapOf("type",
+                                TextUtils.isEmpty(existingNote) ? "Add Note" : "Edit Note", "position", position));
                         showNoteDialog(contractionId, existingNote);
                         mode.finish();
                         return true;
@@ -94,7 +98,7 @@ public class ContractionListFragmentV11 extends ContractionListFragment {
                         final long[] selectedIds = getListView().getCheckedItemIds();
                         if (BuildConfig.DEBUG)
                             Log.d(getClass().getSimpleName(), "Context Action Mode selected delete");
-                        EasyTracker.getTracker().sendEvent("ContextActionBar", "Delete", "", (long) selectedIds.length);
+                        gtmManager.pushEvent("Delete", DataLayer.mapOf("count", selectedIds.length));
                         for (final long id : selectedIds)
                             deleteContraction(id);
                         mode.finish();

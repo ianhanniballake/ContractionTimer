@@ -18,10 +18,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
 
-import com.google.analytics.tracking.android.EasyTracker;
 import com.ianhanniballake.contractiontimer.BuildConfig;
 import com.ianhanniballake.contractiontimer.R;
 import com.ianhanniballake.contractiontimer.provider.ContractionContract;
+import com.ianhanniballake.contractiontimer.tagmanager.GtmManager;
 
 /**
  * Reset Confirmation Dialog box
@@ -44,8 +44,7 @@ public class NoteDialogFragment extends DialogFragment {
     public void onCancel(final DialogInterface dialog) {
         if (BuildConfig.DEBUG)
             Log.d(getClass().getSimpleName(), "Received cancelation event");
-        final String existingNote = getArguments().getString(NoteDialogFragment.EXISTING_NOTE_ARGUMENT);
-        EasyTracker.getTracker().sendEvent("Note", "Cancel", TextUtils.isEmpty(existingNote) ? "Add Note" : "Edit Note", 0L);
+        GtmManager.getInstance(this).pushEvent("Cancel");
         super.onCancel(dialog);
     }
 
@@ -65,14 +64,15 @@ public class NoteDialogFragment extends DialogFragment {
         final AsyncQueryHandler asyncQueryHandler = new AsyncQueryHandler(getActivity().getContentResolver()) {
             // No call backs needed
         };
+        final GtmManager gtmManager = GtmManager.getInstance(this);
+        gtmManager.push("type", TextUtils.isEmpty(existingNote) ? "Add Note" : "Edit Note");
         return builder.setView(layout).setInverseBackgroundForced(true)
                 .setPositiveButton(R.string.note_dialog_save, new OnClickListener() {
                     @Override
                     public void onClick(final DialogInterface dialog, final int which) {
                         if (BuildConfig.DEBUG)
                             Log.d(NoteDialogFragment.this.getClass().getSimpleName(), "Received positive event");
-                        EasyTracker.getTracker().sendEvent("Note", "Positive",
-                                TextUtils.isEmpty(existingNote) ? "Add Note" : "Edit Note", 0L);
+                        gtmManager.pushEvent("Positive");
                         final Uri updateUri = ContentUris.withAppendedId(
                                 ContractionContract.Contractions.CONTENT_ID_URI_BASE, contractionId);
                         final ContentValues values = new ContentValues();
@@ -84,8 +84,7 @@ public class NoteDialogFragment extends DialogFragment {
                     public void onClick(final DialogInterface dialog, final int which) {
                         if (BuildConfig.DEBUG)
                             Log.d(NoteDialogFragment.this.getClass().getSimpleName(), "Received negative event");
-                        EasyTracker.getTracker().sendEvent("Note", "Negative",
-                                TextUtils.isEmpty(existingNote) ? "Add Note" : "Edit Note", 0L);
+                        gtmManager.pushEvent("Negative");
                     }
                 }).create();
     }

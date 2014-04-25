@@ -26,11 +26,12 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.analytics.tracking.android.EasyTracker;
+import com.google.android.gms.tagmanager.DataLayer;
 import com.ianhanniballake.contractiontimer.BuildConfig;
 import com.ianhanniballake.contractiontimer.R;
 import com.ianhanniballake.contractiontimer.appwidget.AppWidgetUpdateHandler;
 import com.ianhanniballake.contractiontimer.provider.ContractionContract;
+import com.ianhanniballake.contractiontimer.tagmanager.GtmManager;
 
 import java.util.Date;
 
@@ -185,6 +186,8 @@ public class ViewFragment extends Fragment implements LoaderManager.LoaderCallba
     @Override
     public boolean onOptionsItemSelected(final MenuItem item) {
         final Uri uri = ContentUris.withAppendedId(ContractionContract.Contractions.CONTENT_ID_URI_BASE, contractionId);
+        GtmManager gtmManager = GtmManager.getInstance(this);
+        gtmManager.push("menu", "View");
         switch (item.getItemId()) {
             case R.id.menu_edit:
                 // isContractionOngoing should be non-null at this point, but
@@ -193,7 +196,7 @@ public class ViewFragment extends Fragment implements LoaderManager.LoaderCallba
                     return true;
                 if (BuildConfig.DEBUG)
                     Log.d(getClass().getSimpleName(), "View selected edit");
-                EasyTracker.getTracker().sendEvent("View", "Edit", Boolean.toString(isContractionOngoing), 0L);
+                gtmManager.pushEvent("Edit", DataLayer.mapOf("ongoing", isContractionOngoing));
                 if (isContractionOngoing)
                     Toast.makeText(getActivity(), R.string.edit_ongoing_error, Toast.LENGTH_SHORT).show();
                 else
@@ -202,7 +205,7 @@ public class ViewFragment extends Fragment implements LoaderManager.LoaderCallba
             case R.id.menu_delete:
                 if (BuildConfig.DEBUG)
                     Log.d(getClass().getSimpleName(), "View selected delete");
-                EasyTracker.getTracker().sendEvent("View", "Delete", "", 0L);
+                gtmManager.pushEvent("Delete", DataLayer.mapOf("count", 1));
                 contractionQueryHandler.startDelete(0, 0, uri, null, null);
                 return true;
             default:

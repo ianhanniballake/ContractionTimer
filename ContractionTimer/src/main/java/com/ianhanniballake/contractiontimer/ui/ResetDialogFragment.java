@@ -13,10 +13,11 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 
-import com.google.analytics.tracking.android.EasyTracker;
+import com.google.android.gms.tagmanager.DataLayer;
 import com.ianhanniballake.contractiontimer.BuildConfig;
 import com.ianhanniballake.contractiontimer.R;
 import com.ianhanniballake.contractiontimer.provider.ContractionContract;
+import com.ianhanniballake.contractiontimer.tagmanager.GtmManager;
 
 /**
  * Reset Confirmation Dialog box
@@ -31,7 +32,7 @@ public class ResetDialogFragment extends DialogFragment {
     public void onCancel(final DialogInterface dialog) {
         if (BuildConfig.DEBUG)
             Log.d(getClass().getSimpleName(), "Received cancelation event");
-        EasyTracker.getTracker().sendEvent("Note", "Cancel", "", 0L);
+        GtmManager.getInstance(this).pushEvent("Cancel");
         super.onCancel(dialog);
     }
 
@@ -42,6 +43,8 @@ public class ResetDialogFragment extends DialogFragment {
         final AsyncQueryHandler asyncQueryHandler = new AsyncQueryHandler(getActivity().getContentResolver()) {
             // No call backs needed
         };
+        final GtmManager gtmManager = GtmManager.getInstance(this);
+        gtmManager.push("type", DataLayer.OBJECT_NOT_PRESENT);
         return new AlertDialog.Builder(getActivity()).setTitle(R.string.reset_dialog_title).setView(layout)
                 .setInverseBackgroundForced(true)
                 .setPositiveButton(R.string.reset_dialog_confirm, new OnClickListener() {
@@ -49,7 +52,7 @@ public class ResetDialogFragment extends DialogFragment {
                     public void onClick(final DialogInterface dialog, final int which) {
                         if (BuildConfig.DEBUG)
                             Log.d(ResetDialogFragment.this.getClass().getSimpleName(), "Received positive event");
-                        EasyTracker.getTracker().sendEvent("Reset", "Positive", "", 0L);
+                        gtmManager.pushEvent("Positive");
                         asyncQueryHandler.startDelete(0, 0, ContractionContract.Contractions.CONTENT_URI, null, null);
                     }
                 }).setNegativeButton(R.string.reset_dialog_cancel, new OnClickListener() {
@@ -57,7 +60,7 @@ public class ResetDialogFragment extends DialogFragment {
                     public void onClick(final DialogInterface dialog, final int which) {
                         if (BuildConfig.DEBUG)
                             Log.d(ResetDialogFragment.this.getClass().getSimpleName(), "Received negative event");
-                        EasyTracker.getTracker().sendEvent("Reset", "Negative", "", 0L);
+                        gtmManager.pushEvent("Negative");
                     }
                 }).create();
     }

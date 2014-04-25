@@ -23,11 +23,12 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.google.analytics.tracking.android.EasyTracker;
+import com.google.android.gms.tagmanager.DataLayer;
 import com.ianhanniballake.contractiontimer.BuildConfig;
 import com.ianhanniballake.contractiontimer.R;
 import com.ianhanniballake.contractiontimer.provider.ContractionContract;
 import com.ianhanniballake.contractiontimer.provider.ContractionContract.Contractions;
+import com.ianhanniballake.contractiontimer.tagmanager.GtmManager;
 
 import org.acra.ACRA;
 
@@ -110,7 +111,7 @@ public class ViewActivity extends ActionBarActivity implements LoaderManager.Loa
             if (BuildConfig.DEBUG)
                 Log.e(getClass().getSimpleName(), "NumberFormatException in onLoadFinished", e);
             else {
-                EasyTracker.getTracker().sendException(Thread.currentThread().getName(), e, false);
+                GtmManager.getInstance(this).pushException(e);
                 ACRA.getErrorReporter().handleSilentException(e);
             }
             finish();
@@ -137,7 +138,7 @@ public class ViewActivity extends ActionBarActivity implements LoaderManager.Loa
             case android.R.id.home:
                 if (BuildConfig.DEBUG)
                     Log.d(getClass().getSimpleName(), "View selected home");
-                EasyTracker.getTracker().sendEvent("View", "Home", "", 0L);
+                GtmManager.getInstance(this).pushEvent("Home");
                 return false;
             default:
                 return super.onOptionsItemSelected(item);
@@ -158,11 +159,11 @@ public class ViewActivity extends ActionBarActivity implements LoaderManager.Loa
     public void onPageSelected(final int position) {
         if (BuildConfig.DEBUG)
             Log.d(getClass().getSimpleName(), "Swapped to " + position);
-        if (currentPosition != -1)
-            if (position > currentPosition)
-                EasyTracker.getTracker().sendEvent("View", "Scroll", "Next", (long) position);
-            else
-                EasyTracker.getTracker().sendEvent("View", "Scroll", "Previous", (long) position);
+        if (currentPosition != -1) {
+            final String direction = position > currentPosition ? "Next" : "Previous";
+            GtmManager.getInstance(this).pushEvent("Scroll",
+                    DataLayer.mapOf("direction", direction, "position", position));
+        }
         currentPosition = position;
         final long newContractionId = adapter.getItemId(position);
         getIntent().setData(
@@ -187,21 +188,14 @@ public class ViewActivity extends ActionBarActivity implements LoaderManager.Loa
     protected void onStart() {
         super.onStart();
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        GtmManager.getInstance(this).pushOpenScreen("View");
         if (getIntent().hasExtra(MainActivity.LAUNCHED_FROM_WIDGET_EXTRA)) {
-            final String widgetIdentifier = getIntent().getExtras().getString(MainActivity.LAUNCHED_FROM_WIDGET_EXTRA);
+            final String widgetIdentifier = getIntent().getStringExtra(MainActivity.LAUNCHED_FROM_WIDGET_EXTRA);
             if (BuildConfig.DEBUG)
                 Log.d(getClass().getSimpleName(), "Launched from " + widgetIdentifier);
-            EasyTracker.getTracker().sendEvent(widgetIdentifier, "LaunchView", "", 0L);
+            GtmManager.getInstance(this).pushEvent("LaunchView", DataLayer.mapOf("widget", widgetIdentifier));
             getIntent().removeExtra(MainActivity.LAUNCHED_FROM_WIDGET_EXTRA);
         }
-        EasyTracker.getInstance().activityStart(this);
-        EasyTracker.getTracker().sendView("View");
-    }
-
-    @Override
-    protected void onStop() {
-        super.onStop();
-        EasyTracker.getInstance().activityStop(this);
     }
 
     /**

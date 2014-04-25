@@ -31,10 +31,11 @@ import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.TextView;
 
-import com.google.analytics.tracking.android.EasyTracker;
+import com.google.android.gms.tagmanager.DataLayer;
 import com.ianhanniballake.contractiontimer.BuildConfig;
 import com.ianhanniballake.contractiontimer.R;
 import com.ianhanniballake.contractiontimer.provider.ContractionContract;
+import com.ianhanniballake.contractiontimer.tagmanager.GtmManager;
 
 /**
  * Main Activity for managing contractions
@@ -53,7 +54,7 @@ public class MainActivity extends ActionBarActivity implements LoaderManager.Loa
             if (BuildConfig.DEBUG)
                 Log.d(MainActivity.this.getClass().getSimpleName(),
                         "DialogFragmentClosedBR Received " + intent.getAction());
-            EasyTracker.getTracker().sendView("Main");
+            GtmManager.getInstance(MainActivity.this).pushOpenScreen("Main");
         }
     };
     /**
@@ -81,7 +82,8 @@ public class MainActivity extends ActionBarActivity implements LoaderManager.Loa
                         R.plurals.share_average,
                         count,
                         new Object[]{relativeTimeSpan, count, averageDurationView.getText(),
-                                averageFrequencyView.getText()});
+                                averageFrequencyView.getText()}
+                );
     }
 
     @Override
@@ -142,34 +144,36 @@ public class MainActivity extends ActionBarActivity implements LoaderManager.Loa
 
     @Override
     public boolean onOptionsItemSelected(final MenuItem item) {
+        GtmManager gtmManager = GtmManager.getInstance(this);
+        gtmManager.push(DataLayer.mapOf("menu", "Menu", "count", adapter.getCount()));
         switch (item.getItemId()) {
             case R.id.menu_reset:
                 if (BuildConfig.DEBUG)
                     Log.d(getClass().getSimpleName(), "Menu selected Reset");
-                EasyTracker.getTracker().sendEvent("Menu", "Reset", "", (long) adapter.getCount());
+                gtmManager.pushEvent("Reset");
                 final ResetDialogFragment resetDialogFragment = new ResetDialogFragment();
                 if (BuildConfig.DEBUG)
                     Log.d(resetDialogFragment.getClass().getSimpleName(), "Showing Dialog");
-                EasyTracker.getTracker().sendView("Reset");
+                gtmManager.pushOpenScreen("Reset");
                 resetDialogFragment.show(getSupportFragmentManager(), "reset");
                 return true;
             case R.id.menu_add:
                 if (BuildConfig.DEBUG)
                     Log.d(getClass().getSimpleName(), "Menu selected Add");
-                EasyTracker.getTracker().sendEvent("Menu", "Add", "", 0L);
+                gtmManager.pushEvent("Add");
                 final Intent addIntent = new Intent(Intent.ACTION_INSERT, getIntent().getData());
                 startActivity(addIntent);
                 return true;
             case R.id.menu_share_averages:
                 if (BuildConfig.DEBUG)
                     Log.d(getClass().getSimpleName(), "Menu selected Share Averages");
-                EasyTracker.getTracker().sendEvent("Menu", "Share", "Averages", (long) adapter.getCount());
+                gtmManager.pushEvent("Share", DataLayer.mapOf("type", "Averages"));
                 shareAverages();
                 return true;
             case R.id.menu_share_all:
                 if (BuildConfig.DEBUG)
                     Log.d(getClass().getSimpleName(), "Menu selected Share All");
-                EasyTracker.getTracker().sendEvent("Menu", "Share", "All", (long) adapter.getCount());
+                gtmManager.pushEvent("Share", DataLayer.mapOf("type", "All"));
                 shareAll();
                 return true;
             case R.id.menu_settings:
@@ -178,17 +182,17 @@ public class MainActivity extends ActionBarActivity implements LoaderManager.Loa
             case R.id.menu_about:
                 if (BuildConfig.DEBUG)
                     Log.d(getClass().getSimpleName(), "Menu selected About");
-                EasyTracker.getTracker().sendEvent("Menu", "About", "", 0L);
+                gtmManager.pushEvent("About");
                 final AboutDialogFragment aboutDialogFragment = new AboutDialogFragment();
                 if (BuildConfig.DEBUG)
                     Log.d(aboutDialogFragment.getClass().getSimpleName(), "Showing Dialog");
-                EasyTracker.getTracker().sendView("About");
+                gtmManager.pushOpenScreen("About");
                 aboutDialogFragment.show(getSupportFragmentManager(), "about");
                 return true;
             case R.id.menu_donate:
                 if (BuildConfig.DEBUG)
                     Log.d(getClass().getSimpleName(), "Menu selected Donate");
-                EasyTracker.getTracker().sendEvent("Menu", "Donate", "", 0L);
+                gtmManager.pushEvent("Donate");
                 startActivity(new Intent(this, DonateActivity.class));
                 return true;
             default:
@@ -242,15 +246,14 @@ public class MainActivity extends ActionBarActivity implements LoaderManager.Loa
     @Override
     protected void onStart() {
         super.onStart();
+        GtmManager.getInstance(this).pushOpenScreen("Main");
         if (getIntent().hasExtra(MainActivity.LAUNCHED_FROM_WIDGET_EXTRA)) {
-            final String widgetIdentifier = getIntent().getExtras().getString(MainActivity.LAUNCHED_FROM_WIDGET_EXTRA);
+            final String widgetIdentifier = getIntent().getStringExtra(MainActivity.LAUNCHED_FROM_WIDGET_EXTRA);
             if (BuildConfig.DEBUG)
                 Log.d(getClass().getSimpleName(), "Launched from " + widgetIdentifier);
-            EasyTracker.getTracker().sendEvent(widgetIdentifier, "Launch", "", 0L);
+            GtmManager.getInstance(this).pushEvent("Launch", DataLayer.mapOf("widget", widgetIdentifier));
             getIntent().removeExtra(MainActivity.LAUNCHED_FROM_WIDGET_EXTRA);
         }
-        EasyTracker.getInstance().activityStart(this);
-        EasyTracker.getTracker().sendView("Main");
         final LocalBroadcastManager localBroadcastManager = LocalBroadcastManager.getInstance(this);
         final IntentFilter dialogCloseFilter = new IntentFilter();
         dialogCloseFilter.addAction(AboutDialogFragment.ABOUT_CLOSE_ACTION);
@@ -262,7 +265,6 @@ public class MainActivity extends ActionBarActivity implements LoaderManager.Loa
     @Override
     protected void onStop() {
         super.onStop();
-        EasyTracker.getInstance().activityStop(this);
         final LocalBroadcastManager localBroadcastManager = LocalBroadcastManager.getInstance(this);
         localBroadcastManager.unregisterReceiver(dialogFragmentClosedBroadcastReceiver);
     }
