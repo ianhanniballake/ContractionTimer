@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="menu_start_contraction">Start Contraction</string>
+    <string name="menu_stop_contraction">Stop Contraction</string>
+    <string name="menu_reset">Reset</string>
+    <string name="menu_stop">Stop</string>
+</resources>

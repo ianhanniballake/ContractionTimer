@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/menu_start_contraction"
+        android:icon="@drawable/ic_play"
+        android:title="@string/menu_start_contraction"/>
+    <item
+        android:id="@+id/menu_stop_contraction"
+        android:icon="@drawable/ic_pause"
+        android:title="@string/menu_stop_contraction"/>
+    <item
+        android:id="@+id/menu_reset"
+        android:icon="@drawable/ic_reset"
+        android:title="@string/menu_reset"/>
+    <item
+        android:id="@+id/menu_stop"
+        android:icon="@drawable/ic_stop"
+        android:title="@string/menu_stop"/>
+</menu>
