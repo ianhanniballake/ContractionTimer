@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    android:id="@+id/edit_fragment"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="@dimen/outer_padding">
+
+    <TextView
+        android:id="@+id/time_error_overlap"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/error_background"
+        android:gravity="center"
+        android:text="@string/edit_time_error_overlap"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:visibility="gone"/>
+
+    <TextView
+        android:id="@+id/start_time_label"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/time_error_overlap"
+        android:text="@string/detail_start_time_label"
+        android:textAppearance="?android:attr/textAppearanceLarge"/>
+
+    <Button
+        android:id="@+id/start_time"
+        style="?android:attr/actionDropDownStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@id/start_time_label"
+        android:paddingLeft="@dimen/indent_padding"
+        android:textAppearance="?android:attr/textAppearanceMedium"/>
+
+    <Button
+        android:id="@+id/start_date"
+        style="?android:attr/actionDropDownStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_below="@id/start_time_label"
+        android:paddingLeft="@dimen/indent_padding"
+        android:textAppearance="?android:attr/textAppearanceMedium"/>
+
+    <TextView
+        android:id="@+id/start_time_error_overlap"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/start_time"
+        android:background="@drawable/error_background"
+        android:gravity="center"
+        android:text="@string/edit_start_time_error_overlap"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:visibility="gone"/>
+
+    <TextView
+        android:id="@+id/end_time_label"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/start_time_error_overlap"
+        android:paddingTop="@dimen/dividing_padding"
+        android:text="@string/detail_end_time_label"
+        android:textAppearance="?android:attr/textAppearanceLarge"/>
+
+    <Button
+        android:id="@+id/end_time"
+        style="?android:attr/actionDropDownStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@id/end_time_label"
+        android:paddingLeft="@dimen/indent_padding"
+        android:textAppearance="?android:attr/textAppearanceMedium"/>
+
+    <Button
+        android:id="@+id/end_date"
+        style="?android:attr/actionDropDownStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_below="@id/end_time_label"
+        android:paddingLeft="@dimen/indent_padding"
+        android:textAppearance="?android:attr/textAppearanceMedium"/>
+
+    <TextView
+        android:id="@+id/end_time_error_order"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/end_time"
+        android:background="@drawable/error_background"
+        android:gravity="center"
+        android:text="@string/edit_end_time_error_order"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:visibility="gone"/>
+
+    <TextView
+        android:id="@+id/end_time_error_overlap"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/end_time_error_order"
+        android:background="@drawable/error_background"
+        android:gravity="center"
+        android:text="@string/edit_end_time_error_overlap"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:visibility="gone"/>
+
+    <ImageView
+        android:id="@+id/duration_divider"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/end_time_error_overlap"
+        android:contentDescription="@string/divider"
+        android:focusable="false"
+        android:paddingBottom="@dimen/dividing_padding"
+        android:paddingTop="@dimen/dividing_padding"
+        android:scaleType="fitXY"
+        android:src="@android:drawable/divider_horizontal_textfield"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/duration_divider"
+        android:text="@string/detail_duration_label"
+        android:textAppearance="?android:attr/textAppearanceLarge"/>
+
+    <TextView
+        android:id="@+id/duration"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_below="@id/duration_divider"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:textIsSelectable="false"/>
+
+    <ImageView
+        android:id="@+id/note_divider"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/duration"
+        android:contentDescription="@string/divider"
+        android:focusable="false"
+        android:paddingBottom="@dimen/dividing_padding"
+        android:paddingTop="@dimen/dividing_padding"
+        android:scaleType="fitXY"
+        android:src="@android:drawable/divider_horizontal_textfield"/>
+
+    <TextView
+        android:id="@+id/note_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/note_divider"
+        android:text="@string/detail_note_label"
+        android:textAppearance="?android:attr/textAppearanceLarge"/>
+
+    <EditText
+        android:id="@+id/note"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/note_label"
+        android:inputType="textCapSentences|textMultiLine|textAutoCorrect"
+        android:paddingLeft="@dimen/indent_padding"
+        android:textAppearance="?android:attr/textAppearanceMedium"/>
+
+</RelativeLayout>

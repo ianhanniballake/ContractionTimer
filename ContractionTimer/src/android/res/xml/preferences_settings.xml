@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <CheckBoxPreference
+        android:defaultValue="@bool/pref_settings_keep_screen_on_default"
+        android:key="keepScreenOn"
+        android:summary="@string/pref_settings_keep_screen_on_summary"
+        android:title="@string/pref_settings_keep_screen_on_title"/>
+    <CheckBoxPreference
+        android:defaultValue="@bool/pref_settings_lock_portrait_default"
+        android:key="lock_portrait"
+        android:summary="@string/pref_settings_lock_portrait_summary"
+        android:title="@string/pref_settings_lock_portrait_title"/>
+
+    <ListPreference
+        android:defaultValue="@string/pref_settings_average_time_frame_default"
+        android:dialogTitle="@string/pref_settings_average_time_frame_dialog_title"
+        android:entries="@array/pref_settings_average_time_frame_entries"
+        android:entryValues="@array/pref_settings_average_time_frame_entryvalues"
+        android:key="average_time_frame"
+        android:title="@string/pref_settings_average_time_frame_title"/>
+    <ListPreference
+        android:defaultValue="@string/pref_appwidget_background_default"
+        android:dialogTitle="@string/pref_appwidget_background_dialog_title"
+        android:entries="@array/pref_appwidget_background_entries"
+        android:entryValues="@array/pref_appwidget_background_entryvalues"
+        android:key="appwidget_background"
+        android:title="@string/pref_appwidget_background_title"/>
+
+    <CheckBoxPreference
+        android:defaultValue="@bool/pref_privacy_analytics_default"
+        android:key="analytics"
+        android:summary="@string/pref_privacy_analytics_summary"
+        android:title="@string/pref_privacy_analytics_title"/>
+
+</PreferenceScreen>
