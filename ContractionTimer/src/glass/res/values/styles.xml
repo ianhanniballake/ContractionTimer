@@ -7,4 +7,8 @@
         <item name="android:windowIsTranslucent">true</item>
         <item name="android:windowAnimationStyle">@null</item>
     </style>
+
+    <style name="Card">
+        <item name="android:padding">@dimen/card_border</item>
+    </style>
 </resources>
