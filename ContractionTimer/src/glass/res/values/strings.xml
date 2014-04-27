@@ -5,4 +5,6 @@
     <string name="menu_reset">Reset</string>
     <string name="menu_stop">Stop</string>
     <string name="empty_state">Tap to start a contraction</string>
+    <string name="contraction_ongoing">Contraction ongoing</string>
+    <string name="between_contractions">Between contractions</string>
 </resources>
