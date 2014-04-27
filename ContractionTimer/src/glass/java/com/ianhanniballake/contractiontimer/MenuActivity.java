@@ -2,7 +2,6 @@ package com.ianhanniballake.contractiontimer;
 
 import android.app.Activity;
 import android.content.AsyncQueryHandler;
-import android.content.ContentResolver;
 import android.content.ContentUris;
 import android.content.ContentValues;
 import android.content.Intent;
@@ -24,6 +23,11 @@ import com.ianhanniballake.contractiontimer.provider.ContractionContract;
 public class MenuActivity extends Activity {
     private final Handler mHandler = new Handler();
     private AsyncQueryHandler mAsyncQueryHandler;
+    private boolean mAttachedToWindow;
+    private boolean mOptionsMenuOpen;
+    private boolean mDataLoaded;
+    private boolean mHasContractions;
+    private boolean mContractionOngoing;
     private long mOngoingContractionId;
 
     @Override
@@ -32,15 +36,40 @@ public class MenuActivity extends Activity {
         mAsyncQueryHandler = new AsyncQueryHandler(getContentResolver()) {
             @Override
             protected void onQueryComplete(final int token, final Object cookie, final Cursor cursor) {
-                super.onQueryComplete(token, cookie, cursor);
+                mDataLoaded = true;
+                mHasContractions = cursor != null && cursor.moveToFirst();
+                mContractionOngoing = mHasContractions
+                        && cursor.isNull(cursor.getColumnIndex(ContractionContract.Contractions.COLUMN_NAME_END_TIME));
+                if (mContractionOngoing) {
+                    mOngoingContractionId = cursor.getLong(cursor.getColumnIndex(BaseColumns._ID));
+                }
+                openOptionsMenu();
             }
         };
+        final String[] projection = {BaseColumns._ID, ContractionContract.Contractions.COLUMN_NAME_END_TIME};
+        mAsyncQueryHandler.startQuery(0, null, ContractionContract.Contractions.CONTENT_URI,
+                projection, null, null, null);
     }
 
     @Override
     public void onAttachedToWindow() {
         super.onAttachedToWindow();
+        mAttachedToWindow = true;
         openOptionsMenu();
+    }
+
+    @Override
+    public void onDetachedFromWindow() {
+        super.onDetachedFromWindow();
+        mAttachedToWindow = false;
+    }
+
+    @Override
+    public void openOptionsMenu() {
+        if (!mOptionsMenuOpen && mAttachedToWindow && mDataLoaded) {
+            mOptionsMenuOpen = true;
+            super.openOptionsMenu();
+        }
     }
 
     @Override
@@ -52,22 +81,12 @@ public class MenuActivity extends Activity {
 
     @Override
     public boolean onPrepareOptionsMenu(final Menu menu) {
-        final ContentResolver contentResolver = getContentResolver();
-        final String[] projection = {BaseColumns._ID, ContractionContract.Contractions.COLUMN_NAME_END_TIME};
-        final Cursor data = contentResolver.query(ContractionContract.Contractions.CONTENT_URI, projection, null, null,
-                null);
-        final boolean hasContractions = data != null && data.moveToFirst();
-        final boolean contractionOngoing = hasContractions
-                && data.isNull(data.getColumnIndex(ContractionContract.Contractions.COLUMN_NAME_END_TIME));
         MenuItem startContraction = menu.findItem(R.id.menu_start_contraction);
-        startContraction.setVisible(!contractionOngoing);
+        startContraction.setVisible(!mContractionOngoing);
         MenuItem stopContraction = menu.findItem(R.id.menu_stop_contraction);
-        stopContraction.setVisible(contractionOngoing);
+        stopContraction.setVisible(mContractionOngoing);
         MenuItem reset = menu.findItem(R.id.menu_reset);
-        reset.setVisible(hasContractions);
-        if (contractionOngoing) {
-            mOngoingContractionId = data.getLong(data.getColumnIndex(BaseColumns._ID));
-        }
+        reset.setVisible(mHasContractions);
         return true;
     }
 
