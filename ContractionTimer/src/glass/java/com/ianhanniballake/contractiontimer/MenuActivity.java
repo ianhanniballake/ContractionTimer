@@ -43,6 +43,9 @@ public class MenuActivity extends Activity {
                 if (mContractionOngoing) {
                     mOngoingContractionId = cursor.getLong(cursor.getColumnIndex(BaseColumns._ID));
                 }
+                if (cursor != null) {
+                    cursor.close();
+                }
                 openOptionsMenu();
             }
         };

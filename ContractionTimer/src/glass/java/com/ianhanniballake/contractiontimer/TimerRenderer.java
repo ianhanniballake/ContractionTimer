@@ -52,6 +52,9 @@ public class TimerRenderer implements DirectRenderingCallback {
                 } else {
                     mCurrentState.setText(R.string.between_contractions);
                 }
+                if (cursor != null) {
+                    cursor.close();
+                }
                 draw();
             }
         };
