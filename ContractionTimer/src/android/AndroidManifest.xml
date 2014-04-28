@@ -13,8 +13,7 @@
     <application
         android:name="ContractionTimerApplication"
         android:allowBackup="true"
-        android:backupAgent=".backup.ContractionTimerBackupAgent"
-        android:theme="@style/AppTheme">
+        android:backupAgent=".backup.ContractionTimerBackupAgent">
         <activity
             android:name=".ui.MainActivity"
             android:label="@string/app_name">

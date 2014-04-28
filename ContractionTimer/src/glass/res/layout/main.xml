@@ -13,7 +13,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:gravity="center"
-        android:text="@string/empty_state"/>
+        android:text="@string/empty_state"
+        android:visibility="invisible"/>
 
     <TextView
         android:id="@+id/current_state"
@@ -21,5 +22,5 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:gravity="center"
-        android:visibility="gone"/>
+        android:visibility="invisible"/>
 </FrameLayout>
