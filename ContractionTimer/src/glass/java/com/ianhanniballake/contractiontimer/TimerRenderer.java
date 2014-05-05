@@ -41,20 +41,33 @@ public class TimerRenderer implements DirectRenderingCallback {
             protected void onQueryComplete(final int token, final Object cookie, final Cursor cursor) {
                 final boolean hasContractions = cursor != null && cursor.moveToFirst();
                 Log.d(TimerRenderer.class.getSimpleName(), "Has Contractions: " + hasContractions);
-                mEmptyState.setVisibility(hasContractions ? View.INVISIBLE : View.VISIBLE);
-                mCurrentState.setVisibility(!hasContractions ? View.INVISIBLE : View.VISIBLE);
-                final boolean contractionOngoing = hasContractions
-                        && cursor.isNull(cursor.getColumnIndex(ContractionContract.Contractions.COLUMN_NAME_END_TIME));
+                if (hasContractions) {
+                    updateWithContractions(cursor);
+                } else {
+                    updateWithNoContractions();
+                }
+                if (cursor != null) {
+                    cursor.close();
+                }
+                draw();
+            }
+
+            private void updateWithContractions(final Cursor cursor) {
+                mEmptyState.setVisibility(View.INVISIBLE);
+                mCurrentState.setVisibility(View.VISIBLE);
+                final boolean contractionOngoing = cursor.isNull(
+                        cursor.getColumnIndex(ContractionContract.Contractions.COLUMN_NAME_END_TIME));
                 Log.d(TimerRenderer.class.getSimpleName(), "Contraction Ongoing: " + contractionOngoing);
                 if (contractionOngoing) {
                     // TODO fill in ongoing contraction's duration
                 } else {
                     // TODO update last contraction's frequency
                 }
-                if (cursor != null) {
-                    cursor.close();
-                }
-                draw();
+            }
+
+            private void updateWithNoContractions() {
+                mEmptyState.setVisibility(View.VISIBLE);
+                mCurrentState.setVisibility(View.INVISIBLE);
             }
         };
         mContentObserver = new ContentObserver(new Handler()) {
