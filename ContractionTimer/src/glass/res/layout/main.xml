@@ -16,11 +16,69 @@
         android:text="@string/empty_state"
         android:visibility="invisible"/>
 
-    <TextView
+    <GridLayout
         android:id="@+id/current_state"
-        style="@android:style/TextAppearance.DeviceDefault.Large"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:gravity="center"
-        android:visibility="invisible"/>
+        android:columnCount="3"
+        android:visibility="invisible">
+
+        <Space/>
+
+        <TextView
+            android:layout_gravity="center_horizontal"
+            android:text="@string/list_header_duration"/>
+
+        <TextView
+            android:layout_gravity="center_horizontal"
+            android:text="@string/list_header_frequency"/>
+
+        <TextView
+            android:id="@+id/current_start_time"
+            style="@android:style/TextAppearance.DeviceDefault.Small"
+            android:layout_gravity="start"
+            android:text="10:46:23PM"/>
+
+        <TextView
+            android:id="@+id/current_duration"
+            android:layout_gravity="center_horizontal"
+            android:text="07:44"/>
+
+        <TextView
+            android:id="@+id/current_frequency"
+            android:layout_gravity="center_horizontal"
+            android:text="03:33"/>
+
+        <TextView
+            android:id="@+id/previous_start_time"
+            style="@android:style/TextAppearance.DeviceDefault.Small"
+            android:layout_gravity="start"
+            android:text="10:43:22PM"/>
+
+        <TextView
+            android:id="@+id/previous_duration"
+            android:layout_gravity="center_horizontal"
+            android:text="03:31"/>
+
+        <TextView
+            android:id="@+id/previous_frequency"
+            android:layout_gravity="center_horizontal"
+            android:text="01:31"/>
+
+        <TextView
+            android:layout_gravity="bottom|start"
+            android:text="@string/contraction_average"/>
+
+        <TextView
+            android:id="@+id/average_duration"
+            android:layout_gravity="bottom|center_horizontal"
+            android:fontFamily="sans-serif-condensed"
+            android:text="05:12"/>
+
+        <TextView
+            android:id="@+id/average_frequency"
+            android:layout_gravity="bottom|center_horizontal"
+            android:fontFamily="sans-serif-condensed"
+            android:text="04:01"/>
+    </GridLayout>
 </FrameLayout>

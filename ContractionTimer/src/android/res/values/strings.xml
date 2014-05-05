@@ -48,9 +48,6 @@
     <string name="list_loading">Loading contractions…</string>
     <string name="list_item_loading">Loading</string>
     <string name="list_empty"></string>
-    <string name="list_header_duration">Duration</string>
-    <string name="list_header_frequency">Frequency</string>
-    <string name="contraction_average">Average</string>
     <string name="detail_start_time_label">Start Time</string>
     <string name="detail_end_time_label">End Time</string>
     <string name="detail_duration_label">Duration</string>

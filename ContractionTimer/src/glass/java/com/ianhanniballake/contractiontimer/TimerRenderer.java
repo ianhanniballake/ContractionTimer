@@ -12,7 +12,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.SurfaceHolder;
 import android.view.View;
-import android.widget.TextView;
 
 import com.google.android.glass.timeline.DirectRenderingCallback;
 import com.ianhanniballake.contractiontimer.provider.ContractionContract;
@@ -23,7 +22,7 @@ import com.ianhanniballake.contractiontimer.provider.ContractionContract;
 public class TimerRenderer implements DirectRenderingCallback {
     private final View mView;
     private final View mEmptyState;
-    private final TextView mCurrentState;
+    private final View mCurrentState;
     private final ContentResolver mContentResolver;
     private final AsyncQueryHandler mAsyncQueryHandler;
     private final ContentObserver mContentObserver;
@@ -35,7 +34,7 @@ public class TimerRenderer implements DirectRenderingCallback {
         LayoutInflater inflater = LayoutInflater.from(context);
         mView = inflater.inflate(R.layout.main, null);
         mEmptyState = mView.findViewById(R.id.empty_state);
-        mCurrentState = (TextView) mView.findViewById(R.id.current_state);
+        mCurrentState = mView.findViewById(R.id.current_state);
         mContentResolver = context.getContentResolver();
         mAsyncQueryHandler = new AsyncQueryHandler(mContentResolver) {
             @Override
@@ -48,9 +47,9 @@ public class TimerRenderer implements DirectRenderingCallback {
                         && cursor.isNull(cursor.getColumnIndex(ContractionContract.Contractions.COLUMN_NAME_END_TIME));
                 Log.d(TimerRenderer.class.getSimpleName(), "Contraction Ongoing: " + contractionOngoing);
                 if (contractionOngoing) {
-                    mCurrentState.setText(R.string.contraction_ongoing);
+                    // TODO fill in ongoing contraction's duration
                 } else {
-                    mCurrentState.setText(R.string.between_contractions);
+                    // TODO update last contraction's frequency
                 }
                 if (cursor != null) {
                     cursor.close();
