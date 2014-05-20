@@ -1,7 +1,6 @@
 package com.ianhanniballake.contractiontimer;
 
 import android.app.Application;
-import android.preference.PreferenceManager;
 
 import com.ianhanniballake.contractiontimer.strictmode.StrictModeController;
 import com.ianhanniballake.contractiontimer.tagmanager.GtmManager;
@@ -32,7 +31,6 @@ public class ContractionTimerApplication extends Application {
                     "http://www.bugsense.com/api/acra?api_key=6ebe60f4", null);
             ACRA.getErrorReporter().addReportSender(bugsenseReportSender);
         }
-        PreferenceManager.setDefaultValues(this, R.xml.preferences_settings, false);
         super.onCreate();
     }
 }
