@@ -19,6 +19,7 @@ import java.util.concurrent.TimeUnit;
  * Centralized Manager for Google Tag Manager operations, including pushing values, events, and exceptions
  */
 public class GtmManager {
+    private static final Object LOCK = new Object();
     private static GtmManager INSTANCE;
     private final Context mContext;
     private final TagManager mTagManager;
@@ -36,7 +37,7 @@ public class GtmManager {
     }
 
     public static GtmManager getInstance(Context context) {
-        synchronized (INSTANCE) {
+        synchronized (LOCK) {
             if (INSTANCE == null) {
                 INSTANCE = new GtmManager(context.getApplicationContext());
             }
