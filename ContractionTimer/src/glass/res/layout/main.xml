@@ -21,49 +21,50 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:columnCount="3"
-        android:visibility="invisible">
+        android:useDefaultMargins="true"
+        android:visibility="visible">
 
         <Space/>
 
         <TextView
-            android:layout_gravity="center_horizontal"
+            android:layout_gravity="end"
             android:text="@string/list_header_duration"/>
 
         <TextView
-            android:layout_gravity="center_horizontal"
+            android:layout_gravity="end"
             android:text="@string/list_header_frequency"/>
 
         <TextView
             android:id="@+id/current_start_time"
             style="@android:style/TextAppearance.DeviceDefault.Small"
             android:layout_gravity="start"
-            android:text="10:46:23PM"/>
+            android:text="@string/default_time"/>
 
         <TextView
             android:id="@+id/current_duration"
-            android:layout_gravity="center_horizontal"
-            android:text="07:44"/>
+            android:layout_gravity="end"
+            android:text="@string/default__elapsed_time"/>
 
         <TextView
             android:id="@+id/current_frequency"
-            android:layout_gravity="center_horizontal"
-            android:text="03:33"/>
+            android:layout_gravity="end"
+            android:text="@string/default__elapsed_time"/>
 
         <TextView
             android:id="@+id/previous_start_time"
             style="@android:style/TextAppearance.DeviceDefault.Small"
             android:layout_gravity="start"
-            android:text="10:43:22PM"/>
+            android:text="@string/default_time"/>
 
         <TextView
             android:id="@+id/previous_duration"
-            android:layout_gravity="center_horizontal"
-            android:text="03:31"/>
+            android:layout_gravity="end"
+            android:text="@string/default__elapsed_time"/>
 
         <TextView
             android:id="@+id/previous_frequency"
-            android:layout_gravity="center_horizontal"
-            android:text="01:31"/>
+            android:layout_gravity="end"
+            android:text="@string/default__elapsed_time"/>
 
         <TextView
             android:layout_gravity="bottom|start"
@@ -71,14 +72,14 @@
 
         <TextView
             android:id="@+id/average_duration"
-            android:layout_gravity="bottom|center_horizontal"
+            android:layout_gravity="bottom|end"
             android:fontFamily="sans-serif-condensed"
-            android:text="05:12"/>
+            android:text="@string/default__elapsed_time"/>
 
         <TextView
             android:id="@+id/average_frequency"
-            android:layout_gravity="bottom|center_horizontal"
+            android:layout_gravity="bottom|end"
             android:fontFamily="sans-serif-condensed"
-            android:text="04:01"/>
+            android:text="@string/default__elapsed_time"/>
     </GridLayout>
 </FrameLayout>

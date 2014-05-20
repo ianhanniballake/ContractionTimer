@@ -14,5 +14,6 @@
 
     <style name="Card">
         <item name="android:padding">@dimen/card_border</item>
+        <item name="android:background">@android:color/black</item>
     </style>
 </resources>

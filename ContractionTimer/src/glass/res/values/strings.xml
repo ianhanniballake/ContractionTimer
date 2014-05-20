@@ -5,4 +5,7 @@
     <string name="menu_reset">Reset</string>
     <string name="menu_stop">Stop</string>
     <string name="empty_state">Tap to start a contraction</string>
+    <string name="timing">Timing</string>
+    <string name="default_time">00:00:00PM</string>
+    <string name="default__elapsed_time">00:00</string>
 </resources>
