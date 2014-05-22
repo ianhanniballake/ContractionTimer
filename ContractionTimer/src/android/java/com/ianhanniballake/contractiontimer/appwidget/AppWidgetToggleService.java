@@ -11,6 +11,7 @@ import android.provider.BaseColumns;
 import android.util.Log;
 
 import com.ianhanniballake.contractiontimer.BuildConfig;
+import com.ianhanniballake.contractiontimer.notification.NotificationUpdateService;
 import com.ianhanniballake.contractiontimer.provider.ContractionContract;
 import com.ianhanniballake.contractiontimer.tagmanager.GtmManager;
 
@@ -62,5 +63,6 @@ public class AppWidgetToggleService extends IntentService {
         // Close the cursor
         data.close();
         AppWidgetUpdateHandler.createInstance().updateAllWidgets(this);
+        NotificationUpdateService.updateNotification(this);
     }
 }

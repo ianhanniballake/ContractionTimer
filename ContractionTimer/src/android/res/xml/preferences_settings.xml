@@ -28,6 +28,11 @@
         android:title="@string/pref_appwidget_background_title"/>
 
     <CheckBoxPreference
+        android:defaultValue="@bool/pref_notification_enable_default"
+        android:key="notification_enable"
+        android:summary="@string/pref_notification_enable_summary"
+        android:title="@string/pref_notification_enable_title"/>
+    <CheckBoxPreference
         android:defaultValue="@bool/pref_privacy_analytics_default"
         android:key="analytics"
         android:summary="@string/pref_privacy_analytics_summary"

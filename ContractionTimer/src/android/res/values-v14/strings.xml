@@ -7,5 +7,7 @@
     <string name="pref_settings_keep_screen_on_summary_off">Screen will time out per the system settings</string>
     <string name="pref_settings_lock_portrait_summary_on">Screen is locked in portrait orientation when on any screen</string>
     <string name="pref_settings_lock_portrait_summary_off">Screen will rotate per the system settings</string>
+    <string name="pref_notification_enable_summary_on">Show a notification when timing contractions</string>
+    <string name="pref_notification_enable_summary_off">Never show a notification</string>
 
 </resources>

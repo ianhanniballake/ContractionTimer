@@ -38,6 +38,7 @@ import com.google.android.gms.tagmanager.DataLayer;
 import com.ianhanniballake.contractiontimer.BuildConfig;
 import com.ianhanniballake.contractiontimer.R;
 import com.ianhanniballake.contractiontimer.appwidget.AppWidgetUpdateHandler;
+import com.ianhanniballake.contractiontimer.notification.NotificationUpdateService;
 import com.ianhanniballake.contractiontimer.provider.ContractionContract;
 import com.ianhanniballake.contractiontimer.tagmanager.GtmManager;
 
@@ -205,6 +206,7 @@ public class EditFragment extends Fragment implements LoaderManager.LoaderCallba
             @Override
             protected void onInsertComplete(final int token, final Object cookie, final Uri uri) {
                 AppWidgetUpdateHandler.createInstance().updateAllWidgets(applicationContext);
+                NotificationUpdateService.updateNotification(applicationContext);
                 final Activity activity = getActivity();
                 if (activity != null)
                     activity.finish();
@@ -213,6 +215,7 @@ public class EditFragment extends Fragment implements LoaderManager.LoaderCallba
             @Override
             protected void onUpdateComplete(final int token, final Object cookie, final int result) {
                 AppWidgetUpdateHandler.createInstance().updateAllWidgets(applicationContext);
+                NotificationUpdateService.updateNotification(applicationContext);
                 final Activity activity = getActivity();
                 if (activity != null)
                     activity.finish();

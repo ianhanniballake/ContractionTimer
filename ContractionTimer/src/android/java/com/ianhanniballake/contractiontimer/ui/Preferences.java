@@ -31,6 +31,7 @@ import com.ianhanniballake.contractiontimer.BuildConfig;
 import com.ianhanniballake.contractiontimer.R;
 import com.ianhanniballake.contractiontimer.appwidget.AppWidgetUpdateHandler;
 import com.ianhanniballake.contractiontimer.backup.BackupController;
+import com.ianhanniballake.contractiontimer.notification.NotificationUpdateService;
 import com.ianhanniballake.contractiontimer.provider.ContractionContract;
 import com.ianhanniballake.contractiontimer.tagmanager.GtmManager;
 
@@ -78,6 +79,10 @@ public class Preferences extends PreferenceActivity implements OnSharedPreferenc
      * Lock Portrait preference name
      */
     public static final String LOCK_PORTRAIT_PREFERENCE_KEY = "lock_portrait";
+    /**
+     * Notification Enabled preference name
+     */
+    public static final String NOTIFICATION_ENABLE_PREFERENCE_KEY = "notification_enable";
     private static final String CONTRACTIONS_FILE_NAME = "Contractions.json";
     /**
      * Reference to the ListPreference corresponding with the Appwidget background
@@ -175,6 +180,13 @@ public class Preferences extends PreferenceActivity implements OnSharedPreferenc
             gtmManager.pushPreferenceChanged("Appwidget Background", newAppwidgetBackground);
             appwidgetBackgroundListPreference.setSummary(appwidgetBackgroundListPreference.getEntry());
             AppWidgetUpdateHandler.createInstance().updateAllWidgets(this);
+        } else if (key.equals(Preferences.NOTIFICATION_ENABLE_PREFERENCE_KEY)) {
+            final boolean newNotifcationEnabled = sharedPreferences.getBoolean(Preferences.LOCK_PORTRAIT_PREFERENCE_KEY,
+                    getResources().getBoolean(R.bool.pref_notification_enable_default));
+            if (BuildConfig.DEBUG)
+                Log.d(Preferences.class.getSimpleName(), "Notification Enabled: " + newNotifcationEnabled);
+            gtmManager.pushPreferenceChanged("Notification Enabled", newNotifcationEnabled);
+            NotificationUpdateService.updateNotification(this);
         } else if (key.equals(Preferences.AVERAGE_TIME_FRAME_PREFERENCE_KEY)) {
             final String newAverageTimeFrame = averageTimeFrameListPreference.getValue();
             if (BuildConfig.DEBUG)
@@ -186,6 +198,8 @@ public class Preferences extends PreferenceActivity implements OnSharedPreferenc
             editor.commit();
             averageTimeFrameListPreference.setSummary(getString(R.string.pref_settings_average_time_frame_summary)
                     + "\n" + averageTimeFrameListPreference.getEntry());
+            AppWidgetUpdateHandler.createInstance().updateAllWidgets(this);
+            NotificationUpdateService.updateNotification(this);
         } else if (key.equals(Preferences.ANALYTICS_PREFERENCE_KEY)) {
             final boolean newCollectAnalytics = sharedPreferences.getBoolean(Preferences.ANALYTICS_PREFERENCE_KEY,
                     getResources().getBoolean(R.bool.pref_privacy_analytics_default));

@@ -37,6 +37,16 @@
             android:key="appwidget_background"
             android:title="@string/pref_appwidget_background_title"/>
     </PreferenceCategory>
+    <PreferenceCategory android:title="@string/pref_notification_category">
+        <SwitchPreference
+            android:defaultValue="@bool/pref_notification_enable_default"
+            android:key="notification_enable"
+            android:summaryOff="@string/pref_notification_enable_summary_off"
+            android:summaryOn="@string/pref_notification_enable_summary_on"
+            android:switchTextOff="@string/pref_switch_text_off"
+            android:switchTextOn="@string/pref_switch_text_on"
+            android:title="@string/pref_notification_enable_title"/>
+    </PreferenceCategory>
     <PreferenceCategory android:title="@string/pref_privacy_category">
         <CheckBoxPreference
             android:defaultValue="@bool/pref_privacy_analytics_default"

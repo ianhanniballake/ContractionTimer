@@ -16,7 +16,8 @@
         android:backupAgent=".backup.ContractionTimerBackupAgent">
         <activity
             android:name=".ui.MainActivity"
-            android:label="@string/app_name">
+            android:label="@string/app_name"
+            android:launchMode="singleTop">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 
@@ -86,6 +87,7 @@
                 android:value=".ui.MainActivity"/>
         </activity>
 
+        <service android:name=".notification.NotificationUpdateService"/>
         <service android:name=".appwidget.AppWidgetToggleService"/>
         <service android:name=".appwidget.ToggleAppWidgetService"/>
         <service android:name=".appwidget.ControlAppWidgetService"/>

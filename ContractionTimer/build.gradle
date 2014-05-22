@@ -14,6 +14,7 @@ android {
                 compile "com.android.support:gridlayout-v7:19.0.+"
                 compile 'com.google.android.gms:play-services:4.3.23'
                 compile 'ch.acra:acra:4.4.0'
+                compile files('libs/wearable-preview-support.jar')
             }
 
             def versionMajor = 2
