@@ -12,6 +12,7 @@ import android.preview.support.v4.app.NotificationManagerCompat;
 import android.preview.support.wearable.notifications.WearableNotifications;
 import android.provider.BaseColumns;
 import android.support.v4.app.NotificationCompat;
+import android.text.TextUtils;
 import android.text.format.DateUtils;
 
 import com.ianhanniballake.contractiontimer.R;
@@ -43,8 +44,10 @@ public class NotificationUpdateService extends IntentService {
             notificationManager.cancel(NOTIFICATION_ID);
             return;
         }
-        final String[] projection = {BaseColumns._ID, ContractionContract.Contractions.COLUMN_NAME_START_TIME,
-                ContractionContract.Contractions.COLUMN_NAME_END_TIME};
+        final String[] projection = {BaseColumns._ID,
+                ContractionContract.Contractions.COLUMN_NAME_START_TIME,
+                ContractionContract.Contractions.COLUMN_NAME_END_TIME,
+                ContractionContract.Contractions.COLUMN_NAME_NOTE};
         final String selection = ContractionContract.Contractions.COLUMN_NAME_START_TIME + ">?";
         final long averagesTimeFrame = Long.parseLong(preferences.getString(
                 Preferences.AVERAGE_TIME_FRAME_PREFERENCE_KEY,
@@ -70,10 +73,8 @@ public class NotificationUpdateService extends IntentService {
                 PendingIntent.FLAG_UPDATE_CURRENT);
         builder.setContentIntent(pendingIntent);
         // Determine whether a contraction is currently ongoing
-        final int startTimeColumnIndex = data
-                .getColumnIndex(ContractionContract.Contractions.COLUMN_NAME_START_TIME);
-        final int endTimeColumnIndex = data
-                .getColumnIndex(ContractionContract.Contractions.COLUMN_NAME_END_TIME);
+        final int startTimeColumnIndex = data.getColumnIndex(ContractionContract.Contractions.COLUMN_NAME_START_TIME);
+        final int endTimeColumnIndex = data.getColumnIndex(ContractionContract.Contractions.COLUMN_NAME_END_TIME);
         final boolean contractionOngoing = data.isNull(endTimeColumnIndex);
         builder.setOngoing(contractionOngoing);
         Intent startStopIntent = new Intent(this, AppWidgetToggleService.class);
@@ -87,6 +88,19 @@ public class NotificationUpdateService extends IntentService {
             builder.setContentTitle(getString(R.string.app_name));
             builder.addAction(R.drawable.ic_action_start, getString(R.string.contraction_start),
                     startStopPendingIntent);
+        }
+        // See if there is a note and build a page if it exists
+        final int noteColumnIndex = data.getColumnIndex(ContractionContract.Contractions.COLUMN_NAME_NOTE);
+        final String note = data.getString(noteColumnIndex);
+        Notification notePage;
+        if (TextUtils.isEmpty(note)) {
+            notePage = null;
+        } else {
+            notePage = new NotificationCompat.Builder(this)
+                    .setStyle(new NotificationCompat.BigTextStyle()
+                            .setBigContentTitle(getString(R.string.detail_note_label))
+                            .bigText(note))
+                    .build();
         }
         // Fill in the 'when', which will be used to show live progress via the chronometer feature
         final long when = contractionOngoing ? data.getLong(startTimeColumnIndex) : data.getLong(endTimeColumnIndex);
@@ -118,21 +132,30 @@ public class NotificationUpdateService extends IntentService {
         String formattedAverageFrequency = DateUtils.formatElapsedTime(averageFrequencyInSeconds);
         String contentText = getString(R.string.notification_content_text,
                 formattedAverageDuration, formattedAverageFrequency);
-        String bigText = getString(R.string.notification_big_text,
-                formattedAverageDuration, formattedAverageFrequency);
+        String bigText;
+        if (TextUtils.isEmpty(note)) {
+            bigText = getString(R.string.notification_big_text, formattedAverageDuration,
+                    formattedAverageFrequency);
+        } else {
+            bigText = getString(R.string.notification_big_text_with_note, formattedAverageDuration,
+                    formattedAverageFrequency, note);
+        }
         builder.setContentText(contentText)
                 .setStyle(new NotificationCompat.BigTextStyle().bigText(bigText));
         // Close the cursor
         data.close();
-        // Create a second page for the averages as the big text is not shown on Android Wear in chronometer mode
-        Notification secondPageNotification = new NotificationCompat.Builder(this)
+        // Create a separate page for the averages as the big text is not shown on Android Wear in chronometer mode
+        Notification averagePage = new NotificationCompat.Builder(this)
                 .setStyle(new NotificationCompat.InboxStyle()
                         .setBigContentTitle(getString(R.string.notification_second_page_title))
                         .addLine(getString(R.string.notification_second_page_duration, formattedAverageDuration))
                         .addLine(getString(R.string.notification_second_page_frequency, formattedAverageFrequency)))
                 .build();
         WearableNotifications.Builder wearableBuilder = new WearableNotifications.Builder(builder);
-        wearableBuilder.addPage(secondPageNotification);
+        wearableBuilder.addPage(averagePage);
+        if (notePage != null) {
+            wearableBuilder.addPage(notePage);
+        }
         notificationManager.notify(NOTIFICATION_ID, wearableBuilder.build());
     }
 }
