@@ -75,7 +75,7 @@ public class GtmManager {
     }
 
     public void pushEvent(String eventName) {
-        mTagManager.getDataLayer().pushEvent(eventName, null);
+        mTagManager.getDataLayer().pushEvent(eventName, DataLayer.mapOf());
     }
 
     public void pushEvent(String eventName, Map<String, Object> update) {
