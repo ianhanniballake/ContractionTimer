@@ -53,7 +53,7 @@ public class NotificationUpdateService extends IntentService {
         final String[] selectionArgs = {Long.toString(timeCutoff)};
         final Cursor data = getContentResolver().query(ContractionContract.Contractions.CONTENT_URI, projection,
                 selection, selectionArgs, null);
-        if (data == null || data.getCount() == 0) {
+        if (data == null || data.moveToFirst()) {
             notificationManager.cancel(NOTIFICATION_ID);
             if (data != null) {
                 data.close();
@@ -69,16 +69,35 @@ public class NotificationUpdateService extends IntentService {
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, contentIntent,
                 PendingIntent.FLAG_UPDATE_CURRENT);
         builder.setContentIntent(pendingIntent);
+        // Determine whether a contraction is currently ongoing
+        final int startTimeColumnIndex = data
+                .getColumnIndex(ContractionContract.Contractions.COLUMN_NAME_START_TIME);
+        final int endTimeColumnIndex = data
+                .getColumnIndex(ContractionContract.Contractions.COLUMN_NAME_END_TIME);
+        final boolean contractionOngoing = data.isNull(endTimeColumnIndex);
+        builder.setOngoing(contractionOngoing);
+        Intent startStopIntent = new Intent(this, AppWidgetToggleService.class);
+        PendingIntent startStopPendingIntent = PendingIntent.getService(this, 0, startStopIntent,
+                PendingIntent.FLAG_UPDATE_CURRENT);
+        if (contractionOngoing) {
+            builder.setContentTitle(getString(R.string.notification_timing));
+            builder.addAction(R.drawable.ic_action_stop, getString(R.string.contraction_end),
+                    startStopPendingIntent);
+        } else {
+            builder.setContentTitle(getString(R.string.app_name));
+            builder.addAction(R.drawable.ic_action_start, getString(R.string.contraction_start),
+                    startStopPendingIntent);
+        }
+        // Fill in the 'when', which will be used to show live progress via the chronometer feature
+        final long when = contractionOngoing ? data.getLong(startTimeColumnIndex) : data.getLong(endTimeColumnIndex);
+        builder.setWhen(when);
+        builder.setUsesChronometer(true);
         // Get the average duration and frequency
         double averageDuration = 0;
         double averageFrequency = 0;
         int numDurations = 0;
         int numFrequencies = 0;
-        final int startTimeColumnIndex = data
-                .getColumnIndex(ContractionContract.Contractions.COLUMN_NAME_START_TIME);
-        final int endTimeColumnIndex = data
-                .getColumnIndex(ContractionContract.Contractions.COLUMN_NAME_END_TIME);
-        while (data.moveToNext()) {
+        while (!data.isAfterLast()) {
             final long startTime = data.getLong(startTimeColumnIndex);
             if (!data.isNull(endTimeColumnIndex)) {
                 final long endTime = data.getLong(endTimeColumnIndex);
@@ -87,9 +106,7 @@ public class NotificationUpdateService extends IntentService {
                 numDurations++;
             }
             if (data.moveToNext()) {
-                final int prevContractionStartTimeColumnIndex = data
-                        .getColumnIndex(ContractionContract.Contractions.COLUMN_NAME_START_TIME);
-                final long prevContractionStartTime = data.getLong(prevContractionStartTimeColumnIndex);
+                final long prevContractionStartTime = data.getLong(startTimeColumnIndex);
                 final long curFrequency = startTime - prevContractionStartTime;
                 averageFrequency = (curFrequency + numFrequencies * averageFrequency) / (numFrequencies + 1);
                 numFrequencies++;
@@ -105,28 +122,9 @@ public class NotificationUpdateService extends IntentService {
                 formattedAverageDuration, formattedAverageFrequency);
         builder.setContentText(contentText)
                 .setStyle(new NotificationCompat.BigTextStyle().bigText(bigText));
-        // Determine whether a contraction is currently ongoing
-        final boolean contractionOngoing = data.moveToFirst()
-                && data.isNull(data.getColumnIndex(ContractionContract.Contractions.COLUMN_NAME_END_TIME));
-        builder.setOngoing(contractionOngoing);
-        Intent startStopIntent = new Intent(this, AppWidgetToggleService.class);
-        PendingIntent startStopPendingIntent = PendingIntent.getService(this, 0, startStopIntent,
-                PendingIntent.FLAG_UPDATE_CURRENT);
-        if (contractionOngoing) {
-            builder.setContentTitle(getString(R.string.notification_timing));
-            builder.addAction(R.drawable.ic_action_stop, getString(R.string.contraction_end),
-                    startStopPendingIntent);
-        } else {
-            builder.setContentTitle(getString(R.string.app_name));
-            builder.addAction(R.drawable.ic_action_start, getString(R.string.contraction_start),
-                    startStopPendingIntent);
-        }
-        final long when = contractionOngoing ? data.getLong(startTimeColumnIndex) : data.getLong(endTimeColumnIndex);
-        builder.setWhen(when);
-        builder.setUsesChronometer(true);
         // Close the cursor
         data.close();
-        // Create a second page for the averages
+        // Create a second page for the averages as the big text is not shown on Android Wear in chronometer mode
         Notification secondPageNotification = new NotificationCompat.Builder(this)
                 .setStyle(new NotificationCompat.InboxStyle()
                         .setBigContentTitle(getString(R.string.notification_second_page_title))
