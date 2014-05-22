@@ -53,7 +53,7 @@ public class NotificationUpdateService extends IntentService {
         final String[] selectionArgs = {Long.toString(timeCutoff)};
         final Cursor data = getContentResolver().query(ContractionContract.Contractions.CONTENT_URI, projection,
                 selection, selectionArgs, null);
-        if (data == null || data.moveToFirst()) {
+        if (data == null || !data.moveToFirst()) {
             notificationManager.cancel(NOTIFICATION_ID);
             if (data != null) {
                 data.close();
