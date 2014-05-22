@@ -67,6 +67,9 @@
     <string name="notification_timing">Timing contraction</string>
     <string name="notification_content_text">Average Duration: %1$s, Frequency: %2$s</string>
     <string name="notification_big_text">Average Duration: %1$s\nAverage Frequency: %2$s</string>
+    <string name="notification_second_page_title">Averages</string>
+    <string name="notification_second_page_duration">Duration: %s</string>
+    <string name="notification_second_page_frequency">Frequency: %s</string>
     <string name="toggle_appwidget_label">Contraction Toggle</string>
     <string name="control_appwidget_label">Contraction Controls</string>
     <string name="application_launch">Launch Contraction Timer</string>

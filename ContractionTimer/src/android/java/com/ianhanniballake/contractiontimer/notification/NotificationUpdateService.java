@@ -1,6 +1,7 @@
 package com.ianhanniballake.contractiontimer.notification;
 
 import android.app.IntentService;
+import android.app.Notification;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
@@ -8,6 +9,7 @@ import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.preference.PreferenceManager;
 import android.preview.support.v4.app.NotificationManagerCompat;
+import android.preview.support.wearable.notifications.WearableNotifications;
 import android.provider.BaseColumns;
 import android.support.v4.app.NotificationCompat;
 import android.text.format.DateUtils;
@@ -124,6 +126,15 @@ public class NotificationUpdateService extends IntentService {
         builder.setUsesChronometer(true);
         // Close the cursor
         data.close();
-        notificationManager.notify(NOTIFICATION_ID, builder.build());
+        // Create a second page for the averages
+        Notification secondPageNotification = new NotificationCompat.Builder(this)
+                .setStyle(new NotificationCompat.InboxStyle()
+                        .setBigContentTitle(getString(R.string.notification_second_page_title))
+                        .addLine(getString(R.string.notification_second_page_duration, formattedAverageDuration))
+                        .addLine(getString(R.string.notification_second_page_frequency, formattedAverageFrequency)))
+                .build();
+        WearableNotifications.Builder wearableBuilder = new WearableNotifications.Builder(builder);
+        wearableBuilder.addPage(secondPageNotification);
+        notificationManager.notify(NOTIFICATION_ID, wearableBuilder.build());
     }
 }
