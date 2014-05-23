@@ -87,6 +87,23 @@
                 android:value=".ui.MainActivity"/>
         </activity>
 
+        <activity
+            android:name=".notification.NoteTransparentActivity"
+            android:enabled="false"
+            android:excludeFromRecents="true"
+            android:taskAffinity=""
+            android:theme="@android:style/Theme.Translucent.NoTitleBar">
+
+            <intent-filter>
+                <action android:name="com.google.android.gm.action.AUTO_SEND"/>
+
+                <category android:name="android.intent.category.DEFAULT"/>
+
+                <data android:mimeType="text/plain"/>
+            </intent-filter>
+        </activity>
+
+        <service android:name=".notification.NoteIntentService"/>
         <service android:name=".notification.NotificationUpdateService"/>
         <service android:name=".appwidget.AppWidgetToggleService"/>
         <service android:name=".appwidget.ToggleAppWidgetService"/>

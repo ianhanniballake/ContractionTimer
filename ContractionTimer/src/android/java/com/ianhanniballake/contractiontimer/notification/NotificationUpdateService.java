@@ -36,6 +36,7 @@ public class NotificationUpdateService extends IntentService {
 
     @Override
     protected void onHandleIntent(final Intent intent) {
+        NoteTransparentActivity.checkServiceState(this);
         NotificationManagerCompat notificationManager = NotificationManagerCompat.from(this);
         final SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
         final boolean notificationsEnabled = preferences.getBoolean(Preferences.NOTIFICATION_ENABLE_PREFERENCE_KEY,

@@ -64,6 +64,7 @@
     <string name="menu_save">Save</string>
     <string name="menu_cancel">Cancel</string>
     <string name="edit_ongoing_error">Error: Cannot edit ongoing contractions</string>
+    <string name="saving_note">Saving note…</string>
     <string name="notification_timing">Timing contraction</string>
     <string name="notification_content_text">Average Duration: %1$s, Frequency: %2$s</string>
     <string name="notification_big_text">Average Duration: %1$s\nAverage Frequency: %2$s</string>
