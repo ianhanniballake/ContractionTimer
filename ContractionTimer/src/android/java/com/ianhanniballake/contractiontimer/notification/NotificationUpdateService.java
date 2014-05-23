@@ -9,6 +9,7 @@ import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.preference.PreferenceManager;
 import android.preview.support.v4.app.NotificationManagerCompat;
+import android.preview.support.wearable.notifications.RemoteInput;
 import android.preview.support.wearable.notifications.WearableNotifications;
 import android.provider.BaseColumns;
 import android.support.v4.app.NotificationCompat;
@@ -83,26 +84,17 @@ public class NotificationUpdateService extends IntentService {
                 PendingIntent.FLAG_UPDATE_CURRENT);
         if (contractionOngoing) {
             builder.setContentTitle(getString(R.string.notification_timing));
-            builder.addAction(R.drawable.ic_action_stop, getString(R.string.contraction_end),
+            builder.addAction(R.drawable.ic_notif_action_stop, getString(R.string.appwidget_contraction_stop),
                     startStopPendingIntent);
         } else {
             builder.setContentTitle(getString(R.string.app_name));
-            builder.addAction(R.drawable.ic_action_start, getString(R.string.contraction_start),
+            builder.addAction(R.drawable.ic_notif_action_start, getString(R.string.appwidget_contraction_start),
                     startStopPendingIntent);
         }
         // See if there is a note and build a page if it exists
         final int noteColumnIndex = data.getColumnIndex(ContractionContract.Contractions.COLUMN_NAME_NOTE);
         final String note = data.getString(noteColumnIndex);
-        Notification notePage;
-        if (TextUtils.isEmpty(note)) {
-            notePage = null;
-        } else {
-            notePage = new NotificationCompat.Builder(this)
-                    .setStyle(new NotificationCompat.BigTextStyle()
-                            .setBigContentTitle(getString(R.string.detail_note_label))
-                            .bigText(note))
-                    .build();
-        }
+        boolean hasNote = !TextUtils.isEmpty(note);
         // Fill in the 'when', which will be used to show live progress via the chronometer feature
         final long when = contractionOngoing ? data.getLong(startTimeColumnIndex) : data.getLong(endTimeColumnIndex);
         builder.setWhen(when);
@@ -134,12 +126,12 @@ public class NotificationUpdateService extends IntentService {
         String contentText = getString(R.string.notification_content_text,
                 formattedAverageDuration, formattedAverageFrequency);
         String bigText;
-        if (TextUtils.isEmpty(note)) {
-            bigText = getString(R.string.notification_big_text, formattedAverageDuration,
-                    formattedAverageFrequency);
-        } else {
+        if (hasNote) {
             bigText = getString(R.string.notification_big_text_with_note, formattedAverageDuration,
                     formattedAverageFrequency, note);
+        } else {
+            bigText = getString(R.string.notification_big_text, formattedAverageDuration,
+                    formattedAverageFrequency);
         }
         builder.setContentText(contentText)
                 .setStyle(new NotificationCompat.BigTextStyle().bigText(bigText));
@@ -154,9 +146,24 @@ public class NotificationUpdateService extends IntentService {
                 .build();
         WearableNotifications.Builder wearableBuilder = new WearableNotifications.Builder(builder);
         wearableBuilder.addPage(averagePage);
-        if (notePage != null) {
+        if (hasNote) {
+            Notification notePage = new NotificationCompat.Builder(this)
+                    .setStyle(new NotificationCompat.BigTextStyle()
+                            .setBigContentTitle(getString(R.string.detail_note_label))
+                            .bigText(note))
+                    .build();
             wearableBuilder.addPage(notePage);
         }
+        // Add 'Add Note'/'Edit Note' action
+        int noteIconResId = hasNote ? R.drawable.ic_notif_action_edit :
+                R.drawable.ic_notif_action_add;
+        String noteTitle = hasNote ? getString(R.string.note_dialog_title_edit) :
+                getString(R.string.note_dialog_title_add);
+        Intent noteIntent = new Intent(this, NoteIntentService.class);
+        PendingIntent notePendingIntent = PendingIntent.getService(this, 0, noteIntent, 0);
+        RemoteInput remoteInput = new RemoteInput.Builder(Intent.EXTRA_TEXT).setLabel(noteTitle).build();
+        wearableBuilder.addAction(new WearableNotifications.Action.Builder(noteIconResId, noteTitle,
+                notePendingIntent).addRemoteInput(remoteInput).build());
         notificationManager.notify(NOTIFICATION_ID, wearableBuilder.build());
     }
 }
