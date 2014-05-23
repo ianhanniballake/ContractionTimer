@@ -28,14 +28,13 @@ public class NoteTransparentActivity extends Activity {
         new AsyncQueryHandler(context.getContentResolver()) {
             @Override
             protected void onQueryComplete(final int token, final Object cookie, final Cursor cursor) {
-                if (cursor == null) {
-                    return;
-                }
-                boolean hasContractions = cursor.moveToFirst();
+                boolean hasContractions = cursor != null && cursor.moveToFirst();
                 Log.d(NoteIntentService.class.getSimpleName(), (hasContractions ? "Has" : "No") + " contractions");
                 int state = hasContractions ? PackageManager.COMPONENT_ENABLED_STATE_ENABLED :
                         PackageManager.COMPONENT_ENABLED_STATE_DISABLED;
-                cursor.close();
+                if (cursor != null) {
+                    cursor.close();
+                }
                 PackageManager packageManager = context.getPackageManager();
                 ComponentName componentName = new ComponentName(context, NoteTransparentActivity.class);
                 packageManager.setComponentEnabledSetting(componentName, state, PackageManager.DONT_KILL_APP);
