@@ -41,6 +41,7 @@ public class NoteIntentService extends IntentService {
             return;
         }
         long id = data.getInt(data.getColumnIndex(BaseColumns._ID));
+        data.close();
         Uri contractionUri = ContentUris.withAppendedId(ContractionContract.Contractions.CONTENT_ID_URI_BASE, id);
         if (TextUtils.isEmpty(text)) {
             TaskStackBuilder taskStackBuilder = TaskStackBuilder.create(this);
