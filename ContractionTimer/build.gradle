@@ -5,14 +5,14 @@ repositories {
 }
 
 android {
-    buildToolsVersion "19.0.3"
+    buildToolsVersion "19.1.0"
 
     productFlavors {
         android {
             dependencies {
                 compile "com.android.support:appcompat-v7:19.1.+"
                 compile "com.android.support:gridlayout-v7:19.0.+"
-                compile 'com.google.android.gms:play-services:4.3.23'
+                compile 'com.google.android.gms:play-services:4.4.52'
                 compile 'ch.acra:acra:4.4.0'
                 compile files('libs/wearable-preview-support.jar')
             }
