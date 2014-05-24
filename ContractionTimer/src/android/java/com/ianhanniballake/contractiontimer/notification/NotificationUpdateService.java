@@ -80,7 +80,6 @@ public class NotificationUpdateService extends IntentService {
         final int startTimeColumnIndex = data.getColumnIndex(ContractionContract.Contractions.COLUMN_NAME_START_TIME);
         final int endTimeColumnIndex = data.getColumnIndex(ContractionContract.Contractions.COLUMN_NAME_END_TIME);
         final boolean contractionOngoing = data.isNull(endTimeColumnIndex);
-        builder.setOngoing(contractionOngoing);
         Intent startStopIntent = new Intent(this, AppWidgetToggleService.class);
         startStopIntent.putExtra(AppWidgetToggleService.WIDGET_NAME_EXTRA, "NotificationAction");
         PendingIntent startStopPendingIntent = PendingIntent.getService(this, 0, startStopIntent,
