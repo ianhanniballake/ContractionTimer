@@ -48,6 +48,7 @@ public class NoteTransparentActivity extends Activity {
         super.onCreate(savedInstanceState);
         String note = getIntent().getStringExtra(Intent.EXTRA_TEXT);
         Intent serviceIntent = new Intent(this, NoteIntentService.class);
+        serviceIntent.setAction(getIntent().getAction());
         serviceIntent.putExtra(Intent.EXTRA_TEXT, note);
         startService(serviceIntent);
         if (!TextUtils.isEmpty(note)) {
