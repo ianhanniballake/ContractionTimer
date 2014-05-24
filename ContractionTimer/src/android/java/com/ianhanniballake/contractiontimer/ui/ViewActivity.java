@@ -193,7 +193,8 @@ public class ViewActivity extends ActionBarActivity implements LoaderManager.Loa
             final String widgetIdentifier = getIntent().getStringExtra(MainActivity.LAUNCHED_FROM_WIDGET_EXTRA);
             if (BuildConfig.DEBUG)
                 Log.d(ViewActivity.class.getSimpleName(), "Launched from " + widgetIdentifier);
-            GtmManager.getInstance(this).pushEvent("LaunchView", DataLayer.mapOf("widget", widgetIdentifier));
+            GtmManager.getInstance(this).pushEvent("LaunchView", DataLayer.mapOf("widget", widgetIdentifier,
+                    "type", DataLayer.OBJECT_NOT_PRESENT));
             getIntent().removeExtra(MainActivity.LAUNCHED_FROM_WIDGET_EXTRA);
         }
     }

@@ -14,6 +14,7 @@ import android.util.Log;
 
 import com.ianhanniballake.contractiontimer.appwidget.AppWidgetUpdateHandler;
 import com.ianhanniballake.contractiontimer.provider.ContractionContract;
+import com.ianhanniballake.contractiontimer.ui.MainActivity;
 
 /**
  * Service which can automatically add/replace the note on the current contraction from a voice input source or start
@@ -29,7 +30,7 @@ public class NoteIntentService extends IntentService {
         String text = intent.getStringExtra(Intent.EXTRA_TEXT);
         Log.d(NoteIntentService.class.getSimpleName(), "Received text: " + text);
         ContentResolver contentResolver = getContentResolver();
-        String[] projection = {BaseColumns._ID};
+        String[] projection = {BaseColumns._ID, ContractionContract.Contractions.COLUMN_NAME_NOTE};
         Cursor data = contentResolver.query(ContractionContract.Contractions.CONTENT_URI, projection, null,
                 null, null);
         if (data == null || !data.moveToFirst()) {
@@ -41,19 +42,21 @@ public class NoteIntentService extends IntentService {
             return;
         }
         long id = data.getInt(data.getColumnIndex(BaseColumns._ID));
+        String note = data.getString(data.getColumnIndex(ContractionContract.Contractions.COLUMN_NAME_NOTE));
         data.close();
-        Uri contractionUri = ContentUris.withAppendedId(ContractionContract.Contractions.CONTENT_ID_URI_BASE, id);
         if (TextUtils.isEmpty(text)) {
             TaskStackBuilder taskStackBuilder = TaskStackBuilder.create(this);
-            Intent viewIntent = new Intent(Intent.ACTION_VIEW, contractionUri);
-            taskStackBuilder.addNextIntentWithParentStack(viewIntent);
-            Intent editIntent = new Intent(Intent.ACTION_EDIT, contractionUri);
-            taskStackBuilder.addNextIntent(editIntent);
+            Intent mainIntent = new Intent(this, MainActivity.class);
+            mainIntent.putExtra(MainActivity.LAUNCHED_FROM_ADD_NOTE_EXTRA, true);
+            mainIntent.putExtra(BaseColumns._ID, id);
+            mainIntent.putExtra(ContractionContract.Contractions.COLUMN_NAME_NOTE, note);
+            taskStackBuilder.addNextIntent(mainIntent);
             taskStackBuilder.startActivities();
             return;
         }
         ContentValues values = new ContentValues();
         values.put(ContractionContract.Contractions.COLUMN_NAME_NOTE, text);
+        Uri contractionUri = ContentUris.withAppendedId(ContractionContract.Contractions.CONTENT_ID_URI_BASE, id);
         int count = contentResolver.update(contractionUri, values, null, null);
         if (count == 1) {
             AppWidgetUpdateHandler.createInstance().updateAllWidgets(this);

@@ -159,8 +159,8 @@ public class NotificationUpdateService extends IntentService {
                 R.drawable.ic_notif_action_add;
         String noteTitle = hasNote ? getString(R.string.note_dialog_title_edit) :
                 getString(R.string.note_dialog_title_add);
-        Intent noteIntent = new Intent(this, NoteIntentService.class);
-        PendingIntent notePendingIntent = PendingIntent.getService(this, 0, noteIntent, 0);
+        Intent noteIntent = new Intent(this, NoteTransparentActivity.class);
+        PendingIntent notePendingIntent = PendingIntent.getActivity(this, 0, noteIntent, 0);
         RemoteInput remoteInput = new RemoteInput.Builder(Intent.EXTRA_TEXT).setLabel(noteTitle).build();
         wearableBuilder.addAction(new WearableNotifications.Action.Builder(noteIconResId, noteTitle,
                 notePendingIntent).addRemoteInput(remoteInput).build());

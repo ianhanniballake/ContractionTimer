@@ -46,6 +46,11 @@ public class MainActivity extends ActionBarActivity implements LoaderManager.Loa
      */
     public final static String LAUNCHED_FROM_WIDGET_EXTRA = "com.ianhanniballake.contractiontimer.LaunchedFromWidget";
     /**
+     * Intent extra used to signify that this activity was launched from the notification
+     */
+    public final static String LAUNCHED_FROM_ADD_NOTE_EXTRA =
+            "com.ianhanniballake.contractiontimer.LaunchedFromAddNote";
+    /**
      * BroadcastReceiver listening for ABOUT_CLOSE_ACTION, NOTE_CLOSE_ACTION, and RESET_CLOSE_ACTION actions
      */
     private final BroadcastReceiver dialogFragmentClosedBroadcastReceiver = new BroadcastReceiver() {
@@ -246,13 +251,35 @@ public class MainActivity extends ActionBarActivity implements LoaderManager.Loa
     @Override
     protected void onStart() {
         super.onStart();
-        GtmManager.getInstance(this).pushOpenScreen("Main");
-        if (getIntent().hasExtra(MainActivity.LAUNCHED_FROM_WIDGET_EXTRA)) {
-            final String widgetIdentifier = getIntent().getStringExtra(MainActivity.LAUNCHED_FROM_WIDGET_EXTRA);
+        GtmManager gtmManager = GtmManager.getInstance(this);
+        gtmManager.pushOpenScreen("Main");
+        Intent intent = getIntent();
+        if (intent.hasExtra(MainActivity.LAUNCHED_FROM_WIDGET_EXTRA)) {
+            final String widgetIdentifier = intent.getStringExtra(MainActivity.LAUNCHED_FROM_WIDGET_EXTRA);
             if (BuildConfig.DEBUG)
                 Log.d(MainActivity.class.getSimpleName(), "Launched from " + widgetIdentifier);
-            GtmManager.getInstance(this).pushEvent("Launch", DataLayer.mapOf("widget", widgetIdentifier));
-            getIntent().removeExtra(MainActivity.LAUNCHED_FROM_WIDGET_EXTRA);
+            gtmManager.pushEvent("Launch", DataLayer.mapOf("widget", widgetIdentifier,
+                    "type", DataLayer.OBJECT_NOT_PRESENT));
+            intent.removeExtra(MainActivity.LAUNCHED_FROM_WIDGET_EXTRA);
+        }
+        if (intent.hasExtra(MainActivity.LAUNCHED_FROM_ADD_NOTE_EXTRA)) {
+            long id = intent.getLongExtra(BaseColumns._ID, -1L);
+            String existingNote = intent.getStringExtra(ContractionContract.Contractions.COLUMN_NAME_NOTE);
+            String type = TextUtils.isEmpty(existingNote) ? "Add Note" : "Edit Note";
+            if (BuildConfig.DEBUG)
+                Log.d(MainActivity.class.getSimpleName(), "Launched from Notification " + type + " action");
+            gtmManager.push("type", type);
+            gtmManager.pushEvent("Launch", DataLayer.mapOf("widget", "NotificationAction"));
+            gtmManager.pushEvent("Note", DataLayer.mapOf("menu", "NotificationAction",
+                    "position", DataLayer.OBJECT_NOT_PRESENT));
+            final NoteDialogFragment noteDialogFragment = new NoteDialogFragment();
+            final Bundle args = new Bundle();
+            args.putLong(NoteDialogFragment.CONTRACTION_ID_ARGUMENT, id);
+            args.putString(NoteDialogFragment.EXISTING_NOTE_ARGUMENT, existingNote);
+            noteDialogFragment.setArguments(args);
+            gtmManager.pushOpenScreen(TextUtils.isEmpty(existingNote) ? "NoteAdd" : "NoteEdit");
+            noteDialogFragment.show(getSupportFragmentManager(), "note");
+            intent.removeExtra(MainActivity.LAUNCHED_FROM_ADD_NOTE_EXTRA);
         }
         final LocalBroadcastManager localBroadcastManager = LocalBroadcastManager.getInstance(this);
         final IntentFilter dialogCloseFilter = new IntentFilter();

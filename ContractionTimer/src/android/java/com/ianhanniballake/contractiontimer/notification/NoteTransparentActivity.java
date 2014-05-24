@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -45,10 +46,13 @@ public class NoteTransparentActivity extends Activity {
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        String note = getIntent().getStringExtra(Intent.EXTRA_TEXT);
         Intent serviceIntent = new Intent(this, NoteIntentService.class);
-        serviceIntent.putExtra(Intent.EXTRA_TEXT, getIntent().getStringExtra(Intent.EXTRA_TEXT));
+        serviceIntent.putExtra(Intent.EXTRA_TEXT, note);
         startService(serviceIntent);
-        Toast.makeText(this, R.string.saving_note, Toast.LENGTH_SHORT).show();
+        if (!TextUtils.isEmpty(note)) {
+            Toast.makeText(this, R.string.saving_note, Toast.LENGTH_SHORT).show();
+        }
         finish();
     }
 }
