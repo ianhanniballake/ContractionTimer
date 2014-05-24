@@ -19,6 +19,7 @@ import android.text.format.DateUtils;
 import com.ianhanniballake.contractiontimer.R;
 import com.ianhanniballake.contractiontimer.appwidget.AppWidgetToggleService;
 import com.ianhanniballake.contractiontimer.provider.ContractionContract;
+import com.ianhanniballake.contractiontimer.ui.MainActivity;
 import com.ianhanniballake.contractiontimer.ui.Preferences;
 
 /**
@@ -67,10 +68,11 @@ public class NotificationUpdateService extends IntentService {
         }
         NotificationCompat.Builder builder = new NotificationCompat.Builder(this);
         builder.setSmallIcon(R.drawable.ic_notification);
-        Intent contentIntent = getPackageManager().getLaunchIntentForPackage(getPackageName());
+        Intent contentIntent = new Intent(this, MainActivity.class);
         contentIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK |
                 Intent.FLAG_ACTIVITY_CLEAR_TASK |
                 Intent.FLAG_ACTIVITY_TASK_ON_HOME);
+        contentIntent.putExtra(MainActivity.LAUNCHED_FROM_NOTIFICATION_EXTRA, true);
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, contentIntent,
                 PendingIntent.FLAG_UPDATE_CURRENT);
         builder.setContentIntent(pendingIntent);

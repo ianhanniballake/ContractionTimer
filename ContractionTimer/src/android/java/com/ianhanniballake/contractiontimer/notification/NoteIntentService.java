@@ -47,7 +47,7 @@ public class NoteIntentService extends IntentService {
         if (TextUtils.isEmpty(text)) {
             TaskStackBuilder taskStackBuilder = TaskStackBuilder.create(this);
             Intent mainIntent = new Intent(this, MainActivity.class);
-            mainIntent.putExtra(MainActivity.LAUNCHED_FROM_ADD_NOTE_EXTRA, true);
+            mainIntent.putExtra(MainActivity.LAUNCHED_FROM_NOTIFICATION_ACTION_NOTE_EXTRA, true);
             mainIntent.putExtra(BaseColumns._ID, id);
             mainIntent.putExtra(ContractionContract.Contractions.COLUMN_NAME_NOTE, note);
             taskStackBuilder.addNextIntent(mainIntent);

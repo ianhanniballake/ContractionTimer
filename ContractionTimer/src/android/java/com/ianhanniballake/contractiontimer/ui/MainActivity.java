@@ -48,8 +48,13 @@ public class MainActivity extends ActionBarActivity implements LoaderManager.Loa
     /**
      * Intent extra used to signify that this activity was launched from the notification
      */
-    public final static String LAUNCHED_FROM_ADD_NOTE_EXTRA =
-            "com.ianhanniballake.contractiontimer.LaunchedFromAddNote";
+    public final static String LAUNCHED_FROM_NOTIFICATION_EXTRA =
+            "com.ianhanniballake.contractiontimer.LaunchedFromNotification";
+    /**
+     * Intent extra used to signify that this activity was launched from the notification's Add/Edit Note action
+     */
+    public final static String LAUNCHED_FROM_NOTIFICATION_ACTION_NOTE_EXTRA =
+            "com.ianhanniballake.contractiontimer.LaunchedFromNotificationActionNote";
     /**
      * BroadcastReceiver listening for ABOUT_CLOSE_ACTION, NOTE_CLOSE_ACTION, and RESET_CLOSE_ACTION actions
      */
@@ -262,7 +267,14 @@ public class MainActivity extends ActionBarActivity implements LoaderManager.Loa
                     "type", DataLayer.OBJECT_NOT_PRESENT));
             intent.removeExtra(MainActivity.LAUNCHED_FROM_WIDGET_EXTRA);
         }
-        if (intent.hasExtra(MainActivity.LAUNCHED_FROM_ADD_NOTE_EXTRA)) {
+        if (intent.hasExtra(MainActivity.LAUNCHED_FROM_NOTIFICATION_EXTRA)) {
+            if (BuildConfig.DEBUG)
+                Log.d(MainActivity.class.getSimpleName(), "Launched from Notification");
+            gtmManager.pushEvent("Launch", DataLayer.mapOf("widget", "Notification",
+                    "type", DataLayer.OBJECT_NOT_PRESENT));
+            intent.removeExtra(MainActivity.LAUNCHED_FROM_NOTIFICATION_EXTRA);
+        }
+        if (intent.hasExtra(MainActivity.LAUNCHED_FROM_NOTIFICATION_ACTION_NOTE_EXTRA)) {
             long id = intent.getLongExtra(BaseColumns._ID, -1L);
             String existingNote = intent.getStringExtra(ContractionContract.Contractions.COLUMN_NAME_NOTE);
             String type = TextUtils.isEmpty(existingNote) ? "Add Note" : "Edit Note";
@@ -279,7 +291,7 @@ public class MainActivity extends ActionBarActivity implements LoaderManager.Loa
             noteDialogFragment.setArguments(args);
             gtmManager.pushOpenScreen(TextUtils.isEmpty(existingNote) ? "NoteAdd" : "NoteEdit");
             noteDialogFragment.show(getSupportFragmentManager(), "note");
-            intent.removeExtra(MainActivity.LAUNCHED_FROM_ADD_NOTE_EXTRA);
+            intent.removeExtra(MainActivity.LAUNCHED_FROM_NOTIFICATION_ACTION_NOTE_EXTRA);
         }
         final LocalBroadcastManager localBroadcastManager = LocalBroadcastManager.getInstance(this);
         final IntentFilter dialogCloseFilter = new IntentFilter();
