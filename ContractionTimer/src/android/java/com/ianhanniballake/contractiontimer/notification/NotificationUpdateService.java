@@ -82,6 +82,7 @@ public class NotificationUpdateService extends IntentService {
         final boolean contractionOngoing = data.isNull(endTimeColumnIndex);
         builder.setOngoing(contractionOngoing);
         Intent startStopIntent = new Intent(this, AppWidgetToggleService.class);
+        startStopIntent.putExtra(AppWidgetToggleService.WIDGET_NAME_EXTRA, "NotificationAction");
         PendingIntent startStopPendingIntent = PendingIntent.getService(this, 0, startStopIntent,
                 PendingIntent.FLAG_UPDATE_CURRENT);
         if (contractionOngoing) {
