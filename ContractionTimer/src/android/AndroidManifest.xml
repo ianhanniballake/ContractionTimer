@@ -87,13 +87,13 @@
         </activity>
 
         <activity
-            android:name=".notification.NoteTransparentActivity"
+            android:name=".notification.NoteNoDisplayActivity"
             android:enabled="false"
             android:excludeFromRecents="true"
             android:taskAffinity=""
-            android:theme="@android:style/Theme.Translucent.NoTitleBar">
+            android:theme="@android:style/Theme.NoDisplay">
 
-            <intent-filter>
+        <intent-filter>
                 <action android:name="com.google.android.gm.action.AUTO_SEND"/>
 
                 <category android:name="android.intent.category.DEFAULT"/>

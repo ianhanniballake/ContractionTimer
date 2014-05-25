@@ -20,8 +20,8 @@ import com.ianhanniballake.contractiontimer.provider.ContractionContract;
  * Google Now's 'Note to self' only calls startActivity so we redirect to our service to run the update in the
  * background
  */
-public class NoteTransparentActivity extends Activity {
-    private final static String TAG = NoteTransparentActivity.class.getSimpleName();
+public class NoteNoDisplayActivity extends Activity {
+    private final static String TAG = NoteNoDisplayActivity.class.getSimpleName();
 
     /**
      * Ensures that the NoteTransparentActivity is only enabled when there is at least one contraction
@@ -41,7 +41,7 @@ public class NoteTransparentActivity extends Activity {
                     cursor.close();
                 }
                 PackageManager packageManager = context.getPackageManager();
-                ComponentName componentName = new ComponentName(context, NoteTransparentActivity.class);
+                ComponentName componentName = new ComponentName(context, NoteNoDisplayActivity.class);
                 packageManager.setComponentEnabledSetting(componentName, state, PackageManager.DONT_KILL_APP);
             }
         }.startQuery(0, null, ContractionContract.Contractions.CONTENT_URI, null, null, null, null);
