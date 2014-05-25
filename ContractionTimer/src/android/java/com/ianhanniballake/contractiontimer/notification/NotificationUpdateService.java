@@ -16,7 +16,9 @@ import android.provider.BaseColumns;
 import android.support.v4.app.NotificationCompat;
 import android.text.TextUtils;
 import android.text.format.DateUtils;
+import android.util.Log;
 
+import com.ianhanniballake.contractiontimer.BuildConfig;
 import com.ianhanniballake.contractiontimer.R;
 import com.ianhanniballake.contractiontimer.appwidget.AppWidgetToggleService;
 import com.ianhanniballake.contractiontimer.provider.ContractionContract;
@@ -46,6 +48,8 @@ public class NotificationUpdateService extends IntentService {
         final boolean notificationsEnabled = preferences.getBoolean(Preferences.NOTIFICATION_ENABLE_PREFERENCE_KEY,
                 getResources().getBoolean(R.bool.pref_notification_enable_default));
         if (!notificationsEnabled) {
+            if (BuildConfig.DEBUG)
+                Log.d(TAG, "Notifications disabled, cancelling notification");
             notificationManager.cancel(NOTIFICATION_ID);
             return;
         }
@@ -62,6 +66,8 @@ public class NotificationUpdateService extends IntentService {
         final Cursor data = getContentResolver().query(ContractionContract.Contractions.CONTENT_URI, projection,
                 selection, selectionArgs, null);
         if (data == null || !data.moveToFirst()) {
+            if (BuildConfig.DEBUG)
+                Log.d(TAG, "No data found, cancelling notification");
             notificationManager.cancel(NOTIFICATION_ID);
             if (data != null) {
                 data.close();
@@ -82,6 +88,8 @@ public class NotificationUpdateService extends IntentService {
         // is woken up
         alarmManager.set(AlarmManager.RTC, lastStartTime + averagesTimeFrame, autoCancelPendingIntent);
         // Build the notification
+        if (BuildConfig.DEBUG)
+            Log.d(TAG, "Building Notification");
         NotificationCompat.Builder builder = new NotificationCompat.Builder(this);
         builder.setSmallIcon(R.drawable.ic_notification);
         Intent contentIntent = new Intent(this, MainActivity.class);
