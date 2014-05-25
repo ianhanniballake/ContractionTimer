@@ -19,6 +19,7 @@ import android.preference.PreferenceManager;
 import android.support.v7.app.ActionBarActivity;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -341,6 +342,16 @@ public class DonateActivity extends ActionBarActivity {
         super.onStart();
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         GtmManager.getInstance(this).pushOpenScreen("Donate");
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(final MenuItem item) {
+        if (item.getItemId() == android.R.id.home) {
+            if (BuildConfig.DEBUG)
+                Log.d(TAG, "Donate selected home");
+            GtmManager.getInstance(this).pushEvent("Home");
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     private class ConsumeAsyncTask extends AsyncTask<Purchase, Void, List<Purchase>> {

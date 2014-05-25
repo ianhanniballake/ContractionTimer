@@ -135,15 +135,12 @@ public class ViewActivity extends ActionBarActivity implements LoaderManager.Loa
 
     @Override
     public boolean onOptionsItemSelected(final MenuItem item) {
-        switch (item.getItemId()) {
-            case android.R.id.home:
-                if (BuildConfig.DEBUG)
-                    Log.d(TAG, "View selected home");
-                GtmManager.getInstance(this).pushEvent("Home");
-                return false;
-            default:
-                return super.onOptionsItemSelected(item);
+        if (item.getItemId() == android.R.id.home) {
+            if (BuildConfig.DEBUG)
+                Log.d(TAG, "View selected home");
+            GtmManager.getInstance(this).pushEvent("Home");
         }
+        return super.onOptionsItemSelected(item);
     }
 
     @Override

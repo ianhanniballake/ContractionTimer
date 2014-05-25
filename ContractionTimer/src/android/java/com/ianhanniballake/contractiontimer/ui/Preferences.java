@@ -118,6 +118,11 @@ public class Preferences extends PreferenceActivity implements OnSharedPreferenc
 
     @Override
     public boolean onOptionsItemSelected(final MenuItem item) {
+        if (item.getItemId() == android.R.id.home) {
+            if (BuildConfig.DEBUG)
+                Log.d(TAG, "Preferences selected home");
+            GtmManager.getInstance(this).pushEvent("Home");
+        }
         switch (item.getItemId()) {
             case R.id.menu_export:
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.FROYO)
