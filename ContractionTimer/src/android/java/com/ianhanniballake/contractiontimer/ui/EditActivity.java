@@ -60,27 +60,27 @@ public class EditActivity extends ActionBarActivity {
     }
 
     @Override
-    public boolean onOptionsItemSelected(final MenuItem item) {
-        switch (item.getItemId()) {
-            case android.R.id.home:
-                GtmManager.getInstance(this).pushEvent("Home");
-                Intent intent;
-                if (Intent.ACTION_INSERT.equals(getIntent().getAction())) {
-                    if (BuildConfig.DEBUG)
-                        Log.d(TAG, "Add selected home");
-                    intent = new Intent(this, MainActivity.class);
-                } else {
-                    if (BuildConfig.DEBUG)
-                        Log.d(TAG, "Edit selected home");
-                    intent = new Intent(Intent.ACTION_VIEW, getIntent().getData()).setPackage(getPackageName());
-                }
-                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                startActivity(intent);
-                finish();
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
+    public Intent getSupportParentActivityIntent() {
+        if (Intent.ACTION_INSERT.equals(getIntent().getAction())) {
+            return new Intent(this, MainActivity.class);
+        } else {
+            return new Intent(Intent.ACTION_VIEW, getIntent().getData()).setPackage(getPackageName());
         }
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(final MenuItem item) {
+        if (item.getItemId() == android.R.id.home) {
+            if (Intent.ACTION_INSERT.equals(getIntent().getAction())) {
+                if (BuildConfig.DEBUG)
+                    Log.d(TAG, "Add selected home");
+            } else {
+                if (BuildConfig.DEBUG)
+                    Log.d(TAG, "Edit selected home");
+            }
+            GtmManager.getInstance(this).pushEvent("Home");
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     @Override
