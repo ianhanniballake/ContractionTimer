@@ -1,5 +1,6 @@
 package com.ianhanniballake.contractiontimer.notification;
 
+import android.app.AlarmManager;
 import android.app.IntentService;
 import android.app.Notification;
 import android.app.PendingIntent;
@@ -66,6 +67,20 @@ public class NotificationUpdateService extends IntentService {
             }
             return;
         }
+        // Set an alarm to update the notification after first start time + average time frame amount of time
+        // This ensures that if no contraction has started since then (likely, otherwise we would have been called in
+        // the mean time) we will fail the above check as there will be no contractions within the average time period
+        // and the notification will be cancelled
+        final int startTimeColumnIndex = data.getColumnIndex(ContractionContract.Contractions.COLUMN_NAME_START_TIME);
+        final long lastStartTime = data.getLong(startTimeColumnIndex);
+        Intent autoCancelIntent = new Intent(this, NotificationUpdateService.class);
+        PendingIntent autoCancelPendingIntent = PendingIntent.getService(this, 0, autoCancelIntent, 0);
+        AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
+        alarmManager.cancel(autoCancelPendingIntent);
+        // We don't need to wake up the device as it doesn't matter if the notification is cancelled until the device
+        // is woken up
+        alarmManager.set(AlarmManager.RTC, lastStartTime + averagesTimeFrame, autoCancelPendingIntent);
+        // Build the notification
         NotificationCompat.Builder builder = new NotificationCompat.Builder(this);
         builder.setSmallIcon(R.drawable.ic_notification);
         Intent contentIntent = new Intent(this, MainActivity.class);
@@ -77,7 +92,6 @@ public class NotificationUpdateService extends IntentService {
                 PendingIntent.FLAG_UPDATE_CURRENT);
         builder.setContentIntent(pendingIntent);
         // Determine whether a contraction is currently ongoing
-        final int startTimeColumnIndex = data.getColumnIndex(ContractionContract.Contractions.COLUMN_NAME_START_TIME);
         final int endTimeColumnIndex = data.getColumnIndex(ContractionContract.Contractions.COLUMN_NAME_END_TIME);
         final boolean contractionOngoing = data.isNull(endTimeColumnIndex);
         Intent startStopIntent = new Intent(this, AppWidgetToggleService.class);
