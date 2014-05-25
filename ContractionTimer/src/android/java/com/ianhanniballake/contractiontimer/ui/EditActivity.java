@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.LocalBroadcastManager;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.Menu;
@@ -100,7 +101,13 @@ public class EditActivity extends ActionBarActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setDisplayHomeAsUpEnabled(true);
+        if (Intent.ACTION_INSERT.equals(getIntent().getAction())) {
+            actionBar.setTitle(R.string.add_activity_name);
+        } else {
+            actionBar.setTitle(R.string.edit_activity_name);
+        }
         String screenName = Intent.ACTION_INSERT.equals(getIntent().getAction()) ? "Add" : "Edit";
         GtmManager.getInstance(this).pushOpenScreen(screenName);
         final LocalBroadcastManager localBroadcastManager = LocalBroadcastManager.getInstance(this);

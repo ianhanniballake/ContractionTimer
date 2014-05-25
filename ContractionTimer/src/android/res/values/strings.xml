@@ -2,6 +2,7 @@
 <resources>
 
     <string name="view_activity_name">View Contraction</string>
+    <string name="add_activity_name">Add Contraction</string>
     <string name="edit_activity_name">Edit Contraction</string>
     <string name="donate_activity_name">Donate</string>
     <string name="menu_reset">Reset</string>

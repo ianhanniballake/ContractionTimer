@@ -44,7 +44,6 @@
         </activity>
         <activity
             android:name=".ui.EditActivity"
-            android:label="@string/edit_activity_name"
             android:launchMode="singleTop"
             tools:ignore="ExportedActivity">
             <intent-filter>
