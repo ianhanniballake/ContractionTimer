@@ -171,7 +171,8 @@ public class MainActivity extends ActionBarActivity implements LoaderManager.Loa
                 if (BuildConfig.DEBUG)
                     Log.d(MainActivity.class.getSimpleName(), "Menu selected Add");
                 gtmManager.pushEvent("Add");
-                final Intent addIntent = new Intent(Intent.ACTION_INSERT, getIntent().getData());
+                final Intent addIntent = new Intent(Intent.ACTION_INSERT, getIntent().getData())
+                        .setPackage(getPackageName());
                 startActivity(addIntent);
                 return true;
             case R.id.menu_share_averages:

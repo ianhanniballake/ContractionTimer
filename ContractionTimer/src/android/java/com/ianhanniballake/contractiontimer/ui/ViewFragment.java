@@ -202,7 +202,7 @@ public class ViewFragment extends Fragment implements LoaderManager.LoaderCallba
                 if (isContractionOngoing)
                     Toast.makeText(getActivity(), R.string.edit_ongoing_error, Toast.LENGTH_SHORT).show();
                 else
-                    startActivity(new Intent(Intent.ACTION_EDIT, uri));
+                    startActivity(new Intent(Intent.ACTION_EDIT, uri).setPackage(getActivity().getPackageName()));
                 return true;
             case R.id.menu_delete:
                 if (BuildConfig.DEBUG)

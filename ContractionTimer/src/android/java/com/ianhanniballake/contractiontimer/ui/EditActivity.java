@@ -72,7 +72,7 @@ public class EditActivity extends ActionBarActivity {
                 } else {
                     if (BuildConfig.DEBUG)
                         Log.d(EditActivity.class.getSimpleName(), "Edit selected home");
-                    intent = new Intent(Intent.ACTION_VIEW, getIntent().getData()).setClass(this, ViewActivity.class);
+                    intent = new Intent(Intent.ACTION_VIEW, getIntent().getData()).setPackage(getPackageName());
                 }
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(intent);
