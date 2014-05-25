@@ -12,10 +12,12 @@ import com.ianhanniballake.contractiontimer.BuildConfig;
  * Handles updates of the 'Control' style App Widgets
  */
 public class ControlAppWidgetProvider extends AppWidgetProvider {
+    private final static String TAG = ControlAppWidgetProvider.class.getSimpleName();
+
     @Override
     public void onUpdate(final Context context, final AppWidgetManager appWidgetManager, final int[] appWidgetIds) {
         if (BuildConfig.DEBUG)
-            Log.d(ControlAppWidgetProvider.class.getSimpleName(), "Updating Control App Widgets");
+            Log.d(TAG, "Updating Control App Widgets");
         final Intent service = new Intent(context, ControlAppWidgetService.class);
         service.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, appWidgetIds);
         context.startService(service);

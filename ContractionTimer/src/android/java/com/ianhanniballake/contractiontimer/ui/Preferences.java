@@ -83,6 +83,7 @@ public class Preferences extends PreferenceActivity implements OnSharedPreferenc
      * Notification Enabled preference name
      */
     public static final String NOTIFICATION_ENABLE_PREFERENCE_KEY = "notification_enable";
+    private final static String TAG = Preferences.class.getSimpleName();
     private static final String CONTRACTIONS_FILE_NAME = "Contractions.json";
     /**
      * Reference to the ListPreference corresponding with the Appwidget background
@@ -147,7 +148,7 @@ public class Preferences extends PreferenceActivity implements OnSharedPreferenc
         final boolean isLockPortrait = preferences.getBoolean(Preferences.LOCK_PORTRAIT_PREFERENCE_KEY, getResources()
                 .getBoolean(R.bool.pref_settings_lock_portrait_default));
         if (BuildConfig.DEBUG)
-            Log.d(Preferences.class.getSimpleName(), "Lock Portrait: " + isLockPortrait);
+            Log.d(TAG, "Lock Portrait: " + isLockPortrait);
         if (isLockPortrait)
             setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         else
@@ -161,13 +162,13 @@ public class Preferences extends PreferenceActivity implements OnSharedPreferenc
             final boolean newIsKeepScreenOn = sharedPreferences.getBoolean(Preferences.KEEP_SCREEN_ON_PREFERENCE_KEY,
                     getResources().getBoolean(R.bool.pref_settings_keep_screen_on_default));
             if (BuildConfig.DEBUG)
-                Log.d(Preferences.class.getSimpleName(), "Keep Screen On: " + newIsKeepScreenOn);
+                Log.d(TAG, "Keep Screen On: " + newIsKeepScreenOn);
             gtmManager.pushPreferenceChanged("Keep Screen On", newIsKeepScreenOn);
         } else if (key.equals(Preferences.LOCK_PORTRAIT_PREFERENCE_KEY)) {
             final boolean newIsLockPortrait = sharedPreferences.getBoolean(Preferences.LOCK_PORTRAIT_PREFERENCE_KEY,
                     getResources().getBoolean(R.bool.pref_settings_lock_portrait_default));
             if (BuildConfig.DEBUG)
-                Log.d(Preferences.class.getSimpleName(), "Lock Portrait: " + newIsLockPortrait);
+                Log.d(TAG, "Lock Portrait: " + newIsLockPortrait);
             gtmManager.pushPreferenceChanged("Lock Portrait", newIsLockPortrait);
             if (newIsLockPortrait)
                 setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
@@ -176,7 +177,7 @@ public class Preferences extends PreferenceActivity implements OnSharedPreferenc
         } else if (key.equals(Preferences.APPWIDGET_BACKGROUND_PREFERENCE_KEY)) {
             final String newAppwidgetBackground = appwidgetBackgroundListPreference.getValue();
             if (BuildConfig.DEBUG)
-                Log.d(Preferences.class.getSimpleName(), "Appwidget Background: " + newAppwidgetBackground);
+                Log.d(TAG, "Appwidget Background: " + newAppwidgetBackground);
             gtmManager.pushPreferenceChanged("Appwidget Background", newAppwidgetBackground);
             appwidgetBackgroundListPreference.setSummary(appwidgetBackgroundListPreference.getEntry());
             AppWidgetUpdateHandler.createInstance().updateAllWidgets(this);
@@ -184,13 +185,13 @@ public class Preferences extends PreferenceActivity implements OnSharedPreferenc
             final boolean newNotifcationEnabled = sharedPreferences.getBoolean(Preferences.LOCK_PORTRAIT_PREFERENCE_KEY,
                     getResources().getBoolean(R.bool.pref_notification_enable_default));
             if (BuildConfig.DEBUG)
-                Log.d(Preferences.class.getSimpleName(), "Notification Enabled: " + newNotifcationEnabled);
+                Log.d(TAG, "Notification Enabled: " + newNotifcationEnabled);
             gtmManager.pushPreferenceChanged("Notification Enabled", newNotifcationEnabled);
             NotificationUpdateService.updateNotification(this);
         } else if (key.equals(Preferences.AVERAGE_TIME_FRAME_PREFERENCE_KEY)) {
             final String newAverageTimeFrame = averageTimeFrameListPreference.getValue();
             if (BuildConfig.DEBUG)
-                Log.d(Preferences.class.getSimpleName(), "Average Time Frame: " + newAverageTimeFrame);
+                Log.d(TAG, "Average Time Frame: " + newAverageTimeFrame);
             gtmManager.pushPreferenceChanged("Average Time Frame", newAverageTimeFrame);
             final Editor editor = sharedPreferences.edit();
             editor.putBoolean(Preferences.AVERAGE_TIME_FRAME_CHANGED_MAIN_PREFERENCE_KEY, true);
@@ -204,7 +205,7 @@ public class Preferences extends PreferenceActivity implements OnSharedPreferenc
             final boolean newCollectAnalytics = sharedPreferences.getBoolean(Preferences.ANALYTICS_PREFERENCE_KEY,
                     getResources().getBoolean(R.bool.pref_privacy_analytics_default));
             if (BuildConfig.DEBUG)
-                Log.d(Preferences.class.getSimpleName(), "Analytics: " + newCollectAnalytics);
+                Log.d(TAG, "Analytics: " + newCollectAnalytics);
             gtmManager.pushPreferenceChanged("Analytics", newCollectAnalytics);
             gtmManager.push("optOut", newCollectAnalytics);
         }
@@ -248,7 +249,7 @@ public class Preferences extends PreferenceActivity implements OnSharedPreferenc
                         }
                         contractions.add(contraction);
                     } catch (JSONException e) {
-                        Log.e(Preferences.class.getSimpleName(), "Error creating JSON", e);
+                        Log.e(TAG, "Error creating JSON", e);
                         return "Error creating JSON";
                     }
                 }
@@ -263,14 +264,14 @@ public class Preferences extends PreferenceActivity implements OnSharedPreferenc
                 os = new BufferedOutputStream(new FileOutputStream(output));
                 os.write(new JSONArray(contractions).toString().getBytes());
             } catch (IOException e) {
-                Log.e(Preferences.class.getSimpleName(), "Error writing contractions", e);
+                Log.e(TAG, "Error writing contractions", e);
                 return "Error writing contractions";
             } finally {
                 if (os != null)
                     try {
                         os.close();
                     } catch (IOException e) {
-                        Log.e(Preferences.class.getSimpleName(), "Error closing output stream", e);
+                        Log.e(TAG, "Error closing output stream", e);
                     }
             }
             return null;
@@ -333,19 +334,19 @@ public class Preferences extends PreferenceActivity implements OnSharedPreferenc
                                         existingRowId)).withValues(values).build());
                 }
             } catch (FileNotFoundException e) {
-                Log.e(Preferences.class.getSimpleName(), "Could not find file", e);
+                Log.e(TAG, "Could not find file", e);
                 return "Could not find " + CONTRACTIONS_FILE_NAME + " in Download folder";
             } catch (JSONException e) {
-                Log.e(Preferences.class.getSimpleName(), "Error parsing file", e);
+                Log.e(TAG, "Error parsing file", e);
                 return "Error parsing file";
             }
             try {
                 getContentResolver().applyBatch(ContractionContract.AUTHORITY, operations);
             } catch (RemoteException e) {
-                Log.e(Preferences.class.getSimpleName(), "Error saving contractions", e);
+                Log.e(TAG, "Error saving contractions", e);
                 return "Error saving contractions";
             } catch (OperationApplicationException e) {
-                Log.e(Preferences.class.getSimpleName(), "Error saving contractions", e);
+                Log.e(TAG, "Error saving contractions", e);
                 return "Error saving contractions";
             }
             return null;

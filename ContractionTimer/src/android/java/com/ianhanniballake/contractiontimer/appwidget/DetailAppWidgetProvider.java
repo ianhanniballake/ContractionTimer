@@ -12,10 +12,12 @@ import com.ianhanniballake.contractiontimer.BuildConfig;
  * Handles updates of the 'Detail' style App Widgets
  */
 public class DetailAppWidgetProvider extends AppWidgetProvider {
+    private final static String TAG = DetailAppWidgetProvider.class.getSimpleName();
+
     @Override
     public void onUpdate(final Context context, final AppWidgetManager appWidgetManager, final int[] appWidgetIds) {
         if (BuildConfig.DEBUG)
-            Log.d(DetailAppWidgetProvider.class.getSimpleName(), "Updating Detail App Widgets");
+            Log.d(TAG, "Updating Detail App Widgets");
         final Intent service = new Intent(context, DetailAppWidgetService.class);
         service.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, appWidgetIds);
         context.startService(service);

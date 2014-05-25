@@ -13,6 +13,7 @@ import android.text.TextUtils;
 import android.util.Log;
 
 import com.google.android.gms.tagmanager.DataLayer;
+import com.ianhanniballake.contractiontimer.BuildConfig;
 import com.ianhanniballake.contractiontimer.appwidget.AppWidgetUpdateHandler;
 import com.ianhanniballake.contractiontimer.provider.ContractionContract;
 import com.ianhanniballake.contractiontimer.tagmanager.GtmManager;
@@ -23,26 +24,28 @@ import com.ianhanniballake.contractiontimer.ui.MainActivity;
  * the appropriate UI if no voice input is given
  */
 public class NoteIntentService extends IntentService {
+    private final static String TAG = NoteIntentService.class.getSimpleName();
     /**
      * Action Google Now uses for 'Note to self' voice input
      */
     private final static String GOOGLE_NOW_INPUT = "com.google.android.gm.action.AUTO_SEND";
 
     public NoteIntentService() {
-        super(NoteIntentService.class.getSimpleName());
+        super(TAG);
     }
 
     @Override
     protected void onHandleIntent(final Intent intent) {
         String text = intent.getStringExtra(Intent.EXTRA_TEXT);
-        Log.d(NoteIntentService.class.getSimpleName(), "Received text: " + text);
+        if (BuildConfig.DEBUG)
+            Log.d(TAG, "Received text: " + text);
         ContentResolver contentResolver = getContentResolver();
         String[] projection = {BaseColumns._ID, ContractionContract.Contractions.COLUMN_NAME_NOTE};
         Cursor data = contentResolver.query(ContractionContract.Contractions.CONTENT_URI, projection, null,
                 null, null);
         if (data == null || !data.moveToFirst()) {
             // This shouldn't happen as checkServiceState ensures at least one contraction exists
-            Log.w(NoteIntentService.class.getSimpleName(), "Could not find contraction");
+            Log.w(TAG, "Could not find contraction");
             if (data != null) {
                 data.close();
             }
@@ -74,7 +77,7 @@ public class NoteIntentService extends IntentService {
             AppWidgetUpdateHandler.createInstance().updateAllWidgets(this);
             NotificationUpdateService.updateNotification(this);
         } else {
-            Log.e(NoteIntentService.class.getSimpleName(), "Error updating contraction's note");
+            Log.e(TAG, "Error updating contraction's note");
         }
     }
 }

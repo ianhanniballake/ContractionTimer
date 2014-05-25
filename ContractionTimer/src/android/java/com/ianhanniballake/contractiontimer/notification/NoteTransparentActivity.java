@@ -12,6 +12,7 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.ianhanniballake.contractiontimer.BuildConfig;
 import com.ianhanniballake.contractiontimer.R;
 import com.ianhanniballake.contractiontimer.provider.ContractionContract;
 
@@ -20,6 +21,8 @@ import com.ianhanniballake.contractiontimer.provider.ContractionContract;
  * background
  */
 public class NoteTransparentActivity extends Activity {
+    private final static String TAG = NoteTransparentActivity.class.getSimpleName();
+
     /**
      * Ensures that the NoteTransparentActivity is only enabled when there is at least one contraction
      *
@@ -30,7 +33,8 @@ public class NoteTransparentActivity extends Activity {
             @Override
             protected void onQueryComplete(final int token, final Object cookie, final Cursor cursor) {
                 boolean hasContractions = cursor != null && cursor.moveToFirst();
-                Log.d(NoteIntentService.class.getSimpleName(), (hasContractions ? "Has" : "No") + " contractions");
+                if (BuildConfig.DEBUG)
+                    Log.d(TAG, (hasContractions ? "Has" : "No") + " contractions");
                 int state = hasContractions ? PackageManager.COMPONENT_ENABLED_STATE_ENABLED :
                         PackageManager.COMPONENT_ENABLED_STATE_DISABLED;
                 if (cursor != null) {

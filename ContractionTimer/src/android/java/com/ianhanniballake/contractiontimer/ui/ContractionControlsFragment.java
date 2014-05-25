@@ -31,6 +31,7 @@ import com.ianhanniballake.contractiontimer.tagmanager.GtmManager;
  * Fragment which controls starting and stopping the contraction timer
  */
 public class ContractionControlsFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor> {
+    private final static String TAG = ContractionControlsFragment.class.getSimpleName();
     /**
      * Cursor Adapter which holds the latest contraction
      */
@@ -86,14 +87,14 @@ public class ContractionControlsFragment extends Fragment implements LoaderManag
                 gtmManager.push("control", "Controls");
                 if (toggleContraction.isChecked()) {
                     if (BuildConfig.DEBUG)
-                        Log.d(ContractionControlsFragment.class.getSimpleName(), "Starting contraction");
+                        Log.d(TAG, "Starting contraction");
                     gtmManager.pushEvent("Start");
                     // Start a new contraction
                     contractionQueryHandler.startInsert(0, null, ContractionContract.Contractions.CONTENT_URI,
                             new ContentValues());
                 } else {
                     if (BuildConfig.DEBUG)
-                        Log.d(ContractionControlsFragment.class.getSimpleName(), "Stopping contraction");
+                        Log.d(TAG, "Stopping contraction");
                     gtmManager.pushEvent("Stop");
                     final ContentValues newEndTime = new ContentValues();
                     newEndTime.put(ContractionContract.Contractions.COLUMN_NAME_END_TIME, System.currentTimeMillis());

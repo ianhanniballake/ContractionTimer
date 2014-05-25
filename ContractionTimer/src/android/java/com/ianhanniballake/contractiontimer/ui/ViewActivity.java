@@ -37,6 +37,7 @@ import org.acra.ACRA;
  */
 public class ViewActivity extends ActionBarActivity implements LoaderManager.LoaderCallbacks<Cursor>,
         ViewPager.OnPageChangeListener {
+    private final static String TAG = ViewActivity.class.getSimpleName();
     /**
      * Adapter for all contractions
      */
@@ -109,7 +110,7 @@ public class ViewActivity extends ActionBarActivity implements LoaderManager.Loa
             contractionId = ContentUris.parseId(contentUri);
         } catch (final NumberFormatException e) {
             if (BuildConfig.DEBUG)
-                Log.e(ViewActivity.class.getSimpleName(), "NumberFormatException in onLoadFinished", e);
+                Log.e(TAG, "NumberFormatException in onLoadFinished", e);
             else {
                 GtmManager.getInstance(this).pushException(e);
                 ACRA.getErrorReporter().handleSilentException(e);
@@ -137,7 +138,7 @@ public class ViewActivity extends ActionBarActivity implements LoaderManager.Loa
         switch (item.getItemId()) {
             case android.R.id.home:
                 if (BuildConfig.DEBUG)
-                    Log.d(ViewActivity.class.getSimpleName(), "View selected home");
+                    Log.d(TAG, "View selected home");
                 GtmManager.getInstance(this).pushEvent("Home");
                 return false;
             default:
@@ -158,7 +159,7 @@ public class ViewActivity extends ActionBarActivity implements LoaderManager.Loa
     @Override
     public void onPageSelected(final int position) {
         if (BuildConfig.DEBUG)
-            Log.d(ViewActivity.class.getSimpleName(), "Swapped to " + position);
+            Log.d(TAG, "Swapped to " + position);
         if (currentPosition != -1) {
             final String direction = position > currentPosition ? "Next" : "Previous";
             GtmManager.getInstance(this).pushEvent("Scroll",
@@ -177,7 +178,7 @@ public class ViewActivity extends ActionBarActivity implements LoaderManager.Loa
         final boolean isLockPortrait = preferences.getBoolean(Preferences.LOCK_PORTRAIT_PREFERENCE_KEY, getResources()
                 .getBoolean(R.bool.pref_settings_lock_portrait_default));
         if (BuildConfig.DEBUG)
-            Log.d(ViewActivity.class.getSimpleName(), "Lock Portrait: " + isLockPortrait);
+            Log.d(TAG, "Lock Portrait: " + isLockPortrait);
         if (isLockPortrait)
             setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         else
@@ -192,7 +193,7 @@ public class ViewActivity extends ActionBarActivity implements LoaderManager.Loa
         if (getIntent().hasExtra(MainActivity.LAUNCHED_FROM_WIDGET_EXTRA)) {
             final String widgetIdentifier = getIntent().getStringExtra(MainActivity.LAUNCHED_FROM_WIDGET_EXTRA);
             if (BuildConfig.DEBUG)
-                Log.d(ViewActivity.class.getSimpleName(), "Launched from " + widgetIdentifier);
+                Log.d(TAG, "Launched from " + widgetIdentifier);
             GtmManager.getInstance(this).pushEvent("LaunchView", DataLayer.mapOf("widget", widgetIdentifier,
                     "type", DataLayer.OBJECT_NOT_PRESENT));
             getIntent().removeExtra(MainActivity.LAUNCHED_FROM_WIDGET_EXTRA);

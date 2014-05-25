@@ -23,12 +23,13 @@ public class AppWidgetToggleService extends IntentService {
      * Intent extra used to determine which widget called this service
      */
     public final static String WIDGET_NAME_EXTRA = "com.ianhanniballake.contractiontimer.WidgetName";
+    private final static String TAG = AppWidgetToggleService.class.getSimpleName();
 
     /**
      * Creates a new AppWidgetToggleService
      */
     public AppWidgetToggleService() {
-        super(AppWidgetToggleService.class.getSimpleName());
+        super(TAG);
     }
 
     @Override
@@ -44,7 +45,7 @@ public class AppWidgetToggleService extends IntentService {
         gtmManager.push("control", widgetName);
         if (contractionOngoing) {
             if (BuildConfig.DEBUG)
-                Log.d(AppWidgetToggleService.class.getSimpleName(), "Stopping contraction");
+                Log.d(TAG, "Stopping contraction");
             gtmManager.pushEvent("Stop");
             final ContentValues newEndTime = new ContentValues();
             newEndTime.put(ContractionContract.Contractions.COLUMN_NAME_END_TIME, System.currentTimeMillis());
@@ -55,7 +56,7 @@ public class AppWidgetToggleService extends IntentService {
             contentResolver.update(updateUri, newEndTime, null, null);
         } else {
             if (BuildConfig.DEBUG)
-                Log.d(AppWidgetToggleService.class.getSimpleName(), "Starting contraction");
+                Log.d(TAG, "Starting contraction");
             gtmManager.pushEvent("Start");
             // Start a new contraction
             contentResolver.insert(ContractionContract.Contractions.CONTENT_URI, new ContentValues());

@@ -42,6 +42,7 @@ public class DatePickerDialogFragment extends DialogFragment implements DatePick
      * Extra corresponding with the year that was set
      */
     public final static String YEAR_EXTRA = "com.ianhanniballake.contractionTimer.YEAR_EXTRA";
+    private final static String TAG = DatePickerDialogFragment.class.getSimpleName();
 
     @Override
     public Dialog onCreateDialog(final Bundle savedInstanceState) {
@@ -56,7 +57,7 @@ public class DatePickerDialogFragment extends DialogFragment implements DatePick
     public void onDateSet(final DatePicker view, final int year, final int monthOfYear, final int dayOfMonth) {
         final String action = getArguments().getString(DatePickerDialogFragment.CALLBACK_ACTION);
         if (BuildConfig.DEBUG)
-            Log.d(DatePickerDialogFragment.class.getSimpleName(), "onDateSet: " + action);
+            Log.d(TAG, "onDateSet: " + action);
         final Intent broadcast = new Intent(action);
         broadcast.putExtra(DatePickerDialogFragment.YEAR_EXTRA, year);
         broadcast.putExtra(DatePickerDialogFragment.MONTH_OF_YEAR_EXTRA, monthOfYear);

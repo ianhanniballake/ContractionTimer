@@ -30,6 +30,7 @@ import com.ianhanniballake.contractiontimer.ui.Preferences;
  */
 @TargetApi(11)
 public class DetailAppWidgetService extends IntentService {
+    private final static String TAG = DetailAppWidgetProvider.class.getSimpleName();
     /**
      * Identifier for the keyguard (lockscreen) version of this widget to be used in Google Analytics
      */
@@ -43,7 +44,7 @@ public class DetailAppWidgetService extends IntentService {
      * Creates a new DetailAppWidgetService
      */
     public DetailAppWidgetService() {
-        super(DetailAppWidgetService.class.getSimpleName());
+        super(TAG);
     }
 
     @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
@@ -59,7 +60,7 @@ public class DetailAppWidgetService extends IntentService {
     @Override
     protected void onHandleIntent(final Intent intent) {
         if (BuildConfig.DEBUG)
-            Log.d(DetailAppWidgetService.class.getSimpleName(), "Updating Detail App Widgets");
+            Log.d(TAG, "Updating Detail App Widgets");
         final String[] projection = {BaseColumns._ID, ContractionContract.Contractions.COLUMN_NAME_START_TIME,
                 ContractionContract.Contractions.COLUMN_NAME_END_TIME};
         final String selection = ContractionContract.Contractions.COLUMN_NAME_START_TIME + ">?";
@@ -139,8 +140,7 @@ public class DetailAppWidgetService extends IntentService {
             else
                 widgetIdentifier = WIDGET_IDENTIFIER;
             if (BuildConfig.DEBUG)
-                Log.d(DetailAppWidgetService.class.getSimpleName(), "Updating " + widgetIdentifier +
-                        " with id " + appWidgetId);
+                Log.d(TAG, "Updating " + widgetIdentifier + " with id " + appWidgetId);
             // Note that all widgets share the same theme
             RemoteViews views;
             if (appwidgetBackground.equals("light"))

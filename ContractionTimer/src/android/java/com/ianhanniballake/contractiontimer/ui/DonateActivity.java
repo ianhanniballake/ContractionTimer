@@ -49,6 +49,7 @@ import java.util.Map;
  * Activity controlling donations, including Paypal and In-App Billing
  */
 public class DonateActivity extends ActionBarActivity {
+    private final static String TAG = DonateActivity.class.getSimpleName();
     private final static String ITEM_TYPE_INAPP = "inapp";
     private final static String publicKey = "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEApmwDry4kZ8n3DulD1UxcJ89+TRI/DGSvFbhtjNkO1yWki16Q3MzOHwZ4Opyykn3cfiuexMNQYWZfQBqrvkdWWXf+iwBmG6PlOPzgYHV/0ohQhADCUb71SPihmf2WX2zejyNt71sMMUuIklB9HgXukO2uspdWYjKy8CkaMSHK+pQZdG2reACtLjgLMIm1tOlU2C7kGbsL+xodGyh29bO/6cn1/IPrnLZVgAfMm3UDGrqrK2PlgRlLZsoVQKvdi2vbQ8e4LH90rYlXrqEHHgRQw4ozXsj0QmaUx2b2EzRu4q17yvKvhmlFzZSShCkAJgPCOLds0A2SBbOAAX15lB8RmQIDAQAB";
     private final static String PURCHASED_SKU = "com.ianhanniballake.contractiontimer.PURCHASED_SKU";
@@ -121,15 +122,14 @@ public class DonateActivity extends ActionBarActivity {
     @Override
     protected void onActivityResult(final int requestCode, final int resultCode, final Intent data) {
         if (BuildConfig.DEBUG)
-            Log.d(DonateActivity.class.getSimpleName(), "onActivityResult(" + requestCode + "," + resultCode + "," +
-                    "" + data + ")");
+            Log.d(TAG, "onActivityResult(" + requestCode + "," + resultCode + "," + data + ")");
         if (requestCode != RC_REQUEST) {
             super.onActivityResult(requestCode, resultCode, data);
             return;
         }
         GtmManager gtmManager = GtmManager.getInstance(this);
         if (data == null) {
-            Log.e(DonateActivity.class.getSimpleName(), "Purchase: Null intent");
+            Log.e(TAG, "Purchase: Null intent");
             gtmManager.pushEvent("Error", DataLayer.mapOf("message", "Purchase null intent"));
             return;
         }
@@ -138,7 +138,7 @@ public class DonateActivity extends ActionBarActivity {
         final String dataSignature = data.getStringExtra("INAPP_DATA_SIGNATURE");
         if (resultCode == Activity.RESULT_OK && responseCode == 0) {
             if (purchaseData == null || dataSignature == null) {
-                Log.e(DonateActivity.class.getSimpleName(), "Purchase: Invalid data fields");
+                Log.e(TAG, "Purchase: Invalid data fields");
                 gtmManager.pushEvent("Error", DataLayer.mapOf("message", "Purchase invalid data fields"));
                 return;
             }
@@ -148,25 +148,25 @@ public class DonateActivity extends ActionBarActivity {
                 final String sku = purchase.getSku();
                 // Verify signature
                 if (!Security.verifyPurchase(publicKey, purchaseData, dataSignature)) {
-                    Log.e(DonateActivity.class.getSimpleName(), "Purhcase: Signature verification failed " + sku);
+                    Log.e(TAG, "Purchase: Signature verification failed " + sku);
                     gtmManager.pushEvent("Error", DataLayer.mapOf("message", "Purchase signature verification failed"));
                     return;
                 }
             } catch (final JSONException e) {
-                Log.e(DonateActivity.class.getSimpleName(), "Purchase: Parsing error", e);
+                Log.e(TAG, "Purchase: Parsing error", e);
                 gtmManager.pushEvent("Error", DataLayer.mapOf("message", "Purchase parsing error"));
                 return;
             }
             new ConsumeAsyncTask(mService, true).execute(purchase);
         } else if (resultCode == Activity.RESULT_OK) {
-            Log.e(DonateActivity.class.getSimpleName(), "Purchase: bad response " + responseCode);
+            Log.e(TAG, "Purchase: bad response " + responseCode);
             gtmManager.pushEvent("Error", DataLayer.mapOf("message", "Purchase bad response " + responseCode));
         } else if (resultCode == Activity.RESULT_CANCELED) {
             if (BuildConfig.DEBUG)
-                Log.d(DonateActivity.class.getSimpleName(), "Purchase: canceled");
+                Log.d(TAG, "Purchase: canceled");
             gtmManager.pushEvent("Canceled");
         } else {
-            Log.w(DonateActivity.class.getSimpleName(), "Purchase: Unknown response");
+            Log.w(TAG, "Purchase: Unknown response");
             gtmManager.pushEvent("Error", DataLayer.mapOf("message", "Purchase unknown response"));
         }
     }
@@ -203,7 +203,7 @@ public class DonateActivity extends ActionBarActivity {
             @Override
             public void onClick(final View v) {
                 if (BuildConfig.DEBUG)
-                    Log.d(DonateActivity.class.getSimpleName(), "Clicked Paypal");
+                    Log.d(TAG, "Clicked Paypal");
                 GtmManager.getInstance(DonateActivity.this).pushEvent("Paypal");
                 final Uri.Builder uriBuilder = new Uri.Builder();
                 uriBuilder.scheme("https").authority("www.paypal.com").path("cgi-bin/webscr");
@@ -230,7 +230,7 @@ public class DonateActivity extends ActionBarActivity {
                 final int selectedInAppAmount = inAppSpinner.getSelectedItemPosition();
                 purchasedSku = skus[selectedInAppAmount];
                 if (BuildConfig.DEBUG)
-                    Log.d(DonateActivity.class.getSimpleName(), "Clicked " + purchasedSku);
+                    Log.d(TAG, "Clicked " + purchasedSku);
                 GtmManager gtmManager = GtmManager.getInstance(DonateActivity.this);
                 gtmManager.pushEvent("Click", DataLayer.mapOf("sku", purchasedSku));
                 try {
@@ -238,17 +238,17 @@ public class DonateActivity extends ActionBarActivity {
                             ITEM_TYPE_INAPP, "");
                     final int response = getResponseCodeFromBundle(buyIntentBundle);
                     if (response != 0) {
-                        Log.e(DonateActivity.class.getSimpleName(), "Buy bad response " + response);
+                        Log.e(TAG, "Buy bad response " + response);
                         gtmManager.pushEvent("Error", DataLayer.mapOf("message", "Buy bad response " + response));
                         return;
                     }
                     final PendingIntent pendingIntent = buyIntentBundle.getParcelable("BUY_INTENT");
                     startIntentSenderForResult(pendingIntent.getIntentSender(), RC_REQUEST, new Intent(), 0, 0, 0);
                 } catch (final SendIntentException e) {
-                    Log.e(DonateActivity.class.getSimpleName(), "Buy: Send intent failed", e);
+                    Log.e(TAG, "Buy: Send intent failed", e);
                     gtmManager.pushEvent("Error", DataLayer.mapOf("message", "Buy send intent failed"));
                 } catch (final RemoteException e) {
-                    Log.e(DonateActivity.class.getSimpleName(), "Buy: Remote exception", e);
+                    Log.e(TAG, "Buy: Remote exception", e);
                     gtmManager.pushEvent("Error", DataLayer.mapOf("message", "Buy remote exception"));
                 }
             }
@@ -267,11 +267,11 @@ public class DonateActivity extends ActionBarActivity {
                         if (response == 0)
                             new InventoryQueryAsyncTask(mService).execute(skus);
                         else {
-                            Log.w(DonateActivity.class.getSimpleName(), "Initialize: In app not supported");
+                            Log.w(TAG, "Initialize: In app not supported");
                             gtmManager.pushEvent("Error", DataLayer.mapOf("message", "Initialize in app not supported"));
                         }
                     } catch (final RemoteException e) {
-                        Log.e(DonateActivity.class.getSimpleName(), "Initialize: Remote exception", e);
+                        Log.e(TAG, "Initialize: Remote exception", e);
                         gtmManager.pushEvent("Error", DataLayer.mapOf("message", "Initialize remote exception"));
                     }
                 }
@@ -288,7 +288,7 @@ public class DonateActivity extends ActionBarActivity {
                 bindService(serviceIntent, mServiceConn, Context.BIND_AUTO_CREATE);
             else {
                 // no service available to handle that Intent
-                Log.w(DonateActivity.class.getSimpleName(), "Initialize: Billing unavailable");
+                Log.w(TAG, "Initialize: Billing unavailable");
                 gtmManager.pushEvent("Error", DataLayer.mapOf("message", "Initialize billing unavailable"));
             }
         }
@@ -302,7 +302,7 @@ public class DonateActivity extends ActionBarActivity {
                 unbindService(mServiceConn);
             } catch (final IllegalArgumentException e) {
                 // Assume the service has already been unbinded, so only log that it happened
-                Log.w(DonateActivity.class.getSimpleName(), "Error unbinding service", e);
+                Log.w(TAG, "Error unbinding service", e);
             }
             mServiceConn = null;
             mService = null;
@@ -323,7 +323,7 @@ public class DonateActivity extends ActionBarActivity {
         final boolean isLockPortrait = preferences.getBoolean(Preferences.LOCK_PORTRAIT_PREFERENCE_KEY, getResources()
                 .getBoolean(R.bool.pref_settings_lock_portrait_default));
         if (BuildConfig.DEBUG)
-            Log.d(DonateActivity.class.getSimpleName(), "Lock Portrait: " + isLockPortrait);
+            Log.d(TAG, "Lock Portrait: " + isLockPortrait);
         if (isLockPortrait)
             setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         else
@@ -355,7 +355,7 @@ public class DonateActivity extends ActionBarActivity {
         @Override
         protected List<Purchase> doInBackground(final Purchase... purchases) {
             if (BuildConfig.DEBUG)
-                Log.d(DonateActivity.class.getSimpleName(), "Starting Consume of " + Arrays.toString(purchases));
+                Log.d(TAG, "Starting Consume of " + Arrays.toString(purchases));
             GtmManager gtmManager = GtmManager.getInstance(DonateActivity.this);
             final List<Purchase> consumedPurchases = new ArrayList<Purchase>();
             for (final Purchase purchase : purchases) {
@@ -363,24 +363,24 @@ public class DonateActivity extends ActionBarActivity {
                 try {
                     final String token = purchase.getToken();
                     if (TextUtils.isEmpty(token)) {
-                        Log.e(DonateActivity.class.getSimpleName(), "Consume: Invalid token " + token);
+                        Log.e(TAG, "Consume: Invalid token " + token);
                         gtmManager.pushEvent("Error", DataLayer.mapOf("message", "Consume invalid token"));
                         break;
                     }
                     final IInAppBillingService service = mBillingService.get();
                     if (service == null) {
-                        Log.w(DonateActivity.class.getSimpleName(), "Consume: Billing service is null");
+                        Log.w(TAG, "Consume: Billing service is null");
                         break;
                     }
                     final int response = service.consumePurchase(3, getPackageName(), token);
                     if (response == 0)
                         consumedPurchases.add(purchase);
                     else {
-                        Log.e(DonateActivity.class.getSimpleName(), "Consume: Bad response " + response);
+                        Log.e(TAG, "Consume: Bad response " + response);
                         gtmManager.pushEvent("Error", DataLayer.mapOf("message", "Consume bad response " + response));
                     }
                 } catch (final RemoteException e) {
-                    Log.e(DonateActivity.class.getSimpleName(), "Consume: Remote exception " + sku, e);
+                    Log.e(TAG, "Consume: Remote exception " + sku, e);
                     gtmManager.pushEvent("Error", DataLayer.mapOf("message", "Consume remote exception"));
                 }
             }
@@ -390,13 +390,13 @@ public class DonateActivity extends ActionBarActivity {
         @Override
         protected void onPostExecute(final List<Purchase> result) {
             if (result == null || result.isEmpty()) {
-                Log.w(DonateActivity.class.getSimpleName(), "Consume: No purchases consumed");
+                Log.w(TAG, "Consume: No purchases consumed");
                 return;
             }
             for (final Purchase purchase : result) {
                 final String sku = purchase.getSku();
                 if (BuildConfig.DEBUG)
-                    Log.d(DonateActivity.class.getSimpleName(), "Consume completed successfully " + sku);
+                    Log.d(TAG, "Consume completed successfully " + sku);
                 final long purchasedPriceMicro = skuPrices.containsKey(sku) ? skuPrices.get(sku) : 0;
                 final String purchasedName = skuNames.containsKey(sku) ? skuNames.get(sku) : sku;
                 ArrayList<Map<String, String>> purchasedItems = new ArrayList<Map<String, String>>();
@@ -424,7 +424,7 @@ public class DonateActivity extends ActionBarActivity {
             Toast.makeText(DonateActivity.this, R.string.donate_thank_you, Toast.LENGTH_LONG).show();
             if (finishActivity) {
                 if (BuildConfig.DEBUG)
-                    Log.d(DonateActivity.class.getSimpleName(), "Finishing Donate Activity");
+                    Log.d(TAG, "Finishing Donate Activity");
                 finish();
             }
         }
@@ -442,22 +442,22 @@ public class DonateActivity extends ActionBarActivity {
             try {
                 final Inventory inv = new Inventory();
                 if (BuildConfig.DEBUG)
-                    Log.d(DonateActivity.class.getSimpleName(), "Starting query inventory");
+                    Log.d(TAG, "Starting query inventory");
                 int r = queryPurchases(inv);
                 if (r != 0)
                     return null;
                 if (BuildConfig.DEBUG)
-                    Log.d(DonateActivity.class.getSimpleName(), "Starting sku details query");
+                    Log.d(TAG, "Starting sku details query");
                 r = querySkuDetails(inv, moreSkus);
                 if (r != 0)
                     return null;
                 return inv;
             } catch (final RemoteException e) {
-                Log.e(DonateActivity.class.getSimpleName(), "Inventory: Remote exception", e);
+                Log.e(TAG, "Inventory: Remote exception", e);
                 GtmManager.getInstance(DonateActivity.this).pushEvent("Error",
                         DataLayer.mapOf("message", "Inventory remote exception"));
             } catch (final JSONException e) {
-                Log.e(DonateActivity.class.getSimpleName(), "Inventory: Parsing error", e);
+                Log.e(TAG, "Inventory: Parsing error", e);
                 GtmManager.getInstance(DonateActivity.this).pushEvent("Error",
                         DataLayer.mapOf("message", "Inventory parsing error"));
             }
@@ -467,7 +467,7 @@ public class DonateActivity extends ActionBarActivity {
         @Override
         protected void onPostExecute(final Inventory inv) {
             if (BuildConfig.DEBUG)
-                Log.d(DonateActivity.class.getSimpleName(), "Inventory Returned: " + inv);
+                Log.d(TAG, "Inventory Returned: " + inv);
             // If we failed to get the inventory, then leave the in-app billing UI hidden
             if (inv == null)
                 return;
@@ -478,7 +478,7 @@ public class DonateActivity extends ActionBarActivity {
                 if (service != null)
                     new ConsumeAsyncTask(service, false).execute(purchases.toArray(new Purchase[purchases.size()]));
                 else
-                    Log.w(DonateActivity.class.getSimpleName(), "Inventory: Billing service is null");
+                    Log.w(TAG, "Inventory: Billing service is null");
             }
             final String[] inAppName = new String[skus.length];
             for (int h = 0; h < skus.length; h++) {
@@ -506,13 +506,13 @@ public class DonateActivity extends ActionBarActivity {
             do {
                 final IInAppBillingService service = mBillingService.get();
                 if (service == null) {
-                    Log.w(DonateActivity.class.getSimpleName(), "Purchases: Billing service is null");
+                    Log.w(TAG, "Purchases: Billing service is null");
                     return -1;
                 }
                 final Bundle ownedItems = service.getPurchases(3, getPackageName(), ITEM_TYPE_INAPP, continueToken);
                 final int response = getResponseCodeFromBundle(ownedItems);
                 if (response != 0) {
-                    Log.e(DonateActivity.class.getSimpleName(), "Purchases: Bad response " + response);
+                    Log.e(TAG, "Purchases: Bad response " + response);
                     GtmManager.getInstance(DonateActivity.this).pushEvent("Error",
                             DataLayer.mapOf("message", "Purchases bad response " + response));
                     return response;
@@ -520,7 +520,7 @@ public class DonateActivity extends ActionBarActivity {
                 if (!ownedItems.containsKey(RESPONSE_INAPP_ITEM_LIST)
                         || !ownedItems.containsKey(RESPONSE_INAPP_PURCHASE_DATA_LIST)
                         || !ownedItems.containsKey(RESPONSE_INAPP_SIGNATURE_LIST)) {
-                    Log.e(DonateActivity.class.getSimpleName(), "Purchases: Invalid data");
+                    Log.e(TAG, "Purchases: Invalid data");
                     GtmManager.getInstance(DonateActivity.this).pushEvent("Error",
                             DataLayer.mapOf("message", "Purchases invalid data"));
                     return -1;
@@ -555,14 +555,14 @@ public class DonateActivity extends ActionBarActivity {
             querySkus.putStringArrayList("ITEM_ID_LIST", skuList);
             final IInAppBillingService service = mBillingService.get();
             if (service == null) {
-                Log.w(DonateActivity.class.getSimpleName(), "SkuDetails: Billing service is null");
+                Log.w(TAG, "SkuDetails: Billing service is null");
                 return -1;
             }
             final Bundle skuDetails = service.getSkuDetails(3, getPackageName(), ITEM_TYPE_INAPP, querySkus);
             if (!skuDetails.containsKey(RESPONSE_GET_SKU_DETAILS_LIST)) {
                 final int response = getResponseCodeFromBundle(skuDetails);
                 if (response != 0) {
-                    Log.e(DonateActivity.class.getSimpleName(), "SkuDetails: Bad response " + response);
+                    Log.e(TAG, "SkuDetails: Bad response " + response);
                     GtmManager.getInstance(DonateActivity.this).pushEvent("Error",
                             DataLayer.mapOf("message", "SkuDetails bad response " + response));
                     return response;

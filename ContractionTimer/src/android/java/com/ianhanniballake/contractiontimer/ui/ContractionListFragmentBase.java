@@ -22,6 +22,8 @@ import com.ianhanniballake.contractiontimer.tagmanager.GtmManager;
  * Fragment to list contractions entered by the user
  */
 public class ContractionListFragmentBase extends ContractionListFragment {
+    private final static String TAG = ContractionListFragmentBase.class.getSimpleName();
+
     @Override
     protected void bindView(final View view, final Cursor cursor) {
         // Nothing to do
@@ -35,7 +37,7 @@ public class ContractionListFragmentBase extends ContractionListFragment {
         switch (item.getItemId()) {
             case R.id.menu_context_view:
                 if (BuildConfig.DEBUG)
-                    Log.d(ContractionListFragmentBase.class.getSimpleName(), "Context Menu selected view");
+                    Log.d(TAG, "Context Menu selected view");
                 gtmManager.pushEvent("View");
                 viewContraction(info.id);
                 return true;
@@ -43,15 +45,14 @@ public class ContractionListFragmentBase extends ContractionListFragment {
                 final TextView noteView = (TextView) info.targetView.findViewById(R.id.note);
                 final String existingNote = noteView.getText().toString();
                 if (BuildConfig.DEBUG)
-                    Log.d(ContractionListFragmentBase.class.getSimpleName(), "Context Menu selected "
-                            + (TextUtils.isEmpty(existingNote) ? "Add Note" : "Edit Note"));
+                    Log.d(TAG, "Context Menu selected " + (TextUtils.isEmpty(existingNote) ? "Add Note" : "Edit Note"));
                 gtmManager.pushEvent("Note", DataLayer.mapOf("type",
                         TextUtils.isEmpty(existingNote) ? "Add Note" : "Edit Note"));
                 showNoteDialog(info.id, existingNote);
                 return true;
             case R.id.menu_context_delete:
                 if (BuildConfig.DEBUG)
-                    Log.d(ContractionListFragmentBase.class.getSimpleName(), "Context Menu selected delete");
+                    Log.d(TAG, "Context Menu selected delete");
                 gtmManager.pushEvent("Delete", DataLayer.mapOf("count", 1));
                 deleteContraction(info.id);
                 return true;
@@ -76,7 +77,7 @@ public class ContractionListFragmentBase extends ContractionListFragment {
         final MenuItem deleteItem = menu.findItem(R.id.menu_context_delete);
         deleteItem.setTitle(getResources().getQuantityText(R.plurals.menu_context_delete, 1));
         if (BuildConfig.DEBUG)
-            Log.d(ContractionListFragmentBase.class.getSimpleName(), "Context Menu Opened");
+            Log.d(TAG, "Context Menu Opened");
         GtmManager.getInstance(this).pushEvent("Open", DataLayer.mapOf(
                 "menu", "ContextMenu", "type", "count", DataLayer.OBJECT_NOT_PRESENT,
                 TextUtils.isEmpty(note) ? "Add Note" : "Edit Note"));

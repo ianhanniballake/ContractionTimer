@@ -45,6 +45,7 @@ import java.util.Calendar;
  */
 public abstract class ContractionListFragment extends ListFragment implements LoaderManager.LoaderCallbacks<Cursor>,
         OnClickListener {
+    private final static String TAG = ContractionListFragment.class.getSimpleName();
     /**
      * Handler of live duration updates
      */
@@ -176,16 +177,14 @@ public abstract class ContractionListFragment extends ListFragment implements Lo
                 switch (item.getItemId()) {
                     case R.id.menu_context_view:
                         if (BuildConfig.DEBUG)
-                            Log.d(ContractionListFragment.class.getSimpleName(), "Popup Menu selected view");
+                            Log.d(TAG, "Popup Menu selected view");
                         gtmManager.pushEvent("View");
                         viewContraction(popupHolder.id);
                         return true;
                     case R.id.menu_context_note:
                         if (BuildConfig.DEBUG)
-                            Log.d(ContractionListFragment.class.getSimpleName(),
-                                    "Popup Menu selected "
-                                            + (popupHolder.existingNote.equals("") ? "Add Note" : "Edit Note")
-                            );
+                            Log.d(TAG, "Popup Menu selected " + (popupHolder.existingNote.equals("") ? "Add Note" :
+                                    "Edit Note"));
                         gtmManager.pushEvent("Note", DataLayer.mapOf("type",
                                 TextUtils.isEmpty(popupHolder.existingNote) ? "Add Note" : "Edit Note",
                                 "position", DataLayer.OBJECT_NOT_PRESENT));
@@ -193,7 +192,7 @@ public abstract class ContractionListFragment extends ListFragment implements Lo
                         return true;
                     case R.id.menu_context_delete:
                         if (BuildConfig.DEBUG)
-                            Log.d(ContractionListFragment.class.getSimpleName(), "Popup Menu selected delete");
+                            Log.d(TAG, "Popup Menu selected delete");
                         gtmManager.pushEvent("Delete", DataLayer.mapOf("count", 1));
                         deleteContraction(popupHolder.id);
                         return true;
@@ -311,7 +310,7 @@ public abstract class ContractionListFragment extends ListFragment implements Lo
         args.putString(NoteDialogFragment.EXISTING_NOTE_ARGUMENT, existingNote);
         noteDialogFragment.setArguments(args);
         if (BuildConfig.DEBUG)
-            Log.d(ContractionListFragment.class.getSimpleName(), "Showing Dialog");
+            Log.d(TAG, "Showing Dialog");
         GtmManager.getInstance(this).pushOpenScreen(TextUtils.isEmpty(existingNote) ? "NoteAdd" : "NoteEdit");
         noteDialogFragment.show(getFragmentManager(), "note");
     }

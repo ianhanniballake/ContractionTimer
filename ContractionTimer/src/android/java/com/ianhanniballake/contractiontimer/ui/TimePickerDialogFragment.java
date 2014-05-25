@@ -39,6 +39,7 @@ public class TimePickerDialogFragment extends DialogFragment implements TimePick
      * Action associated with this fragment closing
      */
     public final static String TIME_PICKER_CLOSE_ACTION = "com.ianhanniballake.contractiontimer.TIME_PICKER_CLOSE";
+    private final static String TAG = TimePickerDialogFragment.class.getSimpleName();
 
     @Override
     public Dialog onCreateDialog(final Bundle savedInstanceState) {
@@ -60,7 +61,7 @@ public class TimePickerDialogFragment extends DialogFragment implements TimePick
     public void onTimeSet(final TimePicker view, final int hourOfDay, final int minute) {
         final String action = getArguments().getString(TimePickerDialogFragment.CALLBACK_ACTION);
         if (BuildConfig.DEBUG)
-            Log.d(TimePickerDialogFragment.class.getSimpleName(), "onTimeSet: " + action);
+            Log.d(TAG, "onTimeSet: " + action);
         final Intent broadcast = new Intent(action);
         broadcast.putExtra(TimePickerDialogFragment.HOUR_OF_DAY_EXTRA, hourOfDay);
         broadcast.putExtra(TimePickerDialogFragment.MINUTE_EXTRA, minute);

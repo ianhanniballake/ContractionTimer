@@ -39,11 +39,12 @@ public class NoteDialogFragment extends DialogFragment {
      * Action associated with this fragment closing
      */
     public final static String NOTE_CLOSE_ACTION = "com.ianhanniballake.contractiontimer.NOTE_CLOSE";
+    private final static String TAG = NoteDialogFragment.class.getSimpleName();
 
     @Override
     public void onCancel(final DialogInterface dialog) {
         if (BuildConfig.DEBUG)
-            Log.d(NoteDialogFragment.class.getSimpleName(), "Received cancelation event");
+            Log.d(TAG, "Received cancelation event");
         GtmManager.getInstance(this).pushEvent("Cancel");
         super.onCancel(dialog);
     }
@@ -71,7 +72,7 @@ public class NoteDialogFragment extends DialogFragment {
                     @Override
                     public void onClick(final DialogInterface dialog, final int which) {
                         if (BuildConfig.DEBUG)
-                            Log.d(NoteDialogFragment.class.getSimpleName(), "Received positive event");
+                            Log.d(TAG, "Received positive event");
                         gtmManager.pushEvent("Positive");
                         final Uri updateUri = ContentUris.withAppendedId(
                                 ContractionContract.Contractions.CONTENT_ID_URI_BASE, contractionId);
@@ -83,7 +84,7 @@ public class NoteDialogFragment extends DialogFragment {
                     @Override
                     public void onClick(final DialogInterface dialog, final int which) {
                         if (BuildConfig.DEBUG)
-                            Log.d(NoteDialogFragment.class.getSimpleName(), "Received negative event");
+                            Log.d(TAG, "Received negative event");
                         gtmManager.pushEvent("Negative");
                     }
                 }).create();

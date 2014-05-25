@@ -24,6 +24,7 @@ import com.ianhanniballake.contractiontimer.ui.Preferences;
  * Handles updates of the 'Control' style App Widgets
  */
 public class ControlAppWidgetService extends IntentService {
+    private final static String TAG = ControlAppWidgetService.class.getSimpleName();
     /**
      * Identifier for this widget to be used in Google Analytics
      */
@@ -33,13 +34,13 @@ public class ControlAppWidgetService extends IntentService {
      * Creates a new ControlAppWidgetService
      */
     public ControlAppWidgetService() {
-        super(ControlAppWidgetService.class.getSimpleName());
+        super(TAG);
     }
 
     @Override
     protected void onHandleIntent(final Intent intent) {
         if (BuildConfig.DEBUG)
-            Log.d(ControlAppWidgetService.class.getSimpleName(), "Updating Control App Widgets");
+            Log.d(TAG, "Updating Control App Widgets");
         final String[] projection = {BaseColumns._ID, ContractionContract.Contractions.COLUMN_NAME_START_TIME,
                 ContractionContract.Contractions.COLUMN_NAME_END_TIME};
         final String selection = ContractionContract.Contractions.COLUMN_NAME_START_TIME + ">?";

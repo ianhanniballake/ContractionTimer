@@ -12,10 +12,12 @@ import com.ianhanniballake.contractiontimer.BuildConfig;
  * Handles updates of the 'Toggle' style App Widgets
  */
 public class ToggleAppWidgetProvider extends AppWidgetProvider {
+    private final static String TAG = ToggleAppWidgetProvider.class.getSimpleName();
+
     @Override
     public void onUpdate(final Context context, final AppWidgetManager appWidgetManager, final int[] appWidgetIds) {
         if (BuildConfig.DEBUG)
-            Log.d(ToggleAppWidgetProvider.class.getSimpleName(), "Updating Toggle App Widgets");
+            Log.d(TAG, "Updating Toggle App Widgets");
         final Intent service = new Intent(context, ToggleAppWidgetService.class);
         service.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, appWidgetIds);
         context.startService(service);

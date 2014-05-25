@@ -40,6 +40,7 @@ import java.util.Date;
  * Fragment showing the details of an individual contraction
  */
 public class ViewFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor> {
+    private final static String TAG = ViewFragment.class.getSimpleName();
     /**
      * Whether the current contraction is ongoing (i.e., not yet ended). Null indicates that we haven't checked yet,
      * while true or false indicates whether the contraction is ongoing
@@ -197,7 +198,7 @@ public class ViewFragment extends Fragment implements LoaderManager.LoaderCallba
                 if (isContractionOngoing == null)
                     return true;
                 if (BuildConfig.DEBUG)
-                    Log.d(ViewFragment.class.getSimpleName(), "View selected edit");
+                    Log.d(TAG, "View selected edit");
                 gtmManager.pushEvent("Edit", DataLayer.mapOf("ongoing", isContractionOngoing));
                 if (isContractionOngoing)
                     Toast.makeText(getActivity(), R.string.edit_ongoing_error, Toast.LENGTH_SHORT).show();
@@ -206,7 +207,7 @@ public class ViewFragment extends Fragment implements LoaderManager.LoaderCallba
                 return true;
             case R.id.menu_delete:
                 if (BuildConfig.DEBUG)
-                    Log.d(ViewFragment.class.getSimpleName(), "View selected delete");
+                    Log.d(TAG, "View selected delete");
                 gtmManager.pushEvent("Delete", DataLayer.mapOf("count", 1));
                 contractionQueryHandler.startDelete(0, 0, uri, null, null);
                 return true;

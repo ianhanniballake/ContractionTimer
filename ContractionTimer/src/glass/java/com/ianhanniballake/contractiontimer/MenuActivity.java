@@ -21,6 +21,8 @@ import com.ianhanniballake.contractiontimer.provider.ContractionContract;
  * Activity showing the options menu.
  */
 public class MenuActivity extends Activity {
+    private final static String TAG = MenuActivity.class.getSimpleName();
+
     private final Handler mHandler = new Handler();
     private AsyncQueryHandler mAsyncQueryHandler;
     private boolean mAttachedToWindow;
@@ -98,12 +100,12 @@ public class MenuActivity extends Activity {
         // Handle item selection.
         switch (item.getItemId()) {
             case R.id.menu_start_contraction:
-                Log.d(MenuActivity.class.getSimpleName(), "Starting contraction");
+                Log.d(TAG, "Starting contraction");
                 mAsyncQueryHandler.startInsert(0, null, ContractionContract.Contractions.CONTENT_URI,
                         new ContentValues());
                 return true;
             case R.id.menu_stop_contraction:
-                Log.d(MenuActivity.class.getSimpleName(), "Stopping contraction");
+                Log.d(TAG, "Stopping contraction");
                 final ContentValues newEndTime = new ContentValues();
                 newEndTime.put(ContractionContract.Contractions.COLUMN_NAME_END_TIME, System.currentTimeMillis());
                 final Uri updateUri = ContentUris.withAppendedId(ContractionContract.Contractions.CONTENT_ID_URI_BASE,
@@ -111,7 +113,7 @@ public class MenuActivity extends Activity {
                 mAsyncQueryHandler.startUpdate(0, null, updateUri, newEndTime, null, null);
                 return true;
             case R.id.menu_reset:
-                Log.d(MenuActivity.class.getSimpleName(), "Resetting contractions");
+                Log.d(TAG, "Resetting contractions");
                 // TODO Add confirm activity
                 mAsyncQueryHandler.startDelete(0, 0, ContractionContract.Contractions.CONTENT_URI, null, null);
                 return true;

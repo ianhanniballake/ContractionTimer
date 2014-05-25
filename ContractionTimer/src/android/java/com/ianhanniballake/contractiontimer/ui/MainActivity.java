@@ -55,6 +55,7 @@ public class MainActivity extends ActionBarActivity implements LoaderManager.Loa
      */
     public final static String LAUNCHED_FROM_NOTIFICATION_ACTION_NOTE_EXTRA =
             "com.ianhanniballake.contractiontimer.LaunchedFromNotificationActionNote";
+    private final static String TAG = MainActivity.class.getSimpleName();
     /**
      * BroadcastReceiver listening for ABOUT_CLOSE_ACTION, NOTE_CLOSE_ACTION, and RESET_CLOSE_ACTION actions
      */
@@ -62,8 +63,7 @@ public class MainActivity extends ActionBarActivity implements LoaderManager.Loa
         @Override
         public void onReceive(final Context context, final Intent intent) {
             if (BuildConfig.DEBUG)
-                Log.d(MainActivity.class.getSimpleName(),
-                        "DialogFragmentClosedBR Received " + intent.getAction());
+                Log.d(TAG, "DialogFragmentClosedBR Received " + intent.getAction());
             GtmManager.getInstance(MainActivity.this).pushOpenScreen("Main");
         }
     };
@@ -159,17 +159,17 @@ public class MainActivity extends ActionBarActivity implements LoaderManager.Loa
         switch (item.getItemId()) {
             case R.id.menu_reset:
                 if (BuildConfig.DEBUG)
-                    Log.d(MainActivity.class.getSimpleName(), "Menu selected Reset");
+                    Log.d(TAG, "Menu selected Reset");
                 gtmManager.pushEvent("Reset");
                 final ResetDialogFragment resetDialogFragment = new ResetDialogFragment();
                 if (BuildConfig.DEBUG)
-                    Log.d(MainActivity.class.getSimpleName(), "Showing Dialog");
+                    Log.d(TAG, "Showing Dialog");
                 gtmManager.pushOpenScreen("Reset");
                 resetDialogFragment.show(getSupportFragmentManager(), "reset");
                 return true;
             case R.id.menu_add:
                 if (BuildConfig.DEBUG)
-                    Log.d(MainActivity.class.getSimpleName(), "Menu selected Add");
+                    Log.d(TAG, "Menu selected Add");
                 gtmManager.pushEvent("Add");
                 final Intent addIntent = new Intent(Intent.ACTION_INSERT, getIntent().getData())
                         .setPackage(getPackageName());
@@ -177,13 +177,13 @@ public class MainActivity extends ActionBarActivity implements LoaderManager.Loa
                 return true;
             case R.id.menu_share_averages:
                 if (BuildConfig.DEBUG)
-                    Log.d(MainActivity.class.getSimpleName(), "Menu selected Share Averages");
+                    Log.d(TAG, "Menu selected Share Averages");
                 gtmManager.pushEvent("Share", DataLayer.mapOf("type", "Averages"));
                 shareAverages();
                 return true;
             case R.id.menu_share_all:
                 if (BuildConfig.DEBUG)
-                    Log.d(MainActivity.class.getSimpleName(), "Menu selected Share All");
+                    Log.d(TAG, "Menu selected Share All");
                 gtmManager.pushEvent("Share", DataLayer.mapOf("type", "All"));
                 shareAll();
                 return true;
@@ -192,17 +192,17 @@ public class MainActivity extends ActionBarActivity implements LoaderManager.Loa
                 return true;
             case R.id.menu_about:
                 if (BuildConfig.DEBUG)
-                    Log.d(MainActivity.class.getSimpleName(), "Menu selected About");
+                    Log.d(TAG, "Menu selected About");
                 gtmManager.pushEvent("About");
                 final AboutDialogFragment aboutDialogFragment = new AboutDialogFragment();
                 if (BuildConfig.DEBUG)
-                    Log.d(MainActivity.class.getSimpleName(), "Showing Dialog");
+                    Log.d(TAG, "Showing Dialog");
                 gtmManager.pushOpenScreen("About");
                 aboutDialogFragment.show(getSupportFragmentManager(), "about");
                 return true;
             case R.id.menu_donate:
                 if (BuildConfig.DEBUG)
-                    Log.d(MainActivity.class.getSimpleName(), "Menu selected Donate");
+                    Log.d(TAG, "Menu selected Donate");
                 gtmManager.pushEvent("Donate");
                 startActivity(new Intent(this, DonateActivity.class));
                 return true;
@@ -231,7 +231,7 @@ public class MainActivity extends ActionBarActivity implements LoaderManager.Loa
         final boolean isKeepScreenOn = preferences.getBoolean(Preferences.KEEP_SCREEN_ON_PREFERENCE_KEY, getResources()
                 .getBoolean(R.bool.pref_settings_keep_screen_on_default));
         if (BuildConfig.DEBUG)
-            Log.d(MainActivity.class.getSimpleName(), "Keep Screen On: " + isKeepScreenOn);
+            Log.d(TAG, "Keep Screen On: " + isKeepScreenOn);
         if (isKeepScreenOn)
             getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         else
@@ -239,7 +239,7 @@ public class MainActivity extends ActionBarActivity implements LoaderManager.Loa
         final boolean isLockPortrait = preferences.getBoolean(Preferences.LOCK_PORTRAIT_PREFERENCE_KEY, getResources()
                 .getBoolean(R.bool.pref_settings_lock_portrait_default));
         if (BuildConfig.DEBUG)
-            Log.d(MainActivity.class.getSimpleName(), "Lock Portrait: " + isLockPortrait);
+            Log.d(TAG, "Lock Portrait: " + isLockPortrait);
         if (isLockPortrait)
             setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         else
@@ -263,14 +263,14 @@ public class MainActivity extends ActionBarActivity implements LoaderManager.Loa
         if (intent.hasExtra(MainActivity.LAUNCHED_FROM_WIDGET_EXTRA)) {
             final String widgetIdentifier = intent.getStringExtra(MainActivity.LAUNCHED_FROM_WIDGET_EXTRA);
             if (BuildConfig.DEBUG)
-                Log.d(MainActivity.class.getSimpleName(), "Launched from " + widgetIdentifier);
+                Log.d(TAG, "Launched from " + widgetIdentifier);
             gtmManager.pushEvent("Launch", DataLayer.mapOf("widget", widgetIdentifier,
                     "type", DataLayer.OBJECT_NOT_PRESENT));
             intent.removeExtra(MainActivity.LAUNCHED_FROM_WIDGET_EXTRA);
         }
         if (intent.hasExtra(MainActivity.LAUNCHED_FROM_NOTIFICATION_EXTRA)) {
             if (BuildConfig.DEBUG)
-                Log.d(MainActivity.class.getSimpleName(), "Launched from Notification");
+                Log.d(TAG, "Launched from Notification");
             gtmManager.pushEvent("Launch", DataLayer.mapOf("widget", "Notification",
                     "type", DataLayer.OBJECT_NOT_PRESENT));
             intent.removeExtra(MainActivity.LAUNCHED_FROM_NOTIFICATION_EXTRA);
@@ -280,7 +280,7 @@ public class MainActivity extends ActionBarActivity implements LoaderManager.Loa
             String existingNote = intent.getStringExtra(ContractionContract.Contractions.COLUMN_NAME_NOTE);
             String type = TextUtils.isEmpty(existingNote) ? "Add Note" : "Edit Note";
             if (BuildConfig.DEBUG)
-                Log.d(MainActivity.class.getSimpleName(), "Launched from Notification " + type + " action");
+                Log.d(TAG, "Launched from Notification " + type + " action");
             gtmManager.push("type", type);
             gtmManager.pushEvent("Launch", DataLayer.mapOf("widget", "NotificationAction"));
             gtmManager.pushEvent("Note", DataLayer.mapOf("menu", "NotificationAction",

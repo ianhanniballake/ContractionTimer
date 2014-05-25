@@ -23,6 +23,8 @@ import com.ianhanniballake.contractiontimer.provider.ContractionContract;
  * SurfaceHolder.Callback used to draw the timer on the timeline {@link com.google.android.glass.timeline.LiveCard}.
  */
 public class TimerRenderer implements DirectRenderingCallback {
+    private final static String TAG = TimerRenderer.class.getSimpleName();
+
     private final Context mContext;
     private final View mView;
     private final View mEmptyState;
@@ -61,7 +63,7 @@ public class TimerRenderer implements DirectRenderingCallback {
             @Override
             protected void onQueryComplete(final int token, final Object cookie, final Cursor cursor) {
                 final boolean hasContractions = cursor != null && cursor.moveToFirst();
-                Log.d(TimerRenderer.class.getSimpleName(), "Has Contractions: " + hasContractions);
+                Log.d(TAG, "Has Contractions: " + hasContractions);
                 if (hasContractions) {
                     updateWithContractions(cursor);
                 } else {
@@ -78,10 +80,10 @@ public class TimerRenderer implements DirectRenderingCallback {
                 mEmptyState.setVisibility(View.INVISIBLE);
                 mCurrentState.setVisibility(View.VISIBLE);
                 // Assume cursor is already at the first position
-                Log.d(TimerRenderer.class.getSimpleName(), "Rendering first row");
+                Log.d(TAG, "Rendering first row");
                 renderRow(cursor, mCurrentStartTime, mCurrentDuration, mCurrentFrequency);
                 cursor.moveToNext();
-                Log.d(TimerRenderer.class.getSimpleName(), "Rendering previous row");
+                Log.d(TAG, "Rendering previous row");
                 renderRow(cursor, mPreviousStartTime, mPreviousDuration, mPreviousFrequency);
                 // TODO fill in average time information
             }
@@ -89,7 +91,7 @@ public class TimerRenderer implements DirectRenderingCallback {
             private void renderRow(Cursor cursor, TextView startTimeView, TextView durationView,
                                    TextView frequencyView) {
                 if (cursor.isAfterLast()) {
-                    Log.d(TimerRenderer.class.getSimpleName(), "Rendering is after last row, aborting");
+                    Log.d(TAG, "Rendering is after last row, aborting");
                     startTimeView.setText("");
                     durationView.setText("");
                     frequencyView.setText("");
@@ -125,7 +127,7 @@ public class TimerRenderer implements DirectRenderingCallback {
                     frequencyView.setText("");
                 }
                 startTimeView.setText(DateFormat.format(timeFormat, startTime));
-                Log.d(TimerRenderer.class.getSimpleName(), "Rendering complete");
+                Log.d(TAG, "Rendering complete");
             }
 
             private void updateWithNoContractions() {
@@ -149,7 +151,7 @@ public class TimerRenderer implements DirectRenderingCallback {
 
     @Override
     public void surfaceChanged(SurfaceHolder holder, int format, int width, int height) {
-        Log.d(TimerRenderer.class.getSimpleName(), "Surface Changed");
+        Log.d(TAG, "Surface Changed");
         // Measure and layout the view with the canvas dimensions.
         int measuredWidth = View.MeasureSpec.makeMeasureSpec(width, View.MeasureSpec.EXACTLY);
         int measuredHeight = View.MeasureSpec.makeMeasureSpec(height, View.MeasureSpec.EXACTLY);
@@ -160,7 +162,7 @@ public class TimerRenderer implements DirectRenderingCallback {
 
     @Override
     public void surfaceCreated(SurfaceHolder holder) {
-        Log.d(TimerRenderer.class.getSimpleName(), "Surface Created");
+        Log.d(TAG, "Surface Created");
         // The creation of a new Surface implicitly resumes the rendering.
         mRenderingPaused = false;
         mHolder = holder;
@@ -172,14 +174,14 @@ public class TimerRenderer implements DirectRenderingCallback {
 
     @Override
     public void surfaceDestroyed(SurfaceHolder holder) {
-        Log.d(TimerRenderer.class.getSimpleName(), "Surface Destroyed");
+        Log.d(TAG, "Surface Destroyed");
         mHolder = null;
         updateContentObserverRegistration();
     }
 
     @Override
     public void renderingPaused(SurfaceHolder holder, boolean paused) {
-        Log.d(TimerRenderer.class.getSimpleName(), "Rendering " + (paused ? "paused" : "unpaused"));
+        Log.d(TAG, "Rendering " + (paused ? "paused" : "unpaused"));
         mRenderingPaused = paused;
         updateContentObserverRegistration();
         draw();

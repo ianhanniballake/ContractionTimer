@@ -25,11 +25,12 @@ public class AboutDialogFragment extends DialogFragment {
      * Action associated with this fragment closing
      */
     public final static String ABOUT_CLOSE_ACTION = "com.ianhanniballake.contractiontimer.ABOUT_CLOSE";
+    private final static String TAG = AboutDialogFragment.class.getSimpleName();
 
     @Override
     public void onCancel(final DialogInterface dialog) {
         if (BuildConfig.DEBUG)
-            Log.d(AboutDialogFragment.class.getSimpleName(), "Received cancelation event");
+            Log.d(TAG, "Received cancelation event");
         GtmManager.getInstance(this).pushEvent("Cancel");
         super.onCancel(dialog);
     }
@@ -46,7 +47,7 @@ public class AboutDialogFragment extends DialogFragment {
                     @Override
                     public void onClick(final DialogInterface dialog, final int which) {
                         if (BuildConfig.DEBUG)
-                            Log.d(AboutDialogFragment.class.getSimpleName(), "Received neutral event");
+                            Log.d(TAG, "Received neutral event");
                         gtmManager.pushEvent("Neutral");
                     }
                 }).create();

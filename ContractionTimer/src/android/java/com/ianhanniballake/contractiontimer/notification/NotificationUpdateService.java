@@ -27,10 +27,11 @@ import com.ianhanniballake.contractiontimer.ui.Preferences;
  * IntentService which updates the ongoing notification
  */
 public class NotificationUpdateService extends IntentService {
+    private final static String TAG = NotificationUpdateService.class.getSimpleName();
     private static final int NOTIFICATION_ID = 0;
 
     public NotificationUpdateService() {
-        super(NotificationUpdateService.class.getSimpleName());
+        super(TAG);
     }
 
     public static void updateNotification(Context context) {

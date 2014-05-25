@@ -22,6 +22,7 @@ import com.ianhanniballake.contractiontimer.ui.Preferences;
  * Handles updates of the 'Toggle' style App Widgets
  */
 public class ToggleAppWidgetService extends IntentService {
+    private final static String TAG = ToggleAppWidgetService.class.getSimpleName();
     /**
      * Identifier for this widget to be used in Google Analytics
      */
@@ -31,13 +32,13 @@ public class ToggleAppWidgetService extends IntentService {
      * Creates a new ToggleAppWidgetService
      */
     public ToggleAppWidgetService() {
-        super(ToggleAppWidgetService.class.getSimpleName());
+        super(TAG);
     }
 
     @Override
     protected void onHandleIntent(final Intent intent) {
         if (BuildConfig.DEBUG)
-            Log.d(ToggleAppWidgetService.class.getSimpleName(), "Updating Toggle App Widgets");
+            Log.d(TAG, "Updating Toggle App Widgets");
         final String[] projection = {BaseColumns._ID, ContractionContract.Contractions.COLUMN_NAME_START_TIME,
                 ContractionContract.Contractions.COLUMN_NAME_END_TIME};
         final Cursor data = getContentResolver().query(ContractionContract.Contractions.CONTENT_URI, projection, null,

@@ -27,6 +27,7 @@ import com.ianhanniballake.contractiontimer.tagmanager.GtmManager;
  */
 @TargetApi(11)
 public class ContractionListFragmentV11 extends ContractionListFragment {
+    private final static String TAG = ContractionListFragmentV11.class.getSimpleName();
     /**
      * Key used to store the selected item note in the bundle
      */
@@ -74,8 +75,7 @@ public class ContractionListFragmentV11 extends ContractionListFragment {
                 switch (item.getItemId()) {
                     case R.id.menu_context_view:
                         if (BuildConfig.DEBUG)
-                            Log.d(ContractionListFragmentV11.class.getSimpleName(),
-                                    "Context Action Mode selected view");
+                            Log.d(TAG, "Context Action Mode selected view");
                         gtmManager.pushEvent("View");
                         viewContraction(contractionId);
                         return true;
@@ -86,10 +86,8 @@ public class ContractionListFragmentV11 extends ContractionListFragment {
                                 .getColumnIndex(ContractionContract.Contractions.COLUMN_NAME_NOTE);
                         final String existingNote = cursor.getString(noteColumnIndex);
                         if (BuildConfig.DEBUG)
-                            Log.d(ContractionListFragmentV11.class.getSimpleName(),
-                                    "Context Action Mode selected "
-                                            + (TextUtils.isEmpty(existingNote) ? "Add Note" : "Edit Note")
-                            );
+                            Log.d(TAG, "Context Action Mode selected " + (TextUtils.isEmpty(existingNote) ?
+                                    "Add Note" : "Edit Note"));
                         gtmManager.pushEvent("Note", DataLayer.mapOf("type",
                                 TextUtils.isEmpty(existingNote) ? "Add Note" : "Edit Note", "position", position));
                         showNoteDialog(contractionId, existingNote);
@@ -98,8 +96,7 @@ public class ContractionListFragmentV11 extends ContractionListFragment {
                     case R.id.menu_context_delete:
                         final long[] selectedIds = getListView().getCheckedItemIds();
                         if (BuildConfig.DEBUG)
-                            Log.d(ContractionListFragmentV11.class.getSimpleName(),
-                                    "Context Action Mode selected delete");
+                            Log.d(TAG, "Context Action Mode selected delete");
                         gtmManager.pushEvent("Delete", DataLayer.mapOf("count", selectedIds.length));
                         for (final long id : selectedIds)
                             deleteContraction(id);
