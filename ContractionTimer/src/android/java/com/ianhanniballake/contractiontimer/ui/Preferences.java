@@ -12,7 +12,6 @@ import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
 import android.content.pm.ActivityInfo;
 import android.database.Cursor;
 import android.os.AsyncTask;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.RemoteException;
@@ -112,8 +111,7 @@ public class Preferences extends PreferenceActivity implements OnSharedPreferenc
     public boolean onCreateOptionsMenu(Menu menu) {
         super.onCreateOptionsMenu(menu);
         getMenuInflater().inflate(R.menu.activity_settings, menu);
-        // Only show export/import options on Froyo+ devices
-        return Build.VERSION.SDK_INT >= Build.VERSION_CODES.FROYO;
+        return true;
     }
 
     @Override
@@ -125,12 +123,10 @@ public class Preferences extends PreferenceActivity implements OnSharedPreferenc
         }
         switch (item.getItemId()) {
             case R.id.menu_export:
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.FROYO)
-                    new ExportContractionsAsyncTask().execute();
+                new ExportContractionsAsyncTask().execute();
                 return true;
             case R.id.menu_import:
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.FROYO)
-                    new ImportContractionsAsyncTask().execute();
+                new ImportContractionsAsyncTask().execute();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
