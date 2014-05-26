@@ -15,6 +15,8 @@
         <item name="android:listViewStyle">@style/ListViewAppTheme</item>
         <item name="android:listViewWhiteStyle">@style/ListViewAppTheme.White</item>
         <item name="android:spinnerItemStyle">@style/SpinnerItemAppTheme</item>
+        <item name="switchStyle">@style/Widget.Holo.Light.CompoundButton.Switch</item>
+        <item name="switchPreferenceStyle">@style/Preference.SwitchPreference</item>
     </style>
 
 </resources>

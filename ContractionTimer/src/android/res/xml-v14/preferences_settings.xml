@@ -1,24 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
-<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+                  xmlns:switchpref="http://schemas.android.com/apk/res-auto">
 
     <PreferenceCategory android:title="@string/pref_settings_category">
-        <SwitchPreference
+        <org.jraf.android.backport.switchwidget.SwitchPreference
             android:defaultValue="@bool/pref_settings_keep_screen_on_default"
             android:key="keepScreenOn"
-            android:summaryOff="@string/pref_settings_keep_screen_on_summary_off"
-            android:summaryOn="@string/pref_settings_keep_screen_on_summary_on"
-            android:switchTextOff="@string/pref_switch_text_off"
-            android:switchTextOn="@string/pref_switch_text_on"
-            android:title="@string/pref_settings_keep_screen_on_title"/>
+            android:title="@string/pref_settings_keep_screen_on_title"
+            switchpref:summaryOff="@string/pref_settings_keep_screen_on_summary_off"
+            switchpref:summaryOn="@string/pref_settings_keep_screen_on_summary_on"
+            switchpref:switchTextOff="@string/pref_switch_text_off"
+            switchpref:switchTextOn="@string/pref_switch_text_on"/>
 
-        <SwitchPreference
+        <org.jraf.android.backport.switchwidget.SwitchPreference
             android:defaultValue="@bool/pref_settings_lock_portrait_default"
             android:key="lock_portrait"
-            android:summaryOff="@string/pref_settings_lock_portrait_summary_off"
-            android:summaryOn="@string/pref_settings_lock_portrait_summary_on"
-            android:switchTextOff="@string/pref_switch_text_off"
-            android:switchTextOn="@string/pref_switch_text_on"
-            android:title="@string/pref_settings_lock_portrait_title"/>
+            android:title="@string/pref_settings_lock_portrait_title"
+            switchpref:summaryOff="@string/pref_settings_lock_portrait_summary_off"
+            switchpref:summaryOn="@string/pref_settings_lock_portrait_summary_on"
+            switchpref:switchTextOff="@string/pref_switch_text_off"
+            switchpref:switchTextOn="@string/pref_switch_text_on"/>
 
         <ListPreference
             android:defaultValue="@string/pref_settings_average_time_frame_default"
@@ -38,14 +39,14 @@
             android:title="@string/pref_appwidget_background_title"/>
     </PreferenceCategory>
     <PreferenceCategory android:title="@string/pref_notification_category">
-        <SwitchPreference
+        <org.jraf.android.backport.switchwidget.SwitchPreference
             android:defaultValue="@bool/pref_notification_enable_default"
             android:key="notification_enable"
-            android:summaryOff="@string/pref_notification_enable_summary_off"
-            android:summaryOn="@string/pref_notification_enable_summary_on"
-            android:switchTextOff="@string/pref_switch_text_off"
-            android:switchTextOn="@string/pref_switch_text_on"
-            android:title="@string/pref_notification_enable_title"/>
+            android:title="@string/pref_notification_enable_title"
+            switchpref:summaryOff="@string/pref_notification_enable_summary_off"
+            switchpref:summaryOn="@string/pref_notification_enable_summary_on"
+            switchpref:switchTextOff="@string/pref_switch_text_off"
+            switchpref:switchTextOn="@string/pref_switch_text_on"/>
     </PreferenceCategory>
     <PreferenceCategory android:title="@string/pref_privacy_category">
         <CheckBoxPreference
