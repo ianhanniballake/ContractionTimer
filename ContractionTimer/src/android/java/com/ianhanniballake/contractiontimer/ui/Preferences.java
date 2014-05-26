@@ -1,6 +1,6 @@
 package com.ianhanniballake.contractiontimer.ui;
 
-import android.annotation.TargetApi;
+import android.app.backup.BackupManager;
 import android.content.ContentProviderOperation;
 import android.content.ContentResolver;
 import android.content.ContentUris;
@@ -29,7 +29,6 @@ import android.widget.Toast;
 import com.ianhanniballake.contractiontimer.BuildConfig;
 import com.ianhanniballake.contractiontimer.R;
 import com.ianhanniballake.contractiontimer.appwidget.AppWidgetUpdateHandler;
-import com.ianhanniballake.contractiontimer.backup.BackupController;
 import com.ianhanniballake.contractiontimer.notification.NotificationUpdateService;
 import com.ianhanniballake.contractiontimer.provider.ContractionContract;
 import com.ianhanniballake.contractiontimer.tagmanager.GtmManager;
@@ -210,7 +209,7 @@ public class Preferences extends PreferenceActivity implements OnSharedPreferenc
             gtmManager.pushPreferenceChanged("Analytics", newCollectAnalytics);
             gtmManager.push("optOut", newCollectAnalytics);
         }
-        BackupController.createInstance().dataChanged(this);
+        new BackupManager(this).dataChanged();
     }
 
     @Override
@@ -219,7 +218,6 @@ public class Preferences extends PreferenceActivity implements OnSharedPreferenc
         GtmManager.getInstance(this).pushOpenScreen("Preferences");
     }
 
-    @TargetApi(8)
     private class ExportContractionsAsyncTask extends AsyncTask<Void, Void, String> {
         @Override
         protected String doInBackground(Void... params) {
@@ -288,7 +286,6 @@ public class Preferences extends PreferenceActivity implements OnSharedPreferenc
         }
     }
 
-    @TargetApi(8)
     private class ImportContractionsAsyncTask extends AsyncTask<Void, Void, String> {
         @Override
         protected String doInBackground(Void... params) {
