@@ -2,6 +2,7 @@ package com.ianhanniballake.contractiontimer.ui;
 
 import android.annotation.TargetApi;
 import android.database.Cursor;
+import android.os.Build;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
@@ -25,7 +26,7 @@ import com.ianhanniballake.contractiontimer.tagmanager.GtmManager;
 /**
  * Fragment to list contractions entered by the user
  */
-@TargetApi(11)
+@TargetApi(Build.VERSION_CODES.HONEYCOMB)
 public class ContractionListFragmentV11 extends ContractionListFragment {
     private final static String TAG = ContractionListFragmentV11.class.getSimpleName();
     /**

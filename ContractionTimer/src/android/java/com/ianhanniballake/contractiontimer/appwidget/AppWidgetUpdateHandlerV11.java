@@ -5,6 +5,7 @@ import android.appwidget.AppWidgetManager;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 
 import com.ianhanniballake.contractiontimer.R;
 
@@ -18,7 +19,7 @@ public class AppWidgetUpdateHandlerV11 extends AppWidgetUpdateHandlerBase {
      * @param context          Context used to trigger updates
      * @param appWidgetManager AppWidgetManager instance
      */
-    @TargetApi(11)
+    @TargetApi(Build.VERSION_CODES.HONEYCOMB)
     private static void updateDetailWidgets(final Context context, final AppWidgetManager appWidgetManager) {
         final int[] detailAppWidgetIds = appWidgetManager.getAppWidgetIds(new ComponentName(context,
                 DetailAppWidgetProvider.class));

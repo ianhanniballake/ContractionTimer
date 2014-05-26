@@ -1,12 +1,13 @@
 package com.ianhanniballake.contractiontimer.strictmode;
 
 import android.annotation.TargetApi;
+import android.os.Build;
 import android.os.StrictMode;
 
 /**
  * Sets up the Strict Mode based on Gingerbread policies
  */
-@TargetApi(10)
+@TargetApi(Build.VERSION_CODES.GINGERBREAD_MR1)
 public class StrictModeControllerV10 extends StrictModeController {
     @Override
     public void setStrictMode() {

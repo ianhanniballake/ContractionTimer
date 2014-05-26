@@ -28,7 +28,7 @@ import com.ianhanniballake.contractiontimer.ui.Preferences;
 /**
  * Handles updates of the 'Detail' style App Widgets
  */
-@TargetApi(11)
+@TargetApi(Build.VERSION_CODES.HONEYCOMB)
 public class DetailAppWidgetService extends IntentService {
     private final static String TAG = DetailAppWidgetProvider.class.getSimpleName();
     /**
@@ -192,7 +192,7 @@ public class DetailAppWidgetService extends IntentService {
      *
      * @param views RemoteViews to set the RemoteAdapter
      */
-    @TargetApi(14)
+    @TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)
     private void setRemoteAdapter(final RemoteViews views) {
         views.setRemoteAdapter(R.id.list_view, new Intent(this, DetailAppWidgetRemoteViewsService.class));
     }

@@ -5,6 +5,7 @@ import android.content.ContentUris;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
+import android.os.Build;
 import android.preference.PreferenceManager;
 import android.provider.BaseColumns;
 import android.text.format.DateFormat;
@@ -20,7 +21,7 @@ import com.ianhanniballake.contractiontimer.ui.Preferences;
 /**
  * Service which creates the RemoteViews used in the ListView collection in the Detail App Widgets
  */
-@TargetApi(11)
+@TargetApi(Build.VERSION_CODES.HONEYCOMB)
 public class DetailAppWidgetRemoteViewsService extends RemoteViewsService {
     @Override
     public RemoteViewsFactory onGetViewFactory(final Intent intent) {
