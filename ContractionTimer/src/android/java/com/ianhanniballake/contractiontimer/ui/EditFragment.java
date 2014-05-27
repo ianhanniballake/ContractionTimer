@@ -105,20 +105,22 @@ public class EditFragment extends Fragment implements LoaderManager.LoaderCallba
                     startTime.get(Calendar.HOUR_OF_DAY));
             final int minute = intent
                     .getIntExtra(TimePickerDialogFragment.MINUTE_EXTRA, startTime.get(Calendar.MINUTE));
+            final int second = intent
+                    .getIntExtra(TimePickerDialogFragment.SECOND_EXTRA, startTime.get(Calendar.SECOND));
             if (BuildConfig.DEBUG)
                 Log.d(TAG, "Time Receive: " + action + "; " + hourOfDay + ", " + minute);
             if (EditFragment.START_TIME_ACTION.equals(action)) {
                 final long oldStartTime = startTime.getTimeInMillis();
                 startTime.set(Calendar.HOUR_OF_DAY, hourOfDay);
                 startTime.set(Calendar.MINUTE, minute);
-                startTime.set(Calendar.SECOND, 0);
+                startTime.set(Calendar.SECOND, second);
                 startTime.set(Calendar.MILLISECOND, 0);
                 final long timeOffset = startTime.getTimeInMillis() - oldStartTime;
                 endTime.setTimeInMillis(endTime.getTimeInMillis() + timeOffset);
             } else if (EditFragment.END_TIME_ACTION.equals(action)) {
                 endTime.set(Calendar.HOUR_OF_DAY, hourOfDay);
                 endTime.set(Calendar.MINUTE, minute);
-                endTime.set(Calendar.SECOND, 0);
+                endTime.set(Calendar.SECOND, second);
                 endTime.set(Calendar.MILLISECOND, 0);
             }
             updateViews();
