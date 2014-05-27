@@ -70,9 +70,9 @@ public class DetailAppWidgetRemoteViewsService extends RemoteViewsService {
                     views = new RemoteViews(getPackageName(), R.layout.list_item_detail_appwidget_dark);
                 if (!data.moveToPosition(position))
                     return views;
-                String timeFormat = "hh:mm:ssaa";
+                String timeFormat = "hh:mm:ssa";
                 if (DateFormat.is24HourFormat(DetailAppWidgetRemoteViewsService.this))
-                    timeFormat = "kk:mm:ss";
+                    timeFormat = "HH:mm:ss";
                 final int startTimeColumnIndex = data
                         .getColumnIndex(ContractionContract.Contractions.COLUMN_NAME_START_TIME);
                 final long startTime = data.getLong(startTimeColumnIndex);

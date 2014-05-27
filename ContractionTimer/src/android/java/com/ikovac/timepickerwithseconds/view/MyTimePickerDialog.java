@@ -56,7 +56,7 @@ public class MyTimePickerDialog extends AlertDialog implements OnClickListener,
     private static final String MINUTE = "minute";
     private static final String SECONDS = "seconds";
     private static final String IS_24_HOUR = "is24hour";
-    private static final String TIME_FORMAT_12 = "hh:mm:ss a";
+    private static final String TIME_FORMAT_12 = "hh:mm:ssa";
     private static final String TIME_FORMAT_24 = "HH:mm:ss";
     
     private final TimePicker mTimePicker;

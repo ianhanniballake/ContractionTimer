@@ -104,9 +104,9 @@ public class ViewFragment extends Fragment implements LoaderManager.LoaderCallba
                     @Override
                     public void bindView(final View view, final Context context, final Cursor cursor) {
                         final TextView startTimeView = (TextView) view.findViewById(R.id.start_time);
-                        String timeFormat = "hh:mm:ssaa";
+                        String timeFormat = "hh:mm:ssa";
                         if (DateFormat.is24HourFormat(context))
-                            timeFormat = "kk:mm:ss";
+                            timeFormat = "HH:mm:ss";
                         final int startTimeColumnIndex = cursor
                                 .getColumnIndex(ContractionContract.Contractions.COLUMN_NAME_START_TIME);
                         final long startTime = cursor.getLong(startTimeColumnIndex);

@@ -322,9 +322,9 @@ public class MainActivity extends ActionBarActivity implements LoaderManager.Loa
         formattedData.append(":\n\n");
         data.moveToPosition(-1);
         while (data.moveToNext()) {
-            String timeFormat = "hh:mm:ssaa";
+            String timeFormat = "hh:mm:ssa";
             if (DateFormat.is24HourFormat(this))
-                timeFormat = "kk:mm:ss";
+                timeFormat = "HH:mm:ss";
             final int startTimeColumnIndex = data
                     .getColumnIndex(ContractionContract.Contractions.COLUMN_NAME_START_TIME);
             final long startTime = data.getLong(startTimeColumnIndex);

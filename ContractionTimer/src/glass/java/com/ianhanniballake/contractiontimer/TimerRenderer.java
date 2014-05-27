@@ -97,9 +97,9 @@ public class TimerRenderer implements DirectRenderingCallback {
                     frequencyView.setText("");
                     return;
                 }
-                String timeFormat = "hh:mm:ssaa";
+                String timeFormat = "hh:mm:ssa";
                 if (DateFormat.is24HourFormat(mContext))
-                    timeFormat = "kk:mm:ss";
+                    timeFormat = "HH:mm:ss";
                 final int startTimeColumnIndex = cursor.getColumnIndex(
                         ContractionContract.Contractions.COLUMN_NAME_START_TIME);
                 final long startTime = cursor.getLong(startTimeColumnIndex);

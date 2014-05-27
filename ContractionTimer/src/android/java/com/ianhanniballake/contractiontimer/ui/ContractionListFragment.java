@@ -356,9 +356,9 @@ public abstract class ContractionListFragment extends ListFragment implements Lo
 
         @Override
         public void bindView(final View view, final Context context, final Cursor cursor) {
-            String timeFormat = "hh:mm:ssaa";
+            String timeFormat = "hh:mm:ssa";
             if (DateFormat.is24HourFormat(context))
-                timeFormat = "kk:mm:ss";
+                timeFormat = "HH:mm:ss";
             final char[] dateFormatOrder = DateFormat.getDateFormatOrder(mContext);
             final char[] dateFormatArray = {dateFormatOrder[0], dateFormatOrder[0], '/', dateFormatOrder[1],
                     dateFormatOrder[1]};
