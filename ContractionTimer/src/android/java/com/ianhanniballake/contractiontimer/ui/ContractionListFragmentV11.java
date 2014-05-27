@@ -158,7 +158,7 @@ public class ContractionListFragmentV11 extends ContractionListFragment {
                 final boolean showNoteItem = selectedItemsSize == 1;
                 // Set the title of the note menu item
                 if (showNoteItem)
-                    if ("".equals(selectedItemNote))
+                    if (TextUtils.isEmpty(selectedItemNote))
                         noteItem.setTitle(R.string.note_dialog_title_add);
                     else
                         noteItem.setTitle(R.string.note_dialog_title_edit);
@@ -177,9 +177,5 @@ public class ContractionListFragmentV11 extends ContractionListFragment {
                 return !newModeTitle.equals(modeTitle) || !newTitle.equals(currentTitle);
             }
         });
-    }
-
-    @Override
-    protected void setupNewView(final View view) {
     }
 }

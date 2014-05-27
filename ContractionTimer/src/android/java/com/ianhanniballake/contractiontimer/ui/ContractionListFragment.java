@@ -182,11 +182,10 @@ public abstract class ContractionListFragment extends ListFragment implements Lo
                         viewContraction(popupHolder.id);
                         return true;
                     case R.id.menu_context_note:
+                        String type = TextUtils.isEmpty(popupHolder.existingNote) ? "Add Note" : "Edit Note";
                         if (BuildConfig.DEBUG)
-                            Log.d(TAG, "Popup Menu selected " + (popupHolder.existingNote.equals("") ? "Add Note" :
-                                    "Edit Note"));
-                        gtmManager.pushEvent("Note", DataLayer.mapOf("type",
-                                TextUtils.isEmpty(popupHolder.existingNote) ? "Add Note" : "Edit Note",
+                            Log.d(TAG, "Popup Menu selected " + type);
+                        gtmManager.pushEvent("Note", DataLayer.mapOf("type", type,
                                 "position", DataLayer.OBJECT_NOT_PRESENT));
                         showNoteDialog(popupHolder.id, popupHolder.existingNote);
                         return true;
@@ -285,13 +284,6 @@ public abstract class ContractionListFragment extends ListFragment implements Lo
      * Sets up the ListView
      */
     protected abstract void setupListView();
-
-    /**
-     * Do any version specific new view setup
-     *
-     * @param view View being set up
-     */
-    protected abstract void setupNewView(View view);
 
     /**
      * Shows the 'note' dialog
@@ -459,7 +451,6 @@ public abstract class ContractionListFragment extends ListFragment implements Lo
             final View view = inflater.inflate(R.layout.list_item_contraction, parent, false);
             final ImageButton showPopup = (ImageButton) view.findViewById(R.id.show_popup);
             showPopup.setOnClickListener(ContractionListFragment.this);
-            setupNewView(view);
             return view;
         }
     }

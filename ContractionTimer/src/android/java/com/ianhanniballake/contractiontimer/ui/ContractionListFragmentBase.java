@@ -92,9 +92,4 @@ public class ContractionListFragmentBase extends ContractionListFragment {
         listView.setChoiceMode(AbsListView.CHOICE_MODE_SINGLE);
         registerForContextMenu(listView);
     }
-
-    @Override
-    protected void setupNewView(final View view) {
-        // Nothing to do
-    }
 }
