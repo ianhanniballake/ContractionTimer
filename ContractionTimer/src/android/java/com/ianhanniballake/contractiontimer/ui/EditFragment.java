@@ -515,8 +515,9 @@ public class EditFragment extends Fragment implements LoaderManager.LoaderCallba
             final String[] selectionArgs = {Long.toString(contractionId), currentEndTimeMillis, currentEndTimeMillis};
             final Cursor data = activity.getContentResolver().query(ContractionContract.Contractions.CONTENT_URI,
                     projection, selection, selectionArgs, null);
-            final boolean overlapExists = data.moveToFirst();
-            data.close();
+            final boolean overlapExists = data != null && data.moveToFirst();
+            if (data != null)
+                data.close();
             return overlapExists;
         }
 
@@ -563,8 +564,9 @@ public class EditFragment extends Fragment implements LoaderManager.LoaderCallba
                     currentStartTimeMillis};
             final Cursor data = activity.getContentResolver().query(ContractionContract.Contractions.CONTENT_URI,
                     projection, selection, selectionArgs, null);
-            final boolean overlapExists = data.moveToFirst();
-            data.close();
+            final boolean overlapExists = data != null && data.moveToFirst();
+            if (data != null)
+                data.close();
             return overlapExists;
         }
 
@@ -611,8 +613,9 @@ public class EditFragment extends Fragment implements LoaderManager.LoaderCallba
             final String[] selectionArgs = {Long.toString(contractionId), currentStartTimeMillis, currentEndTimeMillis};
             final Cursor data = activity.getContentResolver().query(ContractionContract.Contractions.CONTENT_URI,
                     projection, selection, selectionArgs, null);
-            final boolean overlapExists = data.moveToFirst();
-            data.close();
+            final boolean overlapExists = data != null && data.moveToFirst();
+            if (data != null)
+                data.close();
             return overlapExists;
         }
 

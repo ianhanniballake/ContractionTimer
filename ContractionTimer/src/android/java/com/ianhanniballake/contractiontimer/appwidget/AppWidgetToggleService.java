@@ -39,6 +39,9 @@ public class AppWidgetToggleService extends IntentService {
         final String[] projection = {BaseColumns._ID, ContractionContract.Contractions.COLUMN_NAME_END_TIME};
         final Cursor data = contentResolver.query(ContractionContract.Contractions.CONTENT_URI, projection, null, null,
                 null);
+        if (data == null) {
+            return;
+        }
         final boolean contractionOngoing = data.moveToFirst()
                 && data.isNull(data.getColumnIndex(ContractionContract.Contractions.COLUMN_NAME_END_TIME));
         GtmManager gtmManager = GtmManager.getInstance(this);
