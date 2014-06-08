@@ -33,17 +33,16 @@ import com.ianhanniballake.contractiontimer.notification.NotificationUpdateServi
 import com.ianhanniballake.contractiontimer.provider.ContractionContract;
 import com.ianhanniballake.contractiontimer.tagmanager.GtmManager;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
+import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Scanner;
+import java.util.List;
+
+import au.com.bytecode.opencsv.CSVReader;
+import au.com.bytecode.opencsv.CSVWriter;
 
 /**
  * Activity managing the various application preferences
@@ -82,7 +81,7 @@ public class Preferences extends PreferenceActivity implements OnSharedPreferenc
      */
     public static final String NOTIFICATION_ENABLE_PREFERENCE_KEY = "notification_enable";
     private final static String TAG = Preferences.class.getSimpleName();
-    private static final String CONTRACTIONS_FILE_NAME = "Contractions.json";
+    private static final String CONTRACTIONS_FILE_NAME = "contractions.csv";
     /**
      * Reference to the ListPreference corresponding with the Appwidget background
      */
@@ -221,36 +220,31 @@ public class Preferences extends PreferenceActivity implements OnSharedPreferenc
     private class ExportContractionsAsyncTask extends AsyncTask<Void, Void, String> {
         @Override
         protected String doInBackground(Void... params) {
-            ArrayList<JSONObject> contractions = new ArrayList<JSONObject>();
+            ArrayList<String[]> contractions = new ArrayList<String[]>();
             Cursor data = getContentResolver().query(ContractionContract.Contractions.CONTENT_URI, null, null, null,
                     null);
             if (data != null) {
                 while (data.moveToNext()) {
-                    try {
-                        JSONObject contraction = new JSONObject();
-                        final int startTimeColumnIndex = data.getColumnIndex(ContractionContract.Contractions
-                                .COLUMN_NAME_START_TIME);
-                        final long startTime = data.getLong(startTimeColumnIndex);
-                        contraction.put(ContractionContract.Contractions.COLUMN_NAME_START_TIME, startTime);
-                        final int endTimeColumnIndex = data.getColumnIndex(ContractionContract.Contractions
-                                .COLUMN_NAME_END_TIME);
-                        if (!data.isNull(endTimeColumnIndex)) {
-                            final long endTime = data.getLong(endTimeColumnIndex);
-                            contraction.put(ContractionContract.Contractions.COLUMN_NAME_END_TIME, endTime);
-                        } else
-                            contraction.put(ContractionContract.Contractions.COLUMN_NAME_END_TIME, null);
-                        final int noteColumnIndex = data.getColumnIndex(ContractionContract.Contractions
-                                .COLUMN_NAME_NOTE);
-                        if (!data.isNull(noteColumnIndex)) {
-                            final String note = data.getString(noteColumnIndex);
-                            if (!TextUtils.isEmpty(note))
-                                contraction.put(ContractionContract.Contractions.COLUMN_NAME_NOTE, note);
-                        }
-                        contractions.add(contraction);
-                    } catch (JSONException e) {
-                        Log.e(TAG, "Error creating JSON", e);
-                        return "Error creating JSON";
-                    }
+                    String[] contraction = new String[3];
+                    final int startTimeColumnIndex = data.getColumnIndex(ContractionContract.Contractions
+                            .COLUMN_NAME_START_TIME);
+                    final long startTime = data.getLong(startTimeColumnIndex);
+                    contraction[0] = Long.toString(startTime);
+                    final int endTimeColumnIndex = data.getColumnIndex(ContractionContract.Contractions
+                            .COLUMN_NAME_END_TIME);
+                    if (!data.isNull(endTimeColumnIndex)) {
+                        final long endTime = data.getLong(endTimeColumnIndex);
+                        contraction[1] = Long.toString(endTime);
+                    } else
+                        contraction[1] = "";
+                    final int noteColumnIndex = data.getColumnIndex(ContractionContract.Contractions
+                            .COLUMN_NAME_NOTE);
+                    if (!data.isNull(noteColumnIndex)) {
+                        final String note = data.getString(noteColumnIndex);
+                        contraction[2] = note;
+                    } else
+                        contraction[2] = "";
+                    contractions.add(contraction);
                 }
                 data.close();
             }
@@ -258,17 +252,18 @@ public class Preferences extends PreferenceActivity implements OnSharedPreferenc
             if (path == null)
                 return "Could not access external storage";
             File output = new File(path, CONTRACTIONS_FILE_NAME);
-            BufferedOutputStream os = null;
+            CSVWriter writer = null;
             try {
-                os = new BufferedOutputStream(new FileOutputStream(output));
-                os.write(new JSONArray(contractions).toString().getBytes());
+                writer = new CSVWriter(new FileWriter(output));
+                writer.writeNext(new String[]{"Start Time", "End Time", "Note"});
+                writer.writeAll(contractions);
             } catch (IOException e) {
                 Log.e(TAG, "Error writing contractions", e);
                 return "Error writing contractions";
             } finally {
-                if (os != null)
+                if (writer != null)
                     try {
-                        os.close();
+                        writer.close();
                     } catch (IOException e) {
                         Log.e(TAG, "Error closing output stream", e);
                     }
@@ -295,25 +290,24 @@ public class Preferences extends PreferenceActivity implements OnSharedPreferenc
             File input = new File(path, CONTRACTIONS_FILE_NAME);
             ArrayList<ContentProviderOperation> operations = new ArrayList<ContentProviderOperation>();
             try {
-                Scanner scanner = new Scanner(input);
-                JSONArray contractions = new JSONArray(scanner.useDelimiter("\\A").next());
-                scanner.close();
-                final int size = contractions.length();
+                CSVReader reader = new CSVReader(new FileReader(input), CSVWriter.DEFAULT_SEPARATOR,
+                        CSVWriter.DEFAULT_QUOTE_CHARACTER, 1);
+                List<String[]> contractions = reader.readAll();
+                reader.close();
+                final int size = contractions.size();
                 ContentResolver resolver = getContentResolver();
                 String[] projection = new String[]{BaseColumns._ID};
-                for (int index = 0; index < size; index++) {
-                    JSONObject contraction = contractions.getJSONObject(index);
+                for (String[] contraction : contractions) {
                     ContentValues values = new ContentValues();
-                    final long startTime = contraction.getLong(ContractionContract.Contractions
-                            .COLUMN_NAME_START_TIME);
+                    final long startTime = Long.parseLong(contraction[0]);
                     values.put(ContractionContract.Contractions.COLUMN_NAME_START_TIME,
                             startTime);
-                    if (contraction.has(ContractionContract.Contractions.COLUMN_NAME_END_TIME))
+                    if (!TextUtils.isEmpty(contraction[1]))
                         values.put(ContractionContract.Contractions.COLUMN_NAME_END_TIME,
-                                contraction.getLong(ContractionContract.Contractions.COLUMN_NAME_END_TIME));
-                    if (contraction.has(ContractionContract.Contractions.COLUMN_NAME_NOTE))
+                                Long.parseLong(contraction[1]));
+                    if (!TextUtils.isEmpty(contraction[2]))
                         values.put(ContractionContract.Contractions.COLUMN_NAME_NOTE,
-                                contraction.getString(ContractionContract.Contractions.COLUMN_NAME_NOTE));
+                                contraction[2]);
                     Cursor existingRow = resolver.query(ContractionContract.Contractions.CONTENT_URI,
                             projection, ContractionContract.Contractions.COLUMN_NAME_START_TIME
                                     + "=?", new String[]{Long.toString(startTime)}, null
@@ -334,9 +328,9 @@ public class Preferences extends PreferenceActivity implements OnSharedPreferenc
             } catch (FileNotFoundException e) {
                 Log.e(TAG, "Could not find file", e);
                 return "Could not find " + CONTRACTIONS_FILE_NAME + " in Download folder";
-            } catch (JSONException e) {
-                Log.e(TAG, "Error parsing file", e);
-                return "Error parsing file";
+            } catch (IOException e) {
+                Log.e(TAG, "Error reading file", e);
+                return "Error reading file";
             }
             try {
                 getContentResolver().applyBatch(ContractionContract.AUTHORITY, operations);
