@@ -5,6 +5,8 @@ import android.content.ContentProviderOperation;
 import android.content.ContentResolver;
 import android.content.ContentUris;
 import android.content.ContentValues;
+import android.content.Intent;
+import android.content.IntentSender;
 import android.content.OperationApplicationException;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
@@ -13,7 +15,6 @@ import android.content.pm.ActivityInfo;
 import android.database.Cursor;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Environment;
 import android.os.RemoteException;
 import android.preference.ListPreference;
 import android.preference.PreferenceActivity;
@@ -26,6 +27,17 @@ import android.view.MenuItem;
 import android.widget.AdapterView;
 import android.widget.Toast;
 
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.GooglePlayServicesUtil;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.common.api.ResultCallback;
+import com.google.android.gms.drive.CreateFileActivityBuilder;
+import com.google.android.gms.drive.Drive;
+import com.google.android.gms.drive.DriveApi;
+import com.google.android.gms.drive.DriveFile;
+import com.google.android.gms.drive.DriveId;
+import com.google.android.gms.drive.MetadataChangeSet;
+import com.google.android.gms.drive.OpenFileActivityBuilder;
 import com.ianhanniballake.contractiontimer.BuildConfig;
 import com.ianhanniballake.contractiontimer.R;
 import com.ianhanniballake.contractiontimer.appwidget.AppWidgetUpdateHandler;
@@ -33,11 +45,11 @@ import com.ianhanniballake.contractiontimer.notification.NotificationUpdateServi
 import com.ianhanniballake.contractiontimer.provider.ContractionContract;
 import com.ianhanniballake.contractiontimer.tagmanager.GtmManager;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.FileWriter;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -47,7 +59,8 @@ import au.com.bytecode.opencsv.CSVWriter;
 /**
  * Activity managing the various application preferences
  */
-public class Preferences extends PreferenceActivity implements OnSharedPreferenceChangeListener {
+public class Preferences extends PreferenceActivity implements OnSharedPreferenceChangeListener,
+        GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
     /**
      * Analytics preference name
      */
@@ -81,7 +94,13 @@ public class Preferences extends PreferenceActivity implements OnSharedPreferenc
      */
     public static final String NOTIFICATION_ENABLE_PREFERENCE_KEY = "notification_enable";
     private final static String TAG = Preferences.class.getSimpleName();
-    private static final String CONTRACTIONS_FILE_NAME = "contractions.csv";
+    private static final String CONTRACTIONS_FILE_NAME = "Contractions.csv";
+    private static final int REQUEST_CODE_CONNECT = 1;
+    private static final int REQUEST_CODE_CREATE = 2;
+    private static final int REQUEST_CODE_OPEN = 3;
+    private static final String PENDING_OPERATION_KEY = "PENDING_OPERATION";
+    private static final int PENDING_EXPORT = 1;
+    private static final int PENDING_IMPORT = 2;
     /**
      * Reference to the ListPreference corresponding with the Appwidget background
      */
@@ -90,6 +109,50 @@ public class Preferences extends PreferenceActivity implements OnSharedPreferenc
      * Reference to the ListPreference corresponding with the average time frame
      */
     private ListPreference averageTimeFrameListPreference;
+    private GoogleApiClient mGoogleApiClient;
+    private ConnectionResult mConnectionResult = null;
+    private int mPendingOperation = 0;
+    private ResultCallback<DriveApi.ContentsResult> mCreateFileCallback = new ResultCallback<DriveApi.ContentsResult>() {
+        @Override
+        public void onResult(DriveApi.ContentsResult result) {
+            if (!result.getStatus().isSuccess()) {
+                mPendingOperation = 0;
+                return;
+            }
+            MetadataChangeSet metadataChangeSet = new MetadataChangeSet.Builder()
+                    .setTitle(CONTRACTIONS_FILE_NAME)
+                    .setMimeType("text/csv").build();
+            IntentSender intentSender = Drive.DriveApi
+                    .newCreateFileActivityBuilder()
+                    .setInitialMetadata(metadataChangeSet)
+                    .setInitialContents(result.getContents())
+                    .build(mGoogleApiClient);
+            try {
+                startIntentSenderForResult(intentSender, REQUEST_CODE_CREATE, null, 0, 0, 0);
+            } catch (IntentSender.SendIntentException e) {
+                mPendingOperation = 0;
+            }
+        }
+    };
+    private ResultCallback<DriveApi.ContentsResult> mOpenFileCallback = new ResultCallback<DriveApi.ContentsResult>() {
+        @Override
+        public void onResult(DriveApi.ContentsResult result) {
+            if (!result.getStatus().isSuccess()) {
+                mPendingOperation = 0;
+                return;
+            }
+            IntentSender intentSender = Drive.DriveApi
+                    .newOpenFileActivityBuilder()
+                    .setActivityTitle("Open exported contractions")
+                    .setMimeType(new String[]{"text/csv"})
+                    .build(mGoogleApiClient);
+            try {
+                startIntentSenderForResult(intentSender, REQUEST_CODE_OPEN, null, 0, 0, 0);
+            } catch (IntentSender.SendIntentException e) {
+                mPendingOperation = 0;
+            }
+        }
+    };
 
     @SuppressWarnings("deprecation")
     @Override
@@ -103,6 +166,15 @@ public class Preferences extends PreferenceActivity implements OnSharedPreferenc
                 Preferences.AVERAGE_TIME_FRAME_PREFERENCE_KEY);
         averageTimeFrameListPreference.setSummary(getString(R.string.pref_settings_average_time_frame_summary) + "\n"
                 + averageTimeFrameListPreference.getEntry());
+        mGoogleApiClient = new GoogleApiClient.Builder(this)
+                .addApi(Drive.API)
+                .addScope(Drive.SCOPE_FILE)
+                .addConnectionCallbacks(this)
+                .addOnConnectionFailedListener(this)
+                .build();
+        if (savedInstanceState != null && savedInstanceState.containsKey(PENDING_OPERATION_KEY)) {
+            mPendingOperation = savedInstanceState.getInt(PENDING_OPERATION_KEY);
+        }
     }
 
     @Override
@@ -121,13 +193,21 @@ public class Preferences extends PreferenceActivity implements OnSharedPreferenc
         }
         switch (item.getItemId()) {
             case R.id.menu_export:
-                new ExportContractionsAsyncTask().execute();
+                connectOrStartExport();
                 return true;
             case R.id.menu_import:
-                new ImportContractionsAsyncTask().execute();
+                connectOrStartImport();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
+        }
+    }
+
+    @Override
+    protected void onSaveInstanceState(final Bundle outState) {
+        super.onSaveInstanceState(outState);
+        if (mPendingOperation != 0) {
+            outState.putInt(PENDING_OPERATION_KEY, mPendingOperation);
         }
     }
 
@@ -215,11 +295,86 @@ public class Preferences extends PreferenceActivity implements OnSharedPreferenc
     protected void onStart() {
         super.onStart();
         GtmManager.getInstance(this).pushOpenScreen("Preferences");
+        mGoogleApiClient.connect();
     }
 
-    private class ExportContractionsAsyncTask extends AsyncTask<Void, Void, String> {
+    @Override
+    protected void onActivityResult(final int requestCode, final int resultCode, final Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode != RESULT_OK) {
+            mPendingOperation = 0;
+            return;
+        }
+        DriveId driveId;
+        switch (requestCode) {
+            case REQUEST_CODE_CONNECT:
+                mGoogleApiClient.connect();
+                break;
+            case REQUEST_CODE_CREATE:
+                driveId = data.getParcelableExtra(CreateFileActivityBuilder.EXTRA_RESPONSE_DRIVE_ID);
+                new ExportContractionsAsyncTask().execute(driveId);
+                break;
+            case REQUEST_CODE_OPEN:
+                driveId = data.getParcelableExtra(OpenFileActivityBuilder.EXTRA_RESPONSE_DRIVE_ID);
+                new ImportContractionsAsyncTask().execute(driveId);
+                break;
+        }
+    }
+
+    @Override
+    public void onConnected(final Bundle connectionHint) {
+        if (mPendingOperation == PENDING_EXPORT) {
+            connectOrStartExport();
+        } else if (mPendingOperation == PENDING_IMPORT) {
+            connectOrStartImport();
+        }
+    }
+
+    @Override
+    public void onConnectionSuspended(final int cause) {
+    }
+
+    @Override
+    public void onConnectionFailed(final ConnectionResult result) {
+        mConnectionResult = result;
+    }
+
+    private void connectOrStartExport() {
+        if (mGoogleApiClient.isConnected()) {
+            Drive.DriveApi.newContents(mGoogleApiClient).setResultCallback(mCreateFileCallback);
+        } else {
+            mPendingOperation = PENDING_EXPORT;
+            resolveConnectionFailure();
+        }
+    }
+
+    private void connectOrStartImport() {
+        if (mGoogleApiClient.isConnected()) {
+            Drive.DriveApi.newContents(mGoogleApiClient).setResultCallback(mOpenFileCallback);
+        } else {
+            mPendingOperation = PENDING_IMPORT;
+            resolveConnectionFailure();
+        }
+    }
+
+    private void resolveConnectionFailure() {
+        if (mConnectionResult == null) {
+            Toast.makeText(this, "Error connecting to Google Drive", Toast.LENGTH_LONG).show();
+        } else if (mConnectionResult.hasResolution()) {
+            try {
+                mConnectionResult.startResolutionForResult(this, REQUEST_CODE_CONNECT);
+            } catch (IntentSender.SendIntentException e) {
+                Toast.makeText(this, "Error connecting to Google Drive: " + e.getLocalizedMessage(),
+                        Toast.LENGTH_LONG).show();
+            }
+        } else {
+            GooglePlayServicesUtil.getErrorDialog(mConnectionResult.getErrorCode(), this, 0).show();
+        }
+    }
+
+    private class ExportContractionsAsyncTask extends AsyncTask<DriveId, Void, String> {
         @Override
-        protected String doInBackground(Void... params) {
+        protected String doInBackground(DriveId... params) {
             ArrayList<String[]> contractions = new ArrayList<String[]>();
             Cursor data = getContentResolver().query(ContractionContract.Contractions.CONTENT_URI, null, null, null,
                     null);
@@ -248,56 +403,57 @@ public class Preferences extends PreferenceActivity implements OnSharedPreferenc
                 }
                 data.close();
             }
-            File path = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS);
-            if (path == null)
-                return "Could not access external storage";
-            File output = new File(path, CONTRACTIONS_FILE_NAME);
-            CSVWriter writer = null;
-            try {
-                writer = new CSVWriter(new FileWriter(output));
-                writer.writeNext(new String[]{"Start Time", "End Time", "Note"});
-                writer.writeAll(contractions);
-            } catch (IOException e) {
-                Log.e(TAG, "Error writing contractions", e);
-                return "Error writing contractions";
-            } finally {
-                if (writer != null)
-                    try {
-                        writer.close();
-                    } catch (IOException e) {
-                        Log.e(TAG, "Error closing output stream", e);
-                    }
+            DriveFile file = Drive.DriveApi.getFile(mGoogleApiClient, params[0]);
+            DriveApi.ContentsResult result = file.openContents(mGoogleApiClient, DriveFile.MODE_WRITE_ONLY,
+                    null).await();
+            if (!result.getStatus().isSuccess()) {
+                return "Unable to open file";
             }
+            OutputStream os = result.getContents().getOutputStream();
+            CSVWriter writer = new CSVWriter(new OutputStreamWriter(os));
+            writer.writeNext(new String[]{"Start Time", "End Time", "Note"});
+            writer.writeAll(contractions);
+            try {
+                writer.close();
+            } catch (IOException e) {
+                return "Error closing file";
+            }
+            file.commitAndCloseContents(mGoogleApiClient, result.getContents()).await();
             return null;
         }
 
         @Override
         protected void onPostExecute(String error) {
             if (TextUtils.isEmpty(error))
-                Toast.makeText(Preferences.this, "Export of " + CONTRACTIONS_FILE_NAME +
-                        " to Download folder successful", Toast.LENGTH_LONG).show();
+                Toast.makeText(Preferences.this, "Export of contractions successful", Toast.LENGTH_LONG).show();
             else
                 Toast.makeText(Preferences.this, "Export failed: " + error, Toast.LENGTH_LONG).show();
         }
     }
 
-    private class ImportContractionsAsyncTask extends AsyncTask<Void, Void, String> {
+    private class ImportContractionsAsyncTask extends AsyncTask<DriveId, Void, String> {
         @Override
-        protected String doInBackground(Void... params) {
-            File path = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS);
-            if (path == null)
-                return "Could not access external storage";
-            File input = new File(path, CONTRACTIONS_FILE_NAME);
+        protected String doInBackground(DriveId... params) {
             ArrayList<ContentProviderOperation> operations = new ArrayList<ContentProviderOperation>();
+            DriveFile file = Drive.DriveApi.getFile(mGoogleApiClient, params[0]);
+            DriveApi.ContentsResult result = file.openContents(mGoogleApiClient, DriveFile.MODE_READ_ONLY,
+                    null).await();
+            if (!result.getStatus().isSuccess()) {
+                return "Unable to open file";
+            }
+            InputStream is = result.getContents().getInputStream();
+            CSVReader reader = new CSVReader(new InputStreamReader(is), CSVWriter.DEFAULT_SEPARATOR,
+                    CSVWriter.DEFAULT_QUOTE_CHARACTER, 1);
             try {
-                CSVReader reader = new CSVReader(new FileReader(input), CSVWriter.DEFAULT_SEPARATOR,
-                        CSVWriter.DEFAULT_QUOTE_CHARACTER, 1);
                 List<String[]> contractions = reader.readAll();
                 reader.close();
-                final int size = contractions.size();
+                file.commitAndCloseContents(mGoogleApiClient, result.getContents());
                 ContentResolver resolver = getContentResolver();
                 String[] projection = new String[]{BaseColumns._ID};
                 for (String[] contraction : contractions) {
+                    if (contraction.length != 3) {
+                        throw new IllegalArgumentException();
+                    }
                     ContentValues values = new ContentValues();
                     final long startTime = Long.parseLong(contraction[0]);
                     values.put(ContractionContract.Contractions.COLUMN_NAME_START_TIME,
@@ -325,12 +481,15 @@ public class Preferences extends PreferenceActivity implements OnSharedPreferenc
                                 (ContractionContract.Contractions.CONTENT_ID_URI_BASE,
                                         existingRowId)).withValues(values).build());
                 }
-            } catch (FileNotFoundException e) {
-                Log.e(TAG, "Could not find file", e);
-                return "Could not find " + CONTRACTIONS_FILE_NAME + " in Download folder";
             } catch (IOException e) {
                 Log.e(TAG, "Error reading file", e);
                 return "Error reading file";
+            } catch (NumberFormatException e) {
+                Log.e(TAG, "Invalid file format", e);
+                return "Invalid file format";
+            } catch (IllegalArgumentException e) {
+                Log.e(TAG, "Invalid file format", e);
+                return "Invalid file format";
             }
             try {
                 getContentResolver().applyBatch(ContractionContract.AUTHORITY, operations);
