@@ -78,3 +78,6 @@ public Thread handleSilentException(java.lang.Throwable);
 -keepnames class * implements android.os.Parcelable {
     public static final ** CREATOR;
 }
+
+# Keep for OpenCSV
+-dontwarn java.beans.**
