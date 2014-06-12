@@ -239,7 +239,9 @@ public class Preferences extends PreferenceActivity implements OnSharedPreferenc
     @SuppressWarnings("deprecation")
     @Override
     public boolean onPreferenceTreeClick(final PreferenceScreen preferenceScreen, final Preference preference) {
-        if (TextUtils.equals(preference.getKey(), "about")) {
+        if (TextUtils.equals(preference.getKey(), "license")) {
+            GtmManager.getInstance(this).pushEvent("License");
+        } else if (TextUtils.equals(preference.getKey(), "about")) {
             GtmManager.getInstance(this).pushEvent("About");
         }
         return false;

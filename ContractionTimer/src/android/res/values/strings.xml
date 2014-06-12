@@ -5,6 +5,7 @@
     <string name="add_activity_name">Add Contraction</string>
     <string name="edit_activity_name">Edit Contraction</string>
     <string name="donate_activity_name">Donate</string>
+    <string name="license_activity_name">Open Source Licenses</string>
     <string name="about_activity_name">About</string>
     <string name="menu_reset">Reset</string>
     <string name="reset_dialog_title">Reset Confirmation</string>
@@ -105,6 +106,7 @@
     <string name="pref_privacy_analytics_title">Send Usage Statistics</string>
     <string name="pref_privacy_analytics_summary">Help make Contraction Timer better by sending anonymous data to Google Analytics</string>
     <string name="pref_about_category">About</string>
+    <string name="pref_about_open_source_licenses">Open source licenses</string>
     <string name="pref_about_about_contraction_timer">About Contraction Timer</string>
 
 </resources>

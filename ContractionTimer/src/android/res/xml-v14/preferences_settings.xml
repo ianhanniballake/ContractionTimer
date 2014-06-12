@@ -57,6 +57,13 @@
     </PreferenceCategory>
     <PreferenceCategory android:title="@string/pref_about_category">
         <Preference
+            android:key="license"
+            android:title="@string/pref_about_open_source_licenses">
+            <intent
+                android:targetClass="com.ianhanniballake.contractiontimer.ui.LicenseActivity"
+                android:targetPackage="com.ianhanniballake.contractiontimer"/>
+        </Preference>
+        <Preference
             android:key="about"
             android:title="@string/pref_about_about_contraction_timer">
             <intent
