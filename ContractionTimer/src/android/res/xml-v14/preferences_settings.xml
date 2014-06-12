@@ -55,5 +55,14 @@
             android:summary="@string/pref_privacy_analytics_summary"
             android:title="@string/pref_privacy_analytics_title"/>
     </PreferenceCategory>
+    <PreferenceCategory android:title="@string/pref_about_category">
+        <Preference
+            android:key="about"
+            android:title="@string/pref_about_about_contraction_timer">
+            <intent
+                android:targetClass="com.ianhanniballake.contractiontimer.ui.AboutActivity"
+                android:targetPackage="com.ianhanniballake.contractiontimer"/>
+        </Preference>
+    </PreferenceCategory>
 
 </PreferenceScreen>

@@ -17,8 +17,10 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.RemoteException;
 import android.preference.ListPreference;
+import android.preference.Preference;
 import android.preference.PreferenceActivity;
 import android.preference.PreferenceManager;
+import android.preference.PreferenceScreen;
 import android.provider.BaseColumns;
 import android.text.TextUtils;
 import android.util.Log;
@@ -232,6 +234,15 @@ public class Preferences extends PreferenceActivity implements OnSharedPreferenc
             setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         else
             setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR);
+    }
+
+    @SuppressWarnings("deprecation")
+    @Override
+    public boolean onPreferenceTreeClick(final PreferenceScreen preferenceScreen, final Preference preference) {
+        if (TextUtils.equals(preference.getKey(), "about")) {
+            GtmManager.getInstance(this).pushEvent("About");
+        }
+        return false;
     }
 
     @Override

@@ -57,7 +57,7 @@ public class MainActivity extends ActionBarActivity implements LoaderManager.Loa
             "com.ianhanniballake.contractiontimer.LaunchedFromNotificationActionNote";
     private final static String TAG = MainActivity.class.getSimpleName();
     /**
-     * BroadcastReceiver listening for ABOUT_CLOSE_ACTION, NOTE_CLOSE_ACTION, and RESET_CLOSE_ACTION actions
+     * BroadcastReceiver listening for NOTE_CLOSE_ACTION and RESET_CLOSE_ACTION actions
      */
     private final BroadcastReceiver dialogFragmentClosedBroadcastReceiver = new BroadcastReceiver() {
         @Override
@@ -190,16 +190,6 @@ public class MainActivity extends ActionBarActivity implements LoaderManager.Loa
             case R.id.menu_settings:
                 startActivity(new Intent(this, Preferences.class));
                 return true;
-            case R.id.menu_about:
-                if (BuildConfig.DEBUG)
-                    Log.d(TAG, "Menu selected About");
-                gtmManager.pushEvent("About");
-                final AboutDialogFragment aboutDialogFragment = new AboutDialogFragment();
-                if (BuildConfig.DEBUG)
-                    Log.d(TAG, "Showing Dialog");
-                gtmManager.pushOpenScreen("About");
-                aboutDialogFragment.show(getSupportFragmentManager(), "about");
-                return true;
             case R.id.menu_donate:
                 if (BuildConfig.DEBUG)
                     Log.d(TAG, "Menu selected Donate");
@@ -296,7 +286,6 @@ public class MainActivity extends ActionBarActivity implements LoaderManager.Loa
         }
         final LocalBroadcastManager localBroadcastManager = LocalBroadcastManager.getInstance(this);
         final IntentFilter dialogCloseFilter = new IntentFilter();
-        dialogCloseFilter.addAction(AboutDialogFragment.ABOUT_CLOSE_ACTION);
         dialogCloseFilter.addAction(NoteDialogFragment.NOTE_CLOSE_ACTION);
         dialogCloseFilter.addAction(ResetDialogFragment.RESET_CLOSE_ACTION);
         localBroadcastManager.registerReceiver(dialogFragmentClosedBroadcastReceiver, dialogCloseFilter);

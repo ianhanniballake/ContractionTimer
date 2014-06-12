@@ -30,6 +30,17 @@
         <item name="actionModeCloseButtonStyle">@style/ActionButton.CloseMode.Appcompat</item>
     </style>
 
+    <style name="Theme.Appcompat.DialogWhenLarge" parent="@style/Theme.AppCompat.Light.DialogWhenLarge">
+        <item name="actionBarItemBackground">@drawable/selectable_background_appcompat</item>
+        <item name="popupMenuStyle">@style/PopupMenu.Appcompat</item>
+        <item name="dropDownListViewStyle">@style/DropDownListView.Appcompat</item>
+        <item name="actionDropDownStyle">@style/DropDownNav.Appcompat</item>
+        <item name="actionBarStyle">@style/ActionBar.Solid.Appcompat</item>
+        <item name="actionModeBackground">@drawable/cab_background_top_appcompat</item>
+        <item name="actionModeSplitBackground">@drawable/cab_background_bottom_appcompat</item>
+        <item name="actionModeCloseButtonStyle">@style/ActionButton.CloseMode.Appcompat</item>
+    </style>
+
     <style name="ActionBar.Solid.Appcompat" parent="@style/Widget.AppCompat.Light.ActionBar.Solid">
         <item name="background">@drawable/ab_solid_appcompat</item>
         <item name="backgroundStacked">@drawable/ab_stacked_solid_appcompat</item>

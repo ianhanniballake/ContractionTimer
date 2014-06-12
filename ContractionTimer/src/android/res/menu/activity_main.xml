@@ -24,10 +24,6 @@
         android:title="@string/menu_settings"
         app:showAsAction="never"/>
     <item
-        android:id="@+id/menu_about"
-        android:title="@string/menu_about"
-        app:showAsAction="never"/>
-    <item
         android:id="@+id/menu_donate"
         android:title="@string/menu_donate"
         app:showAsAction="never"/>

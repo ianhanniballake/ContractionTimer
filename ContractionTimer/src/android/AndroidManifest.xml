@@ -84,6 +84,15 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".ui.MainActivity"/>
         </activity>
+        <activity
+            android:name=".ui.AboutActivity"
+            android:label="@string/about_activity_name"
+            android:parentActivityName=".ui.Preferences"
+            android:theme="@style/AppTheme.DialogWhenLarge">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".ui.Preferences"/>
+        </activity>
 
         <activity
             android:name=".notification.NoteNoDisplayActivity"
