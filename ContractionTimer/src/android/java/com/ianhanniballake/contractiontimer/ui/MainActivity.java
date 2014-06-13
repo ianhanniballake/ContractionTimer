@@ -21,7 +21,6 @@ import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.widget.CursorAdapter;
 import android.support.v7.app.ActionBarActivity;
 import android.text.TextUtils;
-import android.text.format.DateFormat;
 import android.text.format.DateUtils;
 import android.util.Log;
 import android.view.Menu;
@@ -72,30 +71,6 @@ public class MainActivity extends ActionBarActivity implements LoaderManager.Loa
      */
     private CursorAdapter adapter;
 
-    /**
-     * Builds a string representing a user friendly formatting of the average duration / frequency information
-     *
-     * @return The formatted average data
-     */
-    private String getAverageData() {
-        final TextView averageDurationView = (TextView) findViewById(R.id.average_duration);
-        final TextView averageFrequencyView = (TextView) findViewById(R.id.average_frequency);
-        final Cursor data = adapter.getCursor();
-        data.moveToLast();
-        final int startTimeColumnIndex = data.getColumnIndex(ContractionContract.Contractions.COLUMN_NAME_START_TIME);
-        final long lastStartTime = data.getLong(startTimeColumnIndex);
-        final int count = adapter.getCount();
-        final CharSequence relativeTimeSpan = DateUtils.getRelativeTimeSpanString(lastStartTime,
-                System.currentTimeMillis(), 0);
-        return getResources()
-                .getQuantityString(
-                        R.plurals.share_average,
-                        count,
-                        new Object[]{relativeTimeSpan, count, averageDurationView.getText(),
-                                averageFrequencyView.getText()}
-                );
-    }
-
     @Override
     public void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -139,17 +114,20 @@ public class MainActivity extends ActionBarActivity implements LoaderManager.Loa
     @Override
     public boolean onCreateOptionsMenu(final Menu menu) {
         getMenuInflater().inflate(R.menu.activity_main, menu);
+        getMenuInflater().inflate(R.menu.activity_main_reset, menu);
         return super.onCreateOptionsMenu(menu);
     }
 
     @Override
     public void onLoaderReset(final Loader<Cursor> loader) {
         adapter.swapCursor(null);
+        supportInvalidateOptionsMenu();
     }
 
     @Override
     public void onLoadFinished(final Loader<Cursor> loader, final Cursor data) {
         adapter.swapCursor(data);
+        supportInvalidateOptionsMenu();
     }
 
     @Override
@@ -157,15 +135,11 @@ public class MainActivity extends ActionBarActivity implements LoaderManager.Loa
         GtmManager gtmManager = GtmManager.getInstance(this);
         gtmManager.push(DataLayer.mapOf("menu", "Menu", "count", adapter.getCount()));
         switch (item.getItemId()) {
-            case R.id.menu_reset:
+            case R.id.menu_share:
                 if (BuildConfig.DEBUG)
-                    Log.d(TAG, "Menu selected Reset");
-                gtmManager.pushEvent("Reset");
-                final ResetDialogFragment resetDialogFragment = new ResetDialogFragment();
-                if (BuildConfig.DEBUG)
-                    Log.d(TAG, "Showing Dialog");
-                gtmManager.pushOpenScreen("Reset");
-                resetDialogFragment.show(getSupportFragmentManager(), "reset");
+                    Log.d(TAG, "Menu selected Share");
+                gtmManager.pushEvent("Share");
+                shareContractions();
                 return true;
             case R.id.menu_add:
                 if (BuildConfig.DEBUG)
@@ -175,17 +149,15 @@ public class MainActivity extends ActionBarActivity implements LoaderManager.Loa
                         .setPackage(getPackageName());
                 startActivity(addIntent);
                 return true;
-            case R.id.menu_share_averages:
+            case R.id.menu_reset:
                 if (BuildConfig.DEBUG)
-                    Log.d(TAG, "Menu selected Share Averages");
-                gtmManager.pushEvent("Share", DataLayer.mapOf("type", "Averages"));
-                shareAverages();
-                return true;
-            case R.id.menu_share_all:
+                    Log.d(TAG, "Menu selected Reset");
+                gtmManager.pushEvent("Reset");
+                final ResetDialogFragment resetDialogFragment = new ResetDialogFragment();
                 if (BuildConfig.DEBUG)
-                    Log.d(TAG, "Menu selected Share All");
-                gtmManager.pushEvent("Share", DataLayer.mapOf("type", "All"));
-                shareAll();
+                    Log.d(TAG, "Showing Dialog");
+                gtmManager.pushOpenScreen("Reset");
+                resetDialogFragment.show(getSupportFragmentManager(), "reset");
                 return true;
             case R.id.menu_settings:
                 startActivity(new Intent(this, Preferences.class));
@@ -204,13 +176,12 @@ public class MainActivity extends ActionBarActivity implements LoaderManager.Loa
     @Override
     public boolean onPrepareOptionsMenu(final Menu menu) {
         super.onPrepareOptionsMenu(menu);
-        // Set sharing buttons status
         final int contractionCount = adapter == null ? 0 : adapter.getCount();
-        final boolean enableShare = contractionCount > 0;
-        final MenuItem shareAverages = menu.findItem(R.id.menu_share_averages);
-        shareAverages.setEnabled(enableShare);
-        final MenuItem shareAll = menu.findItem(R.id.menu_share_all);
-        shareAll.setEnabled(enableShare);
+        final boolean hasContractions = contractionCount > 0;
+        final MenuItem share = menu.findItem(R.id.menu_share);
+        share.setEnabled(hasContractions);
+        final MenuItem reset = menu.findItem(R.id.menu_reset);
+        reset.setEnabled(hasContractions);
         return true;
     }
 
@@ -299,74 +270,28 @@ public class MainActivity extends ActionBarActivity implements LoaderManager.Loa
     }
 
     /**
-     * Builds the data to share and opens the Intent chooser
-     */
-    private void shareAll() {
-        final Cursor data = adapter.getCursor();
-        if (data.getCount() == 0)
-            return;
-        final StringBuilder formattedData = new StringBuilder(getAverageData());
-        formattedData.append("\n\n");
-        formattedData.append(getText(R.string.share_details_header));
-        formattedData.append(":\n\n");
-        data.moveToPosition(-1);
-        while (data.moveToNext()) {
-            String timeFormat = "hh:mm:ssa";
-            if (DateFormat.is24HourFormat(this))
-                timeFormat = "HH:mm:ss";
-            final int startTimeColumnIndex = data
-                    .getColumnIndex(ContractionContract.Contractions.COLUMN_NAME_START_TIME);
-            final long startTime = data.getLong(startTimeColumnIndex);
-            final CharSequence formattedStartTime = DateFormat.format(timeFormat, startTime);
-            final int endTimeColumnIndex = data.getColumnIndex(ContractionContract.Contractions.COLUMN_NAME_END_TIME);
-            if (data.isNull(endTimeColumnIndex)) {
-                final String detailTimeOngoingFormat = getString(R.string.share_detail_time_ongoing);
-                formattedData.append(String.format(detailTimeOngoingFormat, formattedStartTime));
-            } else {
-                final String detailTimeFormat = getString(R.string.share_detail_time_finished);
-                final long endTime = data.getLong(endTimeColumnIndex);
-                final CharSequence formattedEndTime = DateFormat.format(timeFormat, endTime);
-                final long durationInSeconds = (endTime - startTime) / 1000;
-                final CharSequence formattedDuration = DateUtils.formatElapsedTime(durationInSeconds);
-                formattedData.append(String.format(detailTimeFormat, formattedStartTime, formattedEndTime,
-                        formattedDuration));
-            }
-            // If we aren't the last entry, move to the next (previous in time)
-            // contraction to get its start time to compute the frequency
-            if (!data.isLast() && data.moveToNext()) {
-                final String detailFrequencyFormat = getString(R.string.share_detail_frequency);
-                final int prevContractionStartTimeColumnIndex = data
-                        .getColumnIndex(ContractionContract.Contractions.COLUMN_NAME_START_TIME);
-                final long prevContractionStartTime = data.getLong(prevContractionStartTimeColumnIndex);
-                final long frequencyInSeconds = (startTime - prevContractionStartTime) / 1000;
-                final CharSequence formattedFrequency = DateUtils.formatElapsedTime(frequencyInSeconds);
-                formattedData.append(" ");
-                formattedData.append(String.format(detailFrequencyFormat, formattedFrequency));
-                // Go back to the previous spot
-                data.moveToPrevious();
-            }
-            final int noteColumnIndex = data.getColumnIndex(ContractionContract.Contractions.COLUMN_NAME_NOTE);
-            final String note = data.getString(noteColumnIndex);
-            if (!TextUtils.isEmpty(note)) {
-                formattedData.append(": ");
-                formattedData.append(note);
-            }
-            formattedData.append("\n");
-        }
-        ShareCompat.IntentBuilder.from(this).setSubject(getText(R.string.share_subject).toString())
-                .setType("text/plain").setText(formattedData.toString())
-                .setChooserTitle(R.string.share_pick_application).startChooser();
-    }
-
-    /**
      * Builds the averages data to share and opens the Intent chooser
      */
-    private void shareAverages() {
+    private void shareContractions() {
         final Cursor data = adapter.getCursor();
         if (data.getCount() == 0)
             return;
-        final String formattedData = getAverageData();
-        ShareCompat.IntentBuilder.from(this).setSubject(getText(R.string.share_subject).toString())
+        final TextView averageDurationView = (TextView) findViewById(R.id.average_duration);
+        final TextView averageFrequencyView = (TextView) findViewById(R.id.average_frequency);
+        data.moveToLast();
+        final int startTimeColumnIndex = data.getColumnIndex(ContractionContract.Contractions.COLUMN_NAME_START_TIME);
+        final long lastStartTime = data.getLong(startTimeColumnIndex);
+        final int count = adapter.getCount();
+        final CharSequence relativeTimeSpan = DateUtils.getRelativeTimeSpanString(lastStartTime,
+                System.currentTimeMillis(), 0);
+        final String formattedData = getResources().getQuantityString(
+                R.plurals.share_average,
+                count,
+                relativeTimeSpan,
+                count,
+                averageDurationView.getText(),
+                averageFrequencyView.getText());
+        ShareCompat.IntentBuilder.from(this).setSubject(getString(R.string.share_subject))
                 .setType("text/plain").setText(formattedData).setChooserTitle(R.string.share_pick_application)
                 .startChooser();
     }

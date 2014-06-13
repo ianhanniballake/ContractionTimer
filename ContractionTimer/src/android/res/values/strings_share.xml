@@ -6,10 +6,6 @@
         <item quantity="other">Since %1$s, I\'ve had %2$d contractions, with an average duration of %3$s and average frequency of %4$s.</item>
     </plurals>
 
-    <string name="share_details_header">My contraction details</string>
-    <string name="share_detail_time_ongoing">%1$s and still going</string>
-    <string name="share_detail_time_finished">%1$s to %2$s, lasted %3$s</string>
-    <string name="share_detail_frequency">with frequency of %1$s</string>
     <string name="share_subject">My Contractions</string>
 
 </resources>

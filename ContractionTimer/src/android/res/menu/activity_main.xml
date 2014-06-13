@@ -3,28 +3,22 @@
       xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
-        android:id="@+id/menu_reset"
-        android:icon="@drawable/ic_action_trash"
-        android:title="@string/menu_reset"
+        android:id="@+id/menu_share"
+        android:icon="@drawable/ic_action_share"
+        android:title="@string/menu_share"
         app:showAsAction="ifRoom|withText"/>
-    <item
-        android:id="@+id/menu_share_averages"
-        android:title="@string/menu_share_averages"
-        app:showAsAction="never"/>
-    <item
-        android:id="@+id/menu_share_all"
-        android:title="@string/menu_share_all"
-        app:showAsAction="never"/>
     <item
         android:id="@+id/menu_add"
         android:title="@string/menu_add"
         app:showAsAction="never"/>
     <item
         android:id="@+id/menu_settings"
+        android:menuCategory="secondary"
         android:title="@string/menu_settings"
         app:showAsAction="never"/>
     <item
         android:id="@+id/menu_donate"
+        android:menuCategory="secondary"
         android:title="@string/menu_donate"
         app:showAsAction="never"/>
 
