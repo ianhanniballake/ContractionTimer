@@ -50,7 +50,7 @@ android {
 
     signingConfigs {
         releaseConfig {
-            storeFile file(System.getenv("KEYSTORE"))
+            storeFile System.getenv("KEYSTORE") != null ? file(System.getenv("KEYSTORE")) : null
             storePassword System.getenv("KEYSTORE_PASSWORD")
             keyAlias System.getenv("CONTRACTION_TIMER_ALIAS")
             keyPassword System.getenv("CONTRACTION_TIMER_PASSWORD")
