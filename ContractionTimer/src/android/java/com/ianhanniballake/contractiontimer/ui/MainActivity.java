@@ -179,7 +179,7 @@ public class MainActivity extends ActionBarActivity implements LoaderManager.Loa
         final int contractionCount = adapter == null ? 0 : adapter.getCount();
         final boolean hasContractions = contractionCount > 0;
         final MenuItem share = menu.findItem(R.id.menu_share);
-        share.setEnabled(hasContractions);
+        share.setVisible(hasContractions);
         final MenuItem reset = menu.findItem(R.id.menu_reset);
         reset.setEnabled(hasContractions);
         return true;
