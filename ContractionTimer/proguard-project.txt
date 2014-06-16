@@ -41,15 +41,13 @@
 }
 
 # keep this otherwise it is removed by ProGuard
--keep public class org.acra.ErrorReporter
-{
-public void addCustomData(java.lang.String,java.lang.String);
+-keep public class org.acra.ErrorReporter {
+    public void addCustomData(java.lang.String,java.lang.String);
 }
 
 # keep this otherwise it is removed by ProGuard
--keep public class org.acra.ErrorReporter
-{
-public Thread handleSilentException(java.lang.Throwable);
+-keep public class org.acra.ErrorReporter {
+    public Thread handleSilentException(java.lang.Throwable);
 }
 
 # keep for Google Analytics
@@ -80,4 +78,4 @@ public Thread handleSilentException(java.lang.Throwable);
 }
 
 # Keep for OpenCSV
--dontwarn java.beans.**
+-dontwarn java.beans.**;

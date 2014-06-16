@@ -143,7 +143,7 @@ public class DonateActivity extends ActionBarActivity {
                 gtmManager.pushEvent("Error", DataLayer.mapOf("message", "Purchase invalid data fields"));
                 return;
             }
-            Purchase purchase = null;
+            Purchase purchase;
             try {
                 purchase = new Purchase(ITEM_TYPE_INAPP, purchaseData, dataSignature);
                 final String sku = purchase.getSku();
@@ -536,7 +536,6 @@ public class DonateActivity extends ActionBarActivity {
                             DataLayer.mapOf("message", "Purchases invalid data"));
                     return -1;
                 }
-                final ArrayList<String> ownedSkus = ownedItems.getStringArrayList(RESPONSE_INAPP_ITEM_LIST);
                 final ArrayList<String> purchaseDataList = ownedItems
                         .getStringArrayList(RESPONSE_INAPP_PURCHASE_DATA_LIST);
                 final ArrayList<String> signatureList = ownedItems.getStringArrayList(RESPONSE_INAPP_SIGNATURE_LIST);
