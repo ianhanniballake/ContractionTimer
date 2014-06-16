@@ -114,7 +114,6 @@ public class MainActivity extends ActionBarActivity implements LoaderManager.Loa
     @Override
     public boolean onCreateOptionsMenu(final Menu menu) {
         getMenuInflater().inflate(R.menu.activity_main, menu);
-        getMenuInflater().inflate(R.menu.activity_main_reset, menu);
         return super.onCreateOptionsMenu(menu);
     }
 
@@ -149,16 +148,6 @@ public class MainActivity extends ActionBarActivity implements LoaderManager.Loa
                         .setPackage(getPackageName());
                 startActivity(addIntent);
                 return true;
-            case R.id.menu_reset:
-                if (BuildConfig.DEBUG)
-                    Log.d(TAG, "Menu selected Reset");
-                gtmManager.pushEvent("Reset");
-                final ResetDialogFragment resetDialogFragment = new ResetDialogFragment();
-                if (BuildConfig.DEBUG)
-                    Log.d(TAG, "Showing Dialog");
-                gtmManager.pushOpenScreen("Reset");
-                resetDialogFragment.show(getSupportFragmentManager(), "reset");
-                return true;
             case R.id.menu_settings:
                 startActivity(new Intent(this, Preferences.class));
                 return true;
@@ -180,8 +169,6 @@ public class MainActivity extends ActionBarActivity implements LoaderManager.Loa
         final boolean hasContractions = contractionCount > 0;
         final MenuItem share = menu.findItem(R.id.menu_share);
         share.setVisible(hasContractions);
-        final MenuItem reset = menu.findItem(R.id.menu_reset);
-        reset.setEnabled(hasContractions);
         return true;
     }
 
@@ -313,6 +300,7 @@ public class MainActivity extends ActionBarActivity implements LoaderManager.Loa
         ft.replace(R.id.controls, controlsFragment);
         ft.replace(R.id.list, listFragment);
         ft.replace(R.id.averages, averageFragment);
+        ft.add(new ResetMenuControllerFragment(), "reset_menu");
         ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
         ft.commit();
     }
