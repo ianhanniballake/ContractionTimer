@@ -15,14 +15,14 @@
         <item>light</item>
         <item>dark</item>
     </string-array>
-    <string-array name="pref_settings_average_time_frame_entries">
+    <string-array name="pref_average_time_frame_entries">
         <item>Last 30 minutes</item>
         <item>Last hour</item>
         <item>Last 2 hours</item>
         <item>Last 24 hours</item>
         <item>All Contractions</item>
     </string-array>
-    <string-array name="pref_settings_average_time_frame_entryvalues">
+    <string-array name="pref_average_time_frame_entryvalues">
         <item>1800000</item>
         <!-- 30 minutes in milliseconds -->
         <item>3600000</item>

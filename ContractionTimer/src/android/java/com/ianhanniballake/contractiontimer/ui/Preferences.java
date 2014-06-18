@@ -166,7 +166,7 @@ public class Preferences extends PreferenceActivity implements OnSharedPreferenc
         appwidgetBackgroundListPreference.setSummary(appwidgetBackgroundListPreference.getEntry());
         averageTimeFrameListPreference = (ListPreference) getPreferenceScreen().findPreference(
                 Preferences.AVERAGE_TIME_FRAME_PREFERENCE_KEY);
-        averageTimeFrameListPreference.setSummary(getString(R.string.pref_settings_average_time_frame_summary) + "\n"
+        averageTimeFrameListPreference.setSummary(getString(R.string.pref_average_time_frame_summary) + "\n"
                 + averageTimeFrameListPreference.getEntry());
         mGoogleApiClient = new GoogleApiClient.Builder(this)
                 .addApi(Drive.API)
@@ -227,7 +227,7 @@ public class Preferences extends PreferenceActivity implements OnSharedPreferenc
         getPreferenceScreen().getSharedPreferences().registerOnSharedPreferenceChangeListener(this);
         final SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
         final boolean isLockPortrait = preferences.getBoolean(Preferences.LOCK_PORTRAIT_PREFERENCE_KEY, getResources()
-                .getBoolean(R.bool.pref_settings_lock_portrait_default));
+                .getBoolean(R.bool.pref_lock_portrait_default));
         if (BuildConfig.DEBUG)
             Log.d(TAG, "Lock Portrait: " + isLockPortrait);
         if (isLockPortrait)
@@ -252,13 +252,13 @@ public class Preferences extends PreferenceActivity implements OnSharedPreferenc
         GtmManager gtmManager = GtmManager.getInstance(this);
         if (key.equals(Preferences.KEEP_SCREEN_ON_PREFERENCE_KEY)) {
             final boolean newIsKeepScreenOn = sharedPreferences.getBoolean(Preferences.KEEP_SCREEN_ON_PREFERENCE_KEY,
-                    getResources().getBoolean(R.bool.pref_settings_keep_screen_on_default));
+                    getResources().getBoolean(R.bool.pref_keep_screen_on_default));
             if (BuildConfig.DEBUG)
                 Log.d(TAG, "Keep Screen On: " + newIsKeepScreenOn);
             gtmManager.pushPreferenceChanged("Keep Screen On", newIsKeepScreenOn);
         } else if (key.equals(Preferences.LOCK_PORTRAIT_PREFERENCE_KEY)) {
             final boolean newIsLockPortrait = sharedPreferences.getBoolean(Preferences.LOCK_PORTRAIT_PREFERENCE_KEY,
-                    getResources().getBoolean(R.bool.pref_settings_lock_portrait_default));
+                    getResources().getBoolean(R.bool.pref_lock_portrait_default));
             if (BuildConfig.DEBUG)
                 Log.d(TAG, "Lock Portrait: " + newIsLockPortrait);
             gtmManager.pushPreferenceChanged("Lock Portrait", newIsLockPortrait);
@@ -289,13 +289,13 @@ public class Preferences extends PreferenceActivity implements OnSharedPreferenc
             editor.putBoolean(Preferences.AVERAGE_TIME_FRAME_CHANGED_MAIN_PREFERENCE_KEY, true);
             editor.putBoolean(Preferences.AVERAGE_TIME_FRAME_CHANGED_FRAGMENT_PREFERENCE_KEY, true);
             editor.commit();
-            averageTimeFrameListPreference.setSummary(getString(R.string.pref_settings_average_time_frame_summary)
+            averageTimeFrameListPreference.setSummary(getString(R.string.pref_average_time_frame_summary)
                     + "\n" + averageTimeFrameListPreference.getEntry());
             AppWidgetUpdateHandler.createInstance().updateAllWidgets(this);
             NotificationUpdateService.updateNotification(this);
         } else if (key.equals(Preferences.ANALYTICS_PREFERENCE_KEY)) {
             final boolean newCollectAnalytics = sharedPreferences.getBoolean(Preferences.ANALYTICS_PREFERENCE_KEY,
-                    getResources().getBoolean(R.bool.pref_privacy_analytics_default));
+                    getResources().getBoolean(R.bool.pref_analytics_default));
             if (BuildConfig.DEBUG)
                 Log.d(TAG, "Analytics: " + newCollectAnalytics);
             gtmManager.pushPreferenceChanged("Analytics", newCollectAnalytics);

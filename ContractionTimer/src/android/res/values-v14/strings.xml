@@ -3,10 +3,10 @@
 
     <string name="pref_switch_text_on">ON</string>
     <string name="pref_switch_text_off">OFF</string>
-    <string name="pref_settings_keep_screen_on_summary_on">Screen will stay on when on the main contraction screen</string>
-    <string name="pref_settings_keep_screen_on_summary_off">Screen will time out per the system settings</string>
-    <string name="pref_settings_lock_portrait_summary_on">Screen is locked in portrait orientation when on any screen</string>
-    <string name="pref_settings_lock_portrait_summary_off">Screen will rotate per the system settings</string>
+    <string name="pref_keep_screen_on_summary_on">Screen will stay on when on the main contraction screen</string>
+    <string name="pref_keep_screen_on_summary_off">Screen will time out per the system settings</string>
+    <string name="pref_lock_portrait_summary_on">Screen is locked in portrait orientation when on any screen</string>
+    <string name="pref_lock_portrait_summary_off">Screen will rotate per the system settings</string>
     <string name="pref_notification_enable_summary_on">Show a notification when timing contractions</string>
     <string name="pref_notification_enable_summary_off">Never show a notification</string>
 

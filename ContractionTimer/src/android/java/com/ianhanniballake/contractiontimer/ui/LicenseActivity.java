@@ -54,7 +54,7 @@ public class LicenseActivity extends ActionBarActivity {
         super.onResume();
         final SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
         final boolean isLockPortrait = preferences.getBoolean(Preferences.LOCK_PORTRAIT_PREFERENCE_KEY, getResources()
-                .getBoolean(R.bool.pref_settings_lock_portrait_default));
+                .getBoolean(R.bool.pref_lock_portrait_default));
         if (BuildConfig.DEBUG)
             Log.d(TAG, "Lock Portrait: " + isLockPortrait);
         if (isLockPortrait)

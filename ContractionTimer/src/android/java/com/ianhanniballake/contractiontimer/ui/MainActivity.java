@@ -105,7 +105,7 @@ public class MainActivity extends ActionBarActivity implements LoaderManager.Loa
         final SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
         final long averagesTimeFrame = Long.parseLong(preferences.getString(
                 Preferences.AVERAGE_TIME_FRAME_PREFERENCE_KEY,
-                getString(R.string.pref_settings_average_time_frame_default)));
+                getString(R.string.pref_average_time_frame_default)));
         final long timeCutoff = System.currentTimeMillis() - averagesTimeFrame;
         final String[] selectionArgs = {Long.toString(timeCutoff)};
         return new CursorLoader(this, getIntent().getData(), projection, selection, selectionArgs, null);
@@ -177,7 +177,7 @@ public class MainActivity extends ActionBarActivity implements LoaderManager.Loa
         super.onResume();
         final SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
         final boolean isKeepScreenOn = preferences.getBoolean(Preferences.KEEP_SCREEN_ON_PREFERENCE_KEY, getResources()
-                .getBoolean(R.bool.pref_settings_keep_screen_on_default));
+                .getBoolean(R.bool.pref_keep_screen_on_default));
         if (BuildConfig.DEBUG)
             Log.d(TAG, "Keep Screen On: " + isKeepScreenOn);
         if (isKeepScreenOn)
@@ -185,7 +185,7 @@ public class MainActivity extends ActionBarActivity implements LoaderManager.Loa
         else
             getWindow().clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         final boolean isLockPortrait = preferences.getBoolean(Preferences.LOCK_PORTRAIT_PREFERENCE_KEY, getResources()
-                .getBoolean(R.bool.pref_settings_lock_portrait_default));
+                .getBoolean(R.bool.pref_lock_portrait_default));
         if (BuildConfig.DEBUG)
             Log.d(TAG, "Lock Portrait: " + isLockPortrait);
         if (isLockPortrait)

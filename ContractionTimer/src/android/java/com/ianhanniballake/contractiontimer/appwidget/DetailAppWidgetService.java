@@ -67,7 +67,7 @@ public class DetailAppWidgetService extends IntentService {
         final SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
         final long averagesTimeFrame = Long.parseLong(preferences.getString(
                 Preferences.AVERAGE_TIME_FRAME_PREFERENCE_KEY,
-                getString(R.string.pref_settings_average_time_frame_default)));
+                getString(R.string.pref_average_time_frame_default)));
         final long timeCutoff = System.currentTimeMillis() - averagesTimeFrame;
         final String[] selectionArgs = {Long.toString(timeCutoff)};
         final Cursor data = getContentResolver().query(ContractionContract.Contractions.CONTENT_URI, projection,

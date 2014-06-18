@@ -36,7 +36,7 @@ public class ContractionAverageFragment extends Fragment implements LoaderManage
         final SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
         final long averagesTimeFrame = Long.parseLong(preferences.getString(
                 Preferences.AVERAGE_TIME_FRAME_PREFERENCE_KEY,
-                getString(R.string.pref_settings_average_time_frame_default)));
+                getString(R.string.pref_average_time_frame_default)));
         final long timeCutoff = System.currentTimeMillis() - averagesTimeFrame;
         final String[] selectionArgs = {Long.toString(timeCutoff)};
         return new CursorLoader(getActivity(), getActivity().getIntent().getData(), projection, selection,

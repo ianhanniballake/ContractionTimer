@@ -1,61 +1,53 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <PreferenceCategory android:title="@string/pref_settings_category">
-        <CheckBoxPreference
-            android:defaultValue="@bool/pref_settings_keep_screen_on_default"
-            android:key="keepScreenOn"
-            android:summary="@string/pref_settings_keep_screen_on_summary"
-            android:title="@string/pref_settings_keep_screen_on_title"/>
-        <CheckBoxPreference
-            android:defaultValue="@bool/pref_settings_lock_portrait_default"
-            android:key="lock_portrait"
-            android:summary="@string/pref_settings_lock_portrait_summary"
-            android:title="@string/pref_settings_lock_portrait_title"/>
+    <CheckBoxPreference
+        android:defaultValue="@bool/pref_keep_screen_on_default"
+        android:key="keepScreenOn"
+        android:summary="@string/pref_keep_screen_on_summary"
+        android:title="@string/pref_keep_screen_on_title"/>
+    <CheckBoxPreference
+        android:defaultValue="@bool/pref_lock_portrait_default"
+        android:key="lock_portrait"
+        android:summary="@string/pref_lock_portrait_summary"
+        android:title="@string/pref_lock_portrait_title"/>
 
-        <ListPreference
-            android:defaultValue="@string/pref_settings_average_time_frame_default"
-            android:dialogTitle="@string/pref_settings_average_time_frame_dialog_title"
-            android:entries="@array/pref_settings_average_time_frame_entries"
-            android:entryValues="@array/pref_settings_average_time_frame_entryvalues"
-            android:key="average_time_frame"
-            android:title="@string/pref_settings_average_time_frame_title"/>
-    </PreferenceCategory>
-    <PreferenceCategory android:title="@string/pref_appwidget_category">
-        <ListPreference
-            android:defaultValue="@string/pref_appwidget_background_default"
-            android:dialogTitle="@string/pref_appwidget_background_dialog_title"
-            android:entries="@array/pref_appwidget_background_entries"
-            android:entryValues="@array/pref_appwidget_background_entryvalues"
-            android:key="appwidget_background"
-            android:title="@string/pref_appwidget_background_title"/>
-    </PreferenceCategory>
-    <PreferenceCategory android:title="@string/pref_notification_category">
+    <ListPreference
+        android:defaultValue="@string/pref_average_time_frame_default"
+        android:dialogTitle="@string/pref_average_time_frame_dialog_title"
+        android:entries="@array/pref_average_time_frame_entries"
+        android:entryValues="@array/pref_average_time_frame_entryvalues"
+        android:key="average_time_frame"
+        android:title="@string/pref_average_time_frame_title"/>
+    <ListPreference
+        android:defaultValue="@string/pref_appwidget_background_default"
+        android:dialogTitle="@string/pref_appwidget_background_dialog_title"
+        android:entries="@array/pref_appwidget_background_entries"
+        android:entryValues="@array/pref_appwidget_background_entryvalues"
+        android:key="appwidget_background"
+        android:title="@string/pref_appwidget_background_title"/>
+    <CheckBoxPreference
+        android:defaultValue="@bool/pref_notification_enable_default"
+        android:key="notification_enable"
+        android:summary="@string/pref_notification_enable_summary"
+        android:title="@string/pref_notification_enable_title"/>
+    <PreferenceCategory android:title="@string/pref_other_category">
         <CheckBoxPreference
-            android:defaultValue="@bool/pref_notification_enable_default"
-            android:key="notification_enable"
-            android:summary="@string/pref_notification_enable_summary"
-            android:title="@string/pref_notification_enable_title"/>
-    </PreferenceCategory>
-    <PreferenceCategory android:title="@string/pref_privacy_category">
-        <CheckBoxPreference
-            android:defaultValue="@bool/pref_privacy_analytics_default"
+            android:defaultValue="@bool/pref_analytics_default"
             android:key="analytics"
-            android:summary="@string/pref_privacy_analytics_summary"
-            android:title="@string/pref_privacy_analytics_title"/>
-    </PreferenceCategory>
-    <PreferenceCategory android:title="@string/pref_about_category">
+            android:summary="@string/pref_analytics_summary"
+            android:title="@string/pref_analytics_title"/>
         <Preference
             android:key="license"
-            android:title="@string/pref_about_open_source_licenses">
-            <intent
+            android:title="@string/pref_open_source_licenses">
+        <intent
                 android:targetClass="com.ianhanniballake.contractiontimer.ui.LicenseActivity"
                 android:targetPackage="com.ianhanniballake.contractiontimer"/>
         </Preference>
         <Preference
             android:key="about"
-            android:title="@string/pref_about_about_contraction_timer">
-            <intent
+            android:title="@string/pref_about_contraction_timer">
+        <intent
                 android:targetClass="com.ianhanniballake.contractiontimer.ui.AboutActivity"
                 android:targetPackage="com.ianhanniballake.contractiontimer"/>
         </Preference>
