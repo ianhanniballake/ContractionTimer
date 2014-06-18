@@ -9,7 +9,7 @@
     <string name="about_activity_name">About</string>
     <string name="menu_reset">Reset</string>
     <string name="reset_dialog_title">Delete all contractions?</string>
-    <string name="reset_dialog_message">This will remove all contractions</string>
+    <string name="reset_dialog_message">This will remove all contractions and any notes attached to them</string>
     <string name="reset_dialog_confirm">Yes</string>
     <string name="reset_dialog_cancel">Cancel</string>
     <string name="menu_add">Add contraction</string>

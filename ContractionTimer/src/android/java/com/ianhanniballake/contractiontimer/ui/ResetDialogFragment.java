@@ -46,7 +46,10 @@ public class ResetDialogFragment extends DialogFragment {
         };
         final GtmManager gtmManager = GtmManager.getInstance(this);
         gtmManager.push("type", DataLayer.OBJECT_NOT_PRESENT);
-        return new AlertDialog.Builder(getActivity()).setTitle(R.string.reset_dialog_title).setView(layout)
+        return new AlertDialog.Builder(getActivity())
+                .setIcon(R.drawable.ic_dialing_alert)
+                .setTitle(R.string.reset_dialog_title)
+                .setView(layout)
                 .setInverseBackgroundForced(true)
                 .setPositiveButton(R.string.reset_dialog_confirm, new OnClickListener() {
                     @Override
