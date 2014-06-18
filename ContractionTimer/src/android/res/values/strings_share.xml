@@ -6,6 +6,6 @@
         <item quantity="other">Since %1$s, I\'ve had %2$d contractions, with an average duration of %3$s and average frequency of %4$s.</item>
     </plurals>
 
-    <string name="share_subject">My Contractions</string>
+    <string name="share_subject">My contractions</string>
 
 </resources>
