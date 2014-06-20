@@ -6,5 +6,6 @@
     <color name="error_background">#F78181</color>
     <color name="detail_appwidget_background_dark">#FF444444</color>
     <color name="detail_appwidget_background_light">#FFCCCCCC</color>
+    <color name="dim_background">#DD000000</color>
 
 </resources>

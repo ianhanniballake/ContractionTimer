@@ -77,6 +77,14 @@
                 android:value=".ui.MainActivity"/>
         </activity>
         <activity
+            android:name=".data.ExportActivity"
+            android:label="@string/export_activity_name"
+            android:theme="@style/AppTheme.Drive"/>
+        <activity
+            android:name=".data.ImportActivity"
+            android:label="@string/import_activity_name"
+            android:theme="@style/AppTheme.Drive"/>
+        <activity
             android:name=".ui.DonateActivity"
             android:label="@string/donate_activity_name"
             android:parentActivityName=".ui.MainActivity">

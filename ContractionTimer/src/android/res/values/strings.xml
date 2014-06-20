@@ -5,6 +5,8 @@
     <string name="add_activity_name">Add contraction</string>
     <string name="edit_activity_name">Edit contraction</string>
     <string name="donate_activity_name">Donate</string>
+    <string name="export_activity_name">Export</string>
+    <string name="import_activity_name">Import</string>
     <string name="license_activity_name">Open source licenses</string>
     <string name="about_activity_name">About</string>
     <string name="menu_reset">Reset</string>
@@ -83,8 +85,6 @@
     <string name="detail_appwidget_label">Contraction details</string>
     <string name="duration_ongoing">Timing</string>
     <string name="settings">Settings</string>
-    <string name="menu_export">Export contractions</string>
-    <string name="menu_import">Import contractions</string>
     <string name="pref_keep_screen_on_summary">Keep the screen on when on the main contraction screen</string>
     <string name="pref_keep_screen_on_title">Keep screen on</string>
     <string name="pref_lock_portrait_summary">Locks the screen in portrait orientation, preventing all screens from rotating</string>
@@ -98,9 +98,14 @@
     <string name="pref_appwidget_background_default">light</string>
     <string name="pref_notification_enable_title">Enable notification</string>
     <string name="pref_notification_enable_summary">Show a notification when timing contractions</string>
+    <string name="pref_export_import_category">Google Drive</string>
+    <string name="pref_export_title">Export contractions…</string>
+    <string name="pref_export_summary">Export as a CSV file</string>
+    <string name="pref_import_title">Import contractions…</string>
+    <string name="pref_import_summary">Import from CSV file</string>
+    <string name="pref_other_category">Other</string>
     <string name="pref_analytics_title">Send usage statistics</string>
     <string name="pref_analytics_summary">Help make Contraction Timer better by sending anonymous data to Google Analytics</string>
-    <string name="pref_other_category">Other</string>
     <string name="pref_open_source_licenses">Open source licenses</string>
     <string name="pref_about_contraction_timer">About Contraction Timer</string>
 

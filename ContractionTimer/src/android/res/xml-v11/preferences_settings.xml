@@ -31,6 +31,24 @@
         android:key="notification_enable"
         android:summary="@string/pref_notification_enable_summary"
         android:title="@string/pref_notification_enable_title"/>
+    <PreferenceCategory android:title="@string/pref_export_import_category">
+        <Preference
+            android:key="export"
+            android:summary="@string/pref_export_summary"
+            android:title="@string/pref_export_title">
+            <intent
+                android:targetClass="com.ianhanniballake.contractiontimer.data.ExportActivity"
+                android:targetPackage="com.ianhanniballake.contractiontimer"/>
+        </Preference>
+        <Preference
+            android:key="import"
+            android:summary="@string/pref_import_summary"
+            android:title="@string/pref_import_title">
+            <intent
+                android:targetClass="com.ianhanniballake.contractiontimer.data.ImportActivity"
+                android:targetPackage="com.ianhanniballake.contractiontimer"/>
+        </Preference>
+    </PreferenceCategory>
     <PreferenceCategory android:title="@string/pref_other_category">
         <CheckBoxPreference
             android:defaultValue="@bool/pref_analytics_default"
@@ -40,14 +58,14 @@
         <Preference
             android:key="license"
             android:title="@string/pref_open_source_licenses">
-        <intent
+            <intent
                 android:targetClass="com.ianhanniballake.contractiontimer.ui.LicenseActivity"
                 android:targetPackage="com.ianhanniballake.contractiontimer"/>
         </Preference>
         <Preference
             android:key="about"
             android:title="@string/pref_about_contraction_timer">
-        <intent
+            <intent
                 android:targetClass="com.ianhanniballake.contractiontimer.ui.AboutActivity"
                 android:targetPackage="com.ianhanniballake.contractiontimer"/>
         </Preference>

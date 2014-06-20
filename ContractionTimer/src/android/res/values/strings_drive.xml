@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="drive_error_generic_connect">Unknown error connecting to Google Drive</string>
+    <string name="drive_error_connect">Error connecting to Google Drive: %s</string>
+    <string name="drive_default_filename">Contractions</string>
+    <string name="drive_export_successful">Export of contractions successful</string>
+    <string name="drive_error_export">Error writing contractions to file</string>
+    <string name="drive_open_file_title">Open exported contractions</string>
+    <string name="drive_error_open_file">Unable to open file</string>
+    <string name="drive_error_reading_file">Error while reading file</string>
+    <string name="drive_error_invalid_file_format">Invalid file format</string>
+    <string name="drive_error_saving_contractions">Error saving contractions</string>
+    <string name="drive_import_successful">Import successful</string>
+    <string name="drive_error_import">Import failed: %s</string>
+</resources>

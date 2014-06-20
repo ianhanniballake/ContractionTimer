@@ -22,4 +22,8 @@
     <style name="AppTheme.DialogWhenLarge" parent="@style/Theme.Appcompat.DialogWhenLarge">
     </style>
 
+    <style name="AppTheme.Drive" parent="android:Theme.Translucent.NoTitleBar">
+        <item name="android:windowBackground">@color/dim_background</item>
+    </style>
+
 </resources>

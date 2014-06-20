@@ -11,7 +11,6 @@
         android:key="lock_portrait"
         android:summary="@string/pref_lock_portrait_summary"
         android:title="@string/pref_lock_portrait_title"/>
-
     <ListPreference
         android:defaultValue="@string/pref_average_time_frame_default"
         android:dialogTitle="@string/pref_average_time_frame_dialog_title"
@@ -26,12 +25,27 @@
         android:entryValues="@array/pref_appwidget_background_entryvalues"
         android:key="appwidget_background"
         android:title="@string/pref_appwidget_background_title"/>
-
     <CheckBoxPreference
         android:defaultValue="@bool/pref_notification_enable_default"
         android:key="notification_enable"
         android:summary="@string/pref_notification_enable_summary"
         android:title="@string/pref_notification_enable_title"/>
+    <Preference
+        android:key="export"
+        android:summary="@string/pref_export_summary"
+        android:title="@string/pref_export_title">
+        <intent
+            android:targetClass="com.ianhanniballake.contractiontimer.data.ExportActivity"
+            android:targetPackage="com.ianhanniballake.contractiontimer"/>
+    </Preference>
+    <Preference
+        android:key="import"
+        android:summary="@string/pref_import_summary"
+        android:title="@string/pref_import_title">
+        <intent
+            android:targetClass="com.ianhanniballake.contractiontimer.data.ImportActivity"
+            android:targetPackage="com.ianhanniballake.contractiontimer"/>
+    </Preference>
     <CheckBoxPreference
         android:defaultValue="@bool/pref_analytics_default"
         android:key="analytics"
