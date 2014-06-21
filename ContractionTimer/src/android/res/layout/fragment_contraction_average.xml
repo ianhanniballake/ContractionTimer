@@ -1,41 +1,49 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:layout_width="match_parent"
-              android:layout_height="wrap_content"
-              android:background="@color/average_background"
-              android:orientation="horizontal"
-              android:paddingBottom="5dp"
-              android:paddingLeft="@dimen/outer_padding"
-              android:paddingTop="5dp">
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+             android:layout_width="match_parent"
+             android:layout_height="wrap_content"
+             android:animateLayoutChanges="true">
 
-    <TextView
-        android:layout_width="0dp"
-        android:layout_height="match_parent"
-        android:layout_weight="1"
-        android:text="@string/contraction_average"
-        android:textAppearance="?android:attr/textAppearanceLarge"/>
+    <LinearLayout
+        android:id="@+id/average_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/average_background"
+        android:orientation="horizontal"
+        android:paddingBottom="5dp"
+        android:paddingLeft="@dimen/outer_padding"
+        android:paddingTop="5dp"
+        android:visibility="gone">
 
-    <TextView
-        android:id="@+id/average_duration"
-        android:layout_width="0dp"
-        android:layout_height="match_parent"
-        android:layout_weight="1"
-        android:gravity="center_horizontal"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:textIsSelectable="true"/>
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="@string/contraction_average"
+            android:textAppearance="?android:attr/textAppearanceLarge"/>
 
-    <TextView
-        android:id="@+id/average_frequency"
-        android:layout_width="0dp"
-        android:layout_height="match_parent"
-        android:layout_weight="1"
-        android:gravity="center_horizontal"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:textIsSelectable="true"/>
+        <TextView
+            android:id="@+id/average_duration"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center_horizontal"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:textIsSelectable="true"/>
 
-    <android.support.v7.widget.Space
-        android:layout_width="48dp"
-        android:layout_height="match_parent"
-        android:focusable="false"/>
+        <TextView
+            android:id="@+id/average_frequency"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center_horizontal"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:textIsSelectable="true"/>
 
-</LinearLayout>
+        <android.support.v7.widget.Space
+            android:layout_width="48dp"
+            android:layout_height="match_parent"
+            android:focusable="false"/>
+
+    </LinearLayout>
+</FrameLayout>

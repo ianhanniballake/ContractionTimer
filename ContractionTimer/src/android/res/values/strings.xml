@@ -48,9 +48,8 @@
 
     <string name="contraction_start">Start contraction</string>
     <string name="contraction_end">Stop contraction</string>
-    <string name="list_loading">Loading contractions…</string>
     <string name="list_item_loading">Loading</string>
-    <string name="list_empty"></string>
+    <string name="list_empty">Breathe</string>
     <string name="detail_start_time_label">Start time</string>
     <string name="detail_end_time_label">End time</string>
     <string name="detail_duration_label">Duration</string>

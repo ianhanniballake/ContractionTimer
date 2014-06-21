@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <color name="empty_list_text_color">#DDDDDD</color>
     <color name="pagerstrip_background">#84BF70</color>
     <color name="average_background">#84BF70</color>
     <color name="error_background">#F78181</color>

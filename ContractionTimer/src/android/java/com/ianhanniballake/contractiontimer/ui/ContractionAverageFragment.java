@@ -53,8 +53,10 @@ public class ContractionAverageFragment extends Fragment implements LoaderManage
         final View view = getView();
         if (view == null)
             return;
+        final View averageLayout = view.findViewById(R.id.average_layout);
         final TextView averageDurationView = (TextView) view.findViewById(R.id.average_duration);
         final TextView averageFrequencyView = (TextView) view.findViewById(R.id.average_frequency);
+        averageLayout.setVisibility(View.GONE);
         averageDurationView.setText("");
         averageFrequencyView.setText("");
     }
@@ -64,9 +66,11 @@ public class ContractionAverageFragment extends Fragment implements LoaderManage
         final View view = getView();
         if (view == null)
             return;
+        final View averageLayout = view.findViewById(R.id.average_layout);
         final TextView averageDurationView = (TextView) view.findViewById(R.id.average_duration);
         final TextView averageFrequencyView = (TextView) view.findViewById(R.id.average_frequency);
         if (data == null || !data.moveToFirst()) {
+            averageLayout.setVisibility(View.GONE);
             averageDurationView.setText("");
             averageFrequencyView.setText("");
             return;
@@ -95,6 +99,7 @@ public class ContractionAverageFragment extends Fragment implements LoaderManage
                 numFrequencies++;
             }
         }
+        averageLayout.setVisibility(View.VISIBLE);
         final long averageDurationInSeconds = (long) (averageDuration / 1000);
         averageDurationView.setText(DateUtils.formatElapsedTime(averageDurationInSeconds));
         final long averageFrequencyInSeconds = (long) (averageFrequency / 1000);

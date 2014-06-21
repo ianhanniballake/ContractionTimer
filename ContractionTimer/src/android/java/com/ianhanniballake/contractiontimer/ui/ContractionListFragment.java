@@ -31,6 +31,7 @@ import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.ViewAnimator;
 
 import com.google.android.gms.tagmanager.DataLayer;
 import com.ianhanniballake.contractiontimer.BuildConfig;
@@ -102,6 +103,10 @@ public abstract class ContractionListFragment extends ListFragment implements Lo
         }
     };
     /**
+     * Column headers view
+     */
+    private ViewGroup mColumnHeaders;
+    /**
      * Adapter to display the list's data
      */
     private CursorAdapter adapter;
@@ -138,7 +143,6 @@ public abstract class ContractionListFragment extends ListFragment implements Lo
     @Override
     public void onActivityCreated(final Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        setEmptyText(getText(R.string.list_loading));
         final ListView listView = getListView();
         headerView = getLayoutInflater(savedInstanceState).inflate(R.layout.list_header, listView, false);
         final FrameLayout headerFrame = new FrameLayout(getActivity());
@@ -210,12 +214,15 @@ public abstract class ContractionListFragment extends ListFragment implements Lo
 
     @Override
     public View onCreateView(final LayoutInflater inflater, final ViewGroup container, final Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_contraction_list, container, false);
+        View view = inflater.inflate(R.layout.fragment_contraction_list, container, false);
+        mColumnHeaders = (ViewGroup) view.findViewById(R.id.list_column_headers);
+        return view;
     }
 
     @Override
     public void onLoaderReset(final Loader<Cursor> loader) {
         liveDurationHandler.removeCallbacks(liveDurationUpdate);
+        mColumnHeaders.setVisibility(View.GONE);
         adapter.swapCursor(null);
     }
 
@@ -224,9 +231,11 @@ public abstract class ContractionListFragment extends ListFragment implements Lo
         liveDurationHandler.removeCallbacks(liveDurationUpdate);
         timeSinceLastHandler.removeCallbacks(timeSinceLastUpdate);
         adapter.swapCursor(data);
-        if (data == null || data.getCount() == 0)
-            setEmptyText(getText(R.string.list_empty));
-        else {
+        if (data == null || data.getCount() == 0) {
+            mColumnHeaders.setVisibility(View.GONE);
+            showEmptyView();
+        } else {
+            mColumnHeaders.setVisibility(View.VISIBLE);
             getListView().setSelection(0);
             data.moveToFirst();
             final int endTimeColumnIndex = data.getColumnIndex(ContractionContract.Contractions.COLUMN_NAME_END_TIME);
@@ -269,15 +278,14 @@ public abstract class ContractionListFragment extends ListFragment implements Lo
         }
     }
 
-    @Override
-    public void setEmptyText(final CharSequence text) {
+    public void showEmptyView() {
         final ListView listView = getListView();
         if (listView == null)
             return;
-        final TextView emptyText = (TextView) listView.getEmptyView();
-        if (emptyText == null)
+        final ViewAnimator emptyView = (ViewAnimator) listView.getEmptyView();
+        if (emptyView == null)
             return;
-        emptyText.setText(text);
+        emptyView.setDisplayedChild(1);
     }
 
     /**

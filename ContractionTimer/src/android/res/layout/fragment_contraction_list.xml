@@ -2,16 +2,19 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:layout_width="match_parent"
               android:layout_height="match_parent"
+              android:animateLayoutChanges="true"
               android:orientation="vertical">
 
     <LinearLayout
+        android:id="@+id/list_column_headers"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:paddingBottom="5dp"
         android:paddingLeft="@dimen/outer_padding"
         android:paddingRight="@dimen/outer_padding"
-        android:paddingTop="5dp">
+        android:paddingTop="5dp"
+        android:visibility="gone">
 
         <TextView
             android:layout_width="0dp"
@@ -51,12 +54,29 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"/>
 
-        <TextView
+        <ViewAnimator
             android:id="@id/android:empty"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:gravity="top|center_horizontal"
-            android:text="@string/list_loading"/>
+            android:inAnimation="@android:anim/fade_in"
+            android:outAnimation="@android:anim/fade_out">
+
+            <ProgressBar
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:indeterminate="true"/>
+
+            <TextView
+                android:id="@+id/empty_text"
+                style="@style/TextAppearance.AppTheme.EmptyList"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:drawableTop="@drawable/ic_list_empty"
+                android:gravity="center"
+                android:text="@string/list_empty"/>
+        </ViewAnimator>
     </LinearLayout>
 
 </LinearLayout>
