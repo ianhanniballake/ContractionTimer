@@ -16,4 +16,8 @@
         <item name="switchPreferenceStyle">@style/Preference.SwitchPreference</item>
     </style>
 
+    <style name="AppTheme.SelectedItem">
+        <item name="android:background">?android:attr/activatedBackgroundIndicator</item>
+    </style>
+
 </resources>
