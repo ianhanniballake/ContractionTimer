@@ -78,4 +78,4 @@
 }
 
 # Keep for OpenCSV
--dontwarn java.beans.**;
+-dontwarn java.beans.**
