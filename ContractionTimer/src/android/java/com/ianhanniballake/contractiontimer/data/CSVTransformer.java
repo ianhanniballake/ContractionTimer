@@ -20,7 +20,9 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
+import java.text.DateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import au.com.bytecode.opencsv.CSVReader;
@@ -36,25 +38,29 @@ public class CSVTransformer {
                 null);
         if (data != null) {
             while (data.moveToNext()) {
-                String[] contraction = new String[3];
+                String[] contraction = new String[5];
                 final int startTimeColumnIndex = data.getColumnIndex(ContractionContract.Contractions
                         .COLUMN_NAME_START_TIME);
                 final long startTime = data.getLong(startTimeColumnIndex);
                 contraction[0] = Long.toString(startTime);
+                contraction[1] = DateFormat.getDateTimeInstance().format(new Date(startTime));
                 final int endTimeColumnIndex = data.getColumnIndex(ContractionContract.Contractions
                         .COLUMN_NAME_END_TIME);
                 if (!data.isNull(endTimeColumnIndex)) {
                     final long endTime = data.getLong(endTimeColumnIndex);
-                    contraction[1] = Long.toString(endTime);
-                } else
-                    contraction[1] = "";
+                    contraction[2] = Long.toString(endTime);
+                    contraction[3] = DateFormat.getDateTimeInstance().format(new Date(endTime));
+                } else {
+                    contraction[2] = "";
+                    contraction[3] = "";
+                }
                 final int noteColumnIndex = data.getColumnIndex(ContractionContract.Contractions
                         .COLUMN_NAME_NOTE);
                 if (!data.isNull(noteColumnIndex)) {
                     final String note = data.getString(noteColumnIndex);
-                    contraction[2] = note;
+                    contraction[4] = note;
                 } else
-                    contraction[2] = "";
+                    contraction[4] = "";
                 contractions.add(contraction);
             }
             data.close();
@@ -62,7 +68,9 @@ public class CSVTransformer {
         CSVWriter writer = new CSVWriter(new OutputStreamWriter(outputStream));
         writer.writeNext(new String[]{
                 context.getString(R.string.detail_start_time_label),
+                context.getString(R.string.detail_start_time_formatted_label),
                 context.getString(R.string.detail_end_time_label),
+                context.getString(R.string.detail_end_time_formatted_label),
                 context.getString(R.string.detail_note_label)});
         writer.writeAll(contractions);
         writer.close();
@@ -78,19 +86,19 @@ public class CSVTransformer {
         ContentResolver resolver = context.getContentResolver();
         String[] projection = new String[]{BaseColumns._ID};
         for (String[] contraction : contractions) {
-            if (contraction.length != 3) {
+            if (contraction.length != 5) {
                 throw new IllegalArgumentException();
             }
             ContentValues values = new ContentValues();
             final long startTime = Long.parseLong(contraction[0]);
             values.put(ContractionContract.Contractions.COLUMN_NAME_START_TIME,
                     startTime);
-            if (!TextUtils.isEmpty(contraction[1]))
-                values.put(ContractionContract.Contractions.COLUMN_NAME_END_TIME,
-                        Long.parseLong(contraction[1]));
             if (!TextUtils.isEmpty(contraction[2]))
+                values.put(ContractionContract.Contractions.COLUMN_NAME_END_TIME,
+                        Long.parseLong(contraction[2]));
+            if (!TextUtils.isEmpty(contraction[4]))
                 values.put(ContractionContract.Contractions.COLUMN_NAME_NOTE,
-                        contraction[2]);
+                        contraction[4]);
             Cursor existingRow = resolver.query(ContractionContract.Contractions.CONTENT_URI,
                     projection, ContractionContract.Contractions.COLUMN_NAME_START_TIME
                             + "=?", new String[]{Long.toString(startTime)}, null

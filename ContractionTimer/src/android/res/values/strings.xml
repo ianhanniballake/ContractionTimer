@@ -52,6 +52,8 @@
     <string name="list_empty">Breathe</string>
     <string name="detail_start_time_label">Start time</string>
     <string name="detail_end_time_label">End time</string>
+    <string name="detail_start_time_formatted_label">Start time (formatted)</string>
+    <string name="detail_end_time_formatted_label">End time (formatted)</string>
     <string name="detail_duration_label">Duration</string>
     <string name="detail_note_label">Note</string>
     <string name="detail_previous_page">&lt; Previous</string>
