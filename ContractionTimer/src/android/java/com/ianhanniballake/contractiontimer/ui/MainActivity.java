@@ -8,6 +8,8 @@ import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.content.pm.ActivityInfo;
 import android.database.Cursor;
+import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -16,6 +18,7 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.app.ShareCompat;
 import android.support.v4.content.CursorLoader;
+import android.support.v4.content.FileProvider;
 import android.support.v4.content.Loader;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.widget.CursorAdapter;
@@ -27,14 +30,20 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.view.WindowManager;
 import android.widget.TextView;
 
 import com.google.android.gms.tagmanager.DataLayer;
 import com.ianhanniballake.contractiontimer.BuildConfig;
 import com.ianhanniballake.contractiontimer.R;
+import com.ianhanniballake.contractiontimer.data.CSVTransformer;
 import com.ianhanniballake.contractiontimer.provider.ContractionContract;
 import com.ianhanniballake.contractiontimer.tagmanager.GtmManager;
+
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 
 /**
  * Main Activity for managing contractions
@@ -74,6 +83,7 @@ public class MainActivity extends ActionBarActivity implements LoaderManager.Loa
     @Override
     public void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        supportRequestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
         final Intent intent = getIntent();
         // If there is no data associated with the Intent, sets the data to the
         // default URI, which accesses all contractions.
@@ -278,9 +288,41 @@ public class MainActivity extends ActionBarActivity implements LoaderManager.Loa
                 count,
                 averageDurationView.getText(),
                 averageFrequencyView.getText());
-        ShareCompat.IntentBuilder.from(this).setSubject(getString(R.string.share_subject))
-                .setType("text/plain").setText(formattedData).setChooserTitle(R.string.share_pick_application)
-                .startChooser();
+        new AsyncTask<Void, Void, Uri>() {
+            @Override
+            protected void onPreExecute() {
+                setSupportProgressBarIndeterminateVisibility(true);
+            }
+
+            @Override
+            protected Uri doInBackground(final Void... params) {
+                File exportPath = new File(getFilesDir(), "export");
+                if (!exportPath.mkdirs() && !exportPath.isDirectory()) {
+                    Log.e(TAG, "Error creating export directory");
+                    return null;
+                }
+                File file = new File(exportPath, getString(R.string.drive_default_filename) + ".csv");
+                try {
+                    FileOutputStream fileOutputStream = new FileOutputStream(file);
+                    CSVTransformer.writeContractions(MainActivity.this, fileOutputStream);
+                    return FileProvider.getUriForFile(MainActivity.this, BuildConfig.FILES_AUTHORITY, file);
+                } catch (IOException e) {
+                    Log.e(TAG, "Error writing contractions to file", e);
+                    return null;
+                }
+            }
+
+            @Override
+            protected void onPostExecute(final Uri uri) {
+                setSupportProgressBarIndeterminateVisibility(false);
+                ShareCompat.IntentBuilder intentBuilder = ShareCompat.IntentBuilder.from(MainActivity.this)
+                        .setSubject(getString(R.string.share_subject)).setType("text/plain").setText(formattedData);
+                if (uri != null) {
+                    intentBuilder.addStream(uri);
+                }
+                intentBuilder.setChooserTitle(R.string.share_pick_application).startChooser();
+            }
+        }.execute();
     }
 
     /**

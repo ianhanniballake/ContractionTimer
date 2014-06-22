@@ -32,6 +32,10 @@ android {
             targetSdkVersion 19
             versionCode versionMajor * 10000000 + versionMinor * 100000 + versionPatch * 1000 + versionBuild
             versionName "${versionMajor}.${versionMinor}.${versionPatch}"
+
+            def filesAuthorityValue = "com.ianhanniballake.contractiontimer.files"
+            manifestPlaceholders = [filesAuthority: filesAuthorityValue]
+            buildConfigField "String", "FILES_AUTHORITY", "\"${filesAuthorityValue}\""
         }
 
         glass {
