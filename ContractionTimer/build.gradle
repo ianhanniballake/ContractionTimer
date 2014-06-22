@@ -26,12 +26,15 @@ android {
             def versionMinor = 0
             def versionPatch = 0
             def versionBuild = 0
+            def betaVersion = 2
 
             compileSdkVersion 19
             minSdkVersion 9
             targetSdkVersion 19
             versionCode versionMajor * 10000000 + versionMinor * 100000 + versionPatch * 1000 + versionBuild
-            versionName "${versionMajor}.${versionMinor}.${versionPatch}"
+            versionName "${versionMajor}.${versionMinor}" +
+                    (versionPatch > 0 ? ".${versionPatch}" : "") +
+                    (betaVersion > 0 ? ", Beta ${betaVersion}" : "")
 
             def filesAuthorityValue = "com.ianhanniballake.contractiontimer.files"
             manifestPlaceholders = [filesAuthority: filesAuthorityValue]

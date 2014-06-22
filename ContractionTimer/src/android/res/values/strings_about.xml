@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <string name="version">Version %s</string>
     <string name="description">Contraction Timer allows you to track the start and stop of your contractions and automatically calculates their duration and frequency.</string>
     <string name="project">For issues or more information:</string>
     <string name="project_link">http://dft.ba/-ContractionTimer</string>

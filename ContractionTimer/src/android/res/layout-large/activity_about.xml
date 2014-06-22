@@ -5,9 +5,16 @@
                 android:padding="@dimen/outer_padding">
 
     <TextView
+        android:id="@+id/version"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+    <TextView
         android:id="@+id/description"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_below="@id/version"
+        android:paddingTop="20dp"
         android:text="@string/description"/>
 
     <TextView
