@@ -61,8 +61,19 @@ public class ContractionControlsFragment extends Fragment implements LoaderManag
     @Override
     public void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        contractionQueryHandler = new AsyncQueryHandler(getActivity().getContentResolver()) {
-            // No call backs needed
+        final Context context = getActivity();
+        contractionQueryHandler = new AsyncQueryHandler(context.getContentResolver()) {
+            @Override
+            protected void onInsertComplete(final int token, final Object cookie, final Uri uri) {
+                AppWidgetUpdateHandler.createInstance().updateAllWidgets(context);
+                NotificationUpdateService.updateNotification(context);
+            }
+
+            @Override
+            protected void onUpdateComplete(final int token, final Object cookie, final int result) {
+                AppWidgetUpdateHandler.createInstance().updateAllWidgets(context);
+                NotificationUpdateService.updateNotification(context);
+            }
         };
     }
 
@@ -130,7 +141,5 @@ public class ContractionControlsFragment extends Fragment implements LoaderManag
         final boolean contractionOngoing = data != null && data.moveToFirst()
                 && data.isNull(data.getColumnIndex(ContractionContract.Contractions.COLUMN_NAME_END_TIME));
         toggleContraction.setChecked(contractionOngoing);
-        AppWidgetUpdateHandler.createInstance().updateAllWidgets(getActivity());
-        NotificationUpdateService.updateNotification(getActivity());
     }
 }

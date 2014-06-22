@@ -3,6 +3,7 @@ package com.ianhanniballake.contractiontimer.ui;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.AsyncQueryHandler;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
 import android.content.Intent;
@@ -16,6 +17,8 @@ import android.view.View;
 import com.google.android.gms.tagmanager.DataLayer;
 import com.ianhanniballake.contractiontimer.BuildConfig;
 import com.ianhanniballake.contractiontimer.R;
+import com.ianhanniballake.contractiontimer.appwidget.AppWidgetUpdateHandler;
+import com.ianhanniballake.contractiontimer.notification.NotificationUpdateService;
 import com.ianhanniballake.contractiontimer.provider.ContractionContract;
 import com.ianhanniballake.contractiontimer.tagmanager.GtmManager;
 
@@ -41,8 +44,13 @@ public class ResetDialogFragment extends DialogFragment {
     public Dialog onCreateDialog(final Bundle savedInstanceState) {
         final LayoutInflater inflater = getActivity().getLayoutInflater();
         final View layout = inflater.inflate(R.layout.dialog_reset, null);
-        final AsyncQueryHandler asyncQueryHandler = new AsyncQueryHandler(getActivity().getContentResolver()) {
-            // No call backs needed
+        final Context context = getActivity();
+        final AsyncQueryHandler asyncQueryHandler = new AsyncQueryHandler(context.getContentResolver()) {
+            @Override
+            protected void onDeleteComplete(final int token, final Object cookie, final int result) {
+                AppWidgetUpdateHandler.createInstance().updateAllWidgets(context);
+                NotificationUpdateService.updateNotification(context);
+            }
         };
         final GtmManager gtmManager = GtmManager.getInstance(this);
         gtmManager.push("type", DataLayer.OBJECT_NOT_PRESENT);

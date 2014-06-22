@@ -36,6 +36,8 @@ import android.widget.ViewAnimator;
 import com.google.android.gms.tagmanager.DataLayer;
 import com.ianhanniballake.contractiontimer.BuildConfig;
 import com.ianhanniballake.contractiontimer.R;
+import com.ianhanniballake.contractiontimer.appwidget.AppWidgetUpdateHandler;
+import com.ianhanniballake.contractiontimer.notification.NotificationUpdateService;
 import com.ianhanniballake.contractiontimer.provider.ContractionContract;
 import com.ianhanniballake.contractiontimer.tagmanager.GtmManager;
 
@@ -133,10 +135,16 @@ public abstract class ContractionListFragment extends ListFragment implements Lo
         if (id < 0)
             return;
         final Uri deleteUri = ContentUris.withAppendedId(ContractionContract.Contractions.CONTENT_ID_URI_BASE, id);
-        if (contractionQueryHandler == null)
-            contractionQueryHandler = new AsyncQueryHandler(getActivity().getContentResolver()) {
-                // No call backs needed
+        if (contractionQueryHandler == null) {
+            final Context context = getActivity();
+            contractionQueryHandler = new AsyncQueryHandler(context.getContentResolver()) {
+                @Override
+                protected void onDeleteComplete(final int token, final Object cookie, final int result) {
+                    AppWidgetUpdateHandler.createInstance().updateAllWidgets(context);
+                    NotificationUpdateService.updateNotification(context);
+                }
             };
+        }
         contractionQueryHandler.startDelete(0, 0, deleteUri, null, null);
     }
 

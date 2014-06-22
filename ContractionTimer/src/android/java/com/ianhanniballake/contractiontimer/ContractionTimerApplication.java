@@ -2,6 +2,8 @@ package com.ianhanniballake.contractiontimer;
 
 import android.app.Application;
 
+import com.ianhanniballake.contractiontimer.appwidget.AppWidgetUpdateHandler;
+import com.ianhanniballake.contractiontimer.notification.NotificationUpdateService;
 import com.ianhanniballake.contractiontimer.strictmode.StrictModeController;
 import com.ianhanniballake.contractiontimer.tagmanager.GtmManager;
 
@@ -32,5 +34,7 @@ public class ContractionTimerApplication extends Application {
             ACRA.getErrorReporter().addReportSender(bugsenseReportSender);
         }
         super.onCreate();
+        AppWidgetUpdateHandler.createInstance().updateAllWidgets(this);
+        NotificationUpdateService.updateNotification(this);
     }
 }

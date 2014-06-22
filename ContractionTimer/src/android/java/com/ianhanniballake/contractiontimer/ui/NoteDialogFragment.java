@@ -5,6 +5,7 @@ import android.app.Dialog;
 import android.content.AsyncQueryHandler;
 import android.content.ContentUris;
 import android.content.ContentValues;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
 import android.content.Intent;
@@ -20,6 +21,8 @@ import android.widget.EditText;
 
 import com.ianhanniballake.contractiontimer.BuildConfig;
 import com.ianhanniballake.contractiontimer.R;
+import com.ianhanniballake.contractiontimer.appwidget.AppWidgetUpdateHandler;
+import com.ianhanniballake.contractiontimer.notification.NotificationUpdateService;
 import com.ianhanniballake.contractiontimer.provider.ContractionContract;
 import com.ianhanniballake.contractiontimer.tagmanager.GtmManager;
 
@@ -62,8 +65,13 @@ public class NoteDialogFragment extends DialogFragment {
         else
             builder.setTitle(R.string.note_dialog_title_edit);
         input.setText(existingNote);
-        final AsyncQueryHandler asyncQueryHandler = new AsyncQueryHandler(getActivity().getContentResolver()) {
-            // No call backs needed
+        final Context context = getActivity();
+        final AsyncQueryHandler asyncQueryHandler = new AsyncQueryHandler(context.getContentResolver()) {
+            @Override
+            protected void onUpdateComplete(final int token, final Object cookie, final int result) {
+                AppWidgetUpdateHandler.createInstance().updateAllWidgets(context);
+                NotificationUpdateService.updateNotification(context);
+            }
         };
         final GtmManager gtmManager = GtmManager.getInstance(this);
         gtmManager.push("type", TextUtils.isEmpty(existingNote) ? "Add Note" : "Edit Note");
