@@ -1,20 +1,13 @@
 package com.ianhanniballake.contractiontimer.data;
 
-import android.content.ContentProviderOperation;
-import android.content.ContentResolver;
-import android.content.ContentUris;
-import android.content.ContentValues;
 import android.content.Intent;
 import android.content.IntentSender;
 import android.content.OperationApplicationException;
-import android.database.Cursor;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.RemoteException;
-import android.provider.BaseColumns;
 import android.text.TextUtils;
 import android.util.Log;
-import android.widget.AdapterView;
 import android.widget.Toast;
 
 import com.google.android.gms.common.api.ResultCallback;
@@ -24,16 +17,9 @@ import com.google.android.gms.drive.DriveApi;
 import com.google.android.gms.drive.DriveFile;
 import com.google.android.gms.drive.DriveId;
 import com.ianhanniballake.contractiontimer.R;
-import com.ianhanniballake.contractiontimer.provider.ContractionContract;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.util.ArrayList;
-import java.util.List;
-
-import au.com.bytecode.opencsv.CSVReader;
-import au.com.bytecode.opencsv.CSVWriter;
 
 /**
  * Imports contractions from a CSV file on Google Drive
@@ -78,7 +64,6 @@ public class ImportActivity extends AbstractDriveApiActivity {
     private class ImportContractionsAsyncTask extends AsyncTask<DriveId, Void, String> {
         @Override
         protected String doInBackground(DriveId... params) {
-            ArrayList<ContentProviderOperation> operations = new ArrayList<ContentProviderOperation>();
             DriveFile file = Drive.DriveApi.getFile(mGoogleApiClient, params[0]);
             DriveApi.ContentsResult result = file.openContents(mGoogleApiClient, DriveFile.MODE_READ_ONLY,
                     null).await();
@@ -86,57 +71,15 @@ public class ImportActivity extends AbstractDriveApiActivity {
                 return getString(R.string.drive_error_open_file);
             }
             InputStream is = result.getContents().getInputStream();
-            CSVReader reader = new CSVReader(new InputStreamReader(is), CSVWriter.DEFAULT_SEPARATOR,
-                    CSVWriter.DEFAULT_QUOTE_CHARACTER, 1);
             try {
-                List<String[]> contractions = reader.readAll();
-                reader.close();
-                file.commitAndCloseContents(mGoogleApiClient, result.getContents());
-                ContentResolver resolver = getContentResolver();
-                String[] projection = new String[]{BaseColumns._ID};
-                for (String[] contraction : contractions) {
-                    if (contraction.length != 3) {
-                        throw new IllegalArgumentException();
-                    }
-                    ContentValues values = new ContentValues();
-                    final long startTime = Long.parseLong(contraction[0]);
-                    values.put(ContractionContract.Contractions.COLUMN_NAME_START_TIME,
-                            startTime);
-                    if (!TextUtils.isEmpty(contraction[1]))
-                        values.put(ContractionContract.Contractions.COLUMN_NAME_END_TIME,
-                                Long.parseLong(contraction[1]));
-                    if (!TextUtils.isEmpty(contraction[2]))
-                        values.put(ContractionContract.Contractions.COLUMN_NAME_NOTE,
-                                contraction[2]);
-                    Cursor existingRow = resolver.query(ContractionContract.Contractions.CONTENT_URI,
-                            projection, ContractionContract.Contractions.COLUMN_NAME_START_TIME
-                                    + "=?", new String[]{Long.toString(startTime)}, null
-                    );
-                    long existingRowId = AdapterView.INVALID_ROW_ID;
-                    if (existingRow != null) {
-                        existingRowId = existingRow.moveToFirst() ? existingRow.getLong(0) : AdapterView.INVALID_ROW_ID;
-                        existingRow.close();
-                    }
-                    if (existingRowId == AdapterView.INVALID_ROW_ID)
-                        operations.add(ContentProviderOperation.newInsert(ContractionContract.Contractions.CONTENT_URI)
-                                .withValues(values).build());
-                    else
-                        operations.add(ContentProviderOperation.newUpdate(ContentUris.withAppendedId
-                                (ContractionContract.Contractions.CONTENT_ID_URI_BASE,
-                                        existingRowId)).withValues(values).build());
-                }
+                CSVTransformer.readContractions(ImportActivity.this, is);
+                is.close();
             } catch (IOException e) {
                 Log.e(TAG, "Error reading file", e);
                 return getString(R.string.drive_error_reading_file);
-            } catch (NumberFormatException e) {
-                Log.e(TAG, "Invalid file format", e);
-                return getString(R.string.drive_error_invalid_file_format);
             } catch (IllegalArgumentException e) {
                 Log.e(TAG, "Invalid file format", e);
                 return getString(R.string.drive_error_invalid_file_format);
-            }
-            try {
-                getContentResolver().applyBatch(ContractionContract.AUTHORITY, operations);
             } catch (RemoteException e) {
                 Log.e(TAG, "Error saving contractions", e);
                 return getString(R.string.drive_error_saving_contractions);
@@ -144,6 +87,7 @@ public class ImportActivity extends AbstractDriveApiActivity {
                 Log.e(TAG, "Error saving contractions", e);
                 return getString(R.string.drive_error_saving_contractions);
             }
+            file.commitAndCloseContents(mGoogleApiClient, result.getContents());
             return null;
         }
 
