@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.support.v4.app.RemoteInput;
 import android.text.TextUtils;
 import android.util.Log;
 import android.widget.Toast;
@@ -50,7 +51,9 @@ public class NoteNoDisplayActivity extends Activity {
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        String note = getIntent().getStringExtra(Intent.EXTRA_TEXT);
+        Bundle remoteInput = RemoteInput.getResultsFromIntent(getIntent());
+        String note = remoteInput != null ? remoteInput.getCharSequence(Intent.EXTRA_TEXT).toString() :
+                getIntent().getStringExtra(Intent.EXTRA_TEXT);
         Intent serviceIntent = new Intent(this, NoteIntentService.class);
         serviceIntent.setAction(getIntent().getAction());
         serviceIntent.putExtra(Intent.EXTRA_TEXT, note);

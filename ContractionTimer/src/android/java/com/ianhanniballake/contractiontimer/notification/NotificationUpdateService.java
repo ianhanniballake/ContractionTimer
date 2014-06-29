@@ -9,11 +9,10 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.preference.PreferenceManager;
-import android.preview.support.v4.app.NotificationManagerCompat;
-import android.preview.support.wearable.notifications.RemoteInput;
-import android.preview.support.wearable.notifications.WearableNotifications;
 import android.provider.BaseColumns;
 import android.support.v4.app.NotificationCompat;
+import android.support.v4.app.NotificationManagerCompat;
+import android.support.v4.app.RemoteInput;
 import android.text.TextUtils;
 import android.text.format.DateUtils;
 import android.util.Log;
@@ -169,15 +168,15 @@ public class NotificationUpdateService extends IntentService {
                         .addLine(getString(R.string.notification_second_page_duration, formattedAverageDuration))
                         .addLine(getString(R.string.notification_second_page_frequency, formattedAverageFrequency)))
                 .build();
-        WearableNotifications.Builder wearableBuilder = new WearableNotifications.Builder(builder);
-        wearableBuilder.addPage(averagePage);
+        NotificationCompat.WearableExtender wearableExtender = new NotificationCompat.WearableExtender();
+        wearableExtender.addPage(averagePage);
         if (hasNote) {
             Notification notePage = new NotificationCompat.Builder(this)
                     .setStyle(new NotificationCompat.BigTextStyle()
                             .setBigContentTitle(getString(R.string.detail_note_label))
                             .bigText(note))
                     .build();
-            wearableBuilder.addPage(notePage);
+            wearableExtender.addPage(notePage);
         }
         // Add 'Add Note'/'Edit Note' action
         int noteIconResId = hasNote ? R.drawable.ic_notif_action_edit :
@@ -187,8 +186,8 @@ public class NotificationUpdateService extends IntentService {
         Intent noteIntent = new Intent(this, NoteNoDisplayActivity.class);
         PendingIntent notePendingIntent = PendingIntent.getActivity(this, 0, noteIntent, 0);
         RemoteInput remoteInput = new RemoteInput.Builder(Intent.EXTRA_TEXT).setLabel(noteTitle).build();
-        wearableBuilder.addAction(new WearableNotifications.Action.Builder(noteIconResId, noteTitle,
+        builder.addAction(new NotificationCompat.Action.Builder(noteIconResId, noteTitle,
                 notePendingIntent).addRemoteInput(remoteInput).build());
-        notificationManager.notify(NOTIFICATION_ID, wearableBuilder.build());
+        notificationManager.notify(NOTIFICATION_ID, builder.extend(wearableExtender).build());
     }
 }
