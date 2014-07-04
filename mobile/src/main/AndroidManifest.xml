@@ -12,7 +12,10 @@
     <application
         android:name="ContractionTimerApplication"
         android:allowBackup="true"
-        android:backupAgent=".ContractionTimerBackupAgent">
+        android:backupAgent=".ContractionTimerBackupAgent"
+        android:icon="@drawable/icon"
+        android:label="@string/app_name"
+        android:theme="@style/AppTheme">
         <provider
             android:name="android.support.v4.content.FileProvider"
             android:authorities="${filesAuthority}"
