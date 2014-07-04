@@ -24,7 +24,6 @@ import com.ianhanniballake.contractiontimer.provider.ContractionContract;
  */
 public class TimerRenderer implements DirectRenderingCallback {
     private final static String TAG = TimerRenderer.class.getSimpleName();
-
     private final Context mContext;
     private final View mView;
     private final View mEmptyState;

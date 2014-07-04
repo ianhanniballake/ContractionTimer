@@ -1,7 +1,117 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
     <string name="app_name">Contraction Timer</string>
+    <string name="view_activity_name">View contraction</string>
+    <string name="add_activity_name">Add contraction</string>
+    <string name="edit_activity_name">Edit contraction</string>
+    <string name="donate_activity_name">Donate</string>
+    <string name="export_activity_name">Export</string>
+    <string name="import_activity_name">Import</string>
+    <string name="license_activity_name">Open source licenses</string>
+    <string name="about_activity_name">About</string>
     <string name="list_header_duration">Duration</string>
     <string name="list_header_frequency">Frequency</string>
     <string name="contraction_average">Average</string>
+    <string name="menu_reset">Reset</string>
+    <string name="reset_dialog_title">Delete all contractions?</string>
+    <string name="reset_dialog_message">This will remove all contractions and any notes attached to them</string>
+    <string name="reset_dialog_confirm">Yes</string>
+    <string name="reset_dialog_cancel">Cancel</string>
+    <string name="menu_add">Add contraction</string>
+    <string name="menu_share">Share</string>
+    <string name="share_pick_application">Share to:</string>
+    <string name="menu_settings">Settings</string>
+    <string name="menu_donate">Donate</string>
+    <string name="donate_header">While this application is provided for free, please consider supporting further development by donating to the developer.</string>
+    <string name="donate_paypal_title">PayPal</string>
+    <string name="donate_paypal_description">You can choose how much you want to donate after clicking the button</string>
+    <string name="donate_paypal_button">Donate via PayPal</string>
+    <string name="donate_in_app_title">Google Play In-App Billing</string>
+    <string name="donate_in_app_description">Donate via Google Play In-App Billing. Note that Google takes 30% off every donation</string>
+    <string name="donate_in_app_spinner_text">Select a donation amount</string>
+    <string name="donate_in_app_button">Donate</string>
+    <string-array name="donate_in_app_sku_array">
+        <item>contractiontimer.donations.small</item>
+        <item>contractiontimer.donations.medium</item>
+        <item>contractiontimer.donations.large</item>
+    </string-array>
+    <string name="donate_thank_you">Thank you for your donation!</string>
+    <string name="note_dialog_title_add">Add note</string>
+    <string name="note_dialog_title_edit">Edit note</string>
+    <string name="note_dialog_save">Save</string>
+    <string name="note_dialog_cancel">Cancel</string>
+    <string name="menu_context_action_mode_title">%1$d selected</string>
+    <string name="menu_context_view_condensed">View</string>
+    <string name="menu_context_view">View details</string>
+
+    <plurals name="menu_context_delete">
+        <item quantity="one">Delete</item>
+        <item quantity="other">Delete all</item>
+    </plurals>
+
+    <string name="contraction_start">Start contraction</string>
+    <string name="contraction_end">Stop contraction</string>
+    <string name="list_item_loading">Loading</string>
+    <string name="list_empty">Breathe</string>
+    <string name="detail_start_time_label">Start time</string>
+    <string name="detail_end_time_label">End time</string>
+    <string name="detail_start_time_formatted_label">Start time (formatted)</string>
+    <string name="detail_end_time_formatted_label">End time (formatted)</string>
+    <string name="detail_duration_label">Duration</string>
+    <string name="detail_note_label">Note</string>
+    <string name="detail_previous_page">&lt; Previous</string>
+    <string name="detail_next_page">Next &gt;</string>
+    <string name="edit_start_time_error_overlap">Error: cannot start during another contraction</string>
+    <string name="edit_end_time_error_order">Error: cannot end before it begins</string>
+    <string name="edit_end_time_error_overlap">Error: cannot end during another contraction</string>
+    <string name="edit_time_error_overlap">Error: cannot overlap another contraction</string>
+    <string name="divider">Divider</string>
+    <string name="menu_edit">Edit</string>
+    <string name="menu_delete">Delete</string>
+    <string name="menu_save">Save</string>
+    <string name="menu_cancel">Cancel</string>
+    <string name="edit_ongoing_error">Error: Cannot edit ongoing contractions</string>
+    <string name="saving_note">Saving note…</string>
+    <string name="notification_timing">Timing contraction</string>
+    <string name="notification_content_text">Average duration: %1$s, frequency: %2$s</string>
+    <string name="notification_big_text">Average duration: %1$s\nAverage frequency: %2$s</string>
+    <string name="notification_big_text_with_note">Average duration: %1$s\nAverage frequency: %2$s\n\n%3$s</string>
+    <string name="notification_second_page_title">Averages</string>
+    <string name="notification_second_page_duration">Duration: %s</string>
+    <string name="notification_second_page_frequency">Frequency: %s</string>
+    <string name="toggle_appwidget_label">Contraction toggle</string>
+    <string name="control_appwidget_label">Contraction controls</string>
+    <string name="application_launch">Launch Contraction Timer</string>
+    <string name="average_duration_label">Average duration:</string>
+    <string name="average_frequency_label">Average frequency:</string>
+    <string name="appwidget_contraction_start">Start</string>
+    <string name="appwidget_contraction_stop">Stop</string>
+    <string name="detail_appwidget_label">Contraction details</string>
+    <string name="duration_ongoing">Timing</string>
+    <string name="settings">Settings</string>
+    <string name="pref_keep_screen_on_summary">Keep the screen on when on the main contraction screen</string>
+    <string name="pref_keep_screen_on_title">Keep screen on</string>
+    <string name="pref_lock_portrait_summary">Locks the screen in portrait orientation, preventing all screens from rotating</string>
+    <string name="pref_lock_portrait_title">Lock in portrait</string>
+    <string name="pref_average_time_frame_title">Averages time frame</string>
+    <string name="pref_average_time_frame_summary">Average duration/frequency time frame:</string>
+    <string name="pref_average_time_frame_dialog_title">Choose average duration/frequency time frame</string>
+    <string name="pref_average_time_frame_default">3600000</string>
+    <string name="pref_appwidget_background_title">Widget background</string>
+    <string name="pref_appwidget_background_dialog_title">Choose widget background</string>
+    <string name="pref_appwidget_background_default">light</string>
+    <string name="pref_notification_enable_title">Enable notification</string>
+    <string name="pref_notification_enable_summary">Show a notification when timing contractions</string>
+    <string name="pref_export_import_category">Google Drive</string>
+    <string name="pref_export_title">Export contractions…</string>
+    <string name="pref_export_summary">Export as a CSV file</string>
+    <string name="pref_import_title">Import contractions…</string>
+    <string name="pref_import_summary">Import from CSV file</string>
+    <string name="pref_other_category">Other</string>
+    <string name="pref_analytics_title">Send usage statistics</string>
+    <string name="pref_analytics_summary">Help make Contraction Timer better by sending anonymous data to Google Analytics</string>
+    <string name="pref_open_source_licenses">Open source licenses</string>
+    <string name="pref_about_contraction_timer">About Contraction Timer</string>
+
 </resources>

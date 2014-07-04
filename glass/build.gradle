@@ -1,31 +1,20 @@
 apply plugin: 'com.android.application'
 
-repositories {
-    jcenter()
-    maven { url 'http://JRAF.org/static/maven/2' }
-}
-
 android {
-    compileSdkVersion 20
+    compileSdkVersion 'Google Inc.:Glass Development Kit Preview:19'
     buildToolsVersion '20.0.0'
 
     defaultConfig {
-        def versionMajor = 2
+        def versionMajor = 1
         def versionMinor = 0
         def versionPatch = 0
         def versionBuild = 0
-        def betaVersion = 2
 
-        minSdkVersion 9
-        targetSdkVersion 20
+        applicationId "com.ianhanniballake.contractiontimer"
+        minSdkVersion 19
+        targetSdkVersion 19
         versionCode versionMajor * 10000000 + versionMinor * 100000 + versionPatch * 1000 + versionBuild
-        versionName "${versionMajor}.${versionMinor}" +
-                (versionPatch > 0 ? ".${versionPatch}" : "") +
-                (betaVersion > 0 ? ", Beta ${betaVersion}" : "")
-
-        def filesAuthorityValue = "com.ianhanniballake.contractiontimer.files"
-        manifestPlaceholders = [filesAuthority: filesAuthorityValue]
-        buildConfigField "String", "FILES_AUTHORITY", "\"${filesAuthorityValue}\""
+        versionName "${versionMajor}.${versionMinor}.${versionPatch}"
     }
 
     signingConfigs {
@@ -47,11 +36,5 @@ android {
 }
 
 dependencies {
-    compile "com.android.support:appcompat-v7:20.0.+"
-    compile "com.android.support:gridlayout-v7:20.0.+"
-    compile "com.google.android.gms:play-services:4.4.52"
-    compile "ch.acra:acra:4.4.0"
-    compile "org.jraf:android-switch-backport:1.3.1"
-    compile "net.sf.opencsv:opencsv:2.3"
     compile project(':provider')
 }

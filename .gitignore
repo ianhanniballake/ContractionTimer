@@ -1,7 +1,5 @@
 # Exclude all generated folders
-bin/
-gen/
-build/
+/build
 
 # Exclude IntelliJ/Android Studio files
 local.properties
@@ -10,5 +8,8 @@ local.properties
 *.iml
 *.iws
 *.ipr
+
+# Exclude system/temp files
 *~
 *.swp
+.DS_Store

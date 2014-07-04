@@ -22,7 +22,6 @@ import com.ianhanniballake.contractiontimer.provider.ContractionContract;
  */
 public class MenuActivity extends Activity {
     private final static String TAG = MenuActivity.class.getSimpleName();
-
     private final Handler mHandler = new Handler();
     private AsyncQueryHandler mAsyncQueryHandler;
     private boolean mAttachedToWindow;
