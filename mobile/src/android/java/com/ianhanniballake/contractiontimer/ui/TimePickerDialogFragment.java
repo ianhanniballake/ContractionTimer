@@ -24,10 +24,37 @@ import java.util.Calendar;
  */
 public class TimePickerDialogFragment extends DialogFragment {
     /**
+     * Argument key for storing/retrieving the callback action
+     */
+    public final static String CALLBACK_ACTION = "com.ianhanniballake.contractiontimer.CALLBACK_ACTION_ARGUMENT";
+    /**
+     * Extra corresponding with the hour of the day that was set
+     */
+    public final static String HOUR_OF_DAY_EXTRA = "com.ianhanniballake.contractionTimer.HOUR_OF_DAY_EXTRA";
+    /**
+     * Extra corresponding with the minute that was set
+     */
+    public final static String MINUTE_EXTRA = "com.ianhanniballake.contractionTimer.MINUTE_EXTRA";
+    /**
+     * Extra corresponding with the second that was set
+     */
+    public final static String SECOND_EXTRA = "com.ianhanniballake.contractionTimer.SECOND_EXTRA";
+    /**
+     * Argument key for storing/retrieving the time associated with this dialog
+     */
+    public final static String TIME_ARGUMENT = "com.ianhanniballake.contractiontimer.TIME_ARGUMENT";
+    /**
+     * Action associated with this fragment closing
+     */
+    public final static String TIME_PICKER_CLOSE_ACTION = "com.ianhanniballake.contractiontimer.TIME_PICKER_CLOSE";
+    private final static String TAG = TimePickerDialogFragment.class.getSimpleName();
+
+    /**
      * Gets an API level specific implementation of the time picker
-     * @param context context used to create the Dialog
+     *
+     * @param context  context used to create the Dialog
      * @param callback Callback to pass the returned time to
-     * @param date starting date
+     * @param date     starting date
      * @return A valid TimePickerDialog
      */
     private static AlertDialog getTimePickerDialog(Context context, final TimePickerDialogFragment callback,
@@ -63,31 +90,6 @@ public class TimePickerDialogFragment extends DialogFragment {
                     DateFormat.is24HourFormat(context));
         }
     }
-    /**
-     * Argument key for storing/retrieving the callback action
-     */
-    public final static String CALLBACK_ACTION = "com.ianhanniballake.contractiontimer.CALLBACK_ACTION_ARGUMENT";
-    /**
-     * Extra corresponding with the hour of the day that was set
-     */
-    public final static String HOUR_OF_DAY_EXTRA = "com.ianhanniballake.contractionTimer.HOUR_OF_DAY_EXTRA";
-    /**
-     * Extra corresponding with the minute that was set
-     */
-    public final static String MINUTE_EXTRA = "com.ianhanniballake.contractionTimer.MINUTE_EXTRA";
-    /**
-     * Extra corresponding with the second that was set
-     */
-    public final static String SECOND_EXTRA = "com.ianhanniballake.contractionTimer.SECOND_EXTRA";
-    /**
-     * Argument key for storing/retrieving the time associated with this dialog
-     */
-    public final static String TIME_ARGUMENT = "com.ianhanniballake.contractiontimer.TIME_ARGUMENT";
-    /**
-     * Action associated with this fragment closing
-     */
-    public final static String TIME_PICKER_CLOSE_ACTION = "com.ianhanniballake.contractiontimer.TIME_PICKER_CLOSE";
-    private final static String TAG = TimePickerDialogFragment.class.getSimpleName();
 
     @Override
     public Dialog onCreateDialog(final Bundle savedInstanceState) {
