@@ -99,6 +99,7 @@ public class NotificationUpdateService extends IntentService {
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, contentIntent,
                 PendingIntent.FLAG_UPDATE_CURRENT);
         builder.setContentIntent(pendingIntent);
+        NotificationCompat.WearableExtender wearableExtender = new NotificationCompat.WearableExtender();
         // Determine whether a contraction is currently ongoing
         final int endTimeColumnIndex = data.getColumnIndex(ContractionContract.Contractions.COLUMN_NAME_END_TIME);
         final boolean contractionOngoing = data.isNull(endTimeColumnIndex);
@@ -110,10 +111,16 @@ public class NotificationUpdateService extends IntentService {
             builder.setContentTitle(getString(R.string.notification_timing));
             builder.addAction(R.drawable.ic_notif_action_stop, getString(R.string.appwidget_contraction_stop),
                     startStopPendingIntent);
+            wearableExtender.addAction(new NotificationCompat.Action(R.drawable.ic_wear_action_stop,
+                    getString(R.string.appwidget_contraction_stop),
+                    startStopPendingIntent));
         } else {
             builder.setContentTitle(getString(R.string.app_name));
             builder.addAction(R.drawable.ic_notif_action_start, getString(R.string.appwidget_contraction_start),
                     startStopPendingIntent);
+            wearableExtender.addAction(new NotificationCompat.Action(R.drawable.ic_wear_action_start,
+                    getString(R.string.appwidget_contraction_start),
+                    startStopPendingIntent));
         }
         // See if there is a note and build a page if it exists
         final int noteColumnIndex = data.getColumnIndex(ContractionContract.Contractions.COLUMN_NAME_NOTE);
@@ -168,7 +175,6 @@ public class NotificationUpdateService extends IntentService {
                         .addLine(getString(R.string.notification_second_page_duration, formattedAverageDuration))
                         .addLine(getString(R.string.notification_second_page_frequency, formattedAverageFrequency)))
                 .build();
-        NotificationCompat.WearableExtender wearableExtender = new NotificationCompat.WearableExtender();
         wearableExtender.addPage(averagePage);
         if (hasNote) {
             Notification notePage = new NotificationCompat.Builder(this)
@@ -181,12 +187,15 @@ public class NotificationUpdateService extends IntentService {
         // Add 'Add Note'/'Edit Note' action
         int noteIconResId = hasNote ? R.drawable.ic_notif_action_edit :
                 R.drawable.ic_notif_action_add;
+        int wearIconResId = hasNote ? R.drawable.ic_wear_action_edit :
+                R.drawable.ic_wear_action_add;
         String noteTitle = hasNote ? getString(R.string.note_dialog_title_edit) :
                 getString(R.string.note_dialog_title_add);
         Intent noteIntent = new Intent(this, NoteNoDisplayActivity.class);
         PendingIntent notePendingIntent = PendingIntent.getActivity(this, 0, noteIntent, 0);
         RemoteInput remoteInput = new RemoteInput.Builder(Intent.EXTRA_TEXT).setLabel(noteTitle).build();
-        builder.addAction(new NotificationCompat.Action.Builder(noteIconResId, noteTitle,
+        builder.addAction(noteIconResId, noteTitle, notePendingIntent);
+        wearableExtender.addAction(new NotificationCompat.Action.Builder(wearIconResId, noteTitle,
                 notePendingIntent).addRemoteInput(remoteInput).build());
         notificationManager.notify(NOTIFICATION_ID, builder.extend(wearableExtender).build());
     }
