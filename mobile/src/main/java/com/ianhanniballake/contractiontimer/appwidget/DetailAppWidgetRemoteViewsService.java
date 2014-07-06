@@ -10,6 +10,7 @@ import android.preference.PreferenceManager;
 import android.provider.BaseColumns;
 import android.text.format.DateFormat;
 import android.text.format.DateUtils;
+import android.widget.AdapterView;
 import android.widget.RemoteViews;
 import android.widget.RemoteViewsService;
 
@@ -68,7 +69,7 @@ public class DetailAppWidgetRemoteViewsService extends RemoteViewsService {
                     views = new RemoteViews(getPackageName(), R.layout.list_item_detail_appwidget_light);
                 else
                     views = new RemoteViews(getPackageName(), R.layout.list_item_detail_appwidget_dark);
-                if (!data.moveToPosition(position))
+                if (position == AdapterView.INVALID_POSITION || !data.moveToPosition(position))
                     return views;
                 String timeFormat = "hh:mm:ssa";
                 if (DateFormat.is24HourFormat(DetailAppWidgetRemoteViewsService.this))
