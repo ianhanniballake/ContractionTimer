@@ -1,11 +1,13 @@
 package com.ianhanniballake.contractiontimer.ui;
 
 import android.content.BroadcastReceiver;
+import android.content.ContentUris;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
+import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.app.FragmentTransaction;
@@ -44,6 +46,32 @@ public class EditActivity extends ActionBarActivity {
         setContentView(R.layout.activity_edit);
         if (findViewById(R.id.edit) == null) {
             // A null details view means we no longer need this activity
+            finish();
+            return;
+        }
+        Intent intent = getIntent();
+        if (intent == null) {
+            // Invalid intent
+            finish();
+            return;
+        }
+        String action = intent.getAction();
+        if (Intent.ACTION_EDIT.equals(action)) {
+            Uri data = intent.getData();
+            if (data == null) {
+                // Invalid data
+                finish();
+                return;
+            }
+            try {
+                ContentUris.parseId(data);
+            } catch (NumberFormatException e) {
+                // Invalid content uri
+                finish();
+                return;
+            }
+        } else if (!Intent.ACTION_INSERT.equals(action)) {
+            // Invalid action
             finish();
             return;
         }
