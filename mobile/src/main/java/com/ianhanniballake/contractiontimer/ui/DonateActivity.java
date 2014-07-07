@@ -21,6 +21,7 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.RelativeLayout;
@@ -229,6 +230,9 @@ public class DonateActivity extends ActionBarActivity {
             public void onClick(final View v) {
                 final Spinner inAppSpinner = (Spinner) findViewById(R.id.donate_in_app_spinner);
                 final int selectedInAppAmount = inAppSpinner.getSelectedItemPosition();
+                if (selectedInAppAmount == AdapterView.INVALID_POSITION) {
+                    return;
+                }
                 purchasedSku = skus[selectedInAppAmount];
                 if (BuildConfig.DEBUG)
                     Log.d(TAG, "Clicked " + purchasedSku);
