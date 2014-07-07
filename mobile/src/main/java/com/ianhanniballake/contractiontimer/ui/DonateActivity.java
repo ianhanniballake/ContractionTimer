@@ -495,12 +495,17 @@ public class DonateActivity extends ActionBarActivity {
                 else
                     Log.w(TAG, "Inventory: Billing service is null");
             }
-            final String[] inAppName = new String[skus.length];
+            ArrayList<String> inAppName = new ArrayList<String>();
             for (int h = 0; h < skus.length; h++) {
                 final String currentSku = skus[h];
                 final SkuDetails sku = inv.getSkuDetails(currentSku);
-                skuNames.put(currentSku, sku.getTitle());
-                inAppName[h] = sku.getDescription() + " (" + sku.getPrice() + ")";
+                if (sku != null) {
+                    skuNames.put(currentSku, sku.getTitle());
+                    inAppName.add(sku.getDescription() + " (" + sku.getPrice() + ")");
+                }
+            }
+            if (inAppName.isEmpty()) {
+                return;
             }
             final Spinner inAppSpinner = (Spinner) findViewById(R.id.donate_in_app_spinner);
             final ArrayAdapter<String> adapter = new ArrayAdapter<String>(DonateActivity.this,
