@@ -46,6 +46,7 @@ public class GtmManager {
     }
 
     public void init() {
+        push("debug", BuildConfig.DEBUG);
         PendingResult<ContainerHolder> result;
         if (BuildConfig.DEBUG) {
             mTagManager.setVerboseLoggingEnabled(true);
