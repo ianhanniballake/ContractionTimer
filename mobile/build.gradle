@@ -13,8 +13,8 @@ android {
         def versionMajor = 2
         def versionMinor = 0
         def versionPatch = 0
-        def versionBuild = 0
-        def betaVersion = 2
+        def versionBuild = 1
+        def betaVersion = 0
 
         minSdkVersion 9
         targetSdkVersion 20
