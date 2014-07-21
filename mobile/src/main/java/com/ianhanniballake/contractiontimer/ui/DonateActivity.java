@@ -9,6 +9,8 @@ import android.content.IntentSender.SendIntentException;
 import android.content.ServiceConnection;
 import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
+import android.content.pm.PackageManager;
+import android.content.pm.ResolveInfo;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
@@ -288,7 +290,11 @@ public class DonateActivity extends ActionBarActivity {
             };
             final Intent serviceIntent = new Intent("com.android.vending.billing.InAppBillingService.BIND");
             serviceIntent.setPackage("com.android.vending");
-            if (!getPackageManager().queryIntentServices(serviceIntent, 0).isEmpty())
+            PackageManager packageManager = getPackageManager();
+            List<ResolveInfo> services = packageManager != null
+                    ? packageManager.queryIntentServices(serviceIntent, 0)
+                    : null;
+            if (services != null && !services.isEmpty())
                 // service available to handle that Intent
                 bindService(serviceIntent, mServiceConn, Context.BIND_AUTO_CREATE);
             else {
