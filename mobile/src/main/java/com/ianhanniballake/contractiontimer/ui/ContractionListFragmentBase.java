@@ -79,8 +79,8 @@ public class ContractionListFragmentBase extends ContractionListFragment {
         if (BuildConfig.DEBUG)
             Log.d(TAG, "Context Menu Opened");
         GtmManager.getInstance(this).pushEvent("Open", DataLayer.mapOf(
-                "menu", "ContextMenu", "type", "count", DataLayer.OBJECT_NOT_PRESENT,
-                TextUtils.isEmpty(note) ? "Add Note" : "Edit Note"));
+                "menu", "ContextMenu", "type", TextUtils.isEmpty(note) ? "Add Note" : "Edit Note",
+                "count", DataLayer.OBJECT_NOT_PRESENT));
     }
 
     /**
