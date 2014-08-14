@@ -69,7 +69,7 @@ public class DetailAppWidgetRemoteViewsService extends RemoteViewsService {
                     views = new RemoteViews(getPackageName(), R.layout.list_item_detail_appwidget_light);
                 else
                     views = new RemoteViews(getPackageName(), R.layout.list_item_detail_appwidget_dark);
-                if (position == AdapterView.INVALID_POSITION || !data.moveToPosition(position))
+                if (position == AdapterView.INVALID_POSITION || data == null || !data.moveToPosition(position))
                     return views;
                 String timeFormat = "hh:mm:ssa";
                 if (DateFormat.is24HourFormat(DetailAppWidgetRemoteViewsService.this))
@@ -134,8 +134,10 @@ public class DetailAppWidgetRemoteViewsService extends RemoteViewsService {
 
             @Override
             public void onDestroy() {
-                if (data != null)
+                if (data != null) {
                     data.close();
+                    data = null;
+                }
             }
         };
     }
