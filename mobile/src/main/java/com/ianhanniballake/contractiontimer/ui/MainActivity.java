@@ -279,8 +279,7 @@ public class MainActivity extends ActionBarActivity implements LoaderManager.Loa
         final int startTimeColumnIndex = data.getColumnIndex(ContractionContract.Contractions.COLUMN_NAME_START_TIME);
         final long lastStartTime = data.getLong(startTimeColumnIndex);
         final int count = adapter.getCount();
-        final CharSequence relativeTimeSpan = DateUtils.getRelativeTimeSpanString(lastStartTime,
-                System.currentTimeMillis(), 0);
+        final CharSequence relativeTimeSpan = DateUtils.getRelativeTimeSpanString(lastStartTime);
         final String formattedData = getResources().getQuantityString(
                 R.plurals.share_average,
                 count,
