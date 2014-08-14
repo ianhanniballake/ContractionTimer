@@ -2,6 +2,7 @@ package com.ianhanniballake.contractiontimer.tagmanager;
 
 import android.content.Context;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 
 import com.google.android.gms.analytics.StandardExceptionParser;
 import com.google.android.gms.common.api.PendingResult;
@@ -19,6 +20,7 @@ import java.util.concurrent.TimeUnit;
  * Centralized Manager for Google Tag Manager operations, including pushing values, events, and exceptions
  */
 public class GtmManager {
+    private static final String TAG = GtmManager.class.getSimpleName();
     private static final Object LOCK = new Object();
     private static GtmManager INSTANCE;
     private final Context mContext;
@@ -138,9 +140,17 @@ public class GtmManager {
 
         @Override
         public void uncaughtException(final Thread thread, final Throwable t) {
-            pushEvent("UncaughtException", mExceptionParser.getExceptionMapping(thread, t));
-            if (mDefaultUncaughtExceptionHandler != null) {
-                mDefaultUncaughtExceptionHandler.uncaughtException(thread, t);
+            Map<String, Object> dataMap = mExceptionParser.getExceptionMapping(thread, t);
+            boolean tagManagerCrash = dataMap.get("rootExceptionClass").toString()
+                    .contains("com.google.android.gms.tagmanager");
+            if (tagManagerCrash) {
+                Log.e(TAG, "TagManager crashed", t);
+                pushEvent("Exception", dataMap);
+            } else {
+                pushEvent("UncaughtException", dataMap);
+                if (mDefaultUncaughtExceptionHandler != null) {
+                    mDefaultUncaughtExceptionHandler.uncaughtException(thread, t);
+                }
             }
         }
     }
