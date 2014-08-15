@@ -65,6 +65,10 @@ public class ExportActivity extends AbstractDriveApiActivity {
     private class ExportContractionsAsyncTask extends AsyncTask<DriveId, Void, Boolean> {
         @Override
         protected Boolean doInBackground(DriveId... params) {
+            if (params[0] == null) {
+                Log.w(TAG, "Null DriveId returned by DriveApi");
+                return false;
+            }
             DriveFile file = Drive.DriveApi.getFile(mGoogleApiClient, params[0]);
             DriveApi.ContentsResult result = file.openContents(mGoogleApiClient, DriveFile.MODE_WRITE_ONLY,
                     null).await();
