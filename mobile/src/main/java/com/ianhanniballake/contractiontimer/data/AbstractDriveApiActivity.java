@@ -66,7 +66,7 @@ public abstract class AbstractDriveApiActivity extends FragmentActivity
                 Toast.makeText(this, getString(R.string.drive_error_connect, e.getLocalizedMessage()),
                         Toast.LENGTH_LONG).show();
             }
-        } else {
+        } else if (!isFinishing() && !isDestroyed()) {
             GooglePlayServicesUtil.getErrorDialog(result.getErrorCode(), this, 0).show();
         }
     }
