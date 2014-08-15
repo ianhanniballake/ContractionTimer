@@ -9,7 +9,7 @@ import com.ianhanniballake.contractiontimer.tagmanager.GtmManager;
 
 import org.acra.ACRA;
 import org.acra.annotation.ReportsCrashes;
-import org.acra.sender.HttpPostSender;
+import org.acra.sender.HttpSender;
 import org.acra.sender.ReportSender;
 
 /**
@@ -29,7 +29,8 @@ public class ContractionTimerApplication extends Application {
             StrictModeController.createInstance().setStrictMode();
         } else {
             ACRA.init(this);
-            final ReportSender bugsenseReportSender = new HttpPostSender(
+            final ReportSender bugsenseReportSender = new HttpSender(
+                    HttpSender.Method.POST, HttpSender.Type.FORM,
                     "http://www.bugsense.com/api/acra?api_key=6ebe60f4", null);
             ACRA.getErrorReporter().addReportSender(bugsenseReportSender);
         }
