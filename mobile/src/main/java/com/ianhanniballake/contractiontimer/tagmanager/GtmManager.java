@@ -143,9 +143,14 @@ public class GtmManager {
             Map<String, Object> dataMap = mExceptionParser.getExceptionMapping(thread, t);
             boolean tagManagerCrash = dataMap.get("rootExceptionClass").toString()
                     .contains("com.google.android.gms.tagmanager");
+            boolean campaignTrackingServiceCrash = dataMap.get("rootExceptionClass").toString()
+                    .contains("com.google.android.gms.analytics.CampaignTrackingService");
             if (tagManagerCrash) {
                 Log.e(TAG, "TagManager crashed", t);
-                pushEvent("Exception", dataMap);
+                pushException(t);
+            } else if (campaignTrackingServiceCrash) {
+                Log.e(TAG, "CampaignTrackingService crashed", t);
+                pushException(t);
             } else {
                 pushEvent("UncaughtException", dataMap);
                 if (mDefaultUncaughtExceptionHandler != null) {
