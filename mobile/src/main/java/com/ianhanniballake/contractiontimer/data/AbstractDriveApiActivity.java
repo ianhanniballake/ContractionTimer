@@ -71,6 +71,7 @@ public abstract class AbstractDriveApiActivity extends FragmentActivity
             } catch (IntentSender.SendIntentException e) {
                 Toast.makeText(this, getString(R.string.drive_error_connect, e.getLocalizedMessage()),
                         Toast.LENGTH_LONG).show();
+                GtmManager.getInstance(this).pushException(e);
             }
         } else if (!isFinishing() &&
                 (Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN_MR1 || !isDestroyedAlready())) {
