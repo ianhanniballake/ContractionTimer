@@ -107,6 +107,12 @@ public class MainActivity extends ActionBarActivity implements LoaderManager.Loa
     }
 
     @Override
+    protected void onNewIntent(final Intent intent) {
+        super.onNewIntent(intent);
+        setIntent(intent);
+    }
+
+    @Override
     public Loader<Cursor> onCreateLoader(final int id, final Bundle args) {
         final String[] projection = {BaseColumns._ID, ContractionContract.Contractions.COLUMN_NAME_START_TIME,
                 ContractionContract.Contractions.COLUMN_NAME_END_TIME,
