@@ -27,25 +27,26 @@ import java.io.InputStream;
 public class ImportActivity extends AbstractDriveApiActivity {
     private static final String TAG = ImportActivity.class.getSimpleName();
     private static final int REQUEST_CODE_OPEN = 2;
-    private ResultCallback<DriveApi.ContentsResult> mOpenFileCallback = new ResultCallback<DriveApi.ContentsResult>() {
-        @Override
-        public void onResult(DriveApi.ContentsResult result) {
-            if (!result.getStatus().isSuccess()) {
-                finish();
-                return;
-            }
-            IntentSender intentSender = Drive.DriveApi
-                    .newOpenFileActivityBuilder()
-                    .setActivityTitle(getString(R.string.drive_open_file_title))
-                    .setMimeType(new String[]{"text/csv"})
-                    .build(mGoogleApiClient);
-            try {
-                startIntentSenderForResult(intentSender, REQUEST_CODE_OPEN, null, 0, 0, 0);
-            } catch (IntentSender.SendIntentException e) {
-                finish();
-            }
-        }
-    };
+    private final ResultCallback<DriveApi.ContentsResult> mOpenFileCallback =
+            new ResultCallback<DriveApi.ContentsResult>() {
+                @Override
+                public void onResult(DriveApi.ContentsResult result) {
+                    if (!result.getStatus().isSuccess()) {
+                        finish();
+                        return;
+                    }
+                    IntentSender intentSender = Drive.DriveApi
+                            .newOpenFileActivityBuilder()
+                            .setActivityTitle(getString(R.string.drive_open_file_title))
+                            .setMimeType(new String[]{"text/csv"})
+                            .build(mGoogleApiClient);
+                    try {
+                        startIntentSenderForResult(intentSender, REQUEST_CODE_OPEN, null, 0, 0, 0);
+                    } catch (IntentSender.SendIntentException e) {
+                        finish();
+                    }
+                }
+            };
 
     @Override
     public void onConnected(final Bundle bundle) {

@@ -18,6 +18,7 @@ import android.os.Bundle;
 import android.os.IBinder;
 import android.os.RemoteException;
 import android.preference.PreferenceManager;
+import android.support.annotation.NonNull;
 import android.support.v7.app.ActionBarActivity;
 import android.text.TextUtils;
 import android.util.Log;
@@ -321,7 +322,7 @@ public class DonateActivity extends ActionBarActivity {
     }
 
     @Override
-    protected void onRestoreInstanceState(final Bundle savedInstanceState) {
+    protected void onRestoreInstanceState(@NonNull final Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
         purchasedSku = savedInstanceState.containsKey(PURCHASED_SKU) ? savedInstanceState.getString(PURCHASED_SKU) : "";
         GtmManager.getInstance(this).push("sku", purchasedSku);
@@ -502,8 +503,7 @@ public class DonateActivity extends ActionBarActivity {
                     Log.w(TAG, "Inventory: Billing service is null");
             }
             ArrayList<String> inAppName = new ArrayList<String>();
-            for (int h = 0; h < skus.length; h++) {
-                final String currentSku = skus[h];
+            for (final String currentSku : skus) {
                 final SkuDetails sku = inv.getSkuDetails(currentSku);
                 if (sku != null) {
                     skuNames.put(currentSku, sku.getTitle());

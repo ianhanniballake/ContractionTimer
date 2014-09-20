@@ -25,28 +25,29 @@ import java.io.OutputStream;
 public class ExportActivity extends AbstractDriveApiActivity {
     private static final String TAG = ExportActivity.class.getSimpleName();
     private static final int REQUEST_CODE_CREATE = 2;
-    private ResultCallback<DriveApi.ContentsResult> mCreateFileCallback = new ResultCallback<DriveApi.ContentsResult>() {
-        @Override
-        public void onResult(DriveApi.ContentsResult result) {
-            if (!result.getStatus().isSuccess()) {
-                finish();
-                return;
-            }
-            MetadataChangeSet metadataChangeSet = new MetadataChangeSet.Builder()
-                    .setTitle(getString(R.string.drive_default_filename) + ".csv")
-                    .setMimeType("text/csv").build();
-            IntentSender intentSender = Drive.DriveApi
-                    .newCreateFileActivityBuilder()
-                    .setInitialMetadata(metadataChangeSet)
-                    .setInitialContents(result.getContents())
-                    .build(mGoogleApiClient);
-            try {
-                startIntentSenderForResult(intentSender, REQUEST_CODE_CREATE, null, 0, 0, 0);
-            } catch (IntentSender.SendIntentException e) {
-                finish();
-            }
-        }
-    };
+    private final ResultCallback<DriveApi.ContentsResult> mCreateFileCallback =
+            new ResultCallback<DriveApi.ContentsResult>() {
+                @Override
+                public void onResult(DriveApi.ContentsResult result) {
+                    if (!result.getStatus().isSuccess()) {
+                        finish();
+                        return;
+                    }
+                    MetadataChangeSet metadataChangeSet = new MetadataChangeSet.Builder()
+                            .setTitle(getString(R.string.drive_default_filename) + ".csv")
+                            .setMimeType("text/csv").build();
+                    IntentSender intentSender = Drive.DriveApi
+                            .newCreateFileActivityBuilder()
+                            .setInitialMetadata(metadataChangeSet)
+                            .setInitialContents(result.getContents())
+                            .build(mGoogleApiClient);
+                    try {
+                        startIntentSenderForResult(intentSender, REQUEST_CODE_CREATE, null, 0, 0, 0);
+                    } catch (IntentSender.SendIntentException e) {
+                        finish();
+                    }
+                }
+            };
 
     @Override
     public void onConnected(final Bundle connectionHint) {

@@ -2,6 +2,7 @@ package com.ianhanniballake.contractiontimer;
 
 import android.app.backup.BackupAgentHelper;
 import android.app.backup.SharedPreferencesBackupHelper;
+import android.support.annotation.NonNull;
 
 /**
  * Agent which handles com.ianhanniballake.contractiontimer backup of user settings
@@ -12,6 +13,7 @@ public class ContractionTimerBackupAgent extends BackupAgentHelper {
      *
      * @return The name associated with PreferenceManager.getDefaultPreferences()
      */
+    @NonNull
     public String getDefaultSharedPreferencesName() {
         return getPackageName() + "_preferences";
     }

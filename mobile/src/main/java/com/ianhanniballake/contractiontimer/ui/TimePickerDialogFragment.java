@@ -8,6 +8,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.content.LocalBroadcastManager;
 import android.text.format.DateFormat;
@@ -57,6 +58,7 @@ public class TimePickerDialogFragment extends DialogFragment {
      * @param date     starting date
      * @return A valid TimePickerDialog
      */
+    @NonNull
     private static AlertDialog getTimePickerDialog(Context context, final TimePickerDialogFragment callback,
                                                    Calendar date) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
@@ -91,6 +93,7 @@ public class TimePickerDialogFragment extends DialogFragment {
         }
     }
 
+    @NonNull
     @Override
     public Dialog onCreateDialog(final Bundle savedInstanceState) {
         final Calendar date = (Calendar) getArguments().getSerializable(TimePickerDialogFragment.TIME_ARGUMENT);

@@ -13,6 +13,8 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.provider.BaseColumns;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
@@ -179,6 +181,7 @@ public class EditFragment extends Fragment implements LoaderManager.LoaderCallba
      *
      * @return ContentValues associated with the current (possibly edited) data
      */
+    @NonNull
     private ContentValues getContentValues() {
         final ContentValues values = new ContentValues();
         values.put(ContractionContract.Contractions.COLUMN_NAME_START_TIME, startTime.getTimeInMillis());
@@ -193,6 +196,7 @@ public class EditFragment extends Fragment implements LoaderManager.LoaderCallba
      *
      * @return View created in onCreateView
      */
+    @Nullable
     View getFragmentView() {
         final View rootView = getView();
         return rootView == null ? null : rootView.findViewById(R.id.edit_fragment);

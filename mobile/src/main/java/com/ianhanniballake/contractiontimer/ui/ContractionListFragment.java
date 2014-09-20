@@ -367,7 +367,7 @@ public abstract class ContractionListFragment extends ListFragment implements Lo
          */
         public ContractionListCursorAdapter(final Context context) {
             super(context, null, 0);
-            inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            inflater = LayoutInflater.from(context);
         }
 
         @Override

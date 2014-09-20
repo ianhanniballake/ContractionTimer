@@ -5,6 +5,7 @@ import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
@@ -45,6 +46,7 @@ public class DatePickerDialogFragment extends DialogFragment implements DatePick
     private final static String TAG = DatePickerDialogFragment.class.getSimpleName();
 
     @Override
+    @NonNull
     public Dialog onCreateDialog(final Bundle savedInstanceState) {
         final Calendar date = (Calendar) getArguments().getSerializable(DatePickerDialogFragment.DATE_ARGUMENT);
         final DatePickerDialog dialog = new DatePickerDialog(getActivity(), this, date.get(Calendar.YEAR),

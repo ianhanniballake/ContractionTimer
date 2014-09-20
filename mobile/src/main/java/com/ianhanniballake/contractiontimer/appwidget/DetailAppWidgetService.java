@@ -13,6 +13,8 @@ import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.provider.BaseColumns;
+import android.support.annotation.NonNull;
+import android.support.annotation.StringDef;
 import android.support.v4.app.TaskStackBuilder;
 import android.text.format.DateUtils;
 import android.util.Log;
@@ -24,6 +26,9 @@ import com.ianhanniballake.contractiontimer.R;
 import com.ianhanniballake.contractiontimer.provider.ContractionContract;
 import com.ianhanniballake.contractiontimer.ui.MainActivity;
 import com.ianhanniballake.contractiontimer.ui.Preferences;
+
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
 
 /**
  * Handles updates of the 'Detail' style App Widgets
@@ -48,6 +53,7 @@ public class DetailAppWidgetService extends IntentService {
     }
 
     @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
+    @WidgetIdentifier
     private static String getWidgetIdentifier(final AppWidgetManager appWidgetManager, final int appWidgetId) {
         final Bundle myOptions = appWidgetManager.getAppWidgetOptions(appWidgetId);
         final int category = myOptions.getInt(AppWidgetManager.OPTION_APPWIDGET_HOST_CATEGORY,
@@ -134,7 +140,7 @@ public class DetailAppWidgetService extends IntentService {
         for (final int appWidgetId : detailAppWidgetIds) {
             // Need to determine if this widget is a keyguard or home screen
             // widget for Analytics purposes
-            String widgetIdentifier;
+            @WidgetIdentifier String widgetIdentifier;
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1)
                 widgetIdentifier = getWidgetIdentifier(appWidgetManager, appWidgetId);
             else
@@ -193,7 +199,7 @@ public class DetailAppWidgetService extends IntentService {
      * @param views RemoteViews to set the RemoteAdapter
      */
     @TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)
-    private void setRemoteAdapter(final RemoteViews views) {
+    private void setRemoteAdapter(@NonNull final RemoteViews views) {
         views.setRemoteAdapter(R.id.list_view, new Intent(this, DetailAppWidgetRemoteViewsService.class));
     }
 
@@ -203,7 +209,12 @@ public class DetailAppWidgetService extends IntentService {
      * @param views RemoteViews to set the RemoteAdapter
      */
     @SuppressWarnings("deprecation")
-    private void setRemoteAdapterV11(final RemoteViews views) {
+    private void setRemoteAdapterV11(@NonNull final RemoteViews views) {
         views.setRemoteAdapter(0, R.id.list_view, new Intent(this, DetailAppWidgetRemoteViewsService.class));
+    }
+
+    @Retention(RetentionPolicy.SOURCE)
+    @StringDef({KEYGUARD_WIDGET_IDENTIFIER, WIDGET_IDENTIFIER})
+    public @interface WidgetIdentifier {
     }
 }

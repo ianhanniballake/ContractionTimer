@@ -1,6 +1,7 @@
 package com.ianhanniballake.contractiontimer.tagmanager;
 
 import android.content.Context;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 
@@ -34,11 +35,13 @@ public class GtmManager {
         mExceptionParser = new GtmExceptionParser(context);
     }
 
-    public static GtmManager getInstance(Fragment fragment) {
+    @NonNull
+    public static GtmManager getInstance(@NonNull Fragment fragment) {
         return getInstance(fragment.getActivity());
     }
 
-    public static GtmManager getInstance(Context context) {
+    @NonNull
+    public static GtmManager getInstance(@NonNull Context context) {
         synchronized (LOCK) {
             if (INSTANCE == null) {
                 INSTANCE = new GtmManager(context.getApplicationContext());
@@ -69,31 +72,31 @@ public class GtmManager {
         }, 2, TimeUnit.SECONDS);
     }
 
-    public void push(String key, Object value) {
+    public void push(@NonNull String key, @NonNull Object value) {
         mTagManager.getDataLayer().push(key, value);
     }
 
-    public void push(Map<String, Object> update) {
+    public void push(@NonNull Map<String, Object> update) {
         mTagManager.getDataLayer().push(update);
     }
 
-    public void pushEvent(String eventName) {
+    public void pushEvent(@NonNull String eventName) {
         mTagManager.getDataLayer().pushEvent(eventName, DataLayer.mapOf());
     }
 
-    public void pushEvent(String eventName, Map<String, Object> update) {
+    public void pushEvent(@NonNull String eventName, @NonNull Map<String, Object> update) {
         mTagManager.getDataLayer().pushEvent(eventName, update);
     }
 
-    public void pushOpenScreen(String screenName) {
+    public void pushOpenScreen(@NonNull String screenName) {
         pushEvent("OpenScreen", DataLayer.mapOf("screenName", screenName));
     }
 
-    public void pushPreferenceChanged(String preference, Object value) {
+    public void pushPreferenceChanged(@NonNull String preference, @NonNull Object value) {
         pushEvent("Changed", DataLayer.mapOf("preference", preference, "value", value));
     }
 
-    public void pushException(final Throwable t) {
+    public void pushException(@NonNull final Throwable t) {
         pushEvent("Exception", mExceptionParser.getExceptionMapping(Thread.currentThread(), t));
     }
 

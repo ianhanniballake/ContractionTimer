@@ -9,6 +9,8 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.BaseColumns;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
@@ -65,6 +67,7 @@ public class ViewFragment extends Fragment implements LoaderManager.LoaderCallba
      * @param contractionId Id of the Contraction to display
      * @return ViewFragment associated with the given id
      */
+    @NonNull
     public static ViewFragment createInstance(final long contractionId) {
         final ViewFragment viewFragment = new ViewFragment();
         final Bundle args = new Bundle();
@@ -79,6 +82,7 @@ public class ViewFragment extends Fragment implements LoaderManager.LoaderCallba
      *
      * @return View created in onCreateView
      */
+    @Nullable
     private View getFragmentView() {
         final View rootView = getView();
         return rootView == null ? null : rootView.findViewById(R.id.view_fragment);
