@@ -38,6 +38,7 @@ import com.google.android.gms.tagmanager.DataLayer;
 import com.ianhanniballake.contractiontimer.BuildConfig;
 import com.ianhanniballake.contractiontimer.R;
 import com.ianhanniballake.contractiontimer.data.CSVTransformer;
+import com.ianhanniballake.contractiontimer.notification.NotificationUpdateService;
 import com.ianhanniballake.contractiontimer.provider.ContractionContract;
 import com.ianhanniballake.contractiontimer.tagmanager.GtmManager;
 
@@ -263,6 +264,7 @@ public class MainActivity extends ActionBarActivity implements LoaderManager.Loa
         dialogCloseFilter.addAction(NoteDialogFragment.NOTE_CLOSE_ACTION);
         dialogCloseFilter.addAction(ResetDialogFragment.RESET_CLOSE_ACTION);
         localBroadcastManager.registerReceiver(dialogFragmentClosedBroadcastReceiver, dialogCloseFilter);
+        NotificationUpdateService.updateNotification(this);
     }
 
     @Override
