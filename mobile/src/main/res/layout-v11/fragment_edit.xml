@@ -30,8 +30,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
         android:layout_below="@id/start_time_label"
         android:paddingLeft="@dimen/indent_padding"
+        android:paddingStart="@dimen/indent_padding"
         android:textAppearance="?android:attr/textAppearanceMedium"/>
 
     <Button
@@ -39,9 +41,11 @@
         style="?android:attr/actionDropDownStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
         android:layout_below="@id/start_time_label"
         android:paddingLeft="@dimen/indent_padding"
+        android:paddingStart="@dimen/indent_padding"
         android:textAppearance="?android:attr/textAppearanceMedium"/>
 
     <TextView
@@ -70,8 +74,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
         android:layout_below="@id/end_time_label"
         android:paddingLeft="@dimen/indent_padding"
+        android:paddingStart="@dimen/indent_padding"
         android:textAppearance="?android:attr/textAppearanceMedium"/>
 
     <Button
@@ -79,9 +85,11 @@
         style="?android:attr/actionDropDownStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
         android:layout_below="@id/end_time_label"
         android:paddingLeft="@dimen/indent_padding"
+        android:paddingStart="@dimen/indent_padding"
         android:textAppearance="?android:attr/textAppearanceMedium"/>
 
     <TextView
@@ -129,6 +137,7 @@
         android:id="@+id/duration"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
         android:layout_below="@id/duration_divider"
         android:textAppearance="?android:attr/textAppearanceLarge"
@@ -161,6 +170,7 @@
         android:layout_below="@id/note_label"
         android:inputType="textCapSentences|textMultiLine|textAutoCorrect"
         android:paddingLeft="@dimen/indent_padding"
+        android:paddingStart="@dimen/indent_padding"
         android:textAppearance="?android:attr/textAppearanceMedium"/>
 
 </RelativeLayout>

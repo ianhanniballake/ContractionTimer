@@ -11,6 +11,7 @@
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
         android:background="@drawable/appwidget_button_left"
         android:contentDescription="@string/application_launch"
         android:padding="@dimen/appwidget_padding"
@@ -21,9 +22,12 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
+        android:layout_toEndOf="@id/application_launch"
         android:layout_toRightOf="@id/application_launch"
+        android:paddingEnd="10dp"
         android:paddingLeft="@dimen/appwidget_padding"
         android:paddingRight="10dp"
+        android:paddingStart="@dimen/appwidget_padding"
         android:text="@string/average_duration_label"
         android:textColor="@android:color/primary_text_dark"/>
 
@@ -32,6 +36,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
+        android:layout_toEndOf="@id/average_duration_label"
         android:layout_toRightOf="@id/average_duration_label"
         android:textColor="@android:color/primary_text_dark"
         android:textIsSelectable="false"/>
@@ -48,9 +53,12 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
+        android:layout_toEndOf="@id/average_center_mark"
         android:layout_toRightOf="@id/average_center_mark"
+        android:paddingEnd="10dp"
         android:paddingLeft="@dimen/appwidget_padding"
         android:paddingRight="10dp"
+        android:paddingStart="@dimen/appwidget_padding"
         android:text="@string/average_frequency_label"
         android:textColor="@android:color/primary_text_dark"/>
 
@@ -59,6 +67,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
+        android:layout_toEndOf="@id/average_frequency_label"
         android:layout_toRightOf="@id/average_frequency_label"
         android:textColor="@android:color/primary_text_dark"
         android:textIsSelectable="false"/>
@@ -67,6 +76,7 @@
         android:id="@+id/contraction_toggle_off"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
+        android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
         android:background="@drawable/appwidget_button_right"
         android:drawableBottom="@android:drawable/button_onoff_indicator_off"
@@ -78,6 +88,7 @@
         android:id="@+id/contraction_toggle_on"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
+        android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
         android:background="@drawable/appwidget_button_right"
         android:drawableBottom="@android:drawable/button_onoff_indicator_on"

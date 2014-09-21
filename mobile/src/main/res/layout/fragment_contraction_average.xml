@@ -12,6 +12,7 @@
         android:orientation="horizontal"
         android:paddingBottom="5dp"
         android:paddingLeft="@dimen/outer_padding"
+        android:paddingStart="@dimen/outer_padding"
         android:paddingTop="5dp"
         android:visibility="gone">
 
