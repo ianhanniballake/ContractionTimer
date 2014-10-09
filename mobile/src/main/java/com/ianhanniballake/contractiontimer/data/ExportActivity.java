@@ -11,6 +11,7 @@ import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.drive.CreateFileActivityBuilder;
 import com.google.android.gms.drive.Drive;
 import com.google.android.gms.drive.DriveApi;
+import com.google.android.gms.drive.DriveContents;
 import com.google.android.gms.drive.DriveFile;
 import com.google.android.gms.drive.DriveId;
 import com.google.android.gms.drive.MetadataChangeSet;
@@ -25,10 +26,10 @@ import java.io.OutputStream;
 public class ExportActivity extends AbstractDriveApiActivity {
     private static final String TAG = ExportActivity.class.getSimpleName();
     private static final int REQUEST_CODE_CREATE = 2;
-    private final ResultCallback<DriveApi.ContentsResult> mCreateFileCallback =
-            new ResultCallback<DriveApi.ContentsResult>() {
+    private final ResultCallback<DriveApi.DriveContentsResult> mCreateFileCallback =
+            new ResultCallback<DriveApi.DriveContentsResult>() {
                 @Override
-                public void onResult(DriveApi.ContentsResult result) {
+                public void onResult(DriveApi.DriveContentsResult result) {
                     if (!result.getStatus().isSuccess()) {
                         finish();
                         return;
@@ -36,10 +37,10 @@ public class ExportActivity extends AbstractDriveApiActivity {
                     MetadataChangeSet metadataChangeSet = new MetadataChangeSet.Builder()
                             .setTitle(getString(R.string.drive_default_filename) + ".csv")
                             .setMimeType("text/csv").build();
-                    IntentSender intentSender = Drive.DriveApi
-                            .newCreateFileActivityBuilder()
+                    IntentSender intentSender = new CreateFileActivityBuilder()
+                            .setActivityTitle(getString(R.string.drive_create_file_title))
                             .setInitialMetadata(metadataChangeSet)
-                            .setInitialContents(result.getContents())
+                            .setInitialDriveContents(result.getDriveContents())
                             .build(mGoogleApiClient);
                     try {
                         startIntentSenderForResult(intentSender, REQUEST_CODE_CREATE, null, 0, 0, 0);
@@ -51,7 +52,7 @@ public class ExportActivity extends AbstractDriveApiActivity {
 
     @Override
     public void onConnected(final Bundle connectionHint) {
-        Drive.DriveApi.newContents(mGoogleApiClient).setResultCallback(mCreateFileCallback);
+        Drive.DriveApi.newDriveContents(mGoogleApiClient).setResultCallback(mCreateFileCallback);
     }
 
     @Override
@@ -71,13 +72,14 @@ public class ExportActivity extends AbstractDriveApiActivity {
                 return false;
             }
             DriveFile file = Drive.DriveApi.getFile(mGoogleApiClient, params[0]);
-            DriveApi.ContentsResult result = file.openContents(mGoogleApiClient, DriveFile.MODE_WRITE_ONLY,
+            DriveApi.DriveContentsResult result = file.open(mGoogleApiClient, DriveFile.MODE_WRITE_ONLY,
                     null).await();
             if (!result.getStatus().isSuccess()) {
                 Log.w(TAG, "Failure getting file result");
                 return false;
             }
-            OutputStream os = result.getContents().getOutputStream();
+            DriveContents driveContents = result.getDriveContents();
+            OutputStream os = driveContents.getOutputStream();
             try {
                 CSVTransformer.writeContractions(ExportActivity.this, os);
                 os.close();
@@ -85,7 +87,7 @@ public class ExportActivity extends AbstractDriveApiActivity {
                 Log.e(TAG, "Error writing contractions", e);
                 return false;
             }
-            file.commitAndCloseContents(mGoogleApiClient, result.getContents()).await();
+            driveContents.commit(mGoogleApiClient, null).await();
             return true;
         }
 

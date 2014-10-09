@@ -3,6 +3,7 @@
     <string name="drive_error_generic_connect">Unknown error connecting to Google Drive</string>
     <string name="drive_error_connect">Error connecting to Google Drive: %s</string>
     <string name="drive_default_filename">Contractions</string>
+    <string name="drive_create_file_title">Export contractions to file</string>
     <string name="drive_export_successful">Export of contractions successful</string>
     <string name="drive_error_export">Error writing contractions to file</string>
     <string name="drive_open_file_title">Open exported contractions</string>
