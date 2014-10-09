@@ -170,6 +170,7 @@ public class NotificationUpdateService extends IntentService {
         data.close();
         // Create a separate page for the averages as the big text is not shown on Android Wear in chronometer mode
         Notification averagePage = new NotificationCompat.Builder(this)
+                .setContentTitle(getString(R.string.notification_second_page_title))
                 .setStyle(new NotificationCompat.InboxStyle()
                         .setBigContentTitle(getString(R.string.notification_second_page_title))
                         .addLine(getString(R.string.notification_second_page_duration, formattedAverageDuration))
@@ -178,6 +179,8 @@ public class NotificationUpdateService extends IntentService {
         wearableExtender.addPage(averagePage);
         if (hasNote) {
             Notification notePage = new NotificationCompat.Builder(this)
+                    .setContentTitle(getString(R.string.detail_note_label))
+                    .setContentText(note)
                     .setStyle(new NotificationCompat.BigTextStyle()
                             .setBigContentTitle(getString(R.string.detail_note_label))
                             .bigText(note))
