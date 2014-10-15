@@ -24,7 +24,6 @@ public class ContractionTimerApplication extends Application {
      */
     @Override
     public void onCreate() {
-        GtmManager.getInstance(this).init();
         if (BuildConfig.DEBUG) {
             StrictModeController.createInstance().setStrictMode();
         } else {
@@ -34,6 +33,7 @@ public class ContractionTimerApplication extends Application {
                     "http://www.bugsense.com/api/acra?api_key=6ebe60f4", null);
             ACRA.getErrorReporter().addReportSender(bugsenseReportSender);
         }
+        GtmManager.getInstance(this).init();
         super.onCreate();
         AppWidgetUpdateHandler.createInstance().updateAllWidgets(this);
         NotificationUpdateService.updateNotification(this);
