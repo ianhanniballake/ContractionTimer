@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <color name="primary">#84bf70</color>
+    <color name="primaryDark">#689f38</color>
     <color name="empty_list_text_color">#DDDDDD</color>
     <color name="pagerstrip_background">#84BF70</color>
     <color name="average_background">#84BF70</color>
