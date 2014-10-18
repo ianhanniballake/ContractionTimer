@@ -1,23 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<resources xmlns:android="http://schemas.android.com/apk/res/android">
+<resources xmlns:android="http://schemas.android.com/apk/res/android" xmlns:tools="http://schemas.android.com/tools">
 
-    <style name="AppTheme" parent="@style/Theme.Appcompat">
-        <item name="android:editTextStyle">@style/EditTextAppTheme</item>
-        <item name="android:checkboxStyle">@style/CheckBoxAppTheme</item>
-        <item name="android:radioButtonStyle">@style/RadioButtonAppTheme</item>
-        <item name="android:buttonStyle">@style/ButtonAppTheme</item>
-        <item name="android:imageButtonStyle">@style/ImageButtonAppTheme</item>
-        <item name="android:spinnerStyle">@style/SpinnerAppTheme</item>
-        <item name="android:selectableItemBackground">@drawable/list_selector_holo_light</item>
-        <item name="android:spinnerDropDownItemStyle">@style/SpinnerDropDownItemAppTheme</item>
-        <item name="android:buttonStyleToggle">@style/ToggleAppTheme</item>
-        <item name="android:listViewStyle">@style/ListViewAppTheme</item>
-        <item name="android:listViewWhiteStyle">@style/ListViewAppTheme.White</item>
-        <item name="android:spinnerItemStyle">@style/SpinnerItemAppTheme</item>
+    <style name="AppTheme" parent="@style/Theme.AppCompat.Light">
+        <item name="colorPrimary">@color/primary</item>
+        <item name="colorPrimaryDark">@color/primaryDark</item>
+        <item name="android:activatedBackgroundIndicator" tools:ignore="NewApi">
+            @drawable/activated_background_holo_light
+        </item>
     </style>
 
-    <style name="AppTheme.DialogWhenLarge" parent="@style/Theme.Appcompat.DialogWhenLarge">
+    <style name="AppTheme.DialogWhenLarge" parent="@style/Theme.AppCompat.Light.DialogWhenLarge">
+        <item name="colorPrimary">@color/primary</item>
+        <item name="colorPrimaryDark">@color/primaryDark</item>
     </style>
 
     <style name="AppTheme.Drive" parent="android:Theme.Translucent.NoTitleBar">

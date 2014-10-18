@@ -2,18 +2,6 @@
 
 <resources xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <style name="AppTheme" parent="@style/Theme.Appcompat">
-        <item name="android:editTextBackground">@drawable/edit_text_holo_light</item>
-        <item name="android:listChoiceIndicatorMultiple">@drawable/btn_check_holo_light</item>
-        <item name="android:listChoiceIndicatorSingle">@drawable/btn_radio_holo_light</item>
-        <item name="android:buttonStyle">@style/ButtonAppTheme</item>
-        <item name="android:imageButtonStyle">@style/ImageButtonAppTheme</item>
-        <item name="android:dropDownSpinnerStyle">@style/SpinnerAppTheme</item>
-        <item name="android:buttonStyleToggle">@style/ToggleAppTheme</item>
-        <item name="android:listChoiceBackgroundIndicator">@drawable/list_selector_holo_light</item>
-        <item name="android:activatedBackgroundIndicator">@drawable/activated_background_holo_light</item>
-    </style>
-
     <style name="AppTheme.SelectedItem">
         <item name="android:background">?android:attr/activatedBackgroundIndicator</item>
     </style>

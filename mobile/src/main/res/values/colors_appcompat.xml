@@ -18,7 +18,6 @@
 -->
 
 <resources>
-    <color name="pressed_appcompat">#CC84BF70</color>
-    <color name="primary">@color/apptheme_color</color>
+    <color name="primary">#84bf70</color>
     <color name="primaryDark">#689f38</color>
 </resources>
