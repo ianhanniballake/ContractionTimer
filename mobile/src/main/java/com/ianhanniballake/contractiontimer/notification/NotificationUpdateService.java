@@ -90,7 +90,8 @@ public class NotificationUpdateService extends IntentService {
         if (BuildConfig.DEBUG)
             Log.d(TAG, "Building Notification");
         NotificationCompat.Builder builder = new NotificationCompat.Builder(this);
-        builder.setSmallIcon(R.drawable.ic_notification);
+        builder.setSmallIcon(R.drawable.ic_notification)
+                .setColor(getResources().getColor(R.color.primary));
         Intent contentIntent = new Intent(this, MainActivity.class);
         contentIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK |
                 Intent.FLAG_ACTIVITY_CLEAR_TASK |

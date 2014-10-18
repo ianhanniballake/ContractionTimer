@@ -12,8 +12,6 @@
         <item name="android:buttonStyleToggle">@style/ToggleAppTheme</item>
         <item name="android:listChoiceBackgroundIndicator">@drawable/list_selector_holo_light</item>
         <item name="android:activatedBackgroundIndicator">@drawable/activated_background_holo_light</item>
-        <item name="switchStyle">@style/Widget.Holo.Light.CompoundButton.Switch</item>
-        <item name="switchPreferenceStyle">@style/Preference.SwitchPreference</item>
     </style>
 
     <style name="AppTheme.SelectedItem">

@@ -20,25 +20,13 @@
 <resources>
 
     <style name="Theme.Appcompat" parent="@style/Theme.AppCompat.Light">
-        <item name="actionBarItemBackground">@drawable/selectable_background_appcompat</item>
-        <item name="popupMenuStyle">@style/PopupMenu.Appcompat</item>
-        <item name="dropDownListViewStyle">@style/DropDownListView.Appcompat</item>
-        <item name="actionDropDownStyle">@style/DropDownNav.Appcompat</item>
-        <item name="actionBarStyle">@style/ActionBar.Solid.Appcompat</item>
-        <item name="actionModeBackground">@drawable/cab_background_top_appcompat</item>
-        <item name="actionModeSplitBackground">@drawable/cab_background_bottom_appcompat</item>
-        <item name="actionModeCloseButtonStyle">@style/ActionButton.CloseMode.Appcompat</item>
+        <item name="colorPrimary">@color/primary</item>
+        <item name="colorPrimaryDark">@color/primaryDark</item>
     </style>
 
     <style name="Theme.Appcompat.DialogWhenLarge" parent="@style/Theme.AppCompat.Light.DialogWhenLarge">
-        <item name="actionBarItemBackground">@drawable/selectable_background_appcompat</item>
-        <item name="popupMenuStyle">@style/PopupMenu.Appcompat</item>
-        <item name="dropDownListViewStyle">@style/DropDownListView.Appcompat</item>
-        <item name="actionDropDownStyle">@style/DropDownNav.Appcompat</item>
-        <item name="actionBarStyle">@style/ActionBar.Solid.Appcompat</item>
-        <item name="actionModeBackground">@drawable/cab_background_top_appcompat</item>
-        <item name="actionModeSplitBackground">@drawable/cab_background_bottom_appcompat</item>
-        <item name="actionModeCloseButtonStyle">@style/ActionButton.CloseMode.Appcompat</item>
+        <item name="colorPrimary">@color/primary</item>
+        <item name="colorPrimaryDark">@color/primaryDark</item>
     </style>
 
     <style name="ActionBar.Solid.Appcompat" parent="@style/Widget.AppCompat.Light.ActionBar.Solid">

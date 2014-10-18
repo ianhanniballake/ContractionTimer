@@ -91,8 +91,12 @@
     <string name="duration_ongoing">Timing</string>
     <string name="settings">Settings</string>
     <string name="pref_keep_screen_on_summary">Keep the screen on when on the main contraction screen</string>
+    <string name="pref_keep_screen_on_summary_on">Screen will stay on when on the main contraction screen</string>
+    <string name="pref_keep_screen_on_summary_off">Screen will time out per the system settings</string>
     <string name="pref_keep_screen_on_title">Keep screen on</string>
     <string name="pref_lock_portrait_summary">Locks the screen in portrait orientation, preventing all screens from rotating</string>
+    <string name="pref_lock_portrait_summary_on">Screen is locked in portrait orientation when on any screen</string>
+    <string name="pref_lock_portrait_summary_off">Screen will rotate per the system settings</string>
     <string name="pref_lock_portrait_title">Lock in portrait</string>
     <string name="pref_average_time_frame_title">Averages time frame</string>
     <string name="pref_average_time_frame_summary">Average duration/frequency time frame:</string>
@@ -103,6 +107,8 @@
     <string name="pref_appwidget_background_default">light</string>
     <string name="pref_notification_enable_title">Enable notification</string>
     <string name="pref_notification_enable_summary">Show a notification when timing contractions</string>
+    <string name="pref_notification_enable_summary_on">Show a notification when timing contractions</string>
+    <string name="pref_notification_enable_summary_off">Never show a notification</string>
     <string name="pref_export_import_category">Google Drive</string>
     <string name="pref_export_title">Export contractions…</string>
     <string name="pref_export_summary">Export as a CSV file</string>
