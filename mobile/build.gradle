@@ -46,7 +46,7 @@ android {
 }
 
 dependencies {
-    compile 'com.android.support:support-annotations:20.0.0'
+    compile 'com.android.support:support-annotations:21.0.0'
     compile "com.android.support:appcompat-v7:21.0.0"
     compile "com.android.support:gridlayout-v7:21.0.0"
     compile "com.google.android.gms:play-services:6.1.11"
