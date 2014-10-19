@@ -58,13 +58,10 @@
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:textIsSelectable="false"/>
 
-        <ImageButton
+        <android.support.v7.widget.ActionMenuView
             android:id="@+id/show_popup"
-            android:layout_width="48dp"
-            android:layout_height="match_parent"
-            android:background="@drawable/list_selector_holo_light"
-            android:focusableInTouchMode="true"
-            android:src="@drawable/ic_action_overflow"/>
+            android:layout_width="@dimen/popup_menu_width"
+            android:layout_height="match_parent"/>
     </LinearLayout>
 
     <TextView

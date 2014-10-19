@@ -14,6 +14,7 @@ import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
 import android.support.v4.widget.CursorAdapter;
+import android.support.v7.widget.ActionMenuView;
 import android.support.v7.widget.PopupMenu;
 import android.text.TextUtils;
 import android.text.format.DateFormat;
@@ -28,7 +29,6 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.FrameLayout;
-import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.ViewAnimator;
@@ -448,25 +448,56 @@ public abstract class ContractionListFragment extends ListFragment implements Lo
                 noteView.setVisibility(View.GONE);
             else
                 noteView.setVisibility(View.VISIBLE);
-            final View showPopupView = view.findViewById(R.id.show_popup);
-            final Object showPopupTag = showPopupView.getTag();
-            PopupHolder popupHolder;
-            if (showPopupTag == null) {
-                popupHolder = new PopupHolder();
-                showPopupView.setTag(popupHolder);
-            } else
-                popupHolder = (PopupHolder) showPopupTag;
             final int idColumnIndex = cursor.getColumnIndex(BaseColumns._ID);
-            popupHolder.id = cursor.getLong(idColumnIndex);
-            popupHolder.existingNote = note;
+            final long id = cursor.getLong(idColumnIndex);
+            final ActionMenuView showPopupView = (ActionMenuView) view.findViewById(R.id.show_popup);
+            final MenuItem noteItem = showPopupView.getMenu().findItem(R.id.menu_context_note);
+            if (TextUtils.isEmpty(note))
+                noteItem.setTitle(R.string.note_dialog_title_add);
+            else
+                noteItem.setTitle(R.string.note_dialog_title_edit);
+            final MenuItem deleteItem = showPopupView.getMenu().findItem(R.id.menu_context_delete);
+            deleteItem.setTitle(getResources().getQuantityText(R.plurals.menu_context_delete, 1));
+            showPopupView.setOnMenuItemClickListener(new ActionMenuView.OnMenuItemClickListener() {
+                @Override
+                public boolean onMenuItemClick(final MenuItem item) {
+                    GtmManager gtmManager = GtmManager.getInstance(ContractionListFragment.this);
+                    gtmManager.push("menu", "PopupMenu");
+                    switch (item.getItemId()) {
+                        case R.id.menu_context_view:
+                            if (BuildConfig.DEBUG)
+                                Log.d(TAG, "Popup Menu selected view");
+                            gtmManager.pushEvent("View");
+                            viewContraction(id);
+                            return true;
+                        case R.id.menu_context_note:
+                            String type = TextUtils.isEmpty(note) ? "Add Note" : "Edit Note";
+                            if (BuildConfig.DEBUG)
+                                Log.d(TAG, "Popup Menu selected " + type);
+                            gtmManager.pushEvent("Note", DataLayer.mapOf("type", type,
+                                    "position", DataLayer.OBJECT_NOT_PRESENT));
+                            showNoteDialog(id, note);
+                            return true;
+                        case R.id.menu_context_delete:
+                            if (BuildConfig.DEBUG)
+                                Log.d(TAG, "Popup Menu selected delete");
+                            gtmManager.pushEvent("Delete", DataLayer.mapOf("count", 1));
+                            deleteContraction(id);
+                            return true;
+                        default:
+                            return false;
+                    }
+                }
+            });
             ContractionListFragment.this.bindView(view, cursor);
         }
 
         @Override
         public View newView(final Context context, final Cursor cursor, final ViewGroup parent) {
             final View view = inflater.inflate(R.layout.list_item_contraction, parent, false);
-            final ImageButton showPopup = (ImageButton) view.findViewById(R.id.show_popup);
-            showPopup.setOnClickListener(ContractionListFragment.this);
+            final ActionMenuView showPopup = (ActionMenuView) view.findViewById(R.id.show_popup);
+            MenuInflater menuInflater = getActivity().getMenuInflater();
+            menuInflater.inflate(R.menu.list_popup, showPopup.getMenu());
             return view;
         }
     }

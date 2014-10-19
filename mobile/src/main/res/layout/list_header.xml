@@ -20,7 +20,7 @@
         android:textIsSelectable="false"/>
 
     <android.support.v7.widget.Space
-        android:layout_width="48dp"
+        android:layout_width="@dimen/popup_menu_width"
         android:layout_height="match_parent"
         android:focusable="false"/>
 
