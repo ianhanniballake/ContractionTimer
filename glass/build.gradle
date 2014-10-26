@@ -2,7 +2,7 @@ apply plugin: 'com.android.application'
 
 android {
     compileSdkVersion 'Google Inc.:Glass Development Kit Preview:19'
-    buildToolsVersion '20.0.0'
+    buildToolsVersion '21.0.2'
 
     defaultConfig {
         def versionMajor = 1
@@ -18,7 +18,7 @@ android {
     }
 
     signingConfigs {
-        releaseConfig {
+        release {
             storeFile System.getenv("KEYSTORE") != null ? file(System.getenv("KEYSTORE")) : null
             storePassword System.getenv("KEYSTORE_PASSWORD")
             keyAlias System.getenv("CONTRACTION_TIMER_ALIAS")
@@ -30,7 +30,7 @@ android {
         release {
             runProguard true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-            signingConfig signingConfigs.releaseConfig
+            signingConfig signingConfigs.release
         }
     }
 }
