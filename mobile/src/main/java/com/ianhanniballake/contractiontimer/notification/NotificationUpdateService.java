@@ -90,7 +90,11 @@ public class NotificationUpdateService extends IntentService {
         if (BuildConfig.DEBUG)
             Log.d(TAG, "Building Notification");
         NotificationCompat.Builder builder = new NotificationCompat.Builder(this);
+        NotificationCompat.Builder publicBuilder = new NotificationCompat.Builder(this);
         builder.setSmallIcon(R.drawable.ic_notification)
+                .setColor(getResources().getColor(R.color.primary))
+                .setCategory(NotificationCompat.CATEGORY_ALARM);
+        publicBuilder.setSmallIcon(R.drawable.ic_notification)
                 .setColor(getResources().getColor(R.color.primary))
                 .setCategory(NotificationCompat.CATEGORY_ALARM);
         Intent contentIntent = new Intent(this, MainActivity.class);
@@ -101,6 +105,7 @@ public class NotificationUpdateService extends IntentService {
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, contentIntent,
                 PendingIntent.FLAG_UPDATE_CURRENT);
         builder.setContentIntent(pendingIntent);
+        publicBuilder.setContentIntent(pendingIntent);
         NotificationCompat.WearableExtender wearableExtender = new NotificationCompat.WearableExtender();
         // Determine whether a contraction is currently ongoing
         final int endTimeColumnIndex = data.getColumnIndex(ContractionContract.Contractions.COLUMN_NAME_END_TIME);
@@ -111,6 +116,7 @@ public class NotificationUpdateService extends IntentService {
                 PendingIntent.FLAG_UPDATE_CURRENT);
         if (contractionOngoing) {
             builder.setContentTitle(getString(R.string.notification_timing));
+            publicBuilder.setContentTitle(getString(R.string.notification_timing));
             builder.addAction(R.drawable.ic_notif_action_stop, getString(R.string.appwidget_contraction_stop),
                     startStopPendingIntent);
             wearableExtender.addAction(new NotificationCompat.Action(R.drawable.ic_wear_action_stop,
@@ -118,6 +124,7 @@ public class NotificationUpdateService extends IntentService {
                     startStopPendingIntent));
         } else {
             builder.setContentTitle(getString(R.string.app_name));
+            publicBuilder.setContentTitle(getString(R.string.app_name));
             builder.addAction(R.drawable.ic_notif_action_start, getString(R.string.appwidget_contraction_start),
                     startStopPendingIntent);
             wearableExtender.addAction(new NotificationCompat.Action(R.drawable.ic_wear_action_start,
@@ -131,7 +138,9 @@ public class NotificationUpdateService extends IntentService {
         // Fill in the 'when', which will be used to show live progress via the chronometer feature
         final long when = contractionOngoing ? data.getLong(startTimeColumnIndex) : data.getLong(endTimeColumnIndex);
         builder.setWhen(when);
+        publicBuilder.setWhen(when);
         builder.setUsesChronometer(true);
+        publicBuilder.setUsesChronometer(true);
         // Get the average duration and frequency
         double averageDuration = 0;
         double averageFrequency = 0;
@@ -159,15 +168,18 @@ public class NotificationUpdateService extends IntentService {
         String contentText = getString(R.string.notification_content_text,
                 formattedAverageDuration, formattedAverageFrequency);
         String bigText;
+        String bigTextWithoutNote = getString(R.string.notification_big_text, formattedAverageDuration,
+                formattedAverageFrequency);
         if (hasNote) {
             bigText = getString(R.string.notification_big_text_with_note, formattedAverageDuration,
                     formattedAverageFrequency, note);
         } else {
-            bigText = getString(R.string.notification_big_text, formattedAverageDuration,
-                    formattedAverageFrequency);
+            bigText = bigTextWithoutNote;
         }
         builder.setContentText(contentText)
                 .setStyle(new NotificationCompat.BigTextStyle().bigText(bigText));
+        publicBuilder.setContentText(contentText)
+                .setStyle(new NotificationCompat.BigTextStyle().bigText(bigTextWithoutNote));
         // Close the cursor
         data.close();
         // Create a separate page for the averages as the big text is not shown on Android Wear in chronometer mode
@@ -202,6 +214,7 @@ public class NotificationUpdateService extends IntentService {
         builder.addAction(noteIconResId, noteTitle, notePendingIntent);
         wearableExtender.addAction(new NotificationCompat.Action.Builder(wearIconResId, noteTitle,
                 notePendingIntent).addRemoteInput(remoteInput).build());
+        builder.setPublicVersion(publicBuilder.build());
         notificationManager.notify(NOTIFICATION_ID, builder.extend(wearableExtender).build());
     }
 }
