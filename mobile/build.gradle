@@ -5,8 +5,8 @@ repositories {
 }
 
 android {
-    compileSdkVersion 21
-    buildToolsVersion '21.1.1'
+    compileSdkVersion rootProject.ext.compileSdkVersion
+    buildToolsVersion rootProject.ext.buildToolsVersion
 
     defaultConfig {
         def versionMajor = 2
@@ -16,7 +16,7 @@ android {
         def betaVersion = 0
 
         minSdkVersion 9
-        targetSdkVersion 21
+        targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode versionMajor * 10000000 + versionMinor * 100000 + versionPatch * 1000 + versionBuild
         versionName "${versionMajor}.${versionMinor}" +
                 (versionPatch > 0 ? ".${versionPatch}" : "") +

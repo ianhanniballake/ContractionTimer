@@ -2,7 +2,7 @@ apply plugin: 'com.android.application'
 
 android {
     compileSdkVersion 'Google Inc.:Glass Development Kit Preview:19'
-    buildToolsVersion '21.1.1'
+    buildToolsVersion rootProject.ext.buildToolsVersion
 
     defaultConfig {
         def versionMajor = 1
