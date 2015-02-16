@@ -336,8 +336,7 @@ public class MainActivity extends ActionBarActivity implements LoaderManager.Loa
      */
     private void showFragments() {
         final ContractionControlsFragment controlsFragment = new ContractionControlsFragment();
-        ContractionListFragment listFragment;
-        listFragment = new ContractionListFragmentV11();
+        ContractionListFragment listFragment = new ContractionListFragment();
         final ContractionAverageFragment averageFragment = new ContractionAverageFragment();
         // Execute a transaction, replacing any existing fragment
         // with this one inside the frame.
