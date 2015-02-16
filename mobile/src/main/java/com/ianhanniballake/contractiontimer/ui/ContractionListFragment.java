@@ -158,13 +158,13 @@ public abstract class ContractionListFragment extends ListFragment implements Lo
         listView.addHeaderView(headerFrame, null, false);
         adapter = new ContractionListCursorAdapter(getActivity());
         setListAdapter(adapter);
-        setupListView();
         listView.setOnItemClickListener(new OnItemClickListener() {
             @Override
             public void onItemClick(final AdapterView<?> parent, final View view, final int position, final long id) {
                 viewContraction(id);
             }
         });
+        setupListView();
         getLoaderManager().initLoader(0, null, this);
     }
 
