@@ -10,7 +10,6 @@ import android.content.pm.ActivityInfo;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.AsyncTask;
-import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.provider.BaseColumns;
@@ -338,10 +337,7 @@ public class MainActivity extends ActionBarActivity implements LoaderManager.Loa
     private void showFragments() {
         final ContractionControlsFragment controlsFragment = new ContractionControlsFragment();
         ContractionListFragment listFragment;
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB)
-            listFragment = new ContractionListFragmentV11();
-        else
-            listFragment = new ContractionListFragmentBase();
+        listFragment = new ContractionListFragmentV11();
         final ContractionAverageFragment averageFragment = new ContractionAverageFragment();
         // Execute a transaction, replacing any existing fragment
         // with this one inside the frame.

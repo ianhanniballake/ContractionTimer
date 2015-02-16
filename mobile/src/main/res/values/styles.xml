@@ -24,6 +24,7 @@
     </style>
 
     <style name="AppTheme.SelectedItem">
+        <item name="android:background">@drawable/activated_background_holo_light</item>
     </style>
 
 </resources>
