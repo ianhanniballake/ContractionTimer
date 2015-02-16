@@ -25,12 +25,12 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
+            android:layout_marginEnd="10dp"
+            android:layout_marginLeft="@dimen/appwidget_padding"
+            android:layout_marginRight="10dp"
+            android:layout_marginStart="@dimen/appwidget_padding"
             android:layout_toEndOf="@id/application_launch"
             android:layout_toRightOf="@id/application_launch"
-            android:paddingEnd="10dp"
-            android:paddingLeft="@dimen/appwidget_padding"
-            android:paddingRight="10dp"
-            android:paddingStart="@dimen/appwidget_padding"
             android:text="@string/average_duration_label"
             android:textColor="@android:color/primary_text_dark"/>
 
@@ -56,12 +56,12 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
+            android:layout_marginEnd="10dp"
+            android:layout_marginLeft="@dimen/appwidget_padding"
+            android:layout_marginRight="10dp"
+            android:layout_marginStart="@dimen/appwidget_padding"
             android:layout_toEndOf="@id/average_center_mark"
             android:layout_toRightOf="@id/average_center_mark"
-            android:paddingEnd="10dp"
-            android:paddingLeft="@dimen/appwidget_padding"
-            android:paddingRight="10dp"
-            android:paddingStart="@dimen/appwidget_padding"
             android:text="@string/average_frequency_label"
             android:textColor="@android:color/primary_text_dark"/>
 
@@ -83,7 +83,6 @@
             android:layout_alignParentRight="true"
             android:background="@drawable/appwidget_button_right"
             android:drawableBottom="@android:drawable/button_onoff_indicator_off"
-            android:padding="@dimen/appwidget_padding"
             android:text="@string/appwidget_contraction_start"
             android:textColor="@android:color/primary_text_dark"/>
 
@@ -95,7 +94,6 @@
             android:layout_alignParentRight="true"
             android:background="@drawable/appwidget_button_right"
             android:drawableBottom="@android:drawable/button_onoff_indicator_on"
-            android:padding="@dimen/appwidget_padding"
             android:text="@string/appwidget_contraction_stop"
             android:textColor="@android:color/primary_text_dark"
             android:visibility="gone"/>

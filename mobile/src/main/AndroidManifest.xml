@@ -15,6 +15,7 @@
         android:backupAgent=".ContractionTimerBackupAgent"
         android:icon="@drawable/icon"
         android:label="@string/app_name"
+        android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <provider
             android:name="android.support.v4.content.FileProvider"
@@ -88,6 +89,7 @@
 
                 <category android:name="android.intent.category.DEFAULT"/>
             </intent-filter>
+
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".ui.MainActivity"/>

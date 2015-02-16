@@ -30,11 +30,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/description"
+        android:layout_marginLeft="5dp"
+        android:layout_marginStart="5dp"
         android:layout_toEndOf="@id/project"
         android:layout_toRightOf="@id/project"
         android:autoLink="web"
-        android:paddingLeft="5dp"
-        android:paddingStart="5dp"
         android:paddingTop="10dp"
         android:text="@string/project_link"/>
 
@@ -53,8 +53,8 @@
         android:layout_alignLeft="@id/created_by_label"
         android:layout_alignStart="@id/created_by_label"
         android:layout_below="@id/created_by_label"
-        android:paddingLeft="15dp"
-        android:paddingStart="15dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginStart="15dp"
         android:text="@string/creator"/>
 
     <TextView
@@ -71,11 +71,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/created_by_label"
+        android:layout_marginLeft="5dp"
+        android:layout_marginStart="5dp"
         android:layout_toEndOf="@id/creator_separator"
         android:layout_toRightOf="@id/creator_separator"
         android:autoLink="web"
-        android:paddingLeft="5dp"
-        android:paddingStart="5dp"
         android:text="@string/creator_link"/>
 
     <TextView
@@ -92,8 +92,8 @@
         android:layout_alignLeft="@id/graphics_and_testing_by_label"
         android:layout_alignStart="@id/graphics_and_testing_by_label"
         android:layout_below="@id/graphics_and_testing_by_label"
-        android:paddingLeft="15dp"
-        android:paddingStart="15dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginStart="15dp"
         android:text="@string/artist_and_tester"/>
 
     <TextView
@@ -109,11 +109,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/graphics_and_testing_by_label"
+        android:layout_marginLeft="5dp"
+        android:layout_marginStart="5dp"
         android:layout_toEndOf="@id/artist_and_tester_separator"
         android:layout_toRightOf="@id/artist_and_tester_separator"
         android:autoLink="web"
-        android:paddingLeft="5dp"
-        android:paddingStart="5dp"
         android:text="@string/artist_and_tester_link"/>
 
 </RelativeLayout>
