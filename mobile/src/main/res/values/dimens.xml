@@ -11,5 +11,6 @@
     <dimen name="indent_padding">25dp</dimen>
     <dimen name="dividing_padding">10dp</dimen>
     <dimen name="popup_menu_width">56dp</dimen>
+    <dimen name="action_bar_elevation">8dp</dimen>
 
 </resources>

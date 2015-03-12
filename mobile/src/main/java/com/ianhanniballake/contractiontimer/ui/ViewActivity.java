@@ -14,6 +14,7 @@ import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
+import android.support.v4.view.ViewCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.CursorAdapter;
 import android.support.v7.app.ActionBarActivity;
@@ -186,6 +187,9 @@ public class ViewActivity extends ActionBarActivity implements LoaderManager.Loa
     protected void onStart() {
         super.onStart();
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setElevation(0);
+        ViewCompat.setElevation(findViewById(R.id.pager_title_strip),
+                getResources().getDimension(R.dimen.action_bar_elevation));
         GtmManager.getInstance(this).pushOpenScreen("View");
         if (getIntent().hasExtra(MainActivity.LAUNCHED_FROM_WIDGET_EXTRA)) {
             final String widgetIdentifier = getIntent().getStringExtra(MainActivity.LAUNCHED_FROM_WIDGET_EXTRA);
