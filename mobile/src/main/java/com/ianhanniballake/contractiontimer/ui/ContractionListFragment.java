@@ -531,10 +531,15 @@ public class ContractionListFragment extends ListFragment implements LoaderManag
             String timeFormat = "hh:mm:ssa";
             if (DateFormat.is24HourFormat(context))
                 timeFormat = "HH:mm:ss";
-            final char[] dateFormatOrder = DateFormat.getDateFormatOrder(mContext);
-            final char[] dateFormatArray = {dateFormatOrder[0], dateFormatOrder[0], '/', dateFormatOrder[1],
-                    dateFormatOrder[1]};
-            final String dateFormat = new String(dateFormatArray);
+            String dateFormat;
+            try {
+                final char[] dateFormatOrder = DateFormat.getDateFormatOrder(mContext);
+                final char[] dateFormatArray = {dateFormatOrder[0], dateFormatOrder[0], '/', dateFormatOrder[1],
+                        dateFormatOrder[1]};
+                dateFormat = new String(dateFormatArray);
+            } catch (IllegalArgumentException e) {
+                dateFormat = "MM/dd";
+            }
             final int startTimeColumnIndex = cursor
                     .getColumnIndex(ContractionContract.Contractions.COLUMN_NAME_START_TIME);
             final long startTime = cursor.getLong(startTimeColumnIndex);
