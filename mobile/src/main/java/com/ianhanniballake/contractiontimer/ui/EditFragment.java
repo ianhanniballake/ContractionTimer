@@ -466,7 +466,7 @@ public class EditFragment extends Fragment implements LoaderManager.LoaderCallba
         final TextView startDateView = (TextView) view.findViewById(R.id.start_date);
         String timeFormat = "hh:mm:ssa";
         if (DateFormat.is24HourFormat(getActivity()))
-            timeFormat = "HH:mm:ss";
+            timeFormat = "kk:mm:ss";
         startTimeView.setText(DateFormat.format(timeFormat, startTime));
         startDateView.setText(DateFormat.getDateFormat(getActivity()).format(startTime.getTime()));
         final TextView endTimeView = (TextView) view.findViewById(R.id.end_time);

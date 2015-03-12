@@ -110,7 +110,7 @@ public class ViewFragment extends Fragment implements LoaderManager.LoaderCallba
                         final TextView startTimeView = (TextView) view.findViewById(R.id.start_time);
                         String timeFormat = "hh:mm:ssa";
                         if (DateFormat.is24HourFormat(context))
-                            timeFormat = "HH:mm:ss";
+                            timeFormat = "kk:mm:ss";
                         final int startTimeColumnIndex = cursor
                                 .getColumnIndex(ContractionContract.Contractions.COLUMN_NAME_START_TIME);
                         final long startTime = cursor.getLong(startTimeColumnIndex);

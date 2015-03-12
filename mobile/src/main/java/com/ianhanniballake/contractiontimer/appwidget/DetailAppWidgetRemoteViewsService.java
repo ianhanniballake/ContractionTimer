@@ -73,7 +73,7 @@ public class DetailAppWidgetRemoteViewsService extends RemoteViewsService {
                     return views;
                 String timeFormat = "hh:mm:ssa";
                 if (DateFormat.is24HourFormat(DetailAppWidgetRemoteViewsService.this))
-                    timeFormat = "HH:mm:ss";
+                    timeFormat = "kk:mm:ss";
                 final int startTimeColumnIndex = data
                         .getColumnIndex(ContractionContract.Contractions.COLUMN_NAME_START_TIME);
                 final long startTime = data.getLong(startTimeColumnIndex);

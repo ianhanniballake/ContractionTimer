@@ -98,7 +98,7 @@ public class TimerRenderer implements DirectRenderingCallback {
                 }
                 String timeFormat = "hh:mm:ssa";
                 if (DateFormat.is24HourFormat(mContext))
-                    timeFormat = "HH:mm:ss";
+                    timeFormat = "kk:mm:ss";
                 final int startTimeColumnIndex = cursor.getColumnIndex(
                         ContractionContract.Contractions.COLUMN_NAME_START_TIME);
                 final long startTime = cursor.getLong(startTimeColumnIndex);

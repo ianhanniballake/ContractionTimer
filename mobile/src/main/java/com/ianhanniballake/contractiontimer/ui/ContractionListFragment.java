@@ -530,7 +530,7 @@ public class ContractionListFragment extends ListFragment implements LoaderManag
         public void bindView(final View view, final Context context, final Cursor cursor) {
             String timeFormat = "hh:mm:ssa";
             if (DateFormat.is24HourFormat(context))
-                timeFormat = "HH:mm:ss";
+                timeFormat = "kk:mm:ss";
             String dateFormat;
             try {
                 final char[] dateFormatOrder = DateFormat.getDateFormatOrder(mContext);
