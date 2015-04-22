@@ -13,7 +13,7 @@ import android.preference.PreferenceManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.ActionBar;
-import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -25,7 +25,7 @@ import com.ianhanniballake.contractiontimer.tagmanager.GtmManager;
 /**
  * Stand alone activity used to view the details of an individual contraction
  */
-public class EditActivity extends ActionBarActivity {
+public class EditActivity extends AppCompatActivity {
     private final static String TAG = EditActivity.class.getSimpleName();
     /**
      * BroadcastReceiver listening for TIME_PICKER_CLOSE_ACTION and DATE_PICKER_CLOSE_ACTION actions

@@ -15,12 +15,11 @@
  */
 package com.ikovac.timepickerwithseconds.view;
 
-import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
 import android.os.Bundle;
-import android.view.LayoutInflater;
+import android.support.v7.app.AlertDialog;
 import android.view.View;
 import android.view.Window;
 
@@ -86,12 +85,9 @@ public class MyTimePickerDialog extends AlertDialog implements OnClickListener,
         mDateFormat = new SimpleDateFormat(mIs24HourView ? TIME_FORMAT_24 : TIME_FORMAT_12);
         mCalendar = Calendar.getInstance();
         updateTitle(mInitialHourOfDay, mInitialMinute, mInitialSeconds);
-        setButton(context.getText(R.string.time_set), this);
-        setButton2(context.getText(R.string.cancel), (OnClickListener) null);
-        //setIcon(android.R.drawable.ic_dialog_time);
-        LayoutInflater inflater =
-                (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View view = inflater.inflate(R.layout.time_picker_dialog, null);
+        setButton(DialogInterface.BUTTON_POSITIVE, context.getText(R.string.time_set), this);
+        setButton(DialogInterface.BUTTON_NEGATIVE, context.getText(R.string.cancel), (OnClickListener) null);
+        View view = getLayoutInflater().inflate(R.layout.time_picker_dialog, null);
         setView(view);
         mTimePicker = (TimePicker) view.findViewById(R.id.timePicker);
         // initialize state

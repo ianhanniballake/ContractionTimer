@@ -14,7 +14,7 @@ import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
 import android.support.v4.widget.CursorAdapter;
-import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.view.ActionMode;
 import android.support.v7.widget.ActionMenuView;
 import android.support.v7.widget.PopupMenu;
@@ -225,8 +225,8 @@ public class ContractionListFragment extends ListFragment implements LoaderManag
                 }
                 listView.setChoiceMode(AbsListView.CHOICE_MODE_MULTIPLE);
                 listView.setItemChecked(position, true);
-                ActionBarActivity actionBarActivity = (ActionBarActivity) getActivity();
-                actionBarActivity.startSupportActionMode(new ActionMode.Callback() {
+                AppCompatActivity appCompatActivity = (AppCompatActivity) getActivity();
+                appCompatActivity.startSupportActionMode(new ActionMode.Callback() {
                     @Override
                     public boolean onActionItemClicked(final ActionMode actionMode, final MenuItem menuItem) {
                         GtmManager gtmManager = GtmManager.getInstance(getActivity());

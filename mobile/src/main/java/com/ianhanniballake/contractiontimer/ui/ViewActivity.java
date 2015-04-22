@@ -17,7 +17,7 @@ import android.support.v4.content.Loader;
 import android.support.v4.view.ViewCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.CursorAdapter;
-import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -36,7 +36,7 @@ import org.acra.ACRA;
 /**
  * Stand alone activity used to view the details of an individual contraction
  */
-public class ViewActivity extends ActionBarActivity implements LoaderManager.LoaderCallbacks<Cursor>,
+public class ViewActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Cursor>,
         ViewPager.OnPageChangeListener {
     private final static String TAG = ViewActivity.class.getSimpleName();
     /**

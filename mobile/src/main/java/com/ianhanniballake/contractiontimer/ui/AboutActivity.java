@@ -5,7 +5,7 @@ import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v7.app.ActionBar;
-import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.widget.TextView;
 
@@ -16,7 +16,7 @@ import com.ianhanniballake.contractiontimer.tagmanager.GtmManager;
 /**
  * About screen for the application. Shows as a dialog on large devices
  */
-public class AboutActivity extends ActionBarActivity {
+public class AboutActivity extends AppCompatActivity {
     private final static String TAG = AboutActivity.class.getSimpleName();
 
     @Override

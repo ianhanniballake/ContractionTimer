@@ -6,7 +6,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v7.app.ActionBar;
-import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.widget.TextView;
 
@@ -18,7 +18,7 @@ import com.ianhanniballake.contractiontimer.tagmanager.GtmManager;
 /**
  * About screen for the application. Shows as a dialog on large devices
  */
-public class LicenseActivity extends ActionBarActivity {
+public class LicenseActivity extends AppCompatActivity {
     private final static String TAG = LicenseActivity.class.getSimpleName();
 
     @Override

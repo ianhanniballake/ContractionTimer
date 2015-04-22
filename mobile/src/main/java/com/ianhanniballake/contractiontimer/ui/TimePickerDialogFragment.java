@@ -1,6 +1,5 @@
 package com.ianhanniballake.contractiontimer.ui;
 
-import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.TimePickerDialog;
 import android.content.Context;
@@ -59,7 +58,7 @@ public class TimePickerDialogFragment extends DialogFragment {
      * @return A valid TimePickerDialog
      */
     @NonNull
-    private static AlertDialog getTimePickerDialog(Context context, final TimePickerDialogFragment callback,
+    private static Dialog getTimePickerDialog(Context context, final TimePickerDialogFragment callback,
                                                    Calendar date) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
             MyTimePickerDialog.OnTimeSetListener onTimeSetListener =
@@ -97,7 +96,7 @@ public class TimePickerDialogFragment extends DialogFragment {
     @Override
     public Dialog onCreateDialog(final Bundle savedInstanceState) {
         final Calendar date = (Calendar) getArguments().getSerializable(TimePickerDialogFragment.TIME_ARGUMENT);
-        final AlertDialog dialog = getTimePickerDialog(getActivity(), this, date);
+        final Dialog dialog = getTimePickerDialog(getActivity(), this, date);
         dialog.setOnDismissListener(this);
         return dialog;
     }
