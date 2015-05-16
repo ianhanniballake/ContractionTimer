@@ -12,6 +12,7 @@ import android.preference.Preference;
 import android.preference.PreferenceManager;
 import android.preference.PreferenceScreen;
 import android.support.v4.app.NavUtils;
+import android.support.v4.app.TaskStackBuilder;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.MenuItem;
@@ -91,7 +92,9 @@ public class Preferences extends AppCompatPreferenceActivity implements OnShared
             GtmManager.getInstance(this).pushEvent("Home");
             Intent parentIntent = NavUtils.getParentActivityIntent(this);
             if (NavUtils.shouldUpRecreateTask(this, parentIntent)) {
-                NavUtils.navigateUpTo(this, parentIntent);
+                TaskStackBuilder.create(this)
+                        .addNextIntentWithParentStack(parentIntent)
+                        .startActivities();
             } else {
                 NavUtils.navigateUpFromSameTask(this);
             }
