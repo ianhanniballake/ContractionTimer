@@ -5,6 +5,16 @@
     <style name="AppTheme" parent="@style/Theme.AppCompat.Light">
         <item name="colorPrimary">@color/primary</item>
         <item name="colorPrimaryDark">@color/primaryDark</item>
+        <item name="colorAccent">@color/accent</item>
+        <item name="android:activatedBackgroundIndicator" tools:ignore="NewApi">
+            @drawable/activated_background_holo_light
+        </item>
+    </style>
+
+    <style name="AppTheme.NoActionBar" parent="@style/Theme.AppCompat.Light.NoActionBar">
+        <item name="colorPrimary">@color/primary</item>
+        <item name="colorPrimaryDark">@color/primaryDark</item>
+        <item name="colorAccent">@color/accent</item>
         <item name="android:activatedBackgroundIndicator" tools:ignore="NewApi">
             @drawable/activated_background_holo_light
         </item>
@@ -13,6 +23,7 @@
     <style name="AppTheme.DialogWhenLarge" parent="@style/Theme.AppCompat.Light.DialogWhenLarge">
         <item name="colorPrimary">@color/primary</item>
         <item name="colorPrimaryDark">@color/primaryDark</item>
+        <item name="colorAccent">@color/accent</item>
     </style>
 
     <style name="AppTheme.Drive" parent="android:Theme.Translucent.NoTitleBar">

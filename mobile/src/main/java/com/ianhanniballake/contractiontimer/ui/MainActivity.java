@@ -22,6 +22,7 @@ import android.support.v4.content.Loader;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.widget.CursorAdapter;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.text.format.DateUtils;
 import android.util.Log;
@@ -90,6 +91,9 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         if (intent.getData() == null)
             intent.setData(ContractionContract.Contractions.CONTENT_URI);
         setContentView(R.layout.activity_main);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setElevation(getResources().getDimension(R.dimen.action_bar_elevation));
         if (savedInstanceState == null)
             showFragments();
         adapter = new CursorAdapter(this, null, 0) {
