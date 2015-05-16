@@ -9,7 +9,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.provider.BaseColumns;
-import android.support.v4.app.ListFragment;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
@@ -51,7 +51,7 @@ import java.util.Calendar;
 /**
  * Fragment to list contractions entered by the user
  */
-public class ContractionListFragment extends ListFragment implements LoaderManager.LoaderCallbacks<Cursor>,
+public class ContractionListFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor>,
         OnClickListener {
     private final static String TAG = ContractionListFragment.class.getSimpleName();
     /**
@@ -98,6 +98,8 @@ public class ContractionListFragment extends ListFragment implements LoaderManag
             liveDurationHandler.postDelayed(this, 1000);
         }
     };
+    ListView mListView;
+    ViewAnimator mEmptyView;
     /**
      * View for the header row
      */
@@ -196,42 +198,41 @@ public class ContractionListFragment extends ListFragment implements LoaderManag
         super.onActivityCreated(savedInstanceState);
         if (savedInstanceState != null)
             selectedItemNote = savedInstanceState.getString(ContractionListFragment.SELECTED_ITEM_NOTE_KEY);
-        final ListView listView = getListView();
-        headerView = getLayoutInflater(savedInstanceState).inflate(R.layout.list_header, listView, false);
+        headerView = getLayoutInflater(savedInstanceState).inflate(R.layout.list_header, mListView, false);
         final FrameLayout headerFrame = new FrameLayout(getActivity());
         headerFrame.addView(headerView);
-        listView.addHeaderView(headerFrame, null, false);
+        mListView.addHeaderView(headerFrame, null, false);
         adapter = new ContractionListCursorAdapter(getActivity());
-        setListAdapter(adapter);
-        listView.setDrawSelectorOnTop(true);
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        mListView.setAdapter(adapter);
+        mListView.setDrawSelectorOnTop(true);
+        mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(final AdapterView<?> parent, final View view, final int position, final long id) {
                 if (mActionMode == null) {
                     viewContraction(id);
                 } else {
-                    itemSelected(listView, position);
+                    itemSelected(mListView, position);
                 }
             }
         });
-        listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+        mListView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(final AdapterView<?> parent, final View view,
                                            final int position, final long id) {
                 if (mActionMode != null) {
-                    listView.setItemChecked(position, !listView.isItemChecked(position));
-                    itemSelected(listView, position);
+                    mListView.setItemChecked(position, !mListView.isItemChecked(position));
+                    itemSelected(mListView, position);
                     return true;
                 }
-                listView.setChoiceMode(AbsListView.CHOICE_MODE_MULTIPLE);
-                listView.setItemChecked(position, true);
+                mListView.setChoiceMode(AbsListView.CHOICE_MODE_MULTIPLE);
+                mListView.setItemChecked(position, true);
                 AppCompatActivity appCompatActivity = (AppCompatActivity) getActivity();
                 appCompatActivity.startSupportActionMode(new ActionMode.Callback() {
                     @Override
                     public boolean onActionItemClicked(final ActionMode actionMode, final MenuItem menuItem) {
                         GtmManager gtmManager = GtmManager.getInstance(getActivity());
                         gtmManager.push("menu", "ContextActionBar");
-                        final long contractionId = listView.getCheckedItemIds()[0];
+                        final long contractionId = mListView.getCheckedItemIds()[0];
                         switch (menuItem.getItemId()) {
                             case R.id.menu_context_view:
                                 if (BuildConfig.DEBUG)
@@ -240,8 +241,8 @@ public class ContractionListFragment extends ListFragment implements LoaderManag
                                 viewContraction(contractionId);
                                 return true;
                             case R.id.menu_context_note:
-                                final int position = listView.getCheckedItemPositions().keyAt(0);
-                                final Cursor cursor = (Cursor) listView.getAdapter().getItem(position);
+                                final int position = mListView.getCheckedItemPositions().keyAt(0);
+                                final Cursor cursor = (Cursor) mListView.getAdapter().getItem(position);
                                 final int noteColumnIndex = cursor
                                         .getColumnIndex(ContractionContract.Contractions.COLUMN_NAME_NOTE);
                                 final String existingNote = cursor.getString(noteColumnIndex);
@@ -254,7 +255,7 @@ public class ContractionListFragment extends ListFragment implements LoaderManag
                                 actionMode.finish();
                                 return true;
                             case R.id.menu_context_delete:
-                                final long[] selectedIds = getListView().getCheckedItemIds();
+                                final long[] selectedIds = ContractionListFragment.this.mListView.getCheckedItemIds();
                                 if (BuildConfig.DEBUG)
                                     Log.d(TAG, "Context Action Mode selected delete");
                                 gtmManager.pushEvent("Delete", DataLayer.mapOf("count", selectedIds.length));
@@ -277,16 +278,16 @@ public class ContractionListFragment extends ListFragment implements LoaderManag
 
                     @Override
                     public void onDestroyActionMode(final ActionMode actionMode) {
-                        SparseBooleanArray selectedItems = listView.getCheckedItemPositions();
+                        SparseBooleanArray selectedItems = mListView.getCheckedItemPositions();
                         if (selectedItems != null) {
                             for (int i = 0; i < selectedItems.size(); i++) {
-                                listView.setItemChecked(selectedItems.keyAt(i), false);
+                                mListView.setItemChecked(selectedItems.keyAt(i), false);
                             }
                         }
-                        listView.post(new Runnable() {
+                        mListView.post(new Runnable() {
                             @Override
                             public void run() {
-                                listView.setChoiceMode(ListView.CHOICE_MODE_NONE);
+                                mListView.setChoiceMode(ListView.CHOICE_MODE_NONE);
                             }
                         });
                         mActionMode = null;
@@ -294,7 +295,7 @@ public class ContractionListFragment extends ListFragment implements LoaderManag
 
                     @Override
                     public boolean onPrepareActionMode(final ActionMode actionMode, final Menu menu) {
-                        final int selectedItemsSize = listView.getCheckedItemIds().length;
+                        final int selectedItemsSize = mListView.getCheckedItemIds().length;
                         // Show or hide the view menu item
                         final MenuItem viewItem = menu.findItem(R.id.menu_context_view);
                         final boolean showViewItem = selectedItemsSize == 1;
@@ -384,6 +385,9 @@ public class ContractionListFragment extends ListFragment implements LoaderManag
     @Override
     public View onCreateView(final LayoutInflater inflater, final ViewGroup container, final Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_contraction_list, container, false);
+        mListView = (ListView) view.findViewById(android.R.id.list);
+        mEmptyView = (ViewAnimator) view.findViewById(android.R.id.empty);
+        mListView.setEmptyView(mEmptyView);
         mColumnHeaders = (ViewGroup) view.findViewById(R.id.list_column_headers);
         return view;
     }
@@ -402,10 +406,10 @@ public class ContractionListFragment extends ListFragment implements LoaderManag
         adapter.swapCursor(data);
         if (data == null || data.getCount() == 0) {
             mColumnHeaders.setVisibility(View.GONE);
-            showEmptyView();
+            mEmptyView.setDisplayedChild(1);
         } else {
             mColumnHeaders.setVisibility(View.VISIBLE);
-            getListView().setSelection(0);
+            mListView.setSelection(0);
             data.moveToFirst();
             final int endTimeColumnIndex = data.getColumnIndex(ContractionContract.Contractions.COLUMN_NAME_END_TIME);
             final boolean isContractionOngoing = data.isNull(endTimeColumnIndex);
@@ -445,16 +449,6 @@ public class ContractionListFragment extends ListFragment implements LoaderManag
             timeSinceLastHandler.removeCallbacks(timeSinceLastUpdate);
             timeSinceLastHandler.post(timeSinceLastUpdate);
         }
-    }
-
-    public void showEmptyView() {
-        final ListView listView = getListView();
-        if (listView == null)
-            return;
-        final ViewAnimator emptyView = (ViewAnimator) listView.getEmptyView();
-        if (emptyView == null)
-            return;
-        emptyView.setDisplayedChild(1);
     }
 
     /**
