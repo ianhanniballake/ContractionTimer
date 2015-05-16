@@ -41,7 +41,7 @@
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:textIsSelectable="true"/>
 
-        <android.support.v7.widget.Space
+        <android.support.v4.widget.Space
             android:layout_width="48dp"
             android:layout_height="match_parent"
             android:focusable="false"/>
