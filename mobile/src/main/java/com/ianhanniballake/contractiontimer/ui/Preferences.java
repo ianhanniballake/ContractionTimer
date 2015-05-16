@@ -1,6 +1,7 @@
 package com.ianhanniballake.contractiontimer.ui;
 
 import android.app.backup.BackupManager;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
@@ -8,13 +9,14 @@ import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.preference.ListPreference;
 import android.preference.Preference;
-import android.preference.PreferenceActivity;
 import android.preference.PreferenceManager;
 import android.preference.PreferenceScreen;
+import android.support.v4.app.NavUtils;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.MenuItem;
 
+import com.example.android.supportv7.app.AppCompatPreferenceActivity;
 import com.ianhanniballake.contractiontimer.BuildConfig;
 import com.ianhanniballake.contractiontimer.R;
 import com.ianhanniballake.contractiontimer.appwidget.AppWidgetUpdateHandler;
@@ -24,7 +26,7 @@ import com.ianhanniballake.contractiontimer.tagmanager.GtmManager;
 /**
  * Activity managing the various application preferences
  */
-public class Preferences extends PreferenceActivity implements OnSharedPreferenceChangeListener {
+public class Preferences extends AppCompatPreferenceActivity implements OnSharedPreferenceChangeListener {
     /**
      * Analytics preference name
      */
@@ -87,6 +89,12 @@ public class Preferences extends PreferenceActivity implements OnSharedPreferenc
             if (BuildConfig.DEBUG)
                 Log.d(TAG, "Preferences selected home");
             GtmManager.getInstance(this).pushEvent("Home");
+            Intent parentIntent = NavUtils.getParentActivityIntent(this);
+            if (NavUtils.shouldUpRecreateTask(this, parentIntent)) {
+                NavUtils.navigateUpTo(this, parentIntent);
+            } else {
+                NavUtils.navigateUpFromSameTask(this);
+            }
         }
         return super.onOptionsItemSelected(item);
     }
