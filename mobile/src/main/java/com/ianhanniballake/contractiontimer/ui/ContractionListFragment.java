@@ -44,6 +44,7 @@ import com.ianhanniballake.contractiontimer.notification.NotificationUpdateServi
 import com.ianhanniballake.contractiontimer.provider.ContractionContract;
 import com.ianhanniballake.contractiontimer.tagmanager.GtmManager;
 
+import java.lang.ref.WeakReference;
 import java.util.Calendar;
 
 /**
@@ -144,14 +145,7 @@ public class ContractionListFragment extends Fragment implements LoaderManager.L
             return;
         final Uri deleteUri = ContentUris.withAppendedId(ContractionContract.Contractions.CONTENT_ID_URI_BASE, id);
         if (contractionQueryHandler == null) {
-            final Context context = getActivity();
-            contractionQueryHandler = new AsyncQueryHandler(context.getContentResolver()) {
-                @Override
-                protected void onDeleteComplete(final int token, final Object cookie, final int result) {
-                    AppWidgetUpdateHandler.createInstance().updateAllWidgets(context);
-                    NotificationUpdateService.updateNotification(context);
-                }
-            };
+            contractionQueryHandler = new DeleteContractionQueryHandler(getActivity());
         }
         contractionQueryHandler.startDelete(0, 0, deleteUri, null, null);
     }
@@ -437,6 +431,24 @@ public class ContractionListFragment extends Fragment implements LoaderManager.L
         final Uri contractionUri = ContentUris.withAppendedId(ContractionContract.Contractions.CONTENT_ID_URI_BASE, id);
         final Intent intent = new Intent(Intent.ACTION_VIEW, contractionUri).setPackage(getActivity().getPackageName());
         startActivity(intent);
+    }
+
+    private static class DeleteContractionQueryHandler extends AsyncQueryHandler {
+        private WeakReference<Context> mContext;
+
+        public DeleteContractionQueryHandler(final Context context) {
+            super(context.getContentResolver());
+            mContext = new WeakReference<>(context.getApplicationContext());
+        }
+
+        @Override
+        protected void onDeleteComplete(final int token, final Object cookie, final int result) {
+            Context context = mContext.get();
+            if (context != null) {
+                AppWidgetUpdateHandler.createInstance().updateAllWidgets(context);
+                NotificationUpdateService.updateNotification(context);
+            }
+        }
     }
 
     /**
