@@ -17,7 +17,6 @@ import android.support.v4.widget.CursorAdapter;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.view.ActionMode;
 import android.support.v7.widget.ActionMenuView;
-import android.support.v7.widget.PopupMenu;
 import android.text.TextUtils;
 import android.text.format.DateFormat;
 import android.text.format.DateUtils;
@@ -28,7 +27,6 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
@@ -51,8 +49,7 @@ import java.util.Calendar;
 /**
  * Fragment to list contractions entered by the user
  */
-public class ContractionListFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor>,
-        OnClickListener {
+public class ContractionListFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor> {
     private final static String TAG = ContractionListFragment.class.getSimpleName();
     /**
      * Key used to store the selected item note in the bundle
@@ -331,53 +328,6 @@ public class ContractionListFragment extends Fragment implements LoaderManager.L
     }
 
     @Override
-    public void onClick(final View v) {
-        final PopupMenu popup = new PopupMenu(getActivity(), v);
-        final MenuInflater inflater = popup.getMenuInflater();
-        inflater.inflate(R.menu.list_context, popup.getMenu());
-        final PopupHolder popupHolder = (PopupHolder) v.getTag();
-        final MenuItem noteItem = popup.getMenu().findItem(R.id.menu_context_note);
-        if (popupHolder.existingNote.equals(""))
-            noteItem.setTitle(R.string.note_dialog_title_add);
-        else
-            noteItem.setTitle(R.string.note_dialog_title_edit);
-        final MenuItem deleteItem = popup.getMenu().findItem(R.id.menu_context_delete);
-        deleteItem.setTitle(getResources().getQuantityText(R.plurals.menu_context_delete, 1));
-        popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
-            @Override
-            public boolean onMenuItemClick(final MenuItem item) {
-                GtmManager gtmManager = GtmManager.getInstance(ContractionListFragment.this);
-                gtmManager.push("menu", "PopupMenu");
-                switch (item.getItemId()) {
-                    case R.id.menu_context_view:
-                        if (BuildConfig.DEBUG)
-                            Log.d(TAG, "Popup Menu selected view");
-                        gtmManager.pushEvent("View");
-                        viewContraction(popupHolder.id);
-                        return true;
-                    case R.id.menu_context_note:
-                        String type = TextUtils.isEmpty(popupHolder.existingNote) ? "Add Note" : "Edit Note";
-                        if (BuildConfig.DEBUG)
-                            Log.d(TAG, "Popup Menu selected " + type);
-                        gtmManager.pushEvent("Note", DataLayer.mapOf("type", type,
-                                "position", DataLayer.OBJECT_NOT_PRESENT));
-                        showNoteDialog(popupHolder.id, popupHolder.existingNote);
-                        return true;
-                    case R.id.menu_context_delete:
-                        if (BuildConfig.DEBUG)
-                            Log.d(TAG, "Popup Menu selected delete");
-                        gtmManager.pushEvent("Delete", DataLayer.mapOf("count", 1));
-                        deleteContraction(popupHolder.id);
-                        return true;
-                    default:
-                        return false;
-                }
-            }
-        });
-        popup.show();
-    }
-
-    @Override
     public Loader<Cursor> onCreateLoader(final int id, final Bundle args) {
         return new CursorLoader(getActivity(), getActivity().getIntent().getData(), null, null, null, null);
     }
@@ -487,20 +437,6 @@ public class ContractionListFragment extends Fragment implements LoaderManager.L
         final Uri contractionUri = ContentUris.withAppendedId(ContractionContract.Contractions.CONTENT_ID_URI_BASE, id);
         final Intent intent = new Intent(Intent.ACTION_VIEW, contractionUri).setPackage(getActivity().getPackageName());
         startActivity(intent);
-    }
-
-    /**
-     * Helper class used to store temporary information to aid in handling PopupMenu item selection
-     */
-    static class PopupHolder {
-        /**
-         * A contraction's note, if any
-         */
-        String existingNote;
-        /**
-         * Cursor id for the contraction
-         */
-        long id;
     }
 
     /**
