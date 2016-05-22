@@ -12,6 +12,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.database.sqlite.SQLiteQueryBuilder;
 import android.net.Uri;
 import android.provider.BaseColumns;
+import android.support.annotation.NonNull;
 import android.support.v4.database.DatabaseUtilsCompat;
 import android.text.TextUtils;
 import android.util.Log;
@@ -61,7 +62,7 @@ public class ContractionProvider extends ContentProvider {
      * @return The all column projection map
      */
     private static HashMap<String, String> buildAllColumnProjectionMap() {
-        final HashMap<String, String> allColumnProjectionMap = new HashMap<String, String>();
+        final HashMap<String, String> allColumnProjectionMap = new HashMap<>();
         allColumnProjectionMap.put(BaseColumns._ID, BaseColumns._ID);
         allColumnProjectionMap.put(ContractionContract.Contractions.COLUMN_NAME_START_TIME,
                 ContractionContract.Contractions.COLUMN_NAME_START_TIME);
@@ -87,7 +88,7 @@ public class ContractionProvider extends ContentProvider {
     }
 
     @Override
-    public int delete(final Uri uri, final String where, final String[] whereArgs) {
+    public int delete(@NonNull final Uri uri, final String where, final String[] whereArgs) {
         // Opens the database object in "write" mode.
         final SQLiteDatabase db = databaseHelper.getWritableDatabase();
         int count;
@@ -116,7 +117,7 @@ public class ContractionProvider extends ContentProvider {
     }
 
     @Override
-    public String getType(final Uri uri) {
+    public String getType(@NonNull final Uri uri) {
         /**
          * Chooses the MIME type based on the incoming URI pattern
          */
@@ -135,7 +136,7 @@ public class ContractionProvider extends ContentProvider {
     }
 
     @Override
-    public Uri insert(final Uri uri, final ContentValues initialValues) {
+    public Uri insert(@NonNull final Uri uri, final ContentValues initialValues) {
         // Validates the incoming URI. Only the full provider URI is allowed for
         // inserts.
         if (ContractionProvider.uriMatcher.match(uri) != ContractionProvider.CONTRACTIONS)
@@ -177,8 +178,8 @@ public class ContractionProvider extends ContentProvider {
     }
 
     @Override
-    public Cursor query(final Uri uri, final String[] projection, final String selection, final String[] selectionArgs,
-                        final String sortOrder) {
+    public Cursor query(@NonNull final Uri uri, final String[] projection, final String selection,
+                        final String[] selectionArgs, final String sortOrder) {
         // Constructs a new query builder and sets its table name
         final SQLiteQueryBuilder qb = new SQLiteQueryBuilder();
         qb.setTables(ContractionContract.Contractions.TABLE_NAME);
@@ -205,7 +206,8 @@ public class ContractionProvider extends ContentProvider {
     }
 
     @Override
-    public int update(final Uri uri, final ContentValues values, final String selection, final String[] selectionArgs) {
+    public int update(@NonNull final Uri uri, final ContentValues values, final String selection,
+                      final String[] selectionArgs) {
         final SQLiteDatabase db = databaseHelper.getWritableDatabase();
         int count;
         switch (ContractionProvider.uriMatcher.match(uri)) {

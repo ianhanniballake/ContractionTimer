@@ -66,7 +66,7 @@ public class GtmManager {
         }
         result.setResultCallback(new ResultCallback<ContainerHolder>() {
             @Override
-            public void onResult(final ContainerHolder containerHolder) {
+            public void onResult(@NonNull final ContainerHolder containerHolder) {
                 mContainerHolder = containerHolder;
             }
         }, 2, TimeUnit.SECONDS);

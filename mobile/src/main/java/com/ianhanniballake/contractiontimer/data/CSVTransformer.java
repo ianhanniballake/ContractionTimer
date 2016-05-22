@@ -33,7 +33,7 @@ import au.com.bytecode.opencsv.CSVWriter;
  */
 public class CSVTransformer {
     public static void writeContractions(Context context, OutputStream outputStream) throws IOException {
-        ArrayList<String[]> contractions = new ArrayList<String[]>();
+        ArrayList<String[]> contractions = new ArrayList<>();
         Cursor data = context.getContentResolver().query(ContractionContract.Contractions.CONTENT_URI, null, null, null,
                 null);
         if (data != null) {
@@ -78,7 +78,7 @@ public class CSVTransformer {
 
     public static void readContractions(Context context, InputStream inputStream) throws IOException,
             IllegalArgumentException, RemoteException, OperationApplicationException {
-        ArrayList<ContentProviderOperation> operations = new ArrayList<ContentProviderOperation>();
+        ArrayList<ContentProviderOperation> operations = new ArrayList<>();
         CSVReader reader = new CSVReader(new InputStreamReader(inputStream), CSVWriter.DEFAULT_SEPARATOR,
                 CSVWriter.DEFAULT_QUOTE_CHARACTER, 1);
         List<String[]> contractions = reader.readAll();

@@ -75,7 +75,7 @@ public class ViewActivity extends AppCompatActivity implements LoaderManager.Loa
             }
         };
         final ViewPager pager = (ViewPager) findViewById(R.id.pager);
-        pager.setOnPageChangeListener(this);
+        pager.addOnPageChangeListener(this);
         pagerAdapter = new ViewFragmentPagerAdapter(getSupportFragmentManager());
         getSupportLoaderManager().initLoader(0, null, this);
     }

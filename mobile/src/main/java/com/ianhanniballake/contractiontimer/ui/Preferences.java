@@ -86,6 +86,15 @@ public class Preferences extends AppCompatActivity {
     }
 
     public static class PreferencesFragment extends PreferenceFragmentCompat implements SharedPreferences.OnSharedPreferenceChangeListener {
+        /**
+         * Reference to the ListPreference corresponding with the Appwidget background
+         */
+        private ListPreference appwidgetBackgroundListPreference;
+        /**
+         * Reference to the ListPreference corresponding with the average time frame
+         */
+        private ListPreference averageTimeFrameListPreference;
+
         @Override
         public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
             addPreferencesFromResource(R.xml.preferences_settings);
@@ -97,14 +106,6 @@ public class Preferences extends AppCompatActivity {
             averageTimeFrameListPreference.setSummary(getString(R.string.pref_average_time_frame_summary) + "\n"
                     + averageTimeFrameListPreference.getEntry());
         }
-        /**
-         * Reference to the ListPreference corresponding with the Appwidget background
-         */
-        private ListPreference appwidgetBackgroundListPreference;
-        /**
-         * Reference to the ListPreference corresponding with the average time frame
-         */
-        private ListPreference averageTimeFrameListPreference;
 
         @Override
         public void onPause() {
@@ -144,56 +145,63 @@ public class Preferences extends AppCompatActivity {
         @Override
         public void onSharedPreferenceChanged(final SharedPreferences sharedPreferences, final String key) {
             GtmManager gtmManager = GtmManager.getInstance(this);
-            if (key.equals(Preferences.KEEP_SCREEN_ON_PREFERENCE_KEY)) {
-                final boolean newIsKeepScreenOn = sharedPreferences.getBoolean(Preferences.KEEP_SCREEN_ON_PREFERENCE_KEY,
-                        getResources().getBoolean(R.bool.pref_keep_screen_on_default));
-                if (BuildConfig.DEBUG)
-                    Log.d(TAG, "Keep Screen On: " + newIsKeepScreenOn);
-                gtmManager.pushPreferenceChanged("Keep Screen On", newIsKeepScreenOn);
-            } else if (key.equals(Preferences.LOCK_PORTRAIT_PREFERENCE_KEY)) {
-                final boolean newIsLockPortrait = sharedPreferences.getBoolean(Preferences.LOCK_PORTRAIT_PREFERENCE_KEY,
-                        getResources().getBoolean(R.bool.pref_lock_portrait_default));
-                if (BuildConfig.DEBUG)
-                    Log.d(TAG, "Lock Portrait: " + newIsLockPortrait);
-                gtmManager.pushPreferenceChanged("Lock Portrait", newIsLockPortrait);
-                if (newIsLockPortrait)
-                    getActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-                else
-                    getActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR);
-            } else if (key.equals(Preferences.APPWIDGET_BACKGROUND_PREFERENCE_KEY)) {
-                final String newAppwidgetBackground = appwidgetBackgroundListPreference.getValue();
-                if (BuildConfig.DEBUG)
-                    Log.d(TAG, "Appwidget Background: " + newAppwidgetBackground);
-                gtmManager.pushPreferenceChanged("Appwidget Background", newAppwidgetBackground);
-                appwidgetBackgroundListPreference.setSummary(appwidgetBackgroundListPreference.getEntry());
-                AppWidgetUpdateHandler.createInstance().updateAllWidgets(getContext());
-            } else if (key.equals(Preferences.NOTIFICATION_ENABLE_PREFERENCE_KEY)) {
-                final boolean newNotifcationEnabled = sharedPreferences.getBoolean(Preferences.LOCK_PORTRAIT_PREFERENCE_KEY,
-                        getResources().getBoolean(R.bool.pref_notification_enable_default));
-                if (BuildConfig.DEBUG)
-                    Log.d(TAG, "Notification Enabled: " + newNotifcationEnabled);
-                gtmManager.pushPreferenceChanged("Notification Enabled", newNotifcationEnabled);
-                NotificationUpdateService.updateNotification(getContext());
-            } else if (key.equals(Preferences.AVERAGE_TIME_FRAME_PREFERENCE_KEY)) {
-                final String newAverageTimeFrame = averageTimeFrameListPreference.getValue();
-                if (BuildConfig.DEBUG)
-                    Log.d(TAG, "Average Time Frame: " + newAverageTimeFrame);
-                gtmManager.pushPreferenceChanged("Average Time Frame", newAverageTimeFrame);
-                final SharedPreferences.Editor editor = sharedPreferences.edit();
-                editor.putBoolean(Preferences.AVERAGE_TIME_FRAME_CHANGED_MAIN_PREFERENCE_KEY, true);
-                editor.putBoolean(Preferences.AVERAGE_TIME_FRAME_CHANGED_FRAGMENT_PREFERENCE_KEY, true);
-                editor.commit();
-                averageTimeFrameListPreference.setSummary(getString(R.string.pref_average_time_frame_summary)
-                        + "\n" + averageTimeFrameListPreference.getEntry());
-                AppWidgetUpdateHandler.createInstance().updateAllWidgets(getContext());
-                NotificationUpdateService.updateNotification(getContext());
-            } else if (key.equals(Preferences.ANALYTICS_PREFERENCE_KEY)) {
-                final boolean newCollectAnalytics = sharedPreferences.getBoolean(Preferences.ANALYTICS_PREFERENCE_KEY,
-                        getResources().getBoolean(R.bool.pref_analytics_default));
-                if (BuildConfig.DEBUG)
-                    Log.d(TAG, "Analytics: " + newCollectAnalytics);
-                gtmManager.pushPreferenceChanged("Analytics", newCollectAnalytics);
-                gtmManager.push("optOut", newCollectAnalytics);
+            switch (key) {
+                case Preferences.KEEP_SCREEN_ON_PREFERENCE_KEY:
+                    final boolean newIsKeepScreenOn = sharedPreferences.getBoolean(Preferences.KEEP_SCREEN_ON_PREFERENCE_KEY,
+                            getResources().getBoolean(R.bool.pref_keep_screen_on_default));
+                    if (BuildConfig.DEBUG)
+                        Log.d(TAG, "Keep Screen On: " + newIsKeepScreenOn);
+                    gtmManager.pushPreferenceChanged("Keep Screen On", newIsKeepScreenOn);
+                    break;
+                case Preferences.LOCK_PORTRAIT_PREFERENCE_KEY:
+                    final boolean newIsLockPortrait = sharedPreferences.getBoolean(Preferences.LOCK_PORTRAIT_PREFERENCE_KEY,
+                            getResources().getBoolean(R.bool.pref_lock_portrait_default));
+                    if (BuildConfig.DEBUG)
+                        Log.d(TAG, "Lock Portrait: " + newIsLockPortrait);
+                    gtmManager.pushPreferenceChanged("Lock Portrait", newIsLockPortrait);
+                    if (newIsLockPortrait)
+                        getActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+                    else
+                        getActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR);
+                    break;
+                case Preferences.APPWIDGET_BACKGROUND_PREFERENCE_KEY:
+                    final String newAppwidgetBackground = appwidgetBackgroundListPreference.getValue();
+                    if (BuildConfig.DEBUG)
+                        Log.d(TAG, "Appwidget Background: " + newAppwidgetBackground);
+                    gtmManager.pushPreferenceChanged("Appwidget Background", newAppwidgetBackground);
+                    appwidgetBackgroundListPreference.setSummary(appwidgetBackgroundListPreference.getEntry());
+                    AppWidgetUpdateHandler.createInstance().updateAllWidgets(getContext());
+                    break;
+                case Preferences.NOTIFICATION_ENABLE_PREFERENCE_KEY:
+                    final boolean newNotifcationEnabled = sharedPreferences.getBoolean(Preferences.LOCK_PORTRAIT_PREFERENCE_KEY,
+                            getResources().getBoolean(R.bool.pref_notification_enable_default));
+                    if (BuildConfig.DEBUG)
+                        Log.d(TAG, "Notification Enabled: " + newNotifcationEnabled);
+                    gtmManager.pushPreferenceChanged("Notification Enabled", newNotifcationEnabled);
+                    NotificationUpdateService.updateNotification(getContext());
+                    break;
+                case Preferences.AVERAGE_TIME_FRAME_PREFERENCE_KEY:
+                    final String newAverageTimeFrame = averageTimeFrameListPreference.getValue();
+                    if (BuildConfig.DEBUG)
+                        Log.d(TAG, "Average Time Frame: " + newAverageTimeFrame);
+                    gtmManager.pushPreferenceChanged("Average Time Frame", newAverageTimeFrame);
+                    final SharedPreferences.Editor editor = sharedPreferences.edit();
+                    editor.putBoolean(Preferences.AVERAGE_TIME_FRAME_CHANGED_MAIN_PREFERENCE_KEY, true);
+                    editor.putBoolean(Preferences.AVERAGE_TIME_FRAME_CHANGED_FRAGMENT_PREFERENCE_KEY, true);
+                    editor.commit();
+                    averageTimeFrameListPreference.setSummary(getString(R.string.pref_average_time_frame_summary)
+                            + "\n" + averageTimeFrameListPreference.getEntry());
+                    AppWidgetUpdateHandler.createInstance().updateAllWidgets(getContext());
+                    NotificationUpdateService.updateNotification(getContext());
+                    break;
+                case Preferences.ANALYTICS_PREFERENCE_KEY:
+                    final boolean newCollectAnalytics = sharedPreferences.getBoolean(Preferences.ANALYTICS_PREFERENCE_KEY,
+                            getResources().getBoolean(R.bool.pref_analytics_default));
+                    if (BuildConfig.DEBUG)
+                        Log.d(TAG, "Analytics: " + newCollectAnalytics);
+                    gtmManager.pushPreferenceChanged("Analytics", newCollectAnalytics);
+                    gtmManager.push("optOut", newCollectAnalytics);
+                    break;
             }
             new BackupManager(getContext()).dataChanged();
         }

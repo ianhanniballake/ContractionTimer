@@ -67,11 +67,11 @@ public class DonateActivity extends AppCompatActivity {
     /**
      * SKU Product Names
      */
-    final HashMap<String, String> skuNames = new HashMap<String, String>();
+    final HashMap<String, String> skuNames = new HashMap<>();
     /**
      * US Prices for SKUs in micro-currency
      */
-    final HashMap<String, Long> skuPrices = new HashMap<String, Long>();
+    final HashMap<String, Long> skuPrices = new HashMap<>();
     /**
      * InAppBillingService connection
      */
@@ -180,7 +180,7 @@ public class DonateActivity extends AppCompatActivity {
     protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         // Set up SKUs
-        final ArrayList<String> allSkus = new ArrayList<String>();
+        final ArrayList<String> allSkus = new ArrayList<>();
         if (BuildConfig.DEBUG) {
             allSkus.add("android.test.purchased");
             allSkus.add("android.test.canceled");
@@ -370,7 +370,7 @@ public class DonateActivity extends AppCompatActivity {
         private final WeakReference<IInAppBillingService> mBillingService;
 
         ConsumeAsyncTask(final IInAppBillingService service, final boolean finishActivity) {
-            mBillingService = new WeakReference<IInAppBillingService>(service);
+            mBillingService = new WeakReference<>(service);
             this.finishActivity = finishActivity;
         }
 
@@ -379,7 +379,7 @@ public class DonateActivity extends AppCompatActivity {
             if (BuildConfig.DEBUG)
                 Log.d(TAG, "Starting Consume of " + Arrays.toString(purchases));
             GtmManager gtmManager = GtmManager.getInstance(DonateActivity.this);
-            final List<Purchase> consumedPurchases = new ArrayList<Purchase>();
+            final List<Purchase> consumedPurchases = new ArrayList<>();
             for (final Purchase purchase : purchases) {
                 final String sku = purchase.getSku();
                 try {
@@ -421,8 +421,8 @@ public class DonateActivity extends AppCompatActivity {
                     Log.d(TAG, "Consume completed successfully " + sku);
                 final long purchasedPriceMicro = skuPrices.containsKey(sku) ? skuPrices.get(sku) : 0;
                 final String purchasedName = skuNames.containsKey(sku) ? skuNames.get(sku) : sku;
-                ArrayList<Map<String, String>> purchasedItems = new ArrayList<Map<String, String>>();
-                HashMap<String, String> purchasedItem = new HashMap<String, String>();
+                ArrayList<Map<String, String>> purchasedItems = new ArrayList<>();
+                HashMap<String, String> purchasedItem = new HashMap<>();
                 purchasedItem.put("name", purchasedName);
                 purchasedItem.put("sku", sku);
                 purchasedItem.put("category", "Donation");
@@ -456,7 +456,7 @@ public class DonateActivity extends AppCompatActivity {
         private final WeakReference<IInAppBillingService> mBillingService;
 
         InventoryQueryAsyncTask(final IInAppBillingService service) {
-            mBillingService = new WeakReference<IInAppBillingService>(service);
+            mBillingService = new WeakReference<>(service);
         }
 
         @Override
@@ -502,7 +502,7 @@ public class DonateActivity extends AppCompatActivity {
                 else
                     Log.w(TAG, "Inventory: Billing service is null");
             }
-            ArrayList<String> inAppName = new ArrayList<String>();
+            ArrayList<String> inAppName = new ArrayList<>();
             for (final String currentSku : skus) {
                 final SkuDetails sku = inv.getSkuDetails(currentSku);
                 if (sku != null) {
@@ -514,7 +514,7 @@ public class DonateActivity extends AppCompatActivity {
                 return;
             }
             final Spinner inAppSpinner = (Spinner) findViewById(R.id.donate_in_app_spinner);
-            final ArrayAdapter<String> adapter = new ArrayAdapter<String>(DonateActivity.this,
+            final ArrayAdapter<String> adapter = new ArrayAdapter<>(DonateActivity.this,
                     android.R.layout.simple_spinner_item, inAppName);
             // Specify the layout to use when the list of choices appears
             adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -570,7 +570,7 @@ public class DonateActivity extends AppCompatActivity {
         }
 
         int querySkuDetails(final Inventory inv, final String[] moreSkus) throws RemoteException, JSONException {
-            final ArrayList<String> skuList = new ArrayList<String>();
+            final ArrayList<String> skuList = new ArrayList<>();
             skuList.addAll(inv.getAllOwnedSkus(ITEM_TYPE_INAPP));
             if (moreSkus != null)
                 skuList.addAll(Arrays.asList(moreSkus));

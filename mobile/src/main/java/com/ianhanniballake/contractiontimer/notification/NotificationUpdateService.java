@@ -13,6 +13,7 @@ import android.provider.BaseColumns;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.NotificationManagerCompat;
 import android.support.v4.app.RemoteInput;
+import android.support.v4.content.ContextCompat;
 import android.text.TextUtils;
 import android.text.format.DateUtils;
 import android.util.Log;
@@ -92,10 +93,10 @@ public class NotificationUpdateService extends IntentService {
         NotificationCompat.Builder builder = new NotificationCompat.Builder(this);
         NotificationCompat.Builder publicBuilder = new NotificationCompat.Builder(this);
         builder.setSmallIcon(R.drawable.ic_notification)
-                .setColor(getResources().getColor(R.color.primary))
+                .setColor(ContextCompat.getColor(this, R.color.primary))
                 .setCategory(NotificationCompat.CATEGORY_ALARM);
         publicBuilder.setSmallIcon(R.drawable.ic_notification)
-                .setColor(getResources().getColor(R.color.primary))
+                .setColor(ContextCompat.getColor(this, R.color.primary))
                 .setCategory(NotificationCompat.CATEGORY_ALARM);
         Intent contentIntent = new Intent(this, MainActivity.class);
         contentIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK |
