@@ -1,0 +1,63 @@
+{
+  "project_info": {
+    "project_number": "960785647189",
+    "firebase_url": "https://ihl-contraction-timer.firebaseio.com",
+    "project_id": "ihl-contraction-timer",
+    "storage_bucket": "ihl-contraction-timer.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:960785647189:android:ddd97c33e9609762",
+        "android_client_info": {
+          "package_name": "com.ianhanniballake.contractiontimer"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "960785647189-7i8udg18htjt9o4tthqkja27kql90o2d.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.ianhanniballake.contractiontimer",
+            "certificate_hash": "6BA6C69127E75820EFCA810E28B3032AE7103C9C"
+          }
+        },
+        {
+          "client_id": "960785647189-tr8f9sslra3h3ajm6ka23mhvv8ajeggh.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.ianhanniballake.contractiontimer",
+            "certificate_hash": "44B775FF4FC8EC33930220FA4A4E10FE61E1D33F"
+          }
+        },
+        {
+          "client_id": "960785647189-a5cuojm9qsis0bs60ofr93ckkb593lee.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCW-nqkn3NqdKmyg5IR7oaWCmz59E1Rfow"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "960785647189-a5cuojm9qsis0bs60ofr93ckkb593lee.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

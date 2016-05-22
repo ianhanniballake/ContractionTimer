@@ -26,13 +26,12 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.google.android.gms.tagmanager.DataLayer;
+import com.google.firebase.crash.FirebaseCrash;
 import com.ianhanniballake.contractiontimer.BuildConfig;
 import com.ianhanniballake.contractiontimer.R;
 import com.ianhanniballake.contractiontimer.provider.ContractionContract;
 import com.ianhanniballake.contractiontimer.provider.ContractionContract.Contractions;
 import com.ianhanniballake.contractiontimer.tagmanager.GtmManager;
-
-import org.acra.ACRA;
 
 /**
  * Stand alone activity used to view the details of an individual contraction
@@ -117,7 +116,7 @@ public class ViewActivity extends AppCompatActivity implements LoaderManager.Loa
                 Log.e(TAG, "NumberFormatException in onLoadFinished", e);
             else {
                 GtmManager.getInstance(this).pushException(e);
-                ACRA.getErrorReporter().handleSilentException(e);
+                FirebaseCrash.report(e);
             }
             finish();
             return;
