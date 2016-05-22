@@ -10,7 +10,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.widget.TextView;
 
-import com.google.android.gms.common.GooglePlayServicesUtil;
+import com.google.android.gms.common.GoogleApiAvailability;
 import com.ianhanniballake.contractiontimer.BuildConfig;
 import com.ianhanniballake.contractiontimer.R;
 import com.ianhanniballake.contractiontimer.tagmanager.GtmManager;
@@ -29,7 +29,7 @@ public class LicenseActivity extends AppCompatActivity {
         new AsyncTask<Void, Void, String>() {
             @Override
             protected String doInBackground(final Void... params) {
-                return GooglePlayServicesUtil.getOpenSourceSoftwareLicenseInfo(LicenseActivity.this);
+                return GoogleApiAvailability.getInstance().getOpenSourceSoftwareLicenseInfo(LicenseActivity.this);
             }
 
             @Override

@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.content.IntentSender;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -29,7 +30,7 @@ public class ExportActivity extends AbstractDriveApiActivity {
     private final ResultCallback<DriveApi.DriveContentsResult> mCreateFileCallback =
             new ResultCallback<DriveApi.DriveContentsResult>() {
                 @Override
-                public void onResult(DriveApi.DriveContentsResult result) {
+                public void onResult(@NonNull DriveApi.DriveContentsResult result) {
                     if (!result.getStatus().isSuccess()) {
                         finish();
                         return;
@@ -71,7 +72,7 @@ public class ExportActivity extends AbstractDriveApiActivity {
                 Log.w(TAG, "Null DriveId returned by DriveApi");
                 return false;
             }
-            DriveFile file = Drive.DriveApi.getFile(mGoogleApiClient, params[0]);
+            DriveFile file = params[0].asDriveFile();
             DriveApi.DriveContentsResult result = file.open(mGoogleApiClient, DriveFile.MODE_WRITE_ONLY,
                     null).await();
             if (!result.getStatus().isSuccess()) {

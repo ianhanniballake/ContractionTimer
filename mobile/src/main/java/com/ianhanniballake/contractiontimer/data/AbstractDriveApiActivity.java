@@ -5,13 +5,14 @@ import android.content.Intent;
 import android.content.IntentSender;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 import android.view.WindowManager;
 import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
-import com.google.android.gms.common.GooglePlayServicesUtil;
+import com.google.android.gms.common.GoogleApiAvailability;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.drive.Drive;
 import com.ianhanniballake.contractiontimer.R;
@@ -62,10 +63,8 @@ public abstract class AbstractDriveApiActivity extends FragmentActivity
     }
 
     @Override
-    public void onConnectionFailed(final ConnectionResult result) {
-        if (result == null) {
-            Toast.makeText(this, getString(R.string.drive_error_generic_connect), Toast.LENGTH_LONG).show();
-        } else if (result.hasResolution()) {
+    public void onConnectionFailed(@NonNull final ConnectionResult result) {
+        if (result.hasResolution()) {
             try {
                 result.startResolutionForResult(this, REQUEST_CODE_CONNECT);
             } catch (IntentSender.SendIntentException e) {
@@ -76,7 +75,7 @@ public abstract class AbstractDriveApiActivity extends FragmentActivity
         } else if (!isFinishing() &&
                 (Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN_MR1 || !isDestroyedAlready())) {
             try {
-                GooglePlayServicesUtil.getErrorDialog(result.getErrorCode(), this, 0).show();
+                GoogleApiAvailability.getInstance().getErrorDialog(this, result.getErrorCode(), 0).show();
             } catch (WindowManager.BadTokenException e) {
                 Log.e(TAG, "Error showing error dialog", e);
                 GtmManager.getInstance(this).pushException(e);

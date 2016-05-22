@@ -6,6 +6,7 @@ import android.content.OperationApplicationException;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.RemoteException;
+import android.support.annotation.NonNull;
 import android.text.TextUtils;
 import android.util.Log;
 import android.widget.Toast;
@@ -32,7 +33,7 @@ public class ImportActivity extends AbstractDriveApiActivity {
     private final ResultCallback<DriveApi.DriveContentsResult> mOpenFileCallback =
             new ResultCallback<DriveApi.DriveContentsResult>() {
                 @Override
-                public void onResult(DriveApi.DriveContentsResult result) {
+                public void onResult(@NonNull DriveApi.DriveContentsResult result) {
                     if (!result.getStatus().isSuccess()) {
                         finish();
                         return;
@@ -66,7 +67,7 @@ public class ImportActivity extends AbstractDriveApiActivity {
     private class ImportContractionsAsyncTask extends AsyncTask<DriveId, Void, String> {
         @Override
         protected String doInBackground(DriveId... params) {
-            DriveFile file = Drive.DriveApi.getFile(mGoogleApiClient, params[0]);
+            DriveFile file = params[0].asDriveFile();
             DriveApi.DriveContentsResult result = file.open(mGoogleApiClient, DriveFile.MODE_READ_ONLY,
                     null).await();
             if (!result.getStatus().isSuccess()) {

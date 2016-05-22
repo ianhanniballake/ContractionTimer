@@ -9,6 +9,8 @@ android {
     buildToolsVersion rootProject.ext.buildToolsVersion
 
     defaultConfig {
+        applicationId "com.ianhanniballake.contractiontimer"
+
         def versionMajor = 2
         def versionMinor = 1
         def versionPatch = 1
@@ -49,8 +51,8 @@ dependencies {
     compile 'com.android.support:support-annotations:23.4.0'
     compile "com.android.support:appcompat-v7:23.4.0"
     compile "com.android.support:preference-v7:23.4.0"
-    compile "com.google.android.gms:play-services-drive:7.3.0"
-    compile "com.google.android.gms:play-services-analytics:7.3.0"
+    compile "com.google.android.gms:play-services-drive:9.0.0"
+    compile "com.google.android.gms:play-services-analytics:9.0.0"
     compile "ch.acra:acra:4.5.0"
     compile "net.sf.opencsv:opencsv:2.3"
     compile project(':provider')
