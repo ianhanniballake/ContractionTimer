@@ -30,7 +30,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
 import android.view.WindowManager;
 import android.widget.TextView;
 
@@ -84,7 +83,6 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
     @Override
     public void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        supportRequestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
         final Intent intent = getIntent();
         // If there is no data associated with the Intent, sets the data to the
         // default URI, which accesses all contractions.
@@ -301,7 +299,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         new AsyncTask<Void, Void, Uri>() {
             @Override
             protected void onPreExecute() {
-                setSupportProgressBarIndeterminateVisibility(true);
+                // TODO Show progress bar
             }
 
             @Override
@@ -324,7 +322,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
 
             @Override
             protected void onPostExecute(final Uri uri) {
-                setSupportProgressBarIndeterminateVisibility(false);
+                // TODO Hide progress bar
                 ShareCompat.IntentBuilder intentBuilder = ShareCompat.IntentBuilder.from(MainActivity.this)
                         .setSubject(getString(R.string.share_subject)).setType("text/plain").setText(formattedData);
                 if (uri != null) {
