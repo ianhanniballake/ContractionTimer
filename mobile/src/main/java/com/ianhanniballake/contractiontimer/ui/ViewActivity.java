@@ -115,7 +115,6 @@ public class ViewActivity extends AppCompatActivity implements LoaderManager.Loa
             if (BuildConfig.DEBUG)
                 Log.e(TAG, "NumberFormatException in onLoadFinished", e);
             else {
-                GtmManager.getInstance(this).pushException(e);
                 FirebaseCrash.report(e);
             }
             finish();

@@ -15,8 +15,8 @@ import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.drive.Drive;
+import com.google.firebase.crash.FirebaseCrash;
 import com.ianhanniballake.contractiontimer.R;
-import com.ianhanniballake.contractiontimer.tagmanager.GtmManager;
 
 /**
  * Abstract activity which handles authentication and connection to Google Drive via the Drive.API
@@ -70,7 +70,7 @@ public abstract class AbstractDriveApiActivity extends FragmentActivity
             } catch (IntentSender.SendIntentException e) {
                 Toast.makeText(this, getString(R.string.drive_error_connect, e.getLocalizedMessage()),
                         Toast.LENGTH_LONG).show();
-                GtmManager.getInstance(this).pushException(e);
+                FirebaseCrash.report(e);
             }
         } else if (!isFinishing() &&
                 (Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN_MR1 || !isDestroyedAlready())) {
@@ -78,7 +78,8 @@ public abstract class AbstractDriveApiActivity extends FragmentActivity
                 GoogleApiAvailability.getInstance().getErrorDialog(this, result.getErrorCode(), 0).show();
             } catch (WindowManager.BadTokenException e) {
                 Log.e(TAG, "Error showing error dialog", e);
-                GtmManager.getInstance(this).pushException(e);
+                FirebaseCrash.log("Error showing error dialog");
+                FirebaseCrash.report(e);
             }
         }
     }
