@@ -197,17 +197,6 @@
                 android:resource="@xml/toggle_appwidget_info"/>
         </receiver>
 
-        <!-- Used for install referrer tracking-->
-        <service android:name="com.google.android.gms.tagmanager.InstallReferrerService"/>
-        <receiver
-            android:name="com.google.android.gms.tagmanager.InstallReferrerReceiver"
-            android:exported="true"
-            tools:ignore="ExportedReceiver">
-            <intent-filter>
-                <action android:name="com.android.vending.INSTALL_REFERRER"/>
-            </intent-filter>
-        </receiver>
-
         <meta-data
             android:name="com.google.android.backup.api_key"
             android:value="AEdPqrEAAAAIRsoSdYXUOINwTp56paLoddxnEcWbM1ZH42Y_wQ"/>
