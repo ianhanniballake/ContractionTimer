@@ -36,13 +36,12 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.ViewAnimator;
 
-import com.google.android.gms.tagmanager.DataLayer;
+import com.google.firebase.analytics.FirebaseAnalytics;
 import com.ianhanniballake.contractiontimer.BuildConfig;
 import com.ianhanniballake.contractiontimer.R;
 import com.ianhanniballake.contractiontimer.appwidget.AppWidgetUpdateHandler;
 import com.ianhanniballake.contractiontimer.notification.NotificationUpdateService;
 import com.ianhanniballake.contractiontimer.provider.ContractionContract;
-import com.ianhanniballake.contractiontimer.tagmanager.GtmManager;
 
 import java.lang.ref.WeakReference;
 import java.util.Calendar;
@@ -221,14 +220,13 @@ public class ContractionListFragment extends Fragment implements LoaderManager.L
                 appCompatActivity.startSupportActionMode(new ActionMode.Callback() {
                     @Override
                     public boolean onActionItemClicked(final ActionMode actionMode, final MenuItem menuItem) {
-                        GtmManager gtmManager = GtmManager.getInstance(getActivity());
-                        gtmManager.push("menu", "ContextActionBar");
+                        FirebaseAnalytics analytics = FirebaseAnalytics.getInstance(getContext());
                         final long contractionId = mListView.getCheckedItemIds()[0];
                         switch (menuItem.getItemId()) {
                             case R.id.menu_context_view:
                                 if (BuildConfig.DEBUG)
                                     Log.d(TAG, "Context Action Mode selected view");
-                                gtmManager.pushEvent("View");
+                                analytics.logEvent("view_cab", null);
                                 viewContraction(contractionId);
                                 return true;
                             case R.id.menu_context_note:
@@ -240,8 +238,8 @@ public class ContractionListFragment extends Fragment implements LoaderManager.L
                                 if (BuildConfig.DEBUG)
                                     Log.d(TAG, "Context Action Mode selected " + (TextUtils.isEmpty(existingNote) ?
                                             "Add Note" : "Edit Note"));
-                                gtmManager.pushEvent("Note", DataLayer.mapOf("type",
-                                        TextUtils.isEmpty(existingNote) ? "Add Note" : "Edit Note", "position", position));
+                                String noteEvent = TextUtils.isEmpty(existingNote) ? "note_add_cab" : "note_edit_cab";
+                                analytics.logEvent(noteEvent, null);
                                 showNoteDialog(contractionId, existingNote);
                                 actionMode.finish();
                                 return true;
@@ -249,7 +247,9 @@ public class ContractionListFragment extends Fragment implements LoaderManager.L
                                 final long[] selectedIds = ContractionListFragment.this.mListView.getCheckedItemIds();
                                 if (BuildConfig.DEBUG)
                                     Log.d(TAG, "Context Action Mode selected delete");
-                                gtmManager.pushEvent("Delete", DataLayer.mapOf("count", selectedIds.length));
+                                Bundle bundle = new Bundle();
+                                bundle.putString(FirebaseAnalytics.Param.VALUE, Integer.toString(selectedIds.length));
+                                analytics.logEvent("delete_cab", bundle);
                                 for (final long id : selectedIds)
                                     deleteContraction(id);
                                 actionMode.finish();
@@ -413,7 +413,6 @@ public class ContractionListFragment extends Fragment implements LoaderManager.L
         noteDialogFragment.setArguments(args);
         if (BuildConfig.DEBUG)
             Log.d(TAG, "Showing Dialog");
-        GtmManager.getInstance(this).pushOpenScreen(TextUtils.isEmpty(existingNote) ? "NoteAdd" : "NoteEdit");
         noteDialogFragment.show(getFragmentManager(), "note");
     }
 
@@ -564,27 +563,28 @@ public class ContractionListFragment extends Fragment implements LoaderManager.L
             showPopupView.setOnMenuItemClickListener(new ActionMenuView.OnMenuItemClickListener() {
                 @Override
                 public boolean onMenuItemClick(final MenuItem item) {
-                    GtmManager gtmManager = GtmManager.getInstance(ContractionListFragment.this);
-                    gtmManager.push("menu", "PopupMenu");
+                    FirebaseAnalytics analytics = FirebaseAnalytics.getInstance(getContext());
                     switch (item.getItemId()) {
                         case R.id.menu_context_view:
                             if (BuildConfig.DEBUG)
                                 Log.d(TAG, "Popup Menu selected view");
-                            gtmManager.pushEvent("View");
+                            analytics.logEvent("view_popup", null);
                             viewContraction(id);
                             return true;
                         case R.id.menu_context_note:
                             String type = TextUtils.isEmpty(note) ? "Add Note" : "Edit Note";
                             if (BuildConfig.DEBUG)
                                 Log.d(TAG, "Popup Menu selected " + type);
-                            gtmManager.pushEvent("Note", DataLayer.mapOf("type", type,
-                                    "position", DataLayer.OBJECT_NOT_PRESENT));
+                            String noteEvent = TextUtils.isEmpty(note) ? "note_add_popup" : "note_edit_popup";
+                            analytics.logEvent(noteEvent, null);
                             showNoteDialog(id, note);
                             return true;
                         case R.id.menu_context_delete:
                             if (BuildConfig.DEBUG)
                                 Log.d(TAG, "Popup Menu selected delete");
-                            gtmManager.pushEvent("Delete", DataLayer.mapOf("count", 1));
+                            Bundle bundle = new Bundle();
+                            bundle.putString(FirebaseAnalytics.Param.VALUE, Integer.toString(1));
+                            analytics.logEvent("delete_popup", bundle);
                             deleteContraction(id);
                             return true;
                         default:

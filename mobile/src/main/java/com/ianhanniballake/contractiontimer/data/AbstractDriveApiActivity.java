@@ -6,6 +6,7 @@ import android.content.IntentSender;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 import android.view.WindowManager;
@@ -15,6 +16,7 @@ import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.drive.Drive;
+import com.google.firebase.analytics.FirebaseAnalytics;
 import com.google.firebase.crash.FirebaseCrash;
 import com.ianhanniballake.contractiontimer.R;
 
@@ -55,6 +57,11 @@ public abstract class AbstractDriveApiActivity extends FragmentActivity
         if (requestCode == REQUEST_CODE_CONNECT) {
             mGoogleApiClient.connect();
         }
+    }
+
+    @Override
+    public void onConnected(@Nullable final Bundle bundle) {
+        FirebaseAnalytics.getInstance(this).logEvent(FirebaseAnalytics.Event.LOGIN, null);
     }
 
     @Override

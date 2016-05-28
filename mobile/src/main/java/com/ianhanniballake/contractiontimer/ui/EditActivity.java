@@ -1,17 +1,13 @@
 package com.ianhanniballake.contractiontimer.ui;
 
-import android.content.BroadcastReceiver;
 import android.content.ContentUris;
-import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
 import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -20,25 +16,12 @@ import android.view.MenuItem;
 
 import com.ianhanniballake.contractiontimer.BuildConfig;
 import com.ianhanniballake.contractiontimer.R;
-import com.ianhanniballake.contractiontimer.tagmanager.GtmManager;
 
 /**
  * Stand alone activity used to view the details of an individual contraction
  */
 public class EditActivity extends AppCompatActivity {
     private final static String TAG = EditActivity.class.getSimpleName();
-    /**
-     * BroadcastReceiver listening for TIME_PICKER_CLOSE_ACTION and DATE_PICKER_CLOSE_ACTION actions
-     */
-    private final BroadcastReceiver dialogFragmentClosedBroadcastReceiver = new BroadcastReceiver() {
-        @Override
-        public void onReceive(final Context context, final Intent intent) {
-            if (BuildConfig.DEBUG)
-                Log.d(TAG, "DialogFragmentClosedBR Received " + intent.getAction());
-            final String screenName = Intent.ACTION_INSERT.equals(getIntent().getAction()) ? "Add" : "Edit";
-            GtmManager.getInstance(EditActivity.this).pushOpenScreen(screenName);
-        }
-    };
 
     @Override
     public void onCreate(final Bundle savedInstanceState) {
@@ -107,7 +90,6 @@ public class EditActivity extends AppCompatActivity {
                 if (BuildConfig.DEBUG)
                     Log.d(TAG, "Edit selected home");
             }
-            GtmManager.getInstance(this).pushEvent("Home");
         }
         return super.onOptionsItemSelected(item);
     }
@@ -136,20 +118,6 @@ public class EditActivity extends AppCompatActivity {
         } else {
             actionBar.setTitle(R.string.edit_activity_name);
         }
-        String screenName = Intent.ACTION_INSERT.equals(getIntent().getAction()) ? "Add" : "Edit";
-        GtmManager.getInstance(this).pushOpenScreen(screenName);
-        final LocalBroadcastManager localBroadcastManager = LocalBroadcastManager.getInstance(this);
-        final IntentFilter dialogCloseFilter = new IntentFilter();
-        dialogCloseFilter.addAction(TimePickerDialogFragment.TIME_PICKER_CLOSE_ACTION);
-        dialogCloseFilter.addAction(DatePickerDialogFragment.DATE_PICKER_CLOSE_ACTION);
-        localBroadcastManager.registerReceiver(dialogFragmentClosedBroadcastReceiver, dialogCloseFilter);
-    }
-
-    @Override
-    protected void onStop() {
-        super.onStop();
-        final LocalBroadcastManager localBroadcastManager = LocalBroadcastManager.getInstance(this);
-        localBroadcastManager.unregisterReceiver(dialogFragmentClosedBroadcastReceiver);
     }
 
     /**

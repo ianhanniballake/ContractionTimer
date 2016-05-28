@@ -11,7 +11,6 @@ import android.widget.TextView;
 
 import com.ianhanniballake.contractiontimer.BuildConfig;
 import com.ianhanniballake.contractiontimer.R;
-import com.ianhanniballake.contractiontimer.tagmanager.GtmManager;
 
 /**
  * About screen for the application. Shows as a dialog on large devices
@@ -34,7 +33,6 @@ public class AboutActivity extends AppCompatActivity {
         if (actionBar != null) {
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
-        GtmManager.getInstance(this).pushOpenScreen("About");
     }
 
     @Override

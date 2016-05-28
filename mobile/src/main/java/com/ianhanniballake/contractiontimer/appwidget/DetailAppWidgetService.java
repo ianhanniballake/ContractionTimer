@@ -4,13 +4,11 @@ import android.annotation.TargetApi;
 import android.app.IntentService;
 import android.app.PendingIntent;
 import android.appwidget.AppWidgetManager;
-import android.appwidget.AppWidgetProviderInfo;
 import android.content.ComponentName;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.os.Build;
-import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.provider.BaseColumns;
 import android.support.annotation.NonNull;
@@ -41,26 +39,15 @@ public class DetailAppWidgetService extends IntentService {
      */
     private final static String KEYGUARD_WIDGET_IDENTIFIER = "DetailWidgetKeyguard";
     /**
-     * Identifier for this widget to be used in Google Analytics
+     * Identifier for this widget to be used in Analytics
      */
-    private final static String WIDGET_IDENTIFIER = "DetailWidget";
+    private final static String WIDGET_IDENTIFIER = "widget_detail";
 
     /**
      * Creates a new DetailAppWidgetService
      */
     public DetailAppWidgetService() {
         super(TAG);
-    }
-
-    @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
-    @WidgetIdentifier
-    private static String getWidgetIdentifier(final AppWidgetManager appWidgetManager, final int appWidgetId) {
-        final Bundle myOptions = appWidgetManager.getAppWidgetOptions(appWidgetId);
-        final int category = myOptions.getInt(AppWidgetManager.OPTION_APPWIDGET_HOST_CATEGORY,
-                AppWidgetProviderInfo.WIDGET_CATEGORY_HOME_SCREEN);
-        if (category == AppWidgetProviderInfo.WIDGET_CATEGORY_KEYGUARD)
-            return KEYGUARD_WIDGET_IDENTIFIER;
-        return WIDGET_IDENTIFIER;
     }
 
     @Override
@@ -138,15 +125,8 @@ public class DetailAppWidgetService extends IntentService {
         // We need to do it widget by widget to allow changes for keyguard vs
         // home screen widgets
         for (final int appWidgetId : detailAppWidgetIds) {
-            // Need to determine if this widget is a keyguard or home screen
-            // widget for Analytics purposes
-            @WidgetIdentifier String widgetIdentifier;
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1)
-                widgetIdentifier = getWidgetIdentifier(appWidgetManager, appWidgetId);
-            else
-                widgetIdentifier = WIDGET_IDENTIFIER;
             if (BuildConfig.DEBUG)
-                Log.d(TAG, "Updating " + widgetIdentifier + " with id " + appWidgetId);
+                Log.d(TAG, "Updating detail widget with id " + appWidgetId);
             // Note that all widgets share the same theme
             RemoteViews views;
             if (appwidgetBackground.equals("light"))
@@ -155,7 +135,7 @@ public class DetailAppWidgetService extends IntentService {
                 views = new RemoteViews(getPackageName(), R.layout.detail_appwidget_dark);
             // Add the intent to the Application Launch button
             final Intent applicationLaunchIntent = new Intent(this, MainActivity.class);
-            applicationLaunchIntent.putExtra(MainActivity.LAUNCHED_FROM_WIDGET_EXTRA, widgetIdentifier);
+            applicationLaunchIntent.putExtra(MainActivity.LAUNCHED_FROM_WIDGET_EXTRA, WIDGET_IDENTIFIER);
             applicationLaunchIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             final PendingIntent applicationLaunchPendingIntent = PendingIntent.getActivity(this, 0,
                     applicationLaunchIntent, PendingIntent.FLAG_UPDATE_CURRENT);
@@ -165,7 +145,7 @@ public class DetailAppWidgetService extends IntentService {
             views.setTextViewText(R.id.average_frequency, formattedAverageFrequency);
             // Add the intent for the toggle button
             final Intent toggleContractionIntent = new Intent(this, AppWidgetToggleService.class);
-            toggleContractionIntent.putExtra(AppWidgetToggleService.WIDGET_NAME_EXTRA, widgetIdentifier);
+            toggleContractionIntent.putExtra(AppWidgetToggleService.WIDGET_NAME_EXTRA, WIDGET_IDENTIFIER);
             final PendingIntent toggleContractionPendingIntent = PendingIntent.getService(this, 0,
                     toggleContractionIntent, PendingIntent.FLAG_UPDATE_CURRENT);
             if (contractionOngoing) {
@@ -183,7 +163,7 @@ public class DetailAppWidgetService extends IntentService {
             else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB)
                 setRemoteAdapterV11(views);
             final Intent clickIntentTemplate = new Intent(Intent.ACTION_VIEW).setPackage(getPackageName());
-            clickIntentTemplate.putExtra(MainActivity.LAUNCHED_FROM_WIDGET_EXTRA, widgetIdentifier);
+            clickIntentTemplate.putExtra(MainActivity.LAUNCHED_FROM_WIDGET_EXTRA, WIDGET_IDENTIFIER);
             final PendingIntent clickPendingIntentTemplate = TaskStackBuilder.create(this)
                     .addNextIntentWithParentStack(clickIntentTemplate)
                     .getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);

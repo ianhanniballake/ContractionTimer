@@ -20,12 +20,12 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.ToggleButton;
 
+import com.google.firebase.analytics.FirebaseAnalytics;
 import com.ianhanniballake.contractiontimer.BuildConfig;
 import com.ianhanniballake.contractiontimer.R;
 import com.ianhanniballake.contractiontimer.appwidget.AppWidgetUpdateHandler;
 import com.ianhanniballake.contractiontimer.notification.NotificationUpdateService;
 import com.ianhanniballake.contractiontimer.provider.ContractionContract;
-import com.ianhanniballake.contractiontimer.tagmanager.GtmManager;
 
 /**
  * Fragment which controls starting and stopping the contraction timer
@@ -94,19 +94,18 @@ public class ContractionControlsFragment extends Fragment implements LoaderManag
                 // Disable the button to ensure we give the database a chance to
                 // complete the insert/update
                 toggleContraction.setEnabled(false);
-                GtmManager gtmManager = GtmManager.getInstance(ContractionControlsFragment.this);
-                gtmManager.push("control", "Controls");
+                FirebaseAnalytics analytics = FirebaseAnalytics.getInstance(getContext());
                 if (toggleContraction.isChecked()) {
                     if (BuildConfig.DEBUG)
                         Log.d(TAG, "Starting contraction");
-                    gtmManager.pushEvent("Start");
+                    analytics.logEvent("control_start", null);
                     // Start a new contraction
                     contractionQueryHandler.startInsert(0, null, ContractionContract.Contractions.CONTENT_URI,
                             new ContentValues());
                 } else {
                     if (BuildConfig.DEBUG)
                         Log.d(TAG, "Stopping contraction");
-                    gtmManager.pushEvent("Stop");
+                    analytics.logEvent("control_stop", null);
                     final ContentValues newEndTime = new ContentValues();
                     newEndTime.put(ContractionContract.Contractions.COLUMN_NAME_END_TIME, System.currentTimeMillis());
                     final long latestContractionId = adapter.getItemId(0);

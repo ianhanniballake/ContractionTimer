@@ -2,7 +2,6 @@ package com.ianhanniballake.contractiontimer.ui;
 
 import android.app.DatePickerDialog;
 import android.app.Dialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -27,10 +26,6 @@ public class DatePickerDialogFragment extends DialogFragment implements DatePick
      * Argument key for storing/retrieving the date associated with this dialog
      */
     public final static String DATE_ARGUMENT = "com.ianhanniballake.contractiontimer.Date";
-    /**
-     * Action associated with this fragment closing
-     */
-    public final static String DATE_PICKER_CLOSE_ACTION = "com.ianhanniballake.contractiontimer.DATE_PICKER_CLOSE";
     /**
      * Extra corresponding with the day of the month that was set
      */
@@ -66,12 +61,5 @@ public class DatePickerDialogFragment extends DialogFragment implements DatePick
         broadcast.putExtra(DatePickerDialogFragment.DAY_OF_MONTH_EXTRA, dayOfMonth);
         final LocalBroadcastManager localBroadcastManager = LocalBroadcastManager.getInstance(getActivity());
         localBroadcastManager.sendBroadcast(broadcast);
-    }
-
-    @Override
-    public void onDismiss(final DialogInterface dialog) {
-        final LocalBroadcastManager localBroadcastManager = LocalBroadcastManager.getInstance(getActivity());
-        localBroadcastManager.sendBroadcast(new Intent(DATE_PICKER_CLOSE_ACTION));
-        super.onDismiss(dialog);
     }
 }

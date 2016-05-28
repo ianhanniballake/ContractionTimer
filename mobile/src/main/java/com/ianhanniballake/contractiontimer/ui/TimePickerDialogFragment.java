@@ -3,7 +3,6 @@ package com.ianhanniballake.contractiontimer.ui;
 import android.app.Dialog;
 import android.app.TimePickerDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
@@ -43,10 +42,6 @@ public class TimePickerDialogFragment extends DialogFragment {
      * Argument key for storing/retrieving the time associated with this dialog
      */
     public final static String TIME_ARGUMENT = "com.ianhanniballake.contractiontimer.TIME_ARGUMENT";
-    /**
-     * Action associated with this fragment closing
-     */
-    public final static String TIME_PICKER_CLOSE_ACTION = "com.ianhanniballake.contractiontimer.TIME_PICKER_CLOSE";
     private final static String TAG = TimePickerDialogFragment.class.getSimpleName();
 
     /**
@@ -99,13 +94,6 @@ public class TimePickerDialogFragment extends DialogFragment {
         final Dialog dialog = getTimePickerDialog(getActivity(), this, date);
         dialog.setOnDismissListener(this);
         return dialog;
-    }
-
-    @Override
-    public void onDismiss(final DialogInterface dialog) {
-        final LocalBroadcastManager localBroadcastManager = LocalBroadcastManager.getInstance(getActivity());
-        localBroadcastManager.sendBroadcast(new Intent(TIME_PICKER_CLOSE_ACTION));
-        super.onDismiss(dialog);
     }
 
     void onTimeSet(final int hourOfDay, final int minute, final int second) {

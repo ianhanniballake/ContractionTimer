@@ -12,11 +12,10 @@ import android.support.v4.app.TaskStackBuilder;
 import android.text.TextUtils;
 import android.util.Log;
 
-import com.google.android.gms.tagmanager.DataLayer;
+import com.google.firebase.analytics.FirebaseAnalytics;
 import com.ianhanniballake.contractiontimer.BuildConfig;
 import com.ianhanniballake.contractiontimer.appwidget.AppWidgetUpdateHandler;
 import com.ianhanniballake.contractiontimer.provider.ContractionContract;
-import com.ianhanniballake.contractiontimer.tagmanager.GtmManager;
 import com.ianhanniballake.contractiontimer.ui.MainActivity;
 
 /**
@@ -70,10 +69,9 @@ public class NoteIntentService extends IntentService {
         int count = contentResolver.update(contractionUri, values, null, null);
         if (count == 1) {
             String voiceInputSource = TextUtils.equals(intent.getAction(), GOOGLE_NOW_INPUT) ?
-                    "GoogleNow" : "AndroidWear";
-            GtmManager.getInstance(this).pushEvent("Note", DataLayer.mapOf("menu", voiceInputSource,
-                    "type", TextUtils.isEmpty(note) ? "Add Note" : "Edit Note",
-                    "position", DataLayer.OBJECT_NOT_PRESENT));
+                    "google_now" : "remote_input";
+            String noteEvent = TextUtils.isEmpty(note) ? "note_add" : "note_edit" + "_" + voiceInputSource;
+            FirebaseAnalytics.getInstance(this).logEvent(noteEvent, null);
             AppWidgetUpdateHandler.createInstance().updateAllWidgets(this);
             NotificationUpdateService.updateNotification(this);
         } else {

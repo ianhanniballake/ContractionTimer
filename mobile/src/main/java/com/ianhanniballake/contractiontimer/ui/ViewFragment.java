@@ -28,13 +28,12 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.android.gms.tagmanager.DataLayer;
+import com.google.firebase.analytics.FirebaseAnalytics;
 import com.ianhanniballake.contractiontimer.BuildConfig;
 import com.ianhanniballake.contractiontimer.R;
 import com.ianhanniballake.contractiontimer.appwidget.AppWidgetUpdateHandler;
 import com.ianhanniballake.contractiontimer.notification.NotificationUpdateService;
 import com.ianhanniballake.contractiontimer.provider.ContractionContract;
-import com.ianhanniballake.contractiontimer.tagmanager.GtmManager;
 
 import java.util.Date;
 
@@ -193,8 +192,7 @@ public class ViewFragment extends Fragment implements LoaderManager.LoaderCallba
     @Override
     public boolean onOptionsItemSelected(final MenuItem item) {
         final Uri uri = ContentUris.withAppendedId(ContractionContract.Contractions.CONTENT_ID_URI_BASE, contractionId);
-        GtmManager gtmManager = GtmManager.getInstance(this);
-        gtmManager.push("menu", "View");
+        FirebaseAnalytics analytics = FirebaseAnalytics.getInstance(getContext());
         switch (item.getItemId()) {
             case R.id.menu_edit:
                 // isContractionOngoing should be non-null at this point, but
@@ -203,16 +201,19 @@ public class ViewFragment extends Fragment implements LoaderManager.LoaderCallba
                     return true;
                 if (BuildConfig.DEBUG)
                     Log.d(TAG, "View selected edit");
-                gtmManager.pushEvent("Edit", DataLayer.mapOf("ongoing", isContractionOngoing));
                 if (isContractionOngoing)
                     Toast.makeText(getActivity(), R.string.edit_ongoing_error, Toast.LENGTH_SHORT).show();
-                else
+                else {
+                    analytics.logEvent("edit_open_view", null);
                     startActivity(new Intent(Intent.ACTION_EDIT, uri).setPackage(getActivity().getPackageName()));
+                }
                 return true;
             case R.id.menu_delete:
                 if (BuildConfig.DEBUG)
                     Log.d(TAG, "View selected delete");
-                gtmManager.pushEvent("Delete", DataLayer.mapOf("count", 1));
+                Bundle bundle = new Bundle();
+                bundle.putString(FirebaseAnalytics.Param.VALUE, Integer.toString(1));
+                analytics.logEvent("delete_view", bundle);
                 contractionQueryHandler.startDelete(0, 0, uri, null, null);
                 return true;
             default:

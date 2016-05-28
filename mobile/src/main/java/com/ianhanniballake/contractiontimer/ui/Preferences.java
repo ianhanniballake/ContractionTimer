@@ -16,11 +16,11 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.view.MenuItem;
 
+import com.google.firebase.analytics.FirebaseAnalytics;
 import com.ianhanniballake.contractiontimer.BuildConfig;
 import com.ianhanniballake.contractiontimer.R;
 import com.ianhanniballake.contractiontimer.appwidget.AppWidgetUpdateHandler;
 import com.ianhanniballake.contractiontimer.notification.NotificationUpdateService;
-import com.ianhanniballake.contractiontimer.tagmanager.GtmManager;
 
 /**
  * Activity managing the various application preferences
@@ -72,7 +72,6 @@ public class Preferences extends AppCompatActivity {
         if (item.getItemId() == android.R.id.home) {
             if (BuildConfig.DEBUG)
                 Log.d(TAG, "Preferences selected home");
-            GtmManager.getInstance(this).pushEvent("Home");
             Intent parentIntent = NavUtils.getParentActivityIntent(this);
             if (NavUtils.shouldUpRecreateTask(this, parentIntent)) {
                 TaskStackBuilder.create(this)
@@ -131,34 +130,33 @@ public class Preferences extends AppCompatActivity {
         @Override
         public boolean onPreferenceTreeClick(Preference preference) {
             if (TextUtils.equals(preference.getKey(), "export")) {
-                GtmManager.getInstance(this).pushEvent("Export");
+                FirebaseAnalytics.getInstance(getContext()).logEvent("export_open", null);
             } else if (TextUtils.equals(preference.getKey(), "import")) {
-                GtmManager.getInstance(this).pushEvent("Import");
-            } else if (TextUtils.equals(preference.getKey(), "license")) {
-                GtmManager.getInstance(this).pushEvent("License");
-            } else if (TextUtils.equals(preference.getKey(), "about")) {
-                GtmManager.getInstance(this).pushEvent("About");
+                FirebaseAnalytics.getInstance(getContext()).logEvent("import_open", null);
             }
             return super.onPreferenceTreeClick(preference);
         }
 
         @Override
         public void onSharedPreferenceChanged(final SharedPreferences sharedPreferences, final String key) {
-            GtmManager gtmManager = GtmManager.getInstance(this);
+            FirebaseAnalytics analytics = FirebaseAnalytics.getInstance(getContext());
+            Bundle bundle = new Bundle();
             switch (key) {
                 case Preferences.KEEP_SCREEN_ON_PREFERENCE_KEY:
                     final boolean newIsKeepScreenOn = sharedPreferences.getBoolean(Preferences.KEEP_SCREEN_ON_PREFERENCE_KEY,
                             getResources().getBoolean(R.bool.pref_keep_screen_on_default));
                     if (BuildConfig.DEBUG)
                         Log.d(TAG, "Keep Screen On: " + newIsKeepScreenOn);
-                    gtmManager.pushPreferenceChanged("Keep Screen On", newIsKeepScreenOn);
+                    bundle.putString(FirebaseAnalytics.Param.VALUE, Boolean.toString(newIsKeepScreenOn));
+                    analytics.logEvent("preference_keep_screen_on", bundle);
                     break;
                 case Preferences.LOCK_PORTRAIT_PREFERENCE_KEY:
                     final boolean newIsLockPortrait = sharedPreferences.getBoolean(Preferences.LOCK_PORTRAIT_PREFERENCE_KEY,
                             getResources().getBoolean(R.bool.pref_lock_portrait_default));
                     if (BuildConfig.DEBUG)
                         Log.d(TAG, "Lock Portrait: " + newIsLockPortrait);
-                    gtmManager.pushPreferenceChanged("Lock Portrait", newIsLockPortrait);
+                    bundle.putString(FirebaseAnalytics.Param.VALUE, Boolean.toString(newIsLockPortrait));
+                    analytics.logEvent("preference_lock_portrait", bundle);
                     if (newIsLockPortrait)
                         getActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
                     else
@@ -168,7 +166,8 @@ public class Preferences extends AppCompatActivity {
                     final String newAppwidgetBackground = appwidgetBackgroundListPreference.getValue();
                     if (BuildConfig.DEBUG)
                         Log.d(TAG, "Appwidget Background: " + newAppwidgetBackground);
-                    gtmManager.pushPreferenceChanged("Appwidget Background", newAppwidgetBackground);
+                    bundle.putString(FirebaseAnalytics.Param.VALUE, newAppwidgetBackground);
+                    analytics.logEvent("preference_widget_background", bundle);
                     appwidgetBackgroundListPreference.setSummary(appwidgetBackgroundListPreference.getEntry());
                     AppWidgetUpdateHandler.createInstance().updateAllWidgets(getContext());
                     break;
@@ -177,14 +176,16 @@ public class Preferences extends AppCompatActivity {
                             getResources().getBoolean(R.bool.pref_notification_enable_default));
                     if (BuildConfig.DEBUG)
                         Log.d(TAG, "Notification Enabled: " + newNotifcationEnabled);
-                    gtmManager.pushPreferenceChanged("Notification Enabled", newNotifcationEnabled);
+                    bundle.putString(FirebaseAnalytics.Param.VALUE, Boolean.toString(newNotifcationEnabled));
+                    analytics.logEvent("preference_notification_enabled", bundle);
                     NotificationUpdateService.updateNotification(getContext());
                     break;
                 case Preferences.AVERAGE_TIME_FRAME_PREFERENCE_KEY:
                     final String newAverageTimeFrame = averageTimeFrameListPreference.getValue();
                     if (BuildConfig.DEBUG)
                         Log.d(TAG, "Average Time Frame: " + newAverageTimeFrame);
-                    gtmManager.pushPreferenceChanged("Average Time Frame", newAverageTimeFrame);
+                    bundle.putString(FirebaseAnalytics.Param.VALUE, newAverageTimeFrame);
+                    analytics.logEvent("preference_average_time_frame", bundle);
                     final SharedPreferences.Editor editor = sharedPreferences.edit();
                     editor.putBoolean(Preferences.AVERAGE_TIME_FRAME_CHANGED_MAIN_PREFERENCE_KEY, true);
                     editor.putBoolean(Preferences.AVERAGE_TIME_FRAME_CHANGED_FRAGMENT_PREFERENCE_KEY, true);
@@ -194,14 +195,6 @@ public class Preferences extends AppCompatActivity {
                     AppWidgetUpdateHandler.createInstance().updateAllWidgets(getContext());
                     NotificationUpdateService.updateNotification(getContext());
                     break;
-                case Preferences.ANALYTICS_PREFERENCE_KEY:
-                    final boolean newCollectAnalytics = sharedPreferences.getBoolean(Preferences.ANALYTICS_PREFERENCE_KEY,
-                            getResources().getBoolean(R.bool.pref_analytics_default));
-                    if (BuildConfig.DEBUG)
-                        Log.d(TAG, "Analytics: " + newCollectAnalytics);
-                    gtmManager.pushPreferenceChanged("Analytics", newCollectAnalytics);
-                    gtmManager.push("optOut", newCollectAnalytics);
-                    break;
             }
             new BackupManager(getContext()).dataChanged();
         }
@@ -209,7 +202,7 @@ public class Preferences extends AppCompatActivity {
         @Override
         public void onStart() {
             super.onStart();
-            GtmManager.getInstance(this).pushOpenScreen("Preferences");
+            FirebaseAnalytics.getInstance(getContext()).logEvent("preferences_open", null);
         }
     }
 }

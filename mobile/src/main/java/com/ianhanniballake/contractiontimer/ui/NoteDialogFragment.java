@@ -20,12 +20,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
 
+import com.google.firebase.analytics.FirebaseAnalytics;
 import com.ianhanniballake.contractiontimer.BuildConfig;
 import com.ianhanniballake.contractiontimer.R;
 import com.ianhanniballake.contractiontimer.appwidget.AppWidgetUpdateHandler;
 import com.ianhanniballake.contractiontimer.notification.NotificationUpdateService;
 import com.ianhanniballake.contractiontimer.provider.ContractionContract;
-import com.ianhanniballake.contractiontimer.tagmanager.GtmManager;
 
 /**
  * Reset Confirmation Dialog box
@@ -49,7 +49,6 @@ public class NoteDialogFragment extends DialogFragment {
     public void onCancel(final DialogInterface dialog) {
         if (BuildConfig.DEBUG)
             Log.d(TAG, "Received cancelation event");
-        GtmManager.getInstance(this).pushEvent("Cancel");
         super.onCancel(dialog);
     }
 
@@ -75,15 +74,14 @@ public class NoteDialogFragment extends DialogFragment {
                 NotificationUpdateService.updateNotification(context);
             }
         };
-        final GtmManager gtmManager = GtmManager.getInstance(this);
-        gtmManager.push("type", TextUtils.isEmpty(existingNote) ? "Add Note" : "Edit Note");
         return builder.setView(layout).setInverseBackgroundForced(true)
                 .setPositiveButton(R.string.note_dialog_save, new OnClickListener() {
                     @Override
                     public void onClick(final DialogInterface dialog, final int which) {
                         if (BuildConfig.DEBUG)
                             Log.d(TAG, "Received positive event");
-                        gtmManager.pushEvent("Positive");
+                        String noteEvent = TextUtils.isEmpty(existingNote) ? "note_add_saved" : "note_edit_saved";
+                        FirebaseAnalytics.getInstance(getContext()).logEvent(noteEvent, null);
                         final Uri updateUri = ContentUris.withAppendedId(
                                 ContractionContract.Contractions.CONTENT_ID_URI_BASE, contractionId);
                         final ContentValues values = new ContentValues();
@@ -95,7 +93,6 @@ public class NoteDialogFragment extends DialogFragment {
                     public void onClick(final DialogInterface dialog, final int which) {
                         if (BuildConfig.DEBUG)
                             Log.d(TAG, "Received negative event");
-                        gtmManager.pushEvent("Negative");
                     }
                 }).create();
     }

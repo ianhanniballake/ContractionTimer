@@ -26,9 +26,9 @@ import com.ianhanniballake.contractiontimer.ui.Preferences;
 public class ControlAppWidgetService extends IntentService {
     private final static String TAG = ControlAppWidgetService.class.getSimpleName();
     /**
-     * Identifier for this widget to be used in Google Analytics
+     * Identifier for this widget to be used in Analytics
      */
-    private final static String WIDGET_IDENTIFIER = "ControlWidget";
+    private final static String WIDGET_IDENTIFIER = "widget_control";
 
     /**
      * Creates a new ControlAppWidgetService

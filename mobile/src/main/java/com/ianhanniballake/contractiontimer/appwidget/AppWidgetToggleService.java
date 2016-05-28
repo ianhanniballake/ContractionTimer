@@ -10,10 +10,10 @@ import android.net.Uri;
 import android.provider.BaseColumns;
 import android.util.Log;
 
+import com.google.firebase.analytics.FirebaseAnalytics;
 import com.ianhanniballake.contractiontimer.BuildConfig;
 import com.ianhanniballake.contractiontimer.notification.NotificationUpdateService;
 import com.ianhanniballake.contractiontimer.provider.ContractionContract;
-import com.ianhanniballake.contractiontimer.tagmanager.GtmManager;
 
 /**
  * Starts a new contraction or stops the current contraction, updating all widgets upon completion
@@ -44,12 +44,11 @@ public class AppWidgetToggleService extends IntentService {
         }
         final boolean contractionOngoing = data.moveToFirst()
                 && data.isNull(data.getColumnIndex(ContractionContract.Contractions.COLUMN_NAME_END_TIME));
-        GtmManager gtmManager = GtmManager.getInstance(this);
-        gtmManager.push("control", widgetName);
+        FirebaseAnalytics analytics = FirebaseAnalytics.getInstance(this);
         if (contractionOngoing) {
             if (BuildConfig.DEBUG)
                 Log.d(TAG, "Stopping contraction");
-            gtmManager.pushEvent("Stop");
+            analytics.logEvent(widgetName + "_stop", null);
             final ContentValues newEndTime = new ContentValues();
             newEndTime.put(ContractionContract.Contractions.COLUMN_NAME_END_TIME, System.currentTimeMillis());
             final long latestContractionId = data.getInt(data.getColumnIndex(BaseColumns._ID));
@@ -60,7 +59,7 @@ public class AppWidgetToggleService extends IntentService {
         } else {
             if (BuildConfig.DEBUG)
                 Log.d(TAG, "Starting contraction");
-            gtmManager.pushEvent("Start");
+            analytics.logEvent(widgetName + "_start", null);
             // Start a new contraction
             contentResolver.insert(ContractionContract.Contractions.CONTENT_URI, new ContentValues());
         }

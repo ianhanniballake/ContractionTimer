@@ -32,14 +32,14 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.android.vending.billing.IInAppBillingService;
-import com.google.android.gms.tagmanager.DataLayer;
+import com.google.firebase.analytics.FirebaseAnalytics;
+import com.google.firebase.crash.FirebaseCrash;
 import com.ianhanniballake.contractiontimer.BuildConfig;
 import com.ianhanniballake.contractiontimer.R;
 import com.ianhanniballake.contractiontimer.inappbilling.Inventory;
 import com.ianhanniballake.contractiontimer.inappbilling.Purchase;
 import com.ianhanniballake.contractiontimer.inappbilling.Security;
 import com.ianhanniballake.contractiontimer.inappbilling.SkuDetails;
-import com.ianhanniballake.contractiontimer.tagmanager.GtmManager;
 
 import org.json.JSONException;
 
@@ -48,7 +48,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Activity controlling donations, including Paypal and In-App Billing
@@ -132,10 +131,8 @@ public class DonateActivity extends AppCompatActivity {
             super.onActivityResult(requestCode, resultCode, data);
             return;
         }
-        GtmManager gtmManager = GtmManager.getInstance(this);
         if (data == null) {
-            Log.e(TAG, "Purchase: Null intent");
-            gtmManager.pushEvent("Error", DataLayer.mapOf("message", "Purchase null intent"));
+            FirebaseCrash.logcat(Log.ERROR, TAG, "Purchase: null intent");
             return;
         }
         final int responseCode = getResponseCodeFromIntent(data);
@@ -143,8 +140,7 @@ public class DonateActivity extends AppCompatActivity {
         final String dataSignature = data.getStringExtra("INAPP_DATA_SIGNATURE");
         if (resultCode == Activity.RESULT_OK && responseCode == 0) {
             if (purchaseData == null || dataSignature == null) {
-                Log.e(TAG, "Purchase: Invalid data fields");
-                gtmManager.pushEvent("Error", DataLayer.mapOf("message", "Purchase invalid data fields"));
+                FirebaseCrash.logcat(Log.ERROR, TAG, "Purchase: Invalid data fields");
                 return;
             }
             Purchase purchase;
@@ -153,26 +149,22 @@ public class DonateActivity extends AppCompatActivity {
                 final String sku = purchase.getSku();
                 // Verify signature
                 if (!Security.verifyPurchase(publicKey, purchaseData, dataSignature)) {
-                    Log.e(TAG, "Purchase: Signature verification failed " + sku);
-                    gtmManager.pushEvent("Error", DataLayer.mapOf("message", "Purchase signature verification failed"));
+                    FirebaseCrash.logcat(Log.ERROR, TAG, "Purchase: Signature verification failed " + sku);
                     return;
                 }
             } catch (final JSONException e) {
-                Log.e(TAG, "Purchase: Parsing error", e);
-                gtmManager.pushEvent("Error", DataLayer.mapOf("message", "Purchase parsing error"));
+                FirebaseCrash.logcat(Log.ERROR, TAG, "Purchase: Parsing error");
+                FirebaseCrash.report(e);
                 return;
             }
             new ConsumeAsyncTask(mService, true).execute(purchase);
         } else if (resultCode == Activity.RESULT_OK) {
-            Log.e(TAG, "Purchase: bad response " + responseCode);
-            gtmManager.pushEvent("Error", DataLayer.mapOf("message", "Purchase bad response " + responseCode));
+            FirebaseCrash.logcat(Log.ERROR, TAG, "Purchase: bad response " + responseCode);
         } else if (resultCode == Activity.RESULT_CANCELED) {
             if (BuildConfig.DEBUG)
                 Log.d(TAG, "Purchase: canceled");
-            gtmManager.pushEvent("Canceled");
         } else {
-            Log.w(TAG, "Purchase: Unknown response");
-            gtmManager.pushEvent("Error", DataLayer.mapOf("message", "Purchase unknown response"));
+            FirebaseCrash.logcat(Log.ERROR, TAG, "Purchase: Unknown response");
         }
     }
 
@@ -209,7 +201,7 @@ public class DonateActivity extends AppCompatActivity {
             public void onClick(final View v) {
                 if (BuildConfig.DEBUG)
                     Log.d(TAG, "Clicked Paypal");
-                GtmManager.getInstance(DonateActivity.this).pushEvent("Paypal");
+                FirebaseAnalytics.getInstance(DonateActivity.this).logEvent("paypal", null);
                 final Uri.Builder uriBuilder = new Uri.Builder();
                 uriBuilder.scheme("https").authority("www.paypal.com").path("cgi-bin/webscr");
                 uriBuilder.appendQueryParameter("cmd", "_donations");
@@ -239,29 +231,31 @@ public class DonateActivity extends AppCompatActivity {
                 purchasedSku = skus[selectedInAppAmount];
                 if (BuildConfig.DEBUG)
                     Log.d(TAG, "Clicked " + purchasedSku);
-                GtmManager gtmManager = GtmManager.getInstance(DonateActivity.this);
-                gtmManager.pushEvent("Click", DataLayer.mapOf("sku", purchasedSku));
+                Bundle bundle = new Bundle();
+                bundle.putString(FirebaseAnalytics.Param.ITEM_ID, purchasedSku);
+                bundle.putString(FirebaseAnalytics.Param.ITEM_NAME,
+                        inAppSpinner.getItemAtPosition(selectedInAppAmount).toString());
+                bundle.putString(FirebaseAnalytics.Param.ITEM_CATEGORY, "donate");
+                FirebaseAnalytics.getInstance(DonateActivity.this).logEvent(FirebaseAnalytics.Event.VIEW_ITEM, bundle);
                 try {
                     final Bundle buyIntentBundle = mService.getBuyIntent(3, getPackageName(), purchasedSku,
                             ITEM_TYPE_INAPP, "");
                     final int response = getResponseCodeFromBundle(buyIntentBundle);
                     if (response != 0) {
-                        Log.e(TAG, "Buy bad response " + response);
-                        gtmManager.pushEvent("Error", DataLayer.mapOf("message", "Buy bad response " + response));
+                        FirebaseCrash.logcat(Log.ERROR, TAG, "Buy bad response " + response);
                         return;
                     }
                     final PendingIntent pendingIntent = buyIntentBundle.getParcelable("BUY_INTENT");
                     startIntentSenderForResult(pendingIntent.getIntentSender(), RC_REQUEST, new Intent(), 0, 0, 0);
                 } catch (final SendIntentException e) {
-                    Log.e(TAG, "Buy: Send intent failed", e);
-                    gtmManager.pushEvent("Error", DataLayer.mapOf("message", "Buy send intent failed"));
+                    FirebaseCrash.logcat(Log.ERROR, TAG, "Buy: Send intent failed");
+                    FirebaseCrash.report(e);
                 } catch (final RemoteException e) {
-                    Log.e(TAG, "Buy: Remote exception", e);
-                    gtmManager.pushEvent("Error", DataLayer.mapOf("message", "Buy remote exception"));
+                    FirebaseCrash.logcat(Log.ERROR, TAG, "Buy: Remote exception");
+                    FirebaseCrash.report(e);
                 }
             }
         });
-        final GtmManager gtmManager = GtmManager.getInstance(DonateActivity.this);
         // Start the In-App Billing process, only if on Froyo or higher
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.FROYO) {
             mServiceConn = new ServiceConnection() {
@@ -275,12 +269,11 @@ public class DonateActivity extends AppCompatActivity {
                         if (response == 0)
                             new InventoryQueryAsyncTask(mService).execute(skus);
                         else {
-                            Log.w(TAG, "Initialize: In app not supported");
-                            gtmManager.pushEvent("Error", DataLayer.mapOf("message", "Initialize in app not supported"));
+                            FirebaseCrash.logcat(Log.WARN, TAG, "Initialize: In app not supported");
                         }
                     } catch (final RemoteException e) {
-                        Log.e(TAG, "Initialize: Remote exception", e);
-                        gtmManager.pushEvent("Error", DataLayer.mapOf("message", "Initialize remote exception"));
+                        FirebaseCrash.logcat(Log.ERROR, TAG, "Initialize: Remote exception");
+                        FirebaseCrash.report(e);
                     }
                 }
 
@@ -300,8 +293,7 @@ public class DonateActivity extends AppCompatActivity {
                 bindService(serviceIntent, mServiceConn, Context.BIND_AUTO_CREATE);
             else {
                 // no service available to handle that Intent
-                Log.w(TAG, "Initialize: Billing unavailable");
-                gtmManager.pushEvent("Error", DataLayer.mapOf("message", "Initialize billing unavailable"));
+                FirebaseCrash.logcat(Log.WARN, TAG, "Initialize: Billing unavailable");
             }
         }
     }
@@ -313,8 +305,8 @@ public class DonateActivity extends AppCompatActivity {
             try {
                 unbindService(mServiceConn);
             } catch (final IllegalArgumentException e) {
-                // Assume the service has already been unbinded, so only log that it happened
-                Log.w(TAG, "Error unbinding service", e);
+                FirebaseCrash.logcat(Log.WARN, TAG, "Error unbinding service");
+                FirebaseCrash.report(e);
             }
             mServiceConn = null;
             mService = null;
@@ -325,7 +317,6 @@ public class DonateActivity extends AppCompatActivity {
     protected void onRestoreInstanceState(@NonNull final Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
         purchasedSku = savedInstanceState.containsKey(PURCHASED_SKU) ? savedInstanceState.getString(PURCHASED_SKU) : "";
-        GtmManager.getInstance(this).push("sku", purchasedSku);
     }
 
     @Override
@@ -352,7 +343,6 @@ public class DonateActivity extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        GtmManager.getInstance(this).pushOpenScreen("Donate");
     }
 
     @Override
@@ -360,7 +350,6 @@ public class DonateActivity extends AppCompatActivity {
         if (item.getItemId() == android.R.id.home) {
             if (BuildConfig.DEBUG)
                 Log.d(TAG, "Donate selected home");
-            GtmManager.getInstance(this).pushEvent("Home");
         }
         return super.onOptionsItemSelected(item);
     }
@@ -378,15 +367,13 @@ public class DonateActivity extends AppCompatActivity {
         protected List<Purchase> doInBackground(final Purchase... purchases) {
             if (BuildConfig.DEBUG)
                 Log.d(TAG, "Starting Consume of " + Arrays.toString(purchases));
-            GtmManager gtmManager = GtmManager.getInstance(DonateActivity.this);
             final List<Purchase> consumedPurchases = new ArrayList<>();
             for (final Purchase purchase : purchases) {
                 final String sku = purchase.getSku();
                 try {
                     final String token = purchase.getToken();
                     if (TextUtils.isEmpty(token)) {
-                        Log.e(TAG, "Consume: Invalid token " + token);
-                        gtmManager.pushEvent("Error", DataLayer.mapOf("message", "Consume invalid token"));
+                        FirebaseCrash.logcat(Log.ERROR, TAG, "Consume: Invalid token " + token);
                         break;
                     }
                     final IInAppBillingService service = mBillingService.get();
@@ -398,12 +385,11 @@ public class DonateActivity extends AppCompatActivity {
                     if (response == 0)
                         consumedPurchases.add(purchase);
                     else {
-                        Log.e(TAG, "Consume: Bad response " + response);
-                        gtmManager.pushEvent("Error", DataLayer.mapOf("message", "Consume bad response " + response));
+                        FirebaseCrash.logcat(Log.ERROR, TAG, "Consume: Bad response " + response);
                     }
                 } catch (final RemoteException e) {
-                    Log.e(TAG, "Consume: Remote exception " + sku, e);
-                    gtmManager.pushEvent("Error", DataLayer.mapOf("message", "Consume remote exception"));
+                    FirebaseCrash.logcat(Log.ERROR, TAG, "Consume: Remote exception " + sku);
+                    FirebaseCrash.report(e);
                 }
             }
             return consumedPurchases;
@@ -419,29 +405,6 @@ public class DonateActivity extends AppCompatActivity {
                 final String sku = purchase.getSku();
                 if (BuildConfig.DEBUG)
                     Log.d(TAG, "Consume completed successfully " + sku);
-                final long purchasedPriceMicro = skuPrices.containsKey(sku) ? skuPrices.get(sku) : 0;
-                final String purchasedName = skuNames.containsKey(sku) ? skuNames.get(sku) : sku;
-                ArrayList<Map<String, String>> purchasedItems = new ArrayList<>();
-                HashMap<String, String> purchasedItem = new HashMap<>();
-                purchasedItem.put("name", purchasedName);
-                purchasedItem.put("sku", sku);
-                purchasedItem.put("category", "Donation");
-                purchasedItem.put("price", Long.toString(purchasedPriceMicro));
-                purchasedItem.put("quantity", "1");
-                purchasedItems.add(purchasedItem);
-                GtmManager gtmManager = GtmManager.getInstance(DonateActivity.this);
-                gtmManager.pushEvent("Purchase",
-                        DataLayer.mapOf("transactionId", purchase.getOrderId(),
-                                "transactionTotal", purchasedPriceMicro,
-                                "transactionAffiliation", "Google Play",
-                                "transactionProducts", purchasedItems)
-                );
-                gtmManager.push(
-                        DataLayer.mapOf("transactionId", null,
-                                "transactionTotal", null,
-                                "transactionAffiliation", null,
-                                "transactionProducts", null)
-                );
             }
             Toast.makeText(DonateActivity.this, R.string.donate_thank_you, Toast.LENGTH_LONG).show();
             if (finishActivity) {
@@ -475,13 +438,11 @@ public class DonateActivity extends AppCompatActivity {
                     return null;
                 return inv;
             } catch (final RemoteException e) {
-                Log.e(TAG, "Inventory: Remote exception", e);
-                GtmManager.getInstance(DonateActivity.this).pushEvent("Error",
-                        DataLayer.mapOf("message", "Inventory remote exception"));
+                FirebaseCrash.logcat(Log.ERROR, TAG, "Inventory: Remote exception");
+                FirebaseCrash.report(e);
             } catch (final JSONException e) {
-                Log.e(TAG, "Inventory: Parsing error", e);
-                GtmManager.getInstance(DonateActivity.this).pushEvent("Error",
-                        DataLayer.mapOf("message", "Inventory parsing error"));
+                FirebaseCrash.logcat(Log.ERROR, TAG, "Inventory: Parsing error");
+                FirebaseCrash.report(e);
             }
             return null;
         }
@@ -523,6 +484,9 @@ public class DonateActivity extends AppCompatActivity {
             // And finally show the In-App Billing UI
             final RelativeLayout inAppLayout = (RelativeLayout) findViewById(R.id.in_app_layout);
             inAppLayout.setVisibility(View.VISIBLE);
+            Bundle bundle = new Bundle();
+            bundle.putString(FirebaseAnalytics.Param.ITEM_CATEGORY, "donate");
+            FirebaseAnalytics.getInstance(DonateActivity.this).logEvent(FirebaseAnalytics.Event.VIEW_ITEM_LIST, bundle);
         }
 
         int queryPurchases(final Inventory inv) throws JSONException, RemoteException {
@@ -538,17 +502,13 @@ public class DonateActivity extends AppCompatActivity {
                 final Bundle ownedItems = service.getPurchases(3, getPackageName(), ITEM_TYPE_INAPP, continueToken);
                 final int response = getResponseCodeFromBundle(ownedItems);
                 if (response != 0) {
-                    Log.e(TAG, "Purchases: Bad response " + response);
-                    GtmManager.getInstance(DonateActivity.this).pushEvent("Error",
-                            DataLayer.mapOf("message", "Purchases bad response " + response));
+                    FirebaseCrash.logcat(Log.ERROR, TAG, "Purchases: Bad response " + response);
                     return response;
                 }
                 if (!ownedItems.containsKey(RESPONSE_INAPP_ITEM_LIST)
                         || !ownedItems.containsKey(RESPONSE_INAPP_PURCHASE_DATA_LIST)
                         || !ownedItems.containsKey(RESPONSE_INAPP_SIGNATURE_LIST)) {
-                    Log.e(TAG, "Purchases: Invalid data");
-                    GtmManager.getInstance(DonateActivity.this).pushEvent("Error",
-                            DataLayer.mapOf("message", "Purchases invalid data"));
+                    FirebaseCrash.logcat(Log.ERROR, TAG, "Purchases: Invalid data");
                     return -1;
                 }
                 final ArrayList<String> purchaseDataList = ownedItems
@@ -587,9 +547,7 @@ public class DonateActivity extends AppCompatActivity {
             if (!skuDetails.containsKey(RESPONSE_GET_SKU_DETAILS_LIST)) {
                 final int response = getResponseCodeFromBundle(skuDetails);
                 if (response != 0) {
-                    Log.e(TAG, "SkuDetails: Bad response " + response);
-                    GtmManager.getInstance(DonateActivity.this).pushEvent("Error",
-                            DataLayer.mapOf("message", "SkuDetails bad response " + response));
+                    FirebaseCrash.logcat(Log.ERROR, TAG, "SkuDetails: Bad response " + response);
                     return response;
                 }
                 return -1;

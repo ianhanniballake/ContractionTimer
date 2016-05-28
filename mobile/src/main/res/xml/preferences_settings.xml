@@ -53,11 +53,6 @@
         </Preference>
     </PreferenceCategory>
     <PreferenceCategory android:title="@string/pref_other_category">
-        <SwitchPreferenceCompat
-            android:defaultValue="@bool/pref_analytics_default"
-            android:key="analytics"
-            android:summary="@string/pref_analytics_summary"
-            android:title="@string/pref_analytics_title"/>
         <Preference
             android:key="license"
             android:title="@string/pref_open_source_licenses">

@@ -24,9 +24,9 @@ import com.ianhanniballake.contractiontimer.ui.Preferences;
 public class ToggleAppWidgetService extends IntentService {
     private final static String TAG = ToggleAppWidgetService.class.getSimpleName();
     /**
-     * Identifier for this widget to be used in Google Analytics
+     * Identifier for this widget to be used in Analytics
      */
-    private final static String WIDGET_IDENTIFIER = "ToggleWidget";
+    private final static String WIDGET_IDENTIFIER = "widget_toggle";
 
     /**
      * Creates a new ToggleAppWidgetService

@@ -36,13 +36,12 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import com.google.android.gms.tagmanager.DataLayer;
+import com.google.firebase.analytics.FirebaseAnalytics;
 import com.ianhanniballake.contractiontimer.BuildConfig;
 import com.ianhanniballake.contractiontimer.R;
 import com.ianhanniballake.contractiontimer.appwidget.AppWidgetUpdateHandler;
 import com.ianhanniballake.contractiontimer.notification.NotificationUpdateService;
 import com.ianhanniballake.contractiontimer.provider.ContractionContract;
-import com.ianhanniballake.contractiontimer.tagmanager.GtmManager;
 
 import java.util.Calendar;
 
@@ -67,6 +66,34 @@ public class EditFragment extends Fragment implements LoaderManager.LoaderCallba
      */
     public final static String START_TIME_ACTION = "com.ianhanniballake.contractiontimer.START_TIME";
     private final static String TAG = EditFragment.class.getSimpleName();
+    /**
+     * Current end time of the contraction
+     */
+    Calendar endTime = null;
+    /**
+     * Current note of the contraction
+     */
+    String note = "";
+    /**
+     * Whether the End Time Order check passed
+     */
+    boolean passedEndTimeOrderCheck = false;
+    /**
+     * Whether the End Time Overlap check passed
+     */
+    boolean passedEndTimeOverlapCheck = false;
+    /**
+     * Whether the Start Time Overlap check passed
+     */
+    boolean passedStartTimeOverlapCheck = false;
+    /**
+     * Whether the Time Overlap check passed
+     */
+    boolean passedTimeOverlapCheck = false;
+    /**
+     * Current start time of the contraction
+     */
+    Calendar startTime = null;
     /**
      * BroadcastReceiver listening for START_DATE_ACTION and END_DATE_ACTION actions
      */
@@ -128,34 +155,6 @@ public class EditFragment extends Fragment implements LoaderManager.LoaderCallba
             updateViews();
         }
     };
-    /**
-     * Current end time of the contraction
-     */
-    Calendar endTime = null;
-    /**
-     * Current note of the contraction
-     */
-    String note = "";
-    /**
-     * Whether the End Time Order check passed
-     */
-    boolean passedEndTimeOrderCheck = false;
-    /**
-     * Whether the End Time Overlap check passed
-     */
-    boolean passedEndTimeOverlapCheck = false;
-    /**
-     * Whether the Start Time Overlap check passed
-     */
-    boolean passedStartTimeOverlapCheck = false;
-    /**
-     * Whether the Time Overlap check passed
-     */
-    boolean passedTimeOverlapCheck = false;
-    /**
-     * Current start time of the contraction
-     */
-    Calendar startTime = null;
     /**
      * Adapter to display the detailed data
      */
@@ -306,7 +305,6 @@ public class EditFragment extends Fragment implements LoaderManager.LoaderCallba
                 timePicker.setArguments(args);
                 if (BuildConfig.DEBUG)
                     Log.d(TAG, "Showing Start Time Dialog");
-                GtmManager.getInstance(EditFragment.this).pushOpenScreen("PickTimeStart");
                 timePicker.show(getFragmentManager(), "startTime");
             }
         });
@@ -321,7 +319,6 @@ public class EditFragment extends Fragment implements LoaderManager.LoaderCallba
                 datePicker.setArguments(args);
                 if (BuildConfig.DEBUG)
                     Log.d(TAG, "Showing Start Date Dialog");
-                GtmManager.getInstance(EditFragment.this).pushOpenScreen("PickDateStart");
                 datePicker.show(getFragmentManager(), "startDate");
             }
         });
@@ -336,7 +333,6 @@ public class EditFragment extends Fragment implements LoaderManager.LoaderCallba
                 timePicker.setArguments(args);
                 if (BuildConfig.DEBUG)
                     Log.d(TAG, "Showing End Time Dialog");
-                GtmManager.getInstance(EditFragment.this).pushOpenScreen("PickTimeEnd");
                 timePicker.show(getFragmentManager(), "endTime");
             }
         });
@@ -351,7 +347,6 @@ public class EditFragment extends Fragment implements LoaderManager.LoaderCallba
                 datePicker.setArguments(args);
                 if (BuildConfig.DEBUG)
                     Log.d(TAG, "Showing End Date Dialog");
-                GtmManager.getInstance(EditFragment.this).pushOpenScreen("PickDateEnd");
                 datePicker.show(getFragmentManager(), "endDate");
             }
         });
@@ -394,15 +389,16 @@ public class EditFragment extends Fragment implements LoaderManager.LoaderCallba
     public boolean onOptionsItemSelected(final MenuItem item) {
         switch (item.getItemId()) {
             case R.id.menu_save:
-                GtmManager.getInstance(this).pushEvent("Save");
                 final ContentValues values = getContentValues();
                 if (Intent.ACTION_INSERT.equals(getActivity().getIntent().getAction())) {
                     if (BuildConfig.DEBUG)
                         Log.d(TAG, "Add selected save");
+                    FirebaseAnalytics.getInstance(getContext()).logEvent("add_save", null);
                     contractionQueryHandler.startInsert(0, null, getActivity().getIntent().getData(), values);
                 } else {
                     if (BuildConfig.DEBUG)
                         Log.d(TAG, "Edit selected save");
+                    FirebaseAnalytics.getInstance(getContext()).logEvent("edit_save", null);
                     contractionQueryHandler.startUpdate(0, null, getActivity().getIntent().getData(), values, null,
                             null);
                 }
@@ -410,7 +406,6 @@ public class EditFragment extends Fragment implements LoaderManager.LoaderCallba
             case R.id.menu_cancel:
                 if (BuildConfig.DEBUG)
                     Log.d(TAG, "Edit selected cancel");
-                GtmManager.getInstance(this).pushEvent("Cancel", DataLayer.mapOf("type", DataLayer.OBJECT_NOT_PRESENT));
                 getActivity().finish();
                 return true;
             default:

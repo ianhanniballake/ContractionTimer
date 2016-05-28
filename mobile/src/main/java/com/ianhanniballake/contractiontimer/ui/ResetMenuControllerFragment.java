@@ -16,11 +16,10 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.google.android.gms.tagmanager.DataLayer;
+import com.google.firebase.analytics.FirebaseAnalytics;
 import com.ianhanniballake.contractiontimer.BuildConfig;
 import com.ianhanniballake.contractiontimer.R;
 import com.ianhanniballake.contractiontimer.provider.ContractionContract;
-import com.ianhanniballake.contractiontimer.tagmanager.GtmManager;
 
 /**
  * Headless fragment which controls the Reset action in the MainActivity ActionBar, enabling/disabling it based on
@@ -92,17 +91,14 @@ public class ResetMenuControllerFragment extends Fragment implements LoaderManag
 
     @Override
     public boolean onOptionsItemSelected(final MenuItem item) {
-        GtmManager gtmManager = GtmManager.getInstance(this);
-        gtmManager.push(DataLayer.mapOf("menu", "Menu", "count", adapter.getCount()));
         switch (item.getItemId()) {
             case R.id.menu_reset:
                 if (BuildConfig.DEBUG)
                     Log.d(TAG, "Menu selected Reset");
-                gtmManager.pushEvent("Reset");
                 final ResetDialogFragment resetDialogFragment = new ResetDialogFragment();
                 if (BuildConfig.DEBUG)
                     Log.d(TAG, "Showing Dialog");
-                gtmManager.pushOpenScreen("Reset");
+                FirebaseAnalytics.getInstance(getContext()).logEvent("reset_open", null);
                 resetDialogFragment.show(getFragmentManager(), "reset");
                 return true;
             default:

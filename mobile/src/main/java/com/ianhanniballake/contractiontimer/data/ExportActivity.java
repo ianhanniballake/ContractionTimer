@@ -16,6 +16,7 @@ import com.google.android.gms.drive.DriveContents;
 import com.google.android.gms.drive.DriveFile;
 import com.google.android.gms.drive.DriveId;
 import com.google.android.gms.drive.MetadataChangeSet;
+import com.google.firebase.analytics.FirebaseAnalytics;
 import com.ianhanniballake.contractiontimer.R;
 
 import java.io.IOException;
@@ -53,6 +54,7 @@ public class ExportActivity extends AbstractDriveApiActivity {
 
     @Override
     public void onConnected(final Bundle connectionHint) {
+        super.onConnected(connectionHint);
         Drive.DriveApi.newDriveContents(mGoogleApiClient).setResultCallback(mCreateFileCallback);
     }
 
@@ -95,6 +97,7 @@ public class ExportActivity extends AbstractDriveApiActivity {
         @Override
         protected void onPostExecute(Boolean success) {
             if (success) {
+                FirebaseAnalytics.getInstance(ExportActivity.this).logEvent("export_complete", null);
                 Toast.makeText(ExportActivity.this, getString(R.string.drive_export_successful),
                         Toast.LENGTH_LONG).show();
             } else {

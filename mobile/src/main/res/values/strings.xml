@@ -115,8 +115,6 @@
     <string name="pref_import_title">Import contractions…</string>
     <string name="pref_import_summary">Import from CSV file</string>
     <string name="pref_other_category">Other</string>
-    <string name="pref_analytics_title">Send usage statistics</string>
-    <string name="pref_analytics_summary">Help make Contraction Timer better by sending anonymous data to Google Analytics</string>
     <string name="pref_open_source_licenses">Open source licenses</string>
     <string name="pref_about_contraction_timer">About Contraction Timer</string>
 

@@ -1,9 +1,7 @@
 package com.ianhanniballake.contractiontimer.ui;
 
-import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.content.pm.ActivityInfo;
@@ -19,7 +17,6 @@ import android.support.v4.app.ShareCompat;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.FileProvider;
 import android.support.v4.content.Loader;
-import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.widget.CursorAdapter;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -33,13 +30,12 @@ import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.TextView;
 
-import com.google.android.gms.tagmanager.DataLayer;
+import com.google.firebase.analytics.FirebaseAnalytics;
 import com.ianhanniballake.contractiontimer.BuildConfig;
 import com.ianhanniballake.contractiontimer.R;
 import com.ianhanniballake.contractiontimer.data.CSVTransformer;
 import com.ianhanniballake.contractiontimer.notification.NotificationUpdateService;
 import com.ianhanniballake.contractiontimer.provider.ContractionContract;
-import com.ianhanniballake.contractiontimer.tagmanager.GtmManager;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -64,17 +60,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
     public final static String LAUNCHED_FROM_NOTIFICATION_ACTION_NOTE_EXTRA =
             "com.ianhanniballake.contractiontimer.LaunchedFromNotificationActionNote";
     private final static String TAG = MainActivity.class.getSimpleName();
-    /**
-     * BroadcastReceiver listening for NOTE_CLOSE_ACTION and RESET_CLOSE_ACTION actions
-     */
-    private final BroadcastReceiver dialogFragmentClosedBroadcastReceiver = new BroadcastReceiver() {
-        @Override
-        public void onReceive(final Context context, final Intent intent) {
-            if (BuildConfig.DEBUG)
-                Log.d(TAG, "DialogFragmentClosedBR Received " + intent.getAction());
-            GtmManager.getInstance(MainActivity.this).pushOpenScreen("Main");
-        }
-    };
+
     /**
      * Adapter to store and manage the current cursor
      */
@@ -149,19 +135,21 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
 
     @Override
     public boolean onOptionsItemSelected(final MenuItem item) {
-        GtmManager gtmManager = GtmManager.getInstance(this);
-        gtmManager.push(DataLayer.mapOf("menu", "Menu", "count", adapter.getCount()));
+        FirebaseAnalytics analytics = FirebaseAnalytics.getInstance(this);
         switch (item.getItemId()) {
             case R.id.menu_share:
                 if (BuildConfig.DEBUG)
                     Log.d(TAG, "Menu selected Share");
-                gtmManager.pushEvent("Share");
+                Bundle bundle = new Bundle();
+                bundle.putString(FirebaseAnalytics.Param.CONTENT_TYPE, "contraction");
+                bundle.putString(FirebaseAnalytics.Param.ITEM_ID, Integer.toString(adapter.getCursor().getCount()));
+                analytics.logEvent(FirebaseAnalytics.Event.SHARE, bundle);
                 shareContractions();
                 return true;
             case R.id.menu_add:
                 if (BuildConfig.DEBUG)
                     Log.d(TAG, "Menu selected Add");
-                gtmManager.pushEvent("Add");
+                analytics.logEvent("add_open", null);
                 final Intent addIntent = new Intent(Intent.ACTION_INSERT, getIntent().getData())
                         .setPackage(getPackageName());
                 startActivity(addIntent);
@@ -172,7 +160,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
             case R.id.menu_donate:
                 if (BuildConfig.DEBUG)
                     Log.d(TAG, "Menu selected Donate");
-                gtmManager.pushEvent("Donate");
+                analytics.logEvent("donate_open", null);
                 startActivity(new Intent(this, DonateActivity.class));
                 return true;
             default:
@@ -223,22 +211,19 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
     @Override
     protected void onStart() {
         super.onStart();
-        GtmManager gtmManager = GtmManager.getInstance(this);
-        gtmManager.pushOpenScreen("Main");
+        FirebaseAnalytics analytics = FirebaseAnalytics.getInstance(this);
         Intent intent = getIntent();
         if (intent.hasExtra(MainActivity.LAUNCHED_FROM_WIDGET_EXTRA)) {
             final String widgetIdentifier = intent.getStringExtra(MainActivity.LAUNCHED_FROM_WIDGET_EXTRA);
             if (BuildConfig.DEBUG)
                 Log.d(TAG, "Launched from " + widgetIdentifier);
-            gtmManager.pushEvent("Launch", DataLayer.mapOf("widget", widgetIdentifier,
-                    "type", DataLayer.OBJECT_NOT_PRESENT));
+            analytics.logEvent(widgetIdentifier + "_launch", null);
             intent.removeExtra(MainActivity.LAUNCHED_FROM_WIDGET_EXTRA);
         }
         if (intent.hasExtra(MainActivity.LAUNCHED_FROM_NOTIFICATION_EXTRA)) {
             if (BuildConfig.DEBUG)
                 Log.d(TAG, "Launched from Notification");
-            gtmManager.pushEvent("Launch", DataLayer.mapOf("widget", "Notification",
-                    "type", DataLayer.OBJECT_NOT_PRESENT));
+            analytics.logEvent("notification_launch", null);
             intent.removeExtra(MainActivity.LAUNCHED_FROM_NOTIFICATION_EXTRA);
         }
         if (intent.hasExtra(MainActivity.LAUNCHED_FROM_NOTIFICATION_ACTION_NOTE_EXTRA)) {
@@ -247,32 +232,16 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
             String type = TextUtils.isEmpty(existingNote) ? "Add Note" : "Edit Note";
             if (BuildConfig.DEBUG)
                 Log.d(TAG, "Launched from Notification " + type + " action");
-            gtmManager.push("type", type);
-            gtmManager.pushEvent("Launch", DataLayer.mapOf("widget", "NotificationAction"));
-            gtmManager.pushEvent("Note", DataLayer.mapOf("menu", "NotificationAction",
-                    "position", DataLayer.OBJECT_NOT_PRESENT));
             final NoteDialogFragment noteDialogFragment = new NoteDialogFragment();
             final Bundle args = new Bundle();
             args.putLong(NoteDialogFragment.CONTRACTION_ID_ARGUMENT, id);
             args.putString(NoteDialogFragment.EXISTING_NOTE_ARGUMENT, existingNote);
             noteDialogFragment.setArguments(args);
-            gtmManager.pushOpenScreen(TextUtils.isEmpty(existingNote) ? "NoteAdd" : "NoteEdit");
+            analytics.logEvent(TextUtils.isEmpty(existingNote) ? "note_add_launch" : "note_edit_launch", null);
             noteDialogFragment.show(getSupportFragmentManager(), "note");
             intent.removeExtra(MainActivity.LAUNCHED_FROM_NOTIFICATION_ACTION_NOTE_EXTRA);
         }
-        final LocalBroadcastManager localBroadcastManager = LocalBroadcastManager.getInstance(this);
-        final IntentFilter dialogCloseFilter = new IntentFilter();
-        dialogCloseFilter.addAction(NoteDialogFragment.NOTE_CLOSE_ACTION);
-        dialogCloseFilter.addAction(ResetDialogFragment.RESET_CLOSE_ACTION);
-        localBroadcastManager.registerReceiver(dialogFragmentClosedBroadcastReceiver, dialogCloseFilter);
         NotificationUpdateService.updateNotification(this);
-    }
-
-    @Override
-    protected void onStop() {
-        super.onStop();
-        final LocalBroadcastManager localBroadcastManager = LocalBroadcastManager.getInstance(this);
-        localBroadcastManager.unregisterReceiver(dialogFragmentClosedBroadcastReceiver);
     }
 
     /**

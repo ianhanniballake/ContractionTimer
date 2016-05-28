@@ -25,13 +25,12 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.google.android.gms.tagmanager.DataLayer;
+import com.google.firebase.analytics.FirebaseAnalytics;
 import com.google.firebase.crash.FirebaseCrash;
 import com.ianhanniballake.contractiontimer.BuildConfig;
 import com.ianhanniballake.contractiontimer.R;
 import com.ianhanniballake.contractiontimer.provider.ContractionContract;
 import com.ianhanniballake.contractiontimer.provider.ContractionContract.Contractions;
-import com.ianhanniballake.contractiontimer.tagmanager.GtmManager;
 
 /**
  * Stand alone activity used to view the details of an individual contraction
@@ -140,7 +139,6 @@ public class ViewActivity extends AppCompatActivity implements LoaderManager.Loa
         if (item.getItemId() == android.R.id.home) {
             if (BuildConfig.DEBUG)
                 Log.d(TAG, "View selected home");
-            GtmManager.getInstance(this).pushEvent("Home");
         }
         return super.onOptionsItemSelected(item);
     }
@@ -159,11 +157,6 @@ public class ViewActivity extends AppCompatActivity implements LoaderManager.Loa
     public void onPageSelected(final int position) {
         if (BuildConfig.DEBUG)
             Log.d(TAG, "Swapped to " + position);
-        if (currentPosition != -1) {
-            final String direction = position > currentPosition ? "Next" : "Previous";
-            GtmManager.getInstance(this).pushEvent("Scroll",
-                    DataLayer.mapOf("direction", direction, "position", position));
-        }
         currentPosition = position;
         final long newContractionId = adapter.getItemId(position);
         getIntent().setData(
@@ -191,13 +184,11 @@ public class ViewActivity extends AppCompatActivity implements LoaderManager.Loa
         getSupportActionBar().setElevation(0);
         ViewCompat.setElevation(findViewById(R.id.pager_title_strip),
                 getResources().getDimension(R.dimen.action_bar_elevation));
-        GtmManager.getInstance(this).pushOpenScreen("View");
         if (getIntent().hasExtra(MainActivity.LAUNCHED_FROM_WIDGET_EXTRA)) {
             final String widgetIdentifier = getIntent().getStringExtra(MainActivity.LAUNCHED_FROM_WIDGET_EXTRA);
             if (BuildConfig.DEBUG)
                 Log.d(TAG, "Launched from " + widgetIdentifier);
-            GtmManager.getInstance(this).pushEvent("LaunchView", DataLayer.mapOf("widget", widgetIdentifier,
-                    "type", DataLayer.OBJECT_NOT_PRESENT));
+            FirebaseAnalytics.getInstance(this).logEvent(widgetIdentifier + "_view_launch", null);
             getIntent().removeExtra(MainActivity.LAUNCHED_FROM_WIDGET_EXTRA);
         }
     }
