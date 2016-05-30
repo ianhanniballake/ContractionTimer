@@ -273,7 +273,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
 
             @Override
             protected Uri doInBackground(final Void... params) {
-                File exportPath = new File(getFilesDir(), "export");
+                File exportPath = new File(getCacheDir(), "export");
                 if (!exportPath.mkdirs() && !exportPath.isDirectory()) {
                     Log.e(TAG, "Error creating export directory");
                     return null;
