@@ -19,10 +19,10 @@ public class ContractionTimerApplication extends Application {
      */
     @Override
     public void onCreate() {
-        if (BuildConfig.DEBUG) {
-            StrictModeController.createInstance().setStrictMode();
-        }
         if (!FirebaseApp.getApps(this).isEmpty()) {
+            if (BuildConfig.DEBUG) {
+                StrictModeController.createInstance().setStrictMode();
+            }
             FirebaseAnalytics.getInstance(this).setUserProperty("debug", Boolean.toString(BuildConfig.DEBUG));
         }
         super.onCreate();
