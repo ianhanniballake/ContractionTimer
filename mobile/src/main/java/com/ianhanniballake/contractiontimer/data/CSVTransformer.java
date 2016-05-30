@@ -14,6 +14,8 @@ import android.widget.AdapterView;
 
 import com.ianhanniballake.contractiontimer.R;
 import com.ianhanniballake.contractiontimer.provider.ContractionContract;
+import com.opencsv.CSVReader;
+import com.opencsv.CSVWriter;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -24,9 +26,6 @@ import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-
-import au.com.bytecode.opencsv.CSVReader;
-import au.com.bytecode.opencsv.CSVWriter;
 
 /**
  * Handles writing and reading contractions in CSV format
