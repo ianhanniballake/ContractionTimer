@@ -19,42 +19,9 @@
 #   public *;
 #}
 
--keep public class * extends android.app.Service
-
 # We need line numbers in our stack traces otherwise they are pretty useless
 -renamesourcefileattribute SourceFile
 -keepattributes SourceFile,LineNumberTable
-
-# ACRA specifics
-# ACRA needs "annotations" so add this... 
--keepattributes *Annotation*
-
-# keep this class so that logging will show 'ACRA' and not a obfuscated name like 'a'.
-# Note: if you are removing log messages elsewhere in this file then this isn't necessary
--keep class org.acra.ACRA {
-        *;
-}
-
-# keep this around for some enums that ACRA needs
--keep class org.acra.ReportingInteractionMode {
-   *;
-}
-
-# keep this otherwise it is removed by ProGuard
--keep public class org.acra.ErrorReporter {
-    public void addCustomData(java.lang.String,java.lang.String);
-}
-
-# keep this otherwise it is removed by ProGuard
--keep public class org.acra.ErrorReporter {
-    public Thread handleSilentException(java.lang.Throwable);
-}
-
-# keep for Google Analytics
--keep class com.google.android.gms.analytics.**
--keep class com.google.analytics.tracking.**
--dontwarn com.google.android.gms.analytics.**
--dontwarn com.google.analytics.tracking.**
 
 # Keep for Google Play Billing
 -keep class com.android.vending.billing.**
