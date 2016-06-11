@@ -12,16 +12,22 @@
         android:minHeight="?attr/actionBarSize"/>
 
     <FrameLayout
-        android:id="@+id/controls"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-    </FrameLayout>
-
-    <FrameLayout
-        android:id="@+id/list"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1">
+
+        <fragment
+            android:id="@+id/list"
+            android:name="com.ianhanniballake.contractiontimer.ui.ContractionListFragment"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+
+        <fragment
+            android:id="@+id/controls"
+            android:name="com.ianhanniballake.contractiontimer.ui.ContractionControlsFragment"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|end"/>
     </FrameLayout>
 
     <FrameLayout

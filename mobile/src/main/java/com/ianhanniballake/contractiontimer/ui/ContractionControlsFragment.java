@@ -8,6 +8,7 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.BaseColumns;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
@@ -18,7 +19,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.widget.ToggleButton;
 
 import com.google.firebase.analytics.FirebaseAnalytics;
 import com.ianhanniballake.contractiontimer.BuildConfig;
@@ -40,6 +40,7 @@ public class ContractionControlsFragment extends Fragment implements LoaderManag
      * Handler for asynchronous inserts/updates of contractions
      */
     AsyncQueryHandler contractionQueryHandler;
+    private boolean contractionOngoing = false;
 
     @Override
     public void onActivityCreated(final Bundle savedInstanceState) {
@@ -86,16 +87,16 @@ public class ContractionControlsFragment extends Fragment implements LoaderManag
 
     @Override
     public View onCreateView(final LayoutInflater inflater, final ViewGroup container, final Bundle savedInstanceState) {
-        final View view = inflater.inflate(R.layout.fragment_contraction_controls, container, false);
-        final ToggleButton toggleContraction = (ToggleButton) view.findViewById(R.id.toggleContraction);
-        toggleContraction.setOnClickListener(new OnClickListener() {
+        final FloatingActionButton view = (FloatingActionButton)
+                inflater.inflate(R.layout.fragment_contraction_controls, container, false);
+        view.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(final View v) {
                 // Disable the button to ensure we give the database a chance to
                 // complete the insert/update
-                toggleContraction.setEnabled(false);
+                view.setEnabled(false);
                 FirebaseAnalytics analytics = FirebaseAnalytics.getInstance(getContext());
-                if (toggleContraction.isChecked()) {
+                if (!contractionOngoing) {
                     if (BuildConfig.DEBUG)
                         Log.d(TAG, "Starting contraction");
                     analytics.logEvent("control_start", null);
@@ -122,23 +123,21 @@ public class ContractionControlsFragment extends Fragment implements LoaderManag
     @Override
     public void onLoaderReset(final Loader<Cursor> loader) {
         adapter.swapCursor(null);
-        final View view = getView();
-        if (view == null)
-            return;
-        final ToggleButton toggleContraction = (ToggleButton) view.findViewById(R.id.toggleContraction);
-        toggleContraction.setChecked(false);
     }
 
     @Override
     public void onLoadFinished(final Loader<Cursor> loader, final Cursor data) {
         adapter.swapCursor(data);
-        final View view = getView();
+        final FloatingActionButton view = (FloatingActionButton) getView();
         if (view == null)
             return;
-        final ToggleButton toggleContraction = (ToggleButton) view.findViewById(R.id.toggleContraction);
-        toggleContraction.setEnabled(true);
-        final boolean contractionOngoing = data != null && data.moveToFirst()
+        view.setEnabled(true);
+        contractionOngoing = data != null && data.moveToFirst()
                 && data.isNull(data.getColumnIndex(ContractionContract.Contractions.COLUMN_NAME_END_TIME));
-        toggleContraction.setChecked(contractionOngoing);
+        if (contractionOngoing) {
+            view.setImageResource(R.drawable.ic_notif_action_stop);
+        } else {
+            view.setImageResource(R.drawable.ic_notif_action_start);
+        }
     }
 }

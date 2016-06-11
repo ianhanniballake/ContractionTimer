@@ -306,17 +306,10 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
      * Creates and shows the fragments for the MainActivity
      */
     private void showFragments() {
-        final ContractionControlsFragment controlsFragment = new ContractionControlsFragment();
-        ContractionListFragment listFragment = new ContractionListFragment();
-        final ContractionAverageFragment averageFragment = new ContractionAverageFragment();
         // Execute a transaction, replacing any existing fragment
         // with this one inside the frame.
         final FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-        ft.replace(R.id.controls, controlsFragment);
-        ft.replace(R.id.list, listFragment);
-        ft.replace(R.id.averages, averageFragment);
         ft.add(new ResetMenuControllerFragment(), "reset_menu");
-        ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
         ft.commit();
     }
 }
