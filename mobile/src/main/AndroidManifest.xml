@@ -1,16 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest
-    package="com.ianhanniballake.contractiontimer"
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:installLocation="auto">
+<manifest package="com.ianhanniballake.contractiontimer"
+          xmlns:android="http://schemas.android.com/apk/res/android"
+          xmlns:tools="http://schemas.android.com/tools"
+          android:installLocation="auto">
 
     <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
     <uses-permission android:name="com.android.vending.BILLING"/>
 
     <application
-        android:name="ContractionTimerApplication"
+        android:name=".ContractionTimerApplication"
         android:allowBackup="true"
         android:backupAgent=".ContractionTimerBackupAgent"
         android:fullBackupOnly="true"
@@ -85,6 +84,7 @@
             tools:ignore="ExportedActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
+
                 <category android:name="android.intent.category.NOTIFICATION_PREFERENCES"/>
             </intent-filter>
 
@@ -126,14 +126,12 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".ui.Preferences"/>
         </activity>
-
         <activity
             android:name=".notification.NoteNoDisplayActivity"
             android:enabled="false"
             android:excludeFromRecents="true"
             android:taskAffinity=""
             android:theme="@android:style/Theme.NoDisplay">
-
             <intent-filter>
                 <action android:name="com.google.android.gm.action.AUTO_SEND"/>
 
@@ -192,6 +190,16 @@
                 android:name="android.appwidget.provider"
                 android:resource="@xml/toggle_appwidget_info"/>
         </receiver>
+
+        <service
+            android:name=".QuickTileService"
+            android:icon="@drawable/ic_list_empty"
+            android:label="@string/tile_name"
+            android:permission="android.permission.BIND_QUICK_SETTINGS_TILE">
+            <intent-filter>
+                <action android:name="android.service.quicksettings.action.QS_TILE"/>
+            </intent-filter>
+        </service>
 
         <meta-data
             android:name="com.google.android.backup.api_key"

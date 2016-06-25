@@ -89,6 +89,8 @@
     <string name="appwidget_contraction_stop">Stop</string>
     <string name="detail_appwidget_label">Contraction details</string>
     <string name="duration_ongoing">Timing</string>
+    <string name="tile_name">Start and Stop</string>
+    <string name="tile_label">Avg duration: %1$s\nAvg frequency: %2$s</string>
     <string name="settings">Settings</string>
     <string name="pref_keep_screen_on_summary_on">Screen will stay on when on the main contraction screen</string>
     <string name="pref_keep_screen_on_summary_off">Screen will time out per the system settings</string>
