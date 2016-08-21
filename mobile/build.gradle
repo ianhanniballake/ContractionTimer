@@ -59,7 +59,9 @@ dependencies {
     compile "com.android.support:preference-v7:24.2.0"
     compile "com.google.android.gms:play-services-drive:9.4.0"
     compile "com.google.firebase:firebase-crash:9.4.0"
-    compile "com.opencsv:opencsv:3.7"
+    compile("com.opencsv:opencsv:3.8") {
+        exclude group: 'commons-beanutils', module: 'commons-beanutils'
+    }
 }
 
 apply plugin: 'com.google.gms.google-services'

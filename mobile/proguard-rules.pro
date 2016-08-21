@@ -28,3 +28,4 @@
 
 # Keep for OpenCSV
 -dontwarn java.beans.**
+-dontwarn com.opencsv.bean.**
