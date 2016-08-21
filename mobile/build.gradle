@@ -57,6 +57,7 @@ dependencies {
     compile "com.android.support:appcompat-v7:24.2.0"
     compile "com.android.support:design:24.2.0"
     compile "com.android.support:preference-v7:24.2.0"
+    compile "com.android.support:preference-v14:24.2.0"
     compile "com.google.android.gms:play-services-drive:9.4.0"
     compile "com.google.firebase:firebase-crash:9.4.0"
     compile("com.opencsv:opencsv:3.8") {

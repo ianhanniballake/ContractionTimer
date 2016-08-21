@@ -9,8 +9,10 @@
         <item name="android:activatedBackgroundIndicator" tools:ignore="NewApi">
             @drawable/activated_background_holo_light
         </item>
-        <item name="preferenceTheme">@style/PreferenceThemeOverlay</item>
+        <item name="preferenceTheme">@style/AppPreferenceTheme</item>
     </style>
+
+    <style name="AppPreferenceTheme" parent="@style/PreferenceThemeOverlay"/>
 
     <style name="AppTheme.NoActionBar" parent="@style/Theme.AppCompat.Light.NoActionBar">
         <item name="colorPrimary">@color/primary</item>
