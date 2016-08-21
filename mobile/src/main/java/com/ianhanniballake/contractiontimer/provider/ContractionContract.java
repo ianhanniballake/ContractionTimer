@@ -59,12 +59,6 @@ public final class ContractionContract {
          */
         public static final String CONTENT_TYPE = "vnd.android.cursor.dir/vnd.ianhanniballake.contraction";
         /**
-         * The content URI base for a single contraction. Callers must append a numeric contraction id to this Uri to
-         * retrieve a contraction
-         */
-        public static final Uri CONTENT_ID_URI_BASE = Uri.parse(ContractionContract.SCHEME
-                + ContractionContract.AUTHORITY + "/" + Contractions.TABLE_NAME + "/");
-        /**
          * The default sort order for this table
          */
         public static final String DEFAULT_SORT_ORDER = Contractions.COLUMN_NAME_START_TIME + " DESC";
@@ -73,22 +67,27 @@ public final class ContractionContract {
          */
         public static final String TABLE_NAME = "contractions";
         /**
+         * The content URI base for a single contraction. Callers must append a numeric contraction id to this Uri to
+         * retrieve a contraction
+         */
+        public static final Uri CONTENT_ID_URI_BASE = Uri.parse(ContractionContract.SCHEME
+                + ContractionContract.AUTHORITY + "/" + Contractions.TABLE_NAME + "/");
+        /**
          * The content URI match pattern for a single contraction, specified by its ID. Use this to match incoming URIs
          * or to construct an Intent.
          */
         public static final Uri CONTENT_ID_URI_PATTERN = Uri.parse(ContractionContract.SCHEME
                 + ContractionContract.AUTHORITY + "/" + Contractions.TABLE_NAME + "/#");
+        /**
+         * The content:// style URL for this table
+         */
+        public static final Uri CONTENT_URI = Uri.parse(ContractionContract.SCHEME + ContractionContract.AUTHORITY
+                + "/" + Contractions.TABLE_NAME);
 
         /**
          * This class cannot be instantiated
          */
         private Contractions() {
         }
-
-        /**
-         * The content:// style URL for this table
-         */
-        public static final Uri CONTENT_URI = Uri.parse(ContractionContract.SCHEME + ContractionContract.AUTHORITY
-                + "/" + Contractions.TABLE_NAME);
     }
 }

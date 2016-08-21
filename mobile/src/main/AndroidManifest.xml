@@ -18,6 +18,13 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <provider
+            android:name=".provider.ContractionProvider"
+            android:authorities="com.ianhanniballake.contractiontimer"
+            android:exported="true"
+            tools:ignore="ExportedContentProvider">
+            <grant-uri-permission android:pathPattern=".*"/>
+        </provider>
+        <provider
             android:name="android.support.v4.content.FileProvider"
             android:authorities="${filesAuthority}"
             android:exported="false"

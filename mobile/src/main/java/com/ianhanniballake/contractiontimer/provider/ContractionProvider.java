@@ -17,6 +17,8 @@ import android.support.v4.database.DatabaseUtilsCompat;
 import android.text.TextUtils;
 import android.util.Log;
 
+import com.ianhanniballake.contractiontimer.BuildConfig;
+
 import java.util.HashMap;
 
 /**

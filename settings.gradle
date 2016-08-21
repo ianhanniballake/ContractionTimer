@@ -1,1 +1,1 @@
-include ':provider', ':mobile'
+include ':mobile'
