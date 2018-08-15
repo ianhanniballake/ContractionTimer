@@ -1,22 +1,23 @@
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
 buildscript {
     repositories {
+        google()
         jcenter()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:2.1.0'
-        classpath 'com.google.gms:google-services:3.0.0'
+        classpath 'com.android.tools.build:gradle:3.2.0-beta05'
+        classpath 'com.google.gms:google-services:4.0.2'
     }
 }
 
 allprojects {
     repositories {
+        google()
         jcenter()
     }
 }
 
 ext {
     compileSdkVersion = 24
-    buildToolsVersion = "24.0.0"
     targetSdkVersion = 23
 }
