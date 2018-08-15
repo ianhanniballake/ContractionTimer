@@ -76,9 +76,7 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_below="@id/end_time_label"
-        android:paddingEnd="@dimen/indent_padding"
         android:paddingLeft="@dimen/indent_padding"
-        android:paddingRight="@dimen/indent_padding"
         android:paddingStart="@dimen/indent_padding"
         android:textAppearance="?android:attr/textAppearanceMedium"/>
 
