@@ -30,10 +30,10 @@
             android:layout_gravity="bottom|end"/>
     </FrameLayout>
 
-    <FrameLayout
+    <fragment
         android:id="@+id/averages"
+        android:name="com.ianhanniballake.contractiontimer.ui.ContractionAverageFragment"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-    </FrameLayout>
+        android:layout_height="wrap_content"/>
 
 </LinearLayout>
