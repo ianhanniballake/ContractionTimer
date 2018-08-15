@@ -1,12 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <integer-array name="donate_in_app_price_array">
-        <item>990000</item>
-        <item>1990000</item>
-        <item>4990000</item>
-    </integer-array>
-
     <string-array name="pref_appwidget_background_entries">
         <item>Light Background</item>
         <item>Dark Background</item>

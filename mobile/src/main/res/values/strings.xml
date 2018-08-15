@@ -5,7 +5,6 @@
     <string name="view_activity_name">View contraction</string>
     <string name="add_activity_name">Add contraction</string>
     <string name="edit_activity_name">Edit contraction</string>
-    <string name="donate_activity_name">Donate</string>
     <string name="export_activity_name">Export</string>
     <string name="import_activity_name">Import</string>
     <string name="license_activity_name">Open source licenses</string>
@@ -23,14 +22,7 @@
     <string name="share_pick_application">Share to:</string>
     <string name="menu_settings">Settings</string>
     <string name="menu_donate">Donate</string>
-    <string name="donate_header">While this application is provided for free, please consider supporting further development by donating to the developer.</string>
-    <string name="donate_paypal_title">PayPal</string>
-    <string name="donate_paypal_description">You can choose how much you want to donate after clicking the button</string>
-    <string name="donate_paypal_button">Donate via PayPal</string>
-    <string name="donate_in_app_title">Google Play In-App Billing</string>
-    <string name="donate_in_app_description">Donate via Google Play In-App Billing. Note that Google takes 30% off every donation</string>
-    <string name="donate_in_app_spinner_text">Select a donation amount</string>
-    <string name="donate_in_app_button">Donate</string>
+    <string name="donate_header">Donate to the developer</string>
     <string-array name="donate_in_app_sku_array">
         <item>contractiontimer.donations.small</item>
         <item>contractiontimer.donations.medium</item>

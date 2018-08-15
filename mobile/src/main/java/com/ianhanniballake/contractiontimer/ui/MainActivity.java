@@ -161,7 +161,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
                 if (BuildConfig.DEBUG)
                     Log.d(TAG, "Menu selected Donate");
                 analytics.logEvent("donate_open", null);
-                startActivity(new Intent(this, DonateActivity.class));
+                new DonateDialogFragment().show(getSupportFragmentManager(), "donate");
                 return true;
             default:
                 return super.onOptionsItemSelected(item);

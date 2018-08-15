@@ -8,7 +8,6 @@
 
     <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
-    <uses-permission android:name="com.android.vending.BILLING"/>
 
     <application
         android:name=".ContractionTimerApplication"
@@ -109,14 +108,6 @@
             android:name=".data.ImportActivity"
             android:label="@string/import_activity_name"
             android:theme="@style/AppTheme.Drive"/>
-        <activity
-            android:name=".ui.DonateActivity"
-            android:label="@string/donate_activity_name"
-            android:parentActivityName=".ui.MainActivity">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".ui.MainActivity"/>
-        </activity>
         <activity
             android:name=".ui.LicenseActivity"
             android:label="@string/license_activity_name"

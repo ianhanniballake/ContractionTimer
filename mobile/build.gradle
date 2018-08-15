@@ -59,6 +59,9 @@ dependencies {
     implementation("com.opencsv:opencsv:3.8") {
         exclude group: 'commons-beanutils', module: 'commons-beanutils'
     }
+    implementation ("com.android.billingclient:billing:1.1") {
+        exclude module: 'support-annotations'
+    }
 }
 
 apply plugin: 'com.google.gms.google-services'
