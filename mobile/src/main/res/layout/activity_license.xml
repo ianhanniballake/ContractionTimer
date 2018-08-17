@@ -55,7 +55,6 @@
             android:id="@+id/googleplayservices_license"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:autoLink="all"
             android:padding="@dimen/outer_padding"/>
     </LinearLayout>
 </ScrollView>
