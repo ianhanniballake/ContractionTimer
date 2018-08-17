@@ -52,9 +52,9 @@ dependencies {
     implementation "com.android.support:design:25.4.0"
     implementation "com.android.support:preference-v7:25.4.0"
     implementation "com.android.support:preference-v14:25.4.0"
-    implementation "com.google.android.gms:play-services-drive:9.4.0"
-    implementation "com.google.firebase:firebase-core:9.4.0"
-    implementation "com.google.firebase:firebase-crash:9.4.0"
+    implementation "com.google.android.gms:play-services-drive:10.0.1"
+    implementation "com.google.firebase:firebase-core:10.0.1"
+    implementation "com.google.firebase:firebase-crash:10.0.1"
     implementation("com.opencsv:opencsv:3.8") {
         exclude group: 'commons-beanutils', module: 'commons-beanutils'
     }
