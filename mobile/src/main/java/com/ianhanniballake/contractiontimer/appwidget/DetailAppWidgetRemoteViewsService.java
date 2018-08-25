@@ -5,6 +5,7 @@ import android.content.ContentUris;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
+import android.os.Binder;
 import android.os.Build;
 import android.preference.PreferenceManager;
 import android.provider.BaseColumns;
@@ -127,9 +128,11 @@ public class DetailAppWidgetRemoteViewsService extends RemoteViewsService {
 
             @Override
             public void onDataSetChanged() {
+                long token = Binder.clearCallingIdentity();
                 if (data != null)
                     data.close();
                 data = getContentResolver().query(Contractions.CONTENT_URI, null, null, null, null);
+                Binder.restoreCallingIdentity(token);
             }
 
             @Override
