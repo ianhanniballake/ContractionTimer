@@ -49,6 +49,9 @@ public class DonateDialogFragment extends DialogFragment
 
     @Override
     public void onBillingSetupFinished(int responseCode) {
+        if (!isAdded()) {
+            return;
+        }
         final ArrayList<String> allSkus = new ArrayList<>();
         if (BuildConfig.DEBUG) {
             allSkus.add("android.test.purchased");
