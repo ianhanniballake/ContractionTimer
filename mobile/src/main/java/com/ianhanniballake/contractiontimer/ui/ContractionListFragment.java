@@ -221,7 +221,11 @@ public class ContractionListFragment extends Fragment implements LoaderManager.L
                     @Override
                     public boolean onActionItemClicked(final ActionMode actionMode, final MenuItem menuItem) {
                         FirebaseAnalytics analytics = FirebaseAnalytics.getInstance(getContext());
-                        final long contractionId = mListView.getCheckedItemIds()[0];
+                        final long[] selectedIds = mListView.getCheckedItemIds();
+                        if (selectedIds.length == 0) {
+                            return false;
+                        }
+                        final long contractionId = selectedIds[0];
                         switch (menuItem.getItemId()) {
                             case R.id.menu_context_view:
                                 if (BuildConfig.DEBUG)
@@ -244,7 +248,6 @@ public class ContractionListFragment extends Fragment implements LoaderManager.L
                                 actionMode.finish();
                                 return true;
                             case R.id.menu_context_delete:
-                                final long[] selectedIds = ContractionListFragment.this.mListView.getCheckedItemIds();
                                 if (BuildConfig.DEBUG)
                                     Log.d(TAG, "Context Action Mode selected delete");
                                 Bundle bundle = new Bundle();
