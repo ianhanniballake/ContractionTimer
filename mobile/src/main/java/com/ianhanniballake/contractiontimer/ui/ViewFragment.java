@@ -2,6 +2,7 @@ package com.ianhanniballake.contractiontimer.ui;
 
 import android.app.Activity;
 import android.content.AsyncQueryHandler;
+import android.content.ComponentName;
 import android.content.ContentUris;
 import android.content.Context;
 import android.content.Intent;
@@ -205,7 +206,8 @@ public class ViewFragment extends Fragment implements LoaderManager.LoaderCallba
                     Toast.makeText(getActivity(), R.string.edit_ongoing_error, Toast.LENGTH_SHORT).show();
                 else {
                     analytics.logEvent("edit_open_view", null);
-                    startActivity(new Intent(Intent.ACTION_EDIT, uri).setPackage(getActivity().getPackageName()));
+                    startActivity(new Intent(Intent.ACTION_EDIT, uri)
+                            .setComponent(new ComponentName(getActivity(), EditActivity.class)));
                 }
                 return true;
             case R.id.menu_delete:

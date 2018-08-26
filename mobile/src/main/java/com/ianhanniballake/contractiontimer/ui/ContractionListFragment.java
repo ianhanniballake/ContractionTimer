@@ -1,6 +1,7 @@
 package com.ianhanniballake.contractiontimer.ui;
 
 import android.content.AsyncQueryHandler;
+import android.content.ComponentName;
 import android.content.ContentUris;
 import android.content.Context;
 import android.content.Intent;
@@ -431,7 +432,8 @@ public class ContractionListFragment extends Fragment implements LoaderManager.L
         if (isDetached()) // Can't startActivity if we are detached
             return;
         final Uri contractionUri = ContentUris.withAppendedId(ContractionContract.Contractions.CONTENT_ID_URI_BASE, id);
-        final Intent intent = new Intent(Intent.ACTION_VIEW, contractionUri).setPackage(getActivity().getPackageName());
+        final Intent intent = new Intent(Intent.ACTION_VIEW, contractionUri)
+                .setComponent(new ComponentName(getActivity(), ViewActivity.class));
         startActivity(intent);
     }
 

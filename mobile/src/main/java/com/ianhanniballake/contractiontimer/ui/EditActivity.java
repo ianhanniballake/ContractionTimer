@@ -1,5 +1,6 @@
 package com.ianhanniballake.contractiontimer.ui;
 
+import android.content.ComponentName;
 import android.content.ContentUris;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -76,7 +77,8 @@ public class EditActivity extends AppCompatActivity {
         if (Intent.ACTION_INSERT.equals(getIntent().getAction())) {
             return new Intent(this, MainActivity.class);
         } else {
-            return new Intent(Intent.ACTION_VIEW, getIntent().getData()).setPackage(getPackageName());
+            return new Intent(Intent.ACTION_VIEW, getIntent().getData())
+                    .setComponent(new ComponentName(this, ViewActivity.class));
         }
     }
 

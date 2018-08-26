@@ -1,5 +1,6 @@
 package com.ianhanniballake.contractiontimer.ui;
 
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -151,7 +152,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
                     Log.d(TAG, "Menu selected Add");
                 analytics.logEvent("add_open", null);
                 final Intent addIntent = new Intent(Intent.ACTION_INSERT, getIntent().getData())
-                        .setPackage(getPackageName());
+                        .setComponent(new ComponentName(this, EditActivity.class));
                 startActivity(addIntent);
                 return true;
             case R.id.menu_settings:

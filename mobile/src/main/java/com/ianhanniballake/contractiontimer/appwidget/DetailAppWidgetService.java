@@ -24,6 +24,7 @@ import com.ianhanniballake.contractiontimer.R;
 import com.ianhanniballake.contractiontimer.provider.ContractionContract;
 import com.ianhanniballake.contractiontimer.ui.MainActivity;
 import com.ianhanniballake.contractiontimer.ui.Preferences;
+import com.ianhanniballake.contractiontimer.ui.ViewActivity;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -162,7 +163,8 @@ public class DetailAppWidgetService extends IntentService {
                 setRemoteAdapter(views);
             else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB)
                 setRemoteAdapterV11(views);
-            final Intent clickIntentTemplate = new Intent(Intent.ACTION_VIEW).setPackage(getPackageName());
+            final Intent clickIntentTemplate = new Intent(Intent.ACTION_VIEW)
+                    .setComponent(new ComponentName(this, ViewActivity.class));
             clickIntentTemplate.putExtra(MainActivity.LAUNCHED_FROM_WIDGET_EXTRA, WIDGET_IDENTIFIER);
             final PendingIntent clickPendingIntentTemplate = TaskStackBuilder.create(this)
                     .addNextIntentWithParentStack(clickIntentTemplate)
