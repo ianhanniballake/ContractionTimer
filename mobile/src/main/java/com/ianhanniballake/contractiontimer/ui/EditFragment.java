@@ -294,7 +294,7 @@ public class EditFragment extends Fragment implements LoaderManager.LoaderCallba
     @Override
     public View onCreateView(final LayoutInflater inflater, final ViewGroup container, final Bundle savedInstanceState) {
         final View view = inflater.inflate(R.layout.fragment_edit, container, false);
-        final TextView startTimeView = (TextView) view.findViewById(R.id.start_time);
+        final TextView startTimeView = view.findViewById(R.id.start_time);
         startTimeView.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(final View v) {
@@ -308,7 +308,7 @@ public class EditFragment extends Fragment implements LoaderManager.LoaderCallba
                 timePicker.show(getFragmentManager(), "startTime");
             }
         });
-        final TextView startDateView = (TextView) view.findViewById(R.id.start_date);
+        final TextView startDateView = view.findViewById(R.id.start_date);
         startDateView.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(final View v) {
@@ -322,7 +322,7 @@ public class EditFragment extends Fragment implements LoaderManager.LoaderCallba
                 datePicker.show(getFragmentManager(), "startDate");
             }
         });
-        final TextView endTimeView = (TextView) view.findViewById(R.id.end_time);
+        final TextView endTimeView = view.findViewById(R.id.end_time);
         endTimeView.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(final View v) {
@@ -336,7 +336,7 @@ public class EditFragment extends Fragment implements LoaderManager.LoaderCallba
                 timePicker.show(getFragmentManager(), "endTime");
             }
         });
-        final TextView endDateView = (TextView) view.findViewById(R.id.end_date);
+        final TextView endDateView = view.findViewById(R.id.end_date);
         endDateView.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(final View v) {
@@ -350,7 +350,7 @@ public class EditFragment extends Fragment implements LoaderManager.LoaderCallba
                 datePicker.show(getFragmentManager(), "endDate");
             }
         });
-        final EditText noteView = (EditText) view.findViewById(R.id.note);
+        final EditText noteView = view.findViewById(R.id.note);
         noteView.addTextChangedListener(new TextWatcher() {
             @Override
             public void afterTextChanged(final Editable s) {
@@ -457,16 +457,16 @@ public class EditFragment extends Fragment implements LoaderManager.LoaderCallba
         final View view = getFragmentView();
         if (view == null)
             return;
-        final TextView startTimeView = (TextView) view.findViewById(R.id.start_time);
-        final TextView startDateView = (TextView) view.findViewById(R.id.start_date);
+        final TextView startTimeView = view.findViewById(R.id.start_time);
+        final TextView startDateView = view.findViewById(R.id.start_date);
         String timeFormat = "hh:mm:ssa";
         if (DateFormat.is24HourFormat(getActivity()))
             timeFormat = "kk:mm:ss";
         startTimeView.setText(DateFormat.format(timeFormat, startTime));
         startDateView.setText(DateFormat.getDateFormat(getActivity()).format(startTime.getTime()));
-        final TextView endTimeView = (TextView) view.findViewById(R.id.end_time);
-        final TextView endDateView = (TextView) view.findViewById(R.id.end_date);
-        final TextView durationView = (TextView) view.findViewById(R.id.duration);
+        final TextView endTimeView = view.findViewById(R.id.end_time);
+        final TextView endDateView = view.findViewById(R.id.end_date);
+        final TextView durationView = view.findViewById(R.id.duration);
         final boolean isContractionOngoing = endTime == null;
         if (isContractionOngoing) {
             endTimeView.setText("");
@@ -475,7 +475,7 @@ public class EditFragment extends Fragment implements LoaderManager.LoaderCallba
         } else {
             endTimeView.setText(DateFormat.format(timeFormat, endTime));
             endDateView.setText(DateFormat.getDateFormat(getActivity()).format(endTime.getTime()));
-            final TextView endTimeErrorOrderView = (TextView) view.findViewById(R.id.end_time_error_order);
+            final TextView endTimeErrorOrderView = view.findViewById(R.id.end_time_error_order);
             passedEndTimeOrderCheck = startTime.before(endTime);
             if (passedEndTimeOrderCheck) {
                 endTimeErrorOrderView.setVisibility(View.GONE);
@@ -487,7 +487,7 @@ public class EditFragment extends Fragment implements LoaderManager.LoaderCallba
             }
             getActivity().supportInvalidateOptionsMenu();
         }
-        final EditText noteView = (EditText) view.findViewById(R.id.note);
+        final EditText noteView = view.findViewById(R.id.note);
         noteView.setText(note);
     }
 
@@ -527,7 +527,7 @@ public class EditFragment extends Fragment implements LoaderManager.LoaderCallba
             final View view = getFragmentView();
             if (view == null)
                 return;
-            final TextView endTimeErrorOverlapView = (TextView) view.findViewById(R.id.end_time_error_overlap);
+            final TextView endTimeErrorOverlapView = view.findViewById(R.id.end_time_error_overlap);
             if (endTimeErrorOverlapView == null)
                 return;
             if (overlapExists)
@@ -576,7 +576,7 @@ public class EditFragment extends Fragment implements LoaderManager.LoaderCallba
             final View view = getFragmentView();
             if (view == null)
                 return;
-            final TextView startTimeErrorOverlapView = (TextView) view.findViewById(R.id.start_time_error_overlap);
+            final TextView startTimeErrorOverlapView = view.findViewById(R.id.start_time_error_overlap);
             if (startTimeErrorOverlapView == null)
                 return;
             if (overlapExists)
@@ -625,7 +625,7 @@ public class EditFragment extends Fragment implements LoaderManager.LoaderCallba
             final View view = getFragmentView();
             if (view == null)
                 return;
-            final TextView timeErrorOverlapView = (TextView) view.findViewById(R.id.time_error_overlap);
+            final TextView timeErrorOverlapView = view.findViewById(R.id.time_error_overlap);
             if (timeErrorOverlapView == null)
                 return;
             if (overlapExists)

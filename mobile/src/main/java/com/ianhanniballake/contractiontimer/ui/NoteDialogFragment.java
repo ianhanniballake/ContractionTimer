@@ -54,7 +54,7 @@ public class NoteDialogFragment extends DialogFragment {
         final AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         final LayoutInflater inflater = getActivity().getLayoutInflater();
         final View layout = inflater.inflate(R.layout.dialog_note, null);
-        final EditText input = (EditText) layout.findViewById(R.id.dialog_note_input);
+        final EditText input = layout.findViewById(R.id.dialog_note_input);
         if (TextUtils.isEmpty(existingNote))
             builder.setTitle(R.string.note_dialog_title_add);
         else

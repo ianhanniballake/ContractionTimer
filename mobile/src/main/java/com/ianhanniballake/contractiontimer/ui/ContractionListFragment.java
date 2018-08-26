@@ -87,7 +87,7 @@ public class ContractionListFragment extends Fragment implements LoaderManager.L
         public void run() {
             final View rootView = getView();
             if (rootView != null) {
-                final TextView currentContractionDurationView = (TextView) rootView.findViewWithTag("durationView");
+                final TextView currentContractionDurationView = rootView.findViewWithTag("durationView");
                 if (currentContractionDurationView != null) {
                     final long durationInSeconds = (System.currentTimeMillis() - currentContractionStartTime) / 1000;
                     currentContractionDurationView.setText(DateUtils.formatElapsedTime(durationInSeconds));
@@ -112,7 +112,7 @@ public class ContractionListFragment extends Fragment implements LoaderManager.L
         @Override
         public void run() {
             if (headerView != null) {
-                final TextView timeSinceLastView = (TextView) headerView.findViewById(R.id.list_header_time_since_last);
+                final TextView timeSinceLastView = headerView.findViewById(R.id.list_header_time_since_last);
                 if (timeSinceLastView != null && currentContractionStartTime != 0) {
                     final long timeSinceLastInSeconds = (System.currentTimeMillis() - currentContractionStartTime) / 1000;
                     timeSinceLastView.setText(DateUtils.formatElapsedTime(timeSinceLastInSeconds));
@@ -333,10 +333,10 @@ public class ContractionListFragment extends Fragment implements LoaderManager.L
     @Override
     public View onCreateView(final LayoutInflater inflater, final ViewGroup container, final Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_contraction_list, container, false);
-        mListView = (ListView) view.findViewById(android.R.id.list);
-        mEmptyView = (ViewAnimator) view.findViewById(android.R.id.empty);
+        mListView = view.findViewById(android.R.id.list);
+        mEmptyView = view.findViewById(android.R.id.empty);
         mListView.setEmptyView(mEmptyView);
-        mColumnHeaders = (ViewGroup) view.findViewById(R.id.list_column_headers);
+        mColumnHeaders = view.findViewById(R.id.list_column_headers);
         return view;
     }
 
@@ -385,7 +385,7 @@ public class ContractionListFragment extends Fragment implements LoaderManager.L
         super.onResume();
         final View rootView = getView();
         if (rootView != null) {
-            final TextView currentContractionDurationView = (TextView) rootView.findViewWithTag("durationView");
+            final TextView currentContractionDurationView = rootView.findViewWithTag("durationView");
             if (currentContractionDurationView != null) {
                 // Ensures the live duration update is running
                 liveDurationHandler.removeCallbacks(liveDurationUpdate);
@@ -492,11 +492,11 @@ public class ContractionListFragment extends Fragment implements LoaderManager.L
             final Calendar startCal = Calendar.getInstance();
             startCal.setTimeInMillis(startTime);
             boolean showDateOnStartTime = false;
-            final TextView startTimeView = (TextView) view.findViewById(R.id.start_time);
+            final TextView startTimeView = view.findViewById(R.id.start_time);
             final int endTimeColumnIndex = cursor.getColumnIndex(ContractionContract.Contractions.COLUMN_NAME_END_TIME);
             final boolean isContractionOngoing = cursor.isNull(endTimeColumnIndex);
-            final TextView endTimeView = (TextView) view.findViewById(R.id.end_time);
-            final TextView durationView = (TextView) view.findViewById(R.id.duration);
+            final TextView endTimeView = view.findViewById(R.id.end_time);
+            final TextView durationView = view.findViewById(R.id.duration);
             final Calendar endCal = Calendar.getInstance();
             boolean showDateOnEndTime = false;
             if (isContractionOngoing) {
@@ -515,7 +515,7 @@ public class ContractionListFragment extends Fragment implements LoaderManager.L
             if (startCal.get(Calendar.YEAR) != endCal.get(Calendar.YEAR)
                     || startCal.get(Calendar.DAY_OF_YEAR) != endCal.get(Calendar.DAY_OF_YEAR))
                 showDateOnEndTime = true;
-            final TextView frequencyView = (TextView) view.findViewById(R.id.frequency);
+            final TextView frequencyView = view.findViewById(R.id.frequency);
             // If we aren't the last entry, move to the next (previous in time)
             // contraction to get its start time to compute the frequency
             if (!cursor.isLast() && cursor.moveToNext()) {
@@ -549,7 +549,7 @@ public class ContractionListFragment extends Fragment implements LoaderManager.L
                         + (showDateOnEndTime ? " " + DateFormat.format(dateFormat, endCal) : ""));
             final int noteColumnIndex = cursor.getColumnIndex(ContractionContract.Contractions.COLUMN_NAME_NOTE);
             final String note = cursor.getString(noteColumnIndex);
-            final TextView noteView = (TextView) view.findViewById(R.id.note);
+            final TextView noteView = view.findViewById(R.id.note);
             noteView.setText(note);
             if (TextUtils.isEmpty(note))
                 noteView.setVisibility(View.GONE);
@@ -557,7 +557,7 @@ public class ContractionListFragment extends Fragment implements LoaderManager.L
                 noteView.setVisibility(View.VISIBLE);
             final int idColumnIndex = cursor.getColumnIndex(BaseColumns._ID);
             final long id = cursor.getLong(idColumnIndex);
-            final ActionMenuView showPopupView = (ActionMenuView) view.findViewById(R.id.show_popup);
+            final ActionMenuView showPopupView = view.findViewById(R.id.show_popup);
             final MenuItem noteItem = showPopupView.getMenu().findItem(R.id.menu_context_note);
             if (TextUtils.isEmpty(note))
                 noteItem.setTitle(R.string.note_dialog_title_add);
@@ -604,7 +604,7 @@ public class ContractionListFragment extends Fragment implements LoaderManager.L
         @Override
         public View newView(final Context context, final Cursor cursor, final ViewGroup parent) {
             final View view = inflater.inflate(R.layout.list_item_contraction, parent, false);
-            final ActionMenuView showPopup = (ActionMenuView) view.findViewById(R.id.show_popup);
+            final ActionMenuView showPopup = view.findViewById(R.id.show_popup);
             MenuInflater menuInflater = getActivity().getMenuInflater();
             menuInflater.inflate(R.menu.list_popup, showPopup.getMenu());
             return view;

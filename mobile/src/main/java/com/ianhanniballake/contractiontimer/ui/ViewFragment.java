@@ -107,7 +107,7 @@ public class ViewFragment extends Fragment implements LoaderManager.LoaderCallba
                 CursorAdapter(getActivity(), null, 0) {
                     @Override
                     public void bindView(final View view, final Context context, final Cursor cursor) {
-                        final TextView startTimeView = (TextView) view.findViewById(R.id.start_time);
+                        final TextView startTimeView = view.findViewById(R.id.start_time);
                         String timeFormat = "hh:mm:ssa";
                         if (DateFormat.is24HourFormat(context))
                             timeFormat = "kk:mm:ss";
@@ -115,12 +115,12 @@ public class ViewFragment extends Fragment implements LoaderManager.LoaderCallba
                                 .getColumnIndex(ContractionContract.Contractions.COLUMN_NAME_START_TIME);
                         final long startTime = cursor.getLong(startTimeColumnIndex);
                         startTimeView.setText(DateFormat.format(timeFormat, startTime));
-                        final TextView startDateView = (TextView) view.findViewById(R.id.start_date);
+                        final TextView startDateView = view.findViewById(R.id.start_date);
                         final Date startDate = new Date(startTime);
                         startDateView.setText(DateFormat.getDateFormat(getActivity()).format(startDate));
-                        final TextView endTimeView = (TextView) view.findViewById(R.id.end_time);
-                        final TextView endDateView = (TextView) view.findViewById(R.id.end_date);
-                        final TextView durationView = (TextView) view.findViewById(R.id.duration);
+                        final TextView endTimeView = view.findViewById(R.id.end_time);
+                        final TextView endDateView = view.findViewById(R.id.end_date);
+                        final TextView durationView = view.findViewById(R.id.duration);
                         final int endTimeColumnIndex = cursor
                                 .getColumnIndex(ContractionContract.Contractions.COLUMN_NAME_END_TIME);
                         isContractionOngoing = cursor.isNull(endTimeColumnIndex);
@@ -137,7 +137,7 @@ public class ViewFragment extends Fragment implements LoaderManager.LoaderCallba
                             durationView.setText(DateUtils.formatElapsedTime(durationInSeconds));
                         }
                         getActivity().supportInvalidateOptionsMenu();
-                        final TextView noteView = (TextView) view.findViewById(R.id.note);
+                        final TextView noteView = view.findViewById(R.id.note);
                         final int noteColumnIndex = cursor.getColumnIndex(ContractionContract.Contractions.COLUMN_NAME_NOTE);
                         final String note = cursor.getString(noteColumnIndex);
                         noteView.setText(note);

@@ -89,7 +89,7 @@ public class MyTimePickerDialog extends AlertDialog implements OnClickListener,
         setButton(DialogInterface.BUTTON_NEGATIVE, context.getText(R.string.cancel), (OnClickListener) null);
         View view = getLayoutInflater().inflate(R.layout.time_picker_dialog, null);
         setView(view);
-        mTimePicker = (TimePicker) view.findViewById(R.id.timePicker);
+        mTimePicker = view.findViewById(R.id.timePicker);
         // initialize state
         mTimePicker.setCurrentHour(mInitialHourOfDay);
         mTimePicker.setCurrentMinute(mInitialMinute);

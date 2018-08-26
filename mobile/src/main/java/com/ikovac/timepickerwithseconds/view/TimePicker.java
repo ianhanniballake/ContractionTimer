@@ -101,7 +101,7 @@ public class TimePicker extends FrameLayout {
                 this, // we are the parent
                 true);
         // hour
-        mHourPicker = (NumberPicker) findViewById(R.id.hour);
+        mHourPicker = findViewById(R.id.hour);
         mHourPicker.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {
             @Override
             public void onValueChange(NumberPicker picker, int oldVal, int newVal) {
@@ -122,7 +122,7 @@ public class TimePicker extends FrameLayout {
             }
         });
         // digits of minute
-        mMinutePicker = (NumberPicker) findViewById(R.id.minute);
+        mMinutePicker = findViewById(R.id.minute);
         mMinutePicker.setMinValue(0);
         mMinutePicker.setMaxValue(59);
         mMinutePicker.setFormatter(TWO_DIGIT_FORMATTER);
@@ -134,7 +134,7 @@ public class TimePicker extends FrameLayout {
             }
         });
         // digits of seconds
-        mSecondPicker = (NumberPicker) findViewById(R.id.seconds);
+        mSecondPicker = findViewById(R.id.seconds);
         mSecondPicker.setMinValue(0);
         mSecondPicker.setMaxValue(59);
         mSecondPicker.setFormatter(TWO_DIGIT_FORMATTER);
@@ -146,7 +146,7 @@ public class TimePicker extends FrameLayout {
             }
         });
         // am/pm
-        mAmPmButton = (Button) findViewById(R.id.amPm);
+        mAmPmButton = findViewById(R.id.amPm);
         // now that the hour/minute picker objects have been initialized, set
         // the hour range properly based on the 12/24 hour display mode.
         configurePickerRanges();
