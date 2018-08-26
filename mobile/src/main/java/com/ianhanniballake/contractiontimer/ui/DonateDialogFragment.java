@@ -1,6 +1,7 @@
 package com.ianhanniballake.contractiontimer.ui;
 
 import android.app.Dialog;
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -65,6 +66,10 @@ public class DonateDialogFragment extends DialogFragment
                     @Override
                     public void onSkuDetailsResponse(int responseCode,
                             List<SkuDetails> skuDetailsList) {
+                        Context context = getContext();
+                        if (context == null) {
+                            return;
+                        }
                         if (skuDetailsList == null) {
                             return;
                         }
@@ -82,7 +87,7 @@ public class DonateDialogFragment extends DialogFragment
                         adapter.notifyDataSetChanged();
                         Bundle bundle = new Bundle();
                         bundle.putString(FirebaseAnalytics.Param.ITEM_CATEGORY, "donate");
-                        FirebaseAnalytics.getInstance(getContext()).logEvent(
+                        FirebaseAnalytics.getInstance(context).logEvent(
                                 FirebaseAnalytics.Event.VIEW_ITEM_LIST, bundle);
                     }
                 });
