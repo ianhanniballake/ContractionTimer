@@ -20,7 +20,7 @@
             android:background="@drawable/appwidget_button_left"
             android:contentDescription="@string/application_launch"
             android:padding="@dimen/appwidget_padding"
-            android:src="@mipmap/ic_launcher"/>
+            android:src="@drawable/ic_launcher_48"/>
 
         <RelativeLayout
             android:layout_width="wrap_content"

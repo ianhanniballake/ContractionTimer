@@ -4,6 +4,7 @@
     <color name="primary">#84bf70</color>
     <color name="primaryDark">#689f38</color>
     <color name="accent">#FFAB00</color>
+    <color name="ic_launcher_background">#A8D1EB</color>
     <color name="empty_list_text_color">#DDDDDD</color>
     <color name="average_background">#84BF70</color>
     <color name="error_background">#F78181</color>
