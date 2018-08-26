@@ -7,12 +7,10 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
-import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.DialogFragment;
-import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AlertDialog;
 import android.text.TextUtils;
 import android.util.Log;
@@ -39,10 +37,6 @@ public class NoteDialogFragment extends DialogFragment {
      * Argument key for storing/retrieving the existing note associated with this dialog
      */
     public final static String EXISTING_NOTE_ARGUMENT = "com.ianhanniballake.contractiontimer.ExistingNote";
-    /**
-     * Action associated with this fragment closing
-     */
-    public final static String NOTE_CLOSE_ACTION = "com.ianhanniballake.contractiontimer.NOTE_CLOSE";
     private final static String TAG = NoteDialogFragment.class.getSimpleName();
 
     @Override
@@ -95,12 +89,5 @@ public class NoteDialogFragment extends DialogFragment {
                             Log.d(TAG, "Received negative event");
                     }
                 }).create();
-    }
-
-    @Override
-    public void onDismiss(final DialogInterface dialog) {
-        final LocalBroadcastManager localBroadcastManager = LocalBroadcastManager.getInstance(getActivity());
-        localBroadcastManager.sendBroadcast(new Intent(NOTE_CLOSE_ACTION));
-        super.onDismiss(dialog);
     }
 }
