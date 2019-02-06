@@ -279,7 +279,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
                     Log.e(TAG, "Error creating export directory");
                     return null;
                 }
-                File file = new File(exportPath, getString(R.string.drive_default_filename) + ".csv");
+                File file = new File(exportPath, getString(R.string.backup_default_filename) + ".csv");
                 try {
                     FileOutputStream fileOutputStream = new FileOutputStream(file);
                     CSVTransformer.writeContractions(MainActivity.this, fileOutputStream);

@@ -1,24 +1,19 @@
 package com.ianhanniballake.contractiontimer.data;
 
+import android.annotation.TargetApi;
 import android.content.Intent;
-import android.content.IntentSender;
 import android.content.OperationApplicationException;
+import android.net.Uri;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.RemoteException;
-import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+import android.support.v4.app.FragmentActivity;
 import android.text.TextUtils;
 import android.util.Log;
 import android.widget.Toast;
 
-import com.google.android.gms.common.api.ResultCallback;
-import com.google.android.gms.drive.CreateFileActivityBuilder;
-import com.google.android.gms.drive.Drive;
-import com.google.android.gms.drive.DriveApi;
-import com.google.android.gms.drive.DriveContents;
-import com.google.android.gms.drive.DriveFile;
-import com.google.android.gms.drive.DriveId;
-import com.google.android.gms.drive.OpenFileActivityBuilder;
 import com.google.firebase.analytics.FirebaseAnalytics;
 import com.ianhanniballake.contractiontimer.R;
 
@@ -26,85 +21,83 @@ import java.io.IOException;
 import java.io.InputStream;
 
 /**
- * Imports contractions from a CSV file on Google Drive
+ * Imports contractions from a CSV file using {@link Intent#ACTION_OPEN_DOCUMENT}
  */
-public class ImportActivity extends AbstractDriveApiActivity {
+@TargetApi(Build.VERSION_CODES.KITKAT)
+public class ImportActivity extends FragmentActivity {
     private static final String TAG = ImportActivity.class.getSimpleName();
     private static final int REQUEST_CODE_OPEN = 2;
-    private final ResultCallback<DriveApi.DriveContentsResult> mOpenFileCallback =
-            new ResultCallback<DriveApi.DriveContentsResult>() {
-                @Override
-                public void onResult(@NonNull DriveApi.DriveContentsResult result) {
-                    if (!result.getStatus().isSuccess()) {
-                        finish();
-                        return;
-                    }
-                    IntentSender intentSender = new OpenFileActivityBuilder()
-                            .setActivityTitle(getString(R.string.drive_open_file_title))
-                            .setMimeType(new String[]{"text/csv"})
-                            .build(mGoogleApiClient);
-                    try {
-                        startIntentSenderForResult(intentSender, REQUEST_CODE_OPEN, null, 0, 0, 0);
-                    } catch (IntentSender.SendIntentException e) {
-                        finish();
-                    }
-                }
-            };
 
     @Override
-    public void onConnected(final Bundle connectionHint) {
-        super.onConnected(connectionHint);
-        Drive.DriveApi.newDriveContents(mGoogleApiClient).setResultCallback(mOpenFileCallback);
+    protected void onCreate(@Nullable final Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_backup);
+        if (savedInstanceState == null) {
+            Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
+            intent.addCategory(Intent.CATEGORY_OPENABLE);
+            intent.setType("text/csv");
+            startActivityForResult(intent, REQUEST_CODE_OPEN);
+        }
     }
 
     @Override
     protected void onActivityResult(final int requestCode, final int resultCode, final Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == REQUEST_CODE_OPEN && resultCode == RESULT_OK) {
-            DriveId driveId = data.getParcelableExtra(CreateFileActivityBuilder.EXTRA_RESPONSE_DRIVE_ID);
-            new ImportContractionsAsyncTask().execute(driveId);
+            new ImportContractionsAsyncTask().execute(data);
+        } else {
+            finish();
         }
     }
 
-    private class ImportContractionsAsyncTask extends AsyncTask<DriveId, Void, String> {
+    private class ImportContractionsAsyncTask extends AsyncTask<Intent, Void, String> {
         @Override
-        protected String doInBackground(DriveId... params) {
-            DriveFile file = params[0].asDriveFile();
-            DriveApi.DriveContentsResult result = file.open(mGoogleApiClient, DriveFile.MODE_READ_ONLY,
-                    null).await();
-            if (!result.getStatus().isSuccess()) {
-                return getString(R.string.drive_error_open_file);
+        protected String doInBackground(Intent... params) {
+            if (params[0] == null) {
+                Log.w(TAG, "Null Intent returned by ACTION_CREATE_DOCUMENT");
+                return getString(R.string.backup_error_open_file);
             }
-            DriveContents driveContents = result.getDriveContents();
-            InputStream is = driveContents.getInputStream();
+            Uri documentUri = params[0].getData();
+            if (documentUri == null) {
+                Log.w(TAG, "Null Uri returned by ACTION_CREATE_DOCUMENT");
+                return getString(R.string.backup_error_open_file);
+            }
+            InputStream is = null;
             try {
+                is = getContentResolver().openInputStream(documentUri);
                 CSVTransformer.readContractions(ImportActivity.this, is);
-                is.close();
+                return null;
             } catch (IOException e) {
                 Log.e(TAG, "Error reading file", e);
-                return getString(R.string.drive_error_reading_file);
+                return getString(R.string.backup_error_reading_file);
             } catch (IllegalArgumentException e) {
                 Log.e(TAG, "Invalid file format", e);
-                return getString(R.string.drive_error_invalid_file_format);
+                return getString(R.string.backup_error_invalid_file_format);
             } catch (RemoteException e) {
                 Log.e(TAG, "Error saving contractions", e);
-                return getString(R.string.drive_error_saving_contractions);
+                return getString(R.string.backup_error_saving_contractions);
             } catch (OperationApplicationException e) {
                 Log.e(TAG, "Error saving contractions", e);
-                return getString(R.string.drive_error_saving_contractions);
+                return getString(R.string.backup_error_saving_contractions);
+            } finally {
+                try {
+                    if (is != null) {
+                        is.close();
+                    }
+                } catch (IOException e) {
+                    Log.w(TAG, "Error closing file", e);
+                }
             }
-            driveContents.commit(mGoogleApiClient, null).await();
-            return null;
         }
 
         @Override
         protected void onPostExecute(String error) {
             if (TextUtils.isEmpty(error)) {
                 FirebaseAnalytics.getInstance(ImportActivity.this).logEvent("import_complete", null);
-                Toast.makeText(ImportActivity.this, getString(R.string.drive_import_successful),
+                Toast.makeText(ImportActivity.this, getString(R.string.backup_import_successful),
                         Toast.LENGTH_LONG).show();
             } else {
-                Toast.makeText(ImportActivity.this, getString(R.string.drive_error_import, error),
+                Toast.makeText(ImportActivity.this, getString(R.string.backup_error_import, error),
                         Toast.LENGTH_LONG).show();
             }
             finish();

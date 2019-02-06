@@ -2,15 +2,12 @@ package com.ianhanniballake.contractiontimer.ui;
 
 import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-import android.widget.TextView;
 
-import com.google.android.gms.common.GoogleApiAvailability;
 import com.ianhanniballake.contractiontimer.BuildConfig;
 import com.ianhanniballake.contractiontimer.R;
 
@@ -24,18 +21,6 @@ public class LicenseActivity extends AppCompatActivity {
     protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_license);
-        final TextView googlePlayServicesLicense = (TextView) findViewById(R.id.googleplayservices_license);
-        new AsyncTask<Void, Void, String>() {
-            @Override
-            protected String doInBackground(final Void... params) {
-                return GoogleApiAvailability.getInstance().getOpenSourceSoftwareLicenseInfo(LicenseActivity.this);
-            }
-
-            @Override
-            protected void onPostExecute(final String licenseInfo) {
-                googlePlayServicesLicense.setText(licenseInfo);
-            }
-        }.execute();
     }
 
     @Override

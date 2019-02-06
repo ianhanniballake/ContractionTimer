@@ -34,6 +34,24 @@
         android:summaryOff="@string/pref_notification_enable_summary_off"
         android:summaryOn="@string/pref_notification_enable_summary_on"
         android:title="@string/pref_notification_enable_title"/>
+    <PreferenceCategory android:title="@string/pref_export_import_category">
+        <Preference
+            android:key="export"
+            android:summary="@string/pref_export_summary"
+            android:title="@string/pref_export_title">
+            <intent
+                android:targetClass="com.ianhanniballake.contractiontimer.data.ExportActivity"
+                android:targetPackage="com.ianhanniballake.contractiontimer"/>
+        </Preference>
+        <Preference
+            android:key="import"
+            android:summary="@string/pref_import_summary"
+            android:title="@string/pref_import_title">
+            <intent
+                android:targetClass="com.ianhanniballake.contractiontimer.data.ImportActivity"
+                android:targetPackage="com.ianhanniballake.contractiontimer"/>
+        </Preference>
+    </PreferenceCategory>
     <PreferenceCategory android:title="@string/pref_other_category">
         <Preference
             android:key="license"

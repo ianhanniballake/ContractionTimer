@@ -100,7 +100,7 @@
     <string name="pref_notification_enable_title">Enable notification</string>
     <string name="pref_notification_enable_summary_on">Show a notification when timing contractions</string>
     <string name="pref_notification_enable_summary_off">Never show a notification</string>
-    <string name="pref_export_import_category">Google Drive</string>
+    <string name="pref_export_import_category">Backup &amp; Restore</string>
     <string name="pref_export_title">Export contractions…</string>
     <string name="pref_export_summary">Export as a CSV file</string>
     <string name="pref_import_title">Import contractions…</string>

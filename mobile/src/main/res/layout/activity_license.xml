@@ -42,19 +42,5 @@
             android:autoLink="all"
             android:padding="@dimen/outer_padding"
             android:text="@string/license_opencsv_license"/>
-
-        <TextView
-            style="?android:attr/listSeparatorTextViewStyle"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingLeft="@dimen/outer_padding"
-            android:paddingRight="@dimen/outer_padding"
-            android:text="@string/license_googleplayservices_title"/>
-
-        <TextView
-            android:id="@+id/googleplayservices_license"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="@dimen/outer_padding"/>
     </LinearLayout>
 </ScrollView>
