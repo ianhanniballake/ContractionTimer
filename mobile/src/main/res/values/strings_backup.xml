@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="backup_default_filename">Contractions</string>
+    <string name="backup_export_successful">Export of contractions successful</string>
+    <string name="backup_error_export">Error writing contractions to file</string>
+    <string name="backup_error_open_file">Unable to open file</string>
+    <string name="backup_error_reading_file">Error while reading file</string>
+    <string name="backup_error_invalid_file_format">Invalid file format</string>
+    <string name="backup_error_saving_contractions">Error saving contractions</string>
+    <string name="backup_import_successful">Import successful</string>
+    <string name="backup_error_import">Import failed: %s</string>
+</resources>

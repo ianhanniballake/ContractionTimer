@@ -31,7 +31,7 @@ public class ImportActivity extends FragmentActivity {
     @Override
     protected void onCreate(@Nullable final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_drive);
+        setContentView(R.layout.activity_backup);
         if (savedInstanceState == null) {
             Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
             intent.addCategory(Intent.CATEGORY_OPENABLE);
@@ -55,12 +55,12 @@ public class ImportActivity extends FragmentActivity {
         protected String doInBackground(Intent... params) {
             if (params[0] == null) {
                 Log.w(TAG, "Null Intent returned by ACTION_CREATE_DOCUMENT");
-                return getString(R.string.drive_error_open_file);
+                return getString(R.string.backup_error_open_file);
             }
             Uri documentUri = params[0].getData();
             if (documentUri == null) {
                 Log.w(TAG, "Null Uri returned by ACTION_CREATE_DOCUMENT");
-                return getString(R.string.drive_error_open_file);
+                return getString(R.string.backup_error_open_file);
             }
             InputStream is = null;
             try {
@@ -69,16 +69,16 @@ public class ImportActivity extends FragmentActivity {
                 return null;
             } catch (IOException e) {
                 Log.e(TAG, "Error reading file", e);
-                return getString(R.string.drive_error_reading_file);
+                return getString(R.string.backup_error_reading_file);
             } catch (IllegalArgumentException e) {
                 Log.e(TAG, "Invalid file format", e);
-                return getString(R.string.drive_error_invalid_file_format);
+                return getString(R.string.backup_error_invalid_file_format);
             } catch (RemoteException e) {
                 Log.e(TAG, "Error saving contractions", e);
-                return getString(R.string.drive_error_saving_contractions);
+                return getString(R.string.backup_error_saving_contractions);
             } catch (OperationApplicationException e) {
                 Log.e(TAG, "Error saving contractions", e);
-                return getString(R.string.drive_error_saving_contractions);
+                return getString(R.string.backup_error_saving_contractions);
             } finally {
                 try {
                     if (is != null) {
@@ -94,10 +94,10 @@ public class ImportActivity extends FragmentActivity {
         protected void onPostExecute(String error) {
             if (TextUtils.isEmpty(error)) {
                 FirebaseAnalytics.getInstance(ImportActivity.this).logEvent("import_complete", null);
-                Toast.makeText(ImportActivity.this, getString(R.string.drive_import_successful),
+                Toast.makeText(ImportActivity.this, getString(R.string.backup_import_successful),
                         Toast.LENGTH_LONG).show();
             } else {
-                Toast.makeText(ImportActivity.this, getString(R.string.drive_error_import, error),
+                Toast.makeText(ImportActivity.this, getString(R.string.backup_error_import, error),
                         Toast.LENGTH_LONG).show();
             }
             finish();

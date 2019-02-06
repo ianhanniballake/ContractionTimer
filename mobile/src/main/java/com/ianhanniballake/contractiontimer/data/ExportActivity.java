@@ -27,12 +27,12 @@ public class ExportActivity extends FragmentActivity {
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_drive);
+        setContentView(R.layout.activity_backup);
         if (savedInstanceState == null) {
             Intent intent = new Intent(Intent.ACTION_CREATE_DOCUMENT);
             intent.addCategory(Intent.CATEGORY_OPENABLE);
             intent.setType("text/csv");
-            intent.putExtra(Intent.EXTRA_TITLE, getString(R.string.drive_default_filename) + ".csv");
+            intent.putExtra(Intent.EXTRA_TITLE, getString(R.string.backup_default_filename) + ".csv");
             startActivityForResult(intent, REQUEST_CODE_CREATE);
         }
     }
@@ -82,10 +82,10 @@ public class ExportActivity extends FragmentActivity {
         protected void onPostExecute(Boolean success) {
             if (success) {
                 FirebaseAnalytics.getInstance(ExportActivity.this).logEvent("export_complete", null);
-                Toast.makeText(ExportActivity.this, getString(R.string.drive_export_successful),
+                Toast.makeText(ExportActivity.this, getString(R.string.backup_export_successful),
                         Toast.LENGTH_LONG).show();
             } else {
-                Toast.makeText(ExportActivity.this, getString(R.string.drive_error_export),
+                Toast.makeText(ExportActivity.this, getString(R.string.backup_error_export),
                         Toast.LENGTH_LONG).show();
             }
             finish();
