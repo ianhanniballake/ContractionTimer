@@ -3,7 +3,6 @@ package com.ianhanniballake.contractiontimer.appwidget
 import android.appwidget.AppWidgetManager
 import android.content.ComponentName
 import android.content.Context
-import android.content.Intent
 import kotlinx.coroutines.async
 import kotlinx.coroutines.coroutineScope
 
@@ -41,10 +40,11 @@ open class AppWidgetUpdateHandlerBase : AppWidgetUpdateHandler() {
             appWidgetManager: AppWidgetManager
     ) = coroutineScope {
         async {
-            val toggleWidgetsExist = appWidgetManager.getAppWidgetIds(
-                    ComponentName(context, ToggleAppWidgetProvider::class.java)).isNotEmpty()
-            if (toggleWidgetsExist)
-                context.startService(Intent(context, ToggleAppWidgetService::class.java))
+            val appWidgetIds = appWidgetManager.getAppWidgetIds(
+                    ComponentName(context, ToggleAppWidgetProvider::class.java))
+            if (appWidgetIds.isNotEmpty()) {
+                ToggleAppWidgetProvider.updateToggleAppWidget(context, appWidgetIds)
+            }
         }
     }
 

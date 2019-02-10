@@ -144,7 +144,6 @@
         <service android:name=".notification.NoteIntentService"/>
         <service android:name=".notification.NotificationUpdateService"/>
         <receiver android:name=".appwidget.AppWidgetToggleReceiver"/>
-        <service android:name=".appwidget.ToggleAppWidgetService"/>
         <service android:name=".appwidget.DetailAppWidgetService"/>
         <service
             android:name=".appwidget.DetailAppWidgetRemoteViewsService"
