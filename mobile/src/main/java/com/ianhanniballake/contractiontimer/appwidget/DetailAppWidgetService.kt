@@ -16,6 +16,7 @@ import android.view.View
 import android.widget.RemoteViews
 import com.ianhanniballake.contractiontimer.BuildConfig
 import com.ianhanniballake.contractiontimer.R
+import com.ianhanniballake.contractiontimer.closeable
 import com.ianhanniballake.contractiontimer.provider.ContractionContract
 import com.ianhanniballake.contractiontimer.ui.MainActivity
 import com.ianhanniballake.contractiontimer.ui.Preferences
@@ -51,7 +52,7 @@ class DetailAppWidgetService : IntentService(TAG) {
         var formattedAverageDuration = ""
         var formattedAverageFrequency = ""
         contentResolver.query(ContractionContract.Contractions.CONTENT_URI, projection,
-                selection, selectionArgs, null)?.use { data ->
+                selection, selectionArgs, null)?.closeable()?.use { data ->
             if (data.moveToFirst()) {
                 var averageDuration = 0.0
                 var averageFrequency = 0.0

@@ -32,6 +32,7 @@ import com.google.firebase.analytics.FirebaseAnalytics
 import com.ianhanniballake.contractiontimer.BuildConfig
 import com.ianhanniballake.contractiontimer.R
 import com.ianhanniballake.contractiontimer.appwidget.AppWidgetUpdateHandler
+import com.ianhanniballake.contractiontimer.closeable
 import com.ianhanniballake.contractiontimer.notification.NotificationUpdateService
 import com.ianhanniballake.contractiontimer.provider.ContractionContract
 import kotlinx.coroutines.Dispatchers
@@ -480,7 +481,7 @@ class EditFragment : Fragment(), LoaderManager.LoaderCallbacks<Cursor> {
                         currentStartTimeMillis, currentStartTimeMillis)
                 activity.contentResolver.query(
                         ContractionContract.Contractions.CONTENT_URI,
-                        projection, selection, selectionArgs, null)?.use { data ->
+                        projection, selection, selectionArgs, null)?.closeable()?.use { data ->
                     data.moveToFirst()
                 } ?: false
             }
@@ -518,7 +519,7 @@ class EditFragment : Fragment(), LoaderManager.LoaderCallbacks<Cursor> {
                         currentEndTimeMillis, currentEndTimeMillis)
                 activity.contentResolver.query(
                         ContractionContract.Contractions.CONTENT_URI,
-                        projection, selection, selectionArgs, null)?.use { data ->
+                        projection, selection, selectionArgs, null)?.closeable()?.use { data ->
                     data.moveToFirst()
                 } ?: false
             }
@@ -558,7 +559,7 @@ class EditFragment : Fragment(), LoaderManager.LoaderCallbacks<Cursor> {
                         currentStartTimeMillis, currentEndTimeMillis)
                 activity.contentResolver.query(
                         ContractionContract.Contractions.CONTENT_URI,
-                        projection, selection, selectionArgs, null)?.use { data ->
+                        projection, selection, selectionArgs, null)?.closeable()?.use { data ->
                     data.moveToFirst()
                 } ?: false
             }

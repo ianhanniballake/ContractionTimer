@@ -13,6 +13,7 @@ import android.view.View
 import android.widget.RemoteViews
 import com.ianhanniballake.contractiontimer.BuildConfig
 import com.ianhanniballake.contractiontimer.R
+import com.ianhanniballake.contractiontimer.closeable
 import com.ianhanniballake.contractiontimer.provider.ContractionContract
 import com.ianhanniballake.contractiontimer.ui.MainActivity
 import com.ianhanniballake.contractiontimer.ui.Preferences
@@ -60,7 +61,7 @@ class ControlAppWidgetService : IntentService(TAG) {
         val timeCutoff = System.currentTimeMillis() - averagesTimeFrame
         val selectionArgs = arrayOf(java.lang.Long.toString(timeCutoff))
         contentResolver.query(ContractionContract.Contractions.CONTENT_URI, projection,
-                selection, selectionArgs, null)?.use { data ->
+                selection, selectionArgs, null)?.closeable()?.use { data ->
             // Set the average duration and frequency
             if (data.moveToFirst()) {
                 var averageDuration = 0.0
@@ -102,7 +103,7 @@ class ControlAppWidgetService : IntentService(TAG) {
         // Need to use a separate cursor as there could be running contractions
         // outside of the average time frame
         contentResolver.query(ContractionContract.Contractions.CONTENT_URI, projection,
-                null, null, null)?.use { allData ->
+                null, null, null)?.closeable()?.use { allData ->
             val contractionOngoing = (allData.moveToFirst() &&
                     allData.isNull(allData.getColumnIndex(ContractionContract.Contractions.COLUMN_NAME_END_TIME)))
             val toggleContractionIntent = Intent(this, AppWidgetToggleService::class.java).apply {

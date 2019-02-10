@@ -8,6 +8,7 @@ import android.provider.BaseColumns
 import android.util.Log
 import com.google.firebase.analytics.FirebaseAnalytics
 import com.ianhanniballake.contractiontimer.BuildConfig
+import com.ianhanniballake.contractiontimer.closeable
 import com.ianhanniballake.contractiontimer.notification.NotificationUpdateService
 import com.ianhanniballake.contractiontimer.provider.ContractionContract
 
@@ -29,7 +30,7 @@ class AppWidgetToggleService : IntentService(TAG) {
         val projection = arrayOf(BaseColumns._ID,
                 ContractionContract.Contractions.COLUMN_NAME_END_TIME)
         contentResolver.query(ContractionContract.Contractions.CONTENT_URI,
-                projection, null, null, null)?.use { data ->
+                projection, null, null, null)?.closeable()?.use { data ->
             val contractionOngoing = data.moveToFirst() && data.isNull(data.getColumnIndex(ContractionContract.Contractions.COLUMN_NAME_END_TIME))
             val analytics = FirebaseAnalytics.getInstance(this)
             if (contractionOngoing) {

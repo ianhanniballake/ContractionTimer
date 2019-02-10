@@ -11,6 +11,7 @@ import android.util.Log
 import android.widget.Toast
 import com.ianhanniballake.contractiontimer.BuildConfig
 import com.ianhanniballake.contractiontimer.R
+import com.ianhanniballake.contractiontimer.closeable
 import com.ianhanniballake.contractiontimer.provider.ContractionContract
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -32,7 +33,7 @@ class NoteNoDisplayActivity : Activity() {
             GlobalScope.launch {
                 val hasContractions = context.contentResolver.query(
                         ContractionContract.Contractions.CONTENT_URI, null,
-                        null, null,  null)?.use { data ->
+                        null, null,  null)?.closeable()?.use { data ->
                     data.moveToFirst()
                 } ?: false
                 if (BuildConfig.DEBUG)

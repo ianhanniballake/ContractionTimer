@@ -11,6 +11,7 @@ import android.util.Log
 import com.google.firebase.analytics.FirebaseAnalytics
 import com.ianhanniballake.contractiontimer.BuildConfig
 import com.ianhanniballake.contractiontimer.appwidget.AppWidgetUpdateHandler
+import com.ianhanniballake.contractiontimer.closeable
 import com.ianhanniballake.contractiontimer.provider.ContractionContract
 import com.ianhanniballake.contractiontimer.ui.MainActivity
 
@@ -34,7 +35,7 @@ class NoteIntentService : IntentService(TAG) {
         val projection = arrayOf(BaseColumns._ID,
                 ContractionContract.Contractions.COLUMN_NAME_NOTE)
         contentResolver.query(ContractionContract.Contractions.CONTENT_URI, projection,
-                null, null, null)?.use { data ->
+                null, null, null)?.closeable()?.use { data ->
             if (!data.moveToFirst()) {
                 // This shouldn't happen as checkServiceState ensures at least one contraction exists
                 Log.w(TAG, "Could not find contraction")
