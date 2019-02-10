@@ -1,11 +1,9 @@
 package com.ianhanniballake.contractiontimer.ui
 
-import android.content.AsyncQueryHandler
 import android.content.ContentUris
 import android.content.ContentValues
 import android.content.Context
 import android.database.Cursor
-import android.net.Uri
 import android.os.Bundle
 import android.provider.BaseColumns
 import android.support.design.widget.FloatingActionButton
@@ -18,13 +16,14 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-
 import com.google.firebase.analytics.FirebaseAnalytics
 import com.ianhanniballake.contractiontimer.BuildConfig
 import com.ianhanniballake.contractiontimer.R
 import com.ianhanniballake.contractiontimer.appwidget.AppWidgetUpdateHandler
 import com.ianhanniballake.contractiontimer.notification.NotificationUpdateService
 import com.ianhanniballake.contractiontimer.provider.ContractionContract
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 
 /**
  * Fragment which controls starting and stopping the contraction timer
@@ -41,7 +40,6 @@ class ContractionControlsFragment : Fragment(), LoaderManager.LoaderCallbacks<Cu
     /**
      * Handler for asynchronous inserts/updates of contractions
      */
-    private lateinit var contractionQueryHandler: AsyncQueryHandler
     private var contractionOngoing = false
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -56,22 +54,6 @@ class ContractionControlsFragment : Fragment(), LoaderManager.LoaderCallbacks<Cu
             }
         }
         loaderManager.initLoader(0, null, this)
-    }
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        val context = activity
-        contractionQueryHandler = object : AsyncQueryHandler(context.contentResolver) {
-            override fun onInsertComplete(token: Int, cookie: Any?, uri: Uri) {
-                AppWidgetUpdateHandler.createInstance().updateAllWidgets(context)
-                NotificationUpdateService.updateNotification(context)
-            }
-
-            override fun onUpdateComplete(token: Int, cookie: Any?, result: Int) {
-                AppWidgetUpdateHandler.createInstance().updateAllWidgets(context)
-                NotificationUpdateService.updateNotification(context)
-            }
-        }
     }
 
     override fun onCreateLoader(id: Int, args: Bundle?): Loader<Cursor> {
@@ -99,8 +81,13 @@ class ContractionControlsFragment : Fragment(), LoaderManager.LoaderCallbacks<Cu
                     Log.d(TAG, "Starting contraction")
                 analytics.logEvent("control_start", null)
                 // Start a new contraction
-                contractionQueryHandler.startInsert(0, null, ContractionContract.Contractions.CONTENT_URI,
-                        ContentValues())
+                val context = context
+                GlobalScope.launch {
+                    context.contentResolver.insert(ContractionContract.Contractions.CONTENT_URI,
+                            ContentValues())
+                    AppWidgetUpdateHandler.createInstance().updateAllWidgets(context)
+                    NotificationUpdateService.updateNotification(context)
+                }
             } else {
                 if (BuildConfig.DEBUG)
                     Log.d(TAG, "Stopping contraction")
@@ -111,7 +98,13 @@ class ContractionControlsFragment : Fragment(), LoaderManager.LoaderCallbacks<Cu
                 val updateUri = ContentUris.withAppendedId(
                         ContractionContract.Contractions.CONTENT_ID_URI_BASE, latestContractionId)
                 // Add the new end time to the last contraction
-                contractionQueryHandler.startUpdate(0, 0, updateUri, newEndTime, null, null)
+                val context = context
+                GlobalScope.launch {
+                    context.contentResolver.update(updateUri,
+                            newEndTime, null, null)
+                    AppWidgetUpdateHandler.createInstance().updateAllWidgets(context)
+                    NotificationUpdateService.updateNotification(context)
+                }
             }
         }
     }

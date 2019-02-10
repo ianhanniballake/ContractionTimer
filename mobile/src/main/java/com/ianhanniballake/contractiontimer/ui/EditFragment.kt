@@ -1,6 +1,5 @@
 package com.ianhanniballake.contractiontimer.ui
 
-import android.content.AsyncQueryHandler
 import android.content.BroadcastReceiver
 import android.content.ContentUris
 import android.content.ContentValues
@@ -8,7 +7,6 @@ import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
 import android.database.Cursor
-import android.net.Uri
 import android.os.Bundle
 import android.provider.BaseColumns
 import android.support.v4.app.Fragment
@@ -158,10 +156,6 @@ class EditFragment : Fragment(), LoaderManager.LoaderCallbacks<Cursor> {
      * Adapter to display the detailed data
      */
     private lateinit var adapter: CursorAdapter
-    /**
-     * Handler for asynchronous updates of contractions
-     */
-    private lateinit var contractionQueryHandler: AsyncQueryHandler
 
     /**
      * Gets the current values from the edit fields for updating the contraction
@@ -204,22 +198,6 @@ class EditFragment : Fragment(), LoaderManager.LoaderCallbacks<Cursor> {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         setHasOptionsMenu(true)
-        val applicationContext = activity.applicationContext
-        contractionQueryHandler = object : AsyncQueryHandler(activity.contentResolver) {
-            override fun onInsertComplete(token: Int, cookie: Any?, uri: Uri) {
-                AppWidgetUpdateHandler.createInstance().updateAllWidgets(applicationContext)
-                NotificationUpdateService.updateNotification(applicationContext)
-                val activity = activity
-                activity?.finish()
-            }
-
-            override fun onUpdateComplete(token: Int, cookie: Any?, result: Int) {
-                AppWidgetUpdateHandler.createInstance().updateAllWidgets(applicationContext)
-                NotificationUpdateService.updateNotification(applicationContext)
-                val activity = activity
-                activity?.finish()
-            }
-        }
         adapter = object : CursorAdapter(activity, null, 0) {
             override fun bindView(view: View, context: Context, cursor: Cursor) {
                 val startTimeColumnIndex = cursor.getColumnIndex(
@@ -375,12 +353,23 @@ class EditFragment : Fragment(), LoaderManager.LoaderCallbacks<Cursor> {
                     if (BuildConfig.DEBUG)
                         Log.d(TAG, "Add selected save")
                     FirebaseAnalytics.getInstance(context).logEvent("add_save", null)
-                    contractionQueryHandler.startInsert(0, null, activity.intent.data, values)
+                    val activity = activity
+                    GlobalScope.launch {
+                        context.contentResolver.insert(activity.intent.data!!, values)
+                        AppWidgetUpdateHandler.createInstance().updateAllWidgets(activity)
+                        NotificationUpdateService.updateNotification(activity)
+                        activity.finish()
+                    }
                 } else {
                     if (BuildConfig.DEBUG)
                         Log.d(TAG, "Edit selected save")
                     FirebaseAnalytics.getInstance(context).logEvent("edit_save", null)
-                    contractionQueryHandler.startUpdate(0, null, activity.intent.data, values, null, null)
+                    GlobalScope.launch {
+                        context.contentResolver.update(activity.intent.data!!, values, null, null)
+                        AppWidgetUpdateHandler.createInstance().updateAllWidgets(activity)
+                        NotificationUpdateService.updateNotification(activity)
+                        activity.finish()
+                    }
                 }
                 return true
             }

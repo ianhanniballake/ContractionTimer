@@ -1,6 +1,5 @@
 package com.ianhanniballake.contractiontimer.ui
 
-import android.content.AsyncQueryHandler
 import android.content.ComponentName
 import android.content.ContentUris
 import android.content.Context
@@ -37,7 +36,8 @@ import com.ianhanniballake.contractiontimer.R
 import com.ianhanniballake.contractiontimer.appwidget.AppWidgetUpdateHandler
 import com.ianhanniballake.contractiontimer.notification.NotificationUpdateService
 import com.ianhanniballake.contractiontimer.provider.ContractionContract
-import java.lang.ref.WeakReference
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 import java.util.Calendar
 
 /**
@@ -122,12 +122,6 @@ class ContractionListFragment : Fragment(), LoaderManager.LoaderCallbacks<Cursor
      * Adapter to display the list's data
      */
     private lateinit var adapter: CursorAdapter
-    /**
-     * Handler for asynchronous deletes of contractions
-     */
-    private val contractionQueryHandler: AsyncQueryHandler by lazy {
-        DeleteContractionQueryHandler(activity)
-    }
 
     /**
      * Deletes a given contraction
@@ -140,7 +134,12 @@ class ContractionListFragment : Fragment(), LoaderManager.LoaderCallbacks<Cursor
             return
         val deleteUri = ContentUris.withAppendedId(
                 ContractionContract.Contractions.CONTENT_ID_URI_BASE, id)
-        contractionQueryHandler.startDelete(0, 0, deleteUri, null, null)
+        val context = context
+        GlobalScope.launch {
+            context.contentResolver.delete(deleteUri, null, null)
+            AppWidgetUpdateHandler.createInstance().updateAllWidgets(context)
+            NotificationUpdateService.updateNotification(context)
+        }
     }
 
     private fun itemSelected(listView: ListView, position: Int) {
@@ -410,18 +409,6 @@ class ContractionListFragment : Fragment(), LoaderManager.LoaderCallbacks<Cursor
         val intent = Intent(Intent.ACTION_VIEW, contractionUri)
                 .setComponent(ComponentName(activity, ViewActivity::class.java))
         startActivity(intent)
-    }
-
-    private class DeleteContractionQueryHandler(context: Context) : AsyncQueryHandler(context.contentResolver) {
-        private val mContext: WeakReference<Context> = WeakReference(context.applicationContext)
-
-        override fun onDeleteComplete(token: Int, cookie: Any?, result: Int) {
-            val context = mContext.get()
-            if (context != null) {
-                AppWidgetUpdateHandler.createInstance().updateAllWidgets(context)
-                NotificationUpdateService.updateNotification(context)
-            }
-        }
     }
 
     /**

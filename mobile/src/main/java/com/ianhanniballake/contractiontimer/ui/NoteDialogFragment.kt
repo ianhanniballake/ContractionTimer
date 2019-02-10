@@ -1,7 +1,6 @@
 package com.ianhanniballake.contractiontimer.ui
 
 import android.app.Dialog
-import android.content.AsyncQueryHandler
 import android.content.ContentUris
 import android.content.ContentValues
 import android.content.DialogInterface
@@ -16,6 +15,8 @@ import com.ianhanniballake.contractiontimer.R
 import com.ianhanniballake.contractiontimer.appwidget.AppWidgetUpdateHandler
 import com.ianhanniballake.contractiontimer.notification.NotificationUpdateService
 import com.ianhanniballake.contractiontimer.provider.ContractionContract
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 
 /**
  * Reset Confirmation Dialog box
@@ -51,13 +52,6 @@ class NoteDialogFragment : DialogFragment() {
         else
             builder.setTitle(R.string.note_dialog_title_edit)
         input.setText(existingNote)
-        val context = activity
-        val asyncQueryHandler = object : AsyncQueryHandler(context.contentResolver) {
-            override fun onUpdateComplete(token: Int, cookie: Any?, result: Int) {
-                AppWidgetUpdateHandler.createInstance().updateAllWidgets(context)
-                NotificationUpdateService.updateNotification(context)
-            }
-        }
         @Suppress("DEPRECATION")
         return builder.setView(layout).setInverseBackgroundForced(true)
                 .setPositiveButton(R.string.note_dialog_save) { _, _ ->
@@ -70,7 +64,12 @@ class NoteDialogFragment : DialogFragment() {
                     val values = ContentValues().apply {
                         put(ContractionContract.Contractions.COLUMN_NAME_NOTE, input.text.toString())
                     }
-                    asyncQueryHandler.startUpdate(0, 0, updateUri, values, null, null)
+                    val context = context
+                    GlobalScope.launch {
+                        context.contentResolver.update(updateUri, values, null, null)
+                        AppWidgetUpdateHandler.createInstance().updateAllWidgets(context)
+                        NotificationUpdateService.updateNotification(context)
+                    }
                 }.setNegativeButton(R.string.note_dialog_cancel) { _, _ ->
                     if (BuildConfig.DEBUG)
                         Log.d(TAG, "Received negative event")

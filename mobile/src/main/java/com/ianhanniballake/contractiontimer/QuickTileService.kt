@@ -1,6 +1,5 @@
 package com.ianhanniballake.contractiontimer
 
-import android.content.AsyncQueryHandler
 import android.content.ContentUris
 import android.content.ContentValues
 import android.database.ContentObserver
@@ -20,6 +19,8 @@ import com.ianhanniballake.contractiontimer.appwidget.AppWidgetUpdateHandler
 import com.ianhanniballake.contractiontimer.notification.NotificationUpdateService
 import com.ianhanniballake.contractiontimer.provider.ContractionContract
 import com.ianhanniballake.contractiontimer.ui.Preferences
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 
 @RequiresApi(api = Build.VERSION_CODES.N)
 class QuickTileService : TileService() {
@@ -31,19 +32,6 @@ class QuickTileService : TileService() {
         object : ContentObserver(Handler()) {
             override fun onChange(selfChange: Boolean, uri: Uri) {
                 updateTile()
-            }
-        }
-    }
-    private val contractionQueryHandler by lazy {
-        object : AsyncQueryHandler(contentResolver) {
-            override fun onInsertComplete(token: Int, cookie: Any?, uri: Uri) {
-                AppWidgetUpdateHandler.createInstance().updateAllWidgets(this@QuickTileService)
-                NotificationUpdateService.updateNotification(this@QuickTileService)
-            }
-
-            override fun onUpdateComplete(token: Int, cookie: Any?, result: Int) {
-                AppWidgetUpdateHandler.createInstance().updateAllWidgets(this@QuickTileService)
-                NotificationUpdateService.updateNotification(this@QuickTileService)
             }
         }
     }
@@ -143,8 +131,12 @@ class QuickTileService : TileService() {
                 Log.d(TAG, "Starting contraction")
             analytics.logEvent("quick_tile_start", null)
             // Start a new contraction
-            contractionQueryHandler.startInsert(0, null,
-                    ContractionContract.Contractions.CONTENT_URI, ContentValues())
+            GlobalScope.launch {
+                contentResolver.insert(ContractionContract.Contractions.CONTENT_URI,
+                        ContentValues())
+                AppWidgetUpdateHandler.createInstance().updateAllWidgets(this@QuickTileService)
+                NotificationUpdateService.updateNotification(this@QuickTileService)
+            }
         } else {
             if (BuildConfig.DEBUG)
                 Log.d(TAG, "Stopping contraction")
@@ -154,8 +146,11 @@ class QuickTileService : TileService() {
             val updateUri = ContentUris.withAppendedId(
                     ContractionContract.Contractions.CONTENT_ID_URI_BASE, latestContractionId)
             // Add the new end time to the last contraction
-            contractionQueryHandler.startUpdate(0, 0,
-                    updateUri, newEndTime, null, null)
+            GlobalScope.launch {
+                contentResolver.update(updateUri, newEndTime, null, null)
+                AppWidgetUpdateHandler.createInstance().updateAllWidgets(this@QuickTileService)
+                NotificationUpdateService.updateNotification(this@QuickTileService)
+            }
         }
     }
 

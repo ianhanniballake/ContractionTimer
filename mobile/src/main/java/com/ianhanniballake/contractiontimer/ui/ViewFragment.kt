@@ -1,6 +1,5 @@
 package com.ianhanniballake.contractiontimer.ui
 
-import android.content.AsyncQueryHandler
 import android.content.ComponentName
 import android.content.ContentUris
 import android.content.Context
@@ -30,6 +29,8 @@ import com.ianhanniballake.contractiontimer.R
 import com.ianhanniballake.contractiontimer.appwidget.AppWidgetUpdateHandler
 import com.ianhanniballake.contractiontimer.notification.NotificationUpdateService
 import com.ianhanniballake.contractiontimer.provider.ContractionContract
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 import java.util.Date
 
 /**
@@ -68,10 +69,6 @@ class ViewFragment : Fragment(), LoaderManager.LoaderCallbacks<Cursor> {
      * Id of the current contraction to show
      */
     private var contractionId: Long = -1
-    /**
-     * Handler for asynchronous deletes of contractions
-     */
-    private lateinit var contractionQueryHandler: AsyncQueryHandler
 
     /**
      * We need to find the exact view_fragment view as there is a NoSaveStateFrameLayout view inserted in between the
@@ -88,14 +85,6 @@ class ViewFragment : Fragment(), LoaderManager.LoaderCallbacks<Cursor> {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         setHasOptionsMenu(true)
-        val applicationContext = activity.applicationContext
-        contractionQueryHandler = object : AsyncQueryHandler(activity.contentResolver) {
-            override fun onDeleteComplete(token: Int, cookie: Any?, result: Int) {
-                AppWidgetUpdateHandler.createInstance().updateAllWidgets(applicationContext)
-                NotificationUpdateService.updateNotification(applicationContext)
-                activity?.finish()
-            }
-        }
         adapter = object : CursorAdapter(activity, null, 0) {
             override fun bindView(view: View, context: Context, cursor: Cursor) {
                 val startTimeView = view.findViewById<TextView>(R.id.start_time)
@@ -208,7 +197,13 @@ class ViewFragment : Fragment(), LoaderManager.LoaderCallbacks<Cursor> {
                 val bundle = Bundle()
                 bundle.putString(FirebaseAnalytics.Param.VALUE, Integer.toString(1))
                 analytics.logEvent("delete_view", bundle)
-                contractionQueryHandler.startDelete(0, 0, uri, null, null)
+                val activity = activity
+                GlobalScope.launch {
+                    context.contentResolver.delete(uri, null, null)
+                    AppWidgetUpdateHandler.createInstance().updateAllWidgets(activity)
+                    NotificationUpdateService.updateNotification(activity)
+                    activity.finish()
+                }
                 return true
             }
             else -> return super.onOptionsItemSelected(item)
