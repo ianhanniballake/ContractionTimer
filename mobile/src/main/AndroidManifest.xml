@@ -127,11 +127,11 @@
                 android:value=".ui.Preferences"/>
         </activity>
         <activity
-            android:name=".notification.NoteNoDisplayActivity"
+            android:name=".notification.NoteTranslucentActivity"
             android:enabled="false"
             android:excludeFromRecents="true"
             android:taskAffinity=""
-            android:theme="@android:style/Theme.NoDisplay">
+            android:theme="@android:style/Theme.Translucent.NoTitleBar.Fullscreen">
             <intent-filter>
                 <action android:name="com.google.android.gm.action.AUTO_SEND"/>
 
@@ -141,7 +141,6 @@
             </intent-filter>
         </activity>
 
-        <service android:name=".notification.NoteIntentService"/>
         <service android:name=".notification.NotificationUpdateService"/>
         <receiver android:name=".appwidget.AppWidgetToggleReceiver"/>
         <service

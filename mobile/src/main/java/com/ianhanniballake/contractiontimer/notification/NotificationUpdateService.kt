@@ -35,7 +35,7 @@ class NotificationUpdateService : IntentService(TAG) {
     }
 
     override fun onHandleIntent(intent: Intent?) {
-        NoteNoDisplayActivity.checkServiceState(this)
+        NoteTranslucentActivity.checkServiceState(this)
         val notificationManager = NotificationManagerCompat.from(this)
         val preferences = PreferenceManager.getDefaultSharedPreferences(this)
         val notificationsEnabled = preferences.getBoolean(
@@ -207,7 +207,7 @@ class NotificationUpdateService : IntentService(TAG) {
             getString(R.string.note_dialog_title_edit)
         else
             getString(R.string.note_dialog_title_add)
-        val noteIntent = Intent(this, NoteNoDisplayActivity::class.java)
+        val noteIntent = Intent(this, NoteTranslucentActivity::class.java)
         val notePendingIntent = PendingIntent.getActivity(this, 0, noteIntent, 0)
         val remoteInput = RemoteInput.Builder(Intent.EXTRA_TEXT).setLabel(noteTitle).build()
         builder.addAction(noteIconResId, noteTitle, notePendingIntent)
