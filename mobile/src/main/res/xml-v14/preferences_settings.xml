@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <CheckBoxPreference
+    <SwitchPreferenceCompat
         android:defaultValue="@bool/pref_keep_screen_on_default"
         android:key="keepScreenOn"
         android:summaryOff="@string/pref_keep_screen_on_summary_off"
         android:summaryOn="@string/pref_keep_screen_on_summary_on"
         android:title="@string/pref_keep_screen_on_title"/>
-    <CheckBoxPreference
+    <SwitchPreferenceCompat
         android:defaultValue="@bool/pref_lock_portrait_default"
         android:key="lock_portrait"
         android:summaryOff="@string/pref_lock_portrait_summary_off"
@@ -28,7 +28,7 @@
         android:entryValues="@array/pref_appwidget_background_entryvalues"
         android:key="appwidget_background"
         android:title="@string/pref_appwidget_background_title"/>
-    <CheckBoxPreference
+    <SwitchPreferenceCompat
         android:defaultValue="@bool/pref_notification_enable_default"
         android:key="notification_enable"
         android:summaryOff="@string/pref_notification_enable_summary_off"
