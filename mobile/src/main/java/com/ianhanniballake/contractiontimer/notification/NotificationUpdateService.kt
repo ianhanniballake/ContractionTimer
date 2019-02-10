@@ -15,7 +15,7 @@ import android.text.format.DateUtils
 import android.util.Log
 import com.ianhanniballake.contractiontimer.BuildConfig
 import com.ianhanniballake.contractiontimer.R
-import com.ianhanniballake.contractiontimer.appwidget.AppWidgetToggleService
+import com.ianhanniballake.contractiontimer.appwidget.AppWidgetToggleReceiver
 import com.ianhanniballake.contractiontimer.provider.ContractionContract
 import com.ianhanniballake.contractiontimer.ui.MainActivity
 import com.ianhanniballake.contractiontimer.ui.Preferences
@@ -104,10 +104,10 @@ class NotificationUpdateService : IntentService(TAG) {
         // Determine whether a contraction is currently ongoing
         val endTimeColumnIndex = data.getColumnIndex(ContractionContract.Contractions.COLUMN_NAME_END_TIME)
         val contractionOngoing = data.isNull(endTimeColumnIndex)
-        val startStopIntent = Intent(this, AppWidgetToggleService::class.java)
-        startStopIntent.putExtra(AppWidgetToggleService.WIDGET_NAME_EXTRA, "notification")
-        val startStopPendingIntent = PendingIntent.getService(this, 0, startStopIntent,
-                PendingIntent.FLAG_UPDATE_CURRENT)
+        val startStopIntent = Intent(this, AppWidgetToggleReceiver::class.java)
+        startStopIntent.putExtra(AppWidgetToggleReceiver.WIDGET_NAME_EXTRA, "notification")
+        val startStopPendingIntent = PendingIntent.getBroadcast(this, 0,
+                startStopIntent, PendingIntent.FLAG_UPDATE_CURRENT)
         if (contractionOngoing) {
             builder.setContentTitle(getString(R.string.notification_timing))
             publicBuilder.setContentTitle(getString(R.string.notification_timing))

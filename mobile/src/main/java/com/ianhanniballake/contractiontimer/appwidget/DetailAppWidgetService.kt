@@ -120,10 +120,10 @@ class DetailAppWidgetService : IntentService(TAG) {
             views.setTextViewText(R.id.average_duration, formattedAverageDuration)
             views.setTextViewText(R.id.average_frequency, formattedAverageFrequency)
             // Add the intent for the toggle button
-            val toggleContractionIntent = Intent(this, AppWidgetToggleService::class.java).apply {
-                putExtra(AppWidgetToggleService.WIDGET_NAME_EXTRA, WIDGET_IDENTIFIER)
+            val toggleContractionIntent = Intent(this, AppWidgetToggleReceiver::class.java).apply {
+                putExtra(AppWidgetToggleReceiver.WIDGET_NAME_EXTRA, WIDGET_IDENTIFIER)
             }
-            val toggleContractionPendingIntent = PendingIntent.getService(this, 0,
+            val toggleContractionPendingIntent = PendingIntent.getBroadcast(this, 0,
                     toggleContractionIntent, PendingIntent.FLAG_UPDATE_CURRENT)
             if (contractionOngoing) {
                 views.setViewVisibility(R.id.contraction_toggle_on, View.VISIBLE)

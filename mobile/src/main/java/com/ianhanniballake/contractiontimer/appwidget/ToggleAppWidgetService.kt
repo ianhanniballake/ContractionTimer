@@ -48,12 +48,12 @@ class ToggleAppWidgetService : IntentService(TAG) {
         else
             RemoteViews(packageName, R.layout.toggle_appwidget_dark)
         // Set the status of the contraction toggle button
-        val toggleContractionIntent = Intent(this, AppWidgetToggleService::class.java).apply {
-            putExtra(AppWidgetToggleService.WIDGET_NAME_EXTRA,
+        val toggleContractionIntent = Intent(this, AppWidgetToggleReceiver::class.java).apply {
+            putExtra(AppWidgetToggleReceiver.WIDGET_NAME_EXTRA,
                     ToggleAppWidgetService.WIDGET_IDENTIFIER)
         }
-        val toggleContractionPendingIntent = PendingIntent.getService(this, 0, toggleContractionIntent,
-                PendingIntent.FLAG_UPDATE_CURRENT)
+        val toggleContractionPendingIntent = PendingIntent.getBroadcast(this, 0,
+                toggleContractionIntent, PendingIntent.FLAG_UPDATE_CURRENT)
         if (contractionOngoing) {
             views.setViewVisibility(R.id.contraction_toggle_on, View.VISIBLE)
             views.setOnClickPendingIntent(R.id.contraction_toggle_on, toggleContractionPendingIntent)

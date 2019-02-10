@@ -106,12 +106,12 @@ class ControlAppWidgetService : IntentService(TAG) {
                 null, null, null)?.closeable()?.use { allData ->
             val contractionOngoing = (allData.moveToFirst() &&
                     allData.isNull(allData.getColumnIndex(ContractionContract.Contractions.COLUMN_NAME_END_TIME)))
-            val toggleContractionIntent = Intent(this, AppWidgetToggleService::class.java).apply {
-                putExtra(AppWidgetToggleService.WIDGET_NAME_EXTRA,
+            val toggleContractionIntent = Intent(this, AppWidgetToggleReceiver::class.java).apply {
+                putExtra(AppWidgetToggleReceiver.WIDGET_NAME_EXTRA,
                         ControlAppWidgetService.WIDGET_IDENTIFIER)
             }
-            val toggleContractionPendingIntent = PendingIntent.getService(this, 0, toggleContractionIntent,
-                    PendingIntent.FLAG_UPDATE_CURRENT)
+            val toggleContractionPendingIntent = PendingIntent.getBroadcast(this, 0,
+                    toggleContractionIntent, PendingIntent.FLAG_UPDATE_CURRENT)
             if (contractionOngoing) {
                 views.setViewVisibility(R.id.contraction_toggle_on, View.VISIBLE)
                 views.setOnClickPendingIntent(R.id.contraction_toggle_on, toggleContractionPendingIntent)
