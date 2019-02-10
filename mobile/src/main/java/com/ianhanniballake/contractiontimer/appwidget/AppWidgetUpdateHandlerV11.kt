@@ -4,7 +4,6 @@ import android.annotation.TargetApi
 import android.appwidget.AppWidgetManager
 import android.content.ComponentName
 import android.content.Context
-import android.content.Intent
 import android.os.Build
 import com.ianhanniballake.contractiontimer.R
 import kotlinx.coroutines.async
@@ -21,17 +20,16 @@ class AppWidgetUpdateHandlerV11 : AppWidgetUpdateHandlerBase() {
      * @param appWidgetManager AppWidgetManager instance
      */
     @TargetApi(Build.VERSION_CODES.HONEYCOMB)
-    private suspend fun updateDetailWidgets(
+    private suspend fun updateDetailWidgetsAsync(
             context: Context,
             appWidgetManager: AppWidgetManager
     ) = coroutineScope {
         async {
-            val detailAppWidgetIds = appWidgetManager.getAppWidgetIds(
+            val appWidgetIds = appWidgetManager.getAppWidgetIds(
                     ComponentName(context, DetailAppWidgetProvider::class.java))
-            val detailWidgetsExist = detailAppWidgetIds.isNotEmpty()
-            if (detailWidgetsExist) {
-                context.startService(Intent(context, DetailAppWidgetService::class.java))
-                appWidgetManager.notifyAppWidgetViewDataChanged(detailAppWidgetIds, R.id.list_view)
+            if (appWidgetIds.isNotEmpty()) {
+                DetailAppWidgetProvider.updateDetailAppWidget(context, appWidgetIds)
+                appWidgetManager.notifyAppWidgetViewDataChanged(appWidgetIds, R.id.list_view)
             }
         }
     }
@@ -41,5 +39,5 @@ class AppWidgetUpdateHandlerV11 : AppWidgetUpdateHandlerBase() {
             appWidgetManager: AppWidgetManager
     ) = listOf(
             *super.collectWidgetUpdateAsync(context, appWidgetManager).toTypedArray(),
-            updateDetailWidgets(context, appWidgetManager))
+            updateDetailWidgetsAsync(context, appWidgetManager))
 }
