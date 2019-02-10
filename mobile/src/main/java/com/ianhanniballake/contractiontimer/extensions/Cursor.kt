@@ -1,4 +1,4 @@
-package com.ianhanniballake.contractiontimer
+package com.ianhanniballake.contractiontimer.extensions
 
 import android.database.Cursor
 import android.database.CursorWrapper

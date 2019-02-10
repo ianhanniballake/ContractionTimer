@@ -9,7 +9,7 @@ import android.provider.BaseColumns
 import android.util.Log
 import com.google.firebase.analytics.FirebaseAnalytics
 import com.ianhanniballake.contractiontimer.BuildConfig
-import com.ianhanniballake.contractiontimer.closeable
+import com.ianhanniballake.contractiontimer.extensions.closeable
 import com.ianhanniballake.contractiontimer.extensions.goAsync
 import com.ianhanniballake.contractiontimer.notification.NotificationUpdateService
 import com.ianhanniballake.contractiontimer.provider.ContractionContract

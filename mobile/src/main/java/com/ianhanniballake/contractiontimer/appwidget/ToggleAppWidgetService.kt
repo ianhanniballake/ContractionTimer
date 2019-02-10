@@ -12,7 +12,7 @@ import android.view.View
 import android.widget.RemoteViews
 import com.ianhanniballake.contractiontimer.BuildConfig
 import com.ianhanniballake.contractiontimer.R
-import com.ianhanniballake.contractiontimer.closeable
+import com.ianhanniballake.contractiontimer.extensions.closeable
 import com.ianhanniballake.contractiontimer.provider.ContractionContract
 import com.ianhanniballake.contractiontimer.ui.Preferences
 
