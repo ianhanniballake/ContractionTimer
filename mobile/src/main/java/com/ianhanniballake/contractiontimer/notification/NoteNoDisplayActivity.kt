@@ -30,7 +30,7 @@ class NoteNoDisplayActivity : Activity() {
          */
         fun checkServiceState(context: Context) {
             object : AsyncQueryHandler(context.contentResolver) {
-                override fun onQueryComplete(token: Int, cookie: Any, cursor: Cursor?) {
+                override fun onQueryComplete(token: Int, cookie: Any?, cursor: Cursor?) {
                     val hasContractions = cursor != null && cursor.moveToFirst()
                     if (BuildConfig.DEBUG)
                         Log.d(TAG, (if (hasContractions) "Has" else "No") + " contractions")

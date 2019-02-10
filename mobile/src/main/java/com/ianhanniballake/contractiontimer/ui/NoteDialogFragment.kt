@@ -53,7 +53,7 @@ class NoteDialogFragment : DialogFragment() {
         input.setText(existingNote)
         val context = activity
         val asyncQueryHandler = object : AsyncQueryHandler(context.contentResolver) {
-            override fun onUpdateComplete(token: Int, cookie: Any, result: Int) {
+            override fun onUpdateComplete(token: Int, cookie: Any?, result: Int) {
                 AppWidgetUpdateHandler.createInstance().updateAllWidgets(context)
                 NotificationUpdateService.updateNotification(context)
             }

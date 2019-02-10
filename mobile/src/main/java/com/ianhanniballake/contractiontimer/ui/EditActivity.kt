@@ -44,8 +44,7 @@ class EditActivity : AppCompatActivity() {
                 finish()
                 return
             }
-        }
-        else {
+        } else if (intent?.action != Intent.ACTION_INSERT) {
             // Invalid action
             finish()
         }

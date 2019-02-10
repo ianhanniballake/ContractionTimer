@@ -88,7 +88,7 @@ class Preferences : AppCompatActivity() {
          */
         private lateinit var averageTimeFrameListPreference: ListPreference
 
-        override fun onCreatePreferences(savedInstanceState: Bundle, rootKey: String) {
+        override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
             addPreferencesFromResource(R.xml.preferences_settings)
             appwidgetBackgroundListPreference = preferenceScreen.findPreference(
                     Preferences.APPWIDGET_BACKGROUND_PREFERENCE_KEY) as ListPreference

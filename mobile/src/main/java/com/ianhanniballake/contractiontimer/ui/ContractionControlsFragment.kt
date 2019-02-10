@@ -62,12 +62,12 @@ class ContractionControlsFragment : Fragment(), LoaderManager.LoaderCallbacks<Cu
         super.onCreate(savedInstanceState)
         val context = activity
         contractionQueryHandler = object : AsyncQueryHandler(context.contentResolver) {
-            override fun onInsertComplete(token: Int, cookie: Any, uri: Uri) {
+            override fun onInsertComplete(token: Int, cookie: Any?, uri: Uri) {
                 AppWidgetUpdateHandler.createInstance().updateAllWidgets(context)
                 NotificationUpdateService.updateNotification(context)
             }
 
-            override fun onUpdateComplete(token: Int, cookie: Any, result: Int) {
+            override fun onUpdateComplete(token: Int, cookie: Any?, result: Int) {
                 AppWidgetUpdateHandler.createInstance().updateAllWidgets(context)
                 NotificationUpdateService.updateNotification(context)
             }

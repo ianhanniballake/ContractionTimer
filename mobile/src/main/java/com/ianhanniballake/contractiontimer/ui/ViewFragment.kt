@@ -90,7 +90,7 @@ class ViewFragment : Fragment(), LoaderManager.LoaderCallbacks<Cursor> {
         setHasOptionsMenu(true)
         val applicationContext = activity.applicationContext
         contractionQueryHandler = object : AsyncQueryHandler(activity.contentResolver) {
-            override fun onDeleteComplete(token: Int, cookie: Any, result: Int) {
+            override fun onDeleteComplete(token: Int, cookie: Any?, result: Int) {
                 AppWidgetUpdateHandler.createInstance().updateAllWidgets(applicationContext)
                 NotificationUpdateService.updateNotification(applicationContext)
                 activity?.finish()
@@ -148,7 +148,7 @@ class ViewFragment : Fragment(), LoaderManager.LoaderCallbacks<Cursor> {
         }
     }
 
-    override fun onCreateLoader(id: Int, args: Bundle): Loader<Cursor> {
+    override fun onCreateLoader(id: Int, args: Bundle?): Loader<Cursor> {
         val contractionUri = ContentUris.withAppendedId(
                 ContractionContract.Contractions.CONTENT_ID_URI_PATTERN,
                 contractionId)

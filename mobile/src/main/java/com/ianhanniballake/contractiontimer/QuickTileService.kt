@@ -36,12 +36,12 @@ class QuickTileService : TileService() {
     }
     private val contractionQueryHandler by lazy {
         object : AsyncQueryHandler(contentResolver) {
-            override fun onInsertComplete(token: Int, cookie: Any, uri: Uri) {
+            override fun onInsertComplete(token: Int, cookie: Any?, uri: Uri) {
                 AppWidgetUpdateHandler.createInstance().updateAllWidgets(this@QuickTileService)
                 NotificationUpdateService.updateNotification(this@QuickTileService)
             }
 
-            override fun onUpdateComplete(token: Int, cookie: Any, result: Int) {
+            override fun onUpdateComplete(token: Int, cookie: Any?, result: Int) {
                 AppWidgetUpdateHandler.createInstance().updateAllWidgets(this@QuickTileService)
                 NotificationUpdateService.updateNotification(this@QuickTileService)
             }

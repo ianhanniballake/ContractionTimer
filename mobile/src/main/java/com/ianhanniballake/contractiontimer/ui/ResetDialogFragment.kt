@@ -33,7 +33,7 @@ class ResetDialogFragment : DialogFragment() {
         val layout = inflater.inflate(R.layout.dialog_reset, null)
         val context = activity
         val asyncQueryHandler = object : AsyncQueryHandler(context.contentResolver) {
-            override fun onDeleteComplete(token: Int, cookie: Any, result: Int) {
+            override fun onDeleteComplete(token: Int, cookie: Any?, result: Int) {
                 AppWidgetUpdateHandler.createInstance().updateAllWidgets(context)
                 NotificationUpdateService.updateNotification(context)
             }

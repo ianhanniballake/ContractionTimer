@@ -415,7 +415,7 @@ class ContractionListFragment : Fragment(), LoaderManager.LoaderCallbacks<Cursor
     private class DeleteContractionQueryHandler(context: Context) : AsyncQueryHandler(context.contentResolver) {
         private val mContext: WeakReference<Context> = WeakReference(context.applicationContext)
 
-        override fun onDeleteComplete(token: Int, cookie: Any, result: Int) {
+        override fun onDeleteComplete(token: Int, cookie: Any?, result: Int) {
             val context = mContext.get()
             if (context != null) {
                 AppWidgetUpdateHandler.createInstance().updateAllWidgets(context)

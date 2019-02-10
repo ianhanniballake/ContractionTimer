@@ -206,14 +206,14 @@ class EditFragment : Fragment(), LoaderManager.LoaderCallbacks<Cursor> {
         setHasOptionsMenu(true)
         val applicationContext = activity.applicationContext
         contractionQueryHandler = object : AsyncQueryHandler(activity.contentResolver) {
-            override fun onInsertComplete(token: Int, cookie: Any, uri: Uri) {
+            override fun onInsertComplete(token: Int, cookie: Any?, uri: Uri) {
                 AppWidgetUpdateHandler.createInstance().updateAllWidgets(applicationContext)
                 NotificationUpdateService.updateNotification(applicationContext)
                 val activity = activity
                 activity?.finish()
             }
 
-            override fun onUpdateComplete(token: Int, cookie: Any, result: Int) {
+            override fun onUpdateComplete(token: Int, cookie: Any?, result: Int) {
                 AppWidgetUpdateHandler.createInstance().updateAllWidgets(applicationContext)
                 NotificationUpdateService.updateNotification(applicationContext)
                 val activity = activity
