@@ -5,7 +5,7 @@ import android.app.Application
 import com.google.firebase.FirebaseApp
 import com.google.firebase.analytics.FirebaseAnalytics
 import com.ianhanniballake.contractiontimer.appwidget.AppWidgetUpdateHandler
-import com.ianhanniballake.contractiontimer.notification.NotificationUpdateService
+import com.ianhanniballake.contractiontimer.notification.NotificationUpdateReceiver
 import com.ianhanniballake.contractiontimer.strictmode.StrictModeController
 
 /**
@@ -27,6 +27,6 @@ class ContractionTimerApplication : Application() {
         }
         super.onCreate()
         AppWidgetUpdateHandler.createInstance().updateAllWidgets(this)
-        NotificationUpdateService.updateNotification(this)
+        NotificationUpdateReceiver.updateNotification(this)
     }
 }

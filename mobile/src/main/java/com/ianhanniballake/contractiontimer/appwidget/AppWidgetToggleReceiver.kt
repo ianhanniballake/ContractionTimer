@@ -11,7 +11,7 @@ import com.google.firebase.analytics.FirebaseAnalytics
 import com.ianhanniballake.contractiontimer.BuildConfig
 import com.ianhanniballake.contractiontimer.extensions.closeable
 import com.ianhanniballake.contractiontimer.extensions.goAsync
-import com.ianhanniballake.contractiontimer.notification.NotificationUpdateService
+import com.ianhanniballake.contractiontimer.notification.NotificationUpdateReceiver
 import com.ianhanniballake.contractiontimer.provider.ContractionContract
 
 /**
@@ -56,6 +56,6 @@ class AppWidgetToggleReceiver : BroadcastReceiver() {
             }
         }
         AppWidgetUpdateHandler.createInstance().updateAllWidgets(context)
-        NotificationUpdateService.updateNotification(context)
+        NotificationUpdateReceiver.updateNotification(context)
     }
 }

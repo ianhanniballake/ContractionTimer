@@ -141,7 +141,7 @@
             </intent-filter>
         </activity>
 
-        <service android:name=".notification.NotificationUpdateService"/>
+        <receiver android:name=".notification.NotificationUpdateReceiver"/>
         <receiver android:name=".appwidget.AppWidgetToggleReceiver"/>
         <service
             android:name=".appwidget.DetailAppWidgetRemoteViewsService"

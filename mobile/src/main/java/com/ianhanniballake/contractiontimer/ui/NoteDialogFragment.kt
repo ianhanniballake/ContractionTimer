@@ -13,7 +13,7 @@ import com.google.firebase.analytics.FirebaseAnalytics
 import com.ianhanniballake.contractiontimer.BuildConfig
 import com.ianhanniballake.contractiontimer.R
 import com.ianhanniballake.contractiontimer.appwidget.AppWidgetUpdateHandler
-import com.ianhanniballake.contractiontimer.notification.NotificationUpdateService
+import com.ianhanniballake.contractiontimer.notification.NotificationUpdateReceiver
 import com.ianhanniballake.contractiontimer.provider.ContractionContract
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -68,7 +68,7 @@ class NoteDialogFragment : DialogFragment() {
                     GlobalScope.launch {
                         context.contentResolver.update(updateUri, values, null, null)
                         AppWidgetUpdateHandler.createInstance().updateAllWidgets(context)
-                        NotificationUpdateService.updateNotification(context)
+                        NotificationUpdateReceiver.updateNotification(context)
                     }
                 }.setNegativeButton(R.string.note_dialog_cancel) { _, _ ->
                     if (BuildConfig.DEBUG)

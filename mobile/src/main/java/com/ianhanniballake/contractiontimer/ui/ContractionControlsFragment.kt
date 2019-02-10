@@ -20,7 +20,7 @@ import com.google.firebase.analytics.FirebaseAnalytics
 import com.ianhanniballake.contractiontimer.BuildConfig
 import com.ianhanniballake.contractiontimer.R
 import com.ianhanniballake.contractiontimer.appwidget.AppWidgetUpdateHandler
-import com.ianhanniballake.contractiontimer.notification.NotificationUpdateService
+import com.ianhanniballake.contractiontimer.notification.NotificationUpdateReceiver
 import com.ianhanniballake.contractiontimer.provider.ContractionContract
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -87,7 +87,7 @@ class ContractionControlsFragment : Fragment(), LoaderManager.LoaderCallbacks<Cu
                     context.contentResolver.insert(ContractionContract.Contractions.CONTENT_URI,
                             ContentValues())
                     AppWidgetUpdateHandler.createInstance().updateAllWidgets(context)
-                    NotificationUpdateService.updateNotification(context)
+                    NotificationUpdateReceiver.updateNotification(context)
                 }
             } else {
                 if (BuildConfig.DEBUG)
@@ -104,7 +104,7 @@ class ContractionControlsFragment : Fragment(), LoaderManager.LoaderCallbacks<Cu
                     context.contentResolver.update(updateUri,
                             newEndTime, null, null)
                     AppWidgetUpdateHandler.createInstance().updateAllWidgets(context)
-                    NotificationUpdateService.updateNotification(context)
+                    NotificationUpdateReceiver.updateNotification(context)
                 }
             }
         }

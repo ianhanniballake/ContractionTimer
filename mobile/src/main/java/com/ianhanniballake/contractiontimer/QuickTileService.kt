@@ -16,7 +16,7 @@ import android.text.format.DateUtils
 import android.util.Log
 import com.google.firebase.analytics.FirebaseAnalytics
 import com.ianhanniballake.contractiontimer.appwidget.AppWidgetUpdateHandler
-import com.ianhanniballake.contractiontimer.notification.NotificationUpdateService
+import com.ianhanniballake.contractiontimer.notification.NotificationUpdateReceiver
 import com.ianhanniballake.contractiontimer.provider.ContractionContract
 import com.ianhanniballake.contractiontimer.ui.Preferences
 import kotlinx.coroutines.GlobalScope
@@ -135,7 +135,7 @@ class QuickTileService : TileService() {
                 contentResolver.insert(ContractionContract.Contractions.CONTENT_URI,
                         ContentValues())
                 AppWidgetUpdateHandler.createInstance().updateAllWidgets(this@QuickTileService)
-                NotificationUpdateService.updateNotification(this@QuickTileService)
+                NotificationUpdateReceiver.updateNotification(this@QuickTileService)
             }
         } else {
             if (BuildConfig.DEBUG)
@@ -149,7 +149,7 @@ class QuickTileService : TileService() {
             GlobalScope.launch {
                 contentResolver.update(updateUri, newEndTime, null, null)
                 AppWidgetUpdateHandler.createInstance().updateAllWidgets(this@QuickTileService)
-                NotificationUpdateService.updateNotification(this@QuickTileService)
+                NotificationUpdateReceiver.updateNotification(this@QuickTileService)
             }
         }
     }

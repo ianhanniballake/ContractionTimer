@@ -33,7 +33,7 @@ import com.ianhanniballake.contractiontimer.BuildConfig
 import com.ianhanniballake.contractiontimer.R
 import com.ianhanniballake.contractiontimer.appwidget.AppWidgetUpdateHandler
 import com.ianhanniballake.contractiontimer.extensions.closeable
-import com.ianhanniballake.contractiontimer.notification.NotificationUpdateService
+import com.ianhanniballake.contractiontimer.notification.NotificationUpdateReceiver
 import com.ianhanniballake.contractiontimer.provider.ContractionContract
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
@@ -358,7 +358,7 @@ class EditFragment : Fragment(), LoaderManager.LoaderCallbacks<Cursor> {
                     GlobalScope.launch {
                         context.contentResolver.insert(activity.intent.data!!, values)
                         AppWidgetUpdateHandler.createInstance().updateAllWidgets(activity)
-                        NotificationUpdateService.updateNotification(activity)
+                        NotificationUpdateReceiver.updateNotification(activity)
                         activity.finish()
                     }
                 } else {
@@ -368,7 +368,7 @@ class EditFragment : Fragment(), LoaderManager.LoaderCallbacks<Cursor> {
                     GlobalScope.launch {
                         context.contentResolver.update(activity.intent.data!!, values, null, null)
                         AppWidgetUpdateHandler.createInstance().updateAllWidgets(activity)
-                        NotificationUpdateService.updateNotification(activity)
+                        NotificationUpdateReceiver.updateNotification(activity)
                         activity.finish()
                     }
                 }

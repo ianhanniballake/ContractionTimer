@@ -110,7 +110,7 @@ class NoteTranslucentActivity : Activity() {
                     val noteEvent = if (note.isNullOrBlank()) "note_add" else "note_edit_$voiceInputSource"
                     FirebaseAnalytics.getInstance(context).logEvent(noteEvent, null)
                     AppWidgetUpdateHandler.createInstance().updateAllWidgets(context)
-                    NotificationUpdateService.updateNotification(context)
+                    NotificationUpdateReceiver.updateNotification(context)
                 } else {
                     Log.e(TAG, "Error updating contraction's note")
                 }

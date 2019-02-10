@@ -17,7 +17,7 @@ import com.google.firebase.analytics.FirebaseAnalytics
 import com.ianhanniballake.contractiontimer.BuildConfig
 import com.ianhanniballake.contractiontimer.R
 import com.ianhanniballake.contractiontimer.appwidget.AppWidgetUpdateHandler
-import com.ianhanniballake.contractiontimer.notification.NotificationUpdateService
+import com.ianhanniballake.contractiontimer.notification.NotificationUpdateReceiver
 
 /**
  * Activity managing the various application preferences
@@ -169,7 +169,7 @@ class Preferences : AppCompatActivity() {
                         Log.d(TAG, "Notification Enabled: $newNotifcationEnabled")
                     bundle.putString(FirebaseAnalytics.Param.VALUE, newNotifcationEnabled.toString())
                     analytics.logEvent("preference_notification_enabled", bundle)
-                    NotificationUpdateService.updateNotification(context)
+                    NotificationUpdateReceiver.updateNotification(context)
                 }
                 Preferences.AVERAGE_TIME_FRAME_PREFERENCE_KEY -> {
                     val newAverageTimeFrame = averageTimeFrameListPreference.value
@@ -184,7 +184,7 @@ class Preferences : AppCompatActivity() {
                     averageTimeFrameListPreference.summary = (getString(R.string.pref_average_time_frame_summary)
                             + "\n" + averageTimeFrameListPreference.entry)
                     AppWidgetUpdateHandler.createInstance().updateAllWidgets(context)
-                    NotificationUpdateService.updateNotification(context)
+                    NotificationUpdateReceiver.updateNotification(context)
                 }
             }
             BackupManager(context).dataChanged()
