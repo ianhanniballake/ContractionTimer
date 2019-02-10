@@ -6,8 +6,9 @@ import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
 import android.os.Build
-
 import com.ianhanniballake.contractiontimer.R
+import kotlinx.coroutines.async
+import kotlinx.coroutines.coroutineScope
 
 /**
  * Handles updating all App Widgets
@@ -20,19 +21,25 @@ class AppWidgetUpdateHandlerV11 : AppWidgetUpdateHandlerBase() {
      * @param appWidgetManager AppWidgetManager instance
      */
     @TargetApi(Build.VERSION_CODES.HONEYCOMB)
-    private fun updateDetailWidgets(context: Context, appWidgetManager: AppWidgetManager) {
-        val detailAppWidgetIds = appWidgetManager.getAppWidgetIds(
-                ComponentName(context, DetailAppWidgetProvider::class.java))
-        val detailWidgetsExist = detailAppWidgetIds.isNotEmpty()
-        if (detailWidgetsExist) {
-            context.startService(Intent(context, DetailAppWidgetService::class.java))
-            appWidgetManager.notifyAppWidgetViewDataChanged(detailAppWidgetIds, R.id.list_view)
+    private suspend fun updateDetailWidgets(
+            context: Context,
+            appWidgetManager: AppWidgetManager
+    ) = coroutineScope {
+        async {
+            val detailAppWidgetIds = appWidgetManager.getAppWidgetIds(
+                    ComponentName(context, DetailAppWidgetProvider::class.java))
+            val detailWidgetsExist = detailAppWidgetIds.isNotEmpty()
+            if (detailWidgetsExist) {
+                context.startService(Intent(context, DetailAppWidgetService::class.java))
+                appWidgetManager.notifyAppWidgetViewDataChanged(detailAppWidgetIds, R.id.list_view)
+            }
         }
     }
 
-    override fun updateAllWidgets(context: Context) {
-        super.updateAllWidgets(context)
-        val appWidgetManager = AppWidgetManager.getInstance(context)
-        updateDetailWidgets(context, appWidgetManager)
-    }
+    override suspend fun collectWidgetUpdateAsync(
+            context: Context,
+            appWidgetManager: AppWidgetManager
+    ) = listOf(
+            *super.collectWidgetUpdateAsync(context, appWidgetManager).toTypedArray(),
+            updateDetailWidgets(context, appWidgetManager))
 }
