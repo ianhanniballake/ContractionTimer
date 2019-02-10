@@ -29,7 +29,7 @@ class NoteIntentService : IntentService(TAG) {
     }
 
     override fun onHandleIntent(intent: Intent?) {
-        val text = intent?.getStringExtra(Intent.EXTRA_TEXT) ?: return
+        val text = intent?.getStringExtra(Intent.EXTRA_TEXT)
         if (BuildConfig.DEBUG)
             Log.d(TAG, "Received text: $text")
         val projection = arrayOf(BaseColumns._ID,
@@ -45,7 +45,7 @@ class NoteIntentService : IntentService(TAG) {
             val note = data.getString(data.getColumnIndex(
                     ContractionContract.Contractions.COLUMN_NAME_NOTE))
 
-            if (text.isBlank()) {
+            if (text.isNullOrBlank()) {
                 val taskStackBuilder = TaskStackBuilder.create(this)
                 val mainIntent = Intent(this, MainActivity::class.java).apply {
                     putExtra(MainActivity.LAUNCHED_FROM_NOTIFICATION_ACTION_NOTE_EXTRA, true)
