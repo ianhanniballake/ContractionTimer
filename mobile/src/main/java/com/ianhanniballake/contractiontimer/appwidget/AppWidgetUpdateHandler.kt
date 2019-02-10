@@ -13,7 +13,6 @@ abstract class AppWidgetUpdateHandler {
          *
          * @return an appropriate AppWidgetUpdateHandler
          */
-        @JvmStatic
         fun createInstance(): AppWidgetUpdateHandler {
             return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB)
                 AppWidgetUpdateHandlerV11()
