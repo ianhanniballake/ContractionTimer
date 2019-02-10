@@ -37,9 +37,9 @@ class ContractionControlsFragment : Fragment(), LoaderManager.LoaderCallbacks<Cu
      * Cursor Adapter which holds the latest contraction
      */
     private lateinit var adapter: CursorAdapter
-    /**
-     * Handler for asynchronous inserts/updates of contractions
-     */
+
+    private lateinit var fab: FloatingActionButton
+
     private var contractionOngoing = false
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -71,7 +71,8 @@ class ContractionControlsFragment : Fragment(), LoaderManager.LoaderCallbacks<Cu
     ): View? = inflater.inflate(R.layout.fragment_contraction_controls, container, false)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        view.findViewById<FloatingActionButton>(R.id.fab).setOnClickListener {
+        fab = view.findViewById(R.id.fab)
+        fab.setOnClickListener {
             // Disable the button to ensure we give the database a chance to
             // complete the insert/update
             view.isEnabled = false
@@ -115,14 +116,13 @@ class ContractionControlsFragment : Fragment(), LoaderManager.LoaderCallbacks<Cu
 
     override fun onLoadFinished(loader: Loader<Cursor>, data: Cursor?) {
         adapter.swapCursor(data)
-        val view = view?.findViewById<FloatingActionButton>(R.id.fab) ?: return
-        view.isEnabled = true
+        fab.isEnabled = true
         contractionOngoing = (data != null && data.moveToFirst()
                 && data.isNull(data.getColumnIndex(ContractionContract.Contractions.COLUMN_NAME_END_TIME)))
         if (contractionOngoing) {
-            view.setImageResource(R.drawable.ic_notif_action_stop)
+            fab.setImageResource(R.drawable.ic_notif_action_stop)
         } else {
-            view.setImageResource(R.drawable.ic_notif_action_start)
+            fab.setImageResource(R.drawable.ic_notif_action_start)
         }
     }
 }
