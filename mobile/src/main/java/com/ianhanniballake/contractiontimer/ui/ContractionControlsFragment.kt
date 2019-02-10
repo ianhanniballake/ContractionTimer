@@ -71,7 +71,7 @@ class ContractionControlsFragment : Fragment(), LoaderManager.LoaderCallbacks<Cu
     ): View? = inflater.inflate(R.layout.fragment_contraction_controls, container, false)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        view.setOnClickListener {
+        view.findViewById<FloatingActionButton>(R.id.fab).setOnClickListener {
             // Disable the button to ensure we give the database a chance to
             // complete the insert/update
             view.isEnabled = false
@@ -115,7 +115,7 @@ class ContractionControlsFragment : Fragment(), LoaderManager.LoaderCallbacks<Cu
 
     override fun onLoadFinished(loader: Loader<Cursor>, data: Cursor?) {
         adapter.swapCursor(data)
-        val view = view as FloatingActionButton? ?: return
+        val view = view?.findViewById<FloatingActionButton>(R.id.fab) ?: return
         view.isEnabled = true
         contractionOngoing = (data != null && data.moveToFirst()
                 && data.isNull(data.getColumnIndex(ContractionContract.Contractions.COLUMN_NAME_END_TIME)))
