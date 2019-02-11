@@ -20,8 +20,10 @@ import com.ianhanniballake.contractiontimer.extensions.goAsync
 import com.ianhanniballake.contractiontimer.provider.ContractionContract
 import com.ianhanniballake.contractiontimer.ui.MainActivity
 import com.ianhanniballake.contractiontimer.ui.Preferences
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 /**
  * BroadcastReceiver which updates the ongoing notification
@@ -37,7 +39,7 @@ class NotificationUpdateReceiver : BroadcastReceiver() {
             }
         }
 
-        private fun update(context: Context) {
+        private suspend fun update(context: Context) = withContext(Dispatchers.IO) {
             NoteTranslucentActivity.checkServiceState(context)
             val notificationManager = NotificationManagerCompat.from(context)
             val preferences = PreferenceManager.getDefaultSharedPreferences(context)
@@ -48,7 +50,7 @@ class NotificationUpdateReceiver : BroadcastReceiver() {
                 if (BuildConfig.DEBUG)
                     Log.d(TAG, "Notifications disabled, cancelling notification")
                 notificationManager.cancel(NOTIFICATION_ID)
-                return
+                return@withContext
             }
             val projection = arrayOf(BaseColumns._ID,
                     ContractionContract.Contractions.COLUMN_NAME_START_TIME,
@@ -68,7 +70,7 @@ class NotificationUpdateReceiver : BroadcastReceiver() {
                     Log.d(TAG, "No data found, cancelling notification")
                 notificationManager.cancel(NOTIFICATION_ID)
                 data?.close()
-                return
+                return@withContext
             }
             // Set an alarm to update the notification after first start time + average time frame amount of time
             // This ensures that if no contraction has started since then (likely, otherwise we would have been called in
