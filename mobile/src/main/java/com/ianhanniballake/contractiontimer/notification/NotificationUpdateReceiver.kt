@@ -1,12 +1,17 @@
 package com.ianhanniballake.contractiontimer.notification
 
 import android.app.AlarmManager
+import android.app.Notification
+import android.app.NotificationChannel
+import android.app.NotificationManager
 import android.app.PendingIntent
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
+import android.os.Build
 import android.preference.PreferenceManager
 import android.provider.BaseColumns
+import android.support.annotation.RequiresApi
 import android.support.v4.app.NotificationCompat
 import android.support.v4.app.NotificationManagerCompat
 import android.support.v4.app.RemoteInput
@@ -32,6 +37,7 @@ class NotificationUpdateReceiver : BroadcastReceiver() {
     companion object {
         private const val TAG = "NotificationUpdate"
         private const val NOTIFICATION_ID = 0
+        private const val NOTIFICATION_CHANNEL = "timing"
 
         fun updateNotification(context: Context) {
             GlobalScope.launch {
@@ -51,6 +57,9 @@ class NotificationUpdateReceiver : BroadcastReceiver() {
                     Log.d(TAG, "Notifications disabled, cancelling notification")
                 notificationManager.cancel(NOTIFICATION_ID)
                 return@withContext
+            }
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                createNotificationChannel(context)
             }
             val projection = arrayOf(BaseColumns._ID,
                     ContractionContract.Contractions.COLUMN_NAME_START_TIME,
@@ -223,8 +232,49 @@ class NotificationUpdateReceiver : BroadcastReceiver() {
             builder.addAction(noteIconResId, noteTitle, notePendingIntent)
             wearableExtender.addAction(NotificationCompat.Action.Builder(wearIconResId, noteTitle,
                     notePendingIntent).addRemoteInput(remoteInput).build())
-            builder.setPublicVersion(publicBuilder.build())
-            notificationManager.notify(NOTIFICATION_ID, builder.extend(wearableExtender).build())
+            val publicNotification = publicBuilder.build()
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                if (!setChannelId(publicNotification)) {
+                    // Setting the channel failed, better to avoid posting a notification
+                    // without a channel ID vs crash
+                    return@withContext
+                }
+            }
+            builder.setPublicVersion(publicNotification)
+            val notification = builder.extend(wearableExtender).build()
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                if (!setChannelId(notification)) {
+                    // Setting the channel failed, better to avoid posting a notification
+                    // without a channel ID vs crash
+                    return@withContext
+                }
+            }
+            notificationManager.notify(NOTIFICATION_ID, notification)
+        }
+
+        @RequiresApi(Build.VERSION_CODES.O)
+        private fun createNotificationChannel(context: Context) {
+            val notificationManager = context.getSystemService(
+                    NotificationManager::class.java)
+            val channel = NotificationChannel(NOTIFICATION_CHANNEL,
+                    context.getString(R.string.notification_timing),
+                    NotificationManager.IMPORTANCE_LOW)
+            channel.setShowBadge(false)
+            notificationManager.createNotificationChannel(channel)
+        }
+
+        /**
+         * Since NotificationCompat doesn't have channel support in the version
+         * we use, reflect into the channel id in the Notification object
+         */
+        @RequiresApi(Build.VERSION_CODES.O)
+        private fun setChannelId(notification: Notification) = try {
+            val f = Notification::class.java.getDeclaredField("mChannelId")
+            f.isAccessible = true
+            f.set(notification, NOTIFICATION_CHANNEL)
+            true
+        } catch(e: Exception) {
+            false
         }
     }
 
