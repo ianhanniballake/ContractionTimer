@@ -19,9 +19,9 @@
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:textIsSelectable="false"/>
 
-    <android.support.v4.widget.Space
+    <Space
         android:layout_width="@dimen/popup_menu_width"
         android:layout_height="match_parent"
-        android:focusable="false"/>
+        android:focusable="false" />
 
 </LinearLayout>

@@ -38,10 +38,10 @@
             android:text="@string/list_header_frequency"
             android:textAppearance="?android:attr/textAppearanceMedium"/>
 
-        <android.support.v4.widget.Space
+        <Space
             android:layout_width="48dp"
             android:layout_height="match_parent"
-            android:focusable="false"/>
+            android:focusable="false" />
     </LinearLayout>
 
     <LinearLayout

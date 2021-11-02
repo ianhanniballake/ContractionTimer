@@ -6,27 +6,26 @@ import android.content.pm.ActivityInfo
 import android.database.Cursor
 import android.os.Bundle
 import android.preference.PreferenceManager
-import android.support.v4.app.Fragment
-import android.support.v4.app.FragmentManager
-import android.support.v4.app.FragmentStatePagerAdapter
-import android.support.v4.app.LoaderManager
-import android.support.v4.content.CursorLoader
-import android.support.v4.content.Loader
-import android.support.v4.view.ViewCompat
-import android.support.v4.view.ViewPager
-import android.support.v4.widget.CursorAdapter
-import android.support.v7.app.AppCompatActivity
-import android.support.v7.widget.Toolbar
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.Toolbar
+import androidx.core.view.ViewCompat
+import androidx.cursoradapter.widget.CursorAdapter
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
+import androidx.fragment.app.FragmentStatePagerAdapter
+import androidx.loader.app.LoaderManager
+import androidx.loader.content.CursorLoader
+import androidx.loader.content.Loader
+import androidx.viewpager.widget.ViewPager
 import com.google.firebase.analytics.FirebaseAnalytics
-import com.google.firebase.crash.FirebaseCrash
+import com.google.firebase.crashlytics.FirebaseCrashlytics
 import com.ianhanniballake.contractiontimer.BuildConfig
 import com.ianhanniballake.contractiontimer.R
-import com.ianhanniballake.contractiontimer.provider.ContractionContract
 import com.ianhanniballake.contractiontimer.provider.ContractionContract.Contractions
 
 /**
@@ -36,7 +35,7 @@ class ViewActivity : AppCompatActivity(),
         LoaderManager.LoaderCallbacks<Cursor>,
         ViewPager.OnPageChangeListener {
     companion object {
-        private val TAG = "ViewActivity"
+        private const val TAG = "ViewActivity"
     }
 
     /**
@@ -55,9 +54,9 @@ class ViewActivity : AppCompatActivity(),
     public override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_view)
-        val toolbar = findViewById(R.id.toolbar) as Toolbar
+        val toolbar = findViewById<Toolbar>(R.id.toolbar)
         setSupportActionBar(toolbar)
-        if (findViewById(R.id.pager) == null) {
+        if (findViewById<View>(R.id.pager) == null) {
             // A null pager means we no longer need this activity
             finish()
             return
@@ -71,15 +70,17 @@ class ViewActivity : AppCompatActivity(),
                 return null
             }
         }
-        val pager = findViewById(R.id.pager) as ViewPager
+        val pager = findViewById<ViewPager>(R.id.pager)
         pager.addOnPageChangeListener(this)
         pagerAdapter = ViewFragmentPagerAdapter(supportFragmentManager)
         supportLoaderManager.initLoader(0, null, this)
     }
 
     override fun onCreateLoader(id: Int, args: Bundle?): Loader<Cursor> {
-        return CursorLoader(this, ContractionContract.Contractions.CONTENT_URI, null,
-                null, null, Contractions.COLUMN_NAME_START_TIME)
+        return CursorLoader(
+            this, Contractions.CONTENT_URI, null,
+            null, null, Contractions.COLUMN_NAME_START_TIME
+        )
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -108,7 +109,7 @@ class ViewActivity : AppCompatActivity(),
             if (BuildConfig.DEBUG)
                 Log.e(TAG, "NumberFormatException in onLoadFinished", e)
             else {
-                FirebaseCrash.report(e)
+                FirebaseCrashlytics.getInstance().recordException(e)
             }
             finish()
             return
@@ -124,7 +125,7 @@ class ViewActivity : AppCompatActivity(),
         }
         if (currentPosition == -1)
             finish()
-        val pager = findViewById(R.id.pager) as ViewPager
+        val pager = findViewById<ViewPager>(R.id.pager)
         pager.adapter = pagerAdapter
         pager.setCurrentItem(currentPosition, false)
     }
@@ -151,7 +152,8 @@ class ViewActivity : AppCompatActivity(),
         currentPosition = position
         val newContractionId = adapter.getItemId(position)
         intent.data = ContentUris.withAppendedId(
-                ContractionContract.Contractions.CONTENT_ID_URI_BASE, newContractionId)
+            Contractions.CONTENT_ID_URI_BASE, newContractionId
+        )
     }
 
     override fun onResume() {
@@ -200,12 +202,11 @@ class ViewActivity : AppCompatActivity(),
         }
 
         override fun getPageTitle(position: Int): CharSequence? {
-            return if (position + 1 == currentPosition)
-                getText(R.string.detail_previous_page)
-            else if (position - 1 == currentPosition)
-                getText(R.string.detail_next_page)
-            else
-                null
+            return when (currentPosition) {
+                position + 1 -> getText(R.string.detail_previous_page)
+                position - 1 -> getText(R.string.detail_next_page)
+                else -> null
+            }
         }
     }
 }

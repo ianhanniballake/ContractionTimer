@@ -3,9 +3,9 @@ package com.ianhanniballake.contractiontimer.ui
 import android.content.pm.ActivityInfo
 import android.os.Bundle
 import android.preference.PreferenceManager
-import android.support.v7.app.AppCompatActivity
 import android.util.Log
 import android.widget.TextView
+import androidx.appcompat.app.AppCompatActivity
 import com.ianhanniballake.contractiontimer.BuildConfig
 import com.ianhanniballake.contractiontimer.R
 
@@ -20,7 +20,7 @@ class AboutActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_about)
-        val version = findViewById(R.id.version) as TextView
+        val version = findViewById<TextView>(R.id.version)
         version.text = getString(R.string.version, BuildConfig.VERSION_NAME)
     }
 

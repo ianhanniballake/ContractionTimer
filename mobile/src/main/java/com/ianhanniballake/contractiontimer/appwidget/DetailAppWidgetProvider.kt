@@ -10,12 +10,11 @@ import android.content.Intent
 import android.os.Build
 import android.preference.PreferenceManager
 import android.provider.BaseColumns
-import android.support.v4.app.TaskStackBuilder
 import android.text.format.DateUtils
 import android.util.Log
 import android.view.View
 import android.widget.RemoteViews
-
+import androidx.core.app.TaskStackBuilder
 import com.ianhanniballake.contractiontimer.BuildConfig
 import com.ianhanniballake.contractiontimer.R
 import com.ianhanniballake.contractiontimer.extensions.closeable
@@ -54,7 +53,7 @@ class DetailAppWidgetProvider : AppWidgetProvider() {
                     Preferences.AVERAGE_TIME_FRAME_PREFERENCE_KEY,
                     context.getString(R.string.pref_average_time_frame_default))!!.toLong()
             val timeCutoff = System.currentTimeMillis() - averagesTimeFrame
-            val selectionArgs = arrayOf(java.lang.Long.toString(timeCutoff))
+            val selectionArgs = arrayOf(timeCutoff.toString())
             // Set the average duration and frequency
             var formattedAverageDuration = ""
             var formattedAverageFrequency = ""

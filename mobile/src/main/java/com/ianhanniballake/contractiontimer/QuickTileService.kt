@@ -7,13 +7,14 @@ import android.graphics.drawable.Icon
 import android.net.Uri
 import android.os.Build
 import android.os.Handler
+import android.os.Looper
 import android.preference.PreferenceManager
 import android.provider.BaseColumns
 import android.service.quicksettings.Tile
 import android.service.quicksettings.TileService
-import android.support.annotation.RequiresApi
 import android.text.format.DateUtils
 import android.util.Log
+import androidx.annotation.RequiresApi
 import com.google.firebase.analytics.FirebaseAnalytics
 import com.ianhanniballake.contractiontimer.appwidget.AppWidgetUpdateHandler
 import com.ianhanniballake.contractiontimer.notification.NotificationUpdateReceiver
@@ -29,8 +30,8 @@ class QuickTileService : TileService() {
     }
 
     private val observer by lazy {
-        object : ContentObserver(Handler()) {
-            override fun onChange(selfChange: Boolean, uri: Uri) {
+        object : ContentObserver(Handler(Looper.getMainLooper())) {
+            override fun onChange(selfChange: Boolean, uri: Uri?) {
                 updateTile()
             }
         }

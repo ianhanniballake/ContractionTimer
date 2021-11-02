@@ -4,18 +4,17 @@ import android.content.Context
 import android.database.Cursor
 import android.os.Bundle
 import android.provider.BaseColumns
-import android.support.v4.app.Fragment
-import android.support.v4.app.LoaderManager
-import android.support.v4.content.CursorLoader
-import android.support.v4.content.Loader
-import android.support.v4.widget.CursorAdapter
 import android.util.Log
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
-
+import androidx.cursoradapter.widget.CursorAdapter
+import androidx.fragment.app.Fragment
+import androidx.loader.app.LoaderManager
+import androidx.loader.content.CursorLoader
+import androidx.loader.content.Loader
 import com.google.firebase.analytics.FirebaseAnalytics
 import com.ianhanniballake.contractiontimer.BuildConfig
 import com.ianhanniballake.contractiontimer.R
@@ -55,18 +54,20 @@ class ResetMenuControllerFragment : Fragment(), LoaderManager.LoaderCallbacks<Cu
 
     override fun onCreateLoader(id: Int, args: Bundle?): Loader<Cursor> {
         val projection = arrayOf(BaseColumns._ID)
-        return CursorLoader(activity, ContractionContract.Contractions.CONTENT_URI, projection,
-                null, null, null)
+        return CursorLoader(
+            requireContext(), ContractionContract.Contractions.CONTENT_URI, projection,
+            null, null, null
+        )
     }
 
     override fun onLoaderReset(loader: Loader<Cursor>) {
         adapter.swapCursor(null)
-        activity.supportInvalidateOptionsMenu()
+        requireActivity().invalidateOptionsMenu()
     }
 
     override fun onLoadFinished(loader: Loader<Cursor>, data: Cursor) {
         adapter.swapCursor(data)
-        activity.supportInvalidateOptionsMenu()
+        requireActivity().invalidateOptionsMenu()
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
@@ -90,8 +91,8 @@ class ResetMenuControllerFragment : Fragment(), LoaderManager.LoaderCallbacks<Cu
                 val resetDialogFragment = ResetDialogFragment()
                 if (BuildConfig.DEBUG)
                     Log.d(TAG, "Showing Dialog")
-                FirebaseAnalytics.getInstance(context).logEvent("reset_open", null)
-                resetDialogFragment.show(fragmentManager, "reset")
+                FirebaseAnalytics.getInstance(requireContext()).logEvent("reset_open", null)
+                resetDialogFragment.show(parentFragmentManager, "reset")
                 true
             }
             else -> super.onOptionsItemSelected(item)

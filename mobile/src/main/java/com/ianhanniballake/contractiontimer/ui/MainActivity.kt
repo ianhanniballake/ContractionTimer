@@ -8,14 +8,6 @@ import android.database.Cursor
 import android.os.Bundle
 import android.preference.PreferenceManager
 import android.provider.BaseColumns
-import android.support.v4.app.LoaderManager
-import android.support.v4.app.ShareCompat
-import android.support.v4.content.CursorLoader
-import android.support.v4.content.FileProvider
-import android.support.v4.content.Loader
-import android.support.v4.widget.CursorAdapter
-import android.support.v7.app.AppCompatActivity
-import android.support.v7.widget.Toolbar
 import android.text.format.DateUtils
 import android.util.Log
 import android.view.Menu
@@ -24,6 +16,14 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
 import android.widget.TextView
+import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.Toolbar
+import androidx.core.app.ShareCompat
+import androidx.core.content.FileProvider
+import androidx.cursoradapter.widget.CursorAdapter
+import androidx.loader.app.LoaderManager
+import androidx.loader.content.CursorLoader
+import androidx.loader.content.Loader
 import com.google.firebase.analytics.FirebaseAnalytics
 import com.ianhanniballake.contractiontimer.BuildConfig
 import com.ianhanniballake.contractiontimer.R
@@ -72,7 +72,7 @@ class MainActivity : AppCompatActivity(), LoaderManager.LoaderCallbacks<Cursor> 
         if (intent.data == null)
             intent.data = ContractionContract.Contractions.CONTENT_URI
         setContentView(R.layout.activity_main)
-        val toolbar = findViewById(R.id.toolbar) as Toolbar
+        val toolbar = findViewById<Toolbar>(R.id.toolbar)
         setSupportActionBar(toolbar)
         supportActionBar?.elevation = resources.getDimension(R.dimen.action_bar_elevation)
         if (savedInstanceState == null)
@@ -96,17 +96,26 @@ class MainActivity : AppCompatActivity(), LoaderManager.LoaderCallbacks<Cursor> 
 
     override fun onCreateLoader(id: Int, args: Bundle?): Loader<Cursor> {
         val projection = arrayOf(BaseColumns._ID,
-                ContractionContract.Contractions.COLUMN_NAME_START_TIME,
-                ContractionContract.Contractions.COLUMN_NAME_END_TIME,
-                ContractionContract.Contractions.COLUMN_NAME_NOTE)
+            ContractionContract.Contractions.COLUMN_NAME_START_TIME,
+            ContractionContract.Contractions.COLUMN_NAME_END_TIME,
+            ContractionContract.Contractions.COLUMN_NAME_NOTE
+        )
         val selection = ContractionContract.Contractions.COLUMN_NAME_START_TIME + ">?"
         val preferences = PreferenceManager.getDefaultSharedPreferences(this)
         val averagesTimeFrame = preferences.getString(
-                Preferences.AVERAGE_TIME_FRAME_PREFERENCE_KEY,
-                getString(R.string.pref_average_time_frame_default))!!.toLong()
+            Preferences.AVERAGE_TIME_FRAME_PREFERENCE_KEY,
+            getString(R.string.pref_average_time_frame_default)
+        )!!.toLong()
         val timeCutoff = System.currentTimeMillis() - averagesTimeFrame
         val selectionArgs = arrayOf(timeCutoff.toString())
-        return CursorLoader(this, intent.data, projection, selection, selectionArgs, null)
+        return CursorLoader(
+            this,
+            intent.data!!,
+            projection,
+            selection,
+            selectionArgs,
+            null
+        )
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -116,12 +125,12 @@ class MainActivity : AppCompatActivity(), LoaderManager.LoaderCallbacks<Cursor> 
 
     override fun onLoaderReset(loader: Loader<Cursor>) {
         adapter.swapCursor(null)
-        supportInvalidateOptionsMenu()
+        invalidateOptionsMenu()
     }
 
     override fun onLoadFinished(loader: Loader<Cursor>, data: Cursor) {
         adapter.swapCursor(data)
-        supportInvalidateOptionsMenu()
+        invalidateOptionsMenu()
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -132,7 +141,7 @@ class MainActivity : AppCompatActivity(), LoaderManager.LoaderCallbacks<Cursor> 
                     Log.d(TAG, "Menu selected Share")
                 val bundle = Bundle()
                 bundle.putString(FirebaseAnalytics.Param.CONTENT_TYPE, "contraction")
-                bundle.putString(FirebaseAnalytics.Param.ITEM_ID, Integer.toString(adapter.cursor.count))
+                bundle.putString(FirebaseAnalytics.Param.ITEM_ID, adapter.cursor.count.toString())
                 analytics.logEvent(FirebaseAnalytics.Event.SHARE, bundle)
                 shareContractions()
                 return true
@@ -204,22 +213,23 @@ class MainActivity : AppCompatActivity(), LoaderManager.LoaderCallbacks<Cursor> 
         super.onStart()
         val analytics = FirebaseAnalytics.getInstance(this)
         val intent = intent
-        if (intent.hasExtra(MainActivity.LAUNCHED_FROM_WIDGET_EXTRA)) {
-            val widgetIdentifier = intent.getStringExtra(MainActivity.LAUNCHED_FROM_WIDGET_EXTRA)
+        if (intent.hasExtra(LAUNCHED_FROM_WIDGET_EXTRA)) {
+            val widgetIdentifier = intent.getStringExtra(LAUNCHED_FROM_WIDGET_EXTRA)
             if (BuildConfig.DEBUG)
                 Log.d(TAG, "Launched from $widgetIdentifier")
             analytics.logEvent("${widgetIdentifier}_launch", null)
-            intent.removeExtra(MainActivity.LAUNCHED_FROM_WIDGET_EXTRA)
+            intent.removeExtra(LAUNCHED_FROM_WIDGET_EXTRA)
         }
-        if (intent.hasExtra(MainActivity.LAUNCHED_FROM_NOTIFICATION_EXTRA)) {
+        if (intent.hasExtra(LAUNCHED_FROM_NOTIFICATION_EXTRA)) {
             if (BuildConfig.DEBUG)
                 Log.d(TAG, "Launched from Notification")
             analytics.logEvent("notification_launch", null)
-            intent.removeExtra(MainActivity.LAUNCHED_FROM_NOTIFICATION_EXTRA)
+            intent.removeExtra(LAUNCHED_FROM_NOTIFICATION_EXTRA)
         }
-        if (intent.hasExtra(MainActivity.LAUNCHED_FROM_NOTIFICATION_ACTION_NOTE_EXTRA)) {
+        if (intent.hasExtra(LAUNCHED_FROM_NOTIFICATION_ACTION_NOTE_EXTRA)) {
             val id = intent.getLongExtra(BaseColumns._ID, -1L)
-            val existingNote = intent.getStringExtra(ContractionContract.Contractions.COLUMN_NAME_NOTE)
+            val existingNote =
+                intent.getStringExtra(ContractionContract.Contractions.COLUMN_NAME_NOTE)
             val type = if (existingNote.isNullOrBlank()) "Add Note" else "Edit Note"
             if (BuildConfig.DEBUG)
                 Log.d(TAG, "Launched from Notification $type action")
@@ -230,7 +240,7 @@ class MainActivity : AppCompatActivity(), LoaderManager.LoaderCallbacks<Cursor> 
             }
             analytics.logEvent(if (existingNote.isNullOrBlank()) "note_add_launch" else "note_edit_launch", null)
             noteDialogFragment.show(supportFragmentManager, "note")
-            intent.removeExtra(MainActivity.LAUNCHED_FROM_NOTIFICATION_ACTION_NOTE_EXTRA)
+            intent.removeExtra(LAUNCHED_FROM_NOTIFICATION_ACTION_NOTE_EXTRA)
         }
         NotificationUpdateReceiver.updateNotification(this)
     }
@@ -242,18 +252,19 @@ class MainActivity : AppCompatActivity(), LoaderManager.LoaderCallbacks<Cursor> 
         val data = adapter.cursor
         if (data.count == 0)
             return
-        val averageDurationView = findViewById(R.id.average_duration) as TextView
-        val averageFrequencyView = findViewById(R.id.average_frequency) as TextView
+        val averageDurationView = findViewById<TextView>(R.id.average_duration)
+        val averageFrequencyView = findViewById<TextView>(R.id.average_frequency)
         data.moveToLast()
-        val startTimeColumnIndex = data.getColumnIndex(ContractionContract.Contractions.COLUMN_NAME_START_TIME)
+        val startTimeColumnIndex =
+            data.getColumnIndex(ContractionContract.Contractions.COLUMN_NAME_START_TIME)
         val lastStartTime = data.getLong(startTimeColumnIndex)
         val count = adapter.count
         val relativeTimeSpan = DateUtils.getRelativeTimeSpanString(lastStartTime)
         val formattedData = resources.getQuantityString(
-                R.plurals.share_average,
-                count,
-                relativeTimeSpan,
-                count,
+            R.plurals.share_average,
+            count,
+            relativeTimeSpan,
+            count,
                 averageDurationView.text,
                 averageFrequencyView.text)
         val context = this
@@ -276,7 +287,7 @@ class MainActivity : AppCompatActivity(), LoaderManager.LoaderCallbacks<Cursor> 
                 }
             }
             if (uri != null) {
-                ShareCompat.IntentBuilder.from(context)
+                ShareCompat.IntentBuilder(context)
                         .setSubject(getString(R.string.share_subject))
                         .setType("text/plain")
                         .setText(formattedData)

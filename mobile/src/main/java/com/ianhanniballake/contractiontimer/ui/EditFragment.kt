@@ -9,12 +9,6 @@ import android.content.IntentFilter
 import android.database.Cursor
 import android.os.Bundle
 import android.provider.BaseColumns
-import android.support.v4.app.Fragment
-import android.support.v4.app.LoaderManager
-import android.support.v4.content.CursorLoader
-import android.support.v4.content.Loader
-import android.support.v4.content.LocalBroadcastManager
-import android.support.v4.widget.CursorAdapter
 import android.text.Editable
 import android.text.TextWatcher
 import android.text.format.DateFormat
@@ -28,6 +22,12 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
 import android.widget.TextView
+import androidx.cursoradapter.widget.CursorAdapter
+import androidx.fragment.app.Fragment
+import androidx.loader.app.LoaderManager
+import androidx.loader.content.CursorLoader
+import androidx.loader.content.Loader
+import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import com.google.firebase.analytics.FirebaseAnalytics
 import com.ianhanniballake.contractiontimer.BuildConfig
 import com.ianhanniballake.contractiontimer.R
@@ -106,14 +106,14 @@ class EditFragment : Fragment(), LoaderManager.LoaderCallbacks<Cursor> {
                     startTime!!.get(Calendar.DAY_OF_MONTH))
             if (BuildConfig.DEBUG)
                 Log.d(TAG, "Date Receive: $action; $year-$monthOfYear-$dayOfMonth")
-            if (EditFragment.START_DATE_ACTION == action) {
+            if (START_DATE_ACTION == action) {
                 val oldStartTime = startTime!!.timeInMillis
                 startTime!!.set(Calendar.YEAR, year)
                 startTime!!.set(Calendar.MONTH, monthOfYear)
                 startTime!!.set(Calendar.DAY_OF_MONTH, dayOfMonth)
                 val timeOffset = startTime!!.timeInMillis - oldStartTime
                 endTime!!.timeInMillis = endTime!!.timeInMillis + timeOffset
-            } else if (EditFragment.END_DATE_ACTION == action) {
+            } else if (END_DATE_ACTION == action) {
                 endTime!!.set(Calendar.YEAR, year)
                 endTime!!.set(Calendar.MONTH, monthOfYear)
                 endTime!!.set(Calendar.DAY_OF_MONTH, dayOfMonth)
@@ -132,7 +132,7 @@ class EditFragment : Fragment(), LoaderManager.LoaderCallbacks<Cursor> {
             val second = intent.getIntExtra(TimePickerDialogFragment.SECOND_EXTRA, 0)
             if (BuildConfig.DEBUG)
                 Log.d(TAG, "Time Receive: $action; $hourOfDay, $minute")
-            if (EditFragment.START_TIME_ACTION == action) {
+            if (START_TIME_ACTION == action) {
                 val oldStartTime = startTime!!.timeInMillis
                 startTime!!.apply {
                     set(Calendar.HOUR_OF_DAY, hourOfDay)
@@ -142,7 +142,7 @@ class EditFragment : Fragment(), LoaderManager.LoaderCallbacks<Cursor> {
                 }
                 val timeOffset = startTime!!.timeInMillis - oldStartTime
                 endTime!!.timeInMillis = endTime!!.timeInMillis + timeOffset
-            } else if (EditFragment.END_TIME_ACTION == action) {
+            } else if (END_TIME_ACTION == action) {
                 endTime!!.apply {
                     set(Calendar.HOUR_OF_DAY, hourOfDay)
                     set(Calendar.MINUTE, minute)
@@ -240,7 +240,7 @@ class EditFragment : Fragment(), LoaderManager.LoaderCallbacks<Cursor> {
                 loaderManager.destroyLoader(0)
                 updateViews()
             }
-        } else if (Intent.ACTION_EDIT == activity.intent.action)
+        } else if (Intent.ACTION_EDIT == requireActivity().intent.action)
             loaderManager.initLoader(0, null, this)
         else {
             clear()
@@ -249,8 +249,10 @@ class EditFragment : Fragment(), LoaderManager.LoaderCallbacks<Cursor> {
     }
 
     override fun onCreateLoader(id: Int, args: Bundle?): Loader<Cursor> {
-        return CursorLoader(activity, activity.intent.data, null,
-                null, null, null)
+        return CursorLoader(
+            requireContext(), requireActivity().intent!!.data!!, null,
+            null, null, null
+        )
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
@@ -277,45 +279,45 @@ class EditFragment : Fragment(), LoaderManager.LoaderCallbacks<Cursor> {
         startTimeView.setOnClickListener {
             val timePicker = TimePickerDialogFragment()
             timePicker.arguments = Bundle().apply {
-                putString(TimePickerDialogFragment.CALLBACK_ACTION, EditFragment.START_TIME_ACTION)
+                putString(TimePickerDialogFragment.CALLBACK_ACTION, START_TIME_ACTION)
                 putSerializable(TimePickerDialogFragment.TIME_ARGUMENT, startTime)
             }
             if (BuildConfig.DEBUG)
                 Log.d(TAG, "Showing Start Time Dialog")
-            timePicker.show(fragmentManager, "startTime")
+            timePicker.show(parentFragmentManager, "startTime")
         }
         val startDateView = view.findViewById<TextView>(R.id.start_date)
         startDateView.setOnClickListener {
             val datePicker = DatePickerDialogFragment()
             datePicker.arguments = Bundle().apply {
-                putString(DatePickerDialogFragment.CALLBACK_ACTION, EditFragment.START_DATE_ACTION)
+                putString(DatePickerDialogFragment.CALLBACK_ACTION, START_DATE_ACTION)
                 putSerializable(DatePickerDialogFragment.DATE_ARGUMENT, startTime)
             }
             if (BuildConfig.DEBUG)
                 Log.d(TAG, "Showing Start Date Dialog")
-            datePicker.show(fragmentManager, "startDate")
+            datePicker.show(parentFragmentManager, "startDate")
         }
         val endTimeView = view.findViewById<TextView>(R.id.end_time)
         endTimeView.setOnClickListener {
             val timePicker = TimePickerDialogFragment()
             timePicker.arguments = Bundle().apply {
-                putString(TimePickerDialogFragment.CALLBACK_ACTION, EditFragment.END_TIME_ACTION)
+                putString(TimePickerDialogFragment.CALLBACK_ACTION, END_TIME_ACTION)
                 putSerializable(TimePickerDialogFragment.TIME_ARGUMENT, endTime)
             }
             if (BuildConfig.DEBUG)
                 Log.d(TAG, "Showing End Time Dialog")
-            timePicker.show(fragmentManager, "endTime")
+            timePicker.show(parentFragmentManager, "endTime")
         }
         val endDateView = view.findViewById<TextView>(R.id.end_date)
         endDateView.setOnClickListener {
             val datePicker = DatePickerDialogFragment()
             datePicker.arguments = Bundle().apply {
-                putString(DatePickerDialogFragment.CALLBACK_ACTION, EditFragment.END_DATE_ACTION)
+                putString(DatePickerDialogFragment.CALLBACK_ACTION, END_DATE_ACTION)
                 putSerializable(DatePickerDialogFragment.DATE_ARGUMENT, endTime)
             }
             if (BuildConfig.DEBUG)
                 Log.d(TAG, "Showing End Date Dialog")
-            datePicker.show(fragmentManager, "endDate")
+            datePicker.show(parentFragmentManager, "endDate")
         }
         val noteView = view.findViewById<EditText>(R.id.note)
         noteView.addTextChangedListener(object : TextWatcher {
@@ -350,13 +352,13 @@ class EditFragment : Fragment(), LoaderManager.LoaderCallbacks<Cursor> {
         when (item.itemId) {
             R.id.menu_save -> {
                 val values = contentValues
-                if (Intent.ACTION_INSERT == activity.intent.action) {
+                if (Intent.ACTION_INSERT == requireActivity().intent.action) {
                     if (BuildConfig.DEBUG)
                         Log.d(TAG, "Add selected save")
-                    FirebaseAnalytics.getInstance(context).logEvent("add_save", null)
-                    val activity = activity
+                    FirebaseAnalytics.getInstance(requireContext()).logEvent("add_save", null)
+                    val activity = requireActivity()
                     GlobalScope.launch {
-                        context.contentResolver.insert(activity.intent.data!!, values)
+                        activity.contentResolver.insert(activity.intent.data!!, values)
                         AppWidgetUpdateHandler.createInstance().updateAllWidgets(activity)
                         NotificationUpdateReceiver.updateNotification(activity)
                         activity.finish()
@@ -364,9 +366,13 @@ class EditFragment : Fragment(), LoaderManager.LoaderCallbacks<Cursor> {
                 } else {
                     if (BuildConfig.DEBUG)
                         Log.d(TAG, "Edit selected save")
-                    FirebaseAnalytics.getInstance(context).logEvent("edit_save", null)
+                    FirebaseAnalytics.getInstance(requireContext()).logEvent("edit_save", null)
+                    val activity = requireActivity()
                     GlobalScope.launch {
-                        context.contentResolver.update(activity.intent.data!!, values, null, null)
+                        activity.contentResolver.update(
+                            activity.intent.data!!, values, null,
+                            null
+                        )
                         AppWidgetUpdateHandler.createInstance().updateAllWidgets(activity)
                         NotificationUpdateReceiver.updateNotification(activity)
                         activity.finish()
@@ -377,7 +383,7 @@ class EditFragment : Fragment(), LoaderManager.LoaderCallbacks<Cursor> {
             R.id.menu_cancel -> {
                 if (BuildConfig.DEBUG)
                     Log.d(TAG, "Edit selected cancel")
-                activity.finish()
+                requireActivity().finish()
                 return true
             }
             else -> return super.onOptionsItemSelected(item)
@@ -393,22 +399,22 @@ class EditFragment : Fragment(), LoaderManager.LoaderCallbacks<Cursor> {
 
     override fun onStart() {
         super.onStart()
-        val localBroadcastManager = LocalBroadcastManager.getInstance(activity)
+        val localBroadcastManager = LocalBroadcastManager.getInstance(requireContext())
         val timeFilter = IntentFilter().apply {
-            addAction(EditFragment.START_TIME_ACTION)
-            addAction(EditFragment.END_TIME_ACTION)
+            addAction(START_TIME_ACTION)
+            addAction(END_TIME_ACTION)
         }
         localBroadcastManager.registerReceiver(timeSetBroadcastReceiver, timeFilter)
         val dateFilter = IntentFilter().apply {
-            addAction(EditFragment.START_DATE_ACTION)
-            addAction(EditFragment.END_DATE_ACTION)
+            addAction(START_DATE_ACTION)
+            addAction(END_DATE_ACTION)
         }
         localBroadcastManager.registerReceiver(dateSetBroadcastReceiver, dateFilter)
     }
 
     override fun onStop() {
         super.onStop()
-        val localBroadcastManager = LocalBroadcastManager.getInstance(activity)
+        val localBroadcastManager = LocalBroadcastManager.getInstance(requireContext())
         localBroadcastManager.unregisterReceiver(timeSetBroadcastReceiver)
         localBroadcastManager.unregisterReceiver(dateSetBroadcastReceiver)
     }
@@ -454,7 +460,7 @@ class EditFragment : Fragment(), LoaderManager.LoaderCallbacks<Cursor> {
                 endTimeErrorOrderView.visibility = View.VISIBLE
                 durationView.text = ""
             }
-            activity.supportInvalidateOptionsMenu()
+            requireActivity().invalidateOptionsMenu()
         }
         val noteView = view.findViewById<EditText>(R.id.note)
         noteView.setText(note)
@@ -473,15 +479,18 @@ class EditFragment : Fragment(), LoaderManager.LoaderCallbacks<Cursor> {
                         + ContractionContract.Contractions.COLUMN_NAME_START_TIME + "<=? AND "
                         + ContractionContract.Contractions.COLUMN_NAME_END_TIME + ">=?")
                 val currentStartTimeMillis = startTime.timeInMillis.toString()
-                val contractionId = if (Intent.ACTION_INSERT == activity.intent.action)
+                val contractionId = if (Intent.ACTION_INSERT == requireActivity().intent.action)
                     0
                 else
-                    ContentUris.parseId(activity.intent.data)
-                val selectionArgs = arrayOf(contractionId.toString(),
-                        currentStartTimeMillis, currentStartTimeMillis)
-                activity.contentResolver.query(
-                        ContractionContract.Contractions.CONTENT_URI,
-                        projection, selection, selectionArgs, null)?.closeable()?.use { data ->
+                    ContentUris.parseId(requireActivity().intent.data!!)
+                val selectionArgs = arrayOf(
+                    contractionId.toString(),
+                    currentStartTimeMillis, currentStartTimeMillis
+                )
+                requireContext().contentResolver.query(
+                    ContractionContract.Contractions.CONTENT_URI,
+                    projection, selection, selectionArgs, null
+                )?.closeable()?.use { data ->
                     data.moveToFirst()
                 } ?: false
             }
@@ -494,7 +503,7 @@ class EditFragment : Fragment(), LoaderManager.LoaderCallbacks<Cursor> {
             else
                 startTimeErrorOverlapView.visibility = View.GONE
             passedStartTimeOverlapCheck = !overlapExists
-            activity.supportInvalidateOptionsMenu()
+            requireActivity().invalidateOptionsMenu()
         }
     }
 
@@ -510,16 +519,19 @@ class EditFragment : Fragment(), LoaderManager.LoaderCallbacks<Cursor> {
                 val selection = (BaseColumns._ID + "<>? AND "
                         + ContractionContract.Contractions.COLUMN_NAME_START_TIME + "<=? AND "
                         + ContractionContract.Contractions.COLUMN_NAME_END_TIME + ">=?")
-                val currentEndTimeMillis = java.lang.Long.toString(endTime.timeInMillis)
-                val contractionId = if (Intent.ACTION_INSERT == activity.intent.action)
+                val currentEndTimeMillis = endTime.timeInMillis.toString()
+                val contractionId = if (Intent.ACTION_INSERT == requireActivity().intent.action)
                     0
                 else
-                    ContentUris.parseId(activity.intent.data)
-                val selectionArgs = arrayOf(contractionId.toString(),
-                        currentEndTimeMillis, currentEndTimeMillis)
-                activity.contentResolver.query(
-                        ContractionContract.Contractions.CONTENT_URI,
-                        projection, selection, selectionArgs, null)?.closeable()?.use { data ->
+                    ContentUris.parseId(requireActivity().intent.data!!)
+                val selectionArgs = arrayOf(
+                    contractionId.toString(),
+                    currentEndTimeMillis, currentEndTimeMillis
+                )
+                requireContext().contentResolver.query(
+                    ContractionContract.Contractions.CONTENT_URI,
+                    projection, selection, selectionArgs, null
+                )?.closeable()?.use { data ->
                     data.moveToFirst()
                 } ?: false
             }
@@ -532,7 +544,7 @@ class EditFragment : Fragment(), LoaderManager.LoaderCallbacks<Cursor> {
             else
                 endTimeErrorOverlapView.visibility = View.GONE
             passedEndTimeOverlapCheck = !overlapExists
-            activity.supportInvalidateOptionsMenu()
+            requireActivity().invalidateOptionsMenu()
         }
     }
 
@@ -551,15 +563,18 @@ class EditFragment : Fragment(), LoaderManager.LoaderCallbacks<Cursor> {
                         + ContractionContract.Contractions.COLUMN_NAME_END_TIME + "<=?")
                 val currentStartTimeMillis = startTime.timeInMillis.toString()
                 val currentEndTimeMillis = endTime.timeInMillis.toString()
-                val contractionId = if (Intent.ACTION_INSERT == activity.intent.action)
+                val contractionId = if (Intent.ACTION_INSERT == requireActivity().intent.action)
                     0
                 else
-                    ContentUris.parseId(activity.intent.data)
-                val selectionArgs = arrayOf(contractionId.toString(),
-                        currentStartTimeMillis, currentEndTimeMillis)
-                activity.contentResolver.query(
-                        ContractionContract.Contractions.CONTENT_URI,
-                        projection, selection, selectionArgs, null)?.closeable()?.use { data ->
+                    ContentUris.parseId(requireActivity().intent.data!!)
+                val selectionArgs = arrayOf(
+                    contractionId.toString(),
+                    currentStartTimeMillis, currentEndTimeMillis
+                )
+                requireContext().contentResolver.query(
+                    ContractionContract.Contractions.CONTENT_URI,
+                    projection, selection, selectionArgs, null
+                )?.closeable()?.use { data ->
                     data.moveToFirst()
                 } ?: false
             }
@@ -572,7 +587,7 @@ class EditFragment : Fragment(), LoaderManager.LoaderCallbacks<Cursor> {
             else
                 timeErrorOverlapView.visibility = View.GONE
             passedTimeOverlapCheck = !overlapExists
-            activity.supportInvalidateOptionsMenu()
+            requireActivity().invalidateOptionsMenu()
         }
     }
 }

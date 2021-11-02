@@ -66,7 +66,7 @@ class ControlAppWidgetProvider : AppWidgetProvider() {
                     Preferences.AVERAGE_TIME_FRAME_PREFERENCE_KEY,
                     context.getString(R.string.pref_average_time_frame_default))!!.toLong()
             val timeCutoff = System.currentTimeMillis() - averagesTimeFrame
-            val selectionArgs = arrayOf(java.lang.Long.toString(timeCutoff))
+            val selectionArgs = arrayOf(timeCutoff.toString())
             context.contentResolver.query(ContractionContract.Contractions.CONTENT_URI, projection,
                     selection, selectionArgs, null)?.closeable()?.use { data ->
                 // Set the average duration and frequency

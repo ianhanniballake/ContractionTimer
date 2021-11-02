@@ -3,15 +3,15 @@ package com.ianhanniballake.contractiontimer.ui
 import android.database.Cursor
 import android.os.Bundle
 import android.preference.PreferenceManager
-import android.support.v4.app.Fragment
-import android.support.v4.app.LoaderManager
-import android.support.v4.content.CursorLoader
-import android.support.v4.content.Loader
 import android.text.format.DateUtils
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.fragment.app.Fragment
+import androidx.loader.app.LoaderManager
+import androidx.loader.content.CursorLoader
+import androidx.loader.content.Loader
 import com.ianhanniballake.contractiontimer.R
 import com.ianhanniballake.contractiontimer.provider.ContractionContract
 
@@ -25,17 +25,22 @@ class ContractionAverageFragment : Fragment(), LoaderManager.LoaderCallbacks<Cur
     }
 
     override fun onCreateLoader(id: Int, args: Bundle?): Loader<Cursor> {
-        val projection = arrayOf(ContractionContract.Contractions.COLUMN_NAME_START_TIME,
-                ContractionContract.Contractions.COLUMN_NAME_END_TIME)
+        val projection = arrayOf(
+            ContractionContract.Contractions.COLUMN_NAME_START_TIME,
+            ContractionContract.Contractions.COLUMN_NAME_END_TIME
+        )
         val selection = ContractionContract.Contractions.COLUMN_NAME_START_TIME + ">?"
         val preferences = PreferenceManager.getDefaultSharedPreferences(activity)
         val averagesTimeFrame = preferences.getString(
-                Preferences.AVERAGE_TIME_FRAME_PREFERENCE_KEY,
-                getString(R.string.pref_average_time_frame_default))!!.toLong()
+            Preferences.AVERAGE_TIME_FRAME_PREFERENCE_KEY,
+            getString(R.string.pref_average_time_frame_default)
+        )!!.toLong()
         val timeCutoff = System.currentTimeMillis() - averagesTimeFrame
         val selectionArgs = arrayOf(timeCutoff.toString())
-        return CursorLoader(activity, activity.intent.data, projection, selection,
-                selectionArgs, null)
+        return CursorLoader(
+            requireContext(), requireActivity().intent!!.data!!, projection, selection,
+            selectionArgs, null
+        )
     }
 
     override fun onCreateView(

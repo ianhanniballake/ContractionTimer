@@ -4,13 +4,11 @@ import android.app.DatePickerDialog
 import android.app.Dialog
 import android.content.Intent
 import android.os.Bundle
-import android.support.v4.app.DialogFragment
-import android.support.v4.content.LocalBroadcastManager
 import android.util.Log
 import android.widget.DatePicker
-
+import androidx.fragment.app.DialogFragment
+import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import com.ianhanniballake.contractiontimer.BuildConfig
-
 import java.util.Calendar
 
 /**
@@ -42,23 +40,25 @@ class DatePickerDialogFragment : DialogFragment(), DatePickerDialog.OnDateSetLis
     }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-        val date = arguments.getSerializable(DatePickerDialogFragment.DATE_ARGUMENT) as Calendar
-        val dialog = DatePickerDialog(activity, this, date.get(Calendar.YEAR),
-                date.get(Calendar.MONTH), date.get(Calendar.DAY_OF_MONTH))
+        val date = requireArguments().getSerializable(DATE_ARGUMENT) as Calendar
+        val dialog = DatePickerDialog(
+            requireContext(), this, date.get(Calendar.YEAR),
+            date.get(Calendar.MONTH), date.get(Calendar.DAY_OF_MONTH)
+        )
         dialog.setOnDismissListener(this)
         return dialog
     }
 
     override fun onDateSet(view: DatePicker, year: Int, monthOfYear: Int, dayOfMonth: Int) {
-        val action = arguments.getString(DatePickerDialogFragment.CALLBACK_ACTION)
+        val action = requireArguments().getString(CALLBACK_ACTION)
         if (BuildConfig.DEBUG)
             Log.d(TAG, "onDateSet: $action")
         val broadcast = Intent(action).apply {
-            putExtra(DatePickerDialogFragment.YEAR_EXTRA, year)
-            putExtra(DatePickerDialogFragment.MONTH_OF_YEAR_EXTRA, monthOfYear)
-            putExtra(DatePickerDialogFragment.DAY_OF_MONTH_EXTRA, dayOfMonth)
+            putExtra(YEAR_EXTRA, year)
+            putExtra(MONTH_OF_YEAR_EXTRA, monthOfYear)
+            putExtra(DAY_OF_MONTH_EXTRA, dayOfMonth)
         }
-        val localBroadcastManager = LocalBroadcastManager.getInstance(activity)
+        val localBroadcastManager = LocalBroadcastManager.getInstance(requireContext())
         localBroadcastManager.sendBroadcast(broadcast)
     }
 }

@@ -5,10 +5,10 @@ import android.content.ContentUris
 import android.content.ContentValues
 import android.content.DialogInterface
 import android.os.Bundle
-import android.support.v4.app.DialogFragment
-import android.support.v7.app.AlertDialog
 import android.util.Log
 import android.widget.EditText
+import androidx.appcompat.app.AlertDialog
+import androidx.fragment.app.DialogFragment
 import com.google.firebase.analytics.FirebaseAnalytics
 import com.ianhanniballake.contractiontimer.BuildConfig
 import com.ianhanniballake.contractiontimer.R
@@ -34,17 +34,17 @@ class NoteDialogFragment : DialogFragment() {
         const val EXISTING_NOTE_ARGUMENT = "com.ianhanniballake.contractiontimer.ExistingNote"
     }
 
-    override fun onCancel(dialog: DialogInterface?) {
+    override fun onCancel(dialog: DialogInterface) {
         if (BuildConfig.DEBUG)
             Log.d(TAG, "Received cancellation event")
         super.onCancel(dialog)
     }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-        val contractionId = arguments.getLong(NoteDialogFragment.CONTRACTION_ID_ARGUMENT)
-        val existingNote = arguments.getString(NoteDialogFragment.EXISTING_NOTE_ARGUMENT)
-        val builder = AlertDialog.Builder(activity)
-        val inflater = activity.layoutInflater
+        val contractionId = requireArguments().getLong(CONTRACTION_ID_ARGUMENT)
+        val existingNote = requireArguments().getString(EXISTING_NOTE_ARGUMENT)
+        val builder = AlertDialog.Builder(requireContext())
+        val inflater = layoutInflater
         val layout = inflater.inflate(R.layout.dialog_note, null)
         val input = layout.findViewById<EditText>(R.id.dialog_note_input)
         if (existingNote.isNullOrBlank())
@@ -54,17 +54,17 @@ class NoteDialogFragment : DialogFragment() {
         input.setText(existingNote)
         @Suppress("DEPRECATION")
         return builder.setView(layout).setInverseBackgroundForced(true)
-                .setPositiveButton(R.string.note_dialog_save) { _, _ ->
+            .setPositiveButton(R.string.note_dialog_save) { _, _ ->
                     if (BuildConfig.DEBUG)
                         Log.d(TAG, "Received positive event")
                     val noteEvent = if (existingNote.isNullOrBlank()) "note_add_saved" else "note_edit_saved"
-                    FirebaseAnalytics.getInstance(getContext()).logEvent(noteEvent, null)
+                FirebaseAnalytics.getInstance(requireContext()).logEvent(noteEvent, null)
                     val updateUri = ContentUris.withAppendedId(
                             ContractionContract.Contractions.CONTENT_ID_URI_BASE, contractionId)
-                    val values = ContentValues().apply {
-                        put(ContractionContract.Contractions.COLUMN_NAME_NOTE, input.text.toString())
-                    }
-                    val context = context
+                val values = ContentValues().apply {
+                    put(ContractionContract.Contractions.COLUMN_NAME_NOTE, input.text.toString())
+                }
+                val context = requireContext()
                     GlobalScope.launch {
                         context.contentResolver.update(updateUri, values, null, null)
                         AppWidgetUpdateHandler.createInstance().updateAllWidgets(context)

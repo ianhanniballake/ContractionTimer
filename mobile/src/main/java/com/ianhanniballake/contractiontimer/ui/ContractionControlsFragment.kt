@@ -6,16 +6,16 @@ import android.content.Context
 import android.database.Cursor
 import android.os.Bundle
 import android.provider.BaseColumns
-import android.support.design.widget.FloatingActionButton
-import android.support.v4.app.Fragment
-import android.support.v4.app.LoaderManager
-import android.support.v4.content.CursorLoader
-import android.support.v4.content.Loader
-import android.support.v4.widget.CursorAdapter
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.cursoradapter.widget.CursorAdapter
+import androidx.fragment.app.Fragment
+import androidx.loader.app.LoaderManager
+import androidx.loader.content.CursorLoader
+import androidx.loader.content.Loader
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.firebase.analytics.FirebaseAnalytics
 import com.ianhanniballake.contractiontimer.BuildConfig
 import com.ianhanniballake.contractiontimer.R
@@ -57,11 +57,15 @@ class ContractionControlsFragment : Fragment(), LoaderManager.LoaderCallbacks<Cu
     }
 
     override fun onCreateLoader(id: Int, args: Bundle?): Loader<Cursor> {
-        val projection = arrayOf(BaseColumns._ID,
-                ContractionContract.Contractions.COLUMN_NAME_START_TIME,
-                ContractionContract.Contractions.COLUMN_NAME_END_TIME)
-        return CursorLoader(activity, activity.intent.data, projection,
-                null, null, null)
+        val projection = arrayOf(
+            BaseColumns._ID,
+            ContractionContract.Contractions.COLUMN_NAME_START_TIME,
+            ContractionContract.Contractions.COLUMN_NAME_END_TIME
+        )
+        return CursorLoader(
+            requireContext(), requireActivity().intent!!.data!!, projection,
+            null, null, null
+        )
     }
 
     override fun onCreateView(
@@ -76,13 +80,13 @@ class ContractionControlsFragment : Fragment(), LoaderManager.LoaderCallbacks<Cu
             // Disable the button to ensure we give the database a chance to
             // complete the insert/update
             view.isEnabled = false
-            val analytics = FirebaseAnalytics.getInstance(context)
+            val analytics = FirebaseAnalytics.getInstance(requireContext())
             if (!contractionOngoing) {
                 if (BuildConfig.DEBUG)
                     Log.d(TAG, "Starting contraction")
                 analytics.logEvent("control_start", null)
                 // Start a new contraction
-                val context = context
+                val context = requireContext()
                 GlobalScope.launch {
                     context.contentResolver.insert(ContractionContract.Contractions.CONTENT_URI,
                             ContentValues())
@@ -99,7 +103,7 @@ class ContractionControlsFragment : Fragment(), LoaderManager.LoaderCallbacks<Cu
                 val updateUri = ContentUris.withAppendedId(
                         ContractionContract.Contractions.CONTENT_ID_URI_BASE, latestContractionId)
                 // Add the new end time to the last contraction
-                val context = context
+                val context = requireContext()
                 GlobalScope.launch {
                     context.contentResolver.update(updateUri,
                             newEndTime, null, null)

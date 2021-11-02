@@ -58,10 +58,10 @@
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:textIsSelectable="false"/>
 
-        <android.support.v7.widget.ActionMenuView
+        <androidx.appcompat.widget.ActionMenuView
             android:id="@+id/show_popup"
             android:layout_width="@dimen/popup_menu_width"
-            android:layout_height="match_parent"/>
+            android:layout_height="match_parent" />
     </LinearLayout>
 
     <TextView

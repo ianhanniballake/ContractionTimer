@@ -1,14 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest package="com.ianhanniballake.contractiontimer"
-          xmlns:android="http://schemas.android.com/apk/res/android"
-          xmlns:tools="http://schemas.android.com/tools"
-          android:installLocation="auto">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    package="com.ianhanniballake.contractiontimer"
+    android:installLocation="auto">
 
-    <uses-sdk tools:overrideLibrary="android.support.v14.preference"/>
-
-    <uses-permission android:name="android.permission.INTERNET"/>
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
-    <uses-permission android:name="android.permission.WAKE_LOCK"/>
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
 
     <application
         android:name=".ContractionTimerApplication"
@@ -23,91 +21,95 @@
             android:name=".provider.ContractionProvider"
             android:authorities="com.ianhanniballake.contractiontimer"
             android:exported="false">
-            <grant-uri-permission android:pathPattern=".*"/>
+            <grant-uri-permission android:pathPattern=".*" />
         </provider>
         <provider
-            android:name="android.support.v4.content.FileProvider"
+            android:name="androidx.core.content.FileProvider"
             android:authorities="${filesAuthority}"
             android:exported="false"
             android:grantUriPermissions="true">
             <meta-data
                 android:name="android.support.FILE_PROVIDER_PATHS"
-                android:resource="@xml/file_paths"/>
+                android:resource="@xml/file_paths" />
         </provider>
 
         <activity
             android:name=".ui.MainActivity"
+            android:exported="true"
             android:label="@string/app_name"
             android:launchMode="singleTop"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
+                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER"/>
+                <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity
             android:name=".ui.ViewActivity"
+            android:exported="true"
             android:label="@string/view_activity_name"
             android:launchMode="singleTop"
             android:parentActivityName=".ui.MainActivity"
             android:theme="@style/AppTheme.NoActionBar"
             tools:ignore="ExportedActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.VIEW"/>
+            <intent-filter tools:ignore="AppLinkUrlError">
+                <action android:name="android.intent.action.VIEW" />
 
-                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.DEFAULT" />
 
-                <data android:mimeType="vnd.android.cursor.item/vnd.ianhanniballake.contraction"/>
+                <data android:mimeType="vnd.android.cursor.item/vnd.ianhanniballake.contraction" />
             </intent-filter>
 
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".ui.MainActivity"/>
+                android:value=".ui.MainActivity" />
         </activity>
         <activity
             android:name=".ui.EditActivity"
+            android:exported="true"
             android:launchMode="singleTop"
             tools:ignore="ExportedActivity">
             <intent-filter>
-                <action android:name="android.intent.action.EDIT"/>
+                <action android:name="android.intent.action.EDIT" />
 
-                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.DEFAULT" />
 
-                <data android:mimeType="vnd.android.cursor.item/vnd.ianhanniballake.contraction"/>
+                <data android:mimeType="vnd.android.cursor.item/vnd.ianhanniballake.contraction" />
             </intent-filter>
             <intent-filter>
-                <action android:name="android.intent.action.INSERT"/>
+                <action android:name="android.intent.action.INSERT" />
 
-                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.DEFAULT" />
 
-                <data android:mimeType="vnd.android.cursor.dir/vnd.ianhanniballake.contraction"/>
+                <data android:mimeType="vnd.android.cursor.dir/vnd.ianhanniballake.contraction" />
             </intent-filter>
         </activity>
         <activity
             android:name=".ui.Preferences"
+            android:exported="true"
             android:label="@string/settings"
             android:launchMode="singleTop"
             android:parentActivityName=".ui.MainActivity"
             tools:ignore="ExportedActivity">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
+                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.NOTIFICATION_PREFERENCES"/>
+                <category android:name="android.intent.category.NOTIFICATION_PREFERENCES" />
             </intent-filter>
 
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".ui.MainActivity"/>
+                android:value=".ui.MainActivity" />
         </activity>
         <activity
             android:name=".data.ExportActivity"
             android:label="@string/export_activity_name"
-            android:theme="@style/AppTheme.Drive"/>
+            android:theme="@style/AppTheme.Drive" />
         <activity
             android:name=".data.ImportActivity"
             android:label="@string/import_activity_name"
-            android:theme="@style/AppTheme.Drive"/>
+            android:theme="@style/AppTheme.Drive" />
         <activity
             android:name=".ui.LicenseActivity"
             android:label="@string/license_activity_name"
@@ -115,7 +117,7 @@
             android:theme="@style/AppTheme.DialogWhenLarge">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".ui.Preferences"/>
+                android:value=".ui.Preferences" />
         </activity>
         <activity
             android:name=".ui.AboutActivity"
@@ -124,82 +126,88 @@
             android:theme="@style/AppTheme.DialogWhenLarge">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".ui.Preferences"/>
+                android:value=".ui.Preferences" />
         </activity>
         <activity
             android:name=".notification.NoteTranslucentActivity"
             android:enabled="false"
             android:excludeFromRecents="true"
+            android:exported="true"
             android:taskAffinity=""
             android:theme="@android:style/Theme.Translucent.NoTitleBar.Fullscreen">
             <intent-filter>
-                <action android:name="com.google.android.gm.action.AUTO_SEND"/>
+                <action android:name="com.google.android.gm.action.AUTO_SEND" />
 
-                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.DEFAULT" />
 
-                <data android:mimeType="text/plain"/>
+                <data android:mimeType="text/plain" />
             </intent-filter>
         </activity>
 
-        <receiver android:name=".notification.NotificationUpdateReceiver"/>
-        <receiver android:name=".appwidget.AppWidgetToggleReceiver"/>
+        <receiver android:name=".notification.NotificationUpdateReceiver" />
+        <receiver android:name=".appwidget.AppWidgetToggleReceiver" />
+
         <service
             android:name=".appwidget.DetailAppWidgetRemoteViewsService"
             android:enabled="@bool/detail_appwidget_enabled"
             android:exported="false"
-            android:permission="android.permission.BIND_REMOTEVIEWS"/>
+            android:permission="android.permission.BIND_REMOTEVIEWS" />
 
         <receiver
             android:name=".appwidget.DetailAppWidgetProvider"
             android:enabled="@bool/detail_appwidget_enabled"
+            android:exported="true"
             android:label="@string/detail_appwidget_label"
             tools:ignore="ExportedReceiver">
             <intent-filter>
-                <action android:name="android.appwidget.action.APPWIDGET_UPDATE"/>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
             </intent-filter>
 
             <meta-data
                 android:name="android.appwidget.provider"
-                android:resource="@xml/detail_appwidget_info"/>
+                android:resource="@xml/detail_appwidget_info" />
         </receiver>
         <receiver
             android:name=".appwidget.ControlAppWidgetProvider"
+            android:exported="true"
             android:label="@string/control_appwidget_label"
             tools:ignore="ExportedReceiver">
             <intent-filter>
-                <action android:name="android.appwidget.action.APPWIDGET_UPDATE"/>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
             </intent-filter>
 
             <meta-data
                 android:name="android.appwidget.provider"
-                android:resource="@xml/control_appwidget_info"/>
+                android:resource="@xml/control_appwidget_info" />
         </receiver>
         <receiver
             android:name=".appwidget.ToggleAppWidgetProvider"
+            android:exported="true"
             android:label="@string/toggle_appwidget_label"
             tools:ignore="ExportedReceiver">
             <intent-filter>
-                <action android:name="android.appwidget.action.APPWIDGET_UPDATE"/>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
             </intent-filter>
 
             <meta-data
                 android:name="android.appwidget.provider"
-                android:resource="@xml/toggle_appwidget_info"/>
+                android:resource="@xml/toggle_appwidget_info" />
         </receiver>
 
         <service
             android:name=".QuickTileService"
+            android:exported="true"
             android:icon="@drawable/ic_list_empty"
             android:label="@string/tile_name"
             android:permission="android.permission.BIND_QUICK_SETTINGS_TILE">
             <intent-filter>
-                <action android:name="android.service.quicksettings.action.QS_TILE"/>
+                <action android:name="android.service.quicksettings.action.QS_TILE" />
             </intent-filter>
         </service>
 
         <meta-data
             android:name="com.google.android.backup.api_key"
-            android:value="AEdPqrEAAAAIRsoSdYXUOINwTp56paLoddxnEcWbM1ZH42Y_wQ"/>
+            android:value="AEdPqrEAAAAIRsoSdYXUOINwTp56paLoddxnEcWbM1ZH42Y_wQ" />
     </application>
 
 </manifest>

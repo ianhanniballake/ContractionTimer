@@ -4,9 +4,9 @@ import android.annotation.TargetApi
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
-import android.support.v4.app.FragmentActivity
 import android.util.Log
 import android.widget.Toast
+import androidx.fragment.app.FragmentActivity
 import com.google.firebase.analytics.FirebaseAnalytics
 import com.ianhanniballake.contractiontimer.R
 import kotlinx.coroutines.Dispatchers

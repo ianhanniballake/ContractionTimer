@@ -50,31 +50,42 @@ object ContractionContract {
              * The MIME type of [.CONTENT_URI] providing a directory of contractions.
              */
             const val CONTENT_TYPE = "vnd.android.cursor.dir/vnd.ianhanniballake.contraction"
+
             /**
              * The default sort order for this table
              */
-            const val DEFAULT_SORT_ORDER = "${Contractions.COLUMN_NAME_START_TIME} DESC"
+            const val DEFAULT_SORT_ORDER = "$COLUMN_NAME_START_TIME DESC"
+
             /**
              * The table name offered by this provider
              */
             const val TABLE_NAME = "contractions"
+
             /**
              * The content URI base for a single contraction. Callers must append a numeric
              * contraction id to this Uri to retrieve a contraction
              */
-            val CONTENT_ID_URI_BASE: Uri = Uri.parse(ContractionContract.SCHEME
-                    + ContractionContract.AUTHORITY + "/" + Contractions.TABLE_NAME + "/")
+            val CONTENT_ID_URI_BASE: Uri = Uri.parse(
+                SCHEME
+                        + AUTHORITY + "/" + TABLE_NAME + "/"
+            )
+
             /**
              * The content URI match pattern for a single contraction, specified by its ID.
              * Use this to match incoming URIs or to construct an Intent.
              */
-            val CONTENT_ID_URI_PATTERN: Uri = Uri.parse(ContractionContract.SCHEME
-                    + ContractionContract.AUTHORITY + "/" + Contractions.TABLE_NAME + "/#")
+            val CONTENT_ID_URI_PATTERN: Uri = Uri.parse(
+                SCHEME
+                        + AUTHORITY + "/" + TABLE_NAME + "/#"
+            )
+
             /**
              * The content:// style URL for this table
              */
-            val CONTENT_URI: Uri = Uri.parse(ContractionContract.SCHEME + ContractionContract.AUTHORITY
-                    + "/" + Contractions.TABLE_NAME)
+            val CONTENT_URI: Uri = Uri.parse(
+                SCHEME + AUTHORITY
+                        + "/" + TABLE_NAME
+            )
         }
     }
 }

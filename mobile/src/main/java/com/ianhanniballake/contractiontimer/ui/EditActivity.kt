@@ -6,11 +6,12 @@ import android.content.Intent
 import android.content.pm.ActivityInfo
 import android.os.Bundle
 import android.preference.PreferenceManager
-import android.support.v4.app.FragmentTransaction
-import android.support.v7.app.AppCompatActivity
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
+import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.FragmentTransaction
 import com.ianhanniballake.contractiontimer.BuildConfig
 import com.ianhanniballake.contractiontimer.R
 
@@ -25,7 +26,7 @@ class EditActivity : AppCompatActivity() {
     public override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_edit)
-        if (findViewById(R.id.edit) == null) {
+        if (findViewById<View>(R.id.edit) == null) {
             // A null details view means we no longer need this activity
             finish()
             return
@@ -60,12 +61,12 @@ class EditActivity : AppCompatActivity() {
         return super.onCreateOptionsMenu(menu)
     }
 
-    override fun getSupportParentActivityIntent(): Intent? {
+    override fun getSupportParentActivityIntent(): Intent {
         return if (Intent.ACTION_INSERT == intent.action) {
             Intent(this, MainActivity::class.java)
         } else {
             Intent(Intent.ACTION_VIEW, intent.data)
-                    .setComponent(ComponentName(this, ViewActivity::class.java))
+                .setComponent(ComponentName(this, ViewActivity::class.java))
         }
     }
 

@@ -6,10 +6,10 @@ import android.content.Context
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
-import android.support.v4.app.DialogFragment
-import android.support.v4.content.LocalBroadcastManager
 import android.text.format.DateFormat
 import android.util.Log
+import androidx.fragment.app.DialogFragment
+import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import com.ianhanniballake.contractiontimer.BuildConfig
 import com.ikovac.timepickerwithseconds.view.MyTimePickerDialog
 import java.util.Calendar
@@ -78,22 +78,22 @@ class TimePickerDialogFragment : DialogFragment() {
     }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-        val date = arguments.getSerializable(TimePickerDialogFragment.TIME_ARGUMENT) as Calendar
-        val dialog = getTimePickerDialog(activity, this, date)
+        val date = requireArguments().getSerializable(TIME_ARGUMENT) as Calendar
+        val dialog = getTimePickerDialog(requireContext(), this, date)
         dialog.setOnDismissListener(this)
         return dialog
     }
 
     internal fun onTimeSet(hourOfDay: Int, minute: Int, second: Int) {
-        val action = arguments.getString(TimePickerDialogFragment.CALLBACK_ACTION)
+        val action = requireArguments().getString(CALLBACK_ACTION)
         if (BuildConfig.DEBUG)
             Log.d(TAG, "onTimeSet: $action")
         val broadcast = Intent(action).apply {
-            putExtra(TimePickerDialogFragment.HOUR_OF_DAY_EXTRA, hourOfDay)
-            putExtra(TimePickerDialogFragment.MINUTE_EXTRA, minute)
-            putExtra(TimePickerDialogFragment.SECOND_EXTRA, second)
+            putExtra(HOUR_OF_DAY_EXTRA, hourOfDay)
+            putExtra(MINUTE_EXTRA, minute)
+            putExtra(SECOND_EXTRA, second)
         }
-        val localBroadcastManager = LocalBroadcastManager.getInstance(activity)
+        val localBroadcastManager = LocalBroadcastManager.getInstance(requireContext())
         localBroadcastManager.sendBroadcast(broadcast)
     }
 }

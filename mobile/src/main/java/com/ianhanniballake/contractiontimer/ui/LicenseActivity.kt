@@ -3,8 +3,8 @@ package com.ianhanniballake.contractiontimer.ui
 import android.content.pm.ActivityInfo
 import android.os.Bundle
 import android.preference.PreferenceManager
-import android.support.v7.app.AppCompatActivity
 import android.util.Log
+import androidx.appcompat.app.AppCompatActivity
 import com.ianhanniballake.contractiontimer.BuildConfig
 import com.ianhanniballake.contractiontimer.R
 

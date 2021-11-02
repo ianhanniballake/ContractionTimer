@@ -7,11 +7,6 @@ import android.content.Intent
 import android.database.Cursor
 import android.os.Bundle
 import android.provider.BaseColumns
-import android.support.v4.app.Fragment
-import android.support.v4.app.LoaderManager
-import android.support.v4.content.CursorLoader
-import android.support.v4.content.Loader
-import android.support.v4.widget.CursorAdapter
 import android.text.format.DateFormat
 import android.text.format.DateUtils
 import android.util.Log
@@ -23,6 +18,11 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import android.widget.Toast
+import androidx.cursoradapter.widget.CursorAdapter
+import androidx.fragment.app.Fragment
+import androidx.loader.app.LoaderManager
+import androidx.loader.content.CursorLoader
+import androidx.loader.content.Loader
 import com.google.firebase.analytics.FirebaseAnalytics
 import com.ianhanniballake.contractiontimer.BuildConfig
 import com.ianhanniballake.contractiontimer.R
@@ -117,7 +117,7 @@ class ViewFragment : Fragment(), LoaderManager.LoaderCallbacks<Cursor> {
                     val durationInSeconds = (endTime - startTime) / 1000
                     durationView.text = DateUtils.formatElapsedTime(durationInSeconds)
                 }
-                activity.supportInvalidateOptionsMenu()
+                requireActivity().invalidateOptionsMenu()
                 val noteView = view.findViewById<TextView>(R.id.note)
                 val noteColumnIndex = cursor.getColumnIndex(
                         ContractionContract.Contractions.COLUMN_NAME_NOTE)
@@ -131,7 +131,7 @@ class ViewFragment : Fragment(), LoaderManager.LoaderCallbacks<Cursor> {
             }
         }
         if (arguments != null) {
-            contractionId = arguments.getLong(BaseColumns._ID, 0)
+            contractionId = requireArguments().getLong(BaseColumns._ID, 0)
             if (contractionId != -1L)
                 loaderManager.initLoader(0, null, this)
         }
@@ -139,10 +139,13 @@ class ViewFragment : Fragment(), LoaderManager.LoaderCallbacks<Cursor> {
 
     override fun onCreateLoader(id: Int, args: Bundle?): Loader<Cursor> {
         val contractionUri = ContentUris.withAppendedId(
-                ContractionContract.Contractions.CONTENT_ID_URI_PATTERN,
-                contractionId)
-        return CursorLoader(activity, contractionUri, null,
-                null, null, null)
+            ContractionContract.Contractions.CONTENT_ID_URI_PATTERN,
+            contractionId
+        )
+        return CursorLoader(
+            requireContext(), contractionUri, null,
+            null, null, null
+        )
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
@@ -167,13 +170,14 @@ class ViewFragment : Fragment(), LoaderManager.LoaderCallbacks<Cursor> {
         adapter.swapCursor(data)
         if (data.moveToFirst())
             adapter.bindView(fragmentView, activity, data)
-        activity.supportInvalidateOptionsMenu()
+        requireActivity().invalidateOptionsMenu()
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         val uri = ContentUris.withAppendedId(
-                ContractionContract.Contractions.CONTENT_ID_URI_BASE, contractionId)
-        val analytics = FirebaseAnalytics.getInstance(context)
+            ContractionContract.Contractions.CONTENT_ID_URI_BASE, contractionId
+        )
+        val analytics = FirebaseAnalytics.getInstance(requireContext())
         when (item.itemId) {
             R.id.menu_edit -> {
                 // isContractionOngoing should be non-null at this point, but
@@ -186,8 +190,10 @@ class ViewFragment : Fragment(), LoaderManager.LoaderCallbacks<Cursor> {
                     Toast.makeText(activity, R.string.edit_ongoing_error, Toast.LENGTH_SHORT).show()
                 else {
                     analytics.logEvent("edit_open_view", null)
-                    startActivity(Intent(Intent.ACTION_EDIT, uri)
-                            .setComponent(ComponentName(activity, EditActivity::class.java)))
+                    startActivity(
+                        Intent(Intent.ACTION_EDIT, uri)
+                            .setComponent(ComponentName(requireContext(), EditActivity::class.java))
+                    )
                 }
                 return true
             }
@@ -195,11 +201,11 @@ class ViewFragment : Fragment(), LoaderManager.LoaderCallbacks<Cursor> {
                 if (BuildConfig.DEBUG)
                     Log.d(TAG, "View selected delete")
                 val bundle = Bundle()
-                bundle.putString(FirebaseAnalytics.Param.VALUE, Integer.toString(1))
+                bundle.putString(FirebaseAnalytics.Param.VALUE, 1.toString())
                 analytics.logEvent("delete_view", bundle)
-                val activity = activity
+                val activity = requireActivity()
                 GlobalScope.launch {
-                    context.contentResolver.delete(uri, null, null)
+                    activity.contentResolver.delete(uri, null, null)
                     AppWidgetUpdateHandler.createInstance().updateAllWidgets(activity)
                     NotificationUpdateReceiver.updateNotification(activity)
                     activity.finish()

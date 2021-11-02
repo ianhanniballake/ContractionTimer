@@ -1,7 +1,6 @@
 package com.ianhanniballake.contractiontimer.notification
 
 import android.app.AlarmManager
-import android.app.Notification
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.app.PendingIntent
@@ -11,13 +10,13 @@ import android.content.Intent
 import android.os.Build
 import android.preference.PreferenceManager
 import android.provider.BaseColumns
-import android.support.annotation.RequiresApi
-import android.support.v4.app.NotificationCompat
-import android.support.v4.app.NotificationManagerCompat
-import android.support.v4.app.RemoteInput
-import android.support.v4.content.ContextCompat
 import android.text.format.DateUtils
 import android.util.Log
+import androidx.annotation.RequiresApi
+import androidx.core.app.NotificationCompat
+import androidx.core.app.NotificationManagerCompat
+import androidx.core.app.RemoteInput
+import androidx.core.content.ContextCompat
 import com.ianhanniballake.contractiontimer.BuildConfig
 import com.ianhanniballake.contractiontimer.R
 import com.ianhanniballake.contractiontimer.appwidget.AppWidgetToggleReceiver
@@ -88,27 +87,34 @@ class NotificationUpdateReceiver : BroadcastReceiver() {
             val startTimeColumnIndex = data.getColumnIndex(ContractionContract.Contractions.COLUMN_NAME_START_TIME)
             val lastStartTime = data.getLong(startTimeColumnIndex)
             val autoCancelIntent = Intent(context, NotificationUpdateReceiver::class.java)
-            val autoCancelPendingIntent = PendingIntent.getBroadcast(context, 0, autoCancelIntent, 0)
+            val autoCancelPendingIntent =
+                PendingIntent.getBroadcast(context, 0, autoCancelIntent, 0)
             val alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
             alarmManager.cancel(autoCancelPendingIntent)
             // We don't need to wake up the device as it doesn't matter if the notification is cancelled until the device
             // is woken up
-            alarmManager.set(AlarmManager.RTC, lastStartTime + averagesTimeFrame, autoCancelPendingIntent)
+            alarmManager.set(
+                AlarmManager.RTC,
+                lastStartTime + averagesTimeFrame,
+                autoCancelPendingIntent
+            )
             // Build the notification
             if (BuildConfig.DEBUG)
                 Log.d(TAG, "Building Notification")
-            val builder = NotificationCompat.Builder(context)
-            val publicBuilder = NotificationCompat.Builder(context)
+            val builder = NotificationCompat.Builder(context, NOTIFICATION_CHANNEL)
+            val publicBuilder = NotificationCompat.Builder(context, NOTIFICATION_CHANNEL)
             builder.setSmallIcon(R.drawable.ic_notification)
-                    .setColor(ContextCompat.getColor(context, R.color.primary))
-                    .setCategory(NotificationCompat.CATEGORY_ALARM)
+                .setColor(ContextCompat.getColor(context, R.color.primary))
+                .setCategory(NotificationCompat.CATEGORY_ALARM)
             publicBuilder.setSmallIcon(R.drawable.ic_notification)
-                    .setColor(ContextCompat.getColor(context, R.color.primary))
-                    .setCategory(NotificationCompat.CATEGORY_ALARM)
+                .setColor(ContextCompat.getColor(context, R.color.primary))
+                .setCategory(NotificationCompat.CATEGORY_ALARM)
             val contentIntent = Intent(context, MainActivity::class.java).apply {
-                addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or
-                        Intent.FLAG_ACTIVITY_CLEAR_TASK or
-                        Intent.FLAG_ACTIVITY_TASK_ON_HOME)
+                addFlags(
+                    Intent.FLAG_ACTIVITY_NEW_TASK or
+                            Intent.FLAG_ACTIVITY_CLEAR_TASK or
+                            Intent.FLAG_ACTIVITY_TASK_ON_HOME
+                )
                 putExtra(MainActivity.LAUNCHED_FROM_NOTIFICATION_EXTRA, true)
             }
             val pendingIntent = PendingIntent.getActivity(context, 0,
@@ -193,24 +199,36 @@ class NotificationUpdateReceiver : BroadcastReceiver() {
             // Close the cursor
             data.close()
             // Create a separate page for the averages as the big text is not shown on Android Wear in chronometer mode
-            val averagePage = NotificationCompat.Builder(context)
-                    .setContentTitle(context.getString(R.string.notification_second_page_title))
-                    .setStyle(NotificationCompat.InboxStyle()
-                            .setBigContentTitle(context.getString(R.string.notification_second_page_title))
-                            .addLine(context.getString(R.string.notification_second_page_duration,
-                                    formattedAverageDuration))
-                            .addLine(context.getString(R.string.notification_second_page_frequency,
-                                    formattedAverageFrequency)))
-                    .build()
+            val averagePage = NotificationCompat.Builder(context, NOTIFICATION_CHANNEL)
+                .setContentTitle(context.getString(R.string.notification_second_page_title))
+                .setStyle(
+                    NotificationCompat.InboxStyle()
+                        .setBigContentTitle(context.getString(R.string.notification_second_page_title))
+                        .addLine(
+                            context.getString(
+                                R.string.notification_second_page_duration,
+                                formattedAverageDuration
+                            )
+                        )
+                        .addLine(
+                            context.getString(
+                                R.string.notification_second_page_frequency,
+                                formattedAverageFrequency
+                            )
+                        )
+                )
+                .build()
             wearableExtender.addPage(averagePage)
             if (hasNote) {
-                val notePage = NotificationCompat.Builder(context)
-                        .setContentTitle(context.getString(R.string.detail_note_label))
-                        .setContentText(note)
-                        .setStyle(NotificationCompat.BigTextStyle()
-                                .setBigContentTitle(context.getString(R.string.detail_note_label))
-                                .bigText(note))
-                        .build()
+                val notePage = NotificationCompat.Builder(context, NOTIFICATION_CHANNEL)
+                    .setContentTitle(context.getString(R.string.detail_note_label))
+                    .setContentText(note)
+                    .setStyle(
+                        NotificationCompat.BigTextStyle()
+                            .setBigContentTitle(context.getString(R.string.detail_note_label))
+                            .bigText(note)
+                    )
+                    .build()
                 wearableExtender.addPage(notePage)
             }
             // Add 'Add Note'/'Edit Note' action
@@ -233,22 +251,8 @@ class NotificationUpdateReceiver : BroadcastReceiver() {
             wearableExtender.addAction(NotificationCompat.Action.Builder(wearIconResId, noteTitle,
                     notePendingIntent).addRemoteInput(remoteInput).build())
             val publicNotification = publicBuilder.build()
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                if (!setChannelId(publicNotification)) {
-                    // Setting the channel failed, better to avoid posting a notification
-                    // without a channel ID vs crash
-                    return@withContext
-                }
-            }
             builder.setPublicVersion(publicNotification)
             val notification = builder.extend(wearableExtender).build()
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                if (!setChannelId(notification)) {
-                    // Setting the channel failed, better to avoid posting a notification
-                    // without a channel ID vs crash
-                    return@withContext
-                }
-            }
             notificationManager.notify(NOTIFICATION_ID, notification)
         }
 
@@ -261,20 +265,6 @@ class NotificationUpdateReceiver : BroadcastReceiver() {
                     NotificationManager.IMPORTANCE_LOW)
             channel.setShowBadge(false)
             notificationManager.createNotificationChannel(channel)
-        }
-
-        /**
-         * Since NotificationCompat doesn't have channel support in the version
-         * we use, reflect into the channel id in the Notification object
-         */
-        @RequiresApi(Build.VERSION_CODES.O)
-        private fun setChannelId(notification: Notification) = try {
-            val f = Notification::class.java.getDeclaredField("mChannelId")
-            f.isAccessible = true
-            f.set(notification, NOTIFICATION_CHANNEL)
-            true
-        } catch(e: Exception) {
-            false
         }
     }
 

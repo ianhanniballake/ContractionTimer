@@ -7,15 +7,8 @@ import android.content.Intent
 import android.database.Cursor
 import android.os.Bundle
 import android.os.Handler
+import android.os.Looper
 import android.provider.BaseColumns
-import android.support.v4.app.Fragment
-import android.support.v4.app.LoaderManager
-import android.support.v4.content.CursorLoader
-import android.support.v4.content.Loader
-import android.support.v4.widget.CursorAdapter
-import android.support.v7.app.AppCompatActivity
-import android.support.v7.view.ActionMode
-import android.support.v7.widget.ActionMenuView
 import android.text.format.DateFormat
 import android.text.format.DateUtils
 import android.util.Log
@@ -30,6 +23,14 @@ import android.widget.FrameLayout
 import android.widget.ListView
 import android.widget.TextView
 import android.widget.ViewAnimator
+import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.view.ActionMode
+import androidx.appcompat.widget.ActionMenuView
+import androidx.cursoradapter.widget.CursorAdapter
+import androidx.fragment.app.Fragment
+import androidx.loader.app.LoaderManager
+import androidx.loader.content.CursorLoader
+import androidx.loader.content.Loader
 import com.google.firebase.analytics.FirebaseAnalytics
 import com.ianhanniballake.contractiontimer.BuildConfig
 import com.ianhanniballake.contractiontimer.R
@@ -38,7 +39,7 @@ import com.ianhanniballake.contractiontimer.notification.NotificationUpdateRecei
 import com.ianhanniballake.contractiontimer.provider.ContractionContract
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
-import java.util.Calendar
+import java.util.*
 
 /**
  * Fragment to list contractions entered by the user
@@ -55,11 +56,13 @@ class ContractionListFragment : Fragment(), LoaderManager.LoaderCallbacks<Cursor
     /**
      * Handler of live duration updates
      */
-    internal val liveDurationHandler = Handler()
+    internal val liveDurationHandler = Handler(Looper.getMainLooper())
+
     /**
      * Handler of time since last contraction updates
      */
-    internal val timeSinceLastHandler = Handler()
+    internal val timeSinceLastHandler = Handler(Looper.getMainLooper())
+
     /**
      * Note associated with the currently selected item
      */
@@ -133,8 +136,9 @@ class ContractionListFragment : Fragment(), LoaderManager.LoaderCallbacks<Cursor
         if (id < 0)
             return
         val deleteUri = ContentUris.withAppendedId(
-                ContractionContract.Contractions.CONTENT_ID_URI_BASE, id)
-        val context = context
+            ContractionContract.Contractions.CONTENT_ID_URI_BASE, id
+        )
+        val context = requireContext()
         GlobalScope.launch {
             context.contentResolver.delete(deleteUri, null, null)
             AppWidgetUpdateHandler.createInstance().updateAllWidgets(context)
@@ -169,22 +173,22 @@ class ContractionListFragment : Fragment(), LoaderManager.LoaderCallbacks<Cursor
         actionMode?.invalidate()
     }
 
-    override fun onSaveInstanceState(outState: Bundle?) {
+    override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
-        outState!!.putString(ContractionListFragment.SELECTED_ITEM_NOTE_KEY, selectedItemNote)
+        outState.putString(SELECTED_ITEM_NOTE_KEY, selectedItemNote)
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         if (savedInstanceState != null)
-            selectedItemNote = savedInstanceState.getString(ContractionListFragment.SELECTED_ITEM_NOTE_KEY)
-        headerView = activity.layoutInflater.inflate(R.layout.list_header, listView, false)
-        val headerFrame = FrameLayout(activity)
+            selectedItemNote = savedInstanceState.getString(SELECTED_ITEM_NOTE_KEY)
+        headerView = layoutInflater.inflate(R.layout.list_header, listView, false)
+        val headerFrame = FrameLayout(requireContext())
         headerFrame.addView(headerView)
         listView.addHeaderView(headerFrame, null, false)
-        adapter = ContractionListCursorAdapter(activity)
+        adapter = ContractionListCursorAdapter(requireContext())
         listView.adapter = adapter
-        listView.setDrawSelectorOnTop(true)
+        listView.isDrawSelectorOnTop = true
         listView.onItemClickListener = AdapterView.OnItemClickListener { _, _, position, id ->
             if (actionMode == null) {
                 viewContraction(id)
@@ -203,7 +207,7 @@ class ContractionListFragment : Fragment(), LoaderManager.LoaderCallbacks<Cursor
             val appCompatActivity = activity as AppCompatActivity
             appCompatActivity.startSupportActionMode(object : ActionMode.Callback {
                 override fun onActionItemClicked(actionMode: ActionMode, menuItem: MenuItem): Boolean {
-                    val analytics = FirebaseAnalytics.getInstance(context)
+                    val analytics = FirebaseAnalytics.getInstance(requireContext())
                     val selectedIds = listView.checkedItemIds
                     if (selectedIds.isEmpty()) {
                         return false
@@ -238,7 +242,10 @@ class ContractionListFragment : Fragment(), LoaderManager.LoaderCallbacks<Cursor
                             if (BuildConfig.DEBUG)
                                 Log.d(TAG, "Context Action Mode selected delete")
                             val bundle = Bundle()
-                            bundle.putString(FirebaseAnalytics.Param.VALUE, Integer.toString(selectedIds.size))
+                            bundle.putString(
+                                FirebaseAnalytics.Param.VALUE,
+                                selectedIds.size.toString()
+                            )
                             analytics.logEvent("delete_cab", bundle)
                             for (selectedId in selectedIds)
                                 deleteContraction(selectedId)
@@ -303,8 +310,10 @@ class ContractionListFragment : Fragment(), LoaderManager.LoaderCallbacks<Cursor
     }
 
     override fun onCreateLoader(id: Int, args: Bundle?): Loader<Cursor> {
-        return CursorLoader(activity, activity.intent.data, null,
-                null, null, null)
+        return CursorLoader(
+            requireContext(), requireActivity().intent!!.data!!, null,
+            null, null, null
+        )
     }
 
     override fun onCreateView(
@@ -360,7 +369,7 @@ class ContractionListFragment : Fragment(), LoaderManager.LoaderCallbacks<Cursor
 
     override fun onResume() {
         super.onResume()
-        val currentContractionDurationView = view!!.findViewWithTag<TextView>("durationView")
+        val currentContractionDurationView = requireView().findViewWithTag<TextView>("durationView")
         if (currentContractionDurationView != null) {
             // Ensures the live duration update is running
             liveDurationHandler.removeCallbacks(liveDurationUpdate)
@@ -389,7 +398,7 @@ class ContractionListFragment : Fragment(), LoaderManager.LoaderCallbacks<Cursor
         }
         if (BuildConfig.DEBUG)
             Log.d(TAG, "Showing Dialog")
-        noteDialogFragment.show(fragmentManager, "note")
+        noteDialogFragment.show(parentFragmentManager, "note")
     }
 
     /**
@@ -407,7 +416,7 @@ class ContractionListFragment : Fragment(), LoaderManager.LoaderCallbacks<Cursor
         val contractionUri = ContentUris.withAppendedId(
                 ContractionContract.Contractions.CONTENT_ID_URI_BASE, id)
         val intent = Intent(Intent.ACTION_VIEW, contractionUri)
-                .setComponent(ComponentName(activity, ViewActivity::class.java))
+            .setComponent(ComponentName(requireContext(), ViewActivity::class.java))
         startActivity(intent)
     }
 
@@ -514,7 +523,7 @@ class ContractionListFragment : Fragment(), LoaderManager.LoaderCallbacks<Cursor
             val deleteItem = showPopupView.menu.findItem(R.id.menu_context_delete)
             deleteItem.title = resources.getQuantityText(R.plurals.menu_context_delete, 1)
             showPopupView.setOnMenuItemClickListener { item ->
-                val analytics = FirebaseAnalytics.getInstance(getContext())
+                val analytics = FirebaseAnalytics.getInstance(requireContext())
                 when (item.itemId) {
                     R.id.menu_context_view -> {
                         if (BuildConfig.DEBUG)
@@ -536,7 +545,7 @@ class ContractionListFragment : Fragment(), LoaderManager.LoaderCallbacks<Cursor
                         if (BuildConfig.DEBUG)
                             Log.d(TAG, "Popup Menu selected delete")
                         val bundle = Bundle()
-                        bundle.putString(FirebaseAnalytics.Param.VALUE, Integer.toString(1))
+                        bundle.putString(FirebaseAnalytics.Param.VALUE, 1.toString())
                         analytics.logEvent("delete_popup", bundle)
                         deleteContraction(id)
                         true
@@ -551,7 +560,7 @@ class ContractionListFragment : Fragment(), LoaderManager.LoaderCallbacks<Cursor
         override fun newView(context: Context, cursor: Cursor, parent: ViewGroup): View {
             val view = inflater.inflate(R.layout.list_item_contraction, parent, false)
             val showPopup = view.findViewById<ActionMenuView>(R.id.show_popup)
-            val menuInflater = activity.menuInflater
+            val menuInflater = requireActivity().menuInflater
             menuInflater.inflate(R.menu.list_popup, showPopup.menu)
             return view
         }

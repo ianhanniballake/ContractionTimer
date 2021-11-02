@@ -14,7 +14,6 @@ import android.widget.AdapterView
 import android.widget.RemoteViews
 import android.widget.RemoteViewsService
 import com.ianhanniballake.contractiontimer.R
-import com.ianhanniballake.contractiontimer.provider.ContractionContract
 import com.ianhanniballake.contractiontimer.provider.ContractionContract.Contractions
 import com.ianhanniballake.contractiontimer.ui.Preferences
 
@@ -23,8 +22,8 @@ import com.ianhanniballake.contractiontimer.ui.Preferences
  */
 @TargetApi(Build.VERSION_CODES.HONEYCOMB)
 class DetailAppWidgetRemoteViewsService : RemoteViewsService() {
-    override fun onGetViewFactory(intent: Intent): RemoteViewsService.RemoteViewsFactory {
-        return object : RemoteViewsService.RemoteViewsFactory {
+    override fun onGetViewFactory(intent: Intent): RemoteViewsFactory {
+        return object : RemoteViewsFactory {
             private var data: Cursor? = null
 
             override fun getCount() = data?.count ?: 0
@@ -65,11 +64,11 @@ class DetailAppWidgetRemoteViewsService : RemoteViewsService() {
                 else
                     "hh:mm:ssa"
                 val startTimeColumnIndex = data
-                        .getColumnIndex(ContractionContract.Contractions.COLUMN_NAME_START_TIME)
+                    .getColumnIndex(Contractions.COLUMN_NAME_START_TIME)
                 val startTime = data.getLong(startTimeColumnIndex)
                 views.setTextViewText(R.id.start_time, DateFormat.format(timeFormat, startTime))
                 val endTimeColumnIndex = data
-                        .getColumnIndex(ContractionContract.Contractions.COLUMN_NAME_END_TIME)
+                    .getColumnIndex(Contractions.COLUMN_NAME_END_TIME)
                 val isContractionOngoing = data.isNull(endTimeColumnIndex)
                 if (isContractionOngoing) {
                     views.setTextViewText(R.id.end_time, " ")
@@ -84,7 +83,7 @@ class DetailAppWidgetRemoteViewsService : RemoteViewsService() {
                 // contraction to get its start time to compute the frequency
                 if (!data.isLast && data.moveToNext()) {
                     val prevContractionStartTimeColumnIndex = data
-                            .getColumnIndex(ContractionContract.Contractions.COLUMN_NAME_START_TIME)
+                        .getColumnIndex(Contractions.COLUMN_NAME_START_TIME)
                     val prevContractionStartTime = data.getLong(prevContractionStartTimeColumnIndex)
                     val frequencyInSeconds = (startTime - prevContractionStartTime) / 1000
                     views.setTextViewText(R.id.frequency, DateUtils.formatElapsedTime(frequencyInSeconds))

@@ -12,8 +12,8 @@ import android.database.sqlite.SQLiteOpenHelper
 import android.database.sqlite.SQLiteQueryBuilder
 import android.net.Uri
 import android.provider.BaseColumns
-import android.support.v4.database.DatabaseUtilsCompat
 import android.util.Log
+import androidx.core.database.DatabaseUtilsCompat
 import com.ianhanniballake.contractiontimer.BuildConfig
 import java.util.HashMap
 
@@ -72,7 +72,7 @@ class ContractionProvider : ContentProvider() {
         val db = databaseHelper.writableDatabase
         val count: Int
         // Does the delete based on the incoming URI pattern.
-        when (ContractionProvider.uriMatcher.match(uri)) {
+        when (uriMatcher.match(uri)) {
             CONTRACTIONS ->
                 // If the incoming pattern matches the general pattern for
                 // contractions, does a delete based on the incoming "where"
@@ -96,7 +96,7 @@ class ContractionProvider : ContentProvider() {
     /**
      * Chooses the MIME type based on the incoming URI pattern
      */
-    override fun getType(uri: Uri) = when (ContractionProvider.uriMatcher.match(uri)) {
+    override fun getType(uri: Uri) = when (uriMatcher.match(uri)) {
         CONTRACTIONS ->
             // If the pattern is for contractions, returns the general
             // content type.
@@ -108,17 +108,20 @@ class ContractionProvider : ContentProvider() {
         else -> throw IllegalArgumentException("Unknown URI $uri")
     }
 
-    override fun insert(uri: Uri, initialValues: ContentValues?): Uri? {
+    override fun insert(uri: Uri, initialValues: ContentValues?): Uri {
         // Validates the incoming URI. Only the full provider URI is allowed for
         // inserts.
-        if (ContractionProvider.uriMatcher.match(uri) != ContractionProvider.CONTRACTIONS)
+        if (uriMatcher.match(uri) != CONTRACTIONS)
             throw IllegalArgumentException("Unknown URI $uri")
         val values = if (initialValues != null)
             ContentValues(initialValues)
         else
             ContentValues()
         if (!values.containsKey(ContractionContract.Contractions.COLUMN_NAME_START_TIME))
-            values.put(ContractionContract.Contractions.COLUMN_NAME_START_TIME, System.currentTimeMillis())
+            values.put(
+                ContractionContract.Contractions.COLUMN_NAME_START_TIME,
+                System.currentTimeMillis()
+            )
         if (!values.containsKey(ContractionContract.Contractions.COLUMN_NAME_NOTE))
             values.put(ContractionContract.Contractions.COLUMN_NAME_NOTE, "")
         val db = databaseHelper.writableDatabase
@@ -161,7 +164,7 @@ class ContractionProvider : ContentProvider() {
             setProjectionMap(allColumnProjectionMap)
         }
         val finalSortOrder = sortOrder ?: ContractionContract.Contractions.DEFAULT_SORT_ORDER
-        when (ContractionProvider.uriMatcher.match(uri)) {
+        when (uriMatcher.match(uri)) {
             CONTRACTIONS -> {
             }
             CONTRACTION_ID ->
@@ -185,17 +188,24 @@ class ContractionProvider : ContentProvider() {
     ): Int {
         val db = databaseHelper.writableDatabase
         val count: Int
-        when (ContractionProvider.uriMatcher.match(uri)) {
+        when (uriMatcher.match(uri)) {
             CONTRACTIONS ->
                 // If the incoming URI matches the general contractions pattern,
                 // does the update based on the incoming data.
-                count = db.update(ContractionContract.Contractions.TABLE_NAME, values, selection, selectionArgs)
+                count = db.update(
+                    ContractionContract.Contractions.TABLE_NAME,
+                    values,
+                    selection,
+                    selectionArgs
+                )
             CONTRACTION_ID -> {
                 // If the incoming URI matches a single contraction ID, does the
                 // update based on the incoming data, but modifies the where
                 // clause to restrict it to the particular contraction ID.
-                val finalWhere = DatabaseUtilsCompat.concatenateWhere(selection, BaseColumns._ID + "=?")
-                val finalWhereArgs = DatabaseUtilsCompat.appendSelectionArgs(selectionArgs,
+                val finalWhere =
+                    DatabaseUtilsCompat.concatenateWhere(selection, BaseColumns._ID + "=?")
+                val finalWhereArgs = DatabaseUtilsCompat.appendSelectionArgs(
+                    selectionArgs,
                         arrayOf(ContentUris.parseId(uri).toString()))
                 count = db.update(ContractionContract.Contractions.TABLE_NAME, values, finalWhere, finalWhereArgs)
             }
@@ -209,19 +219,22 @@ class ContractionProvider : ContentProvider() {
      * This class helps open, create, and upgrade the database file.
      */
     internal class DatabaseHelper(
-            context: Context
-    ) : SQLiteOpenHelper(context, ContractionProvider.DATABASE_NAME, null,
-            ContractionProvider.DATABASE_VERSION) {
+        context: Context
+    ) : SQLiteOpenHelper(
+        context, DATABASE_NAME, null,
+        DATABASE_VERSION
+    ) {
 
         /**
          * Creates the underlying database with table name and column names taken from the ContractionContract class.
          */
         override fun onCreate(db: SQLiteDatabase) {
             if (BuildConfig.DEBUG)
-                Log.d(ContractionProvider.TAG, "Creating the ${ContractionContract.Contractions.TABLE_NAME} table")
-            db.execSQL("CREATE TABLE " + ContractionContract.Contractions.TABLE_NAME + " ("
-                    + BaseColumns._ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
-                    + ContractionContract.Contractions.COLUMN_NAME_START_TIME + " INTEGER,"
+                Log.d(TAG, "Creating the ${ContractionContract.Contractions.TABLE_NAME} table")
+            db.execSQL(
+                "CREATE TABLE " + ContractionContract.Contractions.TABLE_NAME + " ("
+                        + BaseColumns._ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
+                        + ContractionContract.Contractions.COLUMN_NAME_START_TIME + " INTEGER,"
                     + ContractionContract.Contractions.COLUMN_NAME_END_TIME + " INTEGER,"
                     + ContractionContract.Contractions.COLUMN_NAME_NOTE + " TEXT);")
         }
@@ -232,7 +245,10 @@ class ContractionProvider : ContentProvider() {
          */
         override fun onUpgrade(db: SQLiteDatabase, oldVersion: Int, newVersion: Int) {
             if (BuildConfig.DEBUG)
-                Log.w(ContractionProvider.TAG, "Upgrading database from version $oldVersion to $newVersion, which will destroy all old data")
+                Log.w(
+                    TAG,
+                    "Upgrading database from version $oldVersion to $newVersion, which will destroy all old data"
+                )
             db.execSQL("DROP TABLE IF EXISTS " + ContractionContract.Contractions.TABLE_NAME)
             onCreate(db)
         }

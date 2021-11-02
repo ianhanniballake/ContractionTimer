@@ -19,7 +19,6 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
 import android.os.Bundle;
-import android.support.v7.app.AlertDialog;
 import android.view.View;
 import android.view.Window;
 
@@ -28,6 +27,9 @@ import com.ikovac.timepickerwithseconds.view.TimePicker.OnTimeChangedListener;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 
 /**
  * A dialog that prompts the user for the time of day using a {@link TimePicker}.
@@ -123,6 +125,7 @@ public class MyTimePickerDialog extends AlertDialog implements OnClickListener,
         setTitle(mDateFormat.format(mCalendar.getTime()));
     }
 
+    @NonNull
     @Override
     public Bundle onSaveInstanceState() {
         Bundle state = super.onSaveInstanceState();
@@ -134,7 +137,7 @@ public class MyTimePickerDialog extends AlertDialog implements OnClickListener,
     }
 
     @Override
-    public void onRestoreInstanceState(Bundle savedInstanceState) {
+    public void onRestoreInstanceState(@NonNull Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
         int hour = savedInstanceState.getInt(HOUR);
         int minute = savedInstanceState.getInt(MINUTE);

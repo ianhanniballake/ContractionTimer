@@ -2,14 +2,16 @@ package com.ianhanniballake.contractiontimer.ui
 
 import android.app.Dialog
 import android.os.Bundle
-import android.support.v4.app.DialogFragment
-import android.support.v7.app.AlertDialog
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
+import androidx.fragment.app.DialogFragment
 import com.android.billingclient.api.BillingClient
 import com.android.billingclient.api.BillingClientStateListener
 import com.android.billingclient.api.BillingFlowParams
+import com.android.billingclient.api.BillingResult
+import com.android.billingclient.api.ConsumeParams
 import com.android.billingclient.api.Purchase
 import com.android.billingclient.api.PurchasesUpdatedListener
 import com.android.billingclient.api.SkuDetails
@@ -23,7 +25,7 @@ import java.util.ArrayList
 class DonateDialogFragment : DialogFragment(), BillingClientStateListener, PurchasesUpdatedListener {
     private lateinit var adapter: ArrayAdapter<CharSequence>
     private val billingClient: BillingClient by lazy {
-        BillingClient.newBuilder(context)
+        BillingClient.newBuilder(requireContext())
                 .setListener(this)
                 .build()
     }
@@ -31,11 +33,11 @@ class DonateDialogFragment : DialogFragment(), BillingClientStateListener, Purch
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        adapter = ArrayAdapter(context, android.R.layout.simple_list_item_1)
+        adapter = ArrayAdapter(requireContext(), android.R.layout.simple_list_item_1)
         billingClient.startConnection(this)
     }
 
-    override fun onBillingSetupFinished(responseCode: Int) {
+    override fun onBillingSetupFinished(billingResult: BillingResult) {
         if (!isAdded) {
             return
         }
@@ -70,26 +72,40 @@ class DonateDialogFragment : DialogFragment(), BillingClientStateListener, Purch
                         putString(FirebaseAnalytics.Param.ITEM_CATEGORY, "donate")
                     }
                     FirebaseAnalytics.getInstance(context).logEvent(
-                            FirebaseAnalytics.Event.VIEW_ITEM_LIST, bundle)
+                        FirebaseAnalytics.Event.VIEW_ITEM_LIST, bundle
+                    )
                 })
         val purchasesResult = billingClient.queryPurchases(
-                BillingClient.SkuType.INAPP)
-        if (purchasesResult.purchasesList != null) {
-            for (purchase in purchasesResult.purchasesList) {
-                billingClient.consumeAsync(purchase.purchaseToken) { _, _ -> }
+            BillingClient.SkuType.INAPP
+        )
+        val purchasesList = purchasesResult.purchasesList
+        if (purchasesList != null) {
+            for (purchase in purchasesList) {
+                val consumeParams = ConsumeParams.newBuilder()
+                    .setPurchaseToken(purchase.purchaseToken)
+                    .build()
+                billingClient.consumeAsync(consumeParams) { _, _ -> }
             }
         }
     }
 
-    override fun onPurchasesUpdated(responseCode: Int, purchases: List<Purchase>?) {
+    override fun onPurchasesUpdated(
+        billingResult: BillingResult,
+        purchases: MutableList<Purchase>?
+    ) {
         if (purchases == null) {
             return
         }
         for (purchase in purchases) {
-            billingClient.consumeAsync(purchase.purchaseToken) { consumeResponseCode, _ ->
-                if (consumeResponseCode == BillingClient.BillingResponse.OK) {
-                    Toast.makeText(context, R.string.donate_thank_you, Toast
-                            .LENGTH_LONG).show()
+            val consumeParams = ConsumeParams.newBuilder()
+                .setPurchaseToken(purchase.purchaseToken)
+                .build()
+            billingClient.consumeAsync(consumeParams) { consumeResult, _ ->
+                if (consumeResult.responseCode == BillingClient.BillingResponseCode.OK) {
+                    Toast.makeText(
+                        requireContext(), R.string.donate_thank_you, Toast
+                            .LENGTH_LONG
+                    ).show()
                 }
                 dismiss()
             }
@@ -106,10 +122,10 @@ class DonateDialogFragment : DialogFragment(), BillingClientStateListener, Purch
     }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-        val alertDialog = AlertDialog.Builder(context)
-                .setTitle(R.string.donate_header)
-                .setAdapter(adapter, null)
-                .create()
+        val alertDialog = AlertDialog.Builder(requireContext())
+            .setTitle(R.string.donate_header)
+            .setAdapter(adapter, null)
+            .create()
         alertDialog.listView.onItemClickListener = AdapterView.OnItemClickListener { _, _, position, _ ->
             val skuDetails = skuDetailsList[position]
             val sku = skuDetails.sku
@@ -118,14 +134,16 @@ class DonateDialogFragment : DialogFragment(), BillingClientStateListener, Purch
                 putString(FirebaseAnalytics.Param.ITEM_NAME, skuDetails.title)
                 putString(FirebaseAnalytics.Param.ITEM_CATEGORY, "donate")
             }
-            FirebaseAnalytics.getInstance(context).logEvent(
-                    FirebaseAnalytics.Event.VIEW_ITEM, bundle)
-            val responseCode = billingClient.launchBillingFlow(activity,
-                    BillingFlowParams.newBuilder()
-                            .setSku(sku)
-                            .setType(BillingClient.SkuType.INAPP)
-                            .build())
-            if (responseCode != BillingClient.BillingResponse.OK) {
+            FirebaseAnalytics.getInstance(requireContext()).logEvent(
+                FirebaseAnalytics.Event.VIEW_ITEM, bundle
+            )
+            val billingResult = billingClient.launchBillingFlow(
+                requireActivity(),
+                BillingFlowParams.newBuilder()
+                    .setSkuDetails(skuDetails)
+                    .build()
+            )
+            if (billingResult.responseCode != BillingClient.BillingResponseCode.OK) {
                 dismiss()
             }
         }
