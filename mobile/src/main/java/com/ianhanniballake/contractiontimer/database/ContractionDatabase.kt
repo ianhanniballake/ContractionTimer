@@ -3,11 +3,9 @@ package com.ianhanniballake.contractiontimer.database
 import android.content.Context
 import androidx.room.AutoMigration
 import androidx.room.Database
-import androidx.room.RenameColumn
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
-import androidx.room.migration.AutoMigrationSpec
 
 @Database(
         entities = [Contraction::class],
@@ -35,6 +33,5 @@ abstract class ContractionDatabase : RoomDatabase() {
                         }
             }
         }
-
     }
 }
