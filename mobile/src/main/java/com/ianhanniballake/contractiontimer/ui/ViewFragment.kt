@@ -82,6 +82,7 @@ class ViewFragment : Fragment(), LoaderManager.LoaderCallbacks<Cursor> {
             return rootView?.findViewById(R.id.view_fragment)
         }
 
+    @Deprecated("Deprecated in Java")
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         setHasOptionsMenu(true)

@@ -4,7 +4,9 @@ apply plugin: 'com.google.gms.google-services'
 apply plugin: 'com.google.firebase.crashlytics'
 
 android {
-    compileSdkVersion rootProject.ext.compileSdkVersion
+    compileSdk rootProject.ext.compileSdkVersion
+
+    namespace 'com.ianhanniballake.contractiontimer'
 
     defaultConfig {
         applicationId "com.ianhanniballake.contractiontimer"

@@ -33,6 +33,7 @@ class ResetMenuControllerFragment : Fragment(), LoaderManager.LoaderCallbacks<Cu
      */
     private lateinit var adapter: CursorAdapter
 
+    @Deprecated("Deprecated in Java")
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         adapter = object : CursorAdapter(activity, null, 0) {

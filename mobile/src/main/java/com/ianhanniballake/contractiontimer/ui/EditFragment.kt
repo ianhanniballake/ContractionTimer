@@ -196,6 +196,7 @@ class EditFragment : Fragment(), LoaderManager.LoaderCallbacks<Cursor> {
         note = ""
     }
 
+    @Deprecated("Deprecated in Java")
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         setHasOptionsMenu(true)

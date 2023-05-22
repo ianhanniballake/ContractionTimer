@@ -178,6 +178,7 @@ class ContractionListFragment : Fragment(), LoaderManager.LoaderCallbacks<Cursor
         outState.putString(SELECTED_ITEM_NOTE_KEY, selectedItemNote)
     }
 
+    @Deprecated("Deprecated in Java")
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         if (savedInstanceState != null)

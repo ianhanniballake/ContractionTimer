@@ -1,5 +1,6 @@
 package com.ianhanniballake.contractiontimer.ui
 
+import android.annotation.SuppressLint
 import android.content.ContentUris
 import android.content.ContentValues
 import android.content.Context
@@ -42,6 +43,7 @@ class ContractionControlsFragment : Fragment(), LoaderManager.LoaderCallbacks<Cu
 
     private var contractionOngoing = false
 
+    @Deprecated("Deprecated in Java")
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         adapter = object : CursorAdapter(activity, null, 0) {
@@ -118,6 +120,7 @@ class ContractionControlsFragment : Fragment(), LoaderManager.LoaderCallbacks<Cu
         adapter.swapCursor(null)
     }
 
+    @SuppressLint("Range")
     override fun onLoadFinished(loader: Loader<Cursor>, data: Cursor?) {
         adapter.swapCursor(data)
         fab.isEnabled = true

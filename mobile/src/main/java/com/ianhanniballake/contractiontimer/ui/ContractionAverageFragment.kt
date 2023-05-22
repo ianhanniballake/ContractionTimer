@@ -19,6 +19,7 @@ import com.ianhanniballake.contractiontimer.provider.ContractionContract
  * Fragment which displays the average duration and frequency
  */
 class ContractionAverageFragment : Fragment(), LoaderManager.LoaderCallbacks<Cursor> {
+    @Deprecated("Deprecated in Java")
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         loaderManager.initLoader(0, null, this)
