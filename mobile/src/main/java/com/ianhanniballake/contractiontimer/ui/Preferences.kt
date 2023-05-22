@@ -103,13 +103,13 @@ class Preferences : AppCompatActivity() {
 
         override fun onPause() {
             super.onPause()
-            preferenceScreen.sharedPreferences.unregisterOnSharedPreferenceChangeListener(this)
+            preferenceScreen.sharedPreferences!!.unregisterOnSharedPreferenceChangeListener(this)
         }
 
         override fun onResume() {
             super.onResume()
-            preferenceScreen.sharedPreferences.registerOnSharedPreferenceChangeListener(this)
-            val preferences = PreferenceManager.getDefaultSharedPreferences(context)
+            preferenceScreen.sharedPreferences!!.registerOnSharedPreferenceChangeListener(this)
+            val preferences = PreferenceManager.getDefaultSharedPreferences(requireContext())
             val isLockPortrait = preferences.getBoolean(
                 LOCK_PORTRAIT_PREFERENCE_KEY,
                 resources.getBoolean(R.bool.pref_lock_portrait_default)
