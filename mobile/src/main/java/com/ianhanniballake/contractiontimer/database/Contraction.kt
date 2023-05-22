@@ -9,7 +9,7 @@ import java.util.Date
 data class Contraction(
         @PrimaryKey(autoGenerate = true)
         @ColumnInfo(name = "_id")
-        val id: Long,
+        val id: Long = 0,
         @ColumnInfo(name = "start_time")
         val startTime: Date = Date(),
         @ColumnInfo(name = "end_time")
