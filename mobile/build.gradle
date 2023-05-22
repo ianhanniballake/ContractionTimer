@@ -1,5 +1,6 @@
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
+apply plugin: 'com.google.devtools.ksp'
 apply plugin: 'com.google.gms.google-services'
 apply plugin: 'com.google.firebase.crashlytics'
 
@@ -28,6 +29,11 @@ android {
         def filesAuthorityValue = "com.ianhanniballake.contractiontimer.files"
         manifestPlaceholders = [filesAuthority: filesAuthorityValue]
         buildConfigField "String", "FILES_AUTHORITY", "\"${filesAuthorityValue}\""
+
+        ksp {
+            arg("room.schemaLocation", "$projectDir/schemas")
+            arg("room.generateKotlin", "true")
+        }
     }
 
     signingConfigs {
@@ -57,6 +63,9 @@ dependencies {
     implementation 'com.google.android.material:material:1.9.0'
     implementation 'androidx.preference:preference-ktx:1.2.0'
     implementation 'androidx.legacy:legacy-preference-v14:1.0.0'
+    implementation 'androidx.room:room-runtime:2.6.0-alpha01'
+    implementation 'androidx.room:room-ktx:2.6.0-alpha01'
+    ksp 'androidx.room:room-compiler:2.6.0-alpha01'
     implementation "com.google.firebase:firebase-analytics-ktx:21.2.2"
     implementation "com.google.firebase:firebase-crashlytics-ktx:18.3.7"
     implementation("com.opencsv:opencsv:3.8") {

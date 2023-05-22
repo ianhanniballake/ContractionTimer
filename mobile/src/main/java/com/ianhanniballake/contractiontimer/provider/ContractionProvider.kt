@@ -38,7 +38,7 @@ class ContractionProvider : ContentProvider() {
         /**
          * The database version
          */
-        private const val DATABASE_VERSION = 2
+        private const val DATABASE_VERSION = 3
         /**
          * A UriMatcher instance
          */
@@ -233,10 +233,10 @@ class ContractionProvider : ContentProvider() {
                 Log.d(TAG, "Creating the ${ContractionContract.Contractions.TABLE_NAME} table")
             db.execSQL(
                 "CREATE TABLE " + ContractionContract.Contractions.TABLE_NAME + " ("
-                        + BaseColumns._ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
-                        + ContractionContract.Contractions.COLUMN_NAME_START_TIME + " INTEGER,"
+                        + BaseColumns._ID + " INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,"
+                        + ContractionContract.Contractions.COLUMN_NAME_START_TIME + " INTEGER NOT NULL,"
                     + ContractionContract.Contractions.COLUMN_NAME_END_TIME + " INTEGER,"
-                    + ContractionContract.Contractions.COLUMN_NAME_NOTE + " TEXT);")
+                    + ContractionContract.Contractions.COLUMN_NAME_NOTE + " TEXT NOT NULL);")
         }
 
         /**
