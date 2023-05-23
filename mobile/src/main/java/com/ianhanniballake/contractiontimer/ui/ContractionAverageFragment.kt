@@ -16,8 +16,8 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Text
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
@@ -26,7 +26,6 @@ import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -94,18 +93,12 @@ class ContractionAverageFragment : Fragment() {
                 exit = slideOutVertically { it / 2 },
                 modifier = Modifier.fillMaxWidth()
         ) {
-            val body2 = MaterialTheme.typography.body2
-            val bodyLarge by remember(body2) {
-                derivedStateOf {
-                    body2.copy(fontSize = 24.sp)
-                }
-            }
             Row(modifier = Modifier
                     .background(colorResource(R.color.average_background)).padding(top = 5.dp, bottom = 5.dp)) {
                 Spacer(Modifier.width(8.dp))
                 Text(stringResource(R.string.contraction_average),
                         modifier = Modifier.weight(1.0F, true),
-                        style = bodyLarge
+                        style = MaterialTheme.typography.titleLarge
                 )
                 val formattedAverageDuration by remember(contractions) {
                     derivedStateOf {
@@ -123,7 +116,8 @@ class ContractionAverageFragment : Fragment() {
                 Text(formattedAverageDuration,
                         modifier = Modifier.weight(1.0F, true),
                         textAlign = TextAlign.Center,
-                        style = bodyLarge)
+                        style = MaterialTheme.typography.titleLarge
+                )
                 val formattedAverageFrequency by remember(contractions) {
                     derivedStateOf {
                         val averageFrequency = contractions.windowed(2) { window ->
@@ -136,7 +130,8 @@ class ContractionAverageFragment : Fragment() {
                 Text(formattedAverageFrequency,
                         modifier = Modifier.weight(1.0F, true),
                         textAlign = TextAlign.Center,
-                        style = bodyLarge)
+                        style = MaterialTheme.typography.titleLarge
+                )
                 Spacer(Modifier.width(48.dp))
             }
         }
