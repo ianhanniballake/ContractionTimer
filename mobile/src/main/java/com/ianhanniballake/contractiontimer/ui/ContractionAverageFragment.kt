@@ -137,7 +137,7 @@ class ContractionAverageFragment : Fragment() {
                         modifier = Modifier.weight(1.0F, true),
                         textAlign = TextAlign.Center,
                         style = bodyLarge)
-                Spacer(Modifier.width(56.dp))
+                Spacer(Modifier.width(48.dp))
             }
         }
     }
