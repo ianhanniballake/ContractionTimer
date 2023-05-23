@@ -30,10 +30,6 @@ class Preferences : AppCompatActivity() {
          */
         const val APPWIDGET_BACKGROUND_PREFERENCE_KEY = "appwidget_background"
         /**
-         * Average Time Frame recently changed for ContractionAverageFragment preference name
-         */
-        const val AVERAGE_TIME_FRAME_CHANGED_FRAGMENT_PREFERENCE_KEY = "average_time_frame_changed_fragment"
-        /**
          * Average Time Frame recently changed for MainActivity preference name
          */
         const val AVERAGE_TIME_FRAME_CHANGED_MAIN_PREFERENCE_KEY = "average_time_frame_changed_main"
@@ -192,7 +188,6 @@ class Preferences : AppCompatActivity() {
                     analytics.logEvent("preference_average_time_frame", bundle)
                     val editor = sharedPreferences.edit()
                     editor.putBoolean(AVERAGE_TIME_FRAME_CHANGED_MAIN_PREFERENCE_KEY, true)
-                    editor.putBoolean(AVERAGE_TIME_FRAME_CHANGED_FRAGMENT_PREFERENCE_KEY, true)
                     editor.apply()
                     averageTimeFrameListPreference.summary =
                         (getString(R.string.pref_average_time_frame_summary)
