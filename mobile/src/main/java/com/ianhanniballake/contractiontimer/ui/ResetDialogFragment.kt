@@ -1,19 +1,31 @@
 package com.ianhanniballake.contractiontimer.ui
 
+import android.app.Application
 import android.app.Dialog
 import android.content.DialogInterface
 import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.DialogFragment
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.lifecycleScope
 import com.google.firebase.analytics.FirebaseAnalytics
 import com.ianhanniballake.contractiontimer.BuildConfig
 import com.ianhanniballake.contractiontimer.R
 import com.ianhanniballake.contractiontimer.appwidget.AppWidgetUpdateHandler
+import com.ianhanniballake.contractiontimer.database.ContractionDatabase
 import com.ianhanniballake.contractiontimer.notification.NotificationUpdateReceiver
-import com.ianhanniballake.contractiontimer.provider.ContractionContract
-import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.NonCancellable
 import kotlinx.coroutines.launch
+
+class ResetDialogViewModel(application: Application) : AndroidViewModel(application) {
+    private val dao = ContractionDatabase.getInstance(application).contractionDao()
+
+    suspend fun deleteAll() {
+        dao.deleteAll()
+    }
+}
 
 /**
  * Reset Confirmation Dialog box
@@ -22,6 +34,8 @@ class ResetDialogFragment : DialogFragment() {
     companion object {
         private const val TAG = "ResetDialogFragment"
     }
+
+    private val viewModel: ResetDialogViewModel by viewModels()
 
     override fun onCancel(dialog: DialogInterface) {
         if (BuildConfig.DEBUG)
@@ -43,11 +57,8 @@ class ResetDialogFragment : DialogFragment() {
                     Log.d(TAG, "Received positive event")
                 FirebaseAnalytics.getInstance(requireContext()).logEvent("reset_complete", null)
                 val context = requireContext()
-                GlobalScope.launch {
-                    context.contentResolver.delete(
-                        ContractionContract.Contractions.CONTENT_URI,
-                        null, null
-                    )
+                lifecycleScope.launch(NonCancellable) {
+                    viewModel.deleteAll()
                     AppWidgetUpdateHandler.createInstance().updateAllWidgets(context)
                     NotificationUpdateReceiver.updateNotification(context)
                 }
