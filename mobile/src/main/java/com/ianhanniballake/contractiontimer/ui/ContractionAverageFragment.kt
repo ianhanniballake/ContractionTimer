@@ -88,7 +88,6 @@ class ContractionAverageFragment : Fragment() {
         val viewModel = viewModel<ContractionAverageViewModel>()
         val contractions by viewModel.contractions.collectAsStateWithLifecycle()
         AnimatedVisibility(visible = contractions.isNotEmpty(),
-
                 enter = slideInVertically { it / 2 },
                 exit = slideOutVertically { it / 2 },
                 modifier = Modifier.fillMaxWidth()
@@ -132,7 +131,7 @@ class ContractionAverageFragment : Fragment() {
                         textAlign = TextAlign.Center,
                         style = MaterialTheme.typography.titleLarge
                 )
-                Spacer(Modifier.width(48.dp))
+                Spacer(Modifier.width(56.dp))
             }
         }
     }

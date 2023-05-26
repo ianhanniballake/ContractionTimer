@@ -1,569 +1,513 @@
 package com.ianhanniballake.contractiontimer.ui
 
+import android.app.Application
 import android.content.ComponentName
 import android.content.ContentUris
-import android.content.Context
 import android.content.Intent
-import android.database.Cursor
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
-import android.provider.BaseColumns
 import android.text.format.DateFormat
 import android.text.format.DateUtils
 import android.util.Log
 import android.view.LayoutInflater
-import android.view.Menu
-import android.view.MenuItem
-import android.view.View
 import android.view.ViewGroup
-import android.widget.AbsListView
-import android.widget.AdapterView
-import android.widget.FrameLayout
-import android.widget.ListView
-import android.widget.TextView
-import android.widget.ViewAnimator
-import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.view.ActionMode
-import androidx.appcompat.widget.ActionMenuView
-import androidx.cursoradapter.widget.CursorAdapter
+import androidx.compose.animation.AnimatedContent
+import androidx.compose.animation.ExperimentalAnimationApi
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.IntrinsicSize
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.itemsIndexed
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.MoreVert
+import androidx.compose.material3.Divider
+import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.derivedStateOf
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.produceState
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.colorResource
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.pluralStringResource
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.unit.Dp
+import androidx.compose.ui.unit.IntOffset
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.window.Popup
 import androidx.fragment.app.Fragment
-import androidx.loader.app.LoaderManager
-import androidx.loader.content.CursorLoader
-import androidx.loader.content.Loader
+import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.google.firebase.analytics.FirebaseAnalytics
 import com.ianhanniballake.contractiontimer.BuildConfig
 import com.ianhanniballake.contractiontimer.R
 import com.ianhanniballake.contractiontimer.appwidget.AppWidgetUpdateHandler
+import com.ianhanniballake.contractiontimer.database.Contraction
+import com.ianhanniballake.contractiontimer.database.ContractionDatabase
+import com.ianhanniballake.contractiontimer.extensions.content
 import com.ianhanniballake.contractiontimer.notification.NotificationUpdateReceiver
 import com.ianhanniballake.contractiontimer.provider.ContractionContract
-import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
-import java.util.*
+import java.util.Calendar
 
-/**
- * Fragment to list contractions entered by the user
- */
-class ContractionListFragment : Fragment(), LoaderManager.LoaderCallbacks<Cursor> {
-    companion object {
-        private const val TAG = "ContractionListFragment"
-        /**
-         * Key used to store the selected item note in the bundle
-         */
-        private const val SELECTED_ITEM_NOTE_KEY = "com.ianhanniballake.contractiontimer.SELECTED_ITEM_NOTE_KEY"
+class ContractionListViewModel(application: Application) : AndroidViewModel(application) {
+    private val dao = ContractionDatabase.getInstance(application).contractionDao()
+
+    val allContractions = dao.allContractions()
+        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000L), emptyList())
+
+    suspend fun delete(contraction: Contraction) {
+        dao.delete(contraction)
     }
+}
 
-    /**
-     * Handler of live duration updates
-     */
-    internal val liveDurationHandler = Handler(Looper.getMainLooper())
+private const val TAG = "ContractionListFragment"
 
-    /**
-     * Handler of time since last contraction updates
-     */
-    internal val timeSinceLastHandler = Handler(Looper.getMainLooper())
+sealed class ListState
+object EmptyState : ListState()
+object NonEmptyState : ListState()
 
-    /**
-     * Note associated with the currently selected item
-     */
-    internal var selectedItemNote: String? = null
-    /**
-     * Current ActionMode, if any
-     */
-    internal var actionMode: ActionMode? = null
-    /**
-     * Start time of the current contraction
-     */
-    internal var currentContractionStartTime: Long = 0
-    /**
-     * Reference to the Runnable live duration updater
-     */
-    internal val liveDurationUpdate: Runnable = object : Runnable {
-        /**
-         * Updates the appropriate duration view to the current elapsed time and schedules this to rerun in 1 second
-         */
-        override fun run() {
-            val rootView = view
-            if (rootView != null) {
-                val currentContractionDurationView = rootView.findViewWithTag<TextView>("durationView")
-                if (currentContractionDurationView != null) {
-                    val durationInSeconds = (System.currentTimeMillis() - currentContractionStartTime) / 1000
-                    currentContractionDurationView.text = DateUtils.formatElapsedTime(durationInSeconds)
-                }
-            }
-            liveDurationHandler.postDelayed(this, 1000)
-        }
-    }
-    internal lateinit var listView: ListView
-    private lateinit var emptyView: ViewAnimator
-    /**
-     * View for the header row
-     */
-    internal lateinit var headerView: View
-    /**
-     * Reference to the Runnable time since last contraction updater
-     */
-    private val timeSinceLastUpdate = object : Runnable {
-        /**
-         * Updates the time since last contraction and schedules this to rerun in 1 second
-         */
-        override fun run() {
-            val timeSinceLastView = headerView.findViewById<TextView>(
-                    R.id.list_header_time_since_last)
-            if (timeSinceLastView != null && currentContractionStartTime != 0L) {
-                val timeSinceLastInSeconds = (System.currentTimeMillis() - currentContractionStartTime) / 1000
-                timeSinceLastView.text = DateUtils.formatElapsedTime(timeSinceLastInSeconds)
-            }
-            timeSinceLastHandler.postDelayed(this, 1000)
-        }
-    }
-    /**
-     * Column headers view
-     */
-    private lateinit var columnHeaders: ViewGroup
-    /**
-     * Adapter to display the list's data
-     */
-    private lateinit var adapter: CursorAdapter
-
-    /**
-     * Deletes a given contraction
-     *
-     * @param id contraction id to delete
-     */
-    private fun deleteContraction(id: Long) {
-        // Ensure we don't attempt to delete contractions with invalid ids
-        if (id < 0)
-            return
-        val deleteUri = ContentUris.withAppendedId(
-            ContractionContract.Contractions.CONTENT_ID_URI_BASE, id
-        )
-        val context = requireContext()
-        GlobalScope.launch {
-            context.contentResolver.delete(deleteUri, null, null)
-            AppWidgetUpdateHandler.createInstance().updateAllWidgets(context)
-            NotificationUpdateReceiver.updateNotification(context)
-        }
-    }
-
-    private fun itemSelected(listView: ListView, position: Int) {
-        val checkedItems = listView.checkedItemIds
-        if (BuildConfig.DEBUG)
-            Log.d(TAG, "Item clicked: " + checkedItems.size)
-        if (checkedItems.isEmpty()) {
-            actionMode?.finish()
-            return
-        } else if (checkedItems.size == 1) {
-            val checked = listView.checkedItemPositions
-            var selectedPosition = checked.keyAt(0)
-            // The checked item positions sometime contain both the old and new items. We need to make sure we
-            // pick the remaining selected item, rather than the recently de-selected item.
-            if (selectedPosition == position && listView.isItemChecked(position)) {
-                selectedPosition = checked.keyAt(1)
-            }
-            val adapter = listView.adapter
-            if (adapter.isEmpty)
-            // onLoaderReset swapped in a null cursor
-                return
-            val cursor = adapter.getItem(selectedPosition) as Cursor
-            val noteColumnIndex = cursor
-                    .getColumnIndex(ContractionContract.Contractions.COLUMN_NAME_NOTE)
-            selectedItemNote = cursor.getString(noteColumnIndex)
-        }
-        actionMode?.invalidate()
-    }
-
-    override fun onSaveInstanceState(outState: Bundle) {
-        super.onSaveInstanceState(outState)
-        outState.putString(SELECTED_ITEM_NOTE_KEY, selectedItemNote)
-    }
-
-    @Deprecated("Deprecated in Java")
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-        if (savedInstanceState != null)
-            selectedItemNote = savedInstanceState.getString(SELECTED_ITEM_NOTE_KEY)
-        headerView = layoutInflater.inflate(R.layout.list_header, listView, false)
-        val headerFrame = FrameLayout(requireContext())
-        headerFrame.addView(headerView)
-        listView.addHeaderView(headerFrame, null, false)
-        adapter = ContractionListCursorAdapter(requireContext())
-        listView.adapter = adapter
-        listView.isDrawSelectorOnTop = true
-        listView.onItemClickListener = AdapterView.OnItemClickListener { _, _, position, id ->
-            if (actionMode == null) {
-                viewContraction(id)
+// TODO: Re-add contextual action bar that allows viewing details, notes, and multi-deletion
+@OptIn(ExperimentalAnimationApi::class)
+@Composable
+fun ContractionList(
+    showNoteDialog: (contraction: Contraction) -> Unit
+) {
+    val context = LocalContext.current
+    val viewModel = viewModel<ContractionListViewModel>()
+    val contractions by viewModel.allContractions.collectAsStateWithLifecycle()
+    val listState by remember(contractions) {
+        derivedStateOf {
+            if (contractions.isEmpty()) {
+                EmptyState
             } else {
-                itemSelected(listView, position)
-            }
-        }
-        listView.onItemLongClickListener = AdapterView.OnItemLongClickListener { _, _, position, _ ->
-            if (actionMode != null) {
-                listView.setItemChecked(position, !listView.isItemChecked(position))
-                itemSelected(listView, position)
-                return@OnItemLongClickListener true
-            }
-            listView.choiceMode = AbsListView.CHOICE_MODE_MULTIPLE
-            listView.setItemChecked(position, true)
-            val appCompatActivity = activity as AppCompatActivity
-            appCompatActivity.startSupportActionMode(object : ActionMode.Callback {
-                override fun onActionItemClicked(actionMode: ActionMode, menuItem: MenuItem): Boolean {
-                    val analytics = FirebaseAnalytics.getInstance(requireContext())
-                    val selectedIds = listView.checkedItemIds
-                    if (selectedIds.isEmpty()) {
-                        return false
-                    }
-                    val contractionId = selectedIds[0]
-                    when (menuItem.itemId) {
-                        R.id.menu_context_view -> {
-                            if (BuildConfig.DEBUG)
-                                Log.d(TAG, "Context Action Mode selected view")
-                            analytics.logEvent("view_cab", null)
-                            viewContraction(contractionId)
-                            return true
-                        }
-                        R.id.menu_context_note -> {
-                            val checkedPosition = listView.checkedItemPositions.keyAt(0)
-                            val cursor = listView.adapter.getItem(checkedPosition) as Cursor
-                            val noteColumnIndex = cursor
-                                    .getColumnIndex(ContractionContract.Contractions.COLUMN_NAME_NOTE)
-                            val existingNote = cursor.getString(noteColumnIndex)
-                            if (BuildConfig.DEBUG)
-                                Log.d(TAG, "Context Action Mode selected " + if (existingNote.isNullOrBlank())
-                                    "Add Note"
-                                else
-                                    "Edit Note")
-                            val noteEvent = if (existingNote.isNullOrBlank()) "note_add_cab" else "note_edit_cab"
-                            analytics.logEvent(noteEvent, null)
-                            showNoteDialog(contractionId, existingNote)
-                            actionMode.finish()
-                            return true
-                        }
-                        R.id.menu_context_delete -> {
-                            if (BuildConfig.DEBUG)
-                                Log.d(TAG, "Context Action Mode selected delete")
-                            val bundle = Bundle()
-                            bundle.putString(
-                                FirebaseAnalytics.Param.VALUE,
-                                selectedIds.size.toString()
-                            )
-                            analytics.logEvent("delete_cab", bundle)
-                            for (selectedId in selectedIds)
-                                deleteContraction(selectedId)
-                            actionMode.finish()
-                            return true
-                        }
-                        else -> return false
-                    }
-                }
-
-                override fun onCreateActionMode(actionMode: ActionMode, menu: Menu): Boolean {
-                    this@ContractionListFragment.actionMode = actionMode
-                    val inflater = actionMode.menuInflater
-                    inflater.inflate(R.menu.list_context, menu)
-                    return true
-                }
-
-                override fun onDestroyActionMode(actionMode: ActionMode) {
-                    val selectedItems = listView.checkedItemPositions
-                    if (selectedItems != null) {
-                        for (i in 0 until selectedItems.size()) {
-                            listView.setItemChecked(selectedItems.keyAt(i), false)
-                        }
-                    }
-                    listView.post { listView.choiceMode = ListView.CHOICE_MODE_NONE }
-                    this@ContractionListFragment.actionMode = null
-                }
-
-                override fun onPrepareActionMode(actionMode: ActionMode, menu: Menu): Boolean {
-                    val selectedItemsSize = listView.checkedItemIds.size
-                    // Show or hide the view menu item
-                    val viewItem = menu.findItem(R.id.menu_context_view)
-                    val showViewItem = selectedItemsSize == 1
-                    viewItem.isVisible = showViewItem
-                    // Set whether to display the note menu item
-                    val noteItem = menu.findItem(R.id.menu_context_note)
-                    val showNoteItem = selectedItemsSize == 1
-                    // Set the title of the note menu item
-                    if (showNoteItem)
-                        if (selectedItemNote.isNullOrBlank())
-                            noteItem.setTitle(R.string.note_dialog_title_add)
-                        else
-                            noteItem.setTitle(R.string.note_dialog_title_edit)
-                    noteItem.isVisible = showNoteItem
-                    // Set the title of the delete menu item
-                    val deleteItem = menu.findItem(R.id.menu_context_delete)
-                    val currentTitle = deleteItem.title
-                    val newTitle = resources.getQuantityText(R.plurals.menu_context_delete,
-                            selectedItemsSize)
-                    deleteItem.title = newTitle
-                    // Set the Contextual Action Bar title with the new item size
-                    val modeTitle = actionMode.title
-                    val newModeTitle = String.format(getString(R.string.menu_context_action_mode_title),
-                            selectedItemsSize)
-                    actionMode.title = newModeTitle
-                    return newModeTitle != modeTitle || newTitle != currentTitle
-                }
-            })
-            true
-        }
-        loaderManager.initLoader(0, null, this)
-    }
-
-    override fun onCreateLoader(id: Int, args: Bundle?): Loader<Cursor> {
-        return CursorLoader(
-            requireContext(), requireActivity().intent!!.data!!, null,
-            null, null, null
-        )
-    }
-
-    override fun onCreateView(
-            inflater: LayoutInflater,
-            container: ViewGroup?,
-            savedInstanceState: Bundle?
-    ): View? {
-        val view = inflater.inflate(R.layout.fragment_contraction_list, container, false)
-        listView = view.findViewById(android.R.id.list)
-        emptyView = view.findViewById(android.R.id.empty)
-        listView.emptyView = emptyView
-        columnHeaders = view.findViewById(R.id.list_column_headers)
-        return view
-    }
-
-    override fun onLoaderReset(loader: Loader<Cursor>) {
-        liveDurationHandler.removeCallbacks(liveDurationUpdate)
-        columnHeaders.visibility = View.GONE
-        adapter.swapCursor(null)
-    }
-
-    override fun onLoadFinished(loader: Loader<Cursor>, data: Cursor?) {
-        liveDurationHandler.removeCallbacks(liveDurationUpdate)
-        timeSinceLastHandler.removeCallbacks(timeSinceLastUpdate)
-        adapter.swapCursor(data)
-        if (data == null || data.count == 0) {
-            columnHeaders.visibility = View.GONE
-            emptyView.displayedChild = 1
-        } else {
-            columnHeaders.visibility = View.VISIBLE
-            listView.setSelection(0)
-            data.moveToFirst()
-            val endTimeColumnIndex = data.getColumnIndex(
-                    ContractionContract.Contractions.COLUMN_NAME_END_TIME)
-            val isContractionOngoing = data.isNull(endTimeColumnIndex)
-            if (isContractionOngoing)
-                headerView.visibility = View.GONE
-            else {
-                val startTimeColumnIndex = data.getColumnIndex(
-                        ContractionContract.Contractions.COLUMN_NAME_START_TIME)
-                currentContractionStartTime = data.getLong(startTimeColumnIndex)
-                timeSinceLastHandler.post(timeSinceLastUpdate)
-                headerView.visibility = View.VISIBLE
+                NonEmptyState
             }
         }
     }
-
-    override fun onPause() {
-        super.onPause()
-        liveDurationHandler.removeCallbacks(liveDurationUpdate)
-        timeSinceLastHandler.removeCallbacks(timeSinceLastUpdate)
-    }
-
-    override fun onResume() {
-        super.onResume()
-        val currentContractionDurationView = requireView().findViewWithTag<TextView>("durationView")
-        if (currentContractionDurationView != null) {
-            // Ensures the live duration update is running
-            liveDurationHandler.removeCallbacks(liveDurationUpdate)
-            liveDurationHandler.post(liveDurationUpdate)
+    AnimatedContent(
+        listState,
+        contentAlignment = Alignment.Center,
+        label = "contraction_list"
+    ) { state ->
+        when (state) {
+            EmptyState -> {
+                Box {
+                    Column(modifier = Modifier.align(Alignment.Center).width(IntrinsicSize.Min)) {
+                        Icon(painterResource(R.drawable.ic_list_empty),
+                            contentDescription = null,
+                            tint = colorResource(R.color.empty_list_text_color)
+                        )
+                        Text(stringResource(R.string.list_empty),
+                            modifier = Modifier.fillMaxWidth(),
+                            color = colorResource(R.color.empty_list_text_color),
+                            fontFamily = FontFamily.SansSerif,
+                            textAlign = TextAlign.Center,
+                            style = MaterialTheme.typography.titleLarge
+                        )
+                    }
+                }
+            }
+            NonEmptyState -> {
+                val analytics by remember(context) {
+                    derivedStateOf {
+                        FirebaseAnalytics.getInstance(context)
+                    }
+                }
+                val scope = rememberCoroutineScope()
+                ContractionListScreen(
+                    contractions,
+                    onViewDetails = { contraction, fromPopup ->
+                        if (fromPopup) {
+                            if (BuildConfig.DEBUG)
+                                Log.d(TAG, "Popup Menu selected view")
+                            analytics.logEvent("view_popup", null)
+                        }
+                        val contractionUri = ContentUris.withAppendedId(
+                            ContractionContract.Contractions.CONTENT_ID_URI_BASE, contraction.id)
+                        val intent = Intent(Intent.ACTION_VIEW, contractionUri)
+                            .setComponent(ComponentName(context, ViewActivity::class.java))
+                        context.startActivity(intent)
+                    },
+                    onViewNote = { contraction ->
+                        val type = if (contraction.note.isBlank()) "Add Note" else "Edit Note"
+                        if (BuildConfig.DEBUG)
+                            Log.d(TAG, "Popup Menu selected $type")
+                        val noteEvent = if (contraction.note.isBlank()) "note_add_popup" else "note_edit_popup"
+                        analytics.logEvent(noteEvent, null)
+                        showNoteDialog(contraction)
+                    },
+                    onDelete = { contraction ->
+                        scope.launch {
+                            viewModel.delete(contraction)
+                            AppWidgetUpdateHandler.createInstance().updateAllWidgets(context)
+                            NotificationUpdateReceiver.updateNotification(context)
+                        }
+                    }
+                )
+            }
         }
-        // Ensures the live time since last update is running
-        timeSinceLastHandler.removeCallbacks(timeSinceLastUpdate)
-        timeSinceLastHandler.post(timeSinceLastUpdate)
     }
+}
 
-    /**
-     * Shows the 'note' dialog
-     *
-     * @param id           contraction id
-     * @param existingNote existing note attached to this contraction if it exists
-     */
-    private fun showNoteDialog(id: Long, existingNote: String) {
-        // Ensure we don't attempt to change the note on contractions with
-        // invalid ids
-        if (id < 0)
-            return
-        val noteDialogFragment = NoteDialogFragment()
-        noteDialogFragment.arguments = Bundle().apply {
-            putLong(NoteDialogFragment.CONTRACTION_ID_ARGUMENT, id)
-            putString(NoteDialogFragment.EXISTING_NOTE_ARGUMENT, existingNote)
-        }
-        if (BuildConfig.DEBUG)
-            Log.d(TAG, "Showing Dialog")
-        noteDialogFragment.show(parentFragmentManager, "note")
-    }
-
-    /**
-     * View the details of the given contraction
-     *
-     * @param id contraction id
-     */
-    private fun viewContraction(id: Long) {
-        // Ensure we don't attempt to view contractions with invalid ids
-        if (id < 0)
-            return
-        if (isDetached)
-        // Can't startActivity if we are detached
-            return
-        val contractionUri = ContentUris.withAppendedId(
-                ContractionContract.Contractions.CONTENT_ID_URI_BASE, id)
-        val intent = Intent(Intent.ACTION_VIEW, contractionUri)
-            .setComponent(ComponentName(requireContext(), ViewActivity::class.java))
-        startActivity(intent)
-    }
-
-    /**
-     * Cursor Adapter for creating and binding contraction list view items
-     */
-    private inner class ContractionListCursorAdapter(
-            context: Context
-    ) : CursorAdapter(context, null, 0) {
-        /**
-         * Local reference to the layout inflater service
-         */
-        private val inflater = LayoutInflater.from(context)
-
-        override fun bindView(view: View, context: Context, cursor: Cursor) {
-            val timeFormat = if (DateFormat.is24HourFormat(context))
+@Composable
+fun ContractionListScreen(
+    contractions: List<Contraction>,
+    onViewDetails: (contraction: Contraction, fromPopup: Boolean) -> Unit,
+    onViewNote: (contraction: Contraction) -> Unit,
+    onDelete: (contraction: Contraction) -> Unit
+) {
+    val context = LocalContext.current
+    val timeFormat by remember(context) {
+        derivedStateOf {
+            if (DateFormat.is24HourFormat(context))
                 "kk:mm:ss"
             else
                 "hh:mm:ssa"
-            val dateFormat = try {
+        }
+    }
+    val dateFormat by remember(context) {
+        derivedStateOf {
+            try {
                 val dateFormatOrder = DateFormat.getDateFormatOrder(context)
                 val dateFormatArray = charArrayOf(dateFormatOrder[0], dateFormatOrder[0], '/', dateFormatOrder[1], dateFormatOrder[1])
                 String(dateFormatArray)
             } catch (e: IllegalArgumentException) {
                 "MM/dd"
             }
-
-            val startTimeColumnIndex = cursor.getColumnIndex(
-                    ContractionContract.Contractions.COLUMN_NAME_START_TIME)
-            val startTime = cursor.getLong(startTimeColumnIndex)
-            val startCal = Calendar.getInstance().apply {
-                timeInMillis = startTime
+        }
+    }
+    LazyColumn {
+        if (contractions.isNotEmpty()) {
+            item {
+                ListHeader()
             }
-            var showDateOnStartTime = false
-            val startTimeView = view.findViewById<TextView>(R.id.start_time)
-            val endTimeColumnIndex = cursor.getColumnIndex(
-                    ContractionContract.Contractions.COLUMN_NAME_END_TIME)
-            val isContractionOngoing = cursor.isNull(endTimeColumnIndex)
-            val endTimeView = view.findViewById<TextView>(R.id.end_time)
-            val durationView = view.findViewById<TextView>(R.id.duration)
-            val endCal = Calendar.getInstance()
-            var showDateOnEndTime = false
-            if (isContractionOngoing) {
-                durationView.text = ""
-                currentContractionStartTime = startTime
-                durationView.tag = "durationView"
-                liveDurationHandler.removeCallbacks(liveDurationUpdate)
-                liveDurationHandler.post(liveDurationUpdate)
-            } else {
-                val endTime = cursor.getLong(endTimeColumnIndex)
-                endCal.timeInMillis = endTime
-                durationView.tag = ""
-                val durationInSeconds = (endTime - startTime) / 1000
-                durationView.text = DateUtils.formatElapsedTime(durationInSeconds)
-            }
-            if (startCal.get(Calendar.YEAR) != endCal.get(Calendar.YEAR) || startCal.get(Calendar.DAY_OF_YEAR) != endCal.get(Calendar.DAY_OF_YEAR))
-                showDateOnEndTime = true
-            val frequencyView = view.findViewById<TextView>(R.id.frequency)
-            // If we aren't the last entry, move to the next (previous in time)
-            // contraction to get its start time to compute the frequency
-            if (!cursor.isLast && cursor.moveToNext()) {
-                val prevContractionStartTimeColumnIndex = cursor.getColumnIndex(
-                        ContractionContract.Contractions.COLUMN_NAME_START_TIME)
-                val prevContractionStartTime = cursor.getLong(prevContractionStartTimeColumnIndex)
-                val frequencyInSeconds = (startTime - prevContractionStartTime) / 1000
-                frequencyView.text = DateUtils.formatElapsedTime(frequencyInSeconds)
-                // Check to see if the date changed between Contractions
-                val prevContractionEndTimeColumnIndex = cursor.getColumnIndex(
-                        ContractionContract.Contractions.COLUMN_NAME_END_TIME)
-                val prevContractionEndTime = cursor.getLong(prevContractionEndTimeColumnIndex)
-                val prevEndCal = Calendar.getInstance()
-                prevEndCal.timeInMillis = prevContractionEndTime
-                if (startCal.get(Calendar.YEAR) != prevEndCal.get(Calendar.YEAR) || startCal.get(Calendar.DAY_OF_YEAR) != prevEndCal.get(Calendar.DAY_OF_YEAR))
-                    showDateOnStartTime = true
-                // Go back to the previous spot
-                cursor.moveToPrevious()
-            } else {
-                frequencyView.text = ""
-                // Always show the date on the very first start time
-                showDateOnStartTime = true
-            }
-            startTimeView.text = DateFormat.format(timeFormat, startCal).toString() + if (showDateOnStartTime) " " + DateFormat.format(dateFormat, startCal) else ""
-            if (isContractionOngoing)
-                endTimeView.text = " "
-            else
-                endTimeView.text = DateFormat.format(timeFormat, endCal).toString() + if (showDateOnEndTime) " " + DateFormat.format(dateFormat, endCal) else ""
-            val noteColumnIndex = cursor.getColumnIndex(
-                    ContractionContract.Contractions.COLUMN_NAME_NOTE)
-            val note = cursor.getString(noteColumnIndex)
-            val noteView = view.findViewById<TextView>(R.id.note)
-            noteView.text = note
-            if (note.isNullOrBlank())
-                noteView.visibility = View.GONE
-            else
-                noteView.visibility = View.VISIBLE
-            val idColumnIndex = cursor.getColumnIndex(BaseColumns._ID)
-            val id = cursor.getLong(idColumnIndex)
-            val showPopupView = view.findViewById<ActionMenuView>(R.id.show_popup)
-            val noteItem = showPopupView.menu.findItem(R.id.menu_context_note)
-            if (note.isNullOrBlank())
-                noteItem.setTitle(R.string.note_dialog_title_add)
-            else
-                noteItem.setTitle(R.string.note_dialog_title_edit)
-            val deleteItem = showPopupView.menu.findItem(R.id.menu_context_delete)
-            deleteItem.title = resources.getQuantityText(R.plurals.menu_context_delete, 1)
-            showPopupView.setOnMenuItemClickListener { item ->
-                val analytics = FirebaseAnalytics.getInstance(requireContext())
-                when (item.itemId) {
-                    R.id.menu_context_view -> {
-                        if (BuildConfig.DEBUG)
-                            Log.d(TAG, "Popup Menu selected view")
-                        analytics.logEvent("view_popup", null)
-                        viewContraction(id)
-                        true
-                    }
-                    R.id.menu_context_note -> {
-                        val type = if (note.isNullOrBlank()) "Add Note" else "Edit Note"
-                        if (BuildConfig.DEBUG)
-                            Log.d(TAG, "Popup Menu selected $type")
-                        val noteEvent = if (note.isNullOrBlank()) "note_add_popup" else "note_edit_popup"
-                        analytics.logEvent(noteEvent, null)
-                        showNoteDialog(id, note)
-                        true
-                    }
-                    R.id.menu_context_delete -> {
-                        if (BuildConfig.DEBUG)
-                            Log.d(TAG, "Popup Menu selected delete")
-                        val bundle = Bundle()
-                        bundle.putString(FirebaseAnalytics.Param.VALUE, 1.toString())
-                        analytics.logEvent("delete_popup", bundle)
-                        deleteContraction(id)
-                        true
-                    }
-                    else -> false
+            val lastContraction = contractions[0]
+            if (lastContraction.endTime != null) {
+                item {
+                    FrequencyHeader(lastContraction)
                 }
             }
-            // Don't allow popup menu while the Contextual Action Bar is present
-            showPopupView.isEnabled = actionMode == null
         }
+        itemsIndexed(contractions) { index, contraction ->
+            val previousContraction = if (index + 1 != contractions.size) {
+                contractions[index + 1]
+            } else {
+                null
+            }
+            Column(modifier = Modifier.fillMaxWidth()) {
+                ContractionItem(
+                    timeFormat,
+                    dateFormat,
+                    contraction,
+                    previousContraction,
+                    onViewDetails = { fromPopup -> onViewDetails(contraction, fromPopup) },
+                    onViewNote = { onViewNote(contraction) },
+                    onDelete = { onDelete(contraction) }
+                )
+                if (index + 1 != contractions.size) {
+                    Divider(thickness = Dp.Hairline)
+                }
+            }
+        }
+        item {
+            Spacer(modifier = Modifier.height(72.dp))
+        }
+    }
+}
 
-        override fun newView(context: Context, cursor: Cursor, parent: ViewGroup): View {
-            val view = inflater.inflate(R.layout.list_item_contraction, parent, false)
-            val showPopup = view.findViewById<ActionMenuView>(R.id.show_popup)
-            val menuInflater = requireActivity().menuInflater
-            menuInflater.inflate(R.menu.list_popup, showPopup.menu)
-            return view
+@Composable
+private fun ListHeader() {
+    Row(modifier = Modifier
+        .fillMaxWidth()
+        .padding(top = 5.dp, bottom = 5.dp, start = 8.dp)
+    ) {
+        Spacer(modifier = Modifier.weight(1.0F, fill = true))
+        Text(
+            stringResource(R.string.list_header_duration),
+            modifier = Modifier.weight(1.0F, fill = true),
+            textAlign = TextAlign.Center,
+            style = MaterialTheme.typography.titleMedium
+        )
+        Text(
+            stringResource(R.string.list_header_frequency),
+            modifier = Modifier.weight(1.0F, fill = true),
+            textAlign = TextAlign.Center,
+            style = MaterialTheme.typography.titleMedium
+        )
+        Spacer(modifier = Modifier.width(56.dp))
+    }
+}
+
+@Composable
+private fun FrequencyHeader(lastContraction: Contraction) {
+    val formatTimeSinceLastContractionStart: () -> String = {
+        val duration = System.currentTimeMillis() - lastContraction.startTime.time
+        val durationInSeconds = (duration / 1000)
+        DateUtils.formatElapsedTime(durationInSeconds)
+    }
+    val timeSinceLastContractionStart by produceState(
+        formatTimeSinceLastContractionStart(),
+        lastContraction
+    ) {
+        while (true) {
+            delay(1000)
+            value = formatTimeSinceLastContractionStart()
         }
+    }
+    Row(modifier = Modifier
+        .fillMaxWidth()
+        .padding(top = 3.dp, bottom = 3.dp, start = 8.dp)
+    ) {
+        Spacer(modifier = Modifier.weight(2.0F, fill = true))
+        Text(
+            timeSinceLastContractionStart,
+            modifier = Modifier.weight(1.0F, fill = true),
+            textAlign = TextAlign.Center,
+            style = MaterialTheme.typography.titleLarge
+        )
+        Spacer(modifier = Modifier.width(56.dp))
+    }
+}
+
+@Composable
+private fun ContractionItem(
+    timeFormat: String,
+    dateFormat: String,
+    contraction: Contraction,
+    previousContraction: Contraction?,
+    onViewDetails: (fromPopup: Boolean) -> Unit,
+    onViewNote: () -> Unit,
+    onDelete: () -> Unit
+) {
+    Column {
+        Row(modifier = Modifier
+            .height(IntrinsicSize.Min)
+            .clickable {
+                onViewDetails(false)
+            }
+            .padding(start = 8.dp)) {
+            Column(
+                modifier = Modifier.weight(1.0F, true)
+            ) {
+                val formattedEndTime by remember(contraction) {
+                    derivedStateOf {
+                        if (contraction.endTime != null) {
+                            val startCal = Calendar.getInstance()
+                            startCal.time = contraction.startTime
+                            val endCal = Calendar.getInstance()
+                            endCal.time = contraction.endTime
+                            val showDateOnEndTime = startCal.get(Calendar.YEAR) != endCal.get(Calendar.YEAR) ||
+                                    startCal.get(Calendar.DAY_OF_YEAR) != endCal.get(Calendar.DAY_OF_YEAR)
+                            DateFormat.format(timeFormat, contraction.endTime).toString() + if (showDateOnEndTime) {
+                                " " + DateFormat.format(dateFormat, endCal)
+                            } else {
+                                ""
+                            }
+                        } else {
+                            ""
+                        }
+                    }
+                }
+                Text(
+                    text = formattedEndTime,
+                    modifier = Modifier.padding(bottom = 4.dp),
+                    style = MaterialTheme.typography.bodySmall
+                )
+                val formattedStartTime by remember(contraction, previousContraction) {
+                    derivedStateOf {
+                        val startCal = Calendar.getInstance()
+                        startCal.time = contraction.startTime
+                        val showDateOnStartTime = if (previousContraction?.endTime != null) {
+                            val endCal = Calendar.getInstance()
+                            endCal.time = previousContraction.endTime
+                            startCal.get(Calendar.YEAR) != endCal.get(Calendar.YEAR) ||
+                                    startCal.get(Calendar.DAY_OF_YEAR) != endCal.get(Calendar.DAY_OF_YEAR)
+                        } else {
+                            // Always show the date on the very first start time
+                            true
+                        }
+                        DateFormat.format(timeFormat, contraction.startTime).toString() + if (showDateOnStartTime) {
+                            " " + DateFormat.format(dateFormat, startCal)
+                        } else {
+                            ""
+                        }
+                    }
+                }
+                Text(
+                    text = formattedStartTime,
+                    modifier = Modifier.padding(bottom = 4.dp),
+                    style = MaterialTheme.typography.bodySmall
+                )
+            }
+            val formatDuration: (endTime: Long) -> String = { endTime ->
+                val duration = endTime - contraction.startTime.time
+                val durationInSeconds = (duration / 1000)
+                DateUtils.formatElapsedTime(durationInSeconds)
+            }
+            val formattedDuration by produceState(if (contraction.endTime != null) {
+                formatDuration(contraction.endTime.time)
+            } else {
+                formatDuration(System.currentTimeMillis())
+            }, contraction) {
+                if (contraction.endTime != null) {
+                    value = formatDuration(contraction.endTime.time)
+                } else {
+                    while(true) {
+                        delay(1000)
+                        value = formatDuration(System.currentTimeMillis())
+                    }
+                }
+            }
+            Text(formattedDuration,
+                modifier = Modifier
+                    .padding(top = 3.dp, bottom = 3.dp)
+                    .weight(1.0F, true),
+                textAlign = TextAlign.Center,
+                style = MaterialTheme.typography.titleLarge
+            )
+            val formattedFrequency by remember(contraction, previousContraction) {
+                derivedStateOf {
+                    if (previousContraction != null) {
+                        val frequency = contraction.startTime.time - previousContraction.startTime.time
+                        val frequencyInSeconds = (frequency / 1000).toLong()
+                        DateUtils.formatElapsedTime(frequencyInSeconds)
+                    } else {
+                        ""
+                    }
+                }
+            }
+            Text(formattedFrequency,
+                modifier = Modifier
+                    .padding(top = 3.dp, bottom = 3.dp)
+                    .weight(1.0F, true),
+                textAlign = TextAlign.Center,
+                style = MaterialTheme.typography.titleLarge
+            )
+            var showPopup by remember { mutableStateOf(false) }
+            Box(
+                modifier = Modifier
+                    .fillMaxHeight()
+                    .align(Alignment.CenterVertically)
+                    .width(56.dp)
+                    .clickable {
+                        showPopup = true
+                    }
+            ) {
+                Icon(
+                    Icons.Default.MoreVert,
+                    stringResource(R.string.overflow_content_description),
+                    modifier = Modifier.align(Alignment.Center)
+                )
+                if (showPopup) {
+                    Popup(
+                        alignment = Alignment.TopEnd,
+                        offset = IntOffset(-8, 8),
+                        onDismissRequest = {
+                            showPopup = false
+                        }
+                    ) {
+                        Surface(
+                            tonalElevation = 8.dp,
+                            shadowElevation = 8.dp
+                        ) {
+                            Column(
+                                modifier = Modifier.width(IntrinsicSize.Max)
+                            ) {
+                                Text(stringResource(R.string.menu_context_view),
+                                    modifier = Modifier
+                                        .fillMaxWidth()
+                                        .clickable {
+                                            showPopup = false
+                                            onViewDetails(true)
+                                        }
+                                        .padding(8.dp),
+                                    style = MaterialTheme.typography.titleMedium
+                                )
+                                Divider(modifier = Modifier.fillMaxWidth(), thickness = Dp.Hairline)
+                                Text(
+                                    stringResource(if (contraction.note.isBlank()) {
+                                        R.string.note_dialog_title_add
+                                    } else {
+                                        R.string.note_dialog_title_edit
+                                    }),
+                                    modifier = Modifier
+                                        .fillMaxWidth()
+                                        .clickable {
+                                            showPopup = false
+                                            onViewNote()
+                                        }
+                                        .padding(8.dp),
+                                    style = MaterialTheme.typography.titleMedium
+                                )
+                                Divider(modifier = Modifier.fillMaxWidth(), thickness = Dp.Hairline)
+                                Text(pluralStringResource(R.plurals.menu_context_delete, count = 1),
+                                    modifier = Modifier
+                                        .fillMaxWidth()
+                                        .clickable {
+                                            showPopup = false
+                                            onDelete()
+                                        }
+                                        .padding(8.dp),
+                                    style = MaterialTheme.typography.titleMedium
+                                )
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        if (contraction.note.isNotBlank()) {
+            Text(contraction.note,
+                modifier = Modifier.padding(bottom = 4.dp, start = 24.dp, end = 24.dp)
+            )
+        }
+    }
+}
+
+/**
+ * Fragment to list contractions entered by the user
+ */
+class ContractionListFragment : Fragment() {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ) = content {
+        ContractionList(
+            showNoteDialog = { contraction ->
+                val noteDialogFragment = NoteDialogFragment()
+                noteDialogFragment.arguments = Bundle().apply {
+                    putLong(NoteDialogFragment.CONTRACTION_ID_ARGUMENT, contraction.id)
+                    putString(NoteDialogFragment.EXISTING_NOTE_ARGUMENT, contraction.note)
+                }
+                if (BuildConfig.DEBUG)
+                    Log.d(TAG, "Showing Dialog")
+                noteDialogFragment.show(childFragmentManager, "note")
+            }
+        )
     }
 }

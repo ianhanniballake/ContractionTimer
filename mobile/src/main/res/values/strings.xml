@@ -33,6 +33,7 @@
     <string name="note_dialog_title_edit">Edit note</string>
     <string name="note_dialog_save">Save</string>
     <string name="note_dialog_cancel">Cancel</string>
+    <string name="overflow_content_description">More…</string>
     <string name="menu_context_action_mode_title">%1$d selected</string>
     <string name="menu_context_view_condensed">View</string>
     <string name="menu_context_view">View details</string>

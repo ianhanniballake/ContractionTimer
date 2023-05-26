@@ -18,6 +18,9 @@ interface ContractionDao {
     @Delete
     suspend fun delete(contraction: Contraction)
 
+    @Query("SELECT * FROM contractions ORDER BY start_time DESC")
+    fun allContractions(): Flow<List<Contraction>>
+
     @Query("SELECT * FROM contractions ORDER BY start_time DESC LIMIT 1")
     fun latestContraction(): Flow<Contraction?>
 
