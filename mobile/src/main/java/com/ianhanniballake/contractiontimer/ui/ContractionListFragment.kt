@@ -77,7 +77,7 @@ class ContractionListViewModel(application: Application) : AndroidViewModel(appl
     private val dao = ContractionDatabase.getInstance(application).contractionDao()
 
     val allContractions = dao.allContractions()
-        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000L), emptyList())
+        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000L), null)
 
     suspend fun delete(contraction: Contraction) {
         dao.delete(contraction)
@@ -87,8 +87,9 @@ class ContractionListViewModel(application: Application) : AndroidViewModel(appl
 private const val TAG = "ContractionListFragment"
 
 sealed class ListState
+object IndeterminateState : ListState()
 object EmptyState : ListState()
-object NonEmptyState : ListState()
+data class NonEmptyState(val contractions: List<Contraction>) : ListState()
 
 // TODO: Re-add contextual action bar that allows viewing details, notes, and multi-deletion
 @OptIn(ExperimentalAnimationApi::class)
@@ -101,10 +102,13 @@ fun ContractionList(
     val contractions by viewModel.allContractions.collectAsStateWithLifecycle()
     val listState by remember(contractions) {
         derivedStateOf {
-            if (contractions.isEmpty()) {
+            val currentContractions = contractions
+            if (currentContractions == null) {
+                IndeterminateState
+            } else if (currentContractions.isEmpty()) {
                 EmptyState
             } else {
-                NonEmptyState
+                NonEmptyState(currentContractions)
             }
         }
     }
@@ -114,6 +118,9 @@ fun ContractionList(
         label = "contraction_list"
     ) { state ->
         when (state) {
+            IndeterminateState -> {
+                // Don't show anything
+            }
             EmptyState -> {
                 Box {
                     Column(modifier = Modifier.align(Alignment.Center).width(IntrinsicSize.Min)) {
@@ -131,7 +138,7 @@ fun ContractionList(
                     }
                 }
             }
-            NonEmptyState -> {
+            is NonEmptyState -> {
                 val analytics by remember(context) {
                     derivedStateOf {
                         FirebaseAnalytics.getInstance(context)
@@ -139,7 +146,7 @@ fun ContractionList(
                 }
                 val scope = rememberCoroutineScope()
                 ContractionListScreen(
-                    contractions,
+                    state.contractions,
                     onViewDetails = { contraction, fromPopup ->
                         if (fromPopup) {
                             if (BuildConfig.DEBUG)
