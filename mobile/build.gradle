@@ -1,3 +1,7 @@
+plugins {
+    id("org.jetbrains.kotlin.plugin.compose") version "$kotlinVersion"
+}
+
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'com.google.devtools.ksp'
@@ -32,10 +36,6 @@ android {
 
         buildFeatures {
             compose true
-        }
-
-        composeOptions {
-            kotlinCompilerExtensionVersion = "1.5.14"
         }
 
         ksp {
