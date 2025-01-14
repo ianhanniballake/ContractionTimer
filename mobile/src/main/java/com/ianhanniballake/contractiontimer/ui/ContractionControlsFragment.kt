@@ -21,6 +21,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.fragment.app.Fragment
+import androidx.fragment.compose.content
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewModelScope
@@ -31,7 +32,6 @@ import com.ianhanniballake.contractiontimer.R
 import com.ianhanniballake.contractiontimer.appwidget.AppWidgetUpdateHandler
 import com.ianhanniballake.contractiontimer.database.Contraction
 import com.ianhanniballake.contractiontimer.database.ContractionDatabase
-import com.ianhanniballake.contractiontimer.extensions.content
 import com.ianhanniballake.contractiontimer.notification.NotificationUpdateReceiver
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.SharingStarted

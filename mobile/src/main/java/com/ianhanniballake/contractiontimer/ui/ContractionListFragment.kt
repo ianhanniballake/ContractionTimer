@@ -54,6 +54,7 @@ import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Popup
 import androidx.fragment.app.Fragment
+import androidx.fragment.compose.content
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewModelScope
@@ -64,7 +65,6 @@ import com.ianhanniballake.contractiontimer.R
 import com.ianhanniballake.contractiontimer.appwidget.AppWidgetUpdateHandler
 import com.ianhanniballake.contractiontimer.database.Contraction
 import com.ianhanniballake.contractiontimer.database.ContractionDatabase
-import com.ianhanniballake.contractiontimer.extensions.content
 import com.ianhanniballake.contractiontimer.notification.NotificationUpdateReceiver
 import com.ianhanniballake.contractiontimer.provider.ContractionContract
 import kotlinx.coroutines.delay
