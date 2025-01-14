@@ -128,7 +128,7 @@ class Preferences : AppCompatActivity() {
             return super.onPreferenceTreeClick(preference)
         }
 
-        override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences, key: String) {
+        override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences, key: String?) {
             val analytics = FirebaseAnalytics.getInstance(requireContext())
             val bundle = Bundle()
             when (key) {
