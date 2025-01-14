@@ -115,7 +115,8 @@ fun ContractionList(
     AnimatedContent(
         listState,
         contentAlignment = Alignment.Center,
-        label = "contraction_list"
+        label = "contraction_list",
+        contentKey = { state -> state.javaClass }
     ) { state ->
         when (state) {
             IndeterminateState -> {
@@ -219,13 +220,16 @@ fun ContractionListScreen(
                 }
             }
         }
-        itemsIndexed(contractions) { index, contraction ->
+        itemsIndexed(
+            contractions,
+            key = { _, contraction -> contraction.startTime }
+        ) { index, contraction ->
             val previousContraction = if (index + 1 != contractions.size) {
                 contractions[index + 1]
             } else {
                 null
             }
-            Column(modifier = Modifier.fillMaxWidth()) {
+            Column(modifier = Modifier.fillMaxWidth().animateItem()) {
                 ContractionItem(
                     timeFormat,
                     dateFormat,
