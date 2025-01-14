@@ -35,7 +35,7 @@ android {
         }
 
         composeOptions {
-            kotlinCompilerExtensionVersion = "1.4.6"
+            kotlinCompilerExtensionVersion = "1.5.14"
         }
 
         ksp {
@@ -59,6 +59,10 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             signingConfig signingConfigs.release
         }
+    }
+
+    kotlinOptions {
+        jvmTarget = "17"
     }
 }
 
@@ -89,6 +93,12 @@ dependencies {
         exclude group: 'commons-beanutils', module: 'commons-beanutils'
     }
     implementation "com.android.billingclient:billing-ktx:4.0.0"
+}
+
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(17)
+    }
 }
 
 apply plugin: 'com.google.gms.google-services'
